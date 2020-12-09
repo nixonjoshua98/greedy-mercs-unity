@@ -955,11 +955,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Satyr
       objectReference: {fileID: 0}
-    - target: {fileID: 4212931060154188390, guid: df452a08b65b01d40877b57dd8926bc3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4212931060154188391, guid: df452a08b65b01d40877b57dd8926bc3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1222,6 +1217,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 242049174}
     m_Modifications:
+    - target: {fileID: 217250987160964599, guid: d0ac9b5e6b4a3d24cae8ea8bcf464ea1,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 218371283688233683, guid: d0ac9b5e6b4a3d24cae8ea8bcf464ea1,
         type: 3}
       propertyPath: stopAction
@@ -1290,7 +1290,7 @@ PrefabInstance:
     - target: {fileID: 6033011914855570434, guid: d0ac9b5e6b4a3d24cae8ea8bcf464ea1,
         type: 3}
       propertyPath: AttackDelay
-      value: 1
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6033011914855570445, guid: d0ac9b5e6b4a3d24cae8ea8bcf464ea1,
         type: 3}

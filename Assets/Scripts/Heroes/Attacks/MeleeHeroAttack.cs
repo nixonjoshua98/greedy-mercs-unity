@@ -12,12 +12,4 @@ public class MeleeHeroAttack : HeroAttack
 
         DealDamage();
     }
-
-    public override void DealDamage()
-    {
-        if (GameManager.Instance.TryDealDamageToEnemy(1.0f))
-        {
-
-        }
-    }
 }

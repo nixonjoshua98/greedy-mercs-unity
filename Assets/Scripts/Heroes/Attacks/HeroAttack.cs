@@ -19,7 +19,7 @@ public abstract class HeroAttack: MonoBehaviour
     {
         isAttacking = false;
 
-        attackTimer = Random.Range(attackTimer * 0.5f, attackTimer * 1.25f);
+        attackTimer = AttackDelay;
     }
 
     void FixedUpdate()
@@ -47,7 +47,7 @@ public abstract class HeroAttack: MonoBehaviour
         anim.Play("Attack");
     }
 
-    protected abstract void OnAttackAnimationEnd();
+    public abstract void OnAttackAnimationEnd();
 
     public abstract void DealDamage();
 }

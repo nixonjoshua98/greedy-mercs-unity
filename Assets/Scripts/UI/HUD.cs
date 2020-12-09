@@ -14,6 +14,7 @@ public class HUD : MonoBehaviour
     void Awake()
     {
         EventManager.OnStageUpdate.AddListener(OnStageUpdate);
+
         EventManager.OnPlayerCurrencyChange.AddListener(OnPlayerCurrencyChange);
     }
 

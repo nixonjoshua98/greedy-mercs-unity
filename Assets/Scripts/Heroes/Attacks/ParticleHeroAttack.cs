@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class ParticleHeroAttack : HeroAttack
 {
     [SerializeField] ParticleSystem attackParticle;
 
-    protected override void OnAttackAnimationEnd()
+    public override void OnAttackAnimationEnd()
     {
         attackParticle.Play();
     }

@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     {
         CreateNewEnemy();
 
-        // - OnReady.Invoke()
         EventManager.OnStageUpdate.Invoke(GameData.CurrentStage, GameData.CurrentEnemy);
     }
 
@@ -83,6 +82,8 @@ public class GameManager : MonoBehaviour
     void OnEnemyDeathFinished()
     {
         CreateNewEnemy();
+
+        PlayerData.Gold += 1;
 
         GameData.AddKills(1);
 

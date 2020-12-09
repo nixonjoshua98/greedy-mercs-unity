@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MeleeHeroAttack : HeroAttack
 {
-    protected override void OnAttackAnimationEnd()
+    public override void OnAttackAnimationEnd()
     {
         isAttacking = false;
 

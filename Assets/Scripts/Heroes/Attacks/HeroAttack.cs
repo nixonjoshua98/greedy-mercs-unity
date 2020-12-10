@@ -13,12 +13,6 @@ public abstract class HeroAttack: MonoBehaviour
 
     [SerializeField, Range(0.0f, 5.0f)] float AttackDelay;
 
-    // - Output
-    float attackStart;
-
-    protected float AttackDuration;
-    // --------
-
     float attackTimer;
 
     void Awake()
@@ -57,13 +51,9 @@ public abstract class HeroAttack: MonoBehaviour
 
     public virtual void DealDamage()
     {
-        AttackDuration = Time.timeSinceLevelLoad - attackStart;
-
         if (GameManager.Instance.TryDealDamageToEnemy(1.0f))
         {
 
         }
-
-        attackStart = Time.timeSinceLevelLoad;
     }
 }

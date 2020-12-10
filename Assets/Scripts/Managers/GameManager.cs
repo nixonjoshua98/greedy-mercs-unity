@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using GameDataStructs;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
@@ -13,30 +15,25 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject EnemyObject;
 
-    GameObject CurrentEnemy;
+    EnemyData Enemy;
+    StageData Stage;
 
-    // - Data
-    GameData GameData;
-    PlayerData PlayerData;
-
-    public bool IsEnemyAvailable {  get { return CurrentEnemy != null; } }
+    public bool IsEnemyAvailable {  get { return Enemy.IsEnemyAvailable; } }
 
     void Awake()
     {
         Instance = this;
 
-        GameData = new GameData();
+        Enemy = new EnemyData();
 
-        PlayerData = new PlayerData();
-
-        EventManager.OnEnemyDeathFinished.AddListener(OnEnemyDeathFinished);
+        Stage = new StageData();
     }
 
     void Start()
     {
         CreateNewEnemy();
 
-        EventManager.OnStageUpdate.Invoke(GameData.CurrentStage, GameData.CurrentEnemy);
+        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
 
     public bool TryDealDamageToEnemy(float amount)
@@ -53,40 +50,42 @@ public class GameManager : MonoBehaviour
 
     void DealDamageToEnemy(float amount)
     {
-        EnemyController controller = CurrentEnemy.GetComponent<EnemyController>();
-
-        bool enemyKilled = GameData.Health.TakeDamage(amount);
+        Enemy.Health.TakeDamage(amount);
 
         DamageNumbers.Instance.Add(amount);
 
-        if (enemyKilled)
+        if (Enemy.Health.IsDead)
         {
-            controller.OnDeathStart();
+            Enemy.Controller.StartDeathSequence();
 
-            CurrentEnemy = null;
+            Invoke("OnEnemyDeath", 0.5f);
+
+            Enemy.Controller = null;
         }
 
         else
         {
-            controller.OnDamageTaken();
+            Enemy.Controller.StartHurtSequence();
         }
     }
 
     void CreateNewEnemy()
     {
-        CurrentEnemy = Instantiate(EnemyObject, SpawnPoint.position, Quaternion.identity);
+        GameObject spawnedEnemy = Instantiate(EnemyObject, SpawnPoint.position, Quaternion.identity);
 
-        GameData.Health.Reset();
+        Enemy.Controller = spawnedEnemy.GetComponent<EnemyController>();
+        
+        Enemy.Health.Reset();
     }
 
-    void OnEnemyDeathFinished()
+    void OnEnemyDeath()
     {
         CreateNewEnemy();
 
         PlayerData.Gold += 1;
 
-        GameData.AddKills(1);
+        Stage.AddKills(1);
 
-        EventManager.OnStageUpdate.Invoke(GameData.CurrentStage, GameData.CurrentEnemy);
+        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
 }

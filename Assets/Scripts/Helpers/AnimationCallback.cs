@@ -4,22 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-/*
- * This is mainly used when we have an animation system on a child component and we want to forward an event to another object
- */
-
 public class AnimationCallback : MonoBehaviour
 {
-    [SerializeField] public UnityEvent OnDyingAnimationEndedCallback;
     [SerializeField] public UnityEvent OnAttackAnimationEndedCallback;
 
-    public void OnDyingAnimationEnded()
-    {
-        OnDyingAnimationEndedCallback.Invoke();
-    }
+    [SerializeField] public UnityEvent AnimationEvent_01_Callback;
 
     public void OnAttackAnimationEnded()
     {
-        OnAttackAnimationEndedCallback.Invoke();
+        TryInvoke(OnAttackAnimationEndedCallback);
+    }
+
+    public void AnimationEvent_01()
+    {
+        TryInvoke(AnimationEvent_01_Callback);
+    }
+
+    void TryInvoke(UnityEvent e)
+    {
+        if (e != null)
+            e.Invoke();
+        else
+            Debug.LogWarning("Animation callback event was triggered but had no listener");
     }
 }

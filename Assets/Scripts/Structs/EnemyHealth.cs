@@ -27,12 +27,10 @@ public class EnemyHealth
         healthbar.value = 1.0f;
     }
 
-    public bool TakeDamage(float amount)
+    public void TakeDamage(float amount)
     {
         currentHealth -= amount;
 
         healthbar.value = currentHealth / maxHealth;
-
-        return currentHealth <= 0.0f;
     }
 }

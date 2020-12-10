@@ -14,19 +14,18 @@ public class HUD : MonoBehaviour
     void Awake()
     {
         EventManager.OnStageUpdate.AddListener(OnStageUpdate);
+    }
 
-        EventManager.OnPlayerCurrencyChange.AddListener(OnPlayerCurrencyChange);
+    void FixedUpdate()
+    {
+        GoldText.text = PlayerData.Gold.ToString();
+
+        DiamondsText.text = "None";
     }
 
     void OnStageUpdate(int stage, int enemy)
     {
         StageText.text = stage.ToString();
         EnemyText.text = enemy.ToString();
-    }
-
-    void OnPlayerCurrencyChange(float gold, int diamonds)
-    {
-        GoldText.text = gold.ToString();
-        DiamondsText.text = diamonds.ToString();
     }
 }

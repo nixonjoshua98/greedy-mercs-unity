@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 95300950981661372}
   - component: {fileID: 3143080377047432469}
   m_Layer: 0
-  m_Name: Goblin
+  m_Name: GoblinAvatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -791,20 +791,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f63d338aca697dd45bf70770233f99c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDyingAnimationEndedCallback:
+  OnAttackAnimationEndedCallback:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnDeathFinished
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  AnimationEvent_01_Callback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1631404634319562
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,7 +2010,7 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 9323765d0129cee4db02663709ced1f6, type: 3}
-    - time: 0.5
+    - time: 0.38333333
       value: {fileID: 21300000, guid: c98abd55a0348f24399866d869e35edf, type: 3}
     attribute: m_Sprite
     path: bone_006/bone_007/Face 01
@@ -2037,7 +2029,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.51666665
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -6218,8 +6210,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.38333333
-    functionName: OnDyingAnimationEnded
+  - time: 0.5
+    functionName: AnimationEvent_01
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

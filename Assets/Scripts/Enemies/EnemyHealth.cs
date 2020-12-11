@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealth
+public class EnemyHealth : MonoBehaviour
 {
     float maxHealth;
     float currentHealth;
@@ -13,18 +13,25 @@ public class EnemyHealth
 
     public bool IsDead {  get { return currentHealth <= 0.0f; } }
 
-    public EnemyHealth()
+    void Awake()
+    {
+        SetHealth();
+
+        GetHealthbar();
+
+        healthbar.value = currentHealth / maxHealth;
+    }
+
+    public void SetHealth()
+    {
+        maxHealth = currentHealth = 3.0f;
+    }
+
+    private void GetHealthbar()
     {
         healthbar = GameObject.FindGameObjectWithTag("EnemyHealthbar").GetComponent<Slider>();
 
-        Reset();
-    }
-
-    public void Reset()
-    {
-        maxHealth = currentHealth = 3.0f;
-
-        healthbar.value = 1.0f;
+        healthbar.value = currentHealth / maxHealth;
     }
 
     public void TakeDamage(float amount)

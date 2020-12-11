@@ -8,12 +8,12 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] Animator anim;
 
-    public void StartHurtSequence()
+    public void OnHurt()
     {
         anim.Play("Hurt");
     }
 
-    public void StartDeathSequence()
+    public void OnDeath()
     {
         anim.Play("Dying");
 
@@ -22,6 +22,11 @@ public class EnemyController : MonoBehaviour
 
     public void OnDeathFinished()
     {
+        if (TryGetComponent(out EnemyLoot loot))
+        {
+            loot.Process();
+        }
+
         Destroy(gameObject);
     }
 

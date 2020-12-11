@@ -5,26 +5,43 @@ using UnityEngine;
 
 class StageData
 {
-    int currentStage;
-    int currentEnemy;
+    const int ENEMIES_PER_STAGE = 5;
 
-    public int CurrentStage { get { return currentStage; } }
-    public int CurrentEnemy { get { return currentEnemy; } }
+    int _currentStage;
+    int _currentEnemy;
+
+    bool _isStageCompleted;
+
+    public int CurrentStage { get { return _currentStage; } }
+    public int CurrentEnemy { get { return _currentEnemy; } }
+
+    public bool IsStageCompleted { get { return _isStageCompleted; } }
 
     public StageData()
     {
-        currentStage = currentEnemy = 1;
+        _currentStage = _currentEnemy = 1;
+
+        _isStageCompleted = false;
     }
 
     public void AddKill()
     {
-        currentEnemy++;
-
-        if (currentEnemy > 5)
+        if (_currentEnemy + 1 > ENEMIES_PER_STAGE)
         {
-            currentEnemy = 1;
-
-            currentStage++;
+            _isStageCompleted = true;
         }
+        else
+        {
+            _currentEnemy++;
+        }
+    }
+
+    public void AdvanceStage()
+    {
+        _currentEnemy = 1;
+
+        _currentStage++;
+
+        _isStageCompleted = false;
     }
 }

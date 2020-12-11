@@ -9,4 +9,6 @@ public class StageUpdateEvent : UnityEvent<int, int> { }
 public class EventManager : MonoBehaviour
 {
     public static StageUpdateEvent OnStageUpdate = new StageUpdateEvent();
+
+    public static UnityEvent OnBossSpawned = new UnityEvent();
 }

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [Space]
 
     [SerializeField] GameObject EnemyObject;
+    [SerializeField] GameObject BossObject;
 
     EnemyData Enemy;
     StageData Stage;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        CreateNewEnemy();
+        CreateNewEnemy(EnemyObject);
 
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
@@ -44,37 +45,73 @@ public class GameManager : MonoBehaviour
 
             if (Enemy.Health.IsDead)
             {
-                OnEnemyDeath();
+                if (Enemy.IsBoss)
+                    OnBossDeath();
+
+                else
+                    OnEnemyDeath();
             }
             else
                 OnEnemyHurt();
         }
     }
 
-    void CreateNewEnemy()
-    {
-        GameObject spawnedEnemy = Instantiate(EnemyObject, SpawnPoint.position, Quaternion.identity);
-
-        Enemy.Controller = spawnedEnemy.GetComponent<EnemyController>();
-        
-        Enemy.Health.Reset();
-    }
-
     void OnEnemyHurt()
     {
-        Enemy.Controller.StartHurtSequence();
+        Enemy.Controller.OnHurt();
     }
 
     void OnEnemyDeath()
     {
-        Enemy.Controller.StartDeathSequence();
-
-        PlayerData.Gold += 1;
+        Enemy.Controller.OnDeath();
 
         Stage.AddKill();
-        
-        Invoke("CreateNewEnemy", 0.5f);
+
+        if (Stage.IsStageCompleted)
+        {
+            StartCoroutine(SpawnBossEnemy());
+        }
+        else
+        {
+            StartCoroutine(SpawnEnemy());
+        }
+      
+        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
+    }
+
+    void OnBossDeath()
+    {
+        Enemy.Controller.OnDeath();
+
+        Stage.AdvanceStage();
+
+        StartCoroutine(SpawnEnemy());
 
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
+    }
+
+    IEnumerator SpawnBossEnemy()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        CreateNewEnemy(BossObject);
+
+        EventManager.OnBossSpawned.Invoke();
+    }
+
+    IEnumerator SpawnEnemy()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        CreateNewEnemy(EnemyObject);
+    }
+
+    void CreateNewEnemy(GameObject ObjectToSpawn)
+    {
+        GameObject spawnedEnemy = Instantiate(ObjectToSpawn, SpawnPoint.position, Quaternion.identity);
+
+        Enemy.Controller = spawnedEnemy.GetComponent<EnemyController>();
+
+        Enemy.Health = spawnedEnemy.GetComponent<EnemyHealth>();
     }
 }

@@ -11,6 +11,8 @@ class EnemyData
 
     public bool IsAvailable { get { return Controller != null && !Health.IsDead; } }
 
+    public bool IsBoss {  get { return Controller.gameObject.CompareTag("BossEnemy"); } }
+
     public EnemyData()
     {
         Health = new EnemyHealth();

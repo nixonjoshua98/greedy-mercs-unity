@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     [SerializeField] Text StageText;
-    [SerializeField] Text EnemyText;
     [SerializeField] Text GoldText;
     [SerializeField] Text DiamondsText;
 
     void Awake()
     {
         EventManager.OnStageUpdate.AddListener(OnStageUpdate);
+        EventManager.OnBossSpawned.AddListener(OnBossSpawned);
     }
 
     void FixedUpdate()
@@ -25,7 +25,11 @@ public class HUD : MonoBehaviour
 
     void OnStageUpdate(int stage, int enemy)
     {
-        StageText.text = stage.ToString();
-        EnemyText.text = enemy.ToString();
+        StageText.text = stage.ToString() + " | " + enemy.ToString();
+    }
+
+    void OnBossSpawned()
+    {
+        StageText.text = "BOSS";
     }
 }

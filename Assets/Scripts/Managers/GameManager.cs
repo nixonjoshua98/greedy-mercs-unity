@@ -10,82 +10,85 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Transform SpawnPoint;
 
-    [Space]
-
     [SerializeField] GameObject EnemyObject;
     [SerializeField] GameObject BossObject;
 
-    EnemyData Enemy;
     StageData Stage;
 
-    public bool IsEnemyAvailable {  get { return Enemy.IsAvailable; } }
+    GameObject CurrentEnemy;
+
+    public int CurrentStage { get { return Stage.CurrentStage; } }
 
     void Awake()
     {
         Instance = this;
 
-        Enemy = new EnemyData();
         Stage = new StageData();
     }
 
     void Start()
     {
-        CreateNewEnemy(EnemyObject);
+        SpawnNextEnemy();
 
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
 
     public void TryDealDamageToEnemy(float amount)
     {
-        if (Enemy.IsAvailable)
+        if (CurrentEnemy != null)
         {
-            Enemy.Health.TakeDamage(amount);
+            EnemyHealth health = CurrentEnemy.GetComponent<EnemyHealth>();
 
-            DamageNumbers.Instance.Add(amount);
-
-            if (Enemy.Health.IsDead)
+            if (!health.IsDead)
             {
-                if (Enemy.IsBoss)
-                    OnBossDeath();
+                health.TakeDamage(amount);
 
-                else
-                    OnEnemyDeath();
+                if (health.IsDead)
+                {
+                    switch (CurrentEnemy.tag)
+                    {
+                        case "Enemy":
+                            OnEnemyDeath();
+                            break;
+
+                        case "BossEnemy":
+                            OnBossDeath();
+                            break;
+                    }
+
+                }
             }
-            else
-                OnEnemyHurt();
         }
-    }
-
-    void OnEnemyHurt()
-    {
-        Enemy.Controller.OnHurt();
     }
 
     void OnEnemyDeath()
     {
-        Enemy.Controller.OnDeath();
-
         Stage.AddKill();
 
-        if (Stage.IsStageCompleted)
-        {
-            StartCoroutine(SpawnBossEnemy());
-        }
-        else
-        {
-            StartCoroutine(SpawnEnemy());
-        }
+        SpawnNextEnemy();
     }
 
     void OnBossDeath()
     {
-        Enemy.Controller.OnDeath();
-
         Stage.AdvanceStage();
 
-        StartCoroutine(SpawnEnemy());
+        SpawnNextEnemy();
 
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
+    }
+
+    void SpawnNextEnemy()
+    {
+        if (Stage.IsStageCompleted)
+            StartCoroutine(SpawnBossEnemy());
+
+        else
+            StartCoroutine(SpawnEnemy());
+    }
+
+    void CreateNewEnemy(GameObject ObjectToSpawn)
+    {
+        CurrentEnemy = Instantiate(ObjectToSpawn, SpawnPoint.position, Quaternion.identity);
     }
 
     IEnumerator SpawnBossEnemy()
@@ -104,14 +107,5 @@ public class GameManager : MonoBehaviour
         CreateNewEnemy(EnemyObject);
 
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
-    }
-
-    void CreateNewEnemy(GameObject ObjectToSpawn)
-    {
-        GameObject spawnedEnemy = Instantiate(ObjectToSpawn, SpawnPoint.position, Quaternion.identity);
-
-        Enemy.Controller = spawnedEnemy.GetComponent<EnemyController>();
-
-        Enemy.Health = spawnedEnemy.GetComponent<EnemyHealth>();
     }
 }

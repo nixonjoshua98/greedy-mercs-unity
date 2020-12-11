@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: -1328723469927364263}
   m_Layer: 0
   m_Name: Goblin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730eab6f76692b64394469dcd27dd969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 6861586715502687515}
 --- !u!1001 &6803764168904632231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -416,7 +417,7 @@ PrefabInstance:
     - target: {fileID: 3143080377047432469, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
         type: 3}
       propertyPath: AnimationEvent_01_Callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDeathFinished
+      value: OnDeath
       objectReference: {fileID: 0}
     - target: {fileID: 3143080377047432469, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
         type: 3}

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [SerializeField] Animator anim;
+
     float maxHealth;
     float currentHealth;
 
@@ -36,8 +38,18 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        currentHealth -= amount;
+        if (currentHealth > 0.0f)
+        {
+            currentHealth -= amount;
 
-        healthbar.value = currentHealth / maxHealth;
+            healthbar.value = currentHealth / maxHealth;
+
+            string animString = "Hurt";
+
+            if (currentHealth <= 0.0f)
+                animString = "Dying";
+
+            anim.Play(animString);
+        }
     }
 }

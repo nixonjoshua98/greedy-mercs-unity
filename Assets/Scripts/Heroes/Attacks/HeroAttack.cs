@@ -32,10 +32,7 @@ public abstract class HeroAttack: MonoBehaviour
             {
                 attackTimer = AttackDelay;
 
-                if (GameManager.Instance.IsEnemyAvailable)
-                {
-                    StartAttack();
-                }
+                StartAttack();
             }
         }
     }

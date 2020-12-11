@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class EnemyLoot : MonoBehaviour
 {
+    float stageSpawned;
+
+    void Awake()
+    {
+        stageSpawned = GameManager.Instance.CurrentStage;
+    }
     public void Process()
     {
-        PlayerData.Gold++;
+        PlayerData.Gold += stageSpawned;
     }
 }

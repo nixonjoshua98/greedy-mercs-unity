@@ -7,6 +7,7 @@ TagManager:
   - EnemyHealthbar
   - MainCanvas
   - BossEnemy
+  - Enemy
   layers:
   - Default
   - TransparentFX

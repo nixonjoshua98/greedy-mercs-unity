@@ -24,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void SetHealth()
     {
-        maxHealth = currentHealth = 3.0f;
+        maxHealth = currentHealth = 5.0f;
     }
 
     private void GetHealthbar()

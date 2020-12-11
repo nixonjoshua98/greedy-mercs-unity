@@ -75,8 +75,6 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(SpawnEnemy());
         }
-      
-        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
 
     void OnBossDeath()
@@ -104,6 +102,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         CreateNewEnemy(EnemyObject);
+
+        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
 
     void CreateNewEnemy(GameObject ObjectToSpawn)

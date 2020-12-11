@@ -610,7 +610,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StageText: {fileID: 1550986363}
-  EnemyText: {fileID: 0}
   GoldText: {fileID: 1609557620}
   DiamondsText: {fileID: 159918706}
 --- !u!1 &1453752720
@@ -733,7 +732,7 @@ MonoBehaviour:
     m_MinSize: 3
     m_MaxSize: 48
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0

@@ -3,54 +3,28 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GameDataStructs
+class StageData
 {
-    public class PlayerData
+    int currentStage;
+    int currentEnemy;
+
+    public int CurrentStage { get { return currentStage; } }
+    public int CurrentEnemy { get { return currentEnemy; } }
+
+    public StageData()
     {
-        public static float Gold = 0.0f;
+        currentStage = currentEnemy = 1;
     }
 
-    class EnemyData
+    public void AddKill()
     {
-        public EnemyHealth Health;
+        currentEnemy++;
 
-        public EnemyController Controller;
-
-        public bool IsEnemyAvailable { get { return Controller != null; } }
-
-        public EnemyData()
+        if (currentEnemy > 5)
         {
-            Health = new EnemyHealth();
-        }
-    }
+            currentEnemy = 1;
 
-    class StageData
-    {
-        int currentStage;
-        int currentEnemy;
-
-        public int CurrentStage { get { return currentStage; } }
-        public int CurrentEnemy { get { return currentEnemy; } }
-
-        public StageData()
-        {
-            currentStage = currentEnemy = 1;
-        }
-
-        public void AddKills(int kills)
-        {
-            for (int i = 0; i < kills; ++i)
-            {
-                currentEnemy++;
-
-                if (currentEnemy > 5)
-                {
-                    currentEnemy = 1;
-
-                    currentStage++;
-                }
-            }
-
+            currentStage++;
         }
     }
 }

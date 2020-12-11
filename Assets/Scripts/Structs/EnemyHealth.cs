@@ -22,7 +22,7 @@ public class EnemyHealth
 
     public void Reset()
     {
-        maxHealth = currentHealth = 5.0f;
+        maxHealth = currentHealth = 3.0f;
 
         healthbar.value = 1.0f;
     }

@@ -51,9 +51,6 @@ public abstract class HeroAttack: MonoBehaviour
 
     public virtual void DealDamage()
     {
-        if (GameManager.Instance.TryDealDamageToEnemy(1.0f))
-        {
-
-        }
+        GameManager.Instance.TryDealDamageToEnemy(1.0f);
     }
 }

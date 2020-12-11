@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using GameDataStructs;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,14 +17,13 @@ public class GameManager : MonoBehaviour
     EnemyData Enemy;
     StageData Stage;
 
-    public bool IsEnemyAvailable {  get { return Enemy.IsEnemyAvailable; } }
+    public bool IsEnemyAvailable {  get { return Enemy.IsAvailable; } }
 
     void Awake()
     {
         Instance = this;
 
         Enemy = new EnemyData();
-
         Stage = new StageData();
     }
 
@@ -36,36 +34,20 @@ public class GameManager : MonoBehaviour
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
 
-    public bool TryDealDamageToEnemy(float amount)
+    public void TryDealDamageToEnemy(float amount)
     {
-        if (IsEnemyAvailable)
+        if (Enemy.IsAvailable)
         {
-            DealDamageToEnemy(amount);
+            Enemy.Health.TakeDamage(amount);
 
-            return true;
-        }
+            DamageNumbers.Instance.Add(amount);
 
-        return false;
-    }
-
-    void DealDamageToEnemy(float amount)
-    {
-        Enemy.Health.TakeDamage(amount);
-
-        DamageNumbers.Instance.Add(amount);
-
-        if (Enemy.Health.IsDead)
-        {
-            Enemy.Controller.StartDeathSequence();
-
-            Invoke("OnEnemyDeath", 0.5f);
-
-            Enemy.Controller = null;
-        }
-
-        else
-        {
-            Enemy.Controller.StartHurtSequence();
+            if (Enemy.Health.IsDead)
+            {
+                OnEnemyDeath();
+            }
+            else
+                OnEnemyHurt();
         }
     }
 
@@ -78,13 +60,20 @@ public class GameManager : MonoBehaviour
         Enemy.Health.Reset();
     }
 
+    void OnEnemyHurt()
+    {
+        Enemy.Controller.StartHurtSequence();
+    }
+
     void OnEnemyDeath()
     {
-        CreateNewEnemy();
+        Enemy.Controller.StartDeathSequence();
 
         PlayerData.Gold += 1;
 
-        Stage.AddKills(1);
+        Stage.AddKill();
+        
+        Invoke("CreateNewEnemy", 0.5f);
 
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }

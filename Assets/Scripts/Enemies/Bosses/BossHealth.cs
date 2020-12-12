@@ -6,6 +6,6 @@ public class BossHealth : EnemyHealth
 {
     public override void SetHealth()
     {
-        maxHealth = currentHealth = 10.0f + GameManager.CurrentStage;
+        maxHealth = currentHealth = 20.0f + GameManager.CurrentStage;
     }
 }

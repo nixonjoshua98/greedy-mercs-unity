@@ -32,12 +32,13 @@ public abstract class HeroAttack: MonoBehaviour
             {
                 attackTimer = AttackDelay;
 
-                StartAttack();
+                if (GameManager.IsEnemyAvailable)
+                    StartAttack();
             }
         }
     }
 
-    protected virtual void StartAttack()
+    void StartAttack()
     {
         isAttacking = true;
 
@@ -46,7 +47,7 @@ public abstract class HeroAttack: MonoBehaviour
 
     public abstract void OnAttackAnimationEnd();
 
-    public virtual void DealDamage()
+    protected void DealDamage()
     {
         GameManager.TryDealDamageToEnemy(1.0f);
     }

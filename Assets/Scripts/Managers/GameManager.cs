@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     GameObject CurrentEnemy;
 
     public static int CurrentStage { get { return Instance.Stage.CurrentStage; } }
+    public static bool IsEnemyAvailable {  get { return Instance.CurrentEnemy != null; } }
 
     void Awake()
     {
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
         {
             EnemyHealth health = Instance.CurrentEnemy.GetComponent<EnemyHealth>();
 
-            DamageNumbers.Instance.Add(amount);
+            DamageNumbers.Add(amount);
 
             if (!health.IsDead)
             {

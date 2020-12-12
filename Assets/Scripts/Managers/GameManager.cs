@@ -107,6 +107,13 @@ public class GameManager : MonoBehaviour
 
     void SpawnNextEnemy()
     {
+        StartCoroutine(ISpawnNextEnemy());
+    }
+
+    IEnumerator ISpawnNextEnemy()
+    {
+        yield return new WaitForSeconds(0.2f);
+
         if (!BossBattleManager.IsAvoidingBoss && Stage.IsStageCompleted)
         {
             BossBattleManager.StartBossBattle();

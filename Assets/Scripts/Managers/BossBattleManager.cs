@@ -33,6 +33,7 @@ public class BossBattleManager : MonoBehaviour
         BossButton.gameObject.SetActive(false);
     }
 
+    // Static public method accessor
     public static void StartBossBattle()
     {
         Instance.StartCoroutine(Instance.IBossBattle());

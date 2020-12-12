@@ -15,8 +15,10 @@ public class BossBattleManager : MonoBehaviour
     // -----------------------
 
     [Header("UI Objects & Components")]
-    [SerializeField] GameObject BossButton;
     [SerializeField] Slider BossSlider;
+
+    [SerializeField] GameObject BossButton;
+    [SerializeField] GameObject BossText;
 
     [Header("Objects")]
     [SerializeField] Transform BossSpawnPoint;
@@ -31,12 +33,20 @@ public class BossBattleManager : MonoBehaviour
 
         BossSlider.gameObject.SetActive(false);
         BossButton.gameObject.SetActive(false);
+        BossText.gameObject.SetActive(false);
     }
 
     // Static public method accessor
     public static void StartBossBattle()
     {
-        Instance.StartCoroutine(Instance.IBossBattle());
+        // WARNING: GameManager sometimes calls this method twice for some reason,
+        // so we have a check if a boss is already spawned and just ignore it if so.
+        // This should be looked into but this *temporary* fix works well.
+        // This didn't work :(
+        if (Instance.CurrentBossEnemy == null)
+        {
+            Instance.StartCoroutine(Instance.IBossBattle());
+        }
     }
 
     public void OnFightBossButton()
@@ -50,11 +60,15 @@ public class BossBattleManager : MonoBehaviour
 
     IEnumerator IBossBattle()
     {
+        BossText.gameObject.SetActive(true);
+
         CurrentBossEnemy = Instantiate(BossObjects[Random.Range(0, BossObjects.Length)], BossSpawnPoint.position, Quaternion.identity);
 
         EventManager.OnBossSpawned.Invoke(CurrentBossEnemy);
 
         yield return ITimer();
+
+        BossText.gameObject.SetActive(false);
 
         if (CurrentBossEnemy != null)
         {
@@ -71,7 +85,7 @@ public class BossBattleManager : MonoBehaviour
 
     IEnumerator ITimer()
     {
-        float timer = 5.0f;
+        float timer = 15.0f;
 
         BossSlider.gameObject.SetActive(true);
 

@@ -70,9 +70,6 @@ public class GameManager : MonoBehaviour
     {
         if (!BossBattleManager.IsAvoidingBoss && Instance.Stage.IsStageCompleted)
         {
-            if (Instance.CurrentEnemy != null)
-                Destroy(Instance.CurrentEnemy);
-
             BossBattleManager.StartBossBattle();
         }
     }
@@ -86,6 +83,11 @@ public class GameManager : MonoBehaviour
     // UnityEvent Listener
     void OnBossSpawned(GameObject boss)
     {
+        if (Instance.CurrentEnemy != null)
+        {
+            Destroy(Instance.CurrentEnemy);
+        }
+
         CurrentEnemy = boss;
     }
 

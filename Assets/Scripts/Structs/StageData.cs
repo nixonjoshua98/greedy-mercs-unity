@@ -5,7 +5,7 @@ using UnityEngine;
 
 class StageData
 {
-    const int ENEMIES_PER_STAGE = 3;
+    const int ENEMIES_PER_STAGE = 1;
 
     int _currentStage;
     int _currentEnemy;

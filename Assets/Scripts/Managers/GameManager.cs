@@ -3,27 +3,28 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance = null;
+    static GameManager Instance = null;
 
     [SerializeField] Transform SpawnPoint;
-
-    [SerializeField] GameObject EnemyObject;
-    [SerializeField] GameObject BossObject;
+    [Space]
+    [SerializeField] GameObject[] EnemyObjects;
 
     StageData Stage;
 
     GameObject CurrentEnemy;
 
-    public int CurrentStage { get { return Stage.CurrentStage; } }
+    public static int CurrentStage { get { return Instance.Stage.CurrentStage; } }
 
     void Awake()
     {
         Instance = this;
 
         Stage = new StageData();
+
+        EventManager.OnBossSpawned.AddListener(OnBossSpawned);
+        EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
     }
 
     void Start()
@@ -33,11 +34,14 @@ public class GameManager : MonoBehaviour
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }
 
-    public void TryDealDamageToEnemy(float amount)
+    // This is the only method which should be dealing damage to the enemy
+    public static void TryDealDamageToEnemy(float amount)
     {
-        if (CurrentEnemy != null)
+        if (Instance.CurrentEnemy != null)
         {
-            EnemyHealth health = CurrentEnemy.GetComponent<EnemyHealth>();
+            EnemyHealth health = Instance.CurrentEnemy.GetComponent<EnemyHealth>();
+
+            DamageNumbers.Instance.Add(amount);
 
             if (!health.IsDead)
             {
@@ -45,20 +49,43 @@ public class GameManager : MonoBehaviour
 
                 if (health.IsDead)
                 {
-                    switch (CurrentEnemy.tag)
+                    switch (Instance.CurrentEnemy.tag)
                     {
                         case "Enemy":
-                            OnEnemyDeath();
+                            Instance.OnEnemyDeath();
                             break;
 
                         case "BossEnemy":
-                            OnBossDeath();
+                            Instance.OnBossDeath();
                             break;
                     }
-
                 }
             }
         }
+    }
+
+    // Called from BossBattleManager
+    public static void TrySkipToBoss()
+    {
+        if (!BossBattleManager.IsAvoidingBoss && Instance.Stage.IsStageCompleted)
+        {
+            if (Instance.CurrentEnemy != null)
+                Destroy(Instance.CurrentEnemy);
+
+            BossBattleManager.StartBossBattle();
+        }
+    }
+
+    // UnityEvent Listener
+    public void OnFailedToKillBoss()
+    {
+        SpawnNextEnemy();
+    }
+
+    // UnityEvent Listener
+    void OnBossSpawned(GameObject boss)
+    {
+        CurrentEnemy = boss;
     }
 
     void OnEnemyDeath()
@@ -74,37 +101,22 @@ public class GameManager : MonoBehaviour
 
         SpawnNextEnemy();
 
-        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
+        EventManager.OnStageUpdate.Invoke(CurrentStage, Stage.CurrentEnemy);
     }
 
     void SpawnNextEnemy()
     {
-        if (Stage.IsStageCompleted)
-            StartCoroutine(SpawnBossEnemy());
-
+        if (!BossBattleManager.IsAvoidingBoss && Stage.IsStageCompleted)
+        {
+            BossBattleManager.StartBossBattle();
+        }
         else
-            StartCoroutine(SpawnEnemy());
+            SpawnEnemy();
     }
 
-    void CreateNewEnemy(GameObject ObjectToSpawn)
+    void SpawnEnemy()
     {
-        CurrentEnemy = Instantiate(ObjectToSpawn, SpawnPoint.position, Quaternion.identity);
-    }
-
-    IEnumerator SpawnBossEnemy()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        CreateNewEnemy(BossObject);
-
-        EventManager.OnBossSpawned.Invoke();
-    }
-
-    IEnumerator SpawnEnemy()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        CreateNewEnemy(EnemyObject);
+        CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
 
         EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
     }

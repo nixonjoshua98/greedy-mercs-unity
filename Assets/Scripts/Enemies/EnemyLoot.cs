@@ -8,8 +8,9 @@ public class EnemyLoot : MonoBehaviour
 
     void Awake()
     {
-        stageSpawned = GameManager.Instance.CurrentStage;
+        stageSpawned = GameManager.CurrentStage;
     }
+
     public void Process()
     {
         PlayerData.Gold += stageSpawned;

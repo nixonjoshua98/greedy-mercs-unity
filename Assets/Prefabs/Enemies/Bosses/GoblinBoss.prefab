@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5637605409151643758}
   - component: {fileID: 4231349129634026515}
   - component: {fileID: 8913086461765253809}
-  - component: {fileID: 9068123458544626719}
+  - component: {fileID: 6905948521193110798}
   m_Layer: 0
   m_Name: GoblinBoss
   m_TagString: BossEnemy
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7443c7155710e4badd69844a7c691b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 5723617685034668125}
 --- !u!114 &8913086461765253809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac71c9890eea7264da406c9d3ed6baed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9068123458544626719
+--- !u!114 &6905948521193110798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,7 +68,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5637605409151643745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 730eab6f76692b64394469dcd27dd969, type: 3}
+  m_Script: {fileID: 11500000, guid: 9532bd5af22dace4cb8f6c4278b9a9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 5723617685034668125}
@@ -144,7 +143,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 0f764edfc0145a64c97d6f9cfb6d73d6, type: 3}
-  m_Color: {r: 0.5019608, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

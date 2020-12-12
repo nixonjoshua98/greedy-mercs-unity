@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
+    // Animation event
     public void OnDeath()
     {
         if (TryGetComponent(out EnemyLoot loot))

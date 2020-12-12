@@ -28,7 +28,7 @@ public class HUD : MonoBehaviour
         StageText.text = stage.ToString() + " | " + enemy.ToString();
     }
 
-    void OnBossSpawned()
+    void OnBossSpawned(GameObject _)
     {
         StageText.text = "BOSS";
     }

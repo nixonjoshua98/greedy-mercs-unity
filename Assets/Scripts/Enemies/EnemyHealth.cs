@@ -8,8 +8,8 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] Animator anim;
 
-    float maxHealth;
-    float currentHealth;
+    protected float maxHealth;
+    protected float currentHealth;
 
     Slider healthbar;
 
@@ -24,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
         healthbar.value = currentHealth / maxHealth;
     }
 
-    public void SetHealth()
+    public virtual void SetHealth()
     {
         maxHealth = currentHealth = 5.0f;
     }
@@ -44,12 +44,16 @@ public class EnemyHealth : MonoBehaviour
 
             healthbar.value = currentHealth / maxHealth;
 
-            string animString = "Hurt";
-
             if (currentHealth <= 0.0f)
-                animString = "Dying";
+            {
+                EnemyController controller = GetComponent<EnemyController>();
 
-            anim.Play(animString);
+                controller.OnDeath();
+            }
+            else
+            {
+                anim.Play("Hurt");
+            }
         }
     }
 }

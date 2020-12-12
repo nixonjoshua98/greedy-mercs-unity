@@ -112,7 +112,7 @@ public class DamageNumbers : MonoBehaviour
             Text      = spawned.GetComponent<Text>(),
             Direction = new Vector2(Random.Range(-1.0f, 1.0f), 1.0f),
             LifeTime  = Random.Range(0.5f, 1.5f),
-            Velocity  = Random.Range(75.0f, 250.0f)
+            Velocity  = Random.Range(150.0f, 250.0f)
         };
 
         damageNumbers.Add(damageText);

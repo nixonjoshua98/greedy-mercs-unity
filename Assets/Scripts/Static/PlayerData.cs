@@ -1,8 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
 class SaveFile
@@ -67,7 +64,12 @@ public class PlayerData
         return Instance._Heroes.TryGetValue(hero, out result);
     }
 
-    public static List<HeroData> GetHeroData()
+    public static HeroData GetHeroData(HeroID hero)
+    {
+        return Instance._Heroes[hero];
+    }
+
+    public static List<HeroData> GetAllHeroData()
     {
         return Instance._Heroes.Values.ToList();
     }

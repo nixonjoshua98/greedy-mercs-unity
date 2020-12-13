@@ -26,7 +26,7 @@ public class ProjectileHeroAttack : HeroAttack
     {
         Vector3 direction = Vector3.right * 3;
 
-        GameObject projectile = Instantiate(Projectile, ProjectileStart.position, Quaternion.identity);
+        GameObject projectile = Instantiate(Projectile, transform);
 
         float progress = 0.0f;
 

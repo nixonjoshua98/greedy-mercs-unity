@@ -25,6 +25,11 @@ public class HeroController : MonoBehaviour
         levelText = temp.GetComponent<Text>();
     }
 
+    void OnDestroy()
+    {
+        if (levelText)  Destroy(levelText.gameObject);
+    }
+
     void FixedUpdate()
     {
         UpdateLevel();

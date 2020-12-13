@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class HeroManager : MonoBehaviour
 {
+    static HeroManager Instance = null;
+
     static Dictionary<HeroID, string> HeroIDStrings = new Dictionary<HeroID, string>()
     {
         { HeroID.WRAITH_LIGHTNING,  "WraithLightning" },
@@ -16,66 +18,48 @@ public class HeroManager : MonoBehaviour
 
     [SerializeField] Transform HeroSpotParent;
 
-    [SerializeField] Transform PanelParent;
-    [Space]
-    [SerializeField] GameObject Panel;
-
-    Dictionary<HeroID, HeroPanel> heroPanels;
-
     void Awake()
     {
-        heroPanels = new Dictionary<HeroID, HeroPanel>();
+        Instance = this;
     }
 
-    void OnEnable()
+    public static bool TryAddHeroToSquad(HeroID heroID)
     {
-        foreach (HeroData hero in PlayerData.GetHeroData())
+        if (Instance.GetAvailableHeroSpot(out Transform spot))
         {
-            GameObject panel = Instantiate(Panel, Vector3.zero, Quaternion.identity);
+            GameObject hero = Instantiate(HeroIDToGameObject(heroID), spot);
 
-            HeroPanel panelScript = panel.GetComponent<HeroPanel>();
+            hero.transform.localPosition = Vector3.zero;
 
-            panelScript.NameText.text = Enum.GetName(typeof(HeroID), hero.heroID);
-
-            panelScript.Button.onClick.AddListener(delegate () { OnSpawnHeroButton(hero.heroID); });
-
-            heroPanels[hero.heroID] = panelScript;
-
-            panel.transform.SetParent(PanelParent);
+            return true;
         }
+
+        return false;
     }
 
-    void AddHeroToSquad(HeroID heroID, Transform spot)
+    bool GetAvailableHeroSpot(out Transform result)
     {
-        GameObject hero = Instantiate(HeroIDToGameObject(heroID), spot);
+        result = null;
 
-        hero.transform.localPosition = Vector3.zero;
-
-        HeroPanel panel = heroPanels[heroID];
-
-        panel.gameObject.SetActive(false);
-    }
-
-    void OnSpawnHeroButton(HeroID heroID)
-    {
         for (int i = 0; i < HeroSpotParent.childCount; ++i)
         {
             Transform child = HeroSpotParent.GetChild(i);
 
             if (child.childCount == 0)
             {
-                AddHeroToSquad(heroID, child);
+                result = child;
 
-                break;
+                return true;
             }
         }
+
+        return false;
     }
+
 
     public static GameObject HeroIDToGameObject(HeroID hero)
     {
-        string str;
-
-        if (!HeroIDStrings.TryGetValue(hero, out str))
+        if (!HeroIDStrings.TryGetValue(hero, out string str))
         {
             Debug.LogError("Hero not found!!");
 

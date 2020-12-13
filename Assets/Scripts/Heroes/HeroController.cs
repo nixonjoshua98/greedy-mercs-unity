@@ -32,9 +32,7 @@ public class HeroController : MonoBehaviour
 
     void UpdateLevel()
     {
-        HeroData data = null;
-
-        if (PlayerData.TryGetHero(_heroID, ref data))
+        if (PlayerData.TryGetHero(_heroID, out HeroData data))
         {
             levelText.text = "Level " + data.Level;
         }

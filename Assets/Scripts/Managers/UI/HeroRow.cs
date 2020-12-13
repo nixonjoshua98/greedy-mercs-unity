@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroPanel : MonoBehaviour
+public class HeroRow : MonoBehaviour
 {
     public Text NameText;
-    
+
     public Button Button;
 
     public Text ButtonText;

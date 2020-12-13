@@ -62,7 +62,7 @@ public class PlayerData
         );
     }
 
-    public static bool TryGetHero(HeroID hero, ref HeroData result)
+    public static bool TryGetHero(HeroID hero, out HeroData result)
     {
         return Instance._Heroes.TryGetValue(hero, out result);
     }

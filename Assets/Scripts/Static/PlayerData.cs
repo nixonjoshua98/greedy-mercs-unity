@@ -62,8 +62,6 @@ public class PlayerData
         );
     }
 
-    // Methods
-
     public static bool TryGetHero(HeroID hero, ref HeroData result)
     {
         return Instance._Heroes.TryGetValue(hero, out result);

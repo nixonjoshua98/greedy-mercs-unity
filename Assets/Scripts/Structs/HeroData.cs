@@ -9,4 +9,6 @@ public class HeroData
     public HeroID heroID;
 
     public int Level;
+
+    public bool InSquad;
 }

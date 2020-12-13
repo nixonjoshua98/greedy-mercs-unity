@@ -27,6 +27,23 @@ public class HeroManager : MonoBehaviour
         CreateFormationList();
     }
 
+    void Start()
+    {
+        CreateInitialSquad();
+    }
+
+    void CreateInitialSquad()
+    {
+        foreach (HeroData data in PlayerData.GetAllHeroData())
+        {
+            if (data.InSquad)
+            {
+                if (!TryAddHeroToSquad(data.heroID))
+                    data.InSquad = false;
+            }
+        }
+    }
+
     void CreateFormationList()
     {
         FormationList = new List<HeroFormationSpot>();

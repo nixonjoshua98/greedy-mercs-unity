@@ -68,8 +68,6 @@ public class GameManager : MonoBehaviour
     // Called from BossBattleManager
     public static void TrySkipToBoss()
     {
-        Debug.Log(PlayerData.ToJson());
-
         if (!BossBattleManager.IsAvoidingBoss && Instance.Stage.IsStageCompleted)
         {
             BossBattleManager.StartBossBattle();

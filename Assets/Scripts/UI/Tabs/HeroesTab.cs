@@ -31,6 +31,8 @@ public class HeroesTab : MonoBehaviour
 
             row.Button.onClick.AddListener(delegate () { ToggleSquadHero(data.heroID); });
 
+            row.ButtonText.text = data.InSquad ? "REMOVE" : "USE";
+
             Rows[data.heroID] = row;
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyLoot : MonoBehaviour
 {
-    float stageSpawned;
+    int stageSpawned;
 
     void Awake()
     {

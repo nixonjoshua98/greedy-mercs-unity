@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81bb5905c4c2e7f4d9244584c843cf94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _heroID: 10001
   LevelTextObject: {fileID: 5640852453258583716, guid: 16e4c64043927b04b81dd3c313e565d6,
     type: 3}
 --- !u!114 &5097099789489235690
@@ -142,8 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1791531129569585673}
-  AttackDelay: 0.75
-  AttackDuration: 0
+  AttackDelay: 0.5
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0

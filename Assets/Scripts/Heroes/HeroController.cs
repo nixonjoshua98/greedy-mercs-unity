@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class HeroController : MonoBehaviour
 {
+    [SerializeField] HeroID _heroID;
+
+    [Space]
+
     [SerializeField] GameObject LevelTextObject;
 
     Text levelText;
@@ -28,7 +32,12 @@ public class HeroController : MonoBehaviour
 
     void UpdateLevel()
     {
-        levelText.text = "Level ?";
+        HeroData data = null;
+
+        if (PlayerData.TryGetHero(_heroID, ref data))
+        {
+            levelText.text = "Level " + data.Level;
+        }
 
         levelText.transform.position = Camera.main.WorldToScreenPoint(transform.position);
     }

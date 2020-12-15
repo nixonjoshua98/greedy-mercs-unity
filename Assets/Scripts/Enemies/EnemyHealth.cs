@@ -26,7 +26,7 @@ public class EnemyHealth : MonoBehaviour
 
     public virtual double GetIntialHealth()
     {
-        return GameManager.CurrentStage;
+        return GameState.stage.stage;
     }
 
     void SetHealth()

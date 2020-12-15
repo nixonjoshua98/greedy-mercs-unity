@@ -13,28 +13,25 @@ public class GameManager : MonoBehaviour
     [Space]
     [SerializeField] DamageNumbers damageNumbers;
 
-    StageData Stage;
-
     GameObject CurrentEnemy;
 
-    public static int CurrentStage { get { return Instance.Stage.CurrentStage; } }
     public static bool IsEnemyAvailable {  get { return Instance.CurrentEnemy != null; } }
 
     void Awake()
     {
         Instance = this;
 
-        Stage = new StageData();
-
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
         EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+
+        Debug.Log(Application.persistentDataPath);
     }
 
     void Start()
     {
         SpawnNextEnemy();
 
-        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
+        EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
     }
 
     // This is the only method which should be dealing damage to the enemy
@@ -70,7 +67,7 @@ public class GameManager : MonoBehaviour
     // Called from BossBattleManager
     public static void TrySkipToBoss()
     {
-        if (!BossBattleManager.IsAvoidingBoss && Instance.Stage.IsStageCompleted)
+        if (!BossBattleManager.IsAvoidingBoss && GameState.stage.isStageCompleted)
         {
             BossBattleManager.StartBossBattle();
         }
@@ -95,18 +92,18 @@ public class GameManager : MonoBehaviour
 
     void OnEnemyDeath()
     {
-        Stage.AddKill();
+        GameState.stage.AddKill();
 
         SpawnNextEnemy();
     }
 
     void OnBossDeath()
     {
-        Stage.AdvanceStage();
+        GameState.stage.AdvanceStage();
 
         SpawnNextEnemy();
 
-        EventManager.OnStageUpdate.Invoke(CurrentStage, Stage.CurrentEnemy);
+        EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
     }
 
     void SpawnNextEnemy()
@@ -118,7 +115,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        if (!BossBattleManager.IsAvoidingBoss && Stage.IsStageCompleted)
+        if (!BossBattleManager.IsAvoidingBoss && GameState.stage.isStageCompleted)
         {
             BossBattleManager.StartBossBattle();
         }
@@ -130,6 +127,6 @@ public class GameManager : MonoBehaviour
     {
         CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
 
-        EventManager.OnStageUpdate.Invoke(Stage.CurrentStage, Stage.CurrentEnemy);
+        EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
     }
 }

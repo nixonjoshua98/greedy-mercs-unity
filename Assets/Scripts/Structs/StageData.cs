@@ -3,45 +3,41 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-class StageData
+[System.Serializable]
+public class StageData
 {
     const int ENEMIES_PER_STAGE = 3;
 
-    int _currentStage;
-    int _currentEnemy;
+    public int stage;
+    public int enemy;
 
-    bool _isStageCompleted;
-
-    public int CurrentStage { get { return _currentStage; } }
-    public int CurrentEnemy { get { return _currentEnemy; } }
-
-    public bool IsStageCompleted { get { return _isStageCompleted; } }
+    public bool isStageCompleted;
 
     public StageData()
     {
-        _currentStage = _currentEnemy = 1;
+        stage = enemy = 1;
 
-        _isStageCompleted = false;
+        isStageCompleted = false;
     }
 
     public void AddKill()
     {
-        if (_currentEnemy + 1 > ENEMIES_PER_STAGE)
+        if (enemy + 1 > ENEMIES_PER_STAGE)
         {
-            _isStageCompleted = true;
+            isStageCompleted = true;
         }
         else
         {
-            _currentEnemy++;
+            enemy++;
         }
     }
 
     public void AdvanceStage()
     {
-        _currentEnemy = 1;
+        enemy = 1;
 
-        _currentStage++;
+        stage++;
 
-        _isStageCompleted = false;
+        isStageCompleted = false;
     }
 }

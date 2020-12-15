@@ -26,11 +26,11 @@ public class HeroesTab : MonoBehaviour
 
     void UpdateRows()
     {
-        List<HeroData> allHeroData = PlayerData.heroes.GetAllHeroData();
+        List<HeroState> allHeroData = PlayerData.heroes.GetAllHeroData();
 
         for (int i = 0; i < allHeroData.Count; ++i)
         {
-            HeroData currentHeroData = allHeroData[i];
+            HeroState currentHeroData = allHeroData[i];
 
             if (!Rows.ContainsKey(currentHeroData.heroId))
                 CreateHeroRow(currentHeroData);
@@ -41,17 +41,19 @@ public class HeroesTab : MonoBehaviour
         }
     }
 
-    void CreateHeroRow(HeroData currentHeroData)
+    void CreateHeroRow(HeroState heroData)
     {
         GameObject spawnedRow = Instantiate(HeroRow, HeroesParent.transform);
 
         HeroRow row = spawnedRow.GetComponent<HeroRow>();
 
-        row.NameText.text = Enum.GetName(typeof(HeroID), currentHeroData.heroId);
+        row.NameText.text = Enum.GetName(typeof(HeroID), heroData.heroId);
 
-        row.Button.onClick.AddListener(delegate () { ToggleSquadHero(currentHeroData.heroId); });
+        row.Button.onClick.AddListener(delegate () { ToggleSquadHero(heroData.heroId); });
 
-        Rows[currentHeroData.heroId] = row;
+        row.DummyText.text = heroData.dummyValue.ToString();
+
+        Rows[heroData.heroId] = row;
     }
 
     void ToggleSquadHero(HeroID heroID)

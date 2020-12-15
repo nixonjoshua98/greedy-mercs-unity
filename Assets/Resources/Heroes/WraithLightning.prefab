@@ -116,10 +116,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6033011914855570432}
-  - component: {fileID: 6033011914855570435}
   - component: {fileID: 6033011914855570434}
   m_Layer: 0
-  m_Name: Wraith
+  m_Name: WraithLightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,21 +141,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6033011914855570435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6033011914855570445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81bb5905c4c2e7f4d9244584c843cf94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _heroID: 10000
-  LevelTextObject: {fileID: 5640852453258583716, guid: 16e4c64043927b04b81dd3c313e565d6,
-    type: 3}
 --- !u!114 &6033011914855570434
 MonoBehaviour:
   m_ObjectHideFlags: 0

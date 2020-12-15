@@ -42,7 +42,6 @@ public class BossBattleManager : MonoBehaviour
         // WARNING: GameManager sometimes calls this method twice for some reason,
         // so we have a check if a boss is already spawned and just ignore it if so.
         // This should be looked into but this *temporary* fix works well.
-        // This didn't work :(
         if (Instance.CurrentBossEnemy == null)
         {
             Instance.StartCoroutine(Instance.IBossBattle());

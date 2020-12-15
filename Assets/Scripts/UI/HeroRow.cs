@@ -11,4 +11,6 @@ public class HeroRow : MonoBehaviour
     public Button Button;
 
     public Text ButtonText;
+
+    public Text DummyText;
 }

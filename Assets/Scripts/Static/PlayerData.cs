@@ -1,12 +1,59 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Collections.Generic;
+
 using UnityEngine;
 
 class SaveFile
 {
-    public int Gold;
+    public long updateTime;
 
-    public List<HeroData> HeroList = new List<HeroData>();
+    public double gold = 0;
+
+    public List<HeroData> heroes = new List<HeroData>();
+}
+
+[System.Serializable]
+public class HeroData
+{
+    public HeroID heroId;
+
+    public int level = 1;
+
+    public bool inSquad = false;
+}
+
+public class PlayerHeroes
+{
+    Dictionary<HeroID, HeroData> heroes = new Dictionary<HeroID, HeroData>();
+
+    public static PlayerHeroes FromList(List<HeroData> ls)
+    {
+        PlayerHeroes playerHeroes = new PlayerHeroes();
+
+        foreach (HeroData ele in ls)
+        {
+            playerHeroes.heroes[ele.heroId] = ele;
+        }
+
+        return playerHeroes;
+    }
+
+    public bool TryGetHero(HeroID hero, out HeroData result)
+    {
+        return heroes.TryGetValue(hero, out result);
+    }
+
+    public HeroData GetHeroData(HeroID hero)
+    {
+        return heroes[hero];
+    }
+
+    public List<HeroData> GetAllHeroData()
+    {
+        return heroes.Values.ToList();
+    }
 }
 
 
@@ -14,37 +61,49 @@ public class PlayerData
 {
     static PlayerData Instance = null;
 
-    // # - Private Attributes - #
-    int _Gold;
+    double _gold;
+    PlayerHeroes _heroes;
 
-    Dictionary<HeroID, HeroData> _Heroes;
-    // # - - - - - - - #
+    public static PlayerHeroes heroes { get { return Instance._heroes; } }
 
-    // # - Public Static Attributes - #
-    public static int Gold { get { return Instance._Gold; } set { Instance._Gold = value; } }
-    // # - - - - - - - #
+    public static double gold { get { return Instance._gold; } set { Instance._gold = value; } }
 
-    // Private constructor
     PlayerData(SaveFile save)
     {
-        _Gold = save.Gold;
+        _gold = save.gold;
 
-        _Heroes = new Dictionary<HeroID, HeroData>();
-
-        foreach (HeroData hero in save.HeroList)
-        {
-            _Heroes[hero.heroID] = hero;
-        }
+        _heroes = PlayerHeroes.FromList(save.heroes);
 
     }
 
-    // Create the singleton instance
-    public static void Create(string json)
+    public static void FromJson(string json)
     {
         if (Instance == null)
-        {
             Instance = new PlayerData(JsonUtility.FromJson<SaveFile>(json));
+    }
+
+    public static void FromFile(string filename)
+    {
+        using (StreamReader file = new StreamReader(Application.persistentDataPath + "/" + filename))
+        {
+            string json = file.ReadToEnd();
+
+            PlayerData.FromJson(json);
         }
+    }
+
+    public static string ToFile(string filename)
+    {
+        string path = Application.persistentDataPath + "/" + filename;
+
+        using (StreamWriter file = new StreamWriter(path))
+        {
+            string json = PlayerData.ToJson();
+
+            file.Write(json);
+        }
+        
+        return path;
     }
 
     public static string ToJson()
@@ -53,24 +112,12 @@ public class PlayerData
 
             new SaveFile()
             {
-                Gold = Instance._Gold,
-                HeroList = Instance._Heroes.Values.ToList()
+                updateTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+
+                gold = Instance._gold,
+
+                heroes = heroes.GetAllHeroData()
             }
         );
-    }
-
-    public static bool TryGetHero(HeroID hero, out HeroData result)
-    {
-        return Instance._Heroes.TryGetValue(hero, out result);
-    }
-
-    public static HeroData GetHeroData(HeroID hero)
-    {
-        return Instance._Heroes[hero];
-    }
-
-    public static List<HeroData> GetAllHeroData()
-    {
-        return Instance._Heroes.Values.ToList();
     }
 }

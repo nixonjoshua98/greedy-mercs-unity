@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform SpawnPoint;
     [Space]
     [SerializeField] GameObject[] EnemyObjects;
+    [Space]
+    [SerializeField] DamageNumbers damageNumbers;
 
     StageData Stage;
 
@@ -42,7 +44,7 @@ public class GameManager : MonoBehaviour
         {
             EnemyHealth health = Instance.CurrentEnemy.GetComponent<EnemyHealth>();
 
-            DamageNumbers.Add(amount);
+            Instance.damageNumbers.Add(amount);
 
             if (!health.IsDead)
             {

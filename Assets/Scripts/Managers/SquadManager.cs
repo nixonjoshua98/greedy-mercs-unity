@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroManager : MonoBehaviour
+public class SquadManager : MonoBehaviour
 {
-    static HeroManager Instance = null;
+    static SquadManager Instance = null;
 
     static Dictionary<HeroID, string> HeroIDStrings = new Dictionary<HeroID, string>()
     {
@@ -34,12 +34,12 @@ public class HeroManager : MonoBehaviour
 
     void CreateInitialSquad()
     {
-        foreach (HeroData data in PlayerData.GetAllHeroData())
+        foreach (HeroData data in PlayerData.heroes.GetAllHeroData())
         {
-            if (data.InSquad)
+            if (data.inSquad)
             {
-                if (!TryAddHeroToSquad(data.heroID))
-                    data.InSquad = false;
+                if (!TryAddHeroToSquad(data.heroId))
+                    data.inSquad = false;
             }
         }
     }
@@ -58,9 +58,9 @@ public class HeroManager : MonoBehaviour
 
     public static HeroFormationStatus ToggleSquadHero(HeroID heroID)
     {
-        HeroData data = PlayerData.GetHeroData(heroID);
+        HeroData data = PlayerData.heroes.GetHeroData(heroID);
 
-        if (data.InSquad)
+        if (data.inSquad)
         {
             if (Instance.TryRemoveHeroFromSquad(heroID))
                 return HeroFormationStatus.REMOVED;
@@ -81,9 +81,7 @@ public class HeroManager : MonoBehaviour
     {
         if (!HeroIDStrings.TryGetValue(hero, out string str))
         {
-            Debug.LogError("Hero not found!!");
-
-            Debug.Break();
+            Debug.LogError("Error: Hero " + hero.ToString() + " was not found");
         }
 
         return Resources.Load<GameObject>("Heroes/" + str);
@@ -93,7 +91,7 @@ public class HeroManager : MonoBehaviour
 
     bool TryAddHeroToSquad(HeroID heroID)
     {
-        HeroData data = PlayerData.GetHeroData(heroID);
+        HeroData data = PlayerData.heroes.GetHeroData(heroID);
 
         HeroFormationSpot spot = null;
 
@@ -112,7 +110,7 @@ public class HeroManager : MonoBehaviour
 
             spot.Set(heroID, hero);
 
-            data.InSquad = true;
+            data.inSquad = true;
 
             return true;
         }
@@ -122,7 +120,7 @@ public class HeroManager : MonoBehaviour
 
     bool TryRemoveHeroFromSquad(HeroID heroID)
     {
-        HeroData data = PlayerData.GetHeroData(heroID);
+        HeroData data = PlayerData.heroes.GetHeroData(heroID);
 
         foreach (HeroFormationSpot spot in Instance.FormationList)
         {
@@ -130,7 +128,7 @@ public class HeroManager : MonoBehaviour
             {
                 spot.Free();
 
-                data.InSquad = false;
+                data.inSquad = false;
 
                 return true;
             }

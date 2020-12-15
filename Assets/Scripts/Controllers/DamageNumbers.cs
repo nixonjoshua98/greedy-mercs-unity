@@ -18,8 +18,6 @@ class DamageText
 
 public class DamageNumbers : MonoBehaviour
 {
-    static DamageNumbers Instance = null;
-
     [SerializeField] GameObject DamageText;
     [SerializeField] Transform DamageTextParent;
 
@@ -27,8 +25,6 @@ public class DamageNumbers : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
-
         damageNumbers = new List<DamageText>();
     }
 
@@ -58,27 +54,27 @@ public class DamageNumbers : MonoBehaviour
         }
     }
 
-    public static void Add(float number)
+    public void Add(float number)
     {
         DamageText current;
 
         // Create a new instance
-        if (Instance.damageNumbers.Count < 5)
+        if (damageNumbers.Count < 5)
         {
-            current = Instance.CreateNewDamageText();
+            current = CreateNewDamageText();
         }
 
         // We have reached the pool limit, get an existing one and reuse it
         else
         {
-            current = Instance.GetExistingText();
+            current = GetExistingText();
 
             current.Text.gameObject.SetActive(true);
 
             current.LifeTime  = Random.Range(0.5f, 1.5f);
             current.Direction = new Vector2(Random.Range(-1.0f, 1.0f), 1.0f);
 
-            current.Text.transform.position = Instance.transform.position;
+            current.Text.transform.position = transform.position;
         }
 
         current.Text.text = number.ToString();

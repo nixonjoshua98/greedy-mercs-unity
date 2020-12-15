@@ -24,7 +24,7 @@ public class ProjectileHeroAttack : HeroAttack
 
     IEnumerator FireProjectile()
     {
-        Vector3 direction = Vector3.right * 3;
+        Vector3 direction = Vector3.right * 5;
 
         GameObject projectile = Instantiate(Projectile, transform);
 

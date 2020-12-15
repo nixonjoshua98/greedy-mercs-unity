@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BossHealth : EnemyHealth
 {
-    public override void SetHealth()
+    public override double GetIntialHealth()
     {
-        maxHealth = currentHealth = 20.0f + GameManager.CurrentStage;
+        return base.GetIntialHealth() * 3.0f;
     }
 }

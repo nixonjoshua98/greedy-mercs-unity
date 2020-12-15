@@ -27,7 +27,8 @@ public class HeroController : MonoBehaviour
 
     void OnDestroy()
     {
-        if (levelText)  Destroy(levelText.gameObject);
+        if (levelText)
+            Destroy(levelText.gameObject);
     }
 
     void FixedUpdate()
@@ -37,9 +38,9 @@ public class HeroController : MonoBehaviour
 
     void UpdateLevel()
     {
-        if (PlayerData.TryGetHero(_heroID, out HeroData data))
+        if (PlayerData.heroes.TryGetHero(_heroID, out HeroData data))
         {
-            levelText.text = "Level " + data.Level;
+            levelText.text = "Level " + data.level;
         }
 
         levelText.transform.position = Camera.main.WorldToScreenPoint(transform.position);

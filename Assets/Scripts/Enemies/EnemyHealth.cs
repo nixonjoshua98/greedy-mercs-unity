@@ -8,8 +8,8 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] Animator anim;
 
-    protected float maxHealth;
-    protected float currentHealth;
+    protected double maxHealth;
+    protected double currentHealth;
 
     Slider healthbar;
 
@@ -21,19 +21,24 @@ public class EnemyHealth : MonoBehaviour
 
         GetHealthbar();
 
-        healthbar.value = currentHealth / maxHealth;
+        healthbar.value = (float)(currentHealth / maxHealth);
     }
 
-    public virtual void SetHealth()
+    public virtual double GetIntialHealth()
     {
-        maxHealth = currentHealth = 5.0f;
+        return GameManager.CurrentStage;
+    }
+
+    void SetHealth()
+    {
+        maxHealth = currentHealth = GetIntialHealth();
     }
 
     private void GetHealthbar()
     {
         healthbar = GameObject.FindGameObjectWithTag("EnemyHealthbar").GetComponent<Slider>();
 
-        healthbar.value = currentHealth / maxHealth;
+        healthbar.value = (float)(currentHealth / maxHealth);
     }
 
     public void TakeDamage(float amount)
@@ -42,7 +47,7 @@ public class EnemyHealth : MonoBehaviour
         {
             currentHealth -= amount;
 
-            healthbar.value = currentHealth / maxHealth;
+            healthbar.value = (float)(currentHealth / maxHealth);
 
             if (currentHealth <= 0.0f)
             {

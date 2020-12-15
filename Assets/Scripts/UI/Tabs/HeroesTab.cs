@@ -14,40 +14,50 @@ public class HeroesTab : MonoBehaviour
 
     void Awake()
     {
-        CreateRows();
+        Rows = new Dictionary<HeroID, HeroRow>();
     }
 
-    void CreateRows()
+    void OnEnable()
     {
-        Rows = new Dictionary<HeroID, HeroRow>();
+        // TEMP: Gets called before PlayerData can be created so we have a small delay
+        // Can be removed once data is loaded in a different scene for example
+        Invoke("UpdateRows", 0.05f);
+    }
 
-        foreach (HeroData data in PlayerData.GetAllHeroData())
+    void UpdateRows()
+    {
+        List<HeroData> allHeroData = PlayerData.heroes.GetAllHeroData();
+
+        for (int i = 0; i < allHeroData.Count; ++i)
         {
-            GameObject spawnedRow = Instantiate(HeroRow, HeroesParent.transform);
+            HeroData currentHeroData = allHeroData[i];
 
-            HeroRow row = spawnedRow.GetComponent<HeroRow>();
+            if (!Rows.ContainsKey(currentHeroData.heroId))
+                CreateHeroRow(currentHeroData);
 
-            row.NameText.text = Enum.GetName(typeof(HeroID), data.heroID);
+            HeroRow currentHeroRow = Rows[currentHeroData.heroId];
 
-            row.Button.onClick.AddListener(delegate () { ToggleSquadHero(data.heroID); });
-
-            row.ButtonText.text = data.InSquad ? "REMOVE" : "USE";
-
-            Rows[data.heroID] = row;
+            currentHeroRow.ButtonText.text = currentHeroData.inSquad ? "Remove" : "Add";
         }
+    }
+
+    void CreateHeroRow(HeroData currentHeroData)
+    {
+        GameObject spawnedRow = Instantiate(HeroRow, HeroesParent.transform);
+
+        HeroRow row = spawnedRow.GetComponent<HeroRow>();
+
+        row.NameText.text = Enum.GetName(typeof(HeroID), currentHeroData.heroId);
+
+        row.Button.onClick.AddListener(delegate () { ToggleSquadHero(currentHeroData.heroId); });
+
+        Rows[currentHeroData.heroId] = row;
     }
 
     void ToggleSquadHero(HeroID heroID)
     {
-        switch (HeroManager.ToggleSquadHero(heroID))
-        {
-            case HeroFormationStatus.ADDED:
-                Rows[heroID].ButtonText.text = "REMOVE";
-                break;
+        SquadManager.ToggleSquadHero(heroID);
 
-            case HeroFormationStatus.REMOVED:
-                Rows[heroID].ButtonText.text = "USE";
-                break;
-        }
+        UpdateRows();
     }
 }

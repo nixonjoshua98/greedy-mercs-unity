@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class ServerPlayerData
 {
-    public List<HeroState> heroes;
+    public List<HeroState> heroes = new List<HeroState>();
 
     // === Helper Methods ===
     public Dictionary<HeroID, HeroState> GetHeroesAsDict()
@@ -47,12 +49,12 @@ public class GameState
 
     class GameStateStruct
     {
-        public PlayerState player;
+        public PlayerState player = new PlayerState();
 
-        public List<HeroState> heroes;
+        public List<HeroState> heroes = new List<HeroState>();
     }
 
-    public static PlayerState gold { get { return State.player; } }
+    public static PlayerState player { get { return State.player; } }
     public static List<HeroState> heroes { get { return State.heroes; } }
 
     public static void RestoreFromJson(string json)
@@ -67,31 +69,92 @@ public class GameState
     }
 
     // === Helper Methods ===
-    static HeroState GetHeroState(HeroID heroId)
+    public static HeroState GetHeroState(HeroID heroId)
     {
         return State.heroes.Find(ele => ele.heroId == heroId);
+    }
+
+    public static bool TryGetHeroState(HeroID heroId, out HeroState result)
+    {
+        result = GetHeroState(heroId);
+
+        return result != null;
     }
 }
 
 public class DataManager : MonoBehaviour
 {
+    static DataManager Instance = null;
+
+    [SerializeField] bool loadSceneAfterLoading = false;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("Deleted duplicated DataManager instance.");
+
+            Destroy(this);
+        }
+    }
+
     void Start()
     {
-        RestoreState();
+        Server.Login(this, LoginCallback);
     }
 
-    public static ServerPlayerData GetServerPlayerData()
+    void WriteStateToFile()
     {
-        return JsonUtility.FromJson<ServerPlayerData>("{\"heroes\": [{\"heroId\": 10000, \"dummyValue\": 0}]}");
+        Debug.Log("Saved to file");
+
+        Utils.File.Write("localsave", GameState.ToJson());
     }
 
-    public static void RestoreState()
+    void LoginCallback(long code, string json)
     {
-        GameState.RestoreFromJson(Utils.File.Read("localsave"));
+        RestoreState(code, json);
+    }
 
-        ServerPlayerData serverData = GetServerPlayerData();
+    void RestoreState(long code, string json)
+    {
+        GameState.RestoreFromJson(Utils.File.Read("localsave", out string content) ? content : "{}");
 
-        Dictionary<HeroID, HeroState> serverHeroDataDict = serverData.GetHeroesAsDict();
+        if (code == 200)
+        {
+            ServerPlayerData serverPlayerData = JsonUtility.FromJson<ServerPlayerData>(json);
+
+            CompareHeroes(serverPlayerData);
+
+            CompareHeroAttributes(serverPlayerData);
+        }
+
+        if (loadSceneAfterLoading)
+            SceneManager.LoadSceneAsync("GameScene");
+
+        InvokeRepeating("WriteStateToFile", 10.0f, 5.0f);
+    }
+
+    void CompareHeroes(ServerPlayerData serverPlayerData)
+    {
+        // Add heroes which exist on the server, but not locally
+        foreach (HeroState serverHero in serverPlayerData.heroes)
+        {
+            if (!GameState.TryGetHeroState(serverHero.heroId, out HeroState _))
+            {
+                GameState.heroes.Add(serverHero);
+            }
+        }
+    }
+
+    void CompareHeroAttributes(ServerPlayerData serverPlayerData)
+    {
+        Dictionary<HeroID, HeroState> serverHeroDataDict = serverPlayerData.GetHeroesAsDict();
 
         for (int i = 0; i < GameState.heroes.Count; ++i)
         {

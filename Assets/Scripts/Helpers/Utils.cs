@@ -11,12 +11,23 @@ namespace Utils
     {
         static string GetPath(string filename) { return Application.persistentDataPath + "/" + filename; }
 
-        public static string Read(string filename)
+        public static bool Read(string filename, out string content)
         {
-            using (StreamReader file = new StreamReader(GetPath(filename)))
+            string path = GetPath(filename);
+
+            content = "";
+
+            if (System.IO.File.Exists(path))
             {
-                return file.ReadToEnd();
+                using (StreamReader file = new StreamReader(GetPath(filename)))
+                {
+                    content = file.ReadToEnd();
+
+                    return true;
+                }
             }
+
+            return false;
         }
 
         public static void Write(string filename, string content)

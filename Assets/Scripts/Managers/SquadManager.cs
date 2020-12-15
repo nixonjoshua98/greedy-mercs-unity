@@ -34,7 +34,7 @@ public class SquadManager : MonoBehaviour
 
     void CreateInitialSquad()
     {
-        foreach (HeroState data in PlayerData.heroes.GetAllHeroData())
+        foreach (HeroState data in GameState.heroes)
         {
             if (data.inSquad)
             {
@@ -58,7 +58,7 @@ public class SquadManager : MonoBehaviour
 
     public static HeroFormationStatus ToggleSquadHero(HeroID heroID)
     {
-        HeroState data = PlayerData.heroes.GetHeroData(heroID);
+        HeroState data = GameState.GetHeroState(heroID);
 
         if (data.inSquad)
         {
@@ -91,7 +91,7 @@ public class SquadManager : MonoBehaviour
 
     bool TryAddHeroToSquad(HeroID heroID)
     {
-        HeroState data = PlayerData.heroes.GetHeroData(heroID);
+        HeroState data = GameState.GetHeroState(heroID);
 
         HeroFormationSpot spot = null;
 
@@ -120,7 +120,7 @@ public class SquadManager : MonoBehaviour
 
     bool TryRemoveHeroFromSquad(HeroID heroID)
     {
-        HeroState data = PlayerData.heroes.GetHeroData(heroID);
+        HeroState data = GameState.GetHeroState(heroID);
 
         foreach (HeroFormationSpot spot in Instance.FormationList)
         {

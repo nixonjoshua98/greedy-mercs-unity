@@ -19,18 +19,14 @@ public class HeroesTab : MonoBehaviour
 
     void OnEnable()
     {
-        // TEMP: Gets called before PlayerData can be created so we have a small delay
-        // Can be removed once data is loaded in a different scene for example
-        Invoke("UpdateRows", 0.05f);
+        UpdateRows();
     }
 
     void UpdateRows()
     {
-        List<HeroState> allHeroData = PlayerData.heroes.GetAllHeroData();
-
-        for (int i = 0; i < allHeroData.Count; ++i)
+        for (int i = 0; i < GameState.heroes.Count; ++i)
         {
-            HeroState currentHeroData = allHeroData[i];
+            HeroState currentHeroData = GameState.heroes[i];
 
             if (!Rows.ContainsKey(currentHeroData.heroId))
                 CreateHeroRow(currentHeroData);

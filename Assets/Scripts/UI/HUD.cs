@@ -18,7 +18,7 @@ public class HUD : MonoBehaviour
 
     void FixedUpdate()
     {
-        GoldText.text = Utils.Format.DoubleToString(PlayerData.gold);
+        GoldText.text = Utils.Format.DoubleToString(GameState.player.gold);
 
         DiamondsText.text = "None";
     }

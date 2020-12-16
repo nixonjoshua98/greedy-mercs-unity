@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 4212931058517878090}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 4212931060154188391}
   m_RootOrder: 2
@@ -121,6 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4212931060154188391}
   - component: {fileID: 5590839206907113548}
+  - component: {fileID: -42192148639581009}
   m_Layer: 0
   m_Name: SatyrFire
   m_TagString: Untagged
@@ -161,6 +162,19 @@ MonoBehaviour:
   AttackDelay: 0.5
   Projectile: {fileID: 1372040286346358, guid: 53ebac442b16db64f9177d0c749cbb06, type: 3}
   ProjectileStart: {fileID: 7637163329336135085}
+--- !u!114 &-42192148639581009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212931060154188390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 067a054e6209d374198156930b1925a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 21300000, guid: 37a60f98c5f525f40ac9ddacf9388f47, type: 3}
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0

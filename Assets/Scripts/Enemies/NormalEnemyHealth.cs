@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class BossHealth : EnemyHealth
+using UnityEngine;
+using UnityEngine.UI;
+
+public class NormalEnemyHealth : EnemyHealth
 {
     public override double GetIntialHealth()
     {
-        return Formulas.CalcBossHealth(GameState.stage.stage);
+        return Formulas.CalcEnemyHealth(GameState.stage.stage);
     }
 }

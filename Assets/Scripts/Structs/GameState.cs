@@ -29,8 +29,6 @@ public class HeroState
 
     public int level = 1;
 
-    public int dummyValue = -1;
-
     public bool inSquad = false;
 }
 
@@ -45,9 +43,9 @@ public class PlayerState
 [System.Serializable]
 public class GameState
 {
-    static GameStateStruct State = null;
+    static _GameState State = null;
 
-    class GameStateStruct
+    class _GameState
     {
         public PlayerState player = new PlayerState();
 
@@ -60,10 +58,10 @@ public class GameState
     public static StageData stage { get { return State.stage; } }
     public static List<HeroState> heroes { get { return State.heroes; } }
 
-    public static void RestoreFromJson(string json)
+    public static void Restore(string json)
     {
         if (State == null)
-            State = JsonUtility.FromJson<GameStateStruct>(json);
+            State = JsonUtility.FromJson<_GameState>(json);
     }
 
     public static string ToJson()

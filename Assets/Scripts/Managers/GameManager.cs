@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,8 +24,6 @@ public class GameManager : MonoBehaviour
 
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
         EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
-
-        Debug.Log(Application.persistentDataPath);
     }
 
     void Start()
@@ -39,7 +38,7 @@ public class GameManager : MonoBehaviour
     {
         if (Instance.CurrentEnemy != null)
         {
-            EnemyHealth health = Instance.CurrentEnemy.GetComponent<EnemyHealth>();
+            Health health = Instance.CurrentEnemy.GetComponent<Health>();
 
             Instance.damageNumbers.Add(amount);
 

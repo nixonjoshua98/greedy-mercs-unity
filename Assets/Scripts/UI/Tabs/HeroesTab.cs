@@ -19,10 +19,10 @@ public class HeroesTab : MonoBehaviour
 
     void OnEnable()
     {
-        UpdateRows();
+        StartCoroutine(UpdateRows());
     }
 
-    void UpdateRows()
+    IEnumerator UpdateRows()
     {
         for (int i = 0; i < GameState.heroes.Count; ++i)
         {
@@ -33,7 +33,9 @@ public class HeroesTab : MonoBehaviour
 
             HeroRow currentHeroRow = Rows[currentHeroData.heroId];
 
-            currentHeroRow.ButtonText.text = currentHeroData.inSquad ? "Remove" : "Add";
+            currentHeroRow.SquadButtonText.text = currentHeroData.inSquad ? "Remove" : "Add";
+
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -43,11 +45,14 @@ public class HeroesTab : MonoBehaviour
 
         HeroRow row = spawnedRow.GetComponent<HeroRow>();
 
+        // Get the HeroInfo from the actual hero object
+        HeroInfo heroInfo = HeroResources.GetHeroGameObject(heroData.heroId).GetComponent<HeroInfo>();
+
         row.NameText.text = Enum.GetName(typeof(HeroID), heroData.heroId);
 
-        row.Button.onClick.AddListener(delegate () { ToggleSquadHero(heroData.heroId); });
+        row.SquadButton.onClick.AddListener(delegate () { ToggleSquadHero(heroData.heroId); });
 
-        row.DummyText.text = heroData.dummyValue.ToString();
+        row.IconImage.sprite = heroInfo.Icon;
 
         Rows[heroData.heroId] = row;
     }

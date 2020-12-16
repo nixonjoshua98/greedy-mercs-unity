@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
+    static string LOCAL_FILENAME = "local_0";
+
     static DataManager Instance = null;
 
     [SerializeField] bool loadSceneAfterLoading = false;
@@ -22,7 +24,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Deleted duplicated DataManager instance.");
+            Debug.LogWarning("Deleted duplicate DataManager instance.");
 
             Destroy(this);
         }
@@ -35,9 +37,7 @@ public class DataManager : MonoBehaviour
 
     void WriteStateToFile()
     {
-        Debug.Log("Saved to file");
-
-        Utils.File.Write("localsave", GameState.ToJson());
+        Utils.File.Write(LOCAL_FILENAME, GameState.ToJson());
     }
 
     void LoginCallback(long code, string json)
@@ -47,7 +47,7 @@ public class DataManager : MonoBehaviour
 
     void RestoreState(long code, string json)
     {
-        GameState.RestoreFromJson(Utils.File.Read("localsave", out string content) ? content : "{}");
+        GameState.Restore(Utils.File.Read(LOCAL_FILENAME, out string content) ? content : "{}");
 
         if (code == 200)
         {
@@ -80,20 +80,22 @@ public class DataManager : MonoBehaviour
     {
         Dictionary<HeroID, HeroState> serverHeroDataDict = serverPlayerData.GetHeroesAsDict();
 
-        for (int i = 0; i < GameState.heroes.Count; ++i)
+        for (int i = 0; i < GameState.heroes.Count; )
         {
             HeroState localHeroData = GameState.heroes[i];
 
             // Override local data with the data pulled from the server
             if (serverHeroDataDict.TryGetValue(localHeroData.heroId, out HeroState serverHeroData))
             {
-                localHeroData.dummyValue = serverHeroData.dummyValue;
+                ++i;
             }
 
             // Player has a hero which should not have (or there is a bug)
             else
             {
-                Debug.LogWarning("Player has hero '" + Enum.GetName(typeof(HeroID), localHeroData.heroId) + "' in local data while not in server data");
+                Debug.LogWarning("Removed hero '" + Enum.GetName(typeof(HeroID), localHeroData.heroId) + "' from local player data");
+
+                GameState.heroes.RemoveAt(i);
             }
         }
     }

@@ -9,13 +9,6 @@ public class SquadManager : MonoBehaviour
 {
     static SquadManager Instance = null;
 
-    static Dictionary<HeroID, string> HeroIDStrings = new Dictionary<HeroID, string>()
-    {
-        { HeroID.WRAITH_LIGHTNING,  "WraithLightning" },
-        { HeroID.GOLEM_STONE,       "GolemStone" },
-        { HeroID.SATYR_FIRE,        "SatyrFire" }
-    };
-
     [SerializeField] Transform HeroSpotsTransform;
 
     List<HeroFormationSpot> FormationList;
@@ -77,16 +70,6 @@ public class SquadManager : MonoBehaviour
         }
     }
 
-    public static GameObject HeroIDToGameObject(HeroID hero)
-    {
-        if (!HeroIDStrings.TryGetValue(hero, out string str))
-        {
-            Debug.LogError("Error: Hero " + hero.ToString() + " was not found");
-        }
-
-        return Resources.Load<GameObject>("Heroes/" + str);
-    }
-
     // ======================================
 
     bool TryAddHeroToSquad(HeroID heroID)
@@ -104,7 +87,7 @@ public class SquadManager : MonoBehaviour
 
         if (spot != null)
         {
-            GameObject hero = Instantiate(HeroIDToGameObject(heroID), spot.Parent);
+            GameObject hero = Instantiate(HeroResources.GetHeroGameObject(heroID), spot.Parent);
 
             hero.transform.localPosition = Vector3.zero;
 

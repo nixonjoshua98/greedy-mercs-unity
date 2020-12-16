@@ -34,7 +34,7 @@ public abstract class EnemyHealth : Health
         healthbar.value = (float)(currentHealth / maxHealth);
     }
 
-    public override void TakeDamage(float amount)
+    public override void TakeDamage(double amount)
     {
         base.TakeDamage(amount);
 

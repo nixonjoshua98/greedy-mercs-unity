@@ -13,6 +13,6 @@ public class EnemyLoot : MonoBehaviour
 
     public void Process()
     {
-        GameState.player.gold += stageSpawned * 9_456.8;
+        GameState.player.gold += stageSpawned;
     }
 }

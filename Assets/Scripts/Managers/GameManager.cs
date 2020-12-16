@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     }
 
     // This is the only method which should be dealing damage to the enemy
-    public static void TryDealDamageToEnemy(float amount)
+    public static void TryDealDamageToEnemy(double amount)
     {
         if (Instance.CurrentEnemy != null)
         {

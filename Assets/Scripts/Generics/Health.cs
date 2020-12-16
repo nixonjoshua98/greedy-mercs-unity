@@ -16,7 +16,7 @@ public abstract class Health : MonoBehaviour
 
     public abstract double GetIntialHealth();
 
-    public virtual void TakeDamage(float amount)
+    public virtual void TakeDamage(double amount)
     {
         if (currentHealth > 0.0f)
         {

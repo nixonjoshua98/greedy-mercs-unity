@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class HeroRow : MonoBehaviour
 {
-    public HeroID associatedHeroId;
+    [SerializeField] HeroID associatedHeroId;
 
     [Space]
 
@@ -25,6 +25,8 @@ public class HeroRow : MonoBehaviour
     {
         HeroState state = GameState.GetHeroState(associatedHeroId);
 
+        LevelText.text = "Level " + state.level.ToString();
+
         SquadButtonText.text = state.inSquad ? "Remove" : "Add";
     }
     
@@ -37,6 +39,15 @@ public class HeroRow : MonoBehaviour
 
     public void OnBuyButton()
     {
+        HeroState state = GameState.GetHeroState(associatedHeroId);
 
+        if (GameState.player.gold >= state.level)
+        {
+            state.level++;
+
+            GameState.player.gold -= state.level;
+
+            UpdateRow();
+        }
     }
 }

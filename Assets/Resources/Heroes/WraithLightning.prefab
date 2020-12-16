@@ -117,7 +117,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6033011914855570432}
   - component: {fileID: 6033011914855570434}
-  - component: {fileID: -7831756996855526285}
   m_Layer: 0
   m_Name: WraithLightning
   m_TagString: Untagged
@@ -157,19 +156,6 @@ MonoBehaviour:
   anim: {fileID: 2168791721332256124}
   AttackDelay: 0.5
   attackParticle: {fileID: 218371283688233683}
---- !u!114 &-7831756996855526285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6033011914855570445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 067a054e6209d374198156930b1925a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: eacde3e5c02ce4a48929fd6a440b3092, type: 3}
 --- !u!1001 &127814930030733177
 PrefabInstance:
   m_ObjectHideFlags: 0

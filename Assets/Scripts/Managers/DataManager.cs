@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
-    static string LOCAL_FILENAME = "local_1";
+    static string LOCAL_FILENAME = "local_3";
 
     static DataManager Instance = null;
 
@@ -24,7 +24,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Deleted duplicate DataManager instance.");
+            Debug.LogWarning("Deleted duplicate 'DataManager' instance.");
 
             Destroy(this);
         }

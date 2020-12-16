@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -6,42 +7,32 @@ using UnityEngine.UI;
 
 public class HeroRow : MonoBehaviour
 {
-    HeroID assignedHeroId;
-
-    // =====
-
-    public Button SquadButton;
-    public Text SquadButtonText;
+    public HeroID associatedHeroId;
 
     [Space]
 
-    public Button UpgradeButton;
-    public Text UpgradeButtonText;
-
-    [Space]
-
-    public Text DamageText;
-    public Text NameText;
-
-    [Space]
-
-    public Image IconImage;
-
-    // =====
-
-    public void AssignHero(HeroID newHeroId)
-    {
-        assignedHeroId = newHeroId;
-    }
+    [SerializeField] Text UpgradeButtonText;
+    [SerializeField] Text SquadButtonText;
+    [SerializeField] Text DamageText;
+    [SerializeField] Text LevelText;
 
     public void OnEnable()
     {
-
+        UpdateRow();
     }
 
+    void UpdateRow()
+    {
+        HeroState state = GameState.GetHeroState(associatedHeroId);
+
+        SquadButtonText.text = state.inSquad ? "Remove" : "Add";
+    }
+    
     public void OnSquadButton()
     {
+        SquadManager.ToggleSquadHero(associatedHeroId);
 
+        UpdateRow();
     }
 
     public void OnBuyButton()

@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class HeroRow : MonoBehaviour
 {
+    HeroID assignedHeroId;
+
+    // =====
+
     public Button SquadButton;
     public Text SquadButtonText;
 
@@ -22,4 +26,26 @@ public class HeroRow : MonoBehaviour
     [Space]
 
     public Image IconImage;
+
+    // =====
+
+    public void AssignHero(HeroID newHeroId)
+    {
+        assignedHeroId = newHeroId;
+    }
+
+    public void OnEnable()
+    {
+
+    }
+
+    public void OnSquadButton()
+    {
+
+    }
+
+    public void OnBuyButton()
+    {
+
+    }
 }

@@ -19,10 +19,10 @@ public class HeroesTab : MonoBehaviour
 
     void OnEnable()
     {
-        StartCoroutine(UpdateRows());
+        UpdateRows();
     }
 
-    IEnumerator UpdateRows()
+    void UpdateRows()
     {
         for (int i = 0; i < GameState.heroes.Count; ++i)
         {
@@ -34,8 +34,6 @@ public class HeroesTab : MonoBehaviour
             HeroRow currentHeroRow = Rows[currentHeroData.heroId];
 
             currentHeroRow.SquadButtonText.text = currentHeroData.inSquad ? "Remove" : "Add";
-
-            yield return new WaitForFixedUpdate();
         }
     }
 

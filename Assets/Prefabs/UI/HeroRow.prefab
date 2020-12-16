@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 429201690}
   - component: {fileID: 429201689}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SquadButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 1680286954632602367}
   - component: {fileID: 6296354666020571407}
   m_Layer: 5
-  m_Name: Value
+  m_Name: DamageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 7139424786167327203}
   - component: {fileID: 7139424786167327202}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: HeroIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +591,7 @@ GameObject:
   - component: {fileID: 7139424786660052056}
   - component: {fileID: 7139424786660052071}
   m_Layer: 5
-  m_Name: Name
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -768,7 +768,7 @@ GameObject:
   - component: {fileID: 2571608507764667255}
   - component: {fileID: 2206232267647510924}
   m_Layer: 5
-  m_Name: Text
+  m_Name: UpgradeButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

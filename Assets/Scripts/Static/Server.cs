@@ -20,8 +20,6 @@ public static class Server
 
         yield return www.SendWebRequest();
 
-        Debug.Log("/" + endpoint + " | " + www.responseCode);
-
         callback.Invoke(www.responseCode, www.downloadHandler.text);
     }
 }

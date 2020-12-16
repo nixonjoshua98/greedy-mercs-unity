@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
-    static string LOCAL_FILENAME = "local_0";
+    static string LOCAL_FILENAME = "local_1";
 
     static DataManager Instance = null;
 

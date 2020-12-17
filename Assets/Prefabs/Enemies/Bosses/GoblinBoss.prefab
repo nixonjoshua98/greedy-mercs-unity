@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5637605409151643758}
-  - component: {fileID: 8913086461765253809}
   - component: {fileID: 6905948521193110798}
   m_Layer: 0
   m_Name: GoblinBoss
@@ -34,18 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8913086461765253809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5637605409151643745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac71c9890eea7264da406c9d3ed6baed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6905948521193110798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 5723617685034668125}
+  maxHealth: 0
 --- !u!1 &5637605410177077577
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLoot : MonoBehaviour
+public class EnemyLoot : LootDrop
 {
     int stageSpawned;
 
@@ -11,8 +11,8 @@ public class EnemyLoot : MonoBehaviour
         stageSpawned = GameState.stage.stage;
     }
 
-    public void Process()
+    public override void Process()
     {
-        GameState.player.gold += stageSpawned;
+        GameState.player.gold += Formulas.CalcEnemyGold(stageSpawned);
     }
 }

@@ -90,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8012721505089177117}
-  - component: {fileID: 1758560971}
+  - component: {fileID: 4335732126892948791}
   - component: {fileID: 1758560970}
   m_Layer: 0
   m_Name: SpikyGolem
@@ -115,7 +115,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1758560971
+--- !u!114 &4335732126892948791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8012721505089177118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef1a2957e940849408ad37d167db4817, type: 3}
+  m_Script: {fileID: 11500000, guid: 730eab6f76692b64394469dcd27dd969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 7954260007006327644}

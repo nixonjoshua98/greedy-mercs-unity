@@ -1,17 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Health : MonoBehaviour
 {
-    protected double maxHealth;
-    protected double currentHealth;
+    [SerializeField] Animator anim;
+
+    Slider healthbar;
+
+    double maxHealth;
+    double currentHealth;
 
     public bool IsDead { get { return currentHealth <= 0.0f; } }
 
     void Awake()
     {
         maxHealth = currentHealth = GetIntialHealth();
+    }
+
+    void Start()
+    {
+        GetHealthbar();
+
+        healthbar.value = (float)(currentHealth / maxHealth);
     }
 
     public abstract double GetIntialHealth();
@@ -21,6 +34,19 @@ public abstract class Health : MonoBehaviour
         if (currentHealth > 0.0f)
         {
             currentHealth -= amount;
+
+            anim.Play("Hurt");
         }
+
+        healthbar.value = (float)(currentHealth / maxHealth);
+
+        anim.Play("Hurt");
+    }
+
+    private void GetHealthbar()
+    {
+        healthbar = GameObject.FindGameObjectWithTag("EnemyHealthbar").GetComponent<Slider>();
+
+        healthbar.value = (float)(currentHealth / maxHealth);
     }
 }

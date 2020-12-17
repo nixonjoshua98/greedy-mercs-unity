@@ -59,7 +59,7 @@ public class DamageNumbers : MonoBehaviour
         DamageText current;
 
         // Create a new instance
-        if (damageNumbers.Count < 5)
+        if (damageNumbers.Count < 10)
         {
             current = CreateNewDamageText();
         }
@@ -72,7 +72,7 @@ public class DamageNumbers : MonoBehaviour
             current.Text.gameObject.SetActive(true);
 
             current.LifeTime  = Random.Range(0.5f, 1.5f);
-            current.Direction = new Vector2(Random.Range(-1.0f, 1.0f), 1.0f);
+            current.Direction = new Vector2(Random.Range(-1.0f, 1.0f), -1.0f).normalized;
 
             current.Text.transform.position = transform.position;
         }
@@ -106,9 +106,9 @@ public class DamageNumbers : MonoBehaviour
         DamageText damageText = new DamageText
         {
             Text      = spawned.GetComponent<Text>(),
-            Direction = new Vector2(Random.Range(-1.0f, 1.0f), 1.0f),
-            LifeTime  = Random.Range(0.5f, 1.5f),
-            Velocity  = Random.Range(150.0f, 250.0f)
+            Direction = new Vector2(Random.Range(-1.0f, 1.0f), -1.0f).normalized,
+            LifeTime  = Random.Range(1.0f, 2.0f),
+            Velocity  = 250.0f
         };
 
         damageNumbers.Add(damageText);

@@ -5,13 +5,17 @@ using UnityEngine;
 
 public abstract class HeroAttack: MonoBehaviour
 {
-    protected bool isAttacking;
+    [SerializeField] HeroID heroId;
+
+    [Space]
 
     [SerializeField] protected Animator anim;
 
     [Space]
 
     [SerializeField, Range(0.0f, 5.0f)] float AttackDelay;
+
+    protected bool isAttacking;
 
     float attackTimer;
 
@@ -49,6 +53,6 @@ public abstract class HeroAttack: MonoBehaviour
 
     protected void DealDamage()
     {
-        GameManager.TryDealDamageToEnemy(1.0f);
+        GameManager.TryDealDamageToEnemy(Formulas.CalcHeroDamage(heroId));
     }
 }

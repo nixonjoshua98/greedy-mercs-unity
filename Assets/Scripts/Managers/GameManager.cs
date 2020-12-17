@@ -48,16 +48,9 @@ public class GameManager : MonoBehaviour
 
                 if (health.IsDead)
                 {
-                    switch (Instance.CurrentEnemy.tag)
-                    {
-                        case "Enemy":
-                            Instance.OnEnemyDeath();
-                            break;
+                    Instance.OnEnemyDeath();
 
-                        case "BossEnemy":
-                            Instance.OnBossDeath();
-                            break;
-                    }
+                    Destroy(Instance.CurrentEnemy);
                 }
             }
         }
@@ -91,18 +84,26 @@ public class GameManager : MonoBehaviour
 
     void OnEnemyDeath()
     {
-        GameState.stage.AddKill();
+        if (Instance.CurrentEnemy.TryGetComponent(out LootDrop loot))
+            loot.Process();
+        else
+        {
+            Debug.LogWarning("Enemy did not have a LootDrop component");
+        }
 
-        SpawnNextEnemy();
-    }
+        if (CurrentEnemy.CompareTag("Enemy"))
+        {
+            GameState.stage.AddKill();
+        }
 
-    void OnBossDeath()
-    {
-        GameState.stage.AdvanceStage();
-
-        SpawnNextEnemy();
+        else if (CurrentEnemy.CompareTag("BossEnemy"))
+        {
+            GameState.stage.AdvanceStage();
+        }
 
         EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
+
+        SpawnNextEnemy();
     }
 
     void SpawnNextEnemy()
@@ -112,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ISpawnNextEnemy()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.25f);
 
         if (!BossBattleManager.IsAvoidingBoss && GameState.stage.isStageCompleted)
         {

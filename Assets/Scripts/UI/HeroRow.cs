@@ -28,6 +28,10 @@ public class HeroRow : MonoBehaviour
         LevelText.text = "Level " + state.level.ToString();
 
         SquadButtonText.text = state.inSquad ? "Remove" : "Add";
+
+        DamageText.text = Formulas.CalcHeroDamage(associatedHeroId).ToString();
+
+        UpgradeButtonText.text = state.level.ToString();
     }
     
     public void OnSquadButton()

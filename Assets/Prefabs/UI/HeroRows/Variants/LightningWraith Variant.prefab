@@ -17,6 +17,8 @@ MonoBehaviour:
   SquadButtonText: {fileID: 7670339766949582500}
   DamageText: {fileID: 4401037549716866738}
   LevelText: {fileID: 279218839255168656}
+  HeroInfoPanel: {fileID: 2961036064842033163, guid: 5f91f2821cb06e446b43e93691513694,
+    type: 3}
 --- !u!1001 &7291952913911116454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25,6 +27,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1099087125371876004, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 528843375385914637}
+    - target: {fileID: 1860640772824186934, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

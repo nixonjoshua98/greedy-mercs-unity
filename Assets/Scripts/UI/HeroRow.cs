@@ -18,6 +18,10 @@ public class HeroRow : MonoBehaviour
     [SerializeField] Text DamageText;
     [SerializeField] Text LevelText;
 
+    [Space]
+
+    [SerializeField] GameObject HeroInfoPanel;
+
     public void UpdateRow(HeroState state)
     {
         LevelText.text = "Level " + state.level.ToString();
@@ -59,6 +63,10 @@ public class HeroRow : MonoBehaviour
 
     public void OnInfoButton()
     {
-        Debug.Log("OnInfoButton");
+        GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
+
+        GameObject panel = Instantiate(HeroInfoPanel, Vector3.zero, Quaternion.identity);
+
+        panel.transform.SetParent(canvas.transform, false);
     }
 }

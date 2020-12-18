@@ -14,6 +14,13 @@ public enum HeroID
     FALLEN_ANGEL        = 10_003
 }
 
+
+public enum HeroPassiveSkillID
+{ 
+    SKILL_10 = 11_000,
+}
+
+
 public static class HeroResources
 {
     static readonly Dictionary<HeroID, string> gameObjectLookup = new Dictionary<HeroID, string>()

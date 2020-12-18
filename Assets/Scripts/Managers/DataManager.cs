@@ -12,7 +12,7 @@ public class DataManager : MonoBehaviour
 
     void Start()
     {
-        // Invoke("WriteStateToFile", 3.0f);
+        Invoke("WriteStateToFile", 3.0f);
     }
 
     void WriteStateToFile()

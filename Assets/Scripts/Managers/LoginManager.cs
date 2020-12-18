@@ -33,13 +33,13 @@ public class LoginManager : MonoBehaviour
 
                 CompareHeroes(serverData);
             }
-            
+           
             SceneManager.LoadSceneAsync("GameScene");
         }
 
         else
         {
-            ErrorText.text = "No internet connection";
+            ErrorText.text = "Server probs down";
         }
     }
 

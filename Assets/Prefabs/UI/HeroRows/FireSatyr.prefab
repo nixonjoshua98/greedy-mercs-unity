@@ -30,7 +30,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1419568754057252026}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -184,8 +184,6 @@ RectTransform:
   m_Children:
   - {fileID: 1419568753917410267}
   - {fileID: 1057772104090099107}
-  - {fileID: 6558711250646264226}
-  - {fileID: 3877662200199903340}
   - {fileID: 1419568753156234844}
   - {fileID: 8117464852944222211}
   - {fileID: 5575716911844902535}
@@ -211,7 +209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   associatedHeroId: 10002
-  ActualHeroRow: {fileID: 0}
   UpgradeButtonText: {fileID: 7942409964308536881}
   SquadButtonText: {fileID: 8117464854137499300}
   DamageText: {fileID: 2866016091694956210}
@@ -363,7 +360,7 @@ RectTransform:
   m_Children:
   - {fileID: 628555332351958725}
   m_Father: {fileID: 1419568754057252026}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -490,12 +487,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1419568754057252026}
-  m_RootOrder: 2
+  m_Father: {fileID: 1057772104090099107}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -500, y: -50}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 140, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2982540223486912889
@@ -561,7 +558,9 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3877662200199903340}
+  - {fileID: 6558711250646264226}
   m_Father: {fileID: 1419568754057252026}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -582,7 +581,7 @@ GameObject:
   - component: {fileID: 7491337018653873474}
   - component: {fileID: 2866016091694956210}
   m_Layer: 5
-  m_Name: DamageText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -599,12 +598,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1419568754057252026}
-  m_RootOrder: 3
+  m_Father: {fileID: 1057772104090099107}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -272.5, y: -50}
+  m_AnchoredPosition: {x: -72.5, y: 0}
   m_SizeDelta: {x: 145, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7491337018653873474
@@ -680,7 +679,7 @@ RectTransform:
   m_Children:
   - {fileID: 8117464854137499301}
   m_Father: {fileID: 1419568754057252026}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -886,7 +885,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1419568754057252026}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}

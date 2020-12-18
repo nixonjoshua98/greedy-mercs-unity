@@ -72,7 +72,13 @@ public class GameState
     // === Helper Methods ===
     public static HeroState GetHeroState(HeroID heroId)
     {
-        return State.heroes.Find(ele => ele.heroId == heroId);
+        foreach (HeroState state in State.heroes)
+        {
+            if (state.heroId == heroId)
+                return state;
+        }
+
+        return null;
     }
 
     public static bool TryGetHeroState(HeroID heroId, out HeroState result)

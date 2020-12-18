@@ -9,7 +9,7 @@ public static class Formulas
 
     public static double CalcEnemyHealth(int stage)
     {
-        return 15 * Mathf.Pow(1.25f, Mathf.Min(stage - 1, 25)) * Mathf.Pow(1.2f, Mathf.Max(stage - 25, 0));
+        return 15 * Mathf.Pow(1.25f, Mathf.Min(stage - 1, 25)) * Mathf.Pow(1.25f, Mathf.Max(stage - 25, 0));
     }
 
     public static double CalcBossHealth(int stage)
@@ -21,7 +21,7 @@ public static class Formulas
 
     public static double CalcEnemyGold(int stage)
     {
-        return 10.0f * CalcEnemyHealth(stage) * (0.01 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
+        return 10.0f * CalcEnemyHealth(stage) * (0.005 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
     }
 
     public static double CalcBossGold(int stage)

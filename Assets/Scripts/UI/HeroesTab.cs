@@ -20,7 +20,7 @@ public class HeroesTab : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
         foreach (HeroRow row in rows)
         {

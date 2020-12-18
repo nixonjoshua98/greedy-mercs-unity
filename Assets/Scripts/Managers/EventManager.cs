@@ -17,4 +17,6 @@ public class EventManager : MonoBehaviour
     public static CustomEvents.GameObjectEvent OnBossSpawned = new CustomEvents.GameObjectEvent();
 
     public static UnityEvent OnFailedToKillBoss = new UnityEvent();
+
+    public static UnityEvent OnEnemySpawned = new UnityEvent();
 }

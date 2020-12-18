@@ -131,5 +131,7 @@ public class GameManager : MonoBehaviour
         CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
 
         EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
+
+        EventManager.OnEnemySpawned.Invoke();
     }
 }

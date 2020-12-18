@@ -8,11 +8,11 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
-    public static string LOCAL_FILENAME = "local_12";
+    public static string LOCAL_FILENAME = "local_15";
 
     void Start()
     {
-        Invoke("WriteStateToFile", 3.0f);
+        // Invoke("WriteStateToFile", 3.0f);
     }
 
     void WriteStateToFile()

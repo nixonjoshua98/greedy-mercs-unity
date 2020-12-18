@@ -28,6 +28,8 @@ public class HeroRow : MonoBehaviour
 
         UpgradeButtonText.text = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId));
     }
+
+    // === Button Callbacks ===
     
     public void OnSquadButton()
     {
@@ -53,5 +55,10 @@ public class HeroRow : MonoBehaviour
 
             UpdateRow(state);
         }
+    }
+
+    public void OnInfoButton()
+    {
+        Debug.Log("OnInfoButton");
     }
 }

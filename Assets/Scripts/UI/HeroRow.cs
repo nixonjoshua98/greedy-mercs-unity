@@ -9,6 +9,8 @@ public class HeroRow : MonoBehaviour
 {
     [SerializeField] HeroID associatedHeroId;
 
+    public HeroID heroId {  get { return associatedHeroId; } }
+
     [Space]
 
     [SerializeField] Text UpgradeButtonText;
@@ -16,42 +18,40 @@ public class HeroRow : MonoBehaviour
     [SerializeField] Text DamageText;
     [SerializeField] Text LevelText;
 
-    public void OnEnable()
+    public void UpdateRow(HeroState state)
     {
-        UpdateRow();
-    }
-
-    void UpdateRow()
-    {
-        HeroState state = GameState.GetHeroState(associatedHeroId);
-
         LevelText.text = "Level " + state.level.ToString();
 
         SquadButtonText.text = state.inSquad ? "Remove" : "Add";
 
-        DamageText.text = Formulas.CalcHeroDamage(associatedHeroId).ToString();
+        DamageText.text = Utils.Format.DoubleToString(Formulas.CalcHeroDamage(associatedHeroId));
 
-        UpgradeButtonText.text = state.level.ToString();
+        UpgradeButtonText.text = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId));
     }
     
     public void OnSquadButton()
     {
         SquadManager.ToggleSquadHero(associatedHeroId);
 
-        UpdateRow();
+        if (GameState.TryGetHeroState(associatedHeroId, out HeroState state))
+        {
+            UpdateRow(state);
+        }
     }
 
     public void OnBuyButton()
     {
-        HeroState state = GameState.GetHeroState(associatedHeroId);
+        double cost = Formulas.CalcHeroLevelUpCost(associatedHeroId);
 
-        if (GameState.player.gold >= state.level)
+        if (GameState.player.gold >= cost)
         {
+            HeroState state = GameState.GetHeroState(associatedHeroId);
+
             state.level++;
 
-            GameState.player.gold -= state.level;
+            GameState.player.gold -= cost;
 
-            UpdateRow();
+            UpdateRow(state);
         }
     }
 }

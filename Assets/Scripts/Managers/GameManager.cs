@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
         EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+
+        Debug.Log(Application.persistentDataPath);
     }
 
     void Start()
@@ -38,19 +40,20 @@ public class GameManager : MonoBehaviour
     {
         if (Instance.CurrentEnemy != null)
         {
-            Health health = Instance.CurrentEnemy.GetComponent<Health>();
-
-            Instance.damageNumbers.Add(amount);
-
-            if (!health.IsDead)
+            if (Instance.CurrentEnemy.TryGetComponent(out Health health))
             {
-                health.TakeDamage(amount);
-
-                if (health.IsDead)
+                if (!health.IsDead)
                 {
-                    Instance.OnEnemyDeath();
+                    Instance.damageNumbers.Add(amount);
 
-                    Destroy(Instance.CurrentEnemy);
+                    health.TakeDamage(amount);
+
+                    if (health.IsDead)
+                    {
+                        Instance.OnEnemyDeath();
+
+                        Destroy(Instance.CurrentEnemy);
+                    }
                 }
             }
         }

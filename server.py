@@ -18,9 +18,8 @@ def login():
 	data = {
 		"heroes": 
 		[
-                        dict(heroId=10_000),
                         dict(heroId=10_001),
-                        dict(heroId=10_002),
+                        dict(heroId=10_003)
 		]
 	}
 

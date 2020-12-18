@@ -18,8 +18,6 @@ public static class Server
     {
         UnityWebRequest www = UnityWebRequest.Post("http://165.120.118.254:2122/api/" + endpoint, "NO DATA");
 
-        www.timeout = 3;
-
         yield return www.SendWebRequest();
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);

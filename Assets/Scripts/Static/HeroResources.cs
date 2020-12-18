@@ -10,7 +10,8 @@ public enum HeroID
     // Note: Heroes will have the prefix 10
     WRAITH_LIGHTNING    = 10_000,
     GOLEM_STONE         = 10_001,
-    SATYR_FIRE          = 10_002
+    SATYR_FIRE          = 10_002,
+    FALLEN_ANGEL        = 10_003
 }
 
 public static class HeroResources
@@ -19,7 +20,8 @@ public static class HeroResources
     {
         { HeroID.WRAITH_LIGHTNING,  "WraithLightning" },
         { HeroID.GOLEM_STONE,       "GolemStone" },
-        { HeroID.SATYR_FIRE,        "SatyrFire" }
+        { HeroID.SATYR_FIRE,        "SatyrFire" },
+        { HeroID.FALLEN_ANGEL,      "FallenAngel" }
     };
 
     public static string GetGameObjectString(HeroID key) { return gameObjectLookup[key]; }

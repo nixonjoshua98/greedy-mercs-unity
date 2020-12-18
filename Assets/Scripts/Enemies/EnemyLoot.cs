@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyLoot : LootDrop
 {
-    int stageSpawned;
+    protected int stageSpawned;
 
     void Awake()
     {

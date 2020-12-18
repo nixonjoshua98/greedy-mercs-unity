@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
-    static string LOCAL_FILENAME = "local_3";
+    static string LOCAL_FILENAME = "local_11";
 
     static DataManager Instance = null;
 
@@ -61,7 +61,7 @@ public class DataManager : MonoBehaviour
         if (loadSceneAfterLoading)
             SceneManager.LoadSceneAsync("GameScene");
 
-        InvokeRepeating("WriteStateToFile", 10.0f, 5.0f);
+        InvokeRepeating("WriteStateToFile", 3.0f, 3.0f);
     }
 
     void CompareHeroes(ServerPlayerData serverPlayerData)

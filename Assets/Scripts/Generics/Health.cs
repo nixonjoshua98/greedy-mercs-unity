@@ -18,13 +18,13 @@ public abstract class Health : MonoBehaviour
     void Awake()
     {
         maxHealth = currentHealth = GetIntialHealth();
+
+        GetHealthbar();
     }
 
     void Start()
     {
-        GetHealthbar();
-
-        healthbar.value = (float)(currentHealth / maxHealth);
+        UpdateHealthbar();
     }
 
     public abstract double GetIntialHealth();
@@ -38,15 +38,23 @@ public abstract class Health : MonoBehaviour
             anim.Play("Hurt");
         }
 
-        healthbar.value = (float)(currentHealth / maxHealth);
+        UpdateHealthbar();
 
         anim.Play("Hurt");
     }
 
-    private void GetHealthbar()
+    void UpdateHealthbar()
+    {
+        if (healthbar != null)
+        {
+            healthbar.value = (float)(currentHealth / maxHealth);
+        }
+    }
+
+    void GetHealthbar()
     {
         healthbar = GameObject.FindGameObjectWithTag("EnemyHealthbar").GetComponent<Slider>();
 
-        healthbar.value = (float)(currentHealth / maxHealth);
+        UpdateHealthbar();
     }
 }

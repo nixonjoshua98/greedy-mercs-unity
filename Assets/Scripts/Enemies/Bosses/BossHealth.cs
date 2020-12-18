@@ -8,6 +8,6 @@ public class BossHealth : Health
 {
     public override double GetIntialHealth()
     {
-        return 1;
+        return Formulas.CalcBossHealth(GameState.stage.stage);
     }
 }

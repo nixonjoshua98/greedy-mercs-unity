@@ -45,7 +45,7 @@ namespace Utils
         public static string DoubleToString(double val)
         {
             if (val < 1d)
-                return "0.0";
+                return Math.Round(val, 1).ToString();
 
             Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
 

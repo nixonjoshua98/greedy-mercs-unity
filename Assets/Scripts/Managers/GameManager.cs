@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SpawnNextEnemy();
-
-        EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
     }
 
     // This is the only method which should be dealing damage to the enemy
@@ -47,6 +45,8 @@ public class GameManager : MonoBehaviour
                     Instance.damageNumbers.Add(amount);
 
                     health.TakeDamage(amount);
+
+                    EventManager.OnEnemyHurt.Invoke(health);
 
                     if (health.IsDead)
                     {
@@ -89,10 +89,8 @@ public class GameManager : MonoBehaviour
     {
         if (Instance.CurrentEnemy.TryGetComponent(out LootDrop loot))
             loot.Process();
-        else
-        {
-            Debug.LogWarning("Enemy did not have a LootDrop component");
-        }
+
+        // ===
 
         if (CurrentEnemy.CompareTag("Enemy"))
         {
@@ -102,9 +100,11 @@ public class GameManager : MonoBehaviour
         else if (CurrentEnemy.CompareTag("BossEnemy"))
         {
             GameState.stage.AdvanceStage();
+
+            EventManager.OnNewStageStarted.Invoke();
         }
 
-        EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
+        EventManager.OnStageUpdate.Invoke();
 
         SpawnNextEnemy();
     }
@@ -129,8 +129,6 @@ public class GameManager : MonoBehaviour
     void SpawnEnemy()
     {
         CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
-
-        EventManager.OnStageUpdate.Invoke(GameState.stage.stage, GameState.stage.enemy);
 
         EventManager.OnEnemySpawned.Invoke();
     }

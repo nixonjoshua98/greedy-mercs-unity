@@ -14,6 +14,8 @@ public class HUD : MonoBehaviour
     {
         EventManager.OnStageUpdate.AddListener(OnStageUpdate);
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
+
+        UpdateInterface();
     }
 
     void FixedUpdate()
@@ -23,9 +25,14 @@ public class HUD : MonoBehaviour
         DiamondsText.text = "None";
     }
 
-    void OnStageUpdate(int stage, int enemy)
+    void UpdateInterface()
     {
-        StageText.text = stage.ToString() + " | " + enemy.ToString();
+        StageText.text = GameState.stage.stage.ToString() + " | " + GameState.stage.enemy.ToString();
+    }
+
+    void OnStageUpdate()
+    {
+        UpdateInterface();
     }
 
     void OnBossSpawned(GameObject _)

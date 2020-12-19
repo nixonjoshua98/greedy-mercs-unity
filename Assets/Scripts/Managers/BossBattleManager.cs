@@ -16,6 +16,7 @@ public class BossBattleManager : MonoBehaviour
 
     [Header("UI Objects & Components")]
     [SerializeField] Slider BossSlider;
+    [SerializeField] Text BossTimerText; 
 
     [SerializeField] GameObject BossButton;
     [SerializeField] GameObject BossText;
@@ -31,9 +32,17 @@ public class BossBattleManager : MonoBehaviour
     {
         Instance = this;
 
-        BossSlider.gameObject.SetActive(false);
-        BossButton.gameObject.SetActive(false);
-        BossText.gameObject.SetActive(false);
+        SetUIActive(false);
+
+        BossButton.SetActive(false);
+    }
+
+    void SetUIActive(bool active)
+    {
+        BossText.SetActive(active);
+
+        BossSlider.gameObject.SetActive(active);
+        BossTimerText.gameObject.SetActive(active);
     }
 
     // Static public method accessor
@@ -59,7 +68,7 @@ public class BossBattleManager : MonoBehaviour
 
     IEnumerator IBossBattle()
     {
-        BossText.gameObject.SetActive(true);
+        SetUIActive(true);
 
         CurrentBossEnemy = Instantiate(BossObjects[Random.Range(0, BossObjects.Length)], BossSpawnPoint.position, Quaternion.identity);
 
@@ -67,12 +76,11 @@ public class BossBattleManager : MonoBehaviour
 
         yield return ITimer();
 
-        BossText.gameObject.SetActive(false);
+        SetUIActive(false);
 
         if (CurrentBossEnemy != null)
         {
-            // Active button to skip to the boss
-            BossButton.gameObject.SetActive(true);
+            BossButton.SetActive(true);
 
             _isAvoidingBoss = true;
 
@@ -86,8 +94,6 @@ public class BossBattleManager : MonoBehaviour
     {
         float timer = 15.0f;
 
-        BossSlider.gameObject.SetActive(true);
-
         BossSlider.value = timer;
 
         while (CurrentBossEnemy != null && timer > 0)
@@ -96,9 +102,9 @@ public class BossBattleManager : MonoBehaviour
 
             BossSlider.value = timer;
 
+            BossTimerText.text = Mathf.Round(timer).ToString();
+
             yield return new WaitForEndOfFrame();
         }
-
-        BossSlider.gameObject.SetActive(false);
     }
 }

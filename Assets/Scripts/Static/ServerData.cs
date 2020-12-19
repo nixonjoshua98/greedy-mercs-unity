@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class HeroPassiveSkillData
+{
+    public HeroPassiveSkillID skill = HeroPassiveSkillID.ERROR;
+
+    public int levelRequired = 100_000; // Higher number
+}
+
+
 public class ServerData
 {
     static _ServerData Data = null;

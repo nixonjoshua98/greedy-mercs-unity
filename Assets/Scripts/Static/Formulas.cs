@@ -35,7 +35,7 @@ public static class Formulas
     {
         HeroState state = GameState.GetHeroState(heroId);
 
-        return CalcHeroLevelUpCost(heroId) * Mathf.Max(0.15f, 1.0f - (0.1f * (state.level - 1) / 15));
+        return CalcHeroLevelUpCost(heroId) * Mathf.Max(0.15f, 1.0f - (0.11f * (state.level - 1) / 15));
     }
 
     // ===
@@ -44,8 +44,8 @@ public static class Formulas
     {
         HeroState state = GameState.GetHeroState(heroId);
 
-        double baseCost = 1.0f;
+        double baseCost = 3.0f;
 
-        return baseCost * Mathf.Pow(1.125f, state.level - 1) * Mathf.Pow(1.05f, (state.level - 1) / 15);
+        return baseCost * Mathf.Pow(1.125f, state.level - 1) * Mathf.Pow(1.1f, (state.level - 1) / 15);
     }
 }

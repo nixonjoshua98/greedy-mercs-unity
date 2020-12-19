@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class LoginManager : MonoBehaviour
         // We have local data
         if (isLocalSave || code == 200)
         {
-            GameState.Restore(localSaveJson);
+            GameState.Restore(isLocalSave ? localSaveJson : "{}");
 
             if (GameState.IsValid())
             {

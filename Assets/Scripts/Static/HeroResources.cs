@@ -17,7 +17,9 @@ public enum HeroID
 
 public enum HeroPassiveSkillID
 { 
-    SKILL_10 = 11_000,
+    ERROR = -1,
+
+    DOUBLE_SQUAD_DAMAGE = 11_000,
 }
 
 

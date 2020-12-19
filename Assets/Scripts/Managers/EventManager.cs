@@ -6,15 +6,20 @@ using UnityEngine.Events;
 
 namespace CustomEvents
 {
-    public class StageUpdateEvent : UnityEvent<int, int> { }
-    public class GameObjectEvent : UnityEvent<GameObject> { }
+   public class GameObjectEvent : UnityEvent<GameObject> { }
+
+    public class HealthEvent : UnityEvent<Health> { }
 }
 
 public class EventManager : MonoBehaviour
 {
-    public static CustomEvents.StageUpdateEvent OnStageUpdate = new CustomEvents.StageUpdateEvent();
-
     public static CustomEvents.GameObjectEvent OnBossSpawned = new CustomEvents.GameObjectEvent();
+
+    public static CustomEvents.HealthEvent OnEnemyHurt = new CustomEvents.HealthEvent();
+
+    public static UnityEvent OnStageUpdate = new UnityEvent();
+
+    public static UnityEvent OnNewStageStarted = new UnityEvent();
 
     public static UnityEvent OnFailedToKillBoss = new UnityEvent();
 

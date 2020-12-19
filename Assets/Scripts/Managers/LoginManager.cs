@@ -35,7 +35,6 @@ public class LoginManager : MonoBehaviour
                     ServerPlayerData serverData = JsonUtility.FromJson<ServerPlayerData>(json);
 
                     CompareHeroes(serverData);
-
                 }
             }
 
@@ -50,8 +49,6 @@ public class LoginManager : MonoBehaviour
 
         if (code == 200)
         {
-            Debug.Log(json);
-
             ServerData.Restore(json);
 
             Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);
@@ -76,7 +73,7 @@ public class LoginManager : MonoBehaviour
 
     void CompareHeroes(ServerPlayerData serverPlayerData)
     {
-        // Add 
+        // Add heroes from server which are not in the local game state
         foreach (HeroState serverHero in serverPlayerData.heroes)
         {
             if (!GameState.TryGetHeroState(serverHero.heroId, out HeroState _))
@@ -93,6 +90,8 @@ public class LoginManager : MonoBehaviour
             if (!serverHeroDataDict.TryGetValue(localHeroData.heroId, out HeroState _))
             {
                 GameState.heroes.RemoveAt(i);
+
+                // Probably editing the local game file save
             }
 
             else

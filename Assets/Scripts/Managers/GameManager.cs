@@ -104,8 +104,6 @@ public class GameManager : MonoBehaviour
             EventManager.OnNewStageStarted.Invoke();
         }
 
-        EventManager.OnStageUpdate.Invoke();
-
         SpawnNextEnemy();
     }
 
@@ -123,7 +121,11 @@ public class GameManager : MonoBehaviour
             BossBattleManager.StartBossBattle();
         }
         else
+        {
+            EventManager.OnStageUpdate.Invoke();
+
             SpawnEnemy();
+        }
     }
 
     void SpawnEnemy()

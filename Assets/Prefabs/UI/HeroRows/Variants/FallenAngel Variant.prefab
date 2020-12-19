@@ -41,6 +41,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3297312140590279756}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3297312140590279756}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnInfoButton
+      objectReference: {fileID: 0}
     - target: {fileID: 7806120166706943225, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_Sprite
@@ -155,15 +165,14 @@ PrefabInstance:
     - target: {fileID: 7806120167055296029, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_Name
-      value: FallenAngel
+      value: FallenAngel Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7806120167199879548, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_Text
       value: Fallen Angel
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7090051975709581227, guid: 522335a6c5910dc4bb1524ee712b7945, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 522335a6c5910dc4bb1524ee712b7945, type: 3}
 --- !u!1 &2590242377097983482 stripped
 GameObject:

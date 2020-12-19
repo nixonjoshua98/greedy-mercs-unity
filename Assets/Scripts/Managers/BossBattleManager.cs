@@ -102,7 +102,7 @@ public class BossBattleManager : MonoBehaviour
 
             BossSlider.value = timer;
 
-            BossTimerText.text = Mathf.Round(timer).ToString();
+            BossTimerText.text = Mathf.CeilToInt(timer).ToString();
 
             yield return new WaitForEndOfFrame();
         }

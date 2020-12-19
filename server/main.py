@@ -29,20 +29,20 @@ def staticdata():
 			{
 				HeroID.WRAITH_LIGHTNING: {
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE, 			"unlockLevel": 10},
-						{"skill": PassiveSkillID.SUPER_SQUAD_DAMAGE, 	"unlockLevel": 25}
+						{"skill": PassiveSkillID.SQUAD_DAMAGE, 			"unlockLevel": 25},
+						{"skill": PassiveSkillID.SUPER_SQUAD_DAMAGE, 	"unlockLevel": 50},
 					]
 				},
 
 				HeroID.GOLEM_STONE: {
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE, "unlockLevel": 15}
+						{"skill": PassiveSkillID.SQUAD_DAMAGE, "unlockLevel": 25}
 					]
 				},
 
 				HeroID.SATYR_FIRE: {
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE, "unlockLevel": 20}
+						{"skill": PassiveSkillID.SQUAD_DAMAGE, "unlockLevel": 25}
 					]
 				},
 
@@ -59,14 +59,14 @@ def staticdata():
 					"name": "Increased Squad Damage",
 					"desc": "Multiply your overall <color=\"orange\">{skillTypeText}</color> by <color=\"orange\">{skillValue}x</color>",
 					"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
-					"value": 1.5
+					"value": 1.15
 				},
 
 				PassiveSkillID.SUPER_SQUAD_DAMAGE: {
 					"name": "SUPER Increased Squad Damage",
 					"desc": "Multiply your overall <color=\"orange\">{skillTypeText}</color> by <color=\"orange\">{skillValue}x</color>",
 					"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
-					"value": 2
+					"value": 1.5
 				}
 			}
 	}

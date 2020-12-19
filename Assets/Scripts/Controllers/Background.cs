@@ -14,16 +14,18 @@ public struct SpriteColourPair
 
 public class Background : MonoBehaviour
 {
-    [SerializeField] Transition transition;
+    /* ===
+     * This class handles the background transitions for the game, transitions occur every 25 stages
+     * 
+     * Note
+     *      Feedback told me that it looks better without the transition
+     * ===
+     */
 
     [SerializeField] SpriteColourPair[] backgrounds;
 
-    bool isAvailable;
-
     void Awake()
     {
-        isAvailable = true;
-
         EventManager.OnNewStageStarted.AddListener(OnNewStageStarted);
     }
 
@@ -34,25 +36,10 @@ public class Background : MonoBehaviour
 
     void OnNewStageStarted()
     {
-        if (isAvailable)
+        if (GameState.stage.stage % 25 == 0)
         {
-            if (GameState.stage.stage % 25 == 0)
-            {
-                isAvailable = false;
-
-                transition.Run(WhileHidden, OnTransitionFinished, 0.5f);
-            }
+            ChangeBackground();
         }
-    }
-
-    void WhileHidden()
-    {
-        ChangeBackground();
-    }
-
-    void OnTransitionFinished()
-    {
-        isAvailable = true;
     }
 
     void ChangeBackground()

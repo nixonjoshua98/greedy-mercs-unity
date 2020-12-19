@@ -13,7 +13,7 @@ public abstract class HeroAttack: MonoBehaviour
 
     [Space]
 
-    [SerializeField, Range(0.0f, 5.0f)] float AttackDelay;
+    float AttackDelay = 0.25f;
 
     protected bool isAttacking;
 

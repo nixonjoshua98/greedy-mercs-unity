@@ -41,6 +41,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1444642698820484760}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1444642698820484760}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnInfoButton
+      objectReference: {fileID: 0}
     - target: {fileID: 7806120166706943225, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_Sprite
@@ -155,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 7806120167055296029, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_Name
-      value: StoneGolem
+      value: StoneGolem Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7806120167199879548, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}

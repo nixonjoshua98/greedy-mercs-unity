@@ -5,6 +5,12 @@ using UnityEngine;
 
 public static class Formulas
 {
+    /*
+     * ===
+     * This classs stores all the game formulas *BUT* they should only be called from their respective cache/manager class
+     * ===
+     */
+
     // =====
 
     public static double CalcEnemyHealth(int stage)
@@ -35,7 +41,7 @@ public static class Formulas
     {
         HeroState state = GameState.GetHeroState(heroId);
 
-        return CalcHeroLevelUpCost(heroId) * Mathf.Max(0.15f, 1.0f - (0.11f * (state.level - 1) / 15));
+        return 3.0f * Mathf.Pow(1.125f, state.level - 1) * Mathf.Max(0.15f, 1.0f - (0.1f * (state.level - 1) / 25));
     }
 
     // ===
@@ -44,8 +50,6 @@ public static class Formulas
     {
         HeroState state = GameState.GetHeroState(heroId);
 
-        double baseCost = 3.0f;
-
-        return baseCost * Mathf.Pow(1.125f, state.level - 1) * Mathf.Pow(1.1f, (state.level - 1) / 15);
+        return 3.0f * Mathf.Pow(1.125f, state.level - 1) * Mathf.Pow(1.05f, (state.level - 1));
     }
 }

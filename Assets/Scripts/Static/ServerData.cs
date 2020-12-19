@@ -25,6 +25,11 @@ public class HeroPassiveSkill
     public PassiveSkillType type = PassiveSkillType.ERROR;
 }
 
+public class BonusesFromHeroes
+{
+    public double allSquadDamage = 1;
+}
+
 public class ServerData
 {
     static _ServerData Data = null;
@@ -50,7 +55,7 @@ public class ServerData
 
             foreach (PassiveSkillID passive in Enum.GetValues(typeof(PassiveSkillID)))
             {
-                if ((int)passive > 0)
+                if ((int)passive >= 0)
                 {
                     string jsonKey = ((int)passive).ToString();
 
@@ -69,7 +74,7 @@ public class ServerData
 
             foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
             {
-                if ((int)hero > 0)
+                if ((int)hero >= 0)
                 {
                     string jsonKey = ((int)hero).ToString();
 
@@ -105,5 +110,34 @@ public class ServerData
     public static HeroPassiveSkill GetPassiveData(PassiveSkillID skill)
     {
         return Data.heroPassiveSkills[skill];
+    }
+
+    public static BonusesFromHeroes GetBonusesFromHeroes()
+    {
+        BonusesFromHeroes bonuses = new BonusesFromHeroes();
+
+        foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
+        {
+            HeroState heroState = GameState.GetHeroState(hero);
+
+            List<HeroPassiveUnlock> heroPassiveUnlocks = GetHeroPassiveSkills(hero);
+
+            foreach (HeroPassiveUnlock unlock in heroPassiveUnlocks)
+            {
+                if (heroState.level >= unlock.unlockLevel)
+                {
+                    HeroPassiveSkill skill = GetPassiveData(unlock.skill);
+
+                    switch (skill.type)
+                    {
+                        case PassiveSkillType.ALL_SQUAD_DAMAGE:
+                            bonuses.allSquadDamage *= skill.value;
+                            break;
+                    }
+                }
+            }
+        }
+
+        return bonuses;
     }
 }

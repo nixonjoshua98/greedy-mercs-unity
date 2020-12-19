@@ -20,18 +20,27 @@ public class HeroesTab : MonoBehaviour
         }
     }
 
-    public void OnEnable()
+
+    void UpdateRows()
     {
         foreach (HeroRow row in rows)
         {
-            row.gameObject.SetActive(false);
+            row.gameObject.SetActive(row.TryUpdate());
+        }
 
-            if (GameState.TryGetHeroState(row.heroId, out HeroState state))
-            {
-                row.UpdateRow(state);
+        Invoke("UpdateRows", 0.5f);
+    }
 
-                row.gameObject.SetActive(true);
-            }
+    public void OnEnable()
+    {
+        UpdateRows();
+    }
+
+    public void OnDisable()
+    {
+        if (IsInvoking("UpdateRows"))
+        {
+            CancelInvoke("UpdateRows");
         }
     }
 }

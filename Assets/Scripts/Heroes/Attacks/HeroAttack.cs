@@ -53,6 +53,6 @@ public abstract class HeroAttack: MonoBehaviour
 
     protected void DealDamage()
     {
-        GameManager.TryDealDamageToEnemy(Formulas.CalcHeroDamage(heroId));
+        GameManager.TryDealDamageToEnemy(HeroStatsCache.GetHeroDamage(heroId));
     }
 }

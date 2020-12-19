@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -17,14 +18,15 @@ public enum PassiveSkillID
 { 
     ERROR = -1,
 
-    DOUBLE_SQUAD_DAMAGE = 11_000,
+    SQUAD_DAMAGE        = 0,
+    SUPER_SQUAD_DAMAGE  = 1
 }
 
 public enum PassiveSkillType
 {
     ERROR = -1,
 
-    SQUAD_DAMAGE = 0,
+    ALL_SQUAD_DAMAGE = 0,
 }
 
 
@@ -49,7 +51,7 @@ public static class HeroResources
     {
         switch (skill)
         {
-            case PassiveSkillType.SQUAD_DAMAGE:
+            case PassiveSkillType.ALL_SQUAD_DAMAGE:
                 return "squad damage";
 
             default:

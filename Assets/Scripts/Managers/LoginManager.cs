@@ -50,6 +50,8 @@ public class LoginManager : MonoBehaviour
 
         if (code == 200)
         {
+            Debug.Log(json);
+
             ServerData.Restore(json);
 
             Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);

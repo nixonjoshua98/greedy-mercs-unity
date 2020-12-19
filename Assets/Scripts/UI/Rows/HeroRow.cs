@@ -22,15 +22,27 @@ public class HeroRow : MonoBehaviour
 
     [SerializeField] GameObject HeroInfoPanel;
 
-    public void UpdateRow(HeroState state)
+    void UpdateRow(HeroState state)
     {
         LevelText.text = "Level " + state.level.ToString();
 
         SquadButtonText.text = state.inSquad ? "Remove" : "Add";
 
-        DamageText.text = Utils.Format.DoubleToString(Formulas.CalcHeroDamage(associatedHeroId));
+        DamageText.text = Utils.Format.DoubleToString(HeroStatsCache.GetHeroDamage(associatedHeroId));
 
         UpgradeButtonText.text = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId));
+    }
+
+    public bool TryUpdate()
+    {
+        if (GameState.TryGetHeroState(associatedHeroId, out HeroState state))
+        {
+            UpdateRow(state);
+
+            return true;
+        }
+
+        return false;
     }
 
     // === Button Callbacks ===

@@ -9,7 +9,7 @@ using System;
 [System.Serializable]
 public class HeroPassiveUnlock
 {
-    public PassiveSkillID skill = PassiveSkillID.ERROR;
+    public int skill = -1;
 
     public int unlockLevel = 100_000;
 }
@@ -42,7 +42,7 @@ public class ServerData
 
     class _ServerData
     {
-        public Dictionary<PassiveSkillID, HeroPassiveSkill> heroPassiveSkills;
+        public Dictionary<int, HeroPassiveSkill> heroPassiveSkills;
 
         public Dictionary<HeroID, List<HeroPassiveUnlock>> heroPassives;
 
@@ -59,20 +59,15 @@ public class ServerData
 
         void ParseHeroPassives(JSONNode parsedJson)
         {
-            heroPassiveSkills = new Dictionary<PassiveSkillID, HeroPassiveSkill>();
+            heroPassiveSkills = new Dictionary<int, HeroPassiveSkill>();
 
             JSONNode skillsJson = parsedJson["heroPassiveSkills"];
 
-            foreach (PassiveSkillID passive in Enum.GetValues(typeof(PassiveSkillID)))
+            foreach (string key in skillsJson.Keys)
             {
-                if ((int)passive >= 0)
-                {
-                    string jsonKey = ((int)passive).ToString();
+                HeroPassiveSkill skill = JsonUtility.FromJson<HeroPassiveSkill>(skillsJson[key].ToString());
 
-                    HeroPassiveSkill skill = JsonUtility.FromJson<HeroPassiveSkill>(skillsJson[jsonKey].ToString());
-
-                    heroPassiveSkills.Add(passive, skill);
-                }
+                heroPassiveSkills.Add(int.Parse(key), skill);
             }
         }
 
@@ -136,7 +131,7 @@ public class ServerData
         return new List<HeroPassiveUnlock>();
     }
 
-    public static HeroPassiveSkill GetPassiveData(PassiveSkillID skill)
+    public static HeroPassiveSkill GetPassiveData(int skill)
     {
         return Data.heroPassiveSkills[skill];
     }

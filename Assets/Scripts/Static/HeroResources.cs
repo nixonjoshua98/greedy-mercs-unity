@@ -14,14 +14,6 @@ public enum HeroID
     FALLEN_ANGEL        = 3
 }
 
-public enum PassiveSkillID
-{ 
-    ERROR = -1,
-
-    SQUAD_DAMAGE_0  = 0,
-    SQUAD_DAMAGE_1  = 1,
-}
-
 public enum PassiveSkillType
 {
     ERROR = -1,

@@ -15,6 +15,7 @@ class PassiveSkillID(enum.IntEnum):
 
 	SQUAD_DAMAGE_0 		= 0,
 	SQUAD_DAMAGE_1		= 1,
+	SQUAD_DAMAGE_2		= 2,
 
 
 class PassiveSkillType(enum.IntEnum):

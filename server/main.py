@@ -67,7 +67,7 @@ def staticdata():
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 50},
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 75}
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 75}
 					]
 				},
 			},
@@ -83,6 +83,11 @@ def staticdata():
 				"name": "Increased Squad Damage",
 				"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
 				"value": 1.25
+			},
+			PassiveSkillID.SQUAD_DAMAGE_2: {
+				"name": "Increased Squad Damage",
+				"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
+				"value": 1.5
 			},
 		}
 	}

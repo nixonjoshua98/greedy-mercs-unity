@@ -25,15 +25,16 @@ def login():
 @app.route("/api/staticdata", methods=["POST"])
 def staticdata():
 	data = {
-		"heroes":
-			{
+		"heroes": {
+
 				HeroID.WRAITH_LIGHTNING: {
 					"static": {
 						"baseCost": 3.0
 					},
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 75}
 					]
 				},
 
@@ -43,7 +44,8 @@ def staticdata():
 					},
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 75}
 					]
 				},
 
@@ -53,7 +55,8 @@ def staticdata():
 					},
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 75}
 					]
 				},
 
@@ -63,25 +66,25 @@ def staticdata():
 					},
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 75}
 					]
 				},
 			},
 
-		"heroPassiveSkills":
-			{
-				PassiveSkillID.SQUAD_DAMAGE_1: {
+		"heroPassiveSkills": {
+			PassiveSkillID.SQUAD_DAMAGE_0: {
 					"name": "Increased Squad Damage",
 					"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
-					"value": 1.15
+					"value": 1.1
 				},
 
-				PassiveSkillID.SQUAD_DAMAGE_2: {
-					"name": "Increased Squad Damage",
-					"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
-					"value": 1.25
-				}
-			}
+			PassiveSkillID.SQUAD_DAMAGE_1: {
+				"name": "Increased Squad Damage",
+				"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
+				"value": 1.25
+			},
+		}
 	}
 
 	return jsonify(data)

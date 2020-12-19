@@ -18,8 +18,8 @@ public enum PassiveSkillID
 { 
     ERROR = -1,
 
-    SQUAD_DAMAGE_1  = 0,
-    SQUAD_DAMAGE_2  = 1
+    SQUAD_DAMAGE_0  = 0,
+    SQUAD_DAMAGE_1  = 1,
 }
 
 public enum PassiveSkillType

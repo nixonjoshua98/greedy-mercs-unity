@@ -145,13 +145,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.13725491, g: 0.13725491, b: 0.13725491, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7066e0747291df44fa5c2bf93bee3a6e, type: 3}
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -341,6 +341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4d47a9978ce3f4495b3eb07e3f3aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillRow: {fileID: 7696526641290794469, guid: 3aafdb7d574a76d42aac5610867ab54a,
+    type: 3}
+  ScrollContent: {fileID: 683155939604324353}
 --- !u!222 &2961036064842033166
 CanvasRenderer:
   m_ObjectHideFlags: 0

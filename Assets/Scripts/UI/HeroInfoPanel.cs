@@ -4,6 +4,43 @@ using UnityEngine;
 
 public class HeroInfoPanel : MonoBehaviour
 {
+    HeroID showingHero;
+
+    [SerializeField] GameObject SkillRow;
+    [Space]
+    [SerializeField] GameObject ScrollContent;
+
+
+    public void SetHero(HeroID hero)
+    {
+        showingHero = hero;
+    }
+
+    void Start()
+    {
+        List<HeroPassiveUnlock> unlocks = ServerData.GetHeroPassiveSkills(showingHero);
+
+        foreach (HeroPassiveUnlock unlock in unlocks)
+        {
+            HeroPassiveSkill skill = ServerData.GetPassiveData(unlock.skill);
+
+            GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
+
+            SkillRow skillRowScript = skillRow.GetComponent<SkillRow>();
+
+            // Name
+            skillRowScript.SkillNameText.text = skill.name;
+
+            // Unlock Level
+            skillRowScript.UnlockText.text = skillRowScript.UnlockText.text.Replace("{level}", unlock.unlockLevel.ToString());
+
+            // Description
+            skillRowScript.DescriptionText.text = skill.desc
+                .Replace("{skillValue}", skill.value.ToString())
+                .Replace("{skillTypeText}", HeroResources.PassiveTypeToString(skill.type));
+        }
+    }
+
     public void OnClose()
     {
         Destroy(gameObject);

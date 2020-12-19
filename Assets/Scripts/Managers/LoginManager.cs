@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using SimpleJSON;
+
+
 public class LoginManager : MonoBehaviour
 {
     [SerializeField] Text ErrorText;
@@ -42,28 +45,31 @@ public class LoginManager : MonoBehaviour
     }
 
     void ServerStaticDataCallback(long code, string json)
-    {
+    {      
+        // We are duplicating here but thats fine.
+
         if (code == 200)
         {
             ServerData.Restore(json);
+
+            Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);
+
+            SceneManager.LoadSceneAsync("GameScene");
         }
 
         else if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localStaticJson))
         {
             ServerData.Restore(localStaticJson);
-        }
 
-        // ===
-
-        if (ServerData.IsValid())
-        {
-            Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, ServerData.ToJson());
+            Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, localStaticJson);
 
             SceneManager.LoadSceneAsync("GameScene");
         }
 
         else
+        {
             ErrorText.text = "Static data failed to restore";
+        }
     }
 
     void CompareHeroes(ServerPlayerData serverPlayerData)

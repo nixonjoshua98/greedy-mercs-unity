@@ -7,19 +7,24 @@ public enum HeroID
 {
     ERROR = -1,
 
-    // Note: Heroes will have the prefix 10
     WRAITH_LIGHTNING    = 10_000,
     GOLEM_STONE         = 10_001,
     SATYR_FIRE          = 10_002,
     FALLEN_ANGEL        = 10_003
 }
 
-
-public enum HeroPassiveSkillID
+public enum PassiveSkillID
 { 
     ERROR = -1,
 
     DOUBLE_SQUAD_DAMAGE = 11_000,
+}
+
+public enum PassiveSkillType
+{
+    ERROR = -1,
+
+    SQUAD_DAMAGE = 0,
 }
 
 
@@ -38,5 +43,17 @@ public static class HeroResources
     public static GameObject GetHeroGameObject(HeroID key)
     {
         return Resources.Load<GameObject>("Heroes/" + GetGameObjectString(key));
+    }
+
+    public static string PassiveTypeToString(PassiveSkillType skill)
+    {
+        switch (skill)
+        {
+            case PassiveSkillType.SQUAD_DAMAGE:
+                return "squad damage";
+
+            default:
+                return "{SkillName}";
+        }
     }
 }

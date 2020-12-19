@@ -67,6 +67,8 @@ public class HeroRow : MonoBehaviour
 
         GameObject panel = Instantiate(HeroInfoPanel, Vector3.zero, Quaternion.identity);
 
+        panel.GetComponent<HeroInfoPanel>().SetHero(associatedHeroId);
+
         panel.transform.SetParent(canvas.transform, false);
     }
 }

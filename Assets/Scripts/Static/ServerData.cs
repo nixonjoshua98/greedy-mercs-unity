@@ -1,15 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
-[System.Serializable]
-public class HeroPassiveSkillData
-{
-    public HeroPassiveSkillID skill = HeroPassiveSkillID.ERROR;
+using SimpleJSON;
+using System;
 
-    public int levelRequired = 100_000; // Higher number
+[System.Serializable]
+public class HeroPassiveUnlock
+{
+    public PassiveSkillID skill = PassiveSkillID.ERROR;
+
+    public int unlockLevel = 100_000;
 }
 
+[System.Serializable]
+public class HeroPassiveSkill
+{
+    public string name = "No Name";
+    public string desc = "No Description";
+
+    public double value = 1;
+
+    public PassiveSkillType type = PassiveSkillType.ERROR;
+}
 
 public class ServerData
 {
@@ -17,21 +31,79 @@ public class ServerData
 
     class _ServerData
     {
+        public Dictionary<PassiveSkillID, HeroPassiveSkill> heroPassiveSkills;
 
+        public Dictionary<HeroID, List<HeroPassiveUnlock>> heroPassives;
+
+        public _ServerData(JSONNode json)
+        {
+            ParseHeroPassives(json);
+
+            AssignHeroPassives(json);
+        }
+
+        void ParseHeroPassives(JSONNode parsedJson)
+        {
+            heroPassiveSkills = new Dictionary<PassiveSkillID, HeroPassiveSkill>();
+
+            JSONNode skillsJson = parsedJson["heroPassiveSkills"];
+
+            foreach (PassiveSkillID passive in Enum.GetValues(typeof(PassiveSkillID)))
+            {
+                if ((int)passive > 0)
+                {
+                    string jsonKey = ((int)passive).ToString();
+
+                    HeroPassiveSkill skill = JsonUtility.FromJson<HeroPassiveSkill>(skillsJson[jsonKey].ToString());
+
+                    heroPassiveSkills.Add(passive, skill);
+                }
+            }
+        }
+
+        void AssignHeroPassives(JSONNode parsedJson)
+        {
+            heroPassives = new Dictionary<HeroID, List<HeroPassiveUnlock>>();
+
+            JSONNode heroes = parsedJson["heroes"];
+
+            foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
+            {
+                if ((int)hero > 0)
+                {
+                    string jsonKey = ((int)hero).ToString();
+
+                    heroPassives.Add(hero, new List<HeroPassiveUnlock>());
+
+                    foreach (JSONNode skillString in heroes[jsonKey]["skills"])
+                    {
+                        HeroPassiveUnlock unlock = JsonUtility.FromJson<HeroPassiveUnlock>(skillString.ToString());
+
+                        heroPassives[hero].Add(unlock);
+                    }
+                }
+            }
+        }
     }
 
     public static void Restore(string json)
     {
         if (Data == null)
-            Data = JsonUtility.FromJson<_ServerData>(json);
-    }
-    public static string ToJson()
+            Data = new _ServerData(JSON.Parse(json));
+    }   
+    
+    // === Helper Methods ===
+
+    public static List<HeroPassiveUnlock> GetHeroPassiveSkills(HeroID hero)
     {
-        return JsonUtility.ToJson(Data);
+        if (Data.heroPassives.TryGetValue(hero, out List<HeroPassiveUnlock> ls))
+            return ls;
+
+        return new List<HeroPassiveUnlock>();
     }
 
-    public static bool IsValid()
+    public static HeroPassiveSkill GetPassiveData(PassiveSkillID skill)
     {
-        return Data != null;
+        return Data.heroPassiveSkills[skill];
     }
 }

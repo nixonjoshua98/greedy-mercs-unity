@@ -157,9 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ced2482b9238674faa8d3046230212c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroId: 10002
+  heroId: 2
   anim: {fileID: 2828557145166165476}
-  AttackDelay: 0.5
   Projectile: {fileID: 1372040286346358, guid: 53ebac442b16db64f9177d0c749cbb06, type: 3}
   ProjectileStart: {fileID: 7637163329336135085}
 --- !u!1001 &4212931058609886445

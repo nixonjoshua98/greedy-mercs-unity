@@ -46,9 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4834a3d103d90704e91fdefe63e30548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroId: 10003
+  heroId: 3
   anim: {fileID: 4140710708500218812}
-  AttackDelay: 0.75
 --- !u!1 &4044917155683223085
 GameObject:
   m_ObjectHideFlags: 0

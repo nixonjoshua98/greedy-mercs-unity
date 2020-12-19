@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f647a094efc6184887b70148a6c884c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  associatedHeroId: 10002
+  associatedHeroId: 2
   UpgradeButtonText: {fileID: 3590463697693720729}
   SquadButtonText: {fileID: 3408661123120967692}
   DamageText: {fileID: 8659535940460322842}

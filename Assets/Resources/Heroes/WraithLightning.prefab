@@ -153,9 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee33acf3527e4af4eb8a55783f16d9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroId: 10000
+  heroId: 0
   anim: {fileID: 2168791721332256124}
-  AttackDelay: 0.5
   attackParticle: {fileID: 218371283688233683}
 --- !u!1001 &127814930030733177
 PrefabInstance:

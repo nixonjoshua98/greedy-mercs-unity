@@ -32,8 +32,8 @@ def staticdata():
 						"baseCost": 3.0
 					},
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE, 			"unlockLevel": 25},
-						{"skill": PassiveSkillID.SUPER_SQUAD_DAMAGE, 	"unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
 					]
 				},
 
@@ -42,8 +42,8 @@ def staticdata():
 						"baseCost": 2.5
 					},
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE, 				"unlockLevel": 25},
-						{"skill": PassiveSkillID.SUPER_SQUAD_DAMAGE, 		"unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
 					]
 				},
 
@@ -52,8 +52,8 @@ def staticdata():
 						"baseCost": 2.0
 					},
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE, 			"unlockLevel": 25},
-						{"skill": PassiveSkillID.SUPER_SQUAD_DAMAGE, 	"unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
 					]
 				},
 
@@ -62,26 +62,26 @@ def staticdata():
 						"baseCost": 1.5
 					},
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE, 			"unlockLevel": 25},
-						{"skill": PassiveSkillID.SUPER_SQUAD_DAMAGE, 	"unlockLevel": 50},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_2, "unlockLevel": 50},
 					]
 				},
 			},
 
 		"heroPassiveSkills":
 			{
-				PassiveSkillID.SQUAD_DAMAGE: {
+				PassiveSkillID.SQUAD_DAMAGE_1: {
 					"name": "Increased Squad Damage",
 					"desc": "Multiply your overall <color=\"orange\">{skillTypeText}</color> by <color=\"orange\">{skillValue}x</color>",
 					"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
 					"value": 1.15
 				},
 
-				PassiveSkillID.SUPER_SQUAD_DAMAGE: {
-					"name": "SUPER Increased Squad Damage",
+				PassiveSkillID.SQUAD_DAMAGE_2: {
+					"name": "Increased Squad Damage",
 					"desc": "Multiply your overall <color=\"orange\">{skillTypeText}</color> by <color=\"orange\">{skillValue}x</color>",
 					"type": PassiveSkillType.ALL_SQUAD_DAMAGE,
-					"value": 1.5
+					"value": 1.25
 				}
 			}
 	}

@@ -53,23 +53,11 @@ namespace Utils
 
             float m = (float)(val / Mathf.Pow(1000.0f, n));
 
-            string unit;
-
             if (n < unitsTable.Count)
-                unit = unitsTable[n];
+                return (Mathf.Floor(m * 100.0f) / 100.0f).ToString("0.#") + unitsTable[n];
 
             else
-            {
-                int unitInt = n - unitsTable.Count;
-
-                int secondUnit = unitInt % 26;
-
-                int firstUnit = unitInt / 26;
-
-                unit = Convert.ToChar(firstUnit + 97).ToString() + Convert.ToChar(secondUnit + 97).ToString();
-            }
-
-            return (Mathf.Floor(m * 100.0f) / 100.0f).ToString("0.#") + unit;
+                return val.ToString("e2").Replace("+", "");
         }
     }
 }

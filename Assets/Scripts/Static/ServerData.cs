@@ -15,6 +15,13 @@ public class HeroPassiveUnlock
 }
 
 [System.Serializable]
+public class StaticServerHeroData
+{
+    public float baseCost = 1;
+}
+
+
+[System.Serializable]
 public class HeroPassiveSkill
 {
     public string name = "No Name";
@@ -40,11 +47,15 @@ public class ServerData
 
         public Dictionary<HeroID, List<HeroPassiveUnlock>> heroPassives;
 
+        public Dictionary<HeroID, StaticServerHeroData> staticHeroData;
+
         public _ServerData(JSONNode json)
         {
             ParseHeroPassives(json);
 
             AssignHeroPassives(json);
+
+            SetHeroStaticData(json);
         }
 
         void ParseHeroPassives(JSONNode parsedJson)
@@ -89,6 +100,25 @@ public class ServerData
                 }
             }
         }
+
+        void SetHeroStaticData(JSONNode parsedJson)
+        {
+            staticHeroData = new Dictionary<HeroID, StaticServerHeroData>();
+
+            JSONNode heroes = parsedJson["heroes"];
+
+            foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
+            {
+                if ((int)hero >= 0)
+                {
+                    string jsonKey = ((int)hero).ToString();
+
+                    JSONNode staticData = heroes[jsonKey]["static"];
+
+                    staticHeroData[hero] = JsonUtility.FromJson<StaticServerHeroData>(staticData.ToString());
+                }
+            }
+        }
     }
 
     public static void Restore(string json)
@@ -110,6 +140,11 @@ public class ServerData
     public static HeroPassiveSkill GetPassiveData(PassiveSkillID skill)
     {
         return Data.heroPassiveSkills[skill];
+    }
+
+    public static StaticServerHeroData GetStaticHeroData(HeroID hero)
+    {
+        return Data.staticHeroData[hero];
     }
 
     public static BonusesFromHeroes GetBonusesFromHeroes()

@@ -13,7 +13,7 @@ public abstract class HeroAttack: MonoBehaviour
 
     [Space]
 
-    float AttackDelay = 0.25f;
+    const float AttackDelay = 0.25f;
 
     protected bool isAttacking;
 

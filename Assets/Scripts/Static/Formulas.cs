@@ -41,7 +41,9 @@ public static class Formulas
     {
         HeroState state = GameState.GetHeroState(heroId);
 
-        return 3.0f * Mathf.Pow(1.125f, state.level - 1) * Mathf.Max(0.15f, 1.0f - (0.1f * (state.level - 1) / 25));
+        StaticServerHeroData data = ServerData.GetStaticHeroData(heroId);
+
+        return data.baseCost * Mathf.Pow(1.13f, state.level - 1) * Mathf.Max(0.15f, 1.0f - (0.1f * (state.level - 1) / 25));
     }
 
     // ===
@@ -50,6 +52,8 @@ public static class Formulas
     {
         HeroState state = GameState.GetHeroState(heroId);
 
-        return 3.0f * Mathf.Pow(1.125f, state.level - 1) * Mathf.Pow(1.05f, (state.level - 1));
+        StaticServerHeroData data = ServerData.GetStaticHeroData(heroId);
+
+        return data.baseCost * Mathf.Pow(1.12f, state.level - 1) * Mathf.Pow(1.05f, (state.level - 1));
     }
 }

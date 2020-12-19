@@ -25,7 +25,6 @@ public class StaticServerHeroData
 public class HeroPassiveSkill
 {
     public string name = "No Name";
-    public string desc = "No Description";
 
     public double value = 1;
 

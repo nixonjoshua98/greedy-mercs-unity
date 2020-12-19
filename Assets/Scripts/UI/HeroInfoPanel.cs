@@ -35,7 +35,7 @@ public class HeroInfoPanel : MonoBehaviour
             skillRowScript.UnlockText.text = skillRowScript.UnlockText.text.Replace("{level}", unlock.unlockLevel.ToString());
 
             // Description
-            skillRowScript.DescriptionText.text = skill.desc
+            skillRowScript.DescriptionText.text = skillRowScript.DescriptionText.text
                 .Replace("{skillValue}", skill.value.ToString())
                 .Replace("{skillTypeText}", HeroResources.PassiveTypeToString(skill.type));
         }

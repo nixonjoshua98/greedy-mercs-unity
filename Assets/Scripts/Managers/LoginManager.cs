@@ -10,41 +10,64 @@ public class LoginManager : MonoBehaviour
 
     void Awake()
     {
-        Server.Login(this, LoginCallback);
+        Server.Login(this, ServerLoginCallback);
     }
 
-    void LoginCallback(long code, string json)
-    {
-        RestoreState(code, json);
-    }
-
-    void RestoreState(long code, string json)
+    void ServerLoginCallback(long code, string json)
     {
         bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
 
         // We have local data
         if (isLocalSave || code == 200)
         {
-            GameState.Restore(isLocalSave ? localSaveJson : "{}");
-           
-            if (code == 200)
-            {
-                ServerPlayerData serverData = JsonUtility.FromJson<ServerPlayerData>(json);
+            GameState.Restore(localSaveJson);
 
-                CompareHeroes(serverData);
+            if (GameState.IsValid())
+            {
+                Server.GetStaticData(this, ServerStaticDataCallback);
+
+                if (code == 200)
+                {
+                    ServerPlayerData serverData = JsonUtility.FromJson<ServerPlayerData>(json);
+
+                    CompareHeroes(serverData);
+
+                }
             }
-           
+
+            else
+                ErrorText.text = "Game state failed to restore";
+        }
+    }
+
+    void ServerStaticDataCallback(long code, string json)
+    {
+        if (code == 200)
+        {
+            ServerData.Restore(json);
+        }
+
+        else if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localStaticJson))
+        {
+            ServerData.Restore(localStaticJson);
+        }
+
+        // ===
+
+        if (ServerData.IsValid())
+        {
+            Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, ServerData.ToJson());
+
             SceneManager.LoadSceneAsync("GameScene");
         }
 
         else
-        {
-            ErrorText.text = "Server probs down";
-        }
+            ErrorText.text = "Static data failed to restore";
     }
 
     void CompareHeroes(ServerPlayerData serverPlayerData)
     {
+        // Add 
         foreach (HeroState serverHero in serverPlayerData.heroes)
         {
             if (!GameState.TryGetHeroState(serverHero.heroId, out HeroState _))
@@ -53,15 +76,19 @@ public class LoginManager : MonoBehaviour
 
         Dictionary<HeroID, HeroState> serverHeroDataDict = serverPlayerData.GetHeroesAsDict();
 
-        for (int i = 0; i < GameState.heroes.Count; ++i)
+        for (int i = 0; i < GameState.heroes.Count;)
         {
             HeroState localHeroData = GameState.heroes[i];
 
+            // Player has a hero which is not on the server
             if (!serverHeroDataDict.TryGetValue(localHeroData.heroId, out HeroState _))
             {
-                Debug.LogWarning("Removed hero '" + Enum.GetName(typeof(HeroID), localHeroData.heroId) + "' from local player data");
-
                 GameState.heroes.RemoveAt(i);
+            }
+
+            else
+            {
+                ++i;
             }
         }
     }

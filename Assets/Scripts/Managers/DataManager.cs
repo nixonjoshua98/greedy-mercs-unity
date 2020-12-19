@@ -10,6 +10,8 @@ public class DataManager : MonoBehaviour
 {
     public static string LOCAL_FILENAME = "local_15";
 
+    public static string LOCAL_STATIC_FILENAME = "localstatic_1";
+
     void Start()
     {
         Invoke("WriteStateToFile", 3.0f);

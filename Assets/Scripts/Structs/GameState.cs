@@ -69,6 +69,10 @@ public class GameState
         return JsonUtility.ToJson(State);
     }
 
+    public static bool IsValid() {
+        return State != null;
+    }
+
     // === Helper Methods ===
     public static HeroState GetHeroState(HeroID heroId)
     {

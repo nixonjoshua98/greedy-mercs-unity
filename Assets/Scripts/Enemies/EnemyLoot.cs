@@ -13,6 +13,6 @@ public class EnemyLoot : LootDrop
 
     public override void Process()
     {
-        GameState.player.gold += Formulas.CalcEnemyGold(stageSpawned);
+        GameState.player.gold += StatsCache.GetEnemyGold(stageSpawned);
     }
 }

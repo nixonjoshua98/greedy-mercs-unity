@@ -5,16 +5,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-using SimpleJSON;
-
 
 public class LoginManager : MonoBehaviour
 {
     [SerializeField] Text ErrorText;
 
+    [SerializeField] GameObject ServerConnectionNotice;
+
     void Awake()
     {
         Server.Login(this, ServerLoginCallback);
+    }
+
+    void ShowConnectionNotice()
+    {
+        Utils.UI.Instantiate(ServerConnectionNotice, Vector3.zero);
     }
 
     void ServerLoginCallback(long code, string json)
@@ -39,12 +44,18 @@ public class LoginManager : MonoBehaviour
             }
 
             else
-                ErrorText.text = "Game state failed to restore";
+                ErrorText.text = "Local game data has been corrupted";
+        }
+
+        // No server connection and no local data
+        else
+        {
+            ShowConnectionNotice();
         }
     }
 
     void ServerStaticDataCallback(long code, string json)
-    {      
+    {
         // We are duplicating here but thats fine.
 
         if (code == 200)
@@ -67,7 +78,7 @@ public class LoginManager : MonoBehaviour
 
         else
         {
-            ErrorText.text = "Static data failed to restore";
+            ShowConnectionNotice();
         }
     }
 

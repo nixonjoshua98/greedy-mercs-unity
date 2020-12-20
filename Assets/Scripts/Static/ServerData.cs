@@ -34,6 +34,8 @@ public class HeroPassiveSkill
 public class BonusesFromHeroes
 {
     public double allSquadDamage = 1;
+
+    public double allGold = 1;
 }
 
 public class ServerData
@@ -161,6 +163,10 @@ public class ServerData
                     {
                         case PassiveSkillType.ALL_SQUAD_DAMAGE:
                             bonuses.allSquadDamage *= skill.value;
+                            break;
+
+                        case PassiveSkillType.ENEMY_GOLD:
+                            bonuses.allGold *= skill.value;
                             break;
                     }
                 }

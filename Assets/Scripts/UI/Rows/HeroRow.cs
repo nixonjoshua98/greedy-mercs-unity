@@ -13,9 +13,9 @@ public class HeroRow : MonoBehaviour
 
     [Space]
 
-    [SerializeField] Text UpgradeButtonText;
     [SerializeField] Text SquadButtonText;
     [SerializeField] Text DamageText;
+    [SerializeField] Text CostText;
     [SerializeField] Text LevelText;
 
     [Space]
@@ -28,9 +28,9 @@ public class HeroRow : MonoBehaviour
 
         SquadButtonText.text = state.inSquad ? "Remove" : "Add";
 
-        DamageText.text = Utils.Format.DoubleToString(HeroStatsCache.GetHeroDamage(associatedHeroId));
+        DamageText.text = Utils.Format.DoubleToString(StatsCache.GetHeroDamage(associatedHeroId));
 
-        UpgradeButtonText.text = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId));
+        CostText.text = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId));
     }
 
     public bool TryUpdate()

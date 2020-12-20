@@ -9,6 +9,19 @@ using UnityEngine;
 
 namespace Utils
 {
+    public class UI
+    {
+        public static GameObject Instantiate(GameObject o, Vector3 pos)
+        {
+            GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
+
+            GameObject createdObject = GameObject.Instantiate(o, pos, Quaternion.identity);
+
+            createdObject.transform.SetParent(canvas.transform, false);
+
+            return createdObject;
+        }
+    }
     public class GZip
     {
         // Given by William at Tier 9 Studios (Auto Battles Online)

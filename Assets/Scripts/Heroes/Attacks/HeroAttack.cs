@@ -53,7 +53,7 @@ public abstract class HeroAttack: MonoBehaviour
 
     protected void DealDamage()
     {
-        GameManager.TryDealDamageToEnemy(HeroStatsCache.GetHeroDamage(heroId));
+        GameManager.TryDealDamageToEnemy(StatsCache.GetHeroDamage(heroId));
 
         attackDuration = Time.timeSinceLevelLoad - lastAttack;
 

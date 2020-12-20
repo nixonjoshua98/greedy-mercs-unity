@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   associatedHeroId: 1
-  UpgradeButtonText: {fileID: 7473208117331637668}
   SquadButtonText: {fileID: 8730289170777982257}
   DamageText: {fileID: 3335217388919182631}
+  CostText: {fileID: 7473208117331637668}
   LevelText: {fileID: 1190444331792262405}
   HeroInfoPanel: {fileID: 2961036064842033163, guid: 5f91f2821cb06e446b43e93691513694,
     type: 3}

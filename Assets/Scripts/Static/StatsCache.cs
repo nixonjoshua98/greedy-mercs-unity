@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class HeroStatsCache : MonoBehaviour
+public class StatsCache : MonoBehaviour
 {
     static BonusesFromHeroes bonusesFromHeroes;
 
@@ -15,6 +15,20 @@ public class HeroStatsCache : MonoBehaviour
         CalculateBonusesFromHeroes();
 
         return Formulas.CalcHeroDamage(hero) * bonusesFromHeroes.allSquadDamage;
+    }
+
+    public static double GetEnemyGold(int stage)
+    {
+        CalculateBonusesFromHeroes();
+
+        return Formulas.CalcEnemyGold(stage) * bonusesFromHeroes.allGold;
+    }
+
+    public static double GetBossGold(int stage)
+    {
+        CalculateBonusesFromHeroes();
+
+        return Formulas.CalcBossGold(stage) * bonusesFromHeroes.allGold;
     }
 
     public static void CalculateBonusesFromHeroes()

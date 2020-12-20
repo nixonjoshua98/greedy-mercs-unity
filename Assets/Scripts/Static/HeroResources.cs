@@ -18,7 +18,8 @@ public enum PassiveSkillType
 {
     ERROR = -1,
 
-    ALL_SQUAD_DAMAGE = 0,
+    ALL_SQUAD_DAMAGE    = 0,
+    ENEMY_GOLD          = 1
 }
 
 
@@ -46,8 +47,11 @@ public static class HeroResources
             case PassiveSkillType.ALL_SQUAD_DAMAGE:
                 return "squad damage";
 
+            case PassiveSkillType.ENEMY_GOLD:
+                return "enemy gold";
+
             default:
-                return "{SkillName}";
+                return "{Missing}";
         }
     }
 }

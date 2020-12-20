@@ -14,8 +14,6 @@ public class ParticleHeroAttack : HeroAttack
 
     public void OnAttackParticleSystemStopped()
     {
-        isAttacking = false;
-
         DealDamage();
     }
 }

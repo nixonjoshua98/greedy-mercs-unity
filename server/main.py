@@ -29,18 +29,18 @@ def staticdata():
 
 				HeroID.WRAITH_LIGHTNING: {
 					"static": {
-						"baseCost": 3.0
+						"baseCost": 1.0
 					},
 					"skills": [
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 25},
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 50},
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 75}
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 75}
 					]
 				},
 
 				HeroID.GOLEM_STONE: {
 					"static": {
-						"baseCost": 2.5
+						"baseCost": 2
 					},
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
@@ -51,18 +51,18 @@ def staticdata():
 
 				HeroID.SATYR_FIRE: {
 					"static": {
-						"baseCost": 2.0
+						"baseCost": 2.5
 					},
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 50},
-						{"skill": PassiveSkillID.SQUAD_DAMAGE_0, "unlockLevel": 75}
+						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 75}
 					]
 				},
 
 				HeroID.FALLEN_ANGEL: {
 					"static": {
-						"baseCost": 1.5
+						"baseCost": 3
 					},
 					"skills": [
 						{"skill": PassiveSkillID.SQUAD_DAMAGE_1, "unlockLevel": 25},

@@ -10,15 +10,11 @@ public class ProjectileHeroAttack : HeroAttack
 
     public override void OnAttackAnimationEnd()
     {
-        isAttacking = true;
-
         StartCoroutine(FireProjectile());
     }
 
     void OnProjectileFinished()
     {
-        isAttacking = false;
-
         DealDamage();
     }
 

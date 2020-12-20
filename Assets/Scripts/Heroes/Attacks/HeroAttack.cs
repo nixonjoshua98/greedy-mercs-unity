@@ -13,16 +13,18 @@ public abstract class HeroAttack: MonoBehaviour
 
     [Space]
 
-    const float AttackDelay = 0.25f;
+    [SerializeField, Range(0, 1.0f)] float AttackDelay = 0.25f;
 
-    protected bool isAttacking;
+    protected bool isAttacking { get { return anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"); } }
 
     float attackTimer;
 
+    float lastAttack;
+
+    public float attackDuration;
+
     void Awake()
     {
-        isAttacking = false;
-
         attackTimer = AttackDelay;
     }
 
@@ -44,8 +46,6 @@ public abstract class HeroAttack: MonoBehaviour
 
     void StartAttack()
     {
-        isAttacking = true;
-
         anim.Play("Attack");
     }
 
@@ -54,5 +54,9 @@ public abstract class HeroAttack: MonoBehaviour
     protected void DealDamage()
     {
         GameManager.TryDealDamageToEnemy(HeroStatsCache.GetHeroDamage(heroId));
+
+        attackDuration = Time.timeSinceLevelLoad - lastAttack;
+
+        lastAttack = Time.timeSinceLevelLoad;
     }
 }

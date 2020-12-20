@@ -43,7 +43,7 @@ public static class Formulas
 
         StaticServerHeroData data = ServerData.GetStaticHeroData(heroId);
 
-        return data.baseCost * Mathf.Pow(1.13f, state.level - 1) * Mathf.Max(0.15f, 1.0f - (0.1f * (state.level - 1) / 25));
+        return Mathf.Pow(data.baseCost, 1.35f) * Mathf.Pow(1.13f, state.level - 1);
     }
 
     // ===
@@ -54,6 +54,6 @@ public static class Formulas
 
         StaticServerHeroData data = ServerData.GetStaticHeroData(heroId);
 
-        return data.baseCost * Mathf.Pow(1.12f, state.level - 1) * Mathf.Pow(1.05f, (state.level - 1));
+        return data.baseCost * Mathf.Pow(1.175f, state.level - 1);
     }
 }

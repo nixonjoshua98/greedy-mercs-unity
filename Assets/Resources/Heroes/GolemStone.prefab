@@ -128,6 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroId: 1
   anim: {fileID: 1791531129569585673}
+  AttackDelay: 0.2
+  attackDuration: 0
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0

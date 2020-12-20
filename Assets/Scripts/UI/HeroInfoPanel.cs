@@ -16,7 +16,7 @@ public class HeroInfoPanel : MonoBehaviour
         showingHero = hero;
     }
 
-    void Start()
+    IEnumerator Start()
     {
         List<HeroPassiveUnlock> unlocks = ServerData.GetHeroPassiveSkills(showingHero);
 
@@ -38,6 +38,8 @@ public class HeroInfoPanel : MonoBehaviour
             skillRowScript.DescriptionText.text = skillRowScript.DescriptionText.text
                 .Replace("{skillValue}", skill.value.ToString())
                 .Replace("{skillTypeText}", HeroResources.PassiveTypeToString(skill.type));
+
+            yield return new WaitForFixedUpdate();
         }
     }
 

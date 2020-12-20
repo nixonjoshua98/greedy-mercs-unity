@@ -8,8 +8,6 @@ public class MeleeHeroAttack : HeroAttack
 {
     public override void OnAttackAnimationEnd()
     {
-        isAttacking = false;
-
         DealDamage();
     }
 }

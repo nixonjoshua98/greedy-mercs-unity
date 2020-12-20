@@ -14,7 +14,7 @@ public enum HeroID
     FALLEN_ANGEL        = 3
 }
 
-public enum PassiveSkillType
+public enum BonusType
 {
     ERROR = -1,
 
@@ -40,14 +40,14 @@ public static class HeroResources
         return Resources.Load<GameObject>("Heroes/" + GetGameObjectString(key));
     }
 
-    public static string PassiveTypeToString(PassiveSkillType skill)
+    public static string PassiveTypeToString(BonusType skill)
     {
         switch (skill)
         {
-            case PassiveSkillType.ALL_SQUAD_DAMAGE:
+            case BonusType.ALL_SQUAD_DAMAGE:
                 return "squad damage";
 
-            case PassiveSkillType.ENEMY_GOLD:
+            case BonusType.ENEMY_GOLD:
                 return "enemy gold";
 
             default:

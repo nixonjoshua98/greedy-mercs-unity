@@ -6,6 +6,7 @@ using UnityEngine;
 using SimpleJSON;
 using System;
 
+
 [System.Serializable]
 public class HeroPassiveUnlock
 {
@@ -28,16 +29,8 @@ public class HeroPassiveSkill
 
     public double value = 1;
 
-    public PassiveSkillType type = PassiveSkillType.ERROR;
+    public BonusType type = BonusType.ERROR;
 }
-
-public class BonusesFromHeroes
-{
-    public double allSquadDamage = 1;
-
-    public double allGold = 1;
-}
-
 public class ServerData
 {
     static _ServerData Data = null;
@@ -143,31 +136,23 @@ public class ServerData
         return Data.staticHeroData[hero];
     }
 
-    public static BonusesFromHeroes GetBonusesFromHeroes()
+    public static Dictionary<BonusType, double> GetBonusesFromHeroes()
     {
-        BonusesFromHeroes bonuses = new BonusesFromHeroes();
+        Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 
         foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
         {
-            HeroState heroState = GameState.GetHeroState(hero);
-
-            List<HeroPassiveUnlock> heroPassiveUnlocks = GetHeroPassiveSkills(hero);
-
-            foreach (HeroPassiveUnlock unlock in heroPassiveUnlocks)
+            if (GameState.TryGetHeroState(hero, out HeroState state))
             {
-                if (heroState.level >= unlock.unlockLevel)
+                List<HeroPassiveUnlock> heroPassiveUnlocks = GetHeroPassiveSkills(hero);
+
+                foreach (HeroPassiveUnlock unlock in heroPassiveUnlocks)
                 {
-                    HeroPassiveSkill skill = GetPassiveData(unlock.skill);
-
-                    switch (skill.type)
+                    if (state.level >= unlock.unlockLevel)
                     {
-                        case PassiveSkillType.ALL_SQUAD_DAMAGE:
-                            bonuses.allSquadDamage *= skill.value;
-                            break;
+                        HeroPassiveSkill skill = GetPassiveData(unlock.skill);
 
-                        case PassiveSkillType.ENEMY_GOLD:
-                            bonuses.allGold *= skill.value;
-                            break;
+                        bonuses[skill.type] = bonuses.GetValueOrDefault(skill.type, 1) * skill.value;
                     }
                 }
             }

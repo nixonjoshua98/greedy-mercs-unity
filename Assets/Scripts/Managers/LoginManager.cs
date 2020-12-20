@@ -26,31 +26,32 @@ public class LoginManager : MonoBehaviour
     {
         bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
 
-        // We have local data
-        if (isLocalSave || code == 200)
+        GameState.Restore(isLocalSave ? localSaveJson : "{}");
+
+        // Online
+        if (code == ServerCodes.OK)
         {
-            GameState.Restore(isLocalSave ? localSaveJson : "{}");
+            CompareHeroes(JsonUtility.FromJson<ServerPlayerData>(json));
 
-            if (GameState.IsValid())
+            Server.GetStaticData(this, ServerStaticDataCallback);
+        }
+
+        // Offline
+        else
+        {
+            bool isLocalStatic = Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localStaticJson);
+
+            if (isLocalStatic)
             {
-                Server.GetStaticData(this, ServerStaticDataCallback);
+                ServerData.Restore(localStaticJson);
 
-                if (code == 200)
-                {
-                    ServerPlayerData serverData = JsonUtility.FromJson<ServerPlayerData>(json);
-
-                    CompareHeroes(serverData);
-                }
+                SceneManager.LoadSceneAsync("GameScene");
             }
 
             else
-                ErrorText.text = "Local game data has been corrupted";
-        }
-
-        // No server connection and no local data
-        else
-        {
-            ShowConnectionNotice();
+            {
+                ShowConnectionNotice();
+            }
         }
     }
 
@@ -58,20 +59,11 @@ public class LoginManager : MonoBehaviour
     {
         // We are duplicating here but thats fine.
 
-        if (code == 200)
+        if (code == ServerCodes.OK)
         {
             ServerData.Restore(json);
 
             Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);
-
-            SceneManager.LoadSceneAsync("GameScene");
-        }
-
-        else if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localStaticJson))
-        {
-            ServerData.Restore(localStaticJson);
-
-            Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, localStaticJson);
 
             SceneManager.LoadSceneAsync("GameScene");
         }

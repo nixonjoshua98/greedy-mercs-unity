@@ -7,30 +7,49 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
+using RequestStructs;
+
+namespace RequestStructs
+{
+    struct Post_Login
+    {
+        public string deviceId;
+    }
+}
+
 
 public static class Server
 {
     public static void Login(MonoBehaviour mono, Action<long, string> callback)
     {
-        mono.StartCoroutine(Get("login", callback));
+        var obj = new Post_Login { deviceId = SystemInfo.deviceUniqueIdentifier };
+
+        mono.StartCoroutine(Put("login", callback, JsonUtility.ToJson(obj)));
     }
 
     public static void GetStaticData(MonoBehaviour mono, Action<long, string> callback)
     {
-        mono.StartCoroutine(Get("staticdata", callback));
+        mono.StartCoroutine(Put("staticdata", callback, "{}"));
     }
 
-    static IEnumerator Get(string endpoint, Action<long, string> callback)
+    static IEnumerator Put(string endpoint, Action<long, string> callback, string json)
     {
-        UnityWebRequest www = UnityWebRequest.Post("http://165.120.118.254:2122/api/" + endpoint, "NO DATA");
+        UnityWebRequest www = UnityWebRequest.Put("http://165.120.118.254:2122/api/" + endpoint, json);
 
         www.timeout = 3;
 
+        www.SetRequestHeader("Content-Type", "application/json");
+
+        yield return Send(www, callback);
+    }
+
+    static IEnumerator Send(UnityWebRequest www, Action<long, string> callback)
+    {
         Stopwatch timer = Stopwatch.StartNew();
 
         yield return www.SendWebRequest();
 
-        UnityEngine.Debug.Log("/" + endpoint + " | status " + www.responseCode.ToString() + " | " + timer.ElapsedMilliseconds.ToString() + "ms");
+        UnityEngine.Debug.Log(www.url + " | status " + www.responseCode.ToString() + " | " + timer.ElapsedMilliseconds.ToString() + "ms");
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);
     }

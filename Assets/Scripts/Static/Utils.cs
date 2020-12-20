@@ -1,11 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Collections;
 using System.IO.Compression;
 using System.Collections.Generic;
 
 using UnityEngine;
+
+public static class ServerCodes
+{
+    public const int OK = 200;
+    public const int BAD_INPUT = 400;
+}
+
+public static class Extensions
+{    public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
+    {
+        return dict.TryGetValue(key, out var value) ? value : fallback;
+    }
+}
 
 namespace Utils
 {

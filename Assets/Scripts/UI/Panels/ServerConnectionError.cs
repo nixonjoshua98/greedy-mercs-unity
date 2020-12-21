@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ServerNotice : Notice
+public class ServerConnectionError : ErrorMessage
 {
-    public void TryReconnect()
+    public void OnReconnect()
     {
         SceneManager.LoadSceneAsync(0);
     }

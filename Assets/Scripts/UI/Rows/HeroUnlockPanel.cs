@@ -13,14 +13,6 @@ public class HeroUnlockPanel : MonoBehaviour
     [Space]
     [SerializeField] GameObject ErrorMessageObject;
 
-    Dictionary<int, HeroID> HeroUnlocks = new Dictionary<int, HeroID>()
-    {
-        {1,     HeroID.WRAITH_LIGHTNING },
-        {10,    HeroID.GOLEM_STONE },
-        {35,    HeroID.FALLEN_ANGEL },
-        {75,    HeroID.SATYR_FIRE },
-    };
-
 
     void OnEnable()
     {
@@ -29,7 +21,7 @@ public class HeroUnlockPanel : MonoBehaviour
 
     public void OnUnlockButton()
     {
-        if (GetNextHeroUnlock(out int stage, out HeroID hero))
+        if (HeroResources.GetNextHeroUnlock(out int stage, out HeroID hero))
         {
             if (GameState.stage.stage >= stage)
             {
@@ -38,7 +30,7 @@ public class HeroUnlockPanel : MonoBehaviour
 
             else
             {
-                Utils.UI.ShowError(ErrorMessageObject, "Stage Reward", "This hero can be unlocked after reaching stage " + "<color=\"orange\">" + stage.ToString() + "</color>");
+                Utils.UI.ShowError(ErrorMessageObject, "Unlockable hero", "This hero can be unlocked after reaching stage " + "<color=orange>" + stage.ToString() + "</color>");
             }
 
             UpdatePanel();
@@ -47,7 +39,7 @@ public class HeroUnlockPanel : MonoBehaviour
 
     void UpdatePanel()
     {
-        if (GetNextHeroUnlock(out int stage, out var _))
+        if (HeroResources.GetNextHeroUnlock(out int stage, out var _))
         {
             Title.text = "Unlocks at stage " + stage.ToString();
         }
@@ -56,29 +48,5 @@ public class HeroUnlockPanel : MonoBehaviour
         {
             Title.text = "Nothing left to unlock!";
         }
-    }
-
-    bool GetNextHeroUnlock(out int stage, out HeroID hero)
-    {
-        stage = 0;
-        hero = HeroID.ERROR;
-
-        List<int> values = HeroUnlocks.Keys.ToList();
-
-        values.Sort();
-
-        foreach (int stageUnlock in values)
-        {
-            if (!GameState.TryGetHeroState(HeroUnlocks[stageUnlock], out var _) || stageUnlock > GameState.stage.stage)
-            {
-                stage = stageUnlock;
-
-                hero = HeroUnlocks[stageUnlock];
-
-                return true;
-            }
-        }
-
-        return false;
     }
 }

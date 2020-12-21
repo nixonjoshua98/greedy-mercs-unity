@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a12c1fab53bfbe40a03cf1f2ea64ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerConnectionNotice: {fileID: 5584922733497031950, guid: 333aeb0d648f5f34d95a56c7edafb0c6,
+  ServerErrorMessage: {fileID: 4981266009914089297, guid: 668c075a7cb13014e97fba64c15fffca,
     type: 3}
 --- !u!4 &1526689252
 Transform:

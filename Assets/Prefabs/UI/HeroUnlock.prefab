@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 4407159677245931589}
   - component: {fileID: 1008695333082397376}
   m_Layer: 5
-  m_Name: StageReward
+  m_Name: HeroUnlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Title: {fileID: 3194253570691061313}
-  ErrorMessageObject: {fileID: 2274936714259705310, guid: 668c075a7cb13014e97fba64c15fffca,
+  ErrorMessageObject: {fileID: 8966553136809179518, guid: 1a6daf1bbb837cd40a0c7fb23f552421,
     type: 3}
 --- !u!222 &4407159677245931589
 CanvasRenderer:

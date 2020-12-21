@@ -8,16 +8,11 @@ using SimpleJSON;
 
 public class LoginManager : MonoBehaviour
 {
-    [SerializeField] GameObject ServerConnectionNotice;
+    [SerializeField] GameObject ServerErrorMessage;
 
     void Awake()
     {
         StartGameStateRestore();
-    }
-
-    void ShowConnectionNotice()
-    {
-        Utils.UI.Instantiate(ServerConnectionNotice, Vector3.zero);
     }
 
     void StartGameStateRestore()
@@ -31,7 +26,7 @@ public class LoginManager : MonoBehaviour
 
     void ServerStaticDataCallback(long code, string json)
     {
-        if (code == ServerCodes.OK)
+        if (code == 200)
         {
             ServerData.Restore(JSON.Parse(json));
 
@@ -44,7 +39,7 @@ public class LoginManager : MonoBehaviour
                 ServerData.Restore(JSON.Parse(localSaveJson));
 
             else
-                ShowConnectionNotice();
+                Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");
         }
 
         SceneManager.LoadSceneAsync("GameScene");

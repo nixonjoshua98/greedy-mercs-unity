@@ -6,12 +6,6 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public static class ServerCodes
-{
-    public const int OK             = 200;
-    public const int CLIENT_ERROR   = 400;
-}
-
 public static class Extensions
 {    public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
     {

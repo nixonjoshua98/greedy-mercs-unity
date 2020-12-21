@@ -26,7 +26,7 @@
 
 	"2": {
 		"values": {
-			"baseCost": 1
+			"baseCost": 4
 		},
 		"skills": [
 			{"skill": 1, "unlockLevel": 25},
@@ -38,7 +38,7 @@
 
 	"3": {
 		"values": {
-			"baseCost": 2
+			"baseCost": 5
 		},
 		"skills": [
 			{"skill": 1, "unlockLevel": 25},

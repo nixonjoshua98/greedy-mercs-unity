@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -25,7 +26,7 @@ public enum BonusType
 
 public static class HeroResources
 {
-    static readonly Dictionary<HeroID, string> gameObjectLookup = new Dictionary<HeroID, string>()
+    static readonly Dictionary<HeroID, string> GameObjectDict = new Dictionary<HeroID, string>()
     {
         { HeroID.WRAITH_LIGHTNING,  "WraithLightning" },
         { HeroID.GOLEM_STONE,       "GolemStone" },
@@ -33,7 +34,39 @@ public static class HeroResources
         { HeroID.FALLEN_ANGEL,      "FallenAngel" }
     };
 
-    public static string GetGameObjectString(HeroID key) { return gameObjectLookup[key]; }
+    static readonly Dictionary<int, HeroID> HeroUnlocks = new Dictionary<int, HeroID>()
+    {
+        {1,     HeroID.WRAITH_LIGHTNING },
+        {10,    HeroID.GOLEM_STONE },
+        {35,    HeroID.SATYR_FIRE },
+        {75,    HeroID.FALLEN_ANGEL },
+    };
+
+    public static string GetGameObjectString(HeroID key) { return GameObjectDict[key]; }
+
+    public static bool GetNextHeroUnlock(out int stage, out HeroID hero)
+    {
+        stage = 0;
+        hero = HeroID.ERROR;
+
+        List<int> values = HeroUnlocks.Keys.ToList();
+
+        values.Sort();
+
+        foreach (int stageUnlock in values)
+        {
+            if (!GameState.TryGetHeroState(HeroUnlocks[stageUnlock], out var _) || stageUnlock > GameState.stage.stage)
+            {
+                stage = stageUnlock;
+
+                hero = HeroUnlocks[stageUnlock];
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static GameObject GetHeroGameObject(HeroID key)
     {
@@ -51,7 +84,7 @@ public static class HeroResources
                 return "enemy gold";
 
             default:
-                return "{Missing}";
+                return "{missing}";
         }
     }
 }

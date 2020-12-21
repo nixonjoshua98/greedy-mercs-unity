@@ -14,13 +14,13 @@ public class DataManager : MonoBehaviour
 
     void Start()
     {
-        Invoke("WriteStateToFile", 3.0f);
+        Invoke("WriteStateToFile", 1.0f);
     }
 
     void WriteStateToFile()
     {
         Utils.File.Write(LOCAL_FILENAME, GameState.ToJson());
 
-        Invoke("WriteStateToFile", 3.0f);
+        Invoke("WriteStateToFile", 1.0f);
     }
 }

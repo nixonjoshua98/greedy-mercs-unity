@@ -40,7 +40,7 @@ public class LoginManager : MonoBehaviour
 
         else
         {
-            if (Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson))
+            if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
                 ServerData.Restore(JSON.Parse(localSaveJson));
 
             else

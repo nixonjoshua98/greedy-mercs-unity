@@ -12,7 +12,7 @@ public class LoginManager : MonoBehaviour
 
     void Awake()
     {
-        Server.Login(this, ServerLoginCallback);
+        StartGameStateRestore();
     }
 
     void ShowConnectionNotice()
@@ -20,56 +20,33 @@ public class LoginManager : MonoBehaviour
         Utils.UI.Instantiate(ServerConnectionNotice, Vector3.zero);
     }
 
-    void ServerLoginCallback(long code, string json)
+    void StartGameStateRestore()
     {
         bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
 
-        // Online
-        if (code == ServerCodes.OK)
-        {
-            GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"), JSON.Parse(json));
+        GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
 
-            Server.GetStaticData(this, ServerStaticDataCallback);
-        }
-
-        // Offline
-        else
-        {
-            bool isLocalStatic = Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localStaticJson);
-
-            if (isLocalStatic)
-            {
-                GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
-
-                ServerData.Restore(JSON.Parse(localStaticJson)); // Load the locally stored static data
-
-                SceneManager.LoadSceneAsync("GameScene");
-            }
-
-            else
-            {
-                ShowConnectionNotice();
-            }
-        }
+        Server.GetStaticData(this, ServerStaticDataCallback);
     }
 
     void ServerStaticDataCallback(long code, string json)
     {
-        // We are duplicating here but thats fine.
-
-
         if (code == ServerCodes.OK)
         {
             ServerData.Restore(JSON.Parse(json));
 
             Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);
-
-            SceneManager.LoadSceneAsync("GameScene");
         }
 
         else
         {
-            ShowConnectionNotice();
+            if (Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson))
+                ServerData.Restore(JSON.Parse(localSaveJson));
+
+            else
+                ShowConnectionNotice();
         }
+
+        SceneManager.LoadSceneAsync("GameScene");
     }
 }

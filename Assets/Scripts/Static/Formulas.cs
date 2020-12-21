@@ -15,7 +15,7 @@ public static class Formulas
 
     public static double CalcEnemyHealth(int stage)
     {
-        return 1;// 15 * Mathf.Pow(1.25f, Mathf.Min(stage - 1, 25)) * Mathf.Pow(1.25f, Mathf.Max(stage - 25, 0));
+        return 15 * Mathf.Pow(1.25f, Mathf.Min(stage - 1, 25)) * Mathf.Pow(1.25f, Mathf.Max(stage - 25, 0));
     }
 
     public static double CalcBossHealth(int stage)

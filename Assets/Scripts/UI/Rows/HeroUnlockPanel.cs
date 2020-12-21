@@ -31,14 +31,14 @@ public class HeroUnlockPanel : MonoBehaviour
     {
         if (GetNextHeroUnlock(out int stage, out HeroID hero))
         {
-            if (GameState.stage.stage > stage)
+            if (GameState.stage.stage >= stage)
             {
                 GameState.heroes.Add(new HeroState() { heroId = hero });
             }
 
             else
             {
-                Utils.UI.ShowError(ErrorMessageObject, "Stage Reward", "This reward unlocks at stage " + "<color=\"orange\">" + stage.ToString() + "</color>");
+                Utils.UI.ShowError(ErrorMessageObject, "Stage Reward", "This hero can be unlocked after reaching stage " + "<color=\"orange\">" + stage.ToString() + "</color>");
             }
 
             UpdatePanel();

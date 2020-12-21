@@ -26,13 +26,6 @@ namespace RequestStructs
 
 public static class Server
 {
-    public static void Login(MonoBehaviour mono, Action<long, string> callback)
-    {
-        var obj = new Login { deviceId = SystemInfo.deviceUniqueIdentifier };
-
-        mono.StartCoroutine(Put("login", callback, JsonUtility.ToJson(obj)));
-    }
-
     public static void GetStaticData(MonoBehaviour mono, Action<long, string> callback)
     {
         mono.StartCoroutine(Put("staticdata", callback, "{}"));

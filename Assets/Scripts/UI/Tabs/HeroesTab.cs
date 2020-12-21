@@ -8,6 +8,19 @@ public class HeroesTab : MonoBehaviour
 
     List<HeroRow> rows;
 
+    public void OnEnable()
+    {
+        UpdateRows();
+    }
+
+    public void OnDisable()
+    {
+        if (IsInvoking("UpdateRows"))
+        {
+            CancelInvoke("UpdateRows");
+        }
+    }
+
     void Awake()
     {
         rows = new List<HeroRow>();
@@ -16,7 +29,10 @@ public class HeroesTab : MonoBehaviour
         {
             Transform child = heroRowsParent.GetChild(i);
 
-            rows.Add(child.GetComponent<HeroRow>());
+            if (child.TryGetComponent(out HeroRow row))
+            {
+                rows.Add(row);
+            }
         }
     }
 
@@ -29,18 +45,5 @@ public class HeroesTab : MonoBehaviour
         }
 
         Invoke("UpdateRows", 0.5f);
-    }
-
-    public void OnEnable()
-    {
-        UpdateRows();
-    }
-
-    public void OnDisable()
-    {
-        if (IsInvoking("UpdateRows"))
-        {
-            CancelInvoke("UpdateRows");
-        }
     }
 }

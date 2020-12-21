@@ -1,0 +1,25 @@
+{
+	"0": {
+		"name": "Increased Squad Damage",
+		"type": 0,
+		"value": 1.1
+	},
+
+	"1": {
+		"name": "Increased Squad Damage",
+		"type": 0,
+		"value": 1.25
+	},
+
+	"2": {
+		"name": "Increased Enemy Gold",
+		"type": 1,
+		"value": 1.1
+	},
+
+	"3": {
+		"name": "Increased Enemy Gold",
+		"type": 1,
+		"value": 1.3
+	}
+}

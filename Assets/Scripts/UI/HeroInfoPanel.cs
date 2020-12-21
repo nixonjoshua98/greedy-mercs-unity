@@ -20,9 +20,9 @@ public class HeroInfoPanel : MonoBehaviour
     {
         List<HeroPassiveUnlock> unlocks = ServerData.GetHeroPassiveSkills(showingHero);
 
-        foreach (HeroPassiveUnlock unlock in unlocks)
+        foreach (var unlock in unlocks)
         {
-            HeroPassiveSkill skill = ServerData.GetPassiveData(unlock.skill);
+            var skill = ServerData.GetPassiveData(unlock.skill);
 
             GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

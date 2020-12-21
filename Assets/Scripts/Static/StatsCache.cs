@@ -6,27 +6,13 @@ using UnityEngine;
 
 public class StatsCache : MonoBehaviour
 {
-    static Dictionary<BonusType, double> _bonusesFromHeroes; // Should not be accessed directly
-
     static Dictionary<BonusType, double> bonusesFromHeroes
     {
         get
         {
-            if (bonusesFromHeroesStopWatch == null || bonusesFromHeroesStopWatch.ElapsedMilliseconds >= 1000)
-            {
-                if (bonusesFromHeroesStopWatch == null)
-                    bonusesFromHeroesStopWatch = Stopwatch.StartNew();
-
-                bonusesFromHeroesStopWatch.Restart();
-
-                _bonusesFromHeroes = ServerData.GetBonusesFromHeroes();
-            }
-
-            return _bonusesFromHeroes;
+            return ServerData.GetBonusesFromHeroes();
         }
     }
-
-    static Stopwatch bonusesFromHeroesStopWatch;
 
     public static double GetHeroDamage(HeroID hero)
     {

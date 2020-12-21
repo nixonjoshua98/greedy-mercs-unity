@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
-    public static string LOCAL_FILENAME = "local_25";
+    public static string LOCAL_FILENAME = "local_30";
 
-    public static string LOCAL_STATIC_FILENAME = "localstatic_10";
+    public static string LOCAL_STATIC_FILENAME = "localstatic_14";
 
     void Start()
     {

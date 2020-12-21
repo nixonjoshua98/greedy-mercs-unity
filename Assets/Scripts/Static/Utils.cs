@@ -8,8 +8,8 @@ using UnityEngine;
 
 public static class ServerCodes
 {
-    public const int OK = 200;
-    public const int BAD_INPUT = 400;
+    public const int OK             = 200;
+    public const int CLIENT_ERROR   = 400;
 }
 
 public static class Extensions
@@ -32,6 +32,15 @@ namespace Utils
             createdObject.transform.SetParent(canvas.transform, false);
 
             return createdObject;
+        }
+
+        public static void ShowError(GameObject o, string title, string desc)
+        {
+            if (Instantiate(o, Vector3.zero).TryGetComponent(out ErrorMessage error))
+            {
+                error.Title.text = title;
+                error.Description.text = desc;
+            }
         }
     }
     public class GZip

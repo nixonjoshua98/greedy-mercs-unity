@@ -1,35 +1,45 @@
 from flask import jsonify, request
+from flask.views import View
 
-from src import serverutils
-from src.server import mongo
 from src.data.enums import HeroID
-from src.data.servercodes import ServerCodes
+
+from src.databasequeries import DatabaseQueries
 
 
-def login():
-    data = request.get_json()
+class Login(View):
 
-    if (device_id := data.get("deviceId")) is None:
-        return jsonify({"message": " "}), ServerCodes.BAD_INPUT
+	def __init__(self, mongo):
+		self.mongo = mongo
 
-    # - New user login
-    if (user_id := serverutils.device_to_id(mongo, data["deviceId"])) is None:
-        result = mongo.db.users.update_one({"deviceId": device_id}, {"$set": {"deviceId": device_id}}, upsert=True)
+	def dispatch_request(self):
 
-        user_id = result.upserted_id
+		data = request.get_json()
 
-        # Insert default heroes (temporary)
-        mongo.db.heroes.insert_many(
-            [
-                {"userId": user_id, "heroId": HeroID.WRAITH_LIGHTNING},
-                {"userId": user_id, "heroId": HeroID.FALLEN_ANGEL},
-                {"userId": user_id, "heroId": HeroID.GOLEM_STONE},
-                {"userId": user_id, "heroId": HeroID.SATYR_FIRE},
-            ]
-        )
+		if (device := data.get("deviceId")) is None:
+			return jsonify({"message": " "}), 400
 
-    data = {
-        "heroes": serverutils.get_user_heroes(mongo, user_id)
-    }
+		user = DatabaseQueries.find_user(self.mongo, device=device)
 
-    return jsonify(data)
+		if user is None:
+			result = self.mongo.db.users.update_one({"deviceId": device}, {"$set": {"deviceId": device}}, upsert=True)
+
+			user_id = result.upserted_id
+
+			self.mongo.db.heroes.insert_many(
+				[
+					{"userId": user_id, "heroId": HeroID.WRAITH_LIGHTNING},
+				]
+			)
+
+			stats = self.mongo.db.userStats.find_one({"userId": user_id}) or dict()
+
+		else:
+			stats = self.mongo.db.userStats.find_one({"userId": (user_id := user["userId"])}) or dict()
+
+		data = {
+			"heroes": DatabaseQueries.get_heroes(self.mongo, user_id),
+
+			"lastStageRewarded": stats.get("lastStageRewarded", 0)
+		}
+
+		return jsonify(data)

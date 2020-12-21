@@ -24,4 +24,6 @@ public class EventManager : MonoBehaviour
     public static UnityEvent OnFailedToKillBoss = new UnityEvent();
 
     public static UnityEvent OnEnemySpawned = new UnityEvent();
+
+    public static UnityEvent OnKilledBoss = new UnityEvent();
 }

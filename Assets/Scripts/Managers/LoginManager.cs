@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
+using SimpleJSON;
 
 public class LoginManager : MonoBehaviour
 {
-    [SerializeField] Text ErrorText;
-
     [SerializeField] GameObject ServerConnectionNotice;
 
     void Awake()
@@ -26,12 +24,10 @@ public class LoginManager : MonoBehaviour
     {
         bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
 
-        GameState.Restore(isLocalSave ? localSaveJson : "{}");
-
         // Online
         if (code == ServerCodes.OK)
         {
-            CompareHeroes(JsonUtility.FromJson<ServerPlayerData>(json));
+            GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"), JSON.Parse(json));
 
             Server.GetStaticData(this, ServerStaticDataCallback);
         }
@@ -43,7 +39,9 @@ public class LoginManager : MonoBehaviour
 
             if (isLocalStatic)
             {
-                ServerData.Restore(localStaticJson);
+                GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
+
+                ServerData.Restore(JSON.Parse(localStaticJson)); // Load the locally stored static data
 
                 SceneManager.LoadSceneAsync("GameScene");
             }
@@ -59,9 +57,10 @@ public class LoginManager : MonoBehaviour
     {
         // We are duplicating here but thats fine.
 
+
         if (code == ServerCodes.OK)
         {
-            ServerData.Restore(json);
+            ServerData.Restore(JSON.Parse(json));
 
             Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);
 
@@ -71,36 +70,6 @@ public class LoginManager : MonoBehaviour
         else
         {
             ShowConnectionNotice();
-        }
-    }
-
-    void CompareHeroes(ServerPlayerData serverPlayerData)
-    {
-        // Add heroes from server which are not in the local game state
-        foreach (HeroState serverHero in serverPlayerData.heroes)
-        {
-            if (!GameState.TryGetHeroState(serverHero.heroId, out HeroState _))
-                GameState.heroes.Add(serverHero);
-        }
-
-        Dictionary<HeroID, HeroState> serverHeroDataDict = serverPlayerData.GetHeroesAsDict();
-
-        for (int i = 0; i < GameState.heroes.Count;)
-        {
-            HeroState localHeroData = GameState.heroes[i];
-
-            // Player has a hero which is not on the server
-            if (!serverHeroDataDict.TryGetValue(localHeroData.heroId, out HeroState _))
-            {
-                GameState.heroes.RemoveAt(i);
-
-                // Probably editing the local game file save
-            }
-
-            else
-            {
-                ++i;
-            }
         }
     }
 }

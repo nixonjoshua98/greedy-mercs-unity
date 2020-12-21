@@ -35,7 +35,7 @@ public class HeroRow : MonoBehaviour
 
     public bool TryUpdate()
     {
-        if (GameState.TryGetHeroState(associatedHeroId, out HeroState state))
+        if (GameState.TryGetHeroState(associatedHeroId, out var state))
         {
             UpdateRow(state);
 
@@ -51,7 +51,7 @@ public class HeroRow : MonoBehaviour
     {
         SquadManager.ToggleSquadHero(associatedHeroId);
 
-        if (GameState.TryGetHeroState(associatedHeroId, out HeroState state))
+        if (GameState.TryGetHeroState(associatedHeroId, out var state))
         {
             UpdateRow(state);
         }
@@ -63,7 +63,7 @@ public class HeroRow : MonoBehaviour
 
         if (GameState.player.gold >= cost)
         {
-            HeroState state = GameState.GetHeroState(associatedHeroId);
+            var state = GameState.GetHeroState(associatedHeroId);
 
             state.level++;
 

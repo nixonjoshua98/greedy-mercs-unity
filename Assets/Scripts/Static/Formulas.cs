@@ -15,7 +15,7 @@ public static class Formulas
 
     public static double CalcEnemyHealth(int stage)
     {
-        return 15 * Mathf.Pow(1.25f, Mathf.Min(stage - 1, 25)) * Mathf.Pow(1.25f, Mathf.Max(stage - 25, 0));
+        return 1;// 15 * Mathf.Pow(1.25f, Mathf.Min(stage - 1, 25)) * Mathf.Pow(1.25f, Mathf.Max(stage - 25, 0));
     }
 
     public static double CalcBossHealth(int stage)
@@ -39,9 +39,9 @@ public static class Formulas
 
     public static double CalcHeroDamage(HeroID heroId)
     {
-        HeroState state = GameState.GetHeroState(heroId);
+        var state = GameState.GetHeroState(heroId);
 
-        StaticServerHeroData data = ServerData.GetStaticHeroData(heroId);
+        var data = ServerData.GetStaticHeroData(heroId);
 
         return Mathf.Pow(data.baseCost, 1.35f) * Mathf.Pow(1.13f, state.level - 1);
     }
@@ -50,9 +50,9 @@ public static class Formulas
 
     public static double CalcHeroLevelUpCost(HeroID heroId)
     {
-        HeroState state = GameState.GetHeroState(heroId);
+        var state = GameState.GetHeroState(heroId);
 
-        StaticServerHeroData data = ServerData.GetStaticHeroData(heroId);
+        var data = ServerData.GetStaticHeroData(heroId);
 
         return data.baseCost * Mathf.Pow(1.175f, state.level - 1);
     }

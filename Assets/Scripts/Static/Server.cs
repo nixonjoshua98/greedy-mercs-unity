@@ -11,9 +11,15 @@ using RequestStructs;
 
 namespace RequestStructs
 {
-    struct Post_Login
+    struct Login
     {
         public string deviceId;
+    }
+
+    struct StageReward
+    {
+        public string deviceId; 
+        public int stageReached;
     }
 }
 
@@ -22,7 +28,7 @@ public static class Server
 {
     public static void Login(MonoBehaviour mono, Action<long, string> callback)
     {
-        var obj = new Post_Login { deviceId = SystemInfo.deviceUniqueIdentifier };
+        var obj = new Login { deviceId = SystemInfo.deviceUniqueIdentifier };
 
         mono.StartCoroutine(Put("login", callback, JsonUtility.ToJson(obj)));
     }
@@ -32,11 +38,11 @@ public static class Server
         mono.StartCoroutine(Put("staticdata", callback, "{}"));
     }
 
+    // ===
+
     static IEnumerator Put(string endpoint, Action<long, string> callback, string json)
     {
-        UnityWebRequest www = UnityWebRequest.Put("http://165.120.118.254:2122/api/" + endpoint, json);
-
-        www.timeout = 3;
+        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, json);
 
         www.SetRequestHeader("Content-Type", "application/json");
 
@@ -48,8 +54,6 @@ public static class Server
         Stopwatch timer = Stopwatch.StartNew();
 
         yield return www.SendWebRequest();
-
-        UnityEngine.Debug.Log(www.url + " | status " + www.responseCode.ToString() + " | " + timer.ElapsedMilliseconds.ToString() + "ms");
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);
     }

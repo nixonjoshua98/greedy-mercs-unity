@@ -1,0 +1,50 @@
+
+{
+	"0": {
+		"values": {
+			"baseCost": 2.5
+		},
+		"skills": [
+			{"skill": 1, "unlockLevel": 25},
+			{"skill": 2, "unlockLevel": 50},
+			{"skill": 0, "unlockLevel": 75},
+			{"skill": 3, "unlockLevel": 125}
+		]
+	},
+
+	"1": {
+		"values": {
+			"baseCost": 3
+		},
+		"skills": [
+			{"skill": 1, "unlockLevel": 25},
+			{"skill": 2, "unlockLevel": 50},
+			{"skill": 0, "unlockLevel": 75},
+			{"skill": 3, "unlockLevel": 125}
+		]
+	},
+
+	"2": {
+		"values": {
+			"baseCost": 1
+		},
+		"skills": [
+			{"skill": 1, "unlockLevel": 25},
+			{"skill": 2, "unlockLevel": 50},
+			{"skill": 0, "unlockLevel": 75},
+			{"skill": 3, "unlockLevel": 125}
+		]
+	},
+
+	"3": {
+		"values": {
+			"baseCost": 2
+		},
+		"skills": [
+			{"skill": 1, "unlockLevel": 25},
+			{"skill": 2, "unlockLevel": 50},
+			{"skill": 0, "unlockLevel": 75},
+			{"skill": 3, "unlockLevel": 125}
+		]
+	}
+}

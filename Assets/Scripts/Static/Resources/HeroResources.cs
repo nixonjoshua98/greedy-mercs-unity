@@ -37,7 +37,7 @@ public static class HeroResources
     static readonly Dictionary<int, HeroID> HeroUnlocks = new Dictionary<int, HeroID>()
     {
         {3,         HeroID.WRAITH_LIGHTNING },
-        {15,        HeroID.GOLEM_STONE      },
+        {20,        HeroID.GOLEM_STONE      },
         {50,        HeroID.SATYR_FIRE       },
         {150,       HeroID.FALLEN_ANGEL     },
     };

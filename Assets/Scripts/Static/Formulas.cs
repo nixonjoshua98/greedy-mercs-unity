@@ -61,7 +61,9 @@ public static class Formulas
 
     public static double CalcTapDamage()
     {
-        return GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE).level;
+        PlayerUpgradeState state = GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
+
+        return state.level * Mathf.Pow(1.075f, state.level - 1);
     }
 
     // ===

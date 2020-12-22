@@ -43,17 +43,33 @@ public static class Formulas
 
         var data = ServerData.GetStaticHeroData(heroId);
 
-        return Mathf.Pow(data.baseCost, 1.35f) * Mathf.Pow(1.13f, state.level - 1);
+        return (data.baseCost / 5.0f) * Mathf.Pow(1.13f, state.level - 1);
     }
 
     // ===
 
-    public static double CalcHeroLevelUpCost(HeroID heroId)
+    public static double CalcHeroLevelUpCost(HeroID heroId, int levels)
     {
         var state = GameState.GetHeroState(heroId);
 
         var data = ServerData.GetStaticHeroData(heroId);
 
-        return data.baseCost * Mathf.Pow(1.175f, state.level - 1);
+        return (data.baseCost * Mathf.Pow(1.15f, state.level - 1)) * ((1 - Mathf.Pow(1.15f, levels)) / (1 - 1.15f));
+    }
+
+    // ===
+
+    public static double CalcTapDamage()
+    {
+        return GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE).level;
+    }
+
+    // ===
+
+    public static double CalcTapDamageLevelUpCost(int levels)
+    {
+        PlayerUpgradeState state = GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
+
+        return (10.0f * Mathf.Pow(1.25f, state.level - 1)) * ((1 - Mathf.Pow(1.25f, levels)) / (1 - 1.25f));
     }
 }

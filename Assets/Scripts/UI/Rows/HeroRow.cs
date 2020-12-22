@@ -15,6 +15,7 @@ public class HeroRow : MonoBehaviour
 
     [SerializeField] Text SquadButtonText;
     [SerializeField] Text DamageText;
+    [SerializeField] Text BuyText;
     [SerializeField] Text CostText;
     [SerializeField] Text LevelText;
 
@@ -24,13 +25,11 @@ public class HeroRow : MonoBehaviour
 
     void UpdateRow(HeroState state)
     {
-        LevelText.text = "Level " + state.level.ToString();
-
-        SquadButtonText.text = state.inSquad ? "Remove" : "Add";
-
-        DamageText.text = Utils.Format.DoubleToString(StatsCache.GetHeroDamage(associatedHeroId));
-
-        CostText.text = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId));
+        SquadButtonText.text    = state.inSquad ? "Remove" : "Add";
+        LevelText.text          = "Level " + state.level.ToString();
+        BuyText.text            = "x" + HeroesTab.BuyAmount.ToString();
+        DamageText.text         = Utils.Format.DoubleToString(StatsCache.GetHeroDamage(associatedHeroId));
+        CostText.text           = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId, HeroesTab.BuyAmount));
     }
 
     public bool TryUpdate()
@@ -59,13 +58,15 @@ public class HeroRow : MonoBehaviour
 
     public void OnBuyButton()
     {
-        double cost = Formulas.CalcHeroLevelUpCost(associatedHeroId);
+        int levelsBuying = HeroesTab.BuyAmount;
+
+        double cost = Formulas.CalcHeroLevelUpCost(associatedHeroId, levelsBuying);
 
         if (GameState.player.gold >= cost)
         {
             var state = GameState.GetHeroState(associatedHeroId);
 
-            state.level++;
+            state.level += levelsBuying;
 
             GameState.player.gold -= cost;
 

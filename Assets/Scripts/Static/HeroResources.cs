@@ -36,10 +36,10 @@ public static class HeroResources
 
     static readonly Dictionary<int, HeroID> HeroUnlocks = new Dictionary<int, HeroID>()
     {
-        {1,     HeroID.WRAITH_LIGHTNING },
-        {10,    HeroID.GOLEM_STONE },
-        {35,    HeroID.SATYR_FIRE },
-        {75,    HeroID.FALLEN_ANGEL },
+        {3,         HeroID.WRAITH_LIGHTNING },
+        {15,        HeroID.GOLEM_STONE      },
+        {50,        HeroID.SATYR_FIRE       },
+        {150,       HeroID.FALLEN_ANGEL     },
     };
 
     public static string GetGameObjectString(HeroID key) { return GameObjectDict[key]; }

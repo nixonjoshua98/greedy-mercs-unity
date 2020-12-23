@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StatsCache : MonoBehaviour
 {
-    static Dictionary<BonusType, double> bonusesFromHeroes { get { return ServerData.GetBonusesFromHeroes(); } }
+    static Dictionary<BonusType, double> bonusesFromHeroes { get { return StaticData.GetBonusesFromHeroes(); } }
 
     public static double GetHeroDamage(HeroID hero)
     {
@@ -22,13 +22,13 @@ public class StatsCache : MonoBehaviour
 
     public static double GetBossGold(int stage)
     {
-        return Formulas.CalcBossGold(stage);
+        return Formulas.CalcBossGold(stage) * bonusesFromHeroes.GetValueOrDefault(BonusType.BOSS_GOLD, 1);
     }
 
     // ===
 
     public static double GetTapDamage()
     {
-        return Formulas.CalcTapDamage();
+        return Formulas.CalcTapDamage() * bonusesFromHeroes.GetValueOrDefault(BonusType.TAP_DAMAGE, 1);
     }
 }

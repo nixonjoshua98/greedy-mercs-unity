@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class Formulas
 {
@@ -15,7 +12,7 @@ public static class Formulas
 
     public static double CalcEnemyHealth(int stage)
     {
-        return 15 * Mathf.Pow(1.25f, Mathf.Min(stage - 1, 25)) * Mathf.Pow(1.25f, Mathf.Max(stage - 25, 0));
+        return 15.0 * Mathf.Pow(1.3f, Mathf.Min(stage - 1, 75)) * Mathf.Pow(1.15f, Mathf.Max(stage - 75, 0));
     }
 
     public static double CalcBossHealth(int stage)
@@ -27,7 +24,7 @@ public static class Formulas
 
     public static double CalcEnemyGold(int stage)
     {
-        return 10.0f * CalcEnemyHealth(stage) * (0.005 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
+        return 12.5f * CalcEnemyHealth(stage) * (0.005 + (0.0002 * Mathf.Max(0, 50 - (stage - 1))));
     }
 
     public static double CalcBossGold(int stage)
@@ -41,9 +38,9 @@ public static class Formulas
     {
         var state = GameState.GetHeroState(heroId);
 
-        var data = ServerData.GetStaticHeroData(heroId);
+        HeroStaticData hero = HeroResources.GetHero(heroId);
 
-        return (data.baseCost / 5.0f) * Mathf.Pow(1.13f, state.level - 1);
+        return (hero.PurchaseCost / 10.0f) * state.level * Mathf.Pow(5.0f, state.level / 100.0f);
     }
 
     // ===
@@ -52,9 +49,9 @@ public static class Formulas
     {
         var state = GameState.GetHeroState(heroId);
 
-        var data = ServerData.GetStaticHeroData(heroId);
+        HeroStaticData hero = HeroResources.GetHero(heroId);
 
-        return (data.baseCost * Mathf.Pow(1.15f, state.level - 1)) * ((1 - Mathf.Pow(1.15f, levels)) / (1 - 1.15f));
+        return (hero.PurchaseCost * Mathf.Pow(1.075f, state.level)) * ((1 - Mathf.Pow(1.075f, levels)) / (1 - 1.075f));
     }
 
     // ===
@@ -63,7 +60,7 @@ public static class Formulas
     {
         PlayerUpgradeState state = GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
 
-        return state.level * Mathf.Pow(1.075f, state.level - 1);
+        return state.level * Mathf.Pow(2.0f, state.level / 50.0f);
     }
 
     // ===
@@ -72,6 +69,6 @@ public static class Formulas
     {
         PlayerUpgradeState state = GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
 
-        return (10.0f * Mathf.Pow(1.25f, state.level - 1)) * ((1 - Mathf.Pow(1.25f, levels)) / (1 - 1.25f));
+        return (10.0f * Mathf.Pow(1.09f, state.level - 1)) * ((1 - Mathf.Pow(1.09f, levels)) / (1 - 1.09f));
     }
 }

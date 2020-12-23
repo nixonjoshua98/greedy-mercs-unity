@@ -8,11 +8,30 @@ using UnityEngine;
 // === Local Player Data
 #region local
 
+public class HeroStaticData
+{
+    public readonly HeroID HeroID;
+
+    public readonly string Name;
+    public readonly double PurchaseCost;
+    public readonly string GameObjectString;
+
+    public HeroStaticData(HeroID heroId, string name, string gameObjectString, double purchaseCost)
+    {
+        HeroID              = heroId;
+
+        Name                = name;
+        PurchaseCost        = purchaseCost;
+        GameObjectString    = gameObjectString;
+    }
+}
+
 
 [System.Serializable]
 public class PlayerState
 {
     public double gold;
+    public double prestigePoints;
 
     public List<PlayerUpgradeState> upgrades = new List<PlayerUpgradeState>();
 
@@ -20,7 +39,7 @@ public class PlayerState
     {
         foreach (PlayerUpgradeID upgrade in Enum.GetValues(typeof(PlayerUpgradeID)))
         {
-            if (!TryGetUpgrade(upgrade, out PlayerUpgradeState _))
+            if (GetUpgradeState(upgrade) == null)
             {
                 upgrades.Add(new PlayerUpgradeState { upgradeId = upgrade });
             }
@@ -39,13 +58,6 @@ public class PlayerState
 
         return null;
     }
-
-    public bool TryGetUpgrade(PlayerUpgradeID playerUpgrade, out PlayerUpgradeState result)
-    {
-        result = GetUpgradeState(playerUpgrade);
-
-        return result != null;
-    }
 }
 
 
@@ -61,11 +73,9 @@ public class PlayerUpgradeState
 [System.Serializable]
 public class HeroState
 {
-    public HeroID heroId = HeroID.ERROR;
+    public HeroID heroId;
 
     public int level = 1;
-
-    public bool inSquad = false;
 }
 
 
@@ -85,16 +95,9 @@ public class HeroPassiveUnlock
 
 
 [System.Serializable]
-public class StaticServerHeroData
-{
-    public float baseCost;
-}
-
-
-[System.Serializable]
 public class HeroPassiveSkill
 {
-    public BonusType type = BonusType.ERROR;
+    public BonusType type;
 
     public string name = "No Name";
 

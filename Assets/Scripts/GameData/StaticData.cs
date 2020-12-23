@@ -7,14 +7,14 @@ using UnityEngine;
 using SimpleJSON;
 
 
-public class ServerData
+public class StaticData
 {
-    static _ServerData Data = null;
+    static _StaticData Data = null;
 
     public static void Restore(JSONNode json)
     {
         if (Data == null)
-            Data = new _ServerData(json);
+            Data = new _StaticData(json);
     }
 
     // === Helper Methods ===
@@ -30,11 +30,6 @@ public class ServerData
     public static HeroPassiveSkill GetPassiveData(int skill)
     {
         return Data.heroPassiveSkills[skill];
-    }
-
-    public static StaticServerHeroData GetStaticHeroData(HeroID hero)
-    {
-        return Data.staticHeroData[hero];
     }
 
     public static Dictionary<BonusType, double> GetBonusesFromHeroes()
@@ -64,21 +59,17 @@ public class ServerData
 
     // ===
 
-    class _ServerData
+    class _StaticData
     {
         public Dictionary<int, HeroPassiveSkill> heroPassiveSkills;
 
         public Dictionary<HeroID, List<HeroPassiveUnlock>> heroPassives;
 
-        public Dictionary<HeroID, StaticServerHeroData> staticHeroData;
-
-        public _ServerData(JSONNode json)
+        public _StaticData(JSONNode json)
         {
             ParseHeroPassives(json);
 
             AssignHeroPassives(json);
-
-            SetHeroStaticData(json);
         }
 
         void ParseHeroPassives(JSONNode parsedJson)
@@ -107,29 +98,10 @@ public class ServerData
 
                     heroPassives[hero] = new List<HeroPassiveUnlock>();
 
-                    foreach (JSONNode skillString in heroes[jsonKey]["skills"])
+                    foreach (JSONNode skillString in heroes[jsonKey]["passives"])
                     {
                         heroPassives[hero].Add(JsonUtility.FromJson<HeroPassiveUnlock>(skillString.ToString()));
                     }
-                }
-            }
-        }
-
-        void SetHeroStaticData(JSONNode parsedJson)
-        {
-            staticHeroData = new Dictionary<HeroID, StaticServerHeroData>();
-
-            JSONNode heroes = parsedJson["heroes"];
-
-            foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
-            {
-                if ((int)hero >= 0)
-                {
-                    string jsonKey = ((int)hero).ToString();
-
-                    JSONNode staticData = heroes[jsonKey]["values"];
-
-                    staticHeroData[hero] = JsonUtility.FromJson<StaticServerHeroData>(staticData.ToString());
                 }
             }
         }

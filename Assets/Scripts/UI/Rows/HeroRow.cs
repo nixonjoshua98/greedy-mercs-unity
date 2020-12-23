@@ -13,7 +13,6 @@ public class HeroRow : MonoBehaviour
 
     [Space]
 
-    [SerializeField] Text SquadButtonText;
     [SerializeField] Text DamageText;
     [SerializeField] Text BuyText;
     [SerializeField] Text CostText;
@@ -25,7 +24,6 @@ public class HeroRow : MonoBehaviour
 
     void UpdateRow(HeroState state)
     {
-        SquadButtonText.text    = state.inSquad ? "Remove" : "Add";
         LevelText.text          = "Level " + state.level.ToString();
         BuyText.text            = "x" + HeroesTab.BuyAmount.ToString();
         DamageText.text         = Utils.Format.DoubleToString(StatsCache.GetHeroDamage(associatedHeroId));
@@ -45,16 +43,6 @@ public class HeroRow : MonoBehaviour
     }
 
     // === Button Callbacks ===
-    
-    public void OnSquadButton()
-    {
-        SquadManager.ToggleSquadHero(associatedHeroId);
-
-        if (GameState.TryGetHeroState(associatedHeroId, out var state))
-        {
-            UpdateRow(state);
-        }
-    }
 
     public void OnBuyButton()
     {

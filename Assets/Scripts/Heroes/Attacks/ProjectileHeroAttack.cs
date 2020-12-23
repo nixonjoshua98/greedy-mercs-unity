@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -20,7 +19,7 @@ public class ProjectileHeroAttack : HeroAttack
 
     IEnumerator FireProjectile()
     {
-        Vector3 direction = Vector3.right * 5;
+        Vector3 direction = Vector3.right * 4;
 
         GameObject projectile = Instantiate(Projectile, transform);
 

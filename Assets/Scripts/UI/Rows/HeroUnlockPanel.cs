@@ -3,9 +3,8 @@ using UnityEngine.UI;
 
 public class HeroUnlockPanel : MonoBehaviour
 {
-    [SerializeField] Text Title;
-    [Space]
-    [SerializeField] GameObject ErrorMessageObject;
+    [SerializeField] Text TitleText;
+    [SerializeField] Text CostText;
 
 
     void OnEnable()
@@ -15,16 +14,15 @@ public class HeroUnlockPanel : MonoBehaviour
 
     public void OnUnlockButton()
     {
-        if (HeroResources.GetNextHeroUnlock(out int stage, out HeroID hero))
+        if (HeroResources.GetNextHero(out HeroStaticData hero))
         {
-            if (GameState.stage.stage > stage)
+            if (GameState.player.gold >= hero.PurchaseCost)
             {
-                GameState.heroes.Add(new HeroState() { heroId = hero });
-            }
+                GameState.player.gold -= hero.PurchaseCost;
 
-            else
-            {
-                Utils.UI.ShowError(ErrorMessageObject, "Unlockable hero", "This hero can be unlocked after completing stage " + "<color=orange>" + stage.ToString() + "</color>");
+                GameState.heroes.Add(new HeroState() { heroId = hero.HeroID });
+
+                EventManager.OnHeroUnlocked.Invoke(hero.HeroID);
             }
 
             UpdatePanel();
@@ -33,9 +31,11 @@ public class HeroUnlockPanel : MonoBehaviour
 
     void UpdatePanel()
     {
-        if (HeroResources.GetNextHeroUnlock(out int stage, out var _))
+        if (HeroResources.GetNextHero(out HeroStaticData hero))
         {
-            Title.text = "Unlock after completing stage " + stage.ToString();
+            TitleText.text = hero.Name;
+
+            CostText.text = Utils.Format.DoubleToString(hero.PurchaseCost);
         }
 
         else

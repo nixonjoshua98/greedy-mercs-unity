@@ -28,7 +28,7 @@ public class LoginManager : MonoBehaviour
     {
         if (code == 200)
         {
-            ServerData.Restore(JSON.Parse(json));
+            StaticData.Restore(JSON.Parse(json));
 
             Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);
         }
@@ -36,7 +36,7 @@ public class LoginManager : MonoBehaviour
         else
         {
             if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
-                ServerData.Restore(JSON.Parse(localSaveJson));
+                StaticData.Restore(JSON.Parse(localSaveJson));
 
             else
                 Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");

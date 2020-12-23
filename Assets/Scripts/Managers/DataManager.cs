@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 public class DataManager : MonoBehaviour
 {
-    public static string LOCAL_FILENAME = "local_44";
+    public static string LOCAL_FILENAME = "localsave_0";
 
-    public static string LOCAL_STATIC_FILENAME = "localstatic_17";
+    public static string LOCAL_STATIC_FILENAME = "localstatic";
 
     void Start()
     {
         if (GameState.IsRestored())
+        {
             Invoke("WriteStateToFile", 1.0f);
+        }
 
         else
         {

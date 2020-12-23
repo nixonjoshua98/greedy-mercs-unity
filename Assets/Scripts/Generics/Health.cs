@@ -33,6 +33,8 @@ public abstract class Health : MonoBehaviour
             anim.Play("Hurt");
         }
 
+        currentHealth = currentHealth < 0 ? 0 : currentHealth;
+
         anim.Play("Hurt");
     }
 }

@@ -1,119 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 using UnityEngine;
 
 public class SquadManager : MonoBehaviour
 {
-    static SquadManager Instance = null;
-
-    [SerializeField] Transform HeroSpotsTransform;
-
-    List<HeroFormationSpot> FormationList;
+    [SerializeField] Transform[] HeroLocations;
 
     void Awake()
     {
-        Instance = this;
-
-        CreateFormationList();
+        EventManager.OnHeroUnlocked.AddListener(OnHeroUnlocked);
     }
 
     void Start()
     {
-        CreateInitialSquad();
+        UpdateSquad();
     }
 
-    void CreateInitialSquad()
+    void UpdateSquad()
     {
-        foreach (var data in GameState.heroes)
+        var values = Enum.GetValues(typeof(HeroID));
+
+        for (int i = 0; i < values.Length; ++i)
         {
-            if (data.inSquad)
+            HeroID current = (HeroID)values.GetValue(i);
+
+            Transform spawnPoint = HeroLocations[i];
+
+            if (spawnPoint.childCount == 0 && GameState.TryGetHeroState(current, out HeroState _))
             {
-                if (!TryAddHeroToSquad(data.heroId))
-                    data.inSquad = false;
+                GameObject hero = Instantiate(HeroResources.GetHeroGameObject(current), spawnPoint);
+
+                hero.transform.localPosition = Vector3.zero;
             }
         }
     }
 
-    void CreateFormationList()
+    void OnHeroUnlocked(HeroID _)
     {
-        FormationList = new List<HeroFormationSpot>();
-
-        for (int i = 0; i < HeroSpotsTransform.childCount; ++i)
-        {
-            FormationList.Add(new HeroFormationSpot() { Parent = HeroSpotsTransform.GetChild(i) });
-        }
-    }
-
-    // ======================================
-
-    public static HeroFormationStatus ToggleSquadHero(HeroID heroID)
-    {
-        var data = GameState.GetHeroState(heroID);
-
-        if (data.inSquad)
-        {
-            if (Instance.TryRemoveHeroFromSquad(heroID))
-                return HeroFormationStatus.REMOVED;
-
-            return HeroFormationStatus.FAILED_TO_REMOVE;
-        }
-
-        else
-        {
-            if (Instance.TryAddHeroToSquad(heroID))
-                return HeroFormationStatus.ADDED;
-
-            return HeroFormationStatus.FAILED_TO_ADD;
-        }
-    }
-
-    // ======================================
-
-    bool TryAddHeroToSquad(HeroID heroID)
-    {
-        var data = GameState.GetHeroState(heroID);
-
-        HeroFormationSpot spot = null;
-
-        // Find a free spot
-        for (int i = 0; i < Instance.FormationList.Count; ++i)
-        {
-            if (Instance.FormationList[i].IsAvailable)
-                spot = Instance.FormationList[i];
-        }
-
-        if (spot != null)
-        {
-            GameObject hero = Instantiate(HeroResources.GetHeroGameObject(heroID), spot.Parent);
-
-            hero.transform.localPosition = Vector3.zero;
-
-            spot.Set(heroID, hero);
-
-            data.inSquad = true;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    bool TryRemoveHeroFromSquad(HeroID heroID)
-    {
-        var data = GameState.GetHeroState(heroID);
-
-        foreach (HeroFormationSpot spot in Instance.FormationList)
-        {
-            if (!spot.IsAvailable && spot.HeroID == heroID)
-            {
-                spot.Free();
-
-                data.inSquad = false;
-
-                return true;
-            }
-        }
-
-        return false;
+        UpdateSquad();
     }
 }

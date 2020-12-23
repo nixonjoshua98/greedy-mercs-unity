@@ -159,6 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroId: 2
   anim: {fileID: 2828557145166165476}
+  AttackDelay: 0.25
+  attackDuration: 0
   Projectile: {fileID: 1372040286346358, guid: 53ebac442b16db64f9177d0c749cbb06, type: 3}
   ProjectileStart: {fileID: 7637163329336135085}
 --- !u!1001 &4212931058609886445
@@ -226,6 +228,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 2404084112694329216, guid: 7c23600df3afacc45a70aca48c01c25a,
         type: 3}

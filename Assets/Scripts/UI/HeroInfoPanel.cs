@@ -18,11 +18,11 @@ public class HeroInfoPanel : MonoBehaviour
 
     IEnumerator Start()
     {
-        List<HeroPassiveUnlock> unlocks = ServerData.GetHeroPassiveSkills(showingHero);
+        List<HeroPassiveUnlock> unlocks = StaticData.GetHeroPassiveSkills(showingHero);
 
         foreach (var unlock in unlocks)
         {
-            var skill = ServerData.GetPassiveData(unlock.skill);
+            var skill = StaticData.GetPassiveData(unlock.skill);
 
             GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

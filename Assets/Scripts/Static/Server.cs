@@ -1,28 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Networking;
-
-using RequestStructs;
-
-namespace RequestStructs
-{
-    struct Login
-    {
-        public string deviceId;
-    }
-
-    struct StageReward
-    {
-        public string deviceId; 
-        public int stageReached;
-    }
-}
-
 
 public static class Server
 {

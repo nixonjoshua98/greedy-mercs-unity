@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-
+﻿
 [System.Serializable]
 public class StageData
 {
-    const int ENEMIES_PER_STAGE = 5;
+    const int ENEMIES_PER_STAGE = 6;
 
     public int stage;
     public int enemy;

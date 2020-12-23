@@ -29,6 +29,8 @@ public class HeroesTab : MonoBehaviour
                 rows.Add(row);
             }
         }
+
+        EventManager.OnHeroUnlocked.AddListener(OnHeroUnlocked);
     }
 
     void OnEnable()
@@ -42,6 +44,11 @@ public class HeroesTab : MonoBehaviour
         {
             CancelInvoke("UpdateRows");
         }
+    }
+
+    void OnHeroUnlocked(HeroID _)
+    {
+        UpdateRows();
     }
 
     // === Internal Methods ===

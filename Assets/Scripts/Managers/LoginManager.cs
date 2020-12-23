@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -21,11 +22,18 @@ public class LoginManager : MonoBehaviour
 
         GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
 
+        Server.Login(this, ServerLoginCallback);
+    }
+
+    void ServerLoginCallback(long _, string __)
+    {
         Server.GetStaticData(this, ServerStaticDataCallback);
     }
 
-    void ServerStaticDataCallback(long code, string json)
+    void ServerStaticDataCallback(long code, string compressedJson)
     {
+        string json = compressedJson;
+
         if (code == 200)
         {
             StaticData.Restore(JSON.Parse(json));
@@ -39,7 +47,11 @@ public class LoginManager : MonoBehaviour
                 StaticData.Restore(JSON.Parse(localSaveJson));
 
             else
+            {
                 Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");
+
+                return;
+            }
         }
 
         SceneManager.LoadSceneAsync("GameScene");

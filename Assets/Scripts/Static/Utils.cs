@@ -63,9 +63,7 @@ namespace Utils
 
         public static byte[] Zip(string str)
         {
-            var bytes = Encoding.UTF8.GetBytes(str);
-
-            return Zip(bytes);
+            return Zip(Encoding.UTF8.GetBytes(str));
         }
 
         public static string Unzip(byte[] bytes)
@@ -85,6 +83,11 @@ namespace Utils
             }
 
             return unzippedStr;
+        }
+
+        public static string Unzip(string str)
+        {
+            return Unzip(Encoding.UTF8.GetBytes(str));
         }
     }
 
@@ -126,7 +129,7 @@ namespace Utils
         public static string DoubleToString(double val)
         {
             if (val < 1d)
-                return Math.Round(val, 1).ToString();
+                return Math.Round(val, 2).ToString();
 
             Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
 
@@ -135,7 +138,7 @@ namespace Utils
             float m = (float)(val / Mathf.Pow(1000.0f, n));
 
             if (n < unitsTable.Count)
-                return (Mathf.Floor(m * 100.0f) / 100.0f).ToString("0.#") + unitsTable[n];
+                return (Mathf.Floor(m * 100.0f) / 100.0f).ToString("0.##") + unitsTable[n];
 
             else
                 return val.ToString("e2").Replace("+", "");

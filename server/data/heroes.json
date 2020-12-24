@@ -4,12 +4,12 @@
 		"passives": [
 			{"skill": 4, "unlockLevel": 25},
 			{"skill": 5, "unlockLevel": 50},
-			{"skill": 3, "unlockLevel": 75},
+			{"skill": 1, "unlockLevel": 75},
 			{"skill": 2, "unlockLevel": 100},
-			{"skill": 1, "unlockLevel": 125},
+			{"skill": 0, "unlockLevel": 125},
 			{"skill": 3, "unlockLevel": 150},
 			{"skill": 4, "unlockLevel": 175},
-			{"skill": 0, "unlockLevel": 200}
+			{"skill": 1, "unlockLevel": 200}
 		]
 	},
 
@@ -28,11 +28,11 @@
 
 	"2": {
 		"passives": [
-			{"skill": 2, "unlockLevel": 25},
+			{"skill": 3, "unlockLevel": 25},
 			{"skill": 1, "unlockLevel": 50},
 			{"skill": 4, "unlockLevel": 75},
 			{"skill": 4, "unlockLevel": 100},
-			{"skill": 3, "unlockLevel": 125},
+			{"skill": 2, "unlockLevel": 125},
 			{"skill": 0, "unlockLevel": 150},
 			{"skill": 4, "unlockLevel": 175},
 			{"skill": 5, "unlockLevel": 200}

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,14 +23,14 @@ public class LoginManager : MonoBehaviour
         Server.Login(this, ServerLoginCallback);
     }
 
-    void ServerLoginCallback(long _, string __)
+    void ServerLoginCallback(long code, string compressedJson)
     {
         Server.GetStaticData(this, ServerStaticDataCallback);
     }
 
     void ServerStaticDataCallback(long code, string compressedJson)
     {
-        string json = compressedJson;
+        string json = Utils.GZip.Unzip(Convert.FromBase64String(compressedJson));
 
         if (code == 200)
         {

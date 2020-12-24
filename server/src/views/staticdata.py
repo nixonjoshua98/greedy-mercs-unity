@@ -1,6 +1,5 @@
-import json
 
-from flask import Response, jsonify
+from flask import Response
 from flask.views import View
 
 
@@ -12,8 +11,8 @@ class StaticData(View):
 	def dispatch_request(self):
 
 		data = {
-				"heroes": 				json.loads(utils.File.read_data_file("heroes.json")),
-				"heroPassiveSkills": 	json.loads(utils.File.read_data_file("heropassives.json")),
+				"heroes": 				utils.read_data_file("heroes.json"),
+				"heroPassiveSkills": 	utils.read_data_file("heropassives.json"),
 			}
 
-		return jsonify(data)# Response(utils.RequestJson.compress(data), status=200)
+		return Response(utils.compress(data), status=200)

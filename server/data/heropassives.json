@@ -2,13 +2,13 @@
 	"0": {
 		"name": "Minor Squad Damage",
 		"type": 0,
-		"value": 1.1
+		"value": 1.15
 	},
 
 	"1": {
 		"name": "Major Squad Damage",
 		"type": 0,
-		"value": 1.2
+		"value": 1.25
 	},
 
 	"2": {

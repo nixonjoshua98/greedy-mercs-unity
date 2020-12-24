@@ -84,11 +84,6 @@ namespace Utils
 
             return unzippedStr;
         }
-
-        public static string Unzip(string str)
-        {
-            return Unzip(Encoding.UTF8.GetBytes(str));
-        }
     }
 
     public class File

@@ -12,7 +12,7 @@ public static class Formulas
 
     public static double CalcEnemyHealth(int stage)
     {
-        return 15.0 * Mathf.Pow(1.3f, Mathf.Min(stage - 1, 75)) * Mathf.Pow(1.15f, Mathf.Max(stage - 75, 0));
+        return 15.0 * Mathf.Pow(1.3f, Mathf.Min(stage - 1, 70)) * Mathf.Pow(1.15f, Mathf.Max(stage - 70, 0));
     }
 
     public static double CalcBossHealth(int stage)
@@ -24,7 +24,7 @@ public static class Formulas
 
     public static double CalcEnemyGold(int stage)
     {
-        return 12.5f * CalcEnemyHealth(stage) * (0.005 + (0.0002 * Mathf.Max(0, 50 - (stage - 1))));
+        return 12.5f * CalcEnemyHealth(stage) * (0.005 + (0.00025 * Mathf.Max(0, 50 - (stage - 1))));
     }
 
     public static double CalcBossGold(int stage)
@@ -51,7 +51,7 @@ public static class Formulas
 
         HeroStaticData hero = HeroResources.GetHero(heroId);
 
-        return (hero.PurchaseCost * Mathf.Pow(1.075f, state.level)) * ((1 - Mathf.Pow(1.075f, levels)) / (1 - 1.075f));
+        return (hero.PurchaseCost * Mathf.Pow(1.0725f, state.level)) * ((1 - Mathf.Pow(1.0725f, levels)) / (1 - 1.07f));
     }
 
     // ===
@@ -60,7 +60,7 @@ public static class Formulas
     {
         PlayerUpgradeState state = GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
 
-        return state.level * Mathf.Pow(2.0f, (state.level - 1) / 50.0f);
+        return state.level * Mathf.Pow(2.0f, (state.level - 1) / 35.0f);
     }
 
     // ===

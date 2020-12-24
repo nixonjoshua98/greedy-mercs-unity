@@ -249,6 +249,7 @@ MonoBehaviour:
   UnlockText: {fileID: 5056712054370079678}
   SkillNameText: {fileID: 7696526641431437956}
   DescriptionText: {fileID: 6950921579199109070}
+  PanelImage: {fileID: 961353704137004436}
 --- !u!1 &7696526641431437958
 GameObject:
   m_ObjectHideFlags: 0

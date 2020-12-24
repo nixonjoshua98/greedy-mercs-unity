@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class HeroInfoPanel : MonoBehaviour
@@ -20,24 +21,15 @@ public class HeroInfoPanel : MonoBehaviour
     {
         List<HeroPassiveUnlock> unlocks = StaticData.GetHeroPassiveSkills(showingHero);
 
-        foreach (var unlock in unlocks)
+        HeroState heroState = GameState.GetHeroState(showingHero);
+
+        foreach (HeroPassiveUnlock unlock in unlocks)
         {
-            var skill = StaticData.GetPassiveData(unlock.skill);
+            HeroPassiveSkill skill = StaticData.GetPassiveData(unlock.skill);
 
             GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 
-            SkillRow skillRowScript = skillRow.GetComponent<SkillRow>();
-
-            // Name
-            skillRowScript.SkillNameText.text = skill.name;
-
-            // Unlock Level
-            skillRowScript.UnlockText.text = skillRowScript.UnlockText.text.Replace("{level}", unlock.unlockLevel.ToString());
-
-            // Description
-            skillRowScript.DescriptionText.text = skillRowScript.DescriptionText.text
-                .Replace("{skillValue}", skill.value.ToString())
-                .Replace("{skillTypeText}", HeroResources.PassiveTypeToString(skill.type));
+            skillRow.GetComponent<SkillRow>().UpdatePanel(heroState, unlock, skill);
 
             yield return new WaitForFixedUpdate();
         }

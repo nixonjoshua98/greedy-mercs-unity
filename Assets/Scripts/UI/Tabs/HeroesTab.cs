@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,15 +34,13 @@ public class HeroesTab : MonoBehaviour
 
     void OnEnable()
     {
-        UpdateRows();
+        InvokeRepeating("UpdateRows", 0.0f, 0.5f);
     }
 
     void OnDisable()
     {
         if (IsInvoking("UpdateRows"))
-        {
             CancelInvoke("UpdateRows");
-        }
     }
 
     void OnHeroUnlocked(HeroID _)
@@ -58,8 +55,6 @@ public class HeroesTab : MonoBehaviour
         {
             row.gameObject.SetActive(row.TryUpdate());
         }
-
-        Invoke("UpdateRows", 0.5f);
     }
 
     // === Button Callbacks === 

@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Collections;
+using System.Numerics;
 using System.Collections.Generic;
+
+using SimpleJSON;
 
 using UnityEngine;
 
@@ -31,19 +33,33 @@ public class HeroStaticData
 public class PlayerState
 {
     public double gold;
-    public double prestigePoints;
 
-    public List<PlayerUpgradeState> upgrades = new List<PlayerUpgradeState>();
+    public BigInteger prestigePoints;
 
-    public void OnRestored()
+    public List<PlayerUpgradeState> upgrades;
+
+    public void Restore(JSONNode node)
     {
+        upgrades = new List<PlayerUpgradeState>();
+
         foreach (PlayerUpgradeID upgrade in Enum.GetValues(typeof(PlayerUpgradeID)))
         {
             if (GetUpgradeState(upgrade) == null)
-            {
                 upgrades.Add(new PlayerUpgradeState { upgradeId = upgrade });
-            }
         }
+
+        prestigePoints = BigInteger.Parse(node["prestigePoints"]);
+    }
+
+    // === Helper Methods ===
+
+    public JSONNode ToJson()
+    {
+        JSONNode node = JSON.Parse(JsonUtility.ToJson(this));
+
+        node["prestigePoints"] = prestigePoints.ToString();
+
+        return node;
     }
 
     public PlayerUpgradeState GetUpgradeState(PlayerUpgradeID playerUpgrade)
@@ -64,7 +80,7 @@ public class PlayerState
 [System.Serializable]
 public class PlayerUpgradeState
 {
-    public PlayerUpgradeID upgradeId = PlayerUpgradeID.ERROR;
+    public PlayerUpgradeID upgradeId;
 
     public int level = 1;
 }

@@ -40,7 +40,7 @@ public static class Formulas
 
         HeroStaticData hero = HeroResources.GetHero(heroId);
 
-        return (hero.PurchaseCost / 10.0f) * state.level * Mathf.Pow(5.0f, (state.level - 1) / 100.0f);
+        return (hero.PurchaseCost / 10.0f) * state.level * Mathf.Pow(4.0f, (state.level - 1) / 100.0f);
     }
 
     // ===
@@ -58,7 +58,7 @@ public static class Formulas
 
     public static double CalcTapDamage()
     {
-        PlayerUpgradeState state = GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
+        PlayerUpgradeState state = GameState.Player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
 
         return state.level * Mathf.Pow(2.0f, (state.level - 1) / 35.0f);
     }
@@ -67,7 +67,7 @@ public static class Formulas
 
     public static double CalcTapDamageLevelUpCost(int levels)
     {
-        PlayerUpgradeState state = GameState.player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
+        PlayerUpgradeState state = GameState.Player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
 
         return (10.0f * Mathf.Pow(1.09f, state.level - 1)) * ((1 - Mathf.Pow(1.09f, levels)) / (1 - 1.09f));
     }

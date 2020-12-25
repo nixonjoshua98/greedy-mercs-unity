@@ -8,11 +8,11 @@ public class EnemyLoot : LootDrop
 
     void Awake()
     {
-        stageSpawned = GameState.stage.stage;
+        stageSpawned = GameState.Stage.stage;
     }
 
     public override void Process()
     {
-        GameState.player.gold += StatsCache.GetEnemyGold(stageSpawned);
+        GameState.Player.gold += StatsCache.GetEnemyGold(stageSpawned);
     }
 }

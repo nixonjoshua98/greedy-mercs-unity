@@ -25,7 +25,7 @@ public class DataManager : MonoBehaviour
 
     void WriteStateToFile()
     {
-        Utils.File.Write(LOCAL_FILENAME, GameState.ToJson());
+        Utils.File.Write(LOCAL_FILENAME, GameState.ToJson().ToString());
 
         Invoke("WriteStateToFile", 1.0f);
     }

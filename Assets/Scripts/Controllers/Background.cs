@@ -36,7 +36,7 @@ public class Background : MonoBehaviour
 
     void OnNewStageStarted()
     {
-        if (GameState.stage.stage % 25 == 0)
+        if (GameState.Stage.stage % 25 == 0)
         {
             ChangeBackground();
         }
@@ -44,7 +44,7 @@ public class Background : MonoBehaviour
 
     void ChangeBackground()
     {
-        SpriteColourPair pair = backgrounds[Mathf.FloorToInt(GameState.stage.stage / 25) % backgrounds.Length];
+        SpriteColourPair pair = backgrounds[Mathf.FloorToInt(GameState.Stage.stage / 25) % backgrounds.Length];
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 

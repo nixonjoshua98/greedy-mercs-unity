@@ -5,7 +5,5 @@ using UnityEngine;
 
 public enum PlayerUpgradeID
 {
-    ERROR = -1,
-
     TAP_DAMAGE = 0
 }

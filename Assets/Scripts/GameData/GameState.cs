@@ -19,20 +19,27 @@ public class GameState
         public StageData stage;
     }
 
-    public static PlayerState player { get { return State.player; } }
-    public static StageData stage { get { return State.stage; } }
-    public static List<HeroState> heroes { get { return State.heroes; } }
+    public static PlayerState Player { get { return State.player; } }
+    public static StageData Stage { get { return State.stage; } }
+    public static List<HeroState> Heroes { get { return State.heroes; } }
 
     public static void Restore(JSONNode local)
     {
         State = JsonUtility.FromJson<_GameState>(local.ToString());
 
-        State.player.OnRestored();
+        State.player.Restore(local["player"]);
     }
 
     // === Helper Methods ===
 
-    public static string ToJson() { return JsonUtility.ToJson(State); }
+    public static JSONNode ToJson()
+    {
+        JSONNode node = JSON.Parse(JsonUtility.ToJson(State));
+
+        node["player"] = State.player.ToJson();
+
+        return node;
+    }
 
     public static bool IsRestored() { return State != null; }
 

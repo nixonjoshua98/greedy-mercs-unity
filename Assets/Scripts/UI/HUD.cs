@@ -20,14 +20,14 @@ public class HUD : MonoBehaviour
 
     void FixedUpdate()
     {
-        GoldText.text = Utils.Format.DoubleToString(GameState.player.gold);
+        GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
 
         DiamondsText.text = "None";
     }
 
     void UpdateInterface()
     {
-        StageText.text = GameState.stage.stage.ToString() + " | " + GameState.stage.enemy.ToString();
+        StageText.text = GameState.Stage.stage.ToString() + " | " + GameState.Stage.enemy.ToString();
     }
 
     void OnStageUpdate()

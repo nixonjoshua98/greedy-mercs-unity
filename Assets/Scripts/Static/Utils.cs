@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Numerics;
 using System.IO.Compression;
 using System.Collections.Generic;
 
@@ -14,14 +15,14 @@ public static class Extensions
 }
 
 namespace Utils
-{
+{ 
     public class UI
     {
-        public static GameObject Instantiate(GameObject o, Vector3 pos)
+        public static GameObject Instantiate(GameObject o, UnityEngine.Vector3 pos)
         {
             GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
 
-            GameObject createdObject = GameObject.Instantiate(o, pos, Quaternion.identity);
+            GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
 
             createdObject.transform.SetParent(canvas.transform, false);
 
@@ -30,7 +31,7 @@ namespace Utils
 
         public static void ShowError(GameObject o, string title, string desc)
         {
-            if (Instantiate(o, Vector3.zero).TryGetComponent(out ErrorMessage error))
+            if (Instantiate(o, UnityEngine.Vector3.zero).TryGetComponent(out ErrorMessage error))
             {
                 error.Title.text = title;
                 error.Description.text = desc;
@@ -121,7 +122,24 @@ namespace Utils
 
     public class Format : MonoBehaviour
     {
-        public static string DoubleToString(double val)
+        public static string FormatNumber(BigInteger val)
+        {
+            if (val < 1000)
+                return val.ToString();
+
+            Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
+
+            int n = (int)BigInteger.Log10(val);            
+
+            float m = (float)(val / (int)Mathf.Pow(1000.0f, n));
+
+            if (n < unitsTable.Count)
+                return (Mathf.Floor(m * 100.0f) / 100.0f).ToString() + unitsTable[n];
+
+            return val.ToString("e2").Replace("+", "");
+        }
+
+        public static string FormatNumber(double val)
         {
             if (val < 1d)
                 return Math.Round(val, 2).ToString();
@@ -134,9 +152,8 @@ namespace Utils
 
             if (n < unitsTable.Count)
                 return (Mathf.Floor(m * 100.0f) / 100.0f).ToString("0.##") + unitsTable[n];
-
-            else
-                return val.ToString("e2").Replace("+", "");
+            
+            return val.ToString("e2").Replace("+", "");
         }
     }
 }

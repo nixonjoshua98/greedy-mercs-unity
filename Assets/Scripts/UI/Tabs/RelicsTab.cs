@@ -10,6 +10,8 @@ public class RelicsTab : MonoBehaviour
     void OnEnable()
     {
         InvokeRepeating("OnUpdate", 0.0f, 0.5f);
+
+        PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints);
     }
 
     void OnDisable()
@@ -20,8 +22,14 @@ public class RelicsTab : MonoBehaviour
 
     void OnUpdate()
     {
-        PrestigePointText.text = Utils.Format.DoubleToString(GameState.player.prestigePoints);
+        PrestigeButtonText.text = GameState.Stage.stage >= StageData.MIN_PRESTIGE_STAGE ? "Prestige" : "Locked Stage " + StageData.MIN_PRESTIGE_STAGE.ToString();
+    }
 
-        PrestigeButtonText.text = GameState.stage.stage >= StageData.MIN_PRESTIGE_STAGE ? "Prestige" : "Locked Stage " + StageData.MIN_PRESTIGE_STAGE.ToString();
+    // === Button Callbacks ===
+
+    public void OnPrestige()
+    {
+        if (GameState.Stage.stage < StageData.MIN_PRESTIGE_STAGE)
+            return;
     }
 }

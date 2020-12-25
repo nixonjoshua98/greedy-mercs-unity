@@ -16,11 +16,11 @@ public class HeroUnlockPanel : MonoBehaviour
     {
         if (HeroResources.GetNextHero(out HeroStaticData hero))
         {
-            if (GameState.player.gold >= hero.PurchaseCost)
+            if (GameState.Player.gold >= hero.PurchaseCost)
             {
-                GameState.player.gold -= hero.PurchaseCost;
+                GameState.Player.gold -= hero.PurchaseCost;
 
-                GameState.heroes.Add(new HeroState() { heroId = hero.HeroID });
+                GameState.Heroes.Add(new HeroState() { heroId = hero.HeroID });
 
                 EventManager.OnHeroUnlocked.Invoke(hero.HeroID);
             }
@@ -35,7 +35,7 @@ public class HeroUnlockPanel : MonoBehaviour
         {
             TitleText.text = hero.Name;
 
-            CostText.text = Utils.Format.DoubleToString(hero.PurchaseCost);
+            CostText.text = Utils.Format.FormatNumber(hero.PurchaseCost);
         }
 
         else

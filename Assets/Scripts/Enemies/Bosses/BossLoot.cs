@@ -6,6 +6,6 @@ public class BossLoot : EnemyLoot
 {
     public override void Process()
     {
-        GameState.player.gold += StatsCache.GetBossGold(stageSpawned);
+        GameState.Player.gold += StatsCache.GetBossGold(stageSpawned);
     }
 }

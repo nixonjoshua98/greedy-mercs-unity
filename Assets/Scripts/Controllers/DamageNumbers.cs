@@ -77,7 +77,7 @@ public class DamageNumbers : MonoBehaviour
             current.Text.transform.position = transform.position;
         }
 
-        current.Text.text = Utils.Format.DoubleToString(number);
+        current.Text.text = Utils.Format.FormatNumber(number);
     }
 
     DamageText GetExistingText()

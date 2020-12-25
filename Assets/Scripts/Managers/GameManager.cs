@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     // Called from BossBattleManager
     public static void TrySkipToBoss()
     {
-        if (!BossBattleManager.IsAvoidingBoss && GameState.stage.isStageCompleted)
+        if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
         {
             BossBattleManager.StartBossBattle();
         }
@@ -94,12 +94,12 @@ public class GameManager : MonoBehaviour
 
         if (CurrentEnemy.CompareTag("Enemy"))
         {
-            GameState.stage.AddKill();
+            GameState.Stage.AddKill();
         }
 
         else if (CurrentEnemy.CompareTag("BossEnemy"))
         {
-            GameState.stage.AdvanceStage();
+            GameState.Stage.AdvanceStage();
 
             EventManager.OnNewStageStarted.Invoke();
         }
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.25f);
 
-        if (!BossBattleManager.IsAvoidingBoss && GameState.stage.isStageCompleted)
+        if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
         {
             BossBattleManager.StartBossBattle();
         }

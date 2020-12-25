@@ -26,8 +26,8 @@ public class HeroRow : MonoBehaviour
     {
         LevelText.text          = "Level " + state.level.ToString();
         BuyText.text            = "x" + HeroesTab.BuyAmount.ToString();
-        DamageText.text         = Utils.Format.DoubleToString(StatsCache.GetHeroDamage(associatedHeroId));
-        CostText.text           = Utils.Format.DoubleToString(Formulas.CalcHeroLevelUpCost(associatedHeroId, HeroesTab.BuyAmount));
+        DamageText.text         = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(associatedHeroId));
+        CostText.text           = Utils.Format.FormatNumber(Formulas.CalcHeroLevelUpCost(associatedHeroId, HeroesTab.BuyAmount));
     }
 
     public bool TryUpdate()
@@ -50,13 +50,13 @@ public class HeroRow : MonoBehaviour
 
         double cost = Formulas.CalcHeroLevelUpCost(associatedHeroId, levelsBuying);
 
-        if (GameState.player.gold >= cost)
+        if (GameState.Player.gold >= cost)
         {
             var state = GameState.GetHeroState(associatedHeroId);
 
             state.level += levelsBuying;
 
-            GameState.player.gold -= cost;
+            GameState.Player.gold -= cost;
 
             UpdateRow(state);
         }

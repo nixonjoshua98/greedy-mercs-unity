@@ -26,12 +26,12 @@ public class PlayerUpgradeRow : MonoBehaviour
 
     void UpdateRow()
     {
-        PlayerUpgradeState state = GameState.player.GetUpgradeState(playerUpgrade);
+        PlayerUpgradeState state = GameState.Player.GetUpgradeState(playerUpgrade);
 
         LevelText.text      = "Level " + state.level.ToString();
         BuyText.text        = "x" + PlayerTab.BuyAmount.ToString();
-        DamageText.text     = Utils.Format.DoubleToString(StatsCache.GetTapDamage());
-        CostText.text       = Utils.Format.DoubleToString(Formulas.CalcTapDamageLevelUpCost(PlayerTab.BuyAmount));
+        DamageText.text     = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
+        CostText.text       = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(PlayerTab.BuyAmount));
     }
 
     // === Button Callbacks ===
@@ -42,13 +42,13 @@ public class PlayerUpgradeRow : MonoBehaviour
 
         double cost = Formulas.CalcTapDamageLevelUpCost(levelsBuying);
 
-        if (GameState.player.gold >= cost)
+        if (GameState.Player.gold >= cost)
         {
-            var state = GameState.player.GetUpgradeState(playerUpgrade);
+            var state = GameState.Player.GetUpgradeState(playerUpgrade);
 
             state.level += levelsBuying;
 
-            GameState.player.gold -= cost;
+            GameState.Player.gold -= cost;
 
             UpdateRow();
         }

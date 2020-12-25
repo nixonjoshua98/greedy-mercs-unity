@@ -8,6 +8,6 @@ public class EnemyHealth : Health
 {
     public override double GetIntialHealth()
     {
-        return Formulas.CalcEnemyHealth(GameState.stage.stage);
+        return Formulas.CalcEnemyHealth(GameState.Stage.stage);
     }
 }

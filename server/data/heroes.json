@@ -54,14 +54,14 @@
 
 		"4": {
 		"passives": [
-			{"skill": 1, "unlockLevel": 25},
+			{"skill": 2, "unlockLevel": 25},
 			{"skill": 5, "unlockLevel": 50},
 			{"skill": 4, "unlockLevel": 75},
-			{"skill": 1, "unlockLevel": 100},
+			{"skill": 0, "unlockLevel": 100},
 			{"skill": 3, "unlockLevel": 125},
-			{"skill": 0, "unlockLevel": 150},
+			{"skill": 2, "unlockLevel": 150},
 			{"skill": 4, "unlockLevel": 175},
-			{"skill": 0, "unlockLevel": 200}
+			{"skill": 5, "unlockLevel": 200}
 		]
 	}
 }

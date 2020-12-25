@@ -5,7 +5,7 @@ public class TapController : MonoBehaviour
 {
     void Awake()
     {
-        InvokeRepeating("DoClick", 0.0f, 0.1f);
+        InvokeRepeating("DoClick", 0.0f, 0.2f);
     }
 
     public void OnClick()

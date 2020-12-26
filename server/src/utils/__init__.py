@@ -3,6 +3,8 @@ import json
 import gzip
 import base64
 
+from . import formulas
+
 
 def compress(data: dict) -> str:
 	"""

@@ -20,20 +20,29 @@ public class LoginManager : MonoBehaviour
 
         GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
 
-        Server.Login(this, ServerLoginCallback);
+        // === Request ===
+
+        Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
     }
 
     void ServerLoginCallback(long code, string compressedJson)
     {
+        if (code == 200)
+        {
+            JSONNode node = JSON.Parse(Utils.GZip.Unzip(Convert.FromBase64String(compressedJson)));
+
+            GameState.Player.Update(node);
+        }
+
         Server.GetStaticData(this, ServerStaticDataCallback);
     }
 
     void ServerStaticDataCallback(long code, string compressedJson)
     {
-        string json = Utils.GZip.Unzip(Convert.FromBase64String(compressedJson));
-
         if (code == 200)
         {
+            string json = Utils.GZip.Unzip(Convert.FromBase64String(compressedJson));
+
             StaticData.Restore(JSON.Parse(json));
 
             Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);

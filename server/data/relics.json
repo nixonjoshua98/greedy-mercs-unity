@@ -1,0 +1,15 @@
+
+{
+  "0": {
+    "bonusType": 0,
+
+    "cost": {
+      "baseCost": 1,
+      "powerValue": 1.1
+    },
+
+    "value": {
+      "baseValue": 2
+    }
+  }
+}

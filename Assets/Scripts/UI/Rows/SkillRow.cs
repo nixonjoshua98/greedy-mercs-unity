@@ -21,7 +21,7 @@ public class SkillRow : MonoBehaviour
         // Description
         DescriptionText.text = DescriptionText.text
             .Replace("{skillValue}", skill.value.ToString())
-            .Replace("{skillTypeText}", HeroResources.PassiveTypeToString(skill.type));
+            .Replace("{skillTypeText}", HeroResources.PassiveTypeToString(skill.bonusType));
 
 
         if (heroState.level < unlock.unlockLevel)

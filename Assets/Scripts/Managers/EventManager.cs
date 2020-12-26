@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +8,7 @@ namespace CustomEvents
 
     public class HealthEvent : UnityEvent<Health> { }
 
-    public class HeroEvent : UnityEvent<HeroID> { }
+    public class HeroEvent : UnityEvent<CharacterID> { }
 }
 
 

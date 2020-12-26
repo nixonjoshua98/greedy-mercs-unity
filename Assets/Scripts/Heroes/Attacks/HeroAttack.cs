@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class HeroAttack: MonoBehaviour
 {
-    [SerializeField] HeroID heroId;
+    [SerializeField] CharacterID heroId;
 
     [Space]
 

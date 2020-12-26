@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class HeroInfoPanel : MonoBehaviour
+public class CharacterSkillsPanel : MonoBehaviour
 {
-    HeroID showingHero;
+    CharacterID showingHero;
 
     [SerializeField] GameObject SkillRow;
     [Space]
     [SerializeField] GameObject ScrollContent;
 
 
-    public void SetHero(HeroID hero)
+    public void SetHero(CharacterID hero)
     {
         showingHero = hero;
     }
@@ -33,10 +33,5 @@ public class HeroInfoPanel : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
-    }
-
-    public void OnClose()
-    {
-        Destroy(gameObject);
     }
 }

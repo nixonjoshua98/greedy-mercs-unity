@@ -5,6 +5,8 @@ using System.Numerics;
 using System.IO.Compression;
 using System.Collections.Generic;
 
+using SimpleJSON;
+
 using UnityEngine;
 
 public static class Extensions
@@ -15,7 +17,19 @@ public static class Extensions
 }
 
 namespace Utils
-{ 
+{
+    public class Json
+    {
+        public static JSONNode GetDeviceNode()
+        {
+            JSONObject node = new JSONObject();
+
+            node.Add("deviceId", SystemInfo.deviceUniqueIdentifier);
+
+            return node;
+        }
+    }
+
     public class UI
     {
         public static GameObject Instantiate(GameObject o, UnityEngine.Vector3 pos)
@@ -118,20 +132,30 @@ namespace Utils
             }
         }
 
+        public static void Delete(string filename)
+        {
+            string path = GetPath(filename);
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+        }
+
     }
 
     public class Format : MonoBehaviour
     {
-        public static string FormatNumber(BigInteger val)
+        public static string FormatNumber(ulong val)
         {
             if (val < 1000)
                 return val.ToString();
 
             Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
 
-            int n = (int)BigInteger.Log10(val);            
+            int n = (int)Mathf.Log(val, 1000);           
 
-            float m = (float)(val / (int)Mathf.Pow(1000.0f, n));
+            float m = (float)(val * 1.0f / (int)Mathf.Pow(1000.0f, n));
 
             if (n < unitsTable.Count)
                 return (Mathf.Floor(m * 100.0f) / 100.0f).ToString() + unitsTable[n];

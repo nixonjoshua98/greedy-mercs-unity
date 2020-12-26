@@ -138,5 +138,11 @@ PrefabInstance:
       propertyPath: associatedHeroId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3297312140590279756, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: CharaPanel
+      value: 
+      objectReference: {fileID: 2961036064842033163, guid: 5f91f2821cb06e446b43e93691513694,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4, type: 3}

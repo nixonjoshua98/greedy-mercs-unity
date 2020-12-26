@@ -13,6 +13,11 @@ public class PlayerTab : MonoBehaviour
 
     // === Button Callbacks === 
 
+    void Awake()
+    {
+        BuyAmount = 1;
+    }
+
     public void OnBuyAmountChange(int newBuyAmount)
     {
         BuyAmountImages[(int)Mathf.Log10(BuyAmount)].color      = new Color(1, 1, 1, 190.0f / 255);

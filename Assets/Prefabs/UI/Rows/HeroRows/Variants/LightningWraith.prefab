@@ -17,7 +17,7 @@ MonoBehaviour:
   BuyText: {fileID: 6738296271648605881}
   CostText: {fileID: 8425278250638534193}
   LevelText: {fileID: 279218839255168656}
-  HeroInfoPanel: {fileID: 2961036064842033163, guid: 5f91f2821cb06e446b43e93691513694,
+  CharaPanel: {fileID: 2961036064842033163, guid: 5f91f2821cb06e446b43e93691513694,
     type: 3}
 --- !u!1001 &7291952913911116454
 PrefabInstance:

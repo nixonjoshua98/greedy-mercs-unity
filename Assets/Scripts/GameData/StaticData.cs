@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -19,7 +18,7 @@ public class StaticData
 
     // === Helper Methods ===
 
-    public static List<HeroPassiveUnlock> GetHeroPassiveSkills(HeroID hero)
+    public static List<HeroPassiveUnlock> GetHeroPassiveSkills(CharacterID hero)
     {
         if (Data.heroPassives.TryGetValue(hero, out List<HeroPassiveUnlock> ls))
             return ls;
@@ -36,7 +35,7 @@ public class StaticData
     {
         Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 
-        foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
+        foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
         {
             if (GameState.TryGetHeroState(hero, out var state))
             {
@@ -48,7 +47,7 @@ public class StaticData
                     {
                         HeroPassiveSkill skill = GetPassiveData(unlock.skill);
 
-                        bonuses[skill.type] = bonuses.GetValueOrDefault(skill.type, 1) * skill.value;
+                        bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;
                     }
                 }
             }
@@ -63,7 +62,7 @@ public class StaticData
     {
         public Dictionary<int, HeroPassiveSkill> heroPassiveSkills;
 
-        public Dictionary<HeroID, List<HeroPassiveUnlock>> heroPassives;
+        public Dictionary<CharacterID, List<HeroPassiveUnlock>> heroPassives;
 
         public _StaticData(JSONNode json)
         {
@@ -76,21 +75,21 @@ public class StaticData
         {
             heroPassiveSkills = new Dictionary<int, HeroPassiveSkill>();
 
-            JSONNode skillsJson = parsedJson["heroPassiveSkills"];
+            JSONNode passives = parsedJson["characterPassives"];
 
-            foreach (string key in skillsJson.Keys)
+            foreach (string key in passives.Keys)
             {
-                heroPassiveSkills[int.Parse(key)] = JsonUtility.FromJson<HeroPassiveSkill>(skillsJson[key].ToString());
+                heroPassiveSkills[int.Parse(key)] = JsonUtility.FromJson<HeroPassiveSkill>(passives[key].ToString());
             }
         }
 
         void AssignHeroPassives(JSONNode parsedJson)
         {
-            heroPassives = new Dictionary<HeroID, List<HeroPassiveUnlock>>();
+            heroPassives = new Dictionary<CharacterID, List<HeroPassiveUnlock>>();
 
-            JSONNode heroes = parsedJson["heroes"];
+            JSONNode characters = parsedJson["characters"];
 
-            foreach (HeroID hero in Enum.GetValues(typeof(HeroID)))
+            foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
             {
                 if ((int)hero >= 0)
                 {
@@ -98,7 +97,7 @@ public class StaticData
 
                     heroPassives[hero] = new List<HeroPassiveUnlock>();
 
-                    foreach (JSONNode skillString in heroes[jsonKey]["passives"])
+                    foreach (JSONNode skillString in characters[jsonKey]["passives"])
                     {
                         heroPassives[hero].Add(JsonUtility.FromJson<HeroPassiveUnlock>(skillString.ToString()));
                     }

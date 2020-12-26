@@ -34,7 +34,7 @@ public static class Formulas
 
     // ===
 
-    public static double CalcHeroDamage(HeroID heroId)
+    public static double CalcHeroDamage(CharacterID heroId)
     {
         var state = GameState.GetHeroState(heroId);
 
@@ -45,7 +45,7 @@ public static class Formulas
 
     // ===
 
-    public static double CalcHeroLevelUpCost(HeroID heroId, int levels)
+    public static double CalcHeroLevelUpCost(CharacterID heroId, int levels)
     {
         var state = GameState.GetHeroState(heroId);
 
@@ -71,4 +71,18 @@ public static class Formulas
 
         return (10.0f * Mathf.Pow(1.09f, state.level - 1)) * ((1 - Mathf.Pow(1.09f, levels)) / (1 - 1.09f));
     }
+
+    // ===
+
+    public static ulong CalcPrestigePoints(int stage)
+    {
+        if (GameState.Stage.stage < StageData.MIN_PRESTIGE_STAGE)
+            return 0;
+
+        float x = Mathf.Pow((stage - 75) / 14, 2.0f);
+
+        return (ulong)Mathf.CeilToInt(x);
+    }
+
+    // ===
 }

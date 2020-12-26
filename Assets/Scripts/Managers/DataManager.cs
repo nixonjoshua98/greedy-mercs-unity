@@ -8,6 +8,14 @@ public class DataManager : MonoBehaviour
 
     public static string LOCAL_STATIC_FILENAME = "localstatic";
 
+    // ===
+    public static bool IsPaused;
+
+    void Awake()
+    {
+        IsPaused = false;
+    }
+
     void Start()
     {
         if (GameState.IsRestored())
@@ -25,8 +33,14 @@ public class DataManager : MonoBehaviour
 
     void WriteStateToFile()
     {
-        Utils.File.Write(LOCAL_FILENAME, GameState.ToJson().ToString());
+        if (!IsPaused)
+            Save();
 
         Invoke("WriteStateToFile", 1.0f);
+    }
+
+    public static void Save()
+    {
+        Utils.File.Write(LOCAL_FILENAME, GameState.ToJson().ToString());
     }
 }

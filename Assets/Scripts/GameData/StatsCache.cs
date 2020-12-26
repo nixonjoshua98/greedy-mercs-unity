@@ -8,7 +8,7 @@ public class StatsCache : MonoBehaviour
 {
     static Dictionary<BonusType, double> bonusesFromHeroes { get { return StaticData.GetBonusesFromHeroes(); } }
 
-    public static double GetHeroDamage(HeroID hero)
+    public static double GetHeroDamage(CharacterID hero)
     {
         return Formulas.CalcHeroDamage(hero) * bonusesFromHeroes.GetValueOrDefault(BonusType.ALL_SQUAD_DAMAGE, 1);
     }

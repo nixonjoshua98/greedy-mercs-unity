@@ -14,20 +14,25 @@ public class GameState
     {
         public PlayerState player = new PlayerState();
 
-        public List<HeroState> heroes = new List<HeroState>();
+        public List<HeroState> characters = new List<HeroState>();
 
         public StageData stage;
     }
 
     public static PlayerState Player { get { return State.player; } }
     public static StageData Stage { get { return State.stage; } }
-    public static List<HeroState> Heroes { get { return State.heroes; } }
+    public static List<HeroState> Heroes { get { return State.characters; } }
 
-    public static void Restore(JSONNode local)
+    public static void Restore(JSONNode node)
     {
-        State = JsonUtility.FromJson<_GameState>(local.ToString());
+        State = JsonUtility.FromJson<_GameState>(node.ToString());
 
-        State.player.Restore(local["player"]);
+        State.player.Restore(node["player"]);
+    }
+
+    public static void RestoreDefaults()
+    {
+        State = new _GameState();
     }
 
     // === Helper Methods ===
@@ -43,9 +48,9 @@ public class GameState
 
     public static bool IsRestored() { return State != null; }
 
-    public static HeroState GetHeroState(HeroID heroId)
+    public static HeroState GetHeroState(CharacterID heroId)
     {
-        foreach (HeroState state in State.heroes)
+        foreach (HeroState state in State.characters)
         {
             if (state.heroId == heroId)
                 return state;
@@ -54,7 +59,7 @@ public class GameState
         return null;
     }
 
-    public static bool TryGetHeroState(HeroID heroId, out HeroState result)
+    public static bool TryGetHeroState(CharacterID heroId, out HeroState result)
     {
         result = GetHeroState(heroId);
 

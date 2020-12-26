@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using System.Collections.Generic;
 
 using SimpleJSON;
@@ -12,13 +11,13 @@ using UnityEngine;
 
 public class HeroStaticData
 {
-    public readonly HeroID HeroID;
+    public readonly CharacterID HeroID;
 
     public readonly string Name;
     public readonly double PurchaseCost;
     public readonly string GameObjectString;
 
-    public HeroStaticData(HeroID heroId, string name, string gameObjectString, double purchaseCost)
+    public HeroStaticData(CharacterID heroId, string name, string gameObjectString, double purchaseCost)
     {
         HeroID              = heroId;
 
@@ -34,7 +33,7 @@ public class PlayerState
 {
     public double gold;
 
-    public BigInteger prestigePoints;
+    public ulong prestigePoints;
 
     public List<PlayerUpgradeState> upgrades;
 
@@ -48,7 +47,12 @@ public class PlayerState
                 upgrades.Add(new PlayerUpgradeState { upgradeId = upgrade });
         }
 
-        prestigePoints = BigInteger.Parse(node["prestigePoints"]);
+        Update(node);
+    }
+
+    public void Update(JSONNode node)
+    {
+        prestigePoints = node.HasKey("prestigePoints") ? ulong.Parse(node["prestigePoints"]) : 0;
     }
 
     // === Helper Methods ===
@@ -89,7 +93,7 @@ public class PlayerUpgradeState
 [System.Serializable]
 public class HeroState
 {
-    public HeroID heroId;
+    public CharacterID heroId;
 
     public int level = 1;
 }
@@ -113,7 +117,7 @@ public class HeroPassiveUnlock
 [System.Serializable]
 public class HeroPassiveSkill
 {
-    public BonusType type;
+    public BonusType bonusType;
 
     public string name = "No Name";
 

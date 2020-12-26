@@ -43,7 +43,7 @@ public class HeroesTab : MonoBehaviour
             CancelInvoke("UpdateRows");
     }
 
-    void OnHeroUnlocked(HeroID _)
+    void OnHeroUnlocked(CharacterID _)
     {
         UpdateRows();
     }

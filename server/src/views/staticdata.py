@@ -11,8 +11,9 @@ class StaticData(View):
 	def dispatch_request(self):
 
 		data = {
-				"heroes": 				utils.read_data_file("heroes.json"),
-				"heroPassiveSkills": 	utils.read_data_file("heropassives.json"),
-			}
+			"relics": 				utils.read_data_file("relics.json"),
+			"characters": 			utils.read_data_file("characters.json"),
+			"characterPassives":	utils.read_data_file("characterPassives.json"),
+		}
 
 		return Response(utils.compress(data), status=200)

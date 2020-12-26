@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class HeroRow : MonoBehaviour
 {
-    [SerializeField] HeroID associatedHeroId;
+    [SerializeField] CharacterID associatedHeroId;
 
-    public HeroID heroId {  get { return associatedHeroId; } }
+    public CharacterID heroId {  get { return associatedHeroId; } }
 
     [Space]
 
@@ -20,7 +20,7 @@ public class HeroRow : MonoBehaviour
 
     [Space]
 
-    [SerializeField] GameObject HeroInfoPanel;
+    [SerializeField] GameObject CharaPanel;
 
     void UpdateRow(HeroState state)
     {
@@ -66,9 +66,9 @@ public class HeroRow : MonoBehaviour
     {
         GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
 
-        GameObject panel = Instantiate(HeroInfoPanel, Vector3.zero, Quaternion.identity);
+        GameObject panel = Instantiate(CharaPanel, Vector3.zero, Quaternion.identity);
 
-        panel.GetComponent<HeroInfoPanel>().SetHero(associatedHeroId);
+        panel.GetComponent<CharacterPanel>().SetHero(associatedHeroId);
 
         panel.transform.SetParent(canvas.transform, false);
     }

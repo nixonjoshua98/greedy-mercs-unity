@@ -64,11 +64,27 @@ public class StaticData
 
         public Dictionary<CharacterID, List<HeroPassiveUnlock>> heroPassives;
 
+        public Dictionary<RelicID, RelicStaticData> relics;
+
         public _StaticData(JSONNode json)
         {
             ParseHeroPassives(json);
 
+            ParseRelics(json);
+
             AssignHeroPassives(json);
+        }
+
+        void ParseRelics(JSONNode node)
+        {
+            relics = new Dictionary<RelicID, RelicStaticData>();
+
+            foreach (RelicID relic in Enum.GetValues(typeof(RelicID)))
+            {
+                JSONNode relicNode = node["relics"][((int)relic).ToString()];
+
+                relics[relic] = JsonUtility.FromJson<RelicStaticData>(relicNode.ToString());
+            }
         }
 
         void ParseHeroPassives(JSONNode parsedJson)

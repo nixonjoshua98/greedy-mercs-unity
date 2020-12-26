@@ -79,9 +79,7 @@ public static class Formulas
         if (GameState.Stage.stage < StageData.MIN_PRESTIGE_STAGE)
             return 0;
 
-        float x = Mathf.Pow((stage - 75) / 14, 2.0f);
-
-        return (ulong)Mathf.CeilToInt(x);
+        return (ulong)Mathf.CeilToInt(Mathf.Pow((stage - 75) / 14.0f, 2.0f));
     }
 
     // ===

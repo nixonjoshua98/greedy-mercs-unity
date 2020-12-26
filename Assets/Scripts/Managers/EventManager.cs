@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace CustomEvents
 {
-   public class GameObjectEvent : UnityEvent<GameObject> { }
+    public class GameObjectEvent : UnityEvent<GameObject> { }
 
     public class HealthEvent : UnityEvent<Health> { }
 

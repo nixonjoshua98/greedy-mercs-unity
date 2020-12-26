@@ -5,23 +5,48 @@ using SimpleJSON;
 
 public class PrestigeManager : MonoBehaviour
 {
-    PrestigeManager Instance = null;
+    static PrestigeManager Instance = null;
+
+    [SerializeField] GameObject BlankPanel;
+    [SerializeField] GameObject ErrorMessage;
+
+    GameObject spawnedBlankPanel;
 
     public void Awake()
     {
         Instance = this;
     }
 
-    public static void StartPrestige(JSONNode node)
+
+    public static void StartPrestige()
     {
-        DataManager.IsPaused = true;
+        JSONNode node = Utils.Json.GetDeviceNode();
 
-        SquadManager.ToggleAttacks(false);
+        node.Add("prestigeStage", GameState.Stage.stage);
 
-        GameState.RestoreDefaults();
+        Instance.spawnedBlankPanel = Utils.UI.Instantiate(Instance.BlankPanel, Vector3.zero);
 
-        DataManager.Save();
+        Server.Prestige(Instance, Instance.OnPrestigeCallback, node);
+    }
 
-        SceneManager.LoadSceneAsync(0);
+    void OnPrestigeCallback(long code, string data)
+    {
+        if (code == 200)
+        {
+            DataManager.IsPaused = true;
+
+            SquadManager.ToggleAttacks(false);
+
+            Utils.File.Delete(DataManager.LOCAL_FILENAME);
+
+            SceneManager.LoadSceneAsync(0);
+        }
+
+        else
+        {
+            Utils.UI.ShowError(ErrorMessage, "Server Connection", "A server connection is required to cash out!");
+
+            Destroy(spawnedBlankPanel);
+        }
     }
 }

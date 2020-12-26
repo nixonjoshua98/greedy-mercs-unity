@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    public static string LOCAL_FILENAME = "localsave_1";
+    public static string LOCAL_FILENAME = "localsave_01";
 
     public static string LOCAL_STATIC_FILENAME = "localstatic";
 

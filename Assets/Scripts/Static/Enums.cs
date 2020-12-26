@@ -15,3 +15,8 @@ public enum BonusType
     TAP_DAMAGE          = 2,
     BOSS_GOLD           = 3
 }
+
+public enum RelicID
+{
+    CLICK_GUANTLET = 0
+}

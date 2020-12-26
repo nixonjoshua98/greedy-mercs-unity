@@ -1,15 +1,14 @@
 
 {
   "0": {
+    "name": "Gauntlet of Clicking",
+
     "bonusType": 0,
 
-    "cost": {
-      "baseCost": 1,
-      "powerValue": 1.1
-    },
+    "baseCost": 1,
+    "costPower": 1.04,
 
-    "value": {
-      "baseValue": 2
-    }
+    "baseEffect": 5.0,
+    "effectPower": 1.1
   }
 }

@@ -1,17 +1,13 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
-using SimpleJSON;
 
 public class RelicsTab : MonoBehaviour
 {
+    [SerializeField] BuyAmountController buyAmount;
+
     [SerializeField] Text PrestigePointText;
     [SerializeField] Text PrestigeButtonText;
-    [Space]
-    [SerializeField] GameObject BlankPanel;
-    [SerializeField] GameObject ErrorMessage;
 
     GameObject spawnedBlankPanel;
 
@@ -41,29 +37,6 @@ public class RelicsTab : MonoBehaviour
         if (GameState.Stage.stage < StageData.MIN_PRESTIGE_STAGE)
             return;
 
-        JSONNode node = Utils.Json.GetDeviceNode();
-
-        node.Add("prestigeStage", GameState.Stage.stage);
-
-        spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
-
-        Server.Prestige(this, OnPrestigeCallback, node);
-    }
-
-    public void OnPrestigeCallback(long code, string compressedJson)
-    {
-        if (code == 200)
-        {
-            JSONNode node = JSON.Parse(Utils.GZip.Unzip(System.Convert.FromBase64String(compressedJson)));
-
-            PrestigeManager.StartPrestige(node);
-        }
-
-        else
-        {
-            Utils.UI.ShowError(ErrorMessage, "Server Connection", "A server connection is required to cash out!");
-
-            Destroy(spawnedBlankPanel);
-        }
+        PrestigeManager.StartPrestige();
     }
 }

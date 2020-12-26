@@ -29,6 +29,22 @@ public class HeroStaticData
 
 
 [System.Serializable]
+public class RelicStaticData
+{
+    public string name;
+
+    public BonusType bonusType;
+
+    public int baseCost;
+    public int costPower;
+
+    public int baseEffect;
+    public int effectPower;
+}
+
+
+
+[System.Serializable]
 public class PlayerState
 {
     public double gold;

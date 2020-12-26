@@ -30,11 +30,6 @@ public class GameState
         State.player.Restore(node["player"]);
     }
 
-    public static void RestoreDefaults()
-    {
-        State = new _GameState();
-    }
-
     // === Helper Methods ===
 
     public static JSONNode ToJson()

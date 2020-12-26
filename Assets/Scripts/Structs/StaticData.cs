@@ -10,6 +10,8 @@ public class StaticData
 {
     static _StaticData Data = null;
 
+    public static int numRelics { get { return Data.relics.Count; } }
+
     public static void Restore(JSONNode json)
     {
         if (Data == null)
@@ -107,16 +109,13 @@ public class StaticData
 
             foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
             {
-                if ((int)hero >= 0)
+                string jsonKey = ((int)hero).ToString();
+
+                heroPassives[hero] = new List<HeroPassiveUnlock>();
+
+                foreach (JSONNode skillString in characters[jsonKey]["passives"])
                 {
-                    string jsonKey = ((int)hero).ToString();
-
-                    heroPassives[hero] = new List<HeroPassiveUnlock>();
-
-                    foreach (JSONNode skillString in characters[jsonKey]["passives"])
-                    {
-                        heroPassives[hero].Add(JsonUtility.FromJson<HeroPassiveUnlock>(skillString.ToString()));
-                    }
+                    heroPassives[hero].Add(JsonUtility.FromJson<HeroPassiveUnlock>(skillString.ToString()));
                 }
             }
         }

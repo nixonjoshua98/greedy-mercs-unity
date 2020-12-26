@@ -36,9 +36,9 @@ public static class Formulas
 
     public static double CalcHeroDamage(CharacterID heroId)
     {
-        var state = GameState.GetHeroState(heroId);
+        var state = GameState.GetCharacter(heroId);
 
-        HeroStaticData hero = HeroResources.GetHero(heroId);
+        CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
         return (hero.PurchaseCost / 10.0f) * state.level * Mathf.Pow(4.0f, (state.level - 1) / 100.0f);
     }
@@ -47,9 +47,9 @@ public static class Formulas
 
     public static double CalcHeroLevelUpCost(CharacterID heroId, int levels)
     {
-        var state = GameState.GetHeroState(heroId);
+        var state = GameState.GetCharacter(heroId);
 
-        HeroStaticData hero = HeroResources.GetHero(heroId);
+        CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
         return (hero.PurchaseCost * Mathf.Pow(1.075f, state.level)) * ((1 - Mathf.Pow(1.075f, levels)) / (1 - 1.075f));
     }
@@ -58,7 +58,7 @@ public static class Formulas
 
     public static double CalcTapDamage()
     {
-        PlayerUpgradeState state = GameState.Player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Player.GetUpgrade(PlayerUpgradeID.TAP_DAMAGE);
 
         return state.level * Mathf.Pow(2.0f, (state.level - 1) / 35.0f);
     }
@@ -67,7 +67,7 @@ public static class Formulas
 
     public static double CalcTapDamageLevelUpCost(int levels)
     {
-        PlayerUpgradeState state = GameState.Player.GetUpgradeState(PlayerUpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Player.GetUpgrade(PlayerUpgradeID.TAP_DAMAGE);
 
         return (10.0f * Mathf.Pow(1.09f, state.level - 1)) * ((1 - Mathf.Pow(1.09f, levels)) / (1 - 1.09f));
     }
@@ -83,4 +83,9 @@ public static class Formulas
     }
 
     // ===
+
+    public static ulong CalcNextRelicCost(int numRelics)
+    {
+        return (ulong)Mathf.Pow(2.0f, numRelics);
+    }
 }

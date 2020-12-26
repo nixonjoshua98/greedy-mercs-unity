@@ -28,7 +28,10 @@ class Login(View):
 
 		return Response(
 			utils.compress(
-				{"prestigePoints": items.get("prestigePoints", 0)}
+				{
+					"prestigePoints": items.get("prestigePoints", 0),
+					"relics": items.get("relics", [])
+				},
 			),
 
 			status=200)

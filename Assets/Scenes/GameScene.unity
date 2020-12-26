@@ -3497,6 +3497,12 @@ MonoBehaviour:
   buyAmount: {fileID: 219282111}
   PrestigePointText: {fileID: 619124044}
   PrestigeButtonText: {fileID: 45942204}
+  RelicCostText: {fileID: 293697876}
+  BuyRelicsButton: {fileID: 2015828244}
+  BlankPanel: {fileID: 4044359990075036671, guid: 4f5c7458656755c4990722c5fd29c7a4,
+    type: 3}
+  ErrorMessage: {fileID: 8966553136809179518, guid: 1a6daf1bbb837cd40a0c7fb23f552421,
+    type: 3}
 --- !u!1 &1141073819
 GameObject:
   m_ObjectHideFlags: 0
@@ -5879,7 +5885,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2015828247}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1134417961}
+        m_MethodName: OnBuyRelic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2015828247
 MonoBehaviour:
   m_ObjectHideFlags: 0

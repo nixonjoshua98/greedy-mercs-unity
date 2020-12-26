@@ -20,6 +20,27 @@ namespace Utils
 {
     public class Json
     {
+        public static JSONArray CreateJSONArray<TKey>(string key, Dictionary<TKey, UpgradeState> dict)
+        {
+            JSONArray array = new JSONArray();
+
+            foreach (var entry in dict)
+            {
+                JSONNode character = JSON.Parse(JsonUtility.ToJson(entry.Value));
+
+                character.Add(key, (int)(object)entry.Key);
+
+                array.Add(character);
+            }
+
+            return array;
+        }
+
+        public static JSONNode Decompress(string data)
+        {
+            return JSON.Parse(Utils.GZip.Unzip(Convert.FromBase64String(data)));
+        }
+
         public static JSONNode GetDeviceNode()
         {
             JSONObject node = new JSONObject();

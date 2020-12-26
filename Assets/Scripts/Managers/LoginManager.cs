@@ -29,7 +29,7 @@ public class LoginManager : MonoBehaviour
     {
         if (code == 200)
         {
-            JSONNode node = JSON.Parse(Utils.GZip.Unzip(Convert.FromBase64String(compressedJson)));
+            JSONNode node = Utils.Json.Decompress(compressedJson);
 
             GameState.Player.Update(node);
         }

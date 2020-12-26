@@ -10,7 +10,7 @@ public class SkillRow : MonoBehaviour
 
     public Image PanelImage;
 
-    public void UpdatePanel(HeroState heroState, HeroPassiveUnlock unlock, HeroPassiveSkill skill)
+    public void UpdatePanel(UpgradeState heroState, HeroPassiveUnlock unlock, HeroPassiveSkill skill)
     {
         // Name
         SkillNameText.text = skill.name;
@@ -21,7 +21,7 @@ public class SkillRow : MonoBehaviour
         // Description
         DescriptionText.text = DescriptionText.text
             .Replace("{skillValue}", skill.value.ToString())
-            .Replace("{skillTypeText}", HeroResources.PassiveTypeToString(skill.bonusType));
+            .Replace("{skillTypeText}", CharacterResources.PassiveTypeToString(skill.bonusType));
 
 
         if (heroState.level < unlock.unlockLevel)

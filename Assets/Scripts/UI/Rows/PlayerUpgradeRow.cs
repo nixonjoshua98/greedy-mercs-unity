@@ -26,7 +26,7 @@ public class PlayerUpgradeRow : MonoBehaviour
 
     void UpdateRow()
     {
-        PlayerUpgradeState state = GameState.Player.GetUpgradeState(playerUpgrade);
+        UpgradeState state = GameState.Player.GetUpgrade(playerUpgrade);
 
         LevelText.text      = "Level " + state.level.ToString();
         BuyText.text        = "x" + PlayerTab.BuyAmount.ToString();
@@ -44,7 +44,7 @@ public class PlayerUpgradeRow : MonoBehaviour
 
         if (GameState.Player.gold >= cost)
         {
-            var state = GameState.Player.GetUpgradeState(playerUpgrade);
+            var state = GameState.Player.GetUpgrade(playerUpgrade);
 
             state.level += levelsBuying;
 

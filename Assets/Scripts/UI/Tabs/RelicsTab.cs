@@ -2,14 +2,32 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using SimpleJSON;
+
 public class RelicsTab : MonoBehaviour
 {
     [SerializeField] BuyAmountController buyAmount;
 
     [SerializeField] Text PrestigePointText;
     [SerializeField] Text PrestigeButtonText;
+    [SerializeField] Text RelicCostText;
+
+    [Space]
+
+    [SerializeField] GameObject BuyRelicsButton;
+
+    [Space]
+
+    [SerializeField] GameObject BlankPanel;
+    [SerializeField] GameObject ErrorMessage;
 
     GameObject spawnedBlankPanel;
+
+    void Start()
+    {
+        if (GameState.NumRelicsOwned == StaticData.numRelics)
+            Destroy(BuyRelicsButton);
+    }
 
     void OnEnable()
     {
@@ -28,6 +46,9 @@ public class RelicsTab : MonoBehaviour
 
         PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+" 
             + Utils.Format.FormatNumber(Formulas.CalcPrestigePoints(GameState.Stage.stage)) + "</color>)";
+
+        if (GameState.NumRelicsOwned < StaticData.numRelics)
+            RelicCostText.text = Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.NumRelicsOwned));
     }
 
     // === Button Callbacks ===
@@ -38,5 +59,27 @@ public class RelicsTab : MonoBehaviour
             return;
 
         PrestigeManager.StartPrestige();
+    }
+
+    public void OnBuyRelic()
+    {
+        spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
+
+        Server.BuyRelic(this, OnBuyRelicCallback, Utils.Json.GetDeviceNode());
+    }
+
+    public void OnBuyRelicCallback(long code, string data)
+    {
+        if (code == 200)
+        {
+            JSONNode node = Utils.Json.Decompress(data);
+        }
+
+        else
+        {
+            Utils.UI.ShowError(ErrorMessage, "Relic", "A connection to the server is required");
+        }
+
+        Destroy(spawnedBlankPanel);
     }
 }

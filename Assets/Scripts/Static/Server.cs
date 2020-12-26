@@ -18,6 +18,11 @@ public static class Server
         mono.StartCoroutine(Put("prestige", callback, node));
     }
 
+    public static void BuyRelic(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
+    {
+        mono.StartCoroutine(Put("buyrelic", callback, node));
+    }
+
     public static void GetStaticData(MonoBehaviour mono, Action<long, string> callback)
     {
         mono.StartCoroutine(Put("staticdata", callback));

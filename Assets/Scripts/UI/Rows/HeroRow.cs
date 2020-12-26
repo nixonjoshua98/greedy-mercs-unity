@@ -22,7 +22,7 @@ public class HeroRow : MonoBehaviour
 
     [SerializeField] GameObject CharaPanel;
 
-    void UpdateRow(HeroState state)
+    void UpdateRow(UpgradeState state)
     {
         LevelText.text          = "Level " + state.level.ToString();
         BuyText.text            = "x" + HeroesTab.BuyAmount.ToString();
@@ -52,7 +52,7 @@ public class HeroRow : MonoBehaviour
 
         if (GameState.Player.gold >= cost)
         {
-            var state = GameState.GetHeroState(associatedHeroId);
+            var state = GameState.GetCharacter(associatedHeroId);
 
             state.level += levelsBuying;
 

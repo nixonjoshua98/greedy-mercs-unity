@@ -38,7 +38,7 @@ class Prestige(View):
 				}
 			},
 			upsert=True,
-			return_document=ReturnDocument.AFTER,
+			return_document=ReturnDocument.AFTER
 		)
 
 		return Response(utils.compress({"prestigePoints": user_items["prestigePoints"]}), status=200)

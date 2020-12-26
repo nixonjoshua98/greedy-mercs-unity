@@ -16,32 +16,32 @@ public class GameState
 
         public PlayerState player = new PlayerState();
 
-        public Dictionary<RelicID, UpgradeState> relics;
-
-        public Dictionary<CharacterID, UpgradeState> characters;
-
-        public CharacterContainer charContainer;
+        public RelicContainer relics;
+        public CharacterContainer characters;
+        public PlayerUpgradesContainer playerUpgrades;
     }
 
     public static PlayerState Player { get { return State.player; } }
     public static StageData Stage { get { return State.stage; } }
 
-    public static CharacterContainer charContainer { get { return State.charContainer; } }
-
-    // === Accessors ===
-    public static int NumRelicsOwned { get { return State.relics.Count; } }
-    // ===
+    public static RelicContainer Relics { get { return State.relics; } }
+    public static CharacterContainer Characters { get { return State.characters; } }
+    public static PlayerUpgradesContainer PlayerUpgrades { get { return State.playerUpgrades; } }
 
     public static void Restore(JSONNode node)
     {
         State = JsonUtility.FromJson<_GameState>(node.ToString());
 
-        State.charContainer = new CharacterContainer(node);
+        State.relics            = new RelicContainer(node);
+        State.characters        = new CharacterContainer(node);
+        State.playerUpgrades    = new PlayerUpgradesContainer(node);
+    }
 
-        State.characters    = CreateCharacterDictionary(node);
-        State.relics        = CreateRelicDictionary(node);
+    public static void Update(JSONNode node)
+    {
+        State.player.Update(node);
 
-        State.player.Restore(node["player"]);
+        State.relics.Update(node);
     }
 
     public static JSONNode ToJson()
@@ -50,37 +50,12 @@ public class GameState
 
         node["player"] = State.player.ToJson();
 
-        node.Add("characters", Utils.Json.CreateJSONArray("characterId", State.characters));
+        node.Add("relics", Relics.ToJson());
+        node.Add("characters", Characters.ToJson());
+        node.Add("playerUpgrades", PlayerUpgrades.ToJson());
 
         return node;
     }
-
-    // === Characters
-    
-    public static UpgradeState GetCharacter(CharacterID heroId) { return State.characters[heroId]; }
-
-    public static bool TryGetHeroState(CharacterID heroId, out UpgradeState result) { return State.characters.TryGetValue(heroId, out result); }
-
-    public static void AddHero(CharacterID charaId) { State.characters[charaId] = new UpgradeState { level = 1 }; }
-
-    public static Dictionary<RelicID, UpgradeState> CreateRelicDictionary(JSONNode node)
-    {
-        return new Dictionary<RelicID, UpgradeState>();
-    }
-
-    public static Dictionary<CharacterID, UpgradeState> CreateCharacterDictionary(JSONNode node)
-    {
-        Dictionary<CharacterID, UpgradeState> characters = new Dictionary<CharacterID, UpgradeState>();
-
-        foreach (JSONNode chara in node["characters"].AsArray)
-        {
-            characters[(CharacterID)int.Parse(chara["characterId"])] = JsonUtility.FromJson<UpgradeState>(chara.ToString());
-        }
-
-        return characters;
-    }
-
-    // ===
 
     public static bool IsRestored() { return State != null; }
 }

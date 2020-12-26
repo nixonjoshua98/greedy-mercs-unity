@@ -34,7 +34,7 @@ public static class CharacterResources
 
         foreach (CharacterStaticData info in Heroes)
         {
-            if (!GameState.TryGetHeroState(info.HeroID, out var _))
+            if (!GameState.Characters.TryGetHeroState(info.HeroID, out var _))
             {
                 hero = info;
 

@@ -7,5 +7,5 @@ using SimpleJSON;
 
 interface IContainer
 {
-    public JSONNode ToJson();
+    JSONNode ToJson();
 }

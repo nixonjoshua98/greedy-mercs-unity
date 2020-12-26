@@ -4,12 +4,18 @@ using UnityEngine.UI;
 
 public class PlayerUpgradeRow : MonoBehaviour
 {
-    [SerializeField] PlayerUpgradeID playerUpgrade;
+    [SerializeField] UpgradeID playerUpgrade;
     [Space]
     [SerializeField] Text DamageText;
     [SerializeField] Text BuyText;
     [SerializeField] Text CostText;
     [SerializeField] Text LevelText;
+
+    void Awake()
+    {
+        if (!GameState.PlayerUpgrades.TryGetUpgrade(playerUpgrade, out UpgradeState _))
+            GameState.PlayerUpgrades.AddUpgrade(playerUpgrade);
+    }
 
     void OnEnable()
     {
@@ -19,14 +25,12 @@ public class PlayerUpgradeRow : MonoBehaviour
     void OnDisable()
     {
         if (IsInvoking("UpdateRow"))
-        {
             CancelInvoke("UpdateRow");
-        }
     }
 
     void UpdateRow()
     {
-        UpgradeState state = GameState.Player.GetUpgrade(playerUpgrade);
+        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(playerUpgrade);
 
         LevelText.text      = "Level " + state.level.ToString();
         BuyText.text        = "x" + PlayerTab.BuyAmount.ToString();
@@ -44,7 +48,7 @@ public class PlayerUpgradeRow : MonoBehaviour
 
         if (GameState.Player.gold >= cost)
         {
-            var state = GameState.Player.GetUpgrade(playerUpgrade);
+            UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(playerUpgrade);
 
             state.level += levelsBuying;
 

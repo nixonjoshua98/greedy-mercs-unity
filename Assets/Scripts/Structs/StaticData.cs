@@ -39,7 +39,7 @@ public class StaticData
 
         foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
         {
-            if (GameState.TryGetHeroState(hero, out var state))
+            if (GameState.Characters.TryGetHeroState(hero, out var state))
             {
                 List<HeroPassiveUnlock> heroPassiveUnlocks = GetHeroPassiveSkills(hero);
 
@@ -66,7 +66,7 @@ public class StaticData
 
         public Dictionary<CharacterID, List<HeroPassiveUnlock>> heroPassives;
 
-        public Dictionary<RelicID, RelicStaticData> relics;
+        public Dictionary<UpgradeID, RelicStaticData> relics;
 
         public _StaticData(JSONNode json)
         {
@@ -79,9 +79,9 @@ public class StaticData
 
         void ParseRelics(JSONNode node)
         {
-            relics = new Dictionary<RelicID, RelicStaticData>();
+            relics = new Dictionary<UpgradeID, RelicStaticData>();
 
-            foreach (RelicID relic in Enum.GetValues(typeof(RelicID)))
+            foreach (UpgradeID relic in Enum.GetValues(typeof(UpgradeID)))
             {
                 JSONNode relicNode = node["relics"][((int)relic).ToString()];
 

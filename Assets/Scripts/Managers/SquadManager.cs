@@ -31,7 +31,7 @@ public class SquadManager : MonoBehaviour
 
             Transform spawnPoint = HeroLocations[i];
 
-            if (spawnPoint.childCount == 0 && GameState.TryGetHeroState(current, out UpgradeState _))
+            if (spawnPoint.childCount == 0 && GameState.Characters.TryGetHeroState(current, out UpgradeState _))
             {
                 GameObject character = Instantiate(CharacterResources.GetHeroGameObject(current), spawnPoint);
 

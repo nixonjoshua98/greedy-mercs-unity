@@ -20,3 +20,8 @@ public enum RelicID
 {
     CLICK_GUANTLET = 0
 }
+
+public enum UpgradeID
+{
+    TAP_DAMAGE = 0
+}

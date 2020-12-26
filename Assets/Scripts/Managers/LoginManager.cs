@@ -31,7 +31,7 @@ public class LoginManager : MonoBehaviour
         {
             JSONNode node = Utils.Json.Decompress(compressedJson);
 
-            GameState.Player.Update(node);
+            GameState.Update(node);
         }
 
         Server.GetStaticData(this, ServerStaticDataCallback);

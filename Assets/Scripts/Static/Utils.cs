@@ -167,16 +167,16 @@ namespace Utils
 
     public class Format : MonoBehaviour
     {
-        public static string FormatNumber(ulong val)
+        public static string FormatNumber(BigInteger val)
         {
             if (val < 1000)
                 return val.ToString();
 
             Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
 
-            int n = (int)Mathf.Log(val, 1000);           
+            int n = (int)BigInteger.Log(val, 1000);         
 
-            float m = (float)(val * 1.0f / (int)Mathf.Pow(1000.0f, n));
+            float m = (float)(val / (int)Mathf.Pow(1000.0f, n));
 
             if (n < unitsTable.Count)
                 return (Mathf.Floor(m * 100.0f) / 100.0f).ToString() + unitsTable[n];

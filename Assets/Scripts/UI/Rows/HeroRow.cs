@@ -32,7 +32,7 @@ public class HeroRow : MonoBehaviour
 
     public bool TryUpdate()
     {
-        if (GameState.TryGetHeroState(associatedHeroId, out var state))
+        if (GameState.Characters.TryGetHeroState(associatedHeroId, out var state))
         {
             UpdateRow(state);
 
@@ -52,7 +52,7 @@ public class HeroRow : MonoBehaviour
 
         if (GameState.Player.gold >= cost)
         {
-            var state = GameState.GetCharacter(associatedHeroId);
+            var state = GameState.Characters.GetCharacter(associatedHeroId);
 
             state.level += levelsBuying;
 

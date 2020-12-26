@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Numerics;
+
+using UnityEngine;
 
 public static class Formulas
 {
@@ -36,7 +38,7 @@ public static class Formulas
 
     public static double CalcHeroDamage(CharacterID heroId)
     {
-        var state = GameState.GetCharacter(heroId);
+        var state = GameState.Characters.GetCharacter(heroId);
 
         CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
@@ -47,7 +49,7 @@ public static class Formulas
 
     public static double CalcHeroLevelUpCost(CharacterID heroId, int levels)
     {
-        var state = GameState.GetCharacter(heroId);
+        var state = GameState.Characters.GetCharacter(heroId);
 
         CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
@@ -58,7 +60,7 @@ public static class Formulas
 
     public static double CalcTapDamage()
     {
-        UpgradeState state = GameState.Player.GetUpgrade(PlayerUpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
         return state.level * Mathf.Pow(2.0f, (state.level - 1) / 35.0f);
     }
@@ -67,25 +69,25 @@ public static class Formulas
 
     public static double CalcTapDamageLevelUpCost(int levels)
     {
-        UpgradeState state = GameState.Player.GetUpgrade(PlayerUpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
         return (10.0f * Mathf.Pow(1.09f, state.level - 1)) * ((1 - Mathf.Pow(1.09f, levels)) / (1 - 1.09f));
     }
 
     // ===
 
-    public static ulong CalcPrestigePoints(int stage)
+    public static BigInteger CalcPrestigePoints(int stage)
     {
         if (GameState.Stage.stage < StageData.MIN_PRESTIGE_STAGE)
             return 0;
 
-        return (ulong)Mathf.CeilToInt(Mathf.Pow((stage - 75) / 14.0f, 2.0f));
+        return BigInteger.Pow((stage - 75) / 14, 2);
     }
 
     // ===
 
-    public static ulong CalcNextRelicCost(int numRelics)
+    public static BigInteger CalcNextRelicCost(int numRelics)
     {
-        return (ulong)Mathf.Pow(2.0f, numRelics);
+        return BigInteger.Pow(2, numRelics);
     }
 }

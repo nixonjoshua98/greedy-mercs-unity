@@ -1,6 +1,8 @@
 import math
 import random
 
+from pymongo import ReturnDocument
+
 from flask import Response, request
 from flask.views import View
 
@@ -37,7 +39,7 @@ class BuyRelic(View):
 		if items.get("prestigePoints", 0) < cost:
 			return Response(utils.compress({"message": ""}), status=400)
 
-		self.mongo.db.userItems.update_one(
+		items = self.mongo.db.userItems.find_one_and_update(
 			{
 				"userId": row["_id"]
 			},
@@ -45,10 +47,13 @@ class BuyRelic(View):
 			{
 				"$inc": {"prestigePoints": -cost},
 				"$push": {"relics": {"relicId": relic, "level": 1}}
-			}
+			},
+
+			return_document=ReturnDocument.AFTER,
+			upsert=True
 		)
 
-		return Response(utils.compress({"boughtRelic": relic}), status=200)
+		return Response(utils.compress({"relicBought": relic, "prestigePoints": items["prestigePoints"]}), status=200)
 
 	def get_next_relic(self, relics):
 

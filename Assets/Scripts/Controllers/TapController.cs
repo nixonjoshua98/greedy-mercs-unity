@@ -5,16 +5,8 @@ public class TapController : MonoBehaviour
 {
     public void OnClick()
     {
-        DoClick();
-        DoClick();
-        DoClick();
-        DoClick();
-        DoClick();
-        DoClick();
-        DoClick();
-        DoClick();
-        DoClick();
-        DoClick();
+        for (int i = 0; i < 10; ++i)
+            DoClick();
     }
 
     void DoClick()

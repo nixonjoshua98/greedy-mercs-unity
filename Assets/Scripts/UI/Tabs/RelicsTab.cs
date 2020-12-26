@@ -1,32 +1,44 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 using SimpleJSON;
 
 public class RelicsTab : MonoBehaviour
 {
-    [SerializeField] BuyAmountController buyAmount;
+    [Header("GameObjects")]
+    [SerializeField] GameObject rowParent;
 
+    [Header("Components")]
+    [SerializeField] Button BuyRelicsButton;
+
+    [Header("Text Components")]
     [SerializeField] Text PrestigePointText;
     [SerializeField] Text PrestigeButtonText;
     [SerializeField] Text RelicCostText;
 
-    [Space]
-
-    [SerializeField] GameObject BuyRelicsButton;
-
-    [Space]
-
+    [Header("Prefabs")]
     [SerializeField] GameObject BlankPanel;
     [SerializeField] GameObject ErrorMessage;
 
     GameObject spawnedBlankPanel;
 
-    void Start()
+    List<RelicRow> rows;
+
+    void Awake()
     {
-        if (GameState.NumRelicsOwned == StaticData.numRelics)
-            Destroy(BuyRelicsButton);
+        rows = new List<RelicRow>();
+
+        for (int i = 0; i < rowParent.transform.childCount; ++i)
+        {
+            Transform child = rowParent.transform.GetChild(i);
+
+            if (child.TryGetComponent(out RelicRow row))
+                rows.Add(row);
+        }
     }
 
     void OnEnable()
@@ -47,8 +59,17 @@ public class RelicsTab : MonoBehaviour
         PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+" 
             + Utils.Format.FormatNumber(Formulas.CalcPrestigePoints(GameState.Stage.stage)) + "</color>)";
 
-        if (GameState.NumRelicsOwned < StaticData.numRelics)
-            RelicCostText.text = Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.NumRelicsOwned));
+        RelicCostText.text = GameState.Relics.Count < StaticData.numRelics ? Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.Relics.Count)) : "MAX";
+
+        BuyRelicsButton.interactable = GameState.Relics.Count < StaticData.numRelics;
+
+        UpdateRows();
+    }
+
+    void UpdateRows()
+    {
+        foreach (RelicRow row in rows)
+            row.gameObject.SetActive(row.TryUpdate());
     }
 
     // === Button Callbacks ===
@@ -73,6 +94,10 @@ public class RelicsTab : MonoBehaviour
         if (code == 200)
         {
             JSONNode node = Utils.Json.Decompress(data);
+
+            GameState.Player.Update(node);
+
+            GameState.Relics.AddRelic((RelicID)node["relicBought"].AsInt);
         }
 
         else

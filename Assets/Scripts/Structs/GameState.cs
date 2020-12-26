@@ -19,10 +19,14 @@ public class GameState
         public Dictionary<RelicID, UpgradeState> relics;
 
         public Dictionary<CharacterID, UpgradeState> characters;
+
+        public CharacterContainer charContainer;
     }
 
     public static PlayerState Player { get { return State.player; } }
     public static StageData Stage { get { return State.stage; } }
+
+    public static CharacterContainer charContainer { get { return State.charContainer; } }
 
     // === Accessors ===
     public static int NumRelicsOwned { get { return State.relics.Count; } }
@@ -31,6 +35,8 @@ public class GameState
     public static void Restore(JSONNode node)
     {
         State = JsonUtility.FromJson<_GameState>(node.ToString());
+
+        State.charContainer = new CharacterContainer(node);
 
         State.characters    = CreateCharacterDictionary(node);
         State.relics        = CreateRelicDictionary(node);

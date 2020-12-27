@@ -2,8 +2,6 @@
 
 using UnityEngine;
 
-using BreakInfinity;
-
 public static class Formulas
 {
     /*

@@ -35,6 +35,8 @@ public class GameState
         State.relics            = new RelicContainer(node);
         State.characters        = new CharacterContainer(node);
         State.playerUpgrades    = new PlayerUpgradesContainer(node);
+
+        State.player.OnRestore(node);
     }
 
     public static void Update(JSONNode node)

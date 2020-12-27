@@ -173,6 +173,8 @@ namespace Utils
 
     public class Format : MonoBehaviour
     {
+        static Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
+
         public static string FormatNumber(BigInteger val)
         {
             if (val <= 100_000)
@@ -181,12 +183,25 @@ namespace Utils
             return val.ToString("e2").Replace("+", "");
         }
 
+        public static string FormatNumber(BigDouble val)
+        {
+            if (val < 1d)
+                return val.ToString("F0");
+            
+            int n = (int)BigDouble.Log(val, 1000);
+
+            BigDouble m = val / BigDouble.Pow(1000.0f, n);
+
+            if (n < unitsTable.Count)
+                return (BigDouble.Floor(m * 100.0f) / 100.0f).ToString("F2") + unitsTable[n];
+
+            return val.ToString("E2").Replace("+", "").Replace("E", "e");
+        }
+
         public static string FormatNumber(double val)
         {
             if (val < 1d)
                 return Math.Round(val, 2).ToString();
-
-            Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
 
             int n = (int)Math.Log(val, 1000);
 

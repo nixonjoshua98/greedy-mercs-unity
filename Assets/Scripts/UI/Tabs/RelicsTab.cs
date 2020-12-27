@@ -1,4 +1,5 @@
-﻿
+﻿using System.Numerics;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -98,7 +99,7 @@ public class RelicsTab : MonoBehaviour
         }
         else
         {
-            spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
+            spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, UnityEngine.Vector3.zero);
 
             Server.BuyRelic(this, OnBuyRelicCallback, Utils.Json.GetDeviceNode());
         }
@@ -110,7 +111,7 @@ public class RelicsTab : MonoBehaviour
         {
             JSONNode node = Utils.Json.Decompress(data);
 
-            GameState.Player.Update(node);
+            GameState.Player.prestigePoints = BigInteger.Parse(node["prestigePoints"].ToString());
 
             GameState.Relics.AddRelic((RelicID)node["relicBought"].AsInt);
         }

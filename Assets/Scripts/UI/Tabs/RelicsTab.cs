@@ -1,16 +1,20 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
 
 using SimpleJSON;
 
 public class RelicsTab : MonoBehaviour
 {
+    static RelicsTab Instance = null;
+
     [Header("GameObjects")]
     [SerializeField] GameObject rowParent;
+
+    [Space]
+    [SerializeField] BuyAmountController buyAmount;
 
     [Header("Components")]
     [SerializeField] Button BuyRelicsButton;
@@ -24,12 +28,16 @@ public class RelicsTab : MonoBehaviour
     [SerializeField] GameObject BlankPanel;
     [SerializeField] GameObject ErrorMessage;
 
+    public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
+
     GameObject spawnedBlankPanel;
 
     List<RelicRow> rows;
 
     void Awake()
     {
+        Instance = this;
+
         rows = new List<RelicRow>();
 
         for (int i = 0; i < rowParent.transform.childCount; ++i)

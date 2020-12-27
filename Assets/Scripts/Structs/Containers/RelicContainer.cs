@@ -37,7 +37,7 @@ public class RelicContainer : IContainer
         {
             RelicStaticData staticData = StaticData.GetRelic(relic.Key);
 
-            bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 1) * Formulas.CalculateRelicEffect(relic.Key);
+            bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 1) * Formulas.CalcRelicEffect(relic.Key);
         }
 
         return bonuses;

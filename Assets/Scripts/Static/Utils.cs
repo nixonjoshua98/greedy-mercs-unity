@@ -175,7 +175,10 @@ namespace Utils
     {
         public static string FormatNumber(BigInteger val)
         {
-            return val.ToString();
+            if (val <= 100_000)
+                return val.ToString();
+
+            return val.ToString("e2").Replace("+", "");
         }
 
         public static string FormatNumber(double val)

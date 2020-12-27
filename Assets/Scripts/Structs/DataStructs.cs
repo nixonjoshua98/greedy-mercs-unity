@@ -37,11 +37,11 @@ public class RelicStaticData
 
     public BonusType bonusType;
 
-    public double baseCost;
-    public double costPower;
+    public int baseCost;
+    public float costPower;
 
-    public double baseEffect;
-    public double levelEffect;
+    public float baseEffect;
+    public float levelEffect;
 }
 
 [System.Serializable]
@@ -71,7 +71,8 @@ public class HeroPassiveSkill
 {
     public BonusType bonusType;
 
-    public string name = "No Name";
+    public string name;
+    public string description = "";
 
     public double value = 1;
 }

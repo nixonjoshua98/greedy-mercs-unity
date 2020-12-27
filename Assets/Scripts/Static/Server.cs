@@ -23,6 +23,11 @@ public static class Server
         mono.StartCoroutine(Put("buyrelic", callback, node));
     }
 
+    public static void UpgradeRelic(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
+    {
+        mono.StartCoroutine(Put("upgraderelic", callback, node));
+    }
+
     public static void GetStaticData(MonoBehaviour mono, Action<long, string> callback)
     {
         mono.StartCoroutine(Put("staticdata", callback));

@@ -2,37 +2,31 @@ import math
 
 from pymongo import ReturnDocument
 
-from flask import Response, request
+from flask import Response, request, current_app as app
 
 from flask.views import View
 
-from src import utils
+from src import utils, checks
 
 
 class Prestige(View):
 
-	def __init__(self, mongo):
-
-		self.mongo = mongo
-
-	def dispatch_request(self):
+	@checks.login_check
+	def dispatch_request(self, *, userid):
 
 		data = utils.decompress(request.data)
 
 		prestige_stage = data["prestigeStage"]
 
-		if (row := self.mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
-			return Response(utils.compress({"message": ""}), status=400)
-
-		elif prestige_stage < 75:
+		if prestige_stage < 75:
 			return Response(utils.compress({"message": ""}), status=400)
 
 		prestige_points = self.calc_prestige_points(prestige_stage)
 
 		# - Perform the prestige on the database
-		user_items = self.mongo.db.userItems.find_one_and_update(
+		user_items = app.mongo.db.userItems.find_one_and_update(
 			{
-				"userId": row["_id"]
+				"userId": userid
 			},
 			{
 				"$inc": {

@@ -1,5 +1,5 @@
 
-from flask import Response
+from flask import Response, current_app as app
 from flask.views import View
 
 
@@ -10,10 +10,4 @@ class StaticData(View):
 
 	def dispatch_request(self):
 
-		data = {
-			"relics": 				utils.read_data_file("relics.json"),
-			"characters": 			utils.read_data_file("characters.json"),
-			"characterPassives":	utils.read_data_file("characterPassives.json"),
-		}
-
-		return Response(utils.compress(data), status=200)
+		return Response(utils.compress(app.data["static"]), status=200)

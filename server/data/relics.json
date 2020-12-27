@@ -3,44 +3,44 @@
     "name": "Gauntlet of Clicking",
     "description": "A rare glove used by the previous King which has the ability to multiply your click damage by {relicEffect}. Use it wisely",
     "bonusType": 2,
-    "baseCost": 1,
-    "costPower": 1.05,
+    "baseCost": 3,
+    "costPower": 1.1,
     "baseEffect": 2.0,
-    "levelEffect": 1.0
+    "levelEffect": 0.5
   },
   "1": {
     "name": "Iron Sword",
     "description": "A standard issue sword given to new Mercenarys, offers a small {relicEffect} multiplier to mercenary damage",
     "bonusType": 0,
-    "baseCost": 1,
-    "costPower": 1.2,
-    "baseEffect": 1.5,
+    "baseCost": 3,
+    "costPower": 1.1,
+    "baseEffect": 2.0,
     "levelEffect": 0.5
   },
   "2": {
     "name": "Old Pants",
     "description": "An old pair of pants which are not good for anything, besides offering a {relicEffect} boost to enemy gold",
     "bonusType": 1,
-    "baseCost": 1,
+    "baseCost": 3,
     "costPower": 1.1,
-    "baseEffect": 1.25,
-    "levelEffect": 0.25
+    "baseEffect": 2.0,
+    "levelEffect": 0.5
   },
   "3": {
     "name": "Berserk Potion",
-    "description": "An extremely precious, and forbiddon, potion which is used to enrage your troops. Increases mercenary damage by {relicEffect}. Be careful with this new found power.",
+    "description": "An extremely precious, and forbiddon, potion which is used to enrage your troops. Increases mercenary damage by {relicEffect}",
     "bonusType": 0,
     "baseCost": 3,
     "costPower": 1.1,
     "baseEffect": 2.0,
-    "levelEffect": 1.0
+    "levelEffect": 0.5
   },
   "4": {
     "name": "The Last Ring",
     "description": "This ring is unknown in its making, but we know its effects. Its wearer will enjoy a {relicEffect} bonus to boss gold",
     "bonusType": 5,
     "baseCost": 3,
-    "costPower": 1.15,
+    "costPower": 1.1,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   },
@@ -48,9 +48,18 @@
     "name": "Forbidden Scroll",
     "description": "A scroll which contains a forbidden tap technique. Multiplies your tap damage by {relicEffect}",
     "bonusType": 2,
-    "baseCost": 1,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
+    "baseCost": 3,
+    "costPower": 1.1,
+    "baseEffect": 2.0,
+    "levelEffect": 0.5
+  },
+  "6": {
+    "name": "Power Axe",
+    "description": "A powerful axe which can destroy even the mightest defence. Increases mercenary damage by {relicEffect}",
+    "bonusType": 0,
+    "baseCost": 3,
+    "costPower": 1.1,
+    "baseEffect": 2.0,
     "levelEffect": 0.5
   }
 }

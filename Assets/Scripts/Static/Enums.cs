@@ -13,7 +13,8 @@ public enum BonusType
     ALL_SQUAD_DAMAGE    = 0,
     ENEMY_GOLD          = 1,
     TAP_DAMAGE          = 2,
-    BOSS_GOLD           = 3
+    BOSS_GOLD           = 3,
+    HERO_TAP_DAMAGE_ADD = 4,
 }
 
 public enum RelicID
@@ -23,8 +24,8 @@ public enum RelicID
     OLD_SHORTS      = 2,
     HP_POTION       = 3,
     LAST_RING       = 4,
-    TAP_SCROLL      = 5
-
+    TAP_SCROLL      = 5,
+    POWER_AXE       = 6,
 }
 
 public enum UpgradeID

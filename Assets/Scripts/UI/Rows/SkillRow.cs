@@ -19,7 +19,7 @@ public class SkillRow : MonoBehaviour
         UnlockText.text = UnlockText.text.Replace("{level}", unlock.unlockLevel.ToString());
 
         // Description
-        DescriptionText.text = DescriptionText.text
+        DescriptionText.text = (skill.description == "" ? DescriptionText.text : skill.description)
             .Replace("{skillValue}", skill.value.ToString())
             .Replace("{skillTypeText}", CharacterResources.PassiveTypeToString(skill.bonusType));
 

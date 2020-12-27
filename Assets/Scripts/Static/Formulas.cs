@@ -2,6 +2,8 @@
 
 using UnityEngine;
 
+using BreakInfinity;
+
 public static class Formulas
 {
     /*
@@ -90,12 +92,28 @@ public static class Formulas
 
     // ===
 
-    public static double CalculateRelicEffect(RelicID relic)
+    public static double CalcRelicEffect(RelicID relic)
     {
         RelicStaticData staticData = StaticData.GetRelic(relic);
 
         UpgradeState state = GameState.Relics.GetRelic(relic);
 
         return staticData.baseEffect + (staticData.levelEffect * (state.level - 1));
+    }
+
+    // ===
+
+    public static BigInteger CalcRelicLevelUpCost(RelicID relic, int levels)
+    {
+        RelicStaticData staticData = StaticData.GetRelic(relic);
+
+        UpgradeState state = GameState.Relics.GetRelic(relic);
+
+        BigDouble levelCost      = BigDouble.Pow(staticData.costPower, state.level - 1);
+        BigDouble theOtherCost   = (1 - BigDouble.Pow(staticData.costPower, levels));
+
+        BigDouble val = (staticData.baseCost * levelCost * theOtherCost / (1 - staticData.costPower));
+
+        return BigInteger.Parse(BigDouble.Ceiling(val).ToString());
     }
 }

@@ -51,6 +51,7 @@ public static class CharacterResources
         {
             case BonusType.ALL_SQUAD_DAMAGE:    return "squad damage";
             case BonusType.TAP_DAMAGE:          return "tap damage";
+            case BonusType.HERO_TAP_DAMAGE_ADD: return "tap damage";
             case BonusType.ENEMY_GOLD:          return "enemy gold";
             case BonusType.BOSS_GOLD:           return "boss gold";
 

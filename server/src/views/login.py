@@ -11,7 +11,6 @@ class Login(View):
 
 		data = utils.decompress(request.data)
 
-		# - New player (first login)
 		if (row := app.mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
 			result = app.mongo.db.userLogins.insert_one({"deviceId": data["deviceId"]})
 
@@ -31,4 +30,3 @@ class Login(View):
 			),
 
 			status=200)
-

@@ -763,6 +763,7 @@ MonoBehaviour:
   NameText: {fileID: 8993995686601496495}
   CostText: {fileID: 4375145241770002082}
   LevelText: {fileID: 1349382110304154595}
+  BuyAmountText: {fileID: 2603219162664355107}
   DescriptionText: {fileID: 5568022717007162234}
   ErrorMessage: {fileID: 8966553136809179518, guid: 1a6daf1bbb837cd40a0c7fb23f552421,
     type: 3}

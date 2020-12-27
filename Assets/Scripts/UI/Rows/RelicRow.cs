@@ -15,6 +15,7 @@ public class RelicRow : MonoBehaviour
     [SerializeField] Text NameText;
     [SerializeField] Text CostText;
     [SerializeField] Text LevelText;
+    [SerializeField] Text BuyAmountText;
     [SerializeField] Text DescriptionText;
 
     [Header("Prefabs")]
@@ -37,6 +38,8 @@ public class RelicRow : MonoBehaviour
         CostText.text = Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, RelicsTab.BuyAmount));
 
         LevelText.text = "Level " + relic.level.ToString();
+
+        BuyAmountText.text = "x" + RelicsTab.BuyAmount;
     }
 
     public bool TryUpdate()

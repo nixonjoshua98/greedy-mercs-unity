@@ -30,8 +30,8 @@
     "name": "Berserk Potion",
     "description": "An extremely precious, and forbiddon, potion which increases mercenary damage by {relicEffect}. Use with caution",
     "bonusType": 0,
-    "baseCost": 3,
-    "costPower": 1.2,
+    "baseCost": 5,
+    "costPower": 1.25,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   },
@@ -39,8 +39,8 @@
     "name": "The Last Ring",
     "description": "This ring is unknown in its making, but we know its effects. Its wearer will enjoy a {relicEffect} bonus to boss gold",
     "bonusType": 5,
-    "baseCost": 3,
-    "costPower": 1.2,
+    "baseCost": 5,
+    "costPower": 1.25,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   },
@@ -48,8 +48,8 @@
     "name": "Forbidden Scroll",
     "description": "A scroll which contains a forbidden tap technique. Multiplies your tap damage by {relicEffect}",
     "bonusType": 2,
-    "baseCost": 3,
-    "costPower": 1.2,
+    "baseCost": 5,
+    "costPower": 1.25,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   },
@@ -57,8 +57,8 @@
     "name": "Power Axe",
     "description": "A powerful axe which can destroy even the mightest defence. Increases mercenary damage by {relicEffect}",
     "bonusType": 0,
-    "baseCost": 3,
-    "costPower": 1.2,
+    "baseCost": 5,
+    "costPower": 1.25,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   }

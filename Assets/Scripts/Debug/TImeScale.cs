@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TImeScale : MonoBehaviour
+public class TimeScale : MonoBehaviour
 {
     Slider slider;
 

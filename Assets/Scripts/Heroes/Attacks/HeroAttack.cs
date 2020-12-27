@@ -19,12 +19,12 @@ public abstract class HeroAttack: MonoBehaviour
 
     float attackTimer;
 
-    float lastAttack;
-
-    public float attackDuration;
+    float lastAttackTime;
 
     void Awake()
     {
+        lastAttackTime = Time.realtimeSinceStartup;
+
         attackTimer = AttackDelay;
     }
 
@@ -53,10 +53,10 @@ public abstract class HeroAttack: MonoBehaviour
 
     protected void DealDamage()
     {
-        GameManager.TryDealDamageToEnemy(StatsCache.GetHeroDamage(heroId));
+        float timeSinceAttack = Time.realtimeSinceStartup - lastAttackTime;
 
-        attackDuration = Time.timeSinceLevelLoad - lastAttack;
+        GameManager.TryDealDamageToEnemy(StatsCache.GetHeroDamage(heroId) * (timeSinceAttack * Time.timeScale));
 
-        lastAttack = Time.timeSinceLevelLoad;
+        lastAttackTime = Time.realtimeSinceStartup;
     }
 }

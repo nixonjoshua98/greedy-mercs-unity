@@ -47,8 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroId: 4
   anim: {fileID: 4196962537881791945}
-  AttackDelay: 0.25
-  attackDuration: 0
+  AttackDelay: 0.5
 --- !u!1 &8552994621849392845
 GameObject:
   m_ObjectHideFlags: 0

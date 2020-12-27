@@ -78,14 +78,14 @@ public static class Formulas
 
     public static BigInteger CalcPrestigePoints(int stage)
     {
-        return stage >= StageData.MIN_PRESTIGE_STAGE ? BigInteger.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2) : 0;
+        return stage >= StageData.MIN_PRESTIGE_STAGE ? BigInteger.Pow(Mathf.CeilToInt((stage - 70) / 10.0f), 2) : 0;
     }
 
     // ===
 
     public static BigInteger CalcNextRelicCost(int numRelics)
     {
-        return BigInteger.Pow(3, numRelics);
+        return BigInteger.Pow(2, numRelics);
     }
 
     // ===

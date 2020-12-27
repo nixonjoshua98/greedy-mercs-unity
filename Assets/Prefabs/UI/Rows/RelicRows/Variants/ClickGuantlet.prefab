@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d4f5634edede200468fc1ccf30e6f3a1,
         type: 3}
+    - target: {fileID: 2677767619071986345, guid: e6d7c9d469429e84ba9069e2ad209074,
+        type: 3}
+      propertyPath: relicId
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8495211743841107153, guid: e6d7c9d469429e84ba9069e2ad209074,
         type: 3}
       propertyPath: m_Name

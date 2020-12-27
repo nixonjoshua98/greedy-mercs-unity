@@ -77,10 +77,10 @@ public class RelicRow : MonoBehaviour
 
     void OnRelicUpgradeCallback(long code, string compressed)
     {
-        JSONNode node = Utils.Json.Decompress(compressed);
-
         if (code == 200)
         {
+            JSONNode node = Utils.Json.Decompress(compressed);
+
             UpgradeState state = GameState.Relics.GetRelic(relicId);
 
             state.level = node["relicLevel"].AsInt;
@@ -89,8 +89,10 @@ public class RelicRow : MonoBehaviour
         }
         else
         {
-            Utils.UI.ShowError(ErrorMessage, "Relic Upgrade", node["message"].ToString());
+            Utils.UI.ShowError(ErrorMessage, "Relic Upgrade", "Failed to upgrade relic");
         }
+
+        UpdateRow();
 
         Destroy(spawnedBlankPanel);
     }

@@ -41,6 +41,6 @@ public class DataManager : MonoBehaviour
 
     public static void Save()
     {
-        Utils.File.Write(LOCAL_FILENAME, GameState.ToJson().ToString());
+        Utils.File.WriteJson(LOCAL_FILENAME, GameState.ToJson());
     }
 }

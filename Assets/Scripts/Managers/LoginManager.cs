@@ -41,11 +41,11 @@ public class LoginManager : MonoBehaviour
     {
         if (code == 200)
         {
-            string json = Utils.GZip.Unzip(Convert.FromBase64String(compressedJson));
+            JSONNode node = Utils.Json.Decompress(compressedJson);
 
-            StaticData.Restore(JSON.Parse(json));
+            StaticData.Restore(node);
 
-            Utils.File.Write(DataManager.LOCAL_STATIC_FILENAME, json);
+            Utils.File.WriteJson(DataManager.LOCAL_STATIC_FILENAME, node);
         }
 
         else

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Linq;
 using System.Numerics;
 using System.IO.Compression;
 using System.Collections.Generic;
@@ -153,6 +154,11 @@ namespace Utils
             }
         }
 
+        public static void WriteJson(string filename, JSONNode node)
+        {
+            Write(filename, Format.FormatJson(node.ToString()));
+        }
+
         public static void Delete(string filename)
         {
             string path = GetPath(filename);
@@ -199,6 +205,29 @@ namespace Utils
                 return (Mathf.Floor(m * 100.0f) / 100.0f).ToString("0.##") + unitsTable[n];
             
             return val.ToString("e2").Replace("+", "");
+        }
+
+        public static string FormatJson(string json, string indent="  ")
+        {
+            var indentation = 0;
+            var quoteCount = 0;
+            var escapeCount = 0;
+
+            var result =
+                from ch in json ?? string.Empty
+                let escaped = (ch == '\\' ? escapeCount++ : escapeCount > 0 ? escapeCount-- : escapeCount) > 0
+                let quotes = ch == '"' && !escaped ? quoteCount++ : quoteCount
+                let unquoted = quotes % 2 == 0
+                let colon = ch == ':' && unquoted ? ": " : null
+                let nospace = char.IsWhiteSpace(ch) && unquoted ? string.Empty : null
+                let lineBreak = ch == ',' && unquoted ? ch + Environment.NewLine + string.Concat(Enumerable.Repeat(indent, indentation)) : null
+                let openChar = (ch == '{' || ch == '[') && unquoted ? ch + Environment.NewLine + string.Concat(Enumerable.Repeat(indent, ++indentation)) : ch.ToString()
+                let closeChar = (ch == '}' || ch == ']') && unquoted ? Environment.NewLine + string.Concat(Enumerable.Repeat(indent, --indentation)) + ch : ch.ToString()
+                select colon ?? nospace ?? lineBreak ?? (
+                    openChar.Length > 1 ? openChar : closeChar
+                );
+
+            return string.Concat(result);
         }
     }
 }

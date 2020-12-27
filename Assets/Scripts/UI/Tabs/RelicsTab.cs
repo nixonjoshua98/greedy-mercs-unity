@@ -84,9 +84,16 @@ public class RelicsTab : MonoBehaviour
 
     public void OnBuyRelic()
     {
-        spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
+        if (GameState.Player.prestigePoints < Formulas.CalcNextRelicCost(GameState.Relics.Count))
+        {
+            Utils.UI.ShowError(ErrorMessage, "Buy Relic", "You cannot afford to buy a new relic :(");
+        }
+        else
+        {
+            spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
 
-        Server.BuyRelic(this, OnBuyRelicCallback, Utils.Json.GetDeviceNode());
+            Server.BuyRelic(this, OnBuyRelicCallback, Utils.Json.GetDeviceNode());
+        }
     }
 
     public void OnBuyRelicCallback(long code, string data)
@@ -102,7 +109,7 @@ public class RelicsTab : MonoBehaviour
 
         else
         {
-            Utils.UI.ShowError(ErrorMessage, "Relic", "A connection to the server is required");
+            Utils.UI.ShowError(ErrorMessage, "Buy Relic", "A connection to the server is required");
         }
 
         Destroy(spawnedBlankPanel);

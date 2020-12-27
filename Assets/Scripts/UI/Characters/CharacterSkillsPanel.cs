@@ -19,13 +19,13 @@ public class CharacterSkillsPanel : MonoBehaviour
 
     IEnumerator Start()
     {
-        List<HeroPassiveUnlock> unlocks = StaticData.GetHeroPassiveSkills(showingHero);
+        List<HeroPassiveUnlock> unlocks = StaticData.GetCharPassives(showingHero);
 
         UpgradeState heroState = GameState.Characters.GetCharacter(showingHero);
 
         foreach (HeroPassiveUnlock unlock in unlocks)
         {
-            HeroPassiveSkill skill = StaticData.GetPassiveData(unlock.skill);
+            HeroPassiveSkill skill = StaticData.GetPassive(unlock.skill);
 
             GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

@@ -12,17 +12,14 @@ public class RelicRow : MonoBehaviour
     public Text NameText;
     public Text DescriptionText;
 
-    void Awake()
-    {
-        UpdateRow();
-    }
-
     void UpdateRow()
     {
         RelicStaticData data = StaticData.GetRelic(relicId);
 
         NameText.text = data.name;
-        DescriptionText.text = data.description;
+
+        DescriptionText.text = data.description
+            .Replace("{relicEffect}", "<color=orange>" + Formulas.CalculateRelicEffect(relicId) + "x</color>");
     }
 
     public bool TryUpdate()

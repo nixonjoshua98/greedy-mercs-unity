@@ -37,11 +37,11 @@ public class RelicStaticData
 
     public BonusType bonusType;
 
-    public int baseCost;
-    public int costPower;
+    public double baseCost;
+    public double costPower;
 
-    public int baseEffect;
-    public int levelEffect;
+    public double baseEffect;
+    public double levelEffect;
 }
 
 [System.Serializable]

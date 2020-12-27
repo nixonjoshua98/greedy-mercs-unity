@@ -8,9 +8,7 @@ from flask.views import View
 
 from src import utils
 
-RELIC_COSTS = [
-	1
-]
+NUM_RELICS = 6
 
 
 class BuyRelic(View):
@@ -57,16 +55,16 @@ class BuyRelic(View):
 
 	def get_next_relic(self, relics):
 
-		if len(relics) == len(RELIC_COSTS):
+		if len(relics) == NUM_RELICS:
 			return None, None
 
 		owned = [relic["relicId"] for relic in relics]
 
-		all_relics = [i for i in range(len(RELIC_COSTS))]
+		all_relics = [i for i in range(NUM_RELICS)]
 
 		available = list(set(all_relics) - set(owned))
 
-		return random.choice(available), int(math.pow(2, len(relics)))
+		return random.choice(available), int(math.pow(3, len(relics)))
 
 
 class UpgradeRelic(View):

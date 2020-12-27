@@ -20,20 +20,9 @@ public class StaticData
 
     // === Helper Methods ===
 
-    public static RelicStaticData GetRelic(RelicID relic) { return Data.relics[relic]; }
-
-    public static List<HeroPassiveUnlock> GetHeroPassiveSkills(CharacterID hero)
-    {
-        if (Data.heroPassives.TryGetValue(hero, out List<HeroPassiveUnlock> ls))
-            return ls;
-
-        return new List<HeroPassiveUnlock>();
-    }
-
-    public static HeroPassiveSkill GetPassiveData(int skill)
-    {
-        return Data.heroPassiveSkills[skill];
-    }
+    public static RelicStaticData GetRelic(RelicID relic) => Data.relics[relic];
+    public static HeroPassiveSkill GetPassive(int skill) => Data.allHeroPassives[skill];
+    public static List<HeroPassiveUnlock> GetCharPassives(CharacterID hero)  => Data.characterPassives[hero];
 
     public static Dictionary<BonusType, double> GetBonusesFromHeroes()
     {
@@ -43,13 +32,13 @@ public class StaticData
         {
             if (GameState.Characters.TryGetHeroState(hero, out var state))
             {
-                List<HeroPassiveUnlock> heroPassiveUnlocks = GetHeroPassiveSkills(hero);
+                List<HeroPassiveUnlock> heroPassiveUnlocks = GetCharPassives(hero);
 
                 foreach (HeroPassiveUnlock unlock in heroPassiveUnlocks)
                 {
                     if (state.level >= unlock.unlockLevel)
                     {
-                        HeroPassiveSkill skill = GetPassiveData(unlock.skill);
+                        HeroPassiveSkill skill = GetPassive(unlock.skill);
 
                         bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;
                     }
@@ -64,9 +53,9 @@ public class StaticData
 
     class _StaticData
     {
-        public Dictionary<int, HeroPassiveSkill> heroPassiveSkills;
+        public Dictionary<int, HeroPassiveSkill> allHeroPassives;
 
-        public Dictionary<CharacterID, List<HeroPassiveUnlock>> heroPassives;
+        public Dictionary<CharacterID, List<HeroPassiveUnlock>> characterPassives;
 
         public Dictionary<RelicID, RelicStaticData> relics;
 
@@ -93,32 +82,26 @@ public class StaticData
 
         void ParseHeroPassives(JSONNode parsedJson)
         {
-            heroPassiveSkills = new Dictionary<int, HeroPassiveSkill>();
+            allHeroPassives = new Dictionary<int, HeroPassiveSkill>();
 
             JSONNode passives = parsedJson["characterPassives"];
 
             foreach (string key in passives.Keys)
-            {
-                heroPassiveSkills[int.Parse(key)] = JsonUtility.FromJson<HeroPassiveSkill>(passives[key].ToString());
-            }
+                allHeroPassives[int.Parse(key)] = JsonUtility.FromJson<HeroPassiveSkill>(passives[key].ToString());
         }
 
         void AssignHeroPassives(JSONNode parsedJson)
         {
-            heroPassives = new Dictionary<CharacterID, List<HeroPassiveUnlock>>();
+            characterPassives = new Dictionary<CharacterID, List<HeroPassiveUnlock>>();
 
             JSONNode characters = parsedJson["characters"];
 
             foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
             {
-                string jsonKey = ((int)hero).ToString();
+                characterPassives[hero] = new List<HeroPassiveUnlock>();
 
-                heroPassives[hero] = new List<HeroPassiveUnlock>();
-
-                foreach (JSONNode skillString in characters[jsonKey]["passives"])
-                {
-                    heroPassives[hero].Add(JsonUtility.FromJson<HeroPassiveUnlock>(skillString.ToString()));
-                }
+                foreach (JSONNode skillString in characters[((int)hero).ToString()]["passives"])
+                    characterPassives[hero].Add(JsonUtility.FromJson<HeroPassiveUnlock>(skillString.ToString()));
             }
         }
     }

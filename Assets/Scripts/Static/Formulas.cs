@@ -78,16 +78,24 @@ public static class Formulas
 
     public static BigInteger CalcPrestigePoints(int stage)
     {
-        if (GameState.Stage.stage < StageData.MIN_PRESTIGE_STAGE)
-            return 0;
-
-        return BigInteger.Pow((stage - 75) / 14, 2);
+        return stage >= StageData.MIN_PRESTIGE_STAGE ? BigInteger.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2) : 0;
     }
 
     // ===
 
     public static BigInteger CalcNextRelicCost(int numRelics)
     {
-        return BigInteger.Pow(2, numRelics);
+        return BigInteger.Pow(3, numRelics);
+    }
+
+    // ===
+
+    public static double CalculateRelicEffect(RelicID relic)
+    {
+        RelicStaticData staticData = StaticData.GetRelic(relic);
+
+        UpgradeState state = GameState.Relics.GetRelic(relic);
+
+        return staticData.baseEffect + (staticData.levelEffect * (state.level - 1));
     }
 }

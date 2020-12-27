@@ -18,7 +18,13 @@ public enum BonusType
 
 public enum RelicID
 {
-    CLICK_GUANTLET = 0
+    CLICK_GUANTLET  = 0,
+    IRON_SWORD      = 1,
+    OLD_SHORTS      = 2,
+    HP_POTION       = 3,
+    LAST_RING       = 4,
+    TAP_SCROLL      = 5
+
 }
 
 public enum UpgradeID

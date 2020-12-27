@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +15,9 @@ public class SceneTransition : MonoBehaviour
 
         while (progress > 0.0f)
         {
-            img.fillAmount = progress;
+            progress -= (Time.fixedDeltaTime * 2);
 
-            progress -= Time.fixedDeltaTime;
+            img.fillAmount = progress;
 
             yield return new WaitForFixedUpdate();
         }

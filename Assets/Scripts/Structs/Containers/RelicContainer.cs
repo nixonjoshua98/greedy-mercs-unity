@@ -29,6 +29,20 @@ public class RelicContainer : IContainer
         return Utils.Json.CreateJSONArray("relicId", relics);
     }
 
+    public Dictionary<BonusType, double> CalculateBonuses()
+    {
+        Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
+
+        foreach (var relic in relics)
+        {
+            RelicStaticData staticData = StaticData.GetRelic(relic.Key);
+
+            bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 1) * Formulas.CalculateRelicEffect(relic.Key);
+        }
+
+        return bonuses;
+    }
+
     // === 
 
     public int Count { get { return relics.Count; } }

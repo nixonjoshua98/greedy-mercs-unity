@@ -2,13 +2,14 @@
 {
   "0": {
     "name": "Gauntlet of Clicking",
+    "description": "Multiply your click damage by {relicValue}",
 
     "bonusType": 0,
 
     "baseCost": 1,
     "costPower": 1.04,
 
-    "baseEffect": 5.0,
-    "effectPower": 1.1
+    "baseEffect": 4.0,
+    "levelEffect": 2.0
   }
 }

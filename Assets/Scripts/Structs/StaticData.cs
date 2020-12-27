@@ -20,6 +20,8 @@ public class StaticData
 
     // === Helper Methods ===
 
+    public static RelicStaticData GetRelic(RelicID relic) { return Data.relics[relic]; }
+
     public static List<HeroPassiveUnlock> GetHeroPassiveSkills(CharacterID hero)
     {
         if (Data.heroPassives.TryGetValue(hero, out List<HeroPassiveUnlock> ls))
@@ -66,7 +68,7 @@ public class StaticData
 
         public Dictionary<CharacterID, List<HeroPassiveUnlock>> heroPassives;
 
-        public Dictionary<UpgradeID, RelicStaticData> relics;
+        public Dictionary<RelicID, RelicStaticData> relics;
 
         public _StaticData(JSONNode json)
         {
@@ -79,9 +81,9 @@ public class StaticData
 
         void ParseRelics(JSONNode node)
         {
-            relics = new Dictionary<UpgradeID, RelicStaticData>();
+            relics = new Dictionary<RelicID, RelicStaticData>();
 
-            foreach (UpgradeID relic in Enum.GetValues(typeof(UpgradeID)))
+            foreach (RelicID relic in Enum.GetValues(typeof(RelicID)))
             {
                 JSONNode relicNode = node["relics"][((int)relic).ToString()];
 

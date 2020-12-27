@@ -33,13 +33,15 @@ public class RelicStaticData
 {
     public string name;
 
+    public string description;
+
     public BonusType bonusType;
 
     public int baseCost;
     public int costPower;
 
     public int baseEffect;
-    public int effectPower;
+    public int levelEffect;
 }
 
 [System.Serializable]

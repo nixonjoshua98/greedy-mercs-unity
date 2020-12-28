@@ -9,6 +9,6 @@ public class DebugMenu : MonoBehaviour
 
     public void OnStageAdvance()
     {
-        GameState.Stage.stage += 100;
+        GameState.Stage.stage += 10;
     }
 }

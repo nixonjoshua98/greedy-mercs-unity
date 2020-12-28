@@ -1,28 +1,28 @@
 {
 	"0": {
-		"name": "Minor Squad Damage",
+		"name": "Minor Mercenary Damage",
 		"bonusType": 0,
 		"value": 1.15
 	},
 	"1": {
-		"name": "Major Squad Damage",
+		"name": "Major Mercenary Damage",
 		"bonusType": 0,
 		"value": 1.25
 	},
 	"2": {
-		"name": "Minor Enemy Gold",
+		"name": "More Enemy Gold",
 		"bonusType": 1,
 		"value": 1.1
 	},
 	"3": {
-		"name": "Major Enemy Gold",
+		"name": "Even More Enemy Gold",
 		"bonusType": 1,
 		"value": 1.3
 	},
 	"4": {
-		"name": "Double Tap Damage",
+		"name": "Tap Damage Boost",
 		"bonusType": 2,
-		"value": 2.0
+		"value": 1.3
 	},
 	"5": {
 		"name": "The bigger they are, the more they pay!",
@@ -33,6 +33,6 @@
 		"name": "Helping Hand",
 		"description": "Increase your {type} by {value} of your mercenary damage",
 		"bonusType": 4,
-		"value": 0.001
+		"value": 0.0015
 	}
 }

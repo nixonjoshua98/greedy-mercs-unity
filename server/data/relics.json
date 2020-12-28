@@ -12,7 +12,7 @@
     "name": "Iron Sword",
     "description": "A standard issue sword given to new mercenarys. It has no special features and is very dull.",
     "bonusType": 0,
-    "baseCost": 2,
+    "baseCost": 1,
     "costPower": 1.1,
     "baseEffect": 2.0,
     "levelEffect": 0.5
@@ -21,7 +21,7 @@
     "name": "Old Pants",
     "description": "An old pair of pants which are not good for anything besides offering a small boost to their wearer.",
     "bonusType": 1,
-    "baseCost": 3,
+    "baseCost": 1,
     "costPower": 1.1,
     "baseEffect": 2.0,
     "levelEffect": 0.5
@@ -30,18 +30,18 @@
     "name": "Berserk Potion",
     "description": "An extremely precious, and forbiddon, potion which enrages anyone use uses even one drop.",
     "bonusType": 0,
-    "baseCost": 5,
-    "costPower": 1.15,
-    "baseEffect": 2.5,
+    "baseCost": 1,
+    "costPower": 1.1,
+    "baseEffect": 2.0,
     "levelEffect": 0.5
   },
   "4": {
     "name": "The Last Ring",
     "description": "This ring is unknown in its making, but we do know that it is an extremely powerful item.",
     "bonusType": 3,
-    "baseCost": 4,
-    "costPower": 1.15,
-    "baseEffect": 1.5,
+    "baseCost": 1,
+    "costPower": 1.1,
+    "baseEffect": 2.0,
     "levelEffect": 0.5
   },
   "5": {
@@ -57,7 +57,7 @@
     "name": "Power Axe",
     "description": "A powerful axe which can destroy even the mightest defence.",
     "bonusType": 0,
-    "baseCost": 3,
+    "baseCost": 1,
     "costPower": 1.1,
     "baseEffect": 2.0,
     "levelEffect": 0.5

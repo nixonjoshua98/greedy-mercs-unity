@@ -8,6 +8,8 @@ from flask.views import View
 
 from src import utils, checks
 
+MIN_PRESTIGE_STAGE = 80
+
 
 class Prestige(View):
 
@@ -18,7 +20,7 @@ class Prestige(View):
 
 		prestige_stage = data["prestigeStage"]
 
-		if prestige_stage < 75:
+		if prestige_stage < MIN_PRESTIGE_STAGE:
 			return Response(utils.compress({"message": ""}), status=400)
 
 		prestigePointsEarned = self.calc_prestige_points(prestige_stage)
@@ -43,4 +45,4 @@ class Prestige(View):
 
 	@staticmethod
 	def calc_prestige_points(stage):
-		return math.ceil(math.pow(math.ceil((stage - 70) / 9.0), 2.25))
+		return math.ceil(math.pow(math.ceil((stage - MIN_PRESTIGE_STAGE) / 10.0), 2.1))

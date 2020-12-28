@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class StatsCache : MonoBehaviour
 {
-    static Dictionary<BonusType, double> HeroBonus { get { return StaticData.GetBonusesFromHeroes(); } }
+    static Dictionary<BonusType, double> HeroBonus { get { return GameState.Characters.CalculateBonuses(); } }
     static Dictionary<BonusType, double> RelicBonus { get { return GameState.Relics.CalculateBonuses(); } }
 
 
@@ -32,7 +32,7 @@ public class StatsCache : MonoBehaviour
 
     public static BigDouble GetTapDamage()
     {
-        BigDouble dmg = Formulas.CalcTapDamage() * HeroBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1) * RelicBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1);
+        BigDouble dmg = Formulas.CalcTapDamage()  * HeroBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1) * RelicBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1);
 
         // % bonus from heroes
         dmg += TotalCharacterDamage * HeroBonus.GetValueOrDefault(BonusType.HERO_TAP_DAMAGE_ADD, 0);

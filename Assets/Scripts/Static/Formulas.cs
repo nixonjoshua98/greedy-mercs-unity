@@ -97,7 +97,7 @@ public static class Formulas
         if (stage < StageData.MIN_PRESTIGE_STAGE)
             return 0;
 
-        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 70) / 9.0f), 2.25);
+        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 80) / 10.0f), 2.1);
 
         return BigInteger.Parse(big.Ceiling().ToString("F0"));
     }

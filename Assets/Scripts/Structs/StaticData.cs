@@ -24,31 +24,6 @@ public class StaticData
     public static HeroPassiveSkill GetPassive(int skill) => Data.allHeroPassives[skill];
     public static List<HeroPassiveUnlock> GetCharPassives(CharacterID hero)  => Data.characterPassives[hero];
 
-    public static Dictionary<BonusType, double> GetBonusesFromHeroes()
-    {
-        Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
-
-        foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
-        {
-            if (GameState.Characters.TryGetHeroState(hero, out var state))
-            {
-                List<HeroPassiveUnlock> heroPassiveUnlocks = GetCharPassives(hero);
-
-                foreach (HeroPassiveUnlock unlock in heroPassiveUnlocks)
-                {
-                    if (state.level >= unlock.unlockLevel)
-                    {
-                        HeroPassiveSkill skill = GetPassive(unlock.skill);
-
-                        bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;
-                    }
-                }
-            }
-        }
-
-        return bonuses;
-    }
-
     // ===
 
     class _StaticData

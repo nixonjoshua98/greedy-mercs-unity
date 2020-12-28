@@ -2,7 +2,7 @@
 [System.Serializable]
 public class StageData
 {
-    public const int MIN_PRESTIGE_STAGE = 75;
+    public const int MIN_PRESTIGE_STAGE = 80;
 
     const int ENEMIES_PER_STAGE = 6;
 

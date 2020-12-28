@@ -1,4 +1,5 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -38,5 +39,39 @@ public class CharacterContainer
     public void AddHero(CharacterID charaId)
     {
         characters[charaId] = new UpgradeState { level = 1 };
+    }
+
+    public Dictionary<BonusType, double> CalculateBonuses()
+    {
+        Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
+
+        foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
+        {
+            if (GameState.Characters.TryGetHeroState(hero, out var state))
+            {
+                List<HeroPassiveUnlock> heroPassiveUnlocks = StaticData.GetCharPassives(hero);
+
+                foreach (HeroPassiveUnlock unlock in heroPassiveUnlocks)
+                {
+                    if (state.level >= unlock.unlockLevel)
+                    {
+                        HeroPassiveSkill skill = StaticData.GetPassive(unlock.skill);
+
+                        switch (skill.bonusType)
+                        {
+                            case BonusType.HERO_TAP_DAMAGE_ADD:
+                                bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 0) + skill.value;
+                                break;
+
+                            default:
+                                bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return bonuses;
     }
 }

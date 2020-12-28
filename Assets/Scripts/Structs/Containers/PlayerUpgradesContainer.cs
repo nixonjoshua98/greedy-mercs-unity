@@ -37,11 +37,6 @@ public class PlayerUpgradesContainer
         return upgrades[playerUpgrade];
     }
 
-    public bool TryGetUpgrade(UpgradeID playerUpgrade, out UpgradeState state)
-    {
-        return upgrades.TryGetValue(playerUpgrade, out state);
-    }
-
     public void AddUpgrade(UpgradeID playerUpgrade)
     {
         upgrades[playerUpgrade] = new UpgradeState { level = 1 };

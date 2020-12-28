@@ -11,8 +11,8 @@ public static class CharacterResources
         new CharacterStaticData(CharacterID.HERO_NUM_2,         "Stone Golem",      "GolemStone",       5_000),
         new CharacterStaticData(CharacterID.HERO_NUM_3,          "Fire Satyr",       "SatyrFire",       75_000),
         new CharacterStaticData(CharacterID.HERO_NUM_4,        "Fallen Angel",     "FallenAngel",       2_000_000),
-        new CharacterStaticData(CharacterID.HERO_NUM_5,        "War Minotaur",        "Minotaur",       150_000_000),
-        new CharacterStaticData(CharacterID.HERO_NUM_6,          "Reaper Man",       "ReaperMan",       7_500_000_000_000)
+        new CharacterStaticData(CharacterID.HERO_NUM_5,        "War Minotaur",        "Minotaur",       125_000_000),
+        new CharacterStaticData(CharacterID.HERO_NUM_6,          "Reaper Man",       "ReaperMan",       5_000_000_000_000)
     };
 
     public static CharacterStaticData GetCharacter(CharacterID hero)

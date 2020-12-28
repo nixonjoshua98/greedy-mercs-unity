@@ -1030,12 +1030,9 @@ using UnityEngine;
         /// Adapted from Trimps source code.
         /// </para>
         /// </summary>
-        public static BigDouble AffordGeometricSeries(BigDouble resourcesAvailable, BigDouble priceStart,
-            BigDouble priceRatio, BigDouble currentOwned)
+        public static BigDouble AffordGeometricSeries(BigDouble resourcesAvailable, BigDouble priceStart, BigDouble priceRatio, BigDouble currentOwned)
         {
             var actualStart = priceStart * BigDouble.Pow(priceRatio, currentOwned);
-
-            //return Math.floor(log10(((resourcesAvailable / (priceStart * Math.pow(priceRatio, currentOwned))) * (priceRatio - 1)) + 1) / log10(priceRatio));
 
             return BigDouble.Floor(BigDouble.Log10(resourcesAvailable / actualStart * (priceRatio - 1) + 1) / BigDouble.Log10(priceRatio));
         }

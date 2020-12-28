@@ -16,16 +16,10 @@ public class ClickDamageUpgradeRow : MonoBehaviour
         get
         {
             if (PlayerTab.BuyAmount == -1)
-                return Mathf.Max(1, Formulas.CalcAffordableTapDamageLevels());
+                return Mathf.Max(1, Formulas.AffordTapDamageLevels());
 
             return PlayerTab.BuyAmount;
         }
-    }
-
-    void Awake()
-    {
-        if (!GameState.PlayerUpgrades.TryGetUpgrade(playerUpgrade, out UpgradeState _))
-            GameState.PlayerUpgrades.AddUpgrade(playerUpgrade);
     }
 
     void OnEnable()

@@ -22,7 +22,7 @@ public class CharacterRow : MonoBehaviour
         get
         {
             if (MercsTab.BuyAmount == -1)
-                return Mathf.Max(1, Formulas.CalcAffordableCharacterLevels(characterId));
+                return Mathf.Max(1, Formulas.AffordCharacterLevels(characterId));
 
             return MercsTab.BuyAmount;
         }

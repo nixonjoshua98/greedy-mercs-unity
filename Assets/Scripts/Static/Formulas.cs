@@ -56,7 +56,7 @@ public static class Formulas
         return BigMath.SumGeometricSeries(levels, hero.PurchaseCost, 1.075, state.level);
     }
 
-    public static int CalcAffordableCharacterLevels(CharacterID charaId)
+    public static int AffordCharacterLevels(CharacterID charaId)
     {
         UpgradeState state              = GameState.Characters.GetCharacter(charaId);
         CharacterStaticData staticData  = CharacterResources.GetCharacter(charaId);
@@ -83,7 +83,7 @@ public static class Formulas
         return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, state.level);
     }
 
-    public static int CalcAffordableTapDamageLevels()
+    public static int AffordTapDamageLevels()
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
@@ -128,7 +128,7 @@ public static class Formulas
         return BigInteger.Parse(val.Ceiling().ToString("F0"));
     }
 
-    public static int CalcAffordableRelicLevels(RelicID relic)
+    public static int AffordRelicLevels(RelicID relic)
     {
         UpgradeState state          = GameState.Relics.GetRelic(relic);
         RelicStaticData staticData  = StaticData.GetRelic(relic);

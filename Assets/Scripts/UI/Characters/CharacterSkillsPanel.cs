@@ -29,7 +29,7 @@ public class CharacterSkillsPanel : MonoBehaviour
 
             GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 
-            skillRow.GetComponent<SkillRow>().UpdatePanel(heroState, unlock, skill);
+            skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(heroState, unlock, skill);
 
             yield return new WaitForFixedUpdate();
         }

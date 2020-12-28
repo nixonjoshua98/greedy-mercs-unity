@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillRow : MonoBehaviour
+public class CharacterPassiveRow : MonoBehaviour
 {
     public Text UnlockText;
     public Text SkillNameText;

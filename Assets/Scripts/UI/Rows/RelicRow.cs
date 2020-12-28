@@ -1,6 +1,4 @@
 ﻿using System.Numerics;
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,7 +27,7 @@ public class RelicRow : MonoBehaviour
         get
         {
             if (RelicsTab.BuyAmount == -1)
-                return Mathf.Max(1, Formulas.CalcAffordableRelicLevels(relicId));
+                return Mathf.Max(1, Formulas.AffordRelicLevels(relicId));
 
             return RelicsTab.BuyAmount;
         }
@@ -69,7 +67,9 @@ public class RelicRow : MonoBehaviour
 
     public void OnRelicUpgrade()
     {
-        BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, BuyAmount);
+        int levelsBuying = BuyAmount;
+
+        BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, levelsBuying);
 
         if (GameState.Player.prestigePoints >= cost)
         {

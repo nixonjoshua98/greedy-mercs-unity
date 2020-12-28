@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -12,9 +13,15 @@ public class PlayerUpgradesContainer : IContainer
     {
         upgrades = new Dictionary<UpgradeID, UpgradeState>();
 
-        foreach (JSONNode chara in node["playerUpgrades"].AsArray)
+        foreach (JSONNode upgrade in node["playerUpgrades"].AsArray)
         {
-            upgrades[(UpgradeID)int.Parse(chara["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(chara.ToString());
+            upgrades[(UpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
+        }
+
+        foreach (UpgradeID upgrade in Enum.GetValues(typeof(UpgradeID)))
+        {
+            if (!upgrades.ContainsKey(upgrade))
+                AddUpgrade(upgrade);
         }
     }
 

@@ -130,7 +130,7 @@ public static class Formulas
 
         BigDouble val = BigMath.SumGeometricSeries(levels, staticData.baseCost, staticData.costPower, state.level - 1);
 
-        return BigInteger.Parse(val.Floor().ToString("F0"));
+        return BigInteger.Parse(val.Ceiling().ToString("F0"));
     }
 
     public static int AffordRelicLevels(RelicID relic)

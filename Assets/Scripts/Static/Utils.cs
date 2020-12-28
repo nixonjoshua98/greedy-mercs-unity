@@ -203,7 +203,7 @@ namespace Utils
 
         public static string FormatNumber(BigInteger val)
         {
-            if (val <= 100_000)
+            if (val <= 10_000)
                 return val.ToString();
 
             int n = (int)BigInteger.Log(val, 1000);

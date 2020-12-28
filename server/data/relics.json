@@ -28,7 +28,7 @@
   },
   "3": {
     "name": "Berserk Potion",
-    "description": "An extremely precious, and forbiddon, potion which enrages anyone use uses even one drop.",
+    "description": "An extremely precious, and forbiddon, potion which enrages anyone who uses even one drop.",
     "bonusType": 0,
     "baseCost": 1,
     "costPower": 1.07,
@@ -60,6 +60,24 @@
     "baseCost": 3,
     "costPower": 1.07,
     "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "7": {
+    "name": "Spell Tome",
+    "description": "Spell tome which contains a variety of legendary spells.",
+    "bonusType": 6,
+    "baseCost": 2,
+    "costPower": 1.07,
+    "baseEffect": 2.0,
+    "levelEffect": 0.5
+  },
+  "8": {
+    "name": "Bracers",
+    "description": "Old bracers worn by a previous mercenary. It has limited defence capability.",
+    "bonusType": 5,
+    "baseCost": 2,
+    "costPower": 1.07,
+    "baseEffect": 2.0,
     "levelEffect": 0.5
   }
 }

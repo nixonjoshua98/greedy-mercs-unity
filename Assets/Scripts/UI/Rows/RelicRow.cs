@@ -40,7 +40,7 @@ public class RelicRow : MonoBehaviour
         RelicStaticData data    = StaticData.GetRelic(relicId);
         UpgradeState relic      = GameState.Relics.GetRelic(relicId);
 
-        ShortDescriptionText.text = "{type} | {effect}"
+        ShortDescriptionText.text = "{effect} {type}"
             .Replace("{type}",      "<color=orange>" + Utils.Generic.BonusToString(data.bonusType) + "</color>")
             .Replace("{effect}",    "<color=orange>" + Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relicId) * 100) + "%</color>");
 

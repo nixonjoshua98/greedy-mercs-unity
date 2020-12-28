@@ -78,7 +78,7 @@
 	"2": {
 		"passives": [
 			{
-				"skill": 3,
+				"skill": 5,
 				"unlockLevel": 25
 			},
 			{
@@ -142,7 +142,7 @@
 				"unlockLevel": 175
 			},
 			{
-				"skill": 3,
+				"skill": 7,
 				"unlockLevel": 200
 			}
 		]
@@ -186,7 +186,7 @@
 	"5": {
 		"passives": [
 			{
-				"skill": 6,
+				"skill": 0,
 				"unlockLevel": 25
 			},
 			{
@@ -198,11 +198,11 @@
 				"unlockLevel": 75
 			},
 			{
-				"skill": 5,
+				"skill": 4,
 				"unlockLevel": 100
 			},
 			{
-				"skill": 6,
+				"skill": 5,
 				"unlockLevel": 125
 			},
 			{

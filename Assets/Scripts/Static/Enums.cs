@@ -30,6 +30,8 @@ public enum RelicID
     LAST_RING       = 4,
     TAP_SCROLL      = 5,
     POWER_AXE       = 6,
+    SPELL_TOME      = 7,
+    BRACERS         = 8
 }
 
 public enum UpgradeID

@@ -16,16 +16,17 @@ public class StatsCache : MonoBehaviour
     static Dictionary<string, CacheValue>       StringCache             = new Dictionary<string, CacheValue>();
     static Dictionary<CharacterID, CacheValue>  CharacterDamageCache    = new Dictionary<CharacterID, CacheValue>();
 
-    static float lastBonusCalc = 0;
+    static float lastCharBonusCalc  = 0;
+    static float lastRelicBonucCalc = 0;
 
     static Dictionary<BonusType, double> cachedHeroBonus    = new Dictionary<BonusType, double>();
     static Dictionary<BonusType, double> cachedRelicBonus   = new Dictionary<BonusType, double>();
 
     static Dictionary<BonusType, double> HeroBonus { 
         get {
-            if (Time.realtimeSinceStartup - lastBonusCalc >= 1.0f)
+            if ((Time.realtimeSinceStartup - lastCharBonusCalc) >= 1.0f)
             {
-                lastBonusCalc = Time.realtimeSinceStartup;
+                lastCharBonusCalc = Time.realtimeSinceStartup;
 
                 cachedHeroBonus = GameState.Characters.CalculateBonuses();
             }
@@ -38,9 +39,9 @@ public class StatsCache : MonoBehaviour
     {
         get
         {
-            if (Time.realtimeSinceStartup - lastBonusCalc >= 1.0f)
+            if ((Time.realtimeSinceStartup - lastRelicBonucCalc) >= 1.0f)
             {
-                lastBonusCalc = Time.realtimeSinceStartup;
+                lastRelicBonucCalc = Time.realtimeSinceStartup;
 
                 cachedRelicBonus = GameState.Relics.CalculateBonuses();
             }
@@ -52,6 +53,8 @@ public class StatsCache : MonoBehaviour
 
     public static void ClearCache()
     {
+        lastRelicBonucCalc = lastCharBonusCalc = 0;
+
         StringCache = new Dictionary<string, CacheValue>();
 
         CharacterDamageCache = new Dictionary<CharacterID, CacheValue>();
@@ -68,7 +71,8 @@ public class StatsCache : MonoBehaviour
                 * HeroBonus.GetValueOrDefault(BonusType.ALL_MERC_DAMAGE, 1) 
                 * HeroBonus.GetValueOrDefault(data.AttackType, 1)
 
-                * RelicBonus.GetValueOrDefault(BonusType.ALL_MERC_DAMAGE, 1);
+                * RelicBonus.GetValueOrDefault(BonusType.ALL_MERC_DAMAGE, 1)
+                * RelicBonus.GetValueOrDefault(data.AttackType, 1);
 
             CharacterDamageCache[chara].Value = val;
         }

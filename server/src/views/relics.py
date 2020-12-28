@@ -8,7 +8,7 @@ from flask.views import View
 
 from src import utils, checks
 
-NUM_RELICS = 7
+NUM_RELICS = 9
 
 
 class BuyRelic(View):
@@ -135,4 +135,4 @@ class UpgradeRelic(View):
 
 		val = base_cost * math.pow(cost_power, start - 1) * (1 - math.pow(cost_power, levels)) / (1 - cost_power)
 
-		return math.floor(val)
+		return math.ceil(val)

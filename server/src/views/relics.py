@@ -66,7 +66,7 @@ class BuyRelic(View):
 
 		available = list(set(all_relics) - set(owned))
 
-		return random.choice(available), int(math.pow(2, len(relics)))
+		return random.choice(available), math.floor(math.pow(1.5, len(relics)))
 
 
 class UpgradeRelic(View):

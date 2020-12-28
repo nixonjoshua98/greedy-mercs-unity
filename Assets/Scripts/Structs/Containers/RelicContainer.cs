@@ -5,7 +5,7 @@ using UnityEngine;
 
 using SimpleJSON;
 
-public class RelicContainer : IContainer
+public class RelicContainer
 {
     Dictionary<RelicID, UpgradeState> relics;
 

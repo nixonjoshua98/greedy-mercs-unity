@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroId: 0
   anim: {fileID: 2168791721332256124}
-  AttackDelay: 0.4
+  AttackDelay: 0.5
   attackParticle: {fileID: 218371283688233683}
 --- !u!1001 &127814930030733177
 PrefabInstance:

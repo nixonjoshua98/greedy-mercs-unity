@@ -5,7 +5,7 @@ using UnityEngine;
 
 using SimpleJSON;
 
-public class PlayerUpgradesContainer : IContainer
+public class PlayerUpgradesContainer
 {
     Dictionary<UpgradeID, UpgradeState> upgrades;
 

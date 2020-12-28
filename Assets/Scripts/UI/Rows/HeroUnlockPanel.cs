@@ -6,10 +6,9 @@ public class HeroUnlockPanel : MonoBehaviour
     [SerializeField] Text TitleText;
     [SerializeField] Text CostText;
 
-
-    void OnEnable()
+    void Awake()
     {
-        UpdatePanel();
+        InvokeRepeating("UpdatePanel", 0.0f, 0.5f);
     }
 
     public void OnUnlockButton()
@@ -39,8 +38,6 @@ public class HeroUnlockPanel : MonoBehaviour
         }
 
         else
-        {
             Destroy(gameObject);
-        }
     }
 }

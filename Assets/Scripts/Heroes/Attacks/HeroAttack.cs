@@ -13,7 +13,7 @@ public abstract class HeroAttack: MonoBehaviour
 
     [Space]
 
-    [SerializeField, Range(0, 1.0f)] float AttackDelay = 0.25f;
+    [SerializeField, Range(0, 2.5f)] float AttackDelay = 0.25f;
 
     protected bool isAttacking { get { return anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"); } }
 

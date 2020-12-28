@@ -14,10 +14,10 @@ public class CharacterStaticData
     public readonly CharacterID HeroID;
 
     public readonly string Name;
-    public readonly double PurchaseCost;
+    public readonly BigDouble PurchaseCost;
     public readonly string GameObjectString;
 
-    public CharacterStaticData(CharacterID heroId, string name, string gameObjectString, double purchaseCost)
+    public CharacterStaticData(CharacterID heroId, string name, string gameObjectString, BigDouble purchaseCost)
     {
         HeroID              = heroId;
 

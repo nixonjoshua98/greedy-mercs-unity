@@ -71,7 +71,7 @@ public static class Formulas
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return state.level * BigDouble.Pow(2.0f, (state.level) / 35.0f);
+        return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 35.0f);
     }
 
     // === Tap Damage Player Upgrade ===
@@ -106,7 +106,7 @@ public static class Formulas
 
     public static BigInteger CalcNextRelicCost(int numRelics)
     {
-        return BigInteger.Pow(2, numRelics);
+        return BigInteger.Parse(BigDouble.Pow(1.5, numRelics).Floor().ToString("F0"));
     }
 
     // ===

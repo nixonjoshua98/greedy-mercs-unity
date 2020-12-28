@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class CharacterContainer : IContainer
+public class CharacterContainer
 {
     Dictionary<CharacterID, UpgradeState> characters;
 

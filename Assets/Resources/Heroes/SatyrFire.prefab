@@ -159,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroId: 2
   anim: {fileID: 2828557145166165476}
-  AttackDelay: 0.3
+  AttackDelay: 0.6
   Projectile: {fileID: 1372040286346358, guid: 53ebac442b16db64f9177d0c749cbb06, type: 3}
   ProjectileStart: {fileID: 7637163329336135085}
 --- !u!1001 &4212931058609886445

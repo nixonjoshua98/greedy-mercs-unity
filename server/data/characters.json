@@ -178,5 +178,41 @@
 				"unlockLevel": 200
 			}
 		]
+	},
+	"5": {
+		"passives": [
+			{
+				"skill": 6,
+				"unlockLevel": 25
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 50
+			},
+			{
+				"skill": 1,
+				"unlockLevel": 75
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 100
+			},
+			{
+				"skill": 6,
+				"unlockLevel": 125
+			},
+			{
+				"skill": 0,
+				"unlockLevel": 150
+			},
+			{
+				"skill": 4,
+				"unlockLevel": 175
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 200
+			}
+		]
 	}
 }

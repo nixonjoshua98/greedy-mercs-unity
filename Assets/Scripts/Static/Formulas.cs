@@ -12,69 +12,85 @@ public static class Formulas
 
     // =====
 
-    public static double CalcEnemyHealth(int stage)
+    public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * Mathf.Pow(1.3f, Mathf.Min(stage - 1, 70)) * Mathf.Pow(1.15f, Mathf.Max(stage - 70, 0));
+        return 15.0 * BigDouble.Pow(1.3f, Mathf.Min(stage - 1, 70)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 70, 0));
     }
 
-    public static double CalcBossHealth(int stage)
+    public static BigDouble CalcBossHealth(int stage)
     {
         return CalcEnemyHealth(stage) * 3.0f;
     }
 
     // =====
 
-    public static double CalcEnemyGold(int stage)
+    public static BigDouble CalcEnemyGold(int stage)
     {
         return 12.5f * CalcEnemyHealth(stage) * (0.005 + (0.0002 * Mathf.Max(0, 50 - (stage - 1))));
     }
 
-    public static double CalcBossGold(int stage)
+    public static BigDouble CalcBossGold(int stage)
     {
         return CalcEnemyGold(stage) * 5.0f;
     }
 
     // ===
 
-    public static double CalcHeroDamage(CharacterID heroId)
+    public static BigDouble CalcCharacterDamage(CharacterID heroId)
     {
         var state = GameState.Characters.GetCharacter(heroId);
 
         CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
-        return (hero.PurchaseCost / 10.0f) * state.level * Mathf.Pow(4.0f, (state.level - 1) / 100.0f);
+        return (hero.PurchaseCost / 10.0f) * state.level * BigDouble.Pow(4.0f, (state.level - 1) / 100.0f);
     }
 
     // ===
 
-    public static double CalcHeroLevelUpCost(CharacterID heroId, int levels)
+    public static BigDouble CalcCharacterLevelUpCost(CharacterID heroId, int levels)
     {
         var state = GameState.Characters.GetCharacter(heroId);
 
         CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
-        return (hero.PurchaseCost * Mathf.Pow(1.075f, state.level)) * ((1 - Mathf.Pow(1.075f, levels)) / (1 - 1.075f));
+        return BigMath.SumGeometricSeries(levels, hero.PurchaseCost, 1.075, state.level);
     }
+
+    public static int CalcAffordableCharacterLevels(CharacterID charaId)
+    {
+        UpgradeState state              = GameState.Characters.GetCharacter(charaId);
+        CharacterStaticData staticData  = CharacterResources.GetCharacter(charaId);
+
+        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, staticData.PurchaseCost, 1.075, state.level).ToString());
+    }
+
 
     // ===
 
-    public static double CalcTapDamage()
+    public static BigDouble CalcTapDamage()
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return state.level * Mathf.Pow(2.0f, (state.level - 1) / 35.0f);
+        return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 35.0f);
     }
 
-    // ===
+    // === Tap Damage Player Upgrade ===
 
-    public static double CalcTapDamageLevelUpCost(int levels)
+    public static BigDouble CalcTapDamageLevelUpCost(int levels)
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return (10.0f * Mathf.Pow(1.09f, state.level - 1)) * ((1 - Mathf.Pow(1.09f, levels)) / (1 - 1.09f));
+        return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, state.level);
     }
 
-    // ===
+    public static int CalcAffordableTapDamageLevels()
+    {
+        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
+
+        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level).ToString());
+    }
+
+    // === Prestige Points ===
 
     public static BigInteger CalcPrestigePoints(int stage)
     {
@@ -99,7 +115,7 @@ public static class Formulas
         return staticData.baseEffect + (staticData.levelEffect * (state.level - 1));
     }
 
-    // ===
+    // === Relics ===
 
     public static BigInteger CalcRelicLevelUpCost(RelicID relic, int levels)
     {
@@ -107,11 +123,16 @@ public static class Formulas
 
         UpgradeState state = GameState.Relics.GetRelic(relic);
 
-        BigDouble levelCost      = BigDouble.Pow(staticData.costPower, state.level - 1);
-        BigDouble theOtherCost   = (1 - BigDouble.Pow(staticData.costPower, levels));
+        BigDouble val = BigMath.SumGeometricSeries(levels, staticData.baseCost, staticData.costPower, state.level);
 
-        BigDouble val = (staticData.baseCost * levelCost * theOtherCost / (1 - staticData.costPower));
+        return BigInteger.Parse(val.Ceiling().ToString("F0"));
+    }
 
-        return BigInteger.Parse(BigDouble.Ceiling(val).ToString());
+    public static int CalcAffordableRelicLevels(RelicID relic)
+    {
+        UpgradeState state          = GameState.Relics.GetRelic(relic);
+        RelicStaticData staticData  = StaticData.GetRelic(relic);
+
+        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.AsBigDouble(), staticData.baseCost, staticData.costPower, state.level).ToString());
     }
 }

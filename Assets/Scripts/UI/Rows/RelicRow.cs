@@ -24,6 +24,17 @@ public class RelicRow : MonoBehaviour
 
     GameObject spawnedBlankPanel;
 
+    int BuyAmount
+    {
+        get
+        {
+            if (RelicsTab.BuyAmount == -1)
+                return Mathf.Max(1, Formulas.CalcAffordableRelicLevels(relicId));
+
+            return RelicsTab.BuyAmount;
+        }
+    }
+
     void UpdateRow()
     {
         RelicStaticData data = StaticData.GetRelic(relicId);
@@ -35,11 +46,11 @@ public class RelicRow : MonoBehaviour
         DescriptionText.text = data.description
             .Replace("{relicEffect}", "<color=orange>" + Formulas.CalcRelicEffect(relicId) + "x</color>");
 
-        CostText.text = Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, RelicsTab.BuyAmount));
+        CostText.text = Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, BuyAmount));
 
         LevelText.text = "Level " + relic.level.ToString();
 
-        BuyAmountText.text = "x" + RelicsTab.BuyAmount;
+        BuyAmountText.text = "x" + BuyAmount;
     }
 
     public bool TryUpdate()
@@ -58,7 +69,7 @@ public class RelicRow : MonoBehaviour
 
     public void OnRelicUpgrade()
     {
-        BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, RelicsTab.BuyAmount);
+        BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, BuyAmount);
 
         if (GameState.Player.prestigePoints >= cost)
         {
@@ -67,14 +78,9 @@ public class RelicRow : MonoBehaviour
             JSONNode node = Utils.Json.GetDeviceNode();
 
             node.Add("relicId", (int)relicId);
-            node.Add("buyLevels", RelicsTab.BuyAmount);
+            node.Add("buyLevels", BuyAmount);
 
             Server.UpgradeRelic(this, OnRelicUpgradeCallback, node);
-        }
-
-        else
-        {
-            Utils.UI.ShowError(ErrorMessage, "Relic Upgrade", "You cannot afford to do this");
         }
     }
 

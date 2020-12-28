@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1253359249297359995, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 560634112627639994}
+    - target: {fileID: 1253359249297359995, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnInfoButton
+      objectReference: {fileID: 0}
     - target: {fileID: 2590242376892688158, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
         type: 3}
       propertyPath: m_Sprite
@@ -144,5 +154,42 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2961036064842033163, guid: 5f91f2821cb06e446b43e93691513694,
         type: 3}
+    - target: {fileID: 5952949067602816565, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: characterId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149851412659134187, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 560634112627639994}
+    - target: {fileID: 7149851412659134187, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnInfoButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7191235951257294527, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 560634112627639994}
+    - target: {fileID: 7191235951257294527, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBuyButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4, type: 3}
+--- !u!114 &560634112627639994 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5952949067602816565, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6150468356648888463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ed8b6b5d1e9d84697a7721ee824649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

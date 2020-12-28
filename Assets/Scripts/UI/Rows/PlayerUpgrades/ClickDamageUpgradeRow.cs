@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerUpgradeRow : MonoBehaviour
+public class ClickDamageUpgradeRow : MonoBehaviour
 {
     [SerializeField] UpgradeID playerUpgrade;
     [Space]
@@ -10,6 +10,17 @@ public class PlayerUpgradeRow : MonoBehaviour
     [SerializeField] Text BuyText;
     [SerializeField] Text CostText;
     [SerializeField] Text LevelText;
+
+    int BuyAmount
+    {
+        get
+        {
+            if (PlayerTab.BuyAmount == -1)
+                return Mathf.Max(1, Formulas.CalcAffordableTapDamageLevels());
+
+            return PlayerTab.BuyAmount;
+        }
+    }
 
     void Awake()
     {
@@ -33,18 +44,18 @@ public class PlayerUpgradeRow : MonoBehaviour
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(playerUpgrade);
 
         LevelText.text      = "Level " + state.level.ToString();
-        BuyText.text        = "x" + PlayerTab.BuyAmount.ToString();
+        BuyText.text        = "x" + BuyAmount.ToString();
         DamageText.text     = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
-        CostText.text       = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(PlayerTab.BuyAmount));
+        CostText.text       = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
     }
 
     // === Button Callbacks ===
 
     public void OnBuyButton()
     {
-        int levelsBuying = PlayerTab.BuyAmount;
+        int levelsBuying = BuyAmount;
 
-        double cost = Formulas.CalcTapDamageLevelUpCost(levelsBuying);
+        BigDouble cost = Formulas.CalcTapDamageLevelUpCost(levelsBuying);
 
         if (GameState.Player.gold >= cost)
         {

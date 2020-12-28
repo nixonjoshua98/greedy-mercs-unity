@@ -32,7 +32,7 @@ public class BuyAmountController : MonoBehaviour
 
     public void OnChange(int index)
     {
-        int[] amounts = new int[3] { 1, 10, 100 };
+        int[] amounts = new int[4] { 1, 10, 100, -1 };
 
         BuyAmount = amounts[index];
 

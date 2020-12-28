@@ -11,9 +11,15 @@ using SimpleJSON;
 using UnityEngine;
 
 public static class Extensions
-{    public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
+{    
+    public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
     {
         return dict.TryGetValue(key, out var value) ? value : fallback;
+    }
+
+    public static BigDouble AsBigDouble(this BigInteger val)
+    {
+        return BigDouble.Parse(val.ToString());
     }
 }
 
@@ -180,7 +186,14 @@ namespace Utils
             if (val <= 100_000)
                 return val.ToString();
 
-            return val.ToString("e2").Replace("+", "");
+            int n = (int)BigInteger.Log(val, 1000);
+
+            BigInteger m = val / BigInteger.Pow(1000, n);
+
+            if (n < unitsTable.Count)
+                return m.ToString("F2") + unitsTable[n];
+
+            return val.ToString("E2").Replace("+", "").Replace("E", "e");
         }
 
         public static string FormatNumber(BigDouble val)

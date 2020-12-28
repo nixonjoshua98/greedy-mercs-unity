@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 961353704137004436}
   - component: {fileID: 7167922000852565252}
   m_Layer: 5
-  m_Name: SkillRow
+  m_Name: CharacterPassiveRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

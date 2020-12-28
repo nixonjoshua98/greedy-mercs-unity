@@ -54,7 +54,7 @@ public class DamageNumbers : MonoBehaviour
         }
     }
 
-    public void Add(double number)
+    public void Add(BigDouble number)
     {
         DamageText current;
 

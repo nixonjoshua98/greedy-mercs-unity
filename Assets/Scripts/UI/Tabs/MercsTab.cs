@@ -2,9 +2,9 @@
 
 using UnityEngine;
 
-public class HeroesTab : MonoBehaviour
+public class MercsTab : MonoBehaviour
 {
-    static HeroesTab Instance = null;
+    static MercsTab Instance = null;
 
     [SerializeField] Transform heroRowsParent;
 
@@ -14,19 +14,19 @@ public class HeroesTab : MonoBehaviour
 
     public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
 
-    List<HeroRow> rows;
+    List<CharacterRow> rows;
 
     void Awake()
     {
         Instance = this;
 
-        rows = new List<HeroRow>();
+        rows = new List<CharacterRow>();
 
         for (int i = 0; i < heroRowsParent.childCount; ++i)
         {
             Transform child = heroRowsParent.GetChild(i);
 
-            if (child.TryGetComponent(out HeroRow row))
+            if (child.TryGetComponent(out CharacterRow row))
             {
                 rows.Add(row);
             }
@@ -54,7 +54,7 @@ public class HeroesTab : MonoBehaviour
     // === Internal Methods ===
     void UpdateRows()
     {
-        foreach (HeroRow row in rows)
+        foreach (CharacterRow row in rows)
         {
             row.gameObject.SetActive(row.TryUpdate());
         }

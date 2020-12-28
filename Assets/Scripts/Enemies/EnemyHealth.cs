@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyHealth : Health
 {
-    public override double GetIntialHealth()
+    public override BigDouble GetIntialHealth()
     {
         return Formulas.CalcEnemyHealth(GameState.Stage.stage);
     }

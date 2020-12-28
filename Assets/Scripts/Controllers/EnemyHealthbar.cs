@@ -24,7 +24,7 @@ public class EnemyHealthbar : MonoBehaviour
 
     void OnEnemyHurt(Health health)
     {
-        healthbar.value = (float)(health.CurrentHealth / health.MaxHealth);
+        healthbar.value = float.Parse((health.CurrentHealth / health.MaxHealth).ToString());
 
         healthText.text = health.CurrentHealth > 0 ? Utils.Format.FormatNumber(health.CurrentHealth) : "";
     }

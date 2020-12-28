@@ -8,12 +8,10 @@ public abstract class Health : MonoBehaviour
 {
     [SerializeField] Animator anim;
 
-    Slider healthbar;
-
-    double maxHealth;
-    double currentHealth;
-    public double MaxHealth { get { return maxHealth; } }
-    public double CurrentHealth {  get { return currentHealth; } }
+    BigDouble maxHealth;
+    BigDouble currentHealth;
+    public BigDouble MaxHealth { get { return maxHealth; } }
+    public BigDouble CurrentHealth {  get { return currentHealth; } }
 
     public bool IsDead { get { return currentHealth <= 0.0f; } }
 
@@ -22,9 +20,9 @@ public abstract class Health : MonoBehaviour
         maxHealth = currentHealth = GetIntialHealth();
     }
 
-    public abstract double GetIntialHealth();
+    public abstract BigDouble GetIntialHealth();
 
-    public virtual void TakeDamage(double amount)
+    public virtual void TakeDamage(BigDouble amount)
     {
         if (currentHealth > 0.0f)
         {

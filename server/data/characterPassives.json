@@ -30,8 +30,8 @@
 		"value": 1.2
 	},
 	"6": {
-		"name": "A helping hand",
-		"description": "Increase your <color=orange>{skillTypeText}</color> by <color=orange>0.01%</color> of your mercenary damage",
+		"name": "Helping Hand",
+		"description": "Increase your {type} by {value} of your mercenary damage",
 		"bonusType": 4,
 		"value": 0.001
 	}

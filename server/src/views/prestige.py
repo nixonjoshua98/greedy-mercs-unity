@@ -21,24 +21,26 @@ class Prestige(View):
 		if prestige_stage < 75:
 			return Response(utils.compress({"message": ""}), status=400)
 
-		prestige_points = self.calc_prestige_points(prestige_stage)
+		prestigePointsEarned = self.calc_prestige_points(prestige_stage)
+
+		userItems = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
 		# - Perform the prestige on the database
-		user_items = app.mongo.db.userItems.find_one_and_update(
+		userItems = app.mongo.db.userItems.find_one_and_update(
 			{
 				"userId": userid
 			},
 			{
-				"$inc": {
-					"prestigePoints": prestige_points
+				"$set": {
+					"prestigePoints": str(int(userItems.get("prestigePoints", 0)) + prestigePointsEarned)
 				}
 			},
 			upsert=True,
 			return_document=ReturnDocument.AFTER
 		)
 
-		return Response(utils.compress({"prestigePoints": user_items["prestigePoints"]}), status=200)
+		return Response(utils.compress({"prestigePoints": userItems["prestigePoints"]}), status=200)
 
 	@staticmethod
 	def calc_prestige_points(stage):
-		return math.ceil(math.pow(math.ceil((stage - 70) / 10.0), 2))
+		return math.ceil(math.pow(math.ceil((stage - 70) / 9.0), 2.25))

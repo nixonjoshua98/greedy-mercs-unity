@@ -22,8 +22,6 @@ public class GameManager : MonoBehaviour
 
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
         EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
-
-        Debug.Log(Application.persistentDataPath);
     }
 
     void Start()

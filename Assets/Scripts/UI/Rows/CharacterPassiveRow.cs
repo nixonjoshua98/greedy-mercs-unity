@@ -20,8 +20,8 @@ public class CharacterPassiveRow : MonoBehaviour
 
         // Description
         DescriptionText.text = (skill.description == "" ? DescriptionText.text : skill.description)
-            .Replace("{skillValue}", skill.value.ToString())
-            .Replace("{skillTypeText}", CharacterResources.PassiveTypeToString(skill.bonusType));
+            .Replace("{value}", "<color=orange>" + (skill.value * 100).ToString() + "%</color>")
+            .Replace("{type}",  "<color=orange>" + Utils.Generic.BonusToString(skill.bonusType) + "</color>");
 
 
         if (heroState.level < unlock.unlockLevel)

@@ -14,7 +14,9 @@ public class RelicRow : MonoBehaviour
     [SerializeField] Text CostText;
     [SerializeField] Text LevelText;
     [SerializeField] Text BuyAmountText;
-    [SerializeField] Text DescriptionText;
+    [Space]
+    [SerializeField] Text ShortDescriptionText;
+    [SerializeField] Text LongDescriptionText;
 
     [Header("Prefabs")]
     [SerializeField] GameObject ErrorMessage;
@@ -35,20 +37,18 @@ public class RelicRow : MonoBehaviour
 
     void UpdateRow()
     {
-        RelicStaticData data = StaticData.GetRelic(relicId);
+        RelicStaticData data    = StaticData.GetRelic(relicId);
+        UpgradeState relic      = GameState.Relics.GetRelic(relicId);
 
-        UpgradeState relic = GameState.Relics.GetRelic(relicId);
+        ShortDescriptionText.text = "{type} | {effect}"
+            .Replace("{type}",      "<color=orange>" + Utils.Generic.BonusToString(data.bonusType) + "</color>")
+            .Replace("{effect}",    "<color=orange>" + Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relicId) * 100) + "%</color>");
 
-        NameText.text = data.name;
-
-        DescriptionText.text = data.description
-            .Replace("{relicEffect}", "<color=orange>" + Formulas.CalcRelicEffect(relicId) + "x</color>");
-
-        CostText.text = Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, BuyAmount));
-
-        LevelText.text = "Level " + relic.level.ToString();
-
-        BuyAmountText.text = "x" + BuyAmount;
+        CostText.text               = Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, BuyAmount));
+        LevelText.text              = "Level " + relic.level.ToString();
+        LongDescriptionText.text    = data.description;
+        BuyAmountText.text          = "x" + BuyAmount;
+        NameText.text               = data.name;
     }
 
     public bool TryUpdate()
@@ -94,11 +94,12 @@ public class RelicRow : MonoBehaviour
 
             state.level = node["relicLevel"].AsInt;
 
-            GameState.Player.prestigePoints = BigInteger.Parse(node["prestigePoints"]);
+            GameState.Player.prestigePoints = BigInteger.Parse(node["prestigePoints"].Value);
         }
+
         else
         {
-            Utils.UI.ShowError(ErrorMessage, "Relic Upgrade", "Failed to upgrade relic");
+            Utils.UI.ShowError(ErrorMessage, "Server Error " + code, "Failed to upgrade relic :(");
         }
 
         UpdateRow();

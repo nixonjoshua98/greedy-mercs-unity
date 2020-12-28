@@ -71,7 +71,7 @@ public static class Formulas
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 35.0f);
+        return state.level * BigDouble.Pow(2.0f, (state.level) / 35.0f);
     }
 
     // === Tap Damage Player Upgrade ===
@@ -80,21 +80,26 @@ public static class Formulas
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, state.level);
+        return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, (state.level - 1));
     }
 
     public static int AffordTapDamageLevels()
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level).ToString());
+        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
     }
 
     // === Prestige Points ===
 
     public static BigInteger CalcPrestigePoints(int stage)
     {
-        return stage >= StageData.MIN_PRESTIGE_STAGE ? BigInteger.Pow(Mathf.CeilToInt((stage - 70) / 10.0f), 2) : 0;
+        if (stage < StageData.MIN_PRESTIGE_STAGE)
+            return 0;
+
+        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 70) / 9.0f), 2.25);
+
+        return BigInteger.Parse(big.Ceiling().ToString("F0"));
     }
 
     // ===
@@ -123,9 +128,9 @@ public static class Formulas
 
         UpgradeState state = GameState.Relics.GetRelic(relic);
 
-        BigDouble val = BigMath.SumGeometricSeries(levels, staticData.baseCost, staticData.costPower, state.level);
+        BigDouble val = BigMath.SumGeometricSeries(levels, staticData.baseCost, staticData.costPower, state.level - 1);
 
-        return BigInteger.Parse(val.Ceiling().ToString("F0"));
+        return BigInteger.Parse(val.Floor().ToString("F0"));
     }
 
     public static int AffordRelicLevels(RelicID relic)
@@ -133,6 +138,6 @@ public static class Formulas
         UpgradeState state          = GameState.Relics.GetRelic(relic);
         RelicStaticData staticData  = StaticData.GetRelic(relic);
 
-        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.AsBigDouble(), staticData.baseCost, staticData.costPower, state.level).ToString());
+        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.AsBigDouble(), staticData.baseCost, staticData.costPower, state.level - 1).ToString());
     }
 }

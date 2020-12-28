@@ -8,9 +8,9 @@ def get(ls: list, **kwargs):
 
 	for i, ele in enumerate(ls):
 		if all(ele[attr] == val for attr, val in kwargs.items()):
-			return i, ele
+			return ele
 
-	return -1, None
+	return None
 
 
 def compress(data: dict) -> str:

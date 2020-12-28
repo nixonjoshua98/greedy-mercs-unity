@@ -25,15 +25,7 @@ public class PlayerState
 
     public void Update(JSONNode node)
     {
-        prestigePoints = BigInteger.Parse(GetKey(node, "prestigePoints"), System.Globalization.NumberStyles.Any);
-    }
-
-    string GetKey(JSONNode node, string key)
-    {
-        if (node.HasKey(key))
-            return node[key].ToString();
-    
-        return node["player"][key].ToString();
+        prestigePoints = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
     }
 
     public JSONNode ToJson()

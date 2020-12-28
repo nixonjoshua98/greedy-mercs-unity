@@ -25,6 +25,24 @@ public static class Extensions
 
 namespace Utils
 {
+    public class Generic
+    {
+        public static string BonusToString(BonusType skill)
+        {
+            switch (skill)
+            {
+                case BonusType.ALL_SQUAD_DAMAGE:        return "Merc Damage";
+                case BonusType.TAP_DAMAGE:              return "Tap Damage";
+                case BonusType.HERO_TAP_DAMAGE_ADD:     return "Tap Damage";
+                case BonusType.ENEMY_GOLD:              return "Enemy Gold";
+                case BonusType.BOSS_GOLD:               return "Boss Gold";
+
+                default:
+                    return "<error>";
+            }
+        }
+    }
+
     public class Json
     {
         public static JSONArray CreateJSONArray<TKey>(string key, Dictionary<TKey, UpgradeState> dict)
@@ -191,7 +209,7 @@ namespace Utils
             BigInteger m = val / BigInteger.Pow(1000, n);
 
             if (n < unitsTable.Count)
-                return m.ToString("F2") + unitsTable[n];
+                return m.ToString("D") + unitsTable[n];
 
             return val.ToString("E2").Replace("+", "").Replace("E", "e");
         }

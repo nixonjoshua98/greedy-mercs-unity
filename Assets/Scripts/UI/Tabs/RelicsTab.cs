@@ -95,7 +95,7 @@ public class RelicsTab : MonoBehaviour
     {
         if (GameState.Player.prestigePoints < Formulas.CalcNextRelicCost(GameState.Relics.Count))
         {
-            Utils.UI.ShowError(ErrorMessage, "Buy Relic", "You cannot afford to buy a new relic :(");
+            Utils.UI.ShowError(ErrorMessage, "Poor Player Alert", "You cannot afford to buy a new relic :(");
         }
         else
         {
@@ -111,7 +111,7 @@ public class RelicsTab : MonoBehaviour
         {
             JSONNode node = Utils.Json.Decompress(data);
 
-            GameState.Player.prestigePoints = BigInteger.Parse(node["prestigePoints"].ToString());
+            GameState.Player.Update(node);
 
             GameState.Relics.AddRelic((RelicID)node["relicBought"].AsInt);
         }

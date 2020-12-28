@@ -14,7 +14,7 @@ public static class Formulas
 
     public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * BigDouble.Pow(1.3f, Mathf.Min(stage - 1, 70)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 70, 0));
+        return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 70)) * BigDouble.Pow(1.17f, Mathf.Max(stage - 70, 0));
     }
 
     public static BigDouble CalcBossHealth(int stage)

@@ -34,5 +34,10 @@
 		"description": "Increase your {type} by {value} of your mercenary damage",
 		"bonusType": 4,
 		"value": 0.0015
+	},
+	"7": {
+		"name": "Melee Damage Boost",
+		"bonusType": 6,
+		"value": 1.4
 	}
 }

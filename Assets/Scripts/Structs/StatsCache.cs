@@ -1,23 +1,79 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using UnityEngine;
 
+class CacheValue
+{
+    public float CachedAt;
+
+    public BigDouble Value;
+}
+
+
 public class StatsCache : MonoBehaviour
 {
-    static Dictionary<BonusType, double> HeroBonus { get { return GameState.Characters.CalculateBonuses(); } }
-    static Dictionary<BonusType, double> RelicBonus { get { return GameState.Relics.CalculateBonuses(); } }
+    // === Cache Dictionaries ===
+    static Dictionary<string, CacheValue>       StringCache             = new Dictionary<string, CacheValue>();
+    static Dictionary<CharacterID, CacheValue>  CharacterDamageCache    = new Dictionary<CharacterID, CacheValue>();
 
+    static float lastBonusCalc = 0;
 
-    static Dictionary<CharacterID, BigDouble> CharacterDamageCache = new Dictionary<CharacterID, BigDouble>();
+    static Dictionary<BonusType, double> cachedHeroBonus    = new Dictionary<BonusType, double>();
+    static Dictionary<BonusType, double> cachedRelicBonus   = new Dictionary<BonusType, double>();
 
-    static BigDouble TotalCharacterDamage { get { BigDouble total = 0; foreach (BigDouble dmg in CharacterDamageCache.Values) total += dmg; return total; } }
+    static Dictionary<BonusType, double> HeroBonus { 
+        get {
+            if (Time.realtimeSinceStartup - lastBonusCalc >= 1.0f)
+            {
+                lastBonusCalc = Time.realtimeSinceStartup;
+
+                cachedHeroBonus = GameState.Characters.CalculateBonuses();
+            }
+
+            return cachedHeroBonus;
+        } 
+    }
+
+    static Dictionary<BonusType, double> RelicBonus
+    {
+        get
+        {
+            if (Time.realtimeSinceStartup - lastBonusCalc >= 1.0f)
+            {
+                lastBonusCalc = Time.realtimeSinceStartup;
+
+                cachedRelicBonus = GameState.Relics.CalculateBonuses();
+            }
+
+            return cachedRelicBonus;
+        }
+    }
+    static BigDouble TotalCharacterDamage { get { BigDouble total = 0; foreach (CacheValue entry in CharacterDamageCache.Values) total += entry.Value; return total; } }
+
+    public static void ClearCache()
+    {
+        StringCache = new Dictionary<string, CacheValue>();
+
+        CharacterDamageCache = new Dictionary<CharacterID, CacheValue>();
+    }
 
     public static BigDouble GetHeroDamage(CharacterID chara)
     {
-        CharacterDamageCache[chara] = Formulas.CalcCharacterDamage(chara) * HeroBonus.GetValueOrDefault(BonusType.ALL_SQUAD_DAMAGE, 1) * RelicBonus.GetValueOrDefault(BonusType.ALL_SQUAD_DAMAGE, 1);
+        if (IsCacheOutdated(chara, CharacterDamageCache))
+        {
+            var data = CharacterResources.GetCharacter(chara);
 
-        return CharacterDamageCache[chara];
+            BigDouble val = Formulas.CalcCharacterDamage(chara) 
+
+                * HeroBonus.GetValueOrDefault(BonusType.ALL_MERC_DAMAGE, 1) 
+                * HeroBonus.GetValueOrDefault(data.AttackType, 1)
+
+                * RelicBonus.GetValueOrDefault(BonusType.ALL_MERC_DAMAGE, 1);
+
+            CharacterDamageCache[chara].Value = val;
+        }
+
+        return CharacterDamageCache[chara].Value;
     }
 
     public static BigDouble GetEnemyGold(int stage)
@@ -32,11 +88,27 @@ public class StatsCache : MonoBehaviour
 
     public static BigDouble GetTapDamage()
     {
-        BigDouble dmg = Formulas.CalcTapDamage()  * HeroBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1) * RelicBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1);
+        if (IsCacheOutdated("TAP_DAMAGE", StringCache))
+        {
+            BigDouble val = Formulas.CalcTapDamage() * HeroBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1) * RelicBonus.GetValueOrDefault(BonusType.TAP_DAMAGE, 1);
 
-        // % bonus from heroes
-        dmg += TotalCharacterDamage * HeroBonus.GetValueOrDefault(BonusType.HERO_TAP_DAMAGE_ADD, 0);
+            val += TotalCharacterDamage * HeroBonus.GetValueOrDefault(BonusType.HERO_TAP_DAMAGE_ADD, 0);
 
-        return dmg;
+            StringCache["TAP_DAMAGE"].Value = val;
+        }
+
+        return StringCache["TAP_DAMAGE"].Value;
+    }
+
+    static bool IsCacheOutdated<T>(T key, Dictionary<T, CacheValue> dict)
+    {
+        if (!dict.ContainsKey(key) || (Time.realtimeSinceStartup - dict[key].CachedAt) >= 1.0f)
+        {
+            dict[key] = new CacheValue { CachedAt = Time.realtimeSinceStartup };
+
+            return true;
+        }
+
+        return false;
     }
 }

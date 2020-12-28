@@ -31,11 +31,13 @@ namespace Utils
         {
             switch (skill)
             {
-                case BonusType.ALL_SQUAD_DAMAGE:        return "Merc Damage";
+                case BonusType.ALL_MERC_DAMAGE:         return "Merc Damage";
                 case BonusType.TAP_DAMAGE:              return "Tap Damage";
                 case BonusType.HERO_TAP_DAMAGE_ADD:     return "Tap Damage";
                 case BonusType.ENEMY_GOLD:              return "Enemy Gold";
                 case BonusType.BOSS_GOLD:               return "Boss Gold";
+                case BonusType.MELEE_DAMAGE:            return "Melee Damage";
+                case BonusType.MAGE_DAMAGE:             return "Mage Damage";
 
                 default:
                     return "<error>";

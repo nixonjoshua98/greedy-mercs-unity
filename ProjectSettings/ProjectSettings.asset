@@ -744,10 +744,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: aaf2896b-9777-435e-8eca-69c277ee22f1
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Greedy Mercs
+  organizationId: jnixon98
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

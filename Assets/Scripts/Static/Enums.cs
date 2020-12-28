@@ -11,11 +11,14 @@ public enum CharacterID
 
 public enum BonusType
 {
-    ALL_SQUAD_DAMAGE    = 0,
+    ALL_MERC_DAMAGE     = 0,
     ENEMY_GOLD          = 1,
     TAP_DAMAGE          = 2,
     BOSS_GOLD           = 3,
     HERO_TAP_DAMAGE_ADD = 4,
+
+    MELEE_DAMAGE        = 5,
+    MAGE_DAMAGE         = 6
 }
 
 public enum RelicID

@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
         EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+
+        StatsCache.ClearCache();
     }
 
     void Start()

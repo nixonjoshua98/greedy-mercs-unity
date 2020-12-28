@@ -12,14 +12,17 @@ using UnityEngine;
 public class CharacterStaticData
 {
     public readonly CharacterID HeroID;
+    public readonly BonusType AttackType;
 
     public readonly string Name;
     public readonly BigDouble PurchaseCost;
     public readonly string GameObjectString;
 
-    public CharacterStaticData(CharacterID heroId, string name, string gameObjectString, BigDouble purchaseCost)
+    public CharacterStaticData(CharacterID heroId, BonusType attackType, string name, string gameObjectString, BigDouble purchaseCost)
     {
         HeroID              = heroId;
+
+        AttackType          = attackType;
 
         Name                = name;
         PurchaseCost        = purchaseCost;

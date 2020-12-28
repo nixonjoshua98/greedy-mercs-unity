@@ -35,8 +35,6 @@ public class PrestigeManager : MonoBehaviour
         {
             DataManager.IsPaused = true;
 
-            SquadManager.ToggleAttacks(false);
-
             Utils.File.Delete(DataManager.LOCAL_FILENAME);
 
             SceneManager.LoadSceneAsync(0);

@@ -36,6 +36,8 @@ public class RelicStaticData
 {
     public string name;
 
+    public int maxLevel = 1_000;
+
     public string description;
 
     public BonusType bonusType;

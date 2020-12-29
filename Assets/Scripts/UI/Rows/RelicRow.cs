@@ -17,6 +17,8 @@ public class RelicRow : MonoBehaviour
     [Space]
     [SerializeField] Text ShortDescriptionText;
     [SerializeField] Text LongDescriptionText;
+    [Space]
+    [SerializeField] Button UpgradeButton;
 
     [Header("Prefabs")]
     [SerializeField] GameObject ErrorMessage;
@@ -29,7 +31,7 @@ public class RelicRow : MonoBehaviour
         get
         {
             if (RelicsTab.BuyAmount == -1)
-                return Mathf.Max(1, Formulas.AffordRelicLevels(relicId));
+                return Formulas.AffordRelicLevels(relicId);
 
             return RelicsTab.BuyAmount;
         }
@@ -44,10 +46,11 @@ public class RelicRow : MonoBehaviour
             .Replace("{type}",      "<color=orange>" + Utils.Generic.BonusToString(data.bonusType) + "</color>")
             .Replace("{effect}",    "<color=orange>" + Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relicId) * 100) + "%</color>");
 
-        CostText.text               = Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, BuyAmount));
+        CostText.text               = relic.level >= data.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, BuyAmount));
         LevelText.text              = "Level " + relic.level.ToString();
+        UpgradeButton.interactable  = relic.level < data.maxLevel;
         LongDescriptionText.text    = data.description;
-        BuyAmountText.text          = "x" + BuyAmount;
+        BuyAmountText.text          = relic.level >= data.maxLevel ? "" :"x" + BuyAmount;
         NameText.text               = data.name;
     }
 
@@ -69,9 +72,12 @@ public class RelicRow : MonoBehaviour
     {
         int levelsBuying = BuyAmount;
 
+        RelicStaticData data    = StaticData.GetRelic(relicId);
+        UpgradeState relic      = GameState.Relics.GetRelic(relicId);
+
         BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, levelsBuying);
 
-        if (GameState.Player.prestigePoints >= cost)
+        if (GameState.Player.prestigePoints >= cost && relic.level < data.maxLevel)
         {
             spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, UnityEngine.Vector3.zero);
 

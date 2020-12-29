@@ -845,6 +845,7 @@ MonoBehaviour:
   BuyAmountText: {fileID: 2603219162664355107}
   ShortDescriptionText: {fileID: 1931393107882018630}
   LongDescriptionText: {fileID: 5568022717007162234}
+  UpgradeButton: {fileID: 8326435010848082245}
   ErrorMessage: {fileID: 8966553136809179518, guid: 1a6daf1bbb837cd40a0c7fb23f552421,
     type: 3}
   BlankPanel: {fileID: 4044359990075036671, guid: 4f5c7458656755c4990722c5fd29c7a4,

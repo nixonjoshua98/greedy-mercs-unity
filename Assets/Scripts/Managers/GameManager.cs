@@ -40,7 +40,9 @@ public class GameManager : MonoBehaviour
             {
                 if (!health.IsDead)
                 {
-                    Instance.damageNumbers.Add(amount);
+                    Color col = Formulas.ApplyCritHit(ref amount) ? Color.red : Color.white;
+
+                    Instance.damageNumbers.Add(amount, col);
 
                     health.TakeDamage(amount);
 

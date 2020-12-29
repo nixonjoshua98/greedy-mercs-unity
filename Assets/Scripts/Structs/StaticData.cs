@@ -10,6 +10,14 @@ public class StaticData
 {
     static _StaticData Data = null;
 
+    public const float BASE_CRIT_CHANCE = 0.01f;
+    public const float BASE_CRIT_MULTIPLIER = 3.0f;
+
+    public const int MAX_CHAR_LEVEL = 1000;
+
+
+
+
     public static int numRelics { get { return Data.relics.Count; } }
 
     public static void Restore(JSONNode json)

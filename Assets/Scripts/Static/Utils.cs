@@ -203,7 +203,7 @@ namespace Utils
 
         public static string FormatNumber(BigInteger val)
         {
-            if (val <= 10_000)
+            if (val <= 1_000)
                 return val.ToString();
 
             int n = (int)BigInteger.Log(val, 1000);
@@ -211,7 +211,7 @@ namespace Utils
             BigInteger m = val / BigInteger.Pow(1000, n);
 
             if (n < unitsTable.Count)
-                return m.ToString("D") + unitsTable[n];
+                return m.ToString() + unitsTable[n];
 
             return val.ToString("E2").Replace("+", "").Replace("E", "e");
         }

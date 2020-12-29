@@ -16,31 +16,38 @@ public class CharacterRow : MonoBehaviour
 
     [Space]
 
+    [SerializeField] Button UpgradeButton;
+
+    [Space]
+
     [SerializeField] GameObject CharaPanel;
 
     int BuyAmount {
         get
         {
             if (MercsTab.BuyAmount == -1)
-                return Mathf.Max(1, Formulas.AffordCharacterLevels(characterId));
+                return Formulas.AffordCharacterLevels(characterId);
 
             return MercsTab.BuyAmount;
         }
     }
 
-    void UpdateRow(UpgradeState state)
+    void UpdateRow()
     {
-        LevelText.text          = "Level " + state.level.ToString();
-        BuyText.text            = "x" + BuyAmount.ToString();
-        DamageText.text         = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(characterId));
-        CostText.text           = Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(characterId, BuyAmount));
+        var state = GameState.Characters.GetCharacter(heroId);
+
+        LevelText.text              = "Level " + state.level.ToString();
+        BuyText.text                = state.level >= StaticData.MAX_CHAR_LEVEL ? "" : "x" + BuyAmount.ToString();
+        DamageText.text             = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(characterId));
+        CostText.text               = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(characterId, BuyAmount));
+        UpgradeButton.interactable  = state.level < StaticData.MAX_CHAR_LEVEL;
     }
 
     public bool TryUpdate()
     {
         if (GameState.Characters.TryGetHeroState(characterId, out var state))
         {
-            UpdateRow(state);
+            UpdateRow();
 
             return true;
         }
@@ -64,7 +71,7 @@ public class CharacterRow : MonoBehaviour
 
             GameState.Player.gold -= cost;
 
-            UpdateRow(state);
+            UpdateRow();
         }
     }
 

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 290922125240962044, guid: dc7f05caea2451c488c0b8fbbe3bcf6f,
         type: 3}
       propertyPath: m_Name
-      value: TapScroll Variant
+      value: TapScroll
       objectReference: {fileID: 0}
     - target: {fileID: 290922125240962047, guid: dc7f05caea2451c488c0b8fbbe3bcf6f,
         type: 3}

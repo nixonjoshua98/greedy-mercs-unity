@@ -54,7 +54,7 @@ public class DamageNumbers : MonoBehaviour
         }
     }
 
-    public void Add(BigDouble number)
+    public void Add(BigDouble number, Color col)
     {
         DamageText current;
 
@@ -77,7 +77,8 @@ public class DamageNumbers : MonoBehaviour
             current.Text.transform.position = transform.position;
         }
 
-        current.Text.text = Utils.Format.FormatNumber(number);
+        current.Text.text   = Utils.Format.FormatNumber(number);
+        current.Text.color  = col;
     }
 
     DamageText GetExistingText()

@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2106441052226051538, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: UpgradeButton
+      value: 
+      objectReference: {fileID: 5285208548957018110}
     - target: {fileID: 3200631783443604824, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -203,5 +208,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2ed8b6b5d1e9d84697a7721ee824649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5285208548957018110 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3200631783443604824, guid: 522335a6c5910dc4bb1524ee712b7945,
+    type: 3}
+  m_PrefabInstance: {fileID: 7291952913911116454}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

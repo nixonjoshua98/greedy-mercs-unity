@@ -7,10 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 322123681517780289, guid: 3dd261ac264948340a622e8a04dadfce,
+        type: 3}
+      propertyPath: relicId
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725242958839202382, guid: 3dd261ac264948340a622e8a04dadfce,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 70a77abda853dd941a0c8debf1de9b04,
+        type: 3}
     - target: {fileID: 6103556910759267129, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
       propertyPath: m_Name
       value: Bracers
+      objectReference: {fileID: 0}
+    - target: {fileID: 6103556910759267129, guid: 3dd261ac264948340a622e8a04dadfce,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
@@ -70,17 +86,17 @@ PrefabInstance:
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 670
       objectReference: {fileID: 0}
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -582.5
       objectReference: {fileID: 0}
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1290
       objectReference: {fileID: 0}
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
@@ -95,7 +111,7 @@ PrefabInstance:
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
@@ -105,7 +121,7 @@ PrefabInstance:
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6103556910759267130, guid: 3dd261ac264948340a622e8a04dadfce,
         type: 3}

@@ -11,7 +11,11 @@ public class TabController : MonoBehaviour
     {
         for (int i = 0; i < tabs.Count; ++i)
         {
-            tabs[i].SetActive(i == index);
+            if (tabs[i].activeInHierarchy && index == i)
+                tabs[i].SetActive(false);
+
+            else
+                tabs[i].SetActive(i == index);
         }
     }
 }

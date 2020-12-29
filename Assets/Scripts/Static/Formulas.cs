@@ -12,6 +12,18 @@ public static class Formulas
 
     // =====
 
+    public static bool ApplyCritHit(ref BigDouble val)
+    {
+        if (Random.Range(0.0f, 1.0f) < StaticData.BASE_CRIT_CHANCE)
+        {
+            val *= StaticData.BASE_CRIT_MULTIPLIER;
+
+            return true;
+        }
+
+        return false;
+    }
+
     public static BigDouble CalcEnemyHealth(int stage)
     {
         return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 70)) * BigDouble.Pow(1.17f, Mathf.Max(stage - 70, 0));
@@ -61,7 +73,11 @@ public static class Formulas
         UpgradeState state              = GameState.Characters.GetCharacter(charaId);
         CharacterStaticData staticData  = CharacterResources.GetCharacter(charaId);
 
-        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, staticData.PurchaseCost, 1.075, state.level).ToString());
+        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.gold, staticData.PurchaseCost, 1.075, state.level);
+
+        int maxLevels = int.Parse(bigAnswer.ToString());
+
+        return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.level, maxLevels);
     }
 
 
@@ -138,6 +154,10 @@ public static class Formulas
         UpgradeState state          = GameState.Relics.GetRelic(relic);
         RelicStaticData staticData  = StaticData.GetRelic(relic);
 
-        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.AsBigDouble(), staticData.baseCost, staticData.costPower, state.level - 1).ToString());
+        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.AsBigDouble(), staticData.baseCost, staticData.costPower, state.level - 1);
+
+        int maxLevels = int.Parse(bigAnswer.ToString());
+
+        return Mathf.Min(staticData.maxLevel - state.level, maxLevels);
     }
 }

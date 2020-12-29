@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TapDamageUpgrade : Upgradeable
+public class TapDamageUpgrade : UpgradeRow
 {
     [SerializeField] protected Text DamageText;
 
@@ -10,9 +10,12 @@ public class TapDamageUpgrade : Upgradeable
 
     [SerializeField] UpgradeID upgradeId;
 
-    void OnEnable()
+    protected override int GetBuyAmount()
     {
-        InvokeRepeating("UpdateRow", 0.0f, 0.5f);
+        if (PlayerTab.BuyAmount == -1)
+            return Formulas.AffordTapDamageLevels();
+
+        return PlayerTab.BuyAmount;
     }
 
     public override void UpdateRow()
@@ -43,13 +46,5 @@ public class TapDamageUpgrade : Upgradeable
 
             UpdateRow();
         }
-    }
-
-    protected override int GetBuyAmount()
-    {
-        if (PlayerTab.BuyAmount == -1)
-            return Formulas.AffordTapDamageLevels();
-
-        return PlayerTab.BuyAmount;
     }
 }

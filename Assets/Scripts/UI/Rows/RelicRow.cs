@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 using SimpleJSON;
 
-public class RelicRow : Upgradeable
+public class RelicRow : UpgradeRow
 {
     [Space]
 

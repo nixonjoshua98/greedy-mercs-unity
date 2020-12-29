@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Upgradeable : MonoBehaviour
+public abstract class UpgradeRow : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] protected Text BuyText;
@@ -12,6 +12,21 @@ public abstract class Upgradeable : MonoBehaviour
     [SerializeField] Button UpgradeButton;
 
     public virtual bool IsUnlocked { get { return true; } }
+
+    void Start()
+    {
+        UpdateRow();
+    }
+
+    void OnEnable()
+    {
+        InvokeRepeating("UpdateRow", 0.0f, 0.5f);
+    }
+
+    void OnDisable()
+    {
+        CancelInvoke("UpdateRow");
+    }
 
     protected int BuyAmount { get { return GetBuyAmount(); } }
 

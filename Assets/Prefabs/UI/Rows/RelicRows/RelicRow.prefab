@@ -754,9 +754,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8495211743841107154}
+  - component: {fileID: 2677767619071986345}
   - component: {fileID: 8495211743841107156}
   - component: {fileID: 8495211743841107155}
-  - component: {fileID: 2677767619071986345}
   m_Layer: 5
   m_Name: RelicRow
   m_TagString: Untagged
@@ -789,6 +789,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1300, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2677767619071986345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495211743841107153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ae67b7fd0742e4cae774af4c7c0195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuyText: {fileID: 2603219162664355107}
+  CostText: {fileID: 4375145241770002082}
+  LevelText: {fileID: 1349382110304154595}
+  UpgradeButton: {fileID: 8326435010848082245}
+  relicId: 6
+  NameText: {fileID: 8993995686601496495}
+  ShortDescriptionText: {fileID: 1931393107882018630}
+  LongDescriptionText: {fileID: 5568022717007162234}
+  ErrorMessage: {fileID: 8966553136809179518, guid: 1a6daf1bbb837cd40a0c7fb23f552421,
+    type: 3}
+  BlankPanel: {fileID: 4044359990075036671, guid: 4f5c7458656755c4990722c5fd29c7a4,
+    type: 3}
 --- !u!222 &8495211743841107156
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -826,30 +850,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2677767619071986345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8495211743841107153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8ae67b7fd0742e4cae774af4c7c0195, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BuyText: {fileID: 2603219162664355107}
-  CostText: {fileID: 4375145241770002082}
-  LevelText: {fileID: 1349382110304154595}
-  UpgradeButton: {fileID: 8326435010848082245}
-  relicId: 6
-  NameText: {fileID: 8993995686601496495}
-  ShortDescriptionText: {fileID: 1931393107882018630}
-  LongDescriptionText: {fileID: 5568022717007162234}
-  ErrorMessage: {fileID: 8966553136809179518, guid: 1a6daf1bbb837cd40a0c7fb23f552421,
-    type: 3}
-  BlankPanel: {fileID: 4044359990075036671, guid: 4f5c7458656755c4990722c5fd29c7a4,
-    type: 3}
 --- !u!1 &8496924326421879978
 GameObject:
   m_ObjectHideFlags: 0

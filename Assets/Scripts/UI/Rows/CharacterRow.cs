@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterRow : Upgradeable
+public class CharacterRow : UpgradeRow
 {
     [SerializeField] protected Text DamageText;
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MercsTab : MonoBehaviour
 {
@@ -14,54 +12,39 @@ public class MercsTab : MonoBehaviour
 
     public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
 
-    List<CharacterRow> rows;
+    CharacterRow[] rows;
 
     void Awake()
     {
         Instance = this;
 
-        rows = new List<CharacterRow>();
-
-        for (int i = 0; i < heroRowsParent.childCount; ++i)
-        {
-            Transform child = heroRowsParent.GetChild(i);
-
-            if (child.TryGetComponent(out CharacterRow row))
-            {
-                rows.Add(row);
-            }
-        }
+        rows = heroRowsParent.GetComponentsInChildren<CharacterRow>();
 
         EventManager.OnHeroUnlocked.AddListener(OnHeroUnlocked);
     }
 
     void OnEnable()
     {
-        InvokeRepeating("UpdateRows", 0.0f, 0.5f);
+        ToggleRows();
+
+        InvokeRepeating("ToggleRows", 0.0f, 0.5f);
     }
 
     void OnDisable()
     {
-        if (IsInvoking("UpdateRows"))
-            CancelInvoke("UpdateRows");
+        CancelInvoke("ToggleRows");
     }
 
-    void OnHeroUnlocked(CharacterID _)
-    {
-        UpdateRows();
-    }
-
-    // === Internal Methods ===
-    void UpdateRows()
+    void ToggleRows()
     {
         foreach (CharacterRow row in rows)
         {
             row.gameObject.SetActive(row.IsUnlocked);
-
-            if (row.IsUnlocked)
-            {
-                row.UpdateRow();
-            }
         }
+    }
+
+    void OnHeroUnlocked(CharacterID _)
+    {
+        ToggleRows();
     }
 }

@@ -735,7 +735,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2677767619071986345}
-        m_MethodName: OnRelicUpgrade
+        m_MethodName: OnBuy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -838,14 +838,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ae67b7fd0742e4cae774af4c7c0195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relicId: 6
-  NameText: {fileID: 8993995686601496495}
+  BuyText: {fileID: 2603219162664355107}
   CostText: {fileID: 4375145241770002082}
   LevelText: {fileID: 1349382110304154595}
-  BuyAmountText: {fileID: 2603219162664355107}
+  UpgradeButton: {fileID: 8326435010848082245}
+  relicId: 6
+  NameText: {fileID: 8993995686601496495}
   ShortDescriptionText: {fileID: 1931393107882018630}
   LongDescriptionText: {fileID: 5568022717007162234}
-  UpgradeButton: {fileID: 8326435010848082245}
   ErrorMessage: {fileID: 8966553136809179518, guid: 1a6daf1bbb837cd40a0c7fb23f552421,
     type: 3}
   BlankPanel: {fileID: 4044359990075036671, guid: 4f5c7458656755c4990722c5fd29c7a4,

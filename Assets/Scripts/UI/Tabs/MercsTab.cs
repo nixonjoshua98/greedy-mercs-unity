@@ -56,7 +56,12 @@ public class MercsTab : MonoBehaviour
     {
         foreach (CharacterRow row in rows)
         {
-            row.gameObject.SetActive(row.TryUpdate());
+            row.gameObject.SetActive(row.IsUnlocked);
+
+            if (row.IsUnlocked)
+            {
+                row.UpdateRow();
+            }
         }
     }
 }

@@ -27,6 +27,16 @@ PrefabInstance:
       propertyPath: UpgradeButton
       value: 
       objectReference: {fileID: 7191235951257294527}
+    - target: {fileID: 2106441052226051538, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: charID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106441052226051538, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: charId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3200631783443604824, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -35,7 +45,12 @@ PrefabInstance:
     - target: {fileID: 3200631783443604824, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnBuyButton
+      value: OnBuy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
@@ -45,7 +60,32 @@ PrefabInstance:
     - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 5952949067602816565}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnInfoButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6828117573953877916, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
@@ -70,7 +110,7 @@ PrefabInstance:
     - target: {fileID: 6828117573953877916, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnInfoButton
+      value: OnInfo
       objectReference: {fileID: 0}
     - target: {fileID: 6828117573953877916, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}

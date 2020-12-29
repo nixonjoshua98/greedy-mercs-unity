@@ -27,6 +27,16 @@ PrefabInstance:
       propertyPath: UpgradeButton
       value: 
       objectReference: {fileID: 6485860704011977835}
+    - target: {fileID: 2106441052226051538, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: charID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106441052226051538, guid: 522335a6c5910dc4bb1524ee712b7945,
+        type: 3}
+      propertyPath: charId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3200631783443604824, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -35,7 +45,7 @@ PrefabInstance:
     - target: {fileID: 3200631783443604824, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnBuyButton
+      value: OnBuy
       objectReference: {fileID: 0}
     - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
@@ -45,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 3215522457625685260, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnInfoButton
+      value: OnInfo
       objectReference: {fileID: 0}
     - target: {fileID: 6828117573953877916, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
@@ -70,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 6828117573953877916, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnInfoButton
+      value: OnInfo
       objectReference: {fileID: 0}
     - target: {fileID: 6828117573953877916, guid: 522335a6c5910dc4bb1524ee712b7945,
         type: 3}

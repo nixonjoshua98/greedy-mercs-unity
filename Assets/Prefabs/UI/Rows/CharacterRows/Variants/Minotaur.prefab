@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 1253359249297359995, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnInfoButton
+      value: OnInfo
       objectReference: {fileID: 0}
     - target: {fileID: 2590242376892688158, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
         type: 3}
@@ -159,6 +159,16 @@ PrefabInstance:
       propertyPath: characterId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5952949067602816565, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: charID
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952949067602816565, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
+        type: 3}
+      propertyPath: charId
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7149851412659134187, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -167,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 7149851412659134187, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnInfoButton
+      value: OnInfo
       objectReference: {fileID: 0}
     - target: {fileID: 7191235951257294527, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
         type: 3}
@@ -177,7 +187,7 @@ PrefabInstance:
     - target: {fileID: 7191235951257294527, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnBuyButton
+      value: OnBuy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55fe35ca1f63afc4ea1f87b6f143e7c4, type: 3}

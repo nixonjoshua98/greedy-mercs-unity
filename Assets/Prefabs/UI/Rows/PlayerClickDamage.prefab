@@ -517,14 +517,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5142948096419378796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80a95eefd6539bd42846fcd9602d908d, type: 3}
+  m_Script: {fileID: 11500000, guid: 03d7b519a43d2bb4aacd6c85c2f76a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerUpgrade: 0
-  DamageText: {fileID: 8298476300906873957}
   BuyText: {fileID: 1421590112914801774}
   CostText: {fileID: 4239335860248028390}
   LevelText: {fileID: 5613244771438720071}
+  DamageText: {fileID: 8298476300906873957}
+  UpgradeButton: {fileID: 531821968613840169}
+  upgradeId: 0
 --- !u!222 &5142948096419378835
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -837,7 +838,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3672750102628358398}
-        m_MethodName: OnBuyButton
+        m_MethodName: OnBuy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

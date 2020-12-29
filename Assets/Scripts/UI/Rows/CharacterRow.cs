@@ -1,71 +1,50 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterRow : MonoBehaviour
+public class CharacterRow : Upgradeable
 {
-    [SerializeField] CharacterID characterId;
-
-    public CharacterID heroId {  get { return characterId; } }
+    [SerializeField] protected Text DamageText;
 
     [Space]
 
-    [SerializeField] Text DamageText;
-    [SerializeField] Text BuyText;
-    [SerializeField] Text CostText;
-    [SerializeField] Text LevelText;
+    [SerializeField] CharacterID charId;
 
     [Space]
 
-    [SerializeField] Button UpgradeButton;
+    [Header("Prefabs")]
+    [SerializeField] GameObject CharacterPanelObject;
 
-    [Space]
+    public override bool IsUnlocked { get { return GameState.Characters.TryGetHeroState(charId, out var _); } }
 
-    [SerializeField] GameObject CharaPanel;
+    protected override int GetBuyAmount()
+    {
+        if (MercsTab.BuyAmount == -1)
+            return Formulas.AffordCharacterLevels(charId);
 
-    int BuyAmount {
-        get
-        {
-            if (MercsTab.BuyAmount == -1)
-                return Formulas.AffordCharacterLevels(characterId);
-
-            return MercsTab.BuyAmount;
-        }
+        return MercsTab.BuyAmount;
     }
 
-    void UpdateRow()
+    public override void UpdateRow()
     {
-        var state = GameState.Characters.GetCharacter(heroId);
+        var state = GameState.Characters.GetCharacter(charId);
 
-        LevelText.text              = "Level " + state.level.ToString();
-        BuyText.text                = state.level >= StaticData.MAX_CHAR_LEVEL ? "" : "x" + BuyAmount.ToString();
-        DamageText.text             = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(characterId));
-        CostText.text               = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(characterId, BuyAmount));
-        UpgradeButton.interactable  = state.level < StaticData.MAX_CHAR_LEVEL;
-    }
+        DamageText.text             = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(charId));
+        CostText.text               = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(charId, BuyAmount));
 
-    public bool TryUpdate()
-    {
-        if (GameState.Characters.TryGetHeroState(characterId, out var state))
-        {
-            UpdateRow();
-
-            return true;
-        }
-
-        return false;
+        UpdateText(state, StaticData.MAX_CHAR_LEVEL);
     }
 
     // === Button Callbacks ===
 
-    public void OnBuyButton()
+    public override void OnBuy()
     {
         int levelsBuying = BuyAmount;
 
-        BigDouble cost = Formulas.CalcCharacterLevelUpCost(characterId, levelsBuying);
+        BigDouble cost = Formulas.CalcCharacterLevelUpCost(charId, levelsBuying);
 
         if (GameState.Player.gold >= cost)
         {
-            var state = GameState.Characters.GetCharacter(characterId);
+            var state = GameState.Characters.GetCharacter(charId);
 
             state.level += levelsBuying;
 
@@ -75,14 +54,10 @@ public class CharacterRow : MonoBehaviour
         }
     }
 
-    public void OnInfoButton()
+    public void OnInfo()
     {
-        GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
+        GameObject panel = Utils.UI.Instantiate(CharacterPanelObject, Vector3.zero);
 
-        GameObject panel = Instantiate(CharaPanel, Vector3.zero, Quaternion.identity);
-
-        panel.GetComponent<CharacterPanel>().SetHero(characterId);
-
-        panel.transform.SetParent(canvas.transform, false);
+        panel.GetComponent<CharacterPanel>().SetHero(charId);
     }
 }

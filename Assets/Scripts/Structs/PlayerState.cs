@@ -21,7 +21,8 @@ public class PlayerState
 
             gold = player.HasKey("gold") ? BigDouble.Parse(player["gold"].Value) : gold;
 
-            prestigePoints = player.HasKey("prestigePoints") ? BigInteger.Parse(player["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
+            bountyPoints    = player.HasKey("bountyPoints") ? int.Parse(node["bountyPoints"].Value) : bountyPoints;
+            prestigePoints  = player.HasKey("prestigePoints") ? BigInteger.Parse(player["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
         }
     }
 

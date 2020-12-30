@@ -8,7 +8,7 @@ public class BountyTab : MonoBehaviour
 {
     [SerializeField] Text BountyPointText;
 
-    void Start()
+    void OnEnable()
     {
         BountyPointText.text = GameState.Player.bountyPoints.ToString();
     }

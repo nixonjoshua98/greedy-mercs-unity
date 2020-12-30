@@ -24,8 +24,9 @@ class Login(View):
 		return Response(
 			utils.compress(
 				{
-					"prestigePoints": str(items.get("prestigePoints", 0)),
-					"relics": items.get("relics", [])
+					"relics": items.get("relics", []),
+					"bountyPoints": items.get("bountyPoints", 0),
+					"prestigePoints": str(items.get("prestigePoints", 0))
 				},
 			),
 

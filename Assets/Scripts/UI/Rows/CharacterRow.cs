@@ -28,7 +28,7 @@ public class CharacterRow : UpgradeRow
     {
         var state = GameState.Characters.GetCharacter(charId);
 
-        DamageText.text             = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(charId));
+        DamageText.text             = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(charId)) + " DPS";
         CostText.text               = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(charId, BuyAmount));
 
         UpdateText(state, StaticData.MAX_CHAR_LEVEL);

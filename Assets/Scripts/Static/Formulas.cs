@@ -14,7 +14,7 @@ public static class Formulas
 
     public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 70)) * BigDouble.Pow(1.17f, Mathf.Max(stage - 70, 0));
+        return 15.0 * BigDouble.Pow(1.3f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.2f, Mathf.Max(stage - 65, 0));
     }
 
     public static BigDouble CalcBossHealth(int stage)
@@ -26,7 +26,7 @@ public static class Formulas
 
     public static BigDouble CalcEnemyGold(int stage)
     {
-        return 12.5f * CalcEnemyHealth(stage) * (0.005 + (0.0002 * Mathf.Max(0, 50 - (stage - 1))));
+        return 12.5f * CalcEnemyHealth(stage) * (0.0045 + (0.0002 * Mathf.Max(0, 50 - (stage - 1))));
     }
 
     public static BigDouble CalcBossGold(int stage)
@@ -42,7 +42,7 @@ public static class Formulas
 
         CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
-        return (hero.PurchaseCost / 10.0f) * state.level * BigDouble.Pow(4.0f, (state.level - 1) / 100.0f);
+        return (hero.PurchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.03f * (int)heroId));
     }
 
     // ===
@@ -101,7 +101,7 @@ public static class Formulas
         if (stage < StageData.MIN_PRESTIGE_STAGE)
             return 0;
 
-        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 80) / 10.0f), 2.1);
+        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageData.MIN_PRESTIGE_STAGE) / 10.0f), 2.0);
 
         return BigInteger.Parse(big.Ceiling().ToString("F0"));
     }

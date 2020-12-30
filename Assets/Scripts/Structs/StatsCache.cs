@@ -20,7 +20,7 @@ public class StatsCache : MonoBehaviour
         {
             if (IsCacheOutdated("CHARACTERS"))
                 CachedBonuses["CHARACTERS"].CachedDict = GameState.Characters.CalculateBonuses();
-
+            
             return CachedBonuses["CHARACTERS"].CachedDict;
         }
     }

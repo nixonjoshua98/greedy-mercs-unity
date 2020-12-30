@@ -45,4 +45,4 @@ class Prestige(View):
 
 	@staticmethod
 	def calc_prestige_points(stage):
-		return math.ceil(math.pow(math.ceil((stage - MIN_PRESTIGE_STAGE) / 10.0), 2.1))
+		return math.ceil(math.pow(math.ceil((stage - MIN_PRESTIGE_STAGE) / 10.0), 2.0))

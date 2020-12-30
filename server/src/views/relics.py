@@ -8,7 +8,7 @@ from flask.views import View
 
 from src import utils, checks
 
-NUM_RELICS = 10
+NUM_RELICS = 11
 
 
 class BuyRelic(View):

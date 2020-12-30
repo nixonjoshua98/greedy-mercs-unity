@@ -89,5 +89,14 @@
     "costPower": 1.1,
     "baseEffect": 0.005,
     "levelEffect": 0.005
+  },
+    "10": {
+    "name": "Jade Necklace",
+    "description": "A jade necklace which offers fortune to its user.",
+    "bonusType": 9,
+    "baseCost": 3,
+    "costPower": 1.1,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
   }
 }

@@ -11,6 +11,8 @@ public class PlayerState
     public BigDouble gold = 0;
     public BigInteger prestigePoints = 0;
 
+    public int bountyPoints = 0;
+
     public void OnRestore(JSONNode node)
     {
         if (node.HasKey("player"))
@@ -25,7 +27,8 @@ public class PlayerState
 
     public void Update(JSONNode node)
     {
-        prestigePoints = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
+        bountyPoints    = node.HasKey("bountyPoints") ? int.Parse(node["bountyPoints"].Value) : bountyPoints;
+        prestigePoints  = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
     }
 
     public JSONNode ToJson()

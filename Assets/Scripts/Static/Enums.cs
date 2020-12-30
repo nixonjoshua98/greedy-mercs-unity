@@ -37,6 +37,7 @@ public enum RelicID
     SPELL_TOME      = 7,
     BRACERS         = 8,
     LUCKY_GEM       = 9,
+    JADE_NECKLACE   = 10,
 }
 
 public enum UpgradeID

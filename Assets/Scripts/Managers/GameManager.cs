@@ -20,10 +20,10 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
+        StatsCache.Clear();
+
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
         EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
-
-        StatsCache.ClearCache();
     }
 
     void Start()
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
             {
                 if (!health.IsDead)
                 {
-                    Color col = Formulas.ApplyCritHit(ref amount) ? Color.red : Color.white;
+                    Color col = StatsCache.ApplyCritHit(ref amount) ? Color.red : Color.white;
 
                     Instance.damageNumbers.Add(amount, col);
 

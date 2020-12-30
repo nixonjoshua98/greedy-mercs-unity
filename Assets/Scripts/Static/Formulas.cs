@@ -12,18 +12,6 @@ public static class Formulas
 
     // =====
 
-    public static bool ApplyCritHit(ref BigDouble val)
-    {
-        if (Random.Range(0.0f, 1.0f) < StaticData.BASE_CRIT_CHANCE)
-        {
-            val *= StaticData.BASE_CRIT_MULTIPLIER;
-
-            return true;
-        }
-
-        return false;
-    }
-
     public static BigDouble CalcEnemyHealth(int stage)
     {
         return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 70)) * BigDouble.Pow(1.17f, Mathf.Max(stage - 70, 0));

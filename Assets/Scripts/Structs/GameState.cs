@@ -18,7 +18,7 @@ public class GameState
 
         public RelicContainer relics;
         public CharacterContainer characters;
-        public PlayerUpgradesContainer playerUpgrades;
+        public UpgradesContainer playerUpgrades;
     }
 
     public static PlayerState Player { get { return State.player; } }
@@ -26,7 +26,7 @@ public class GameState
 
     public static RelicContainer Relics { get { return State.relics; } }
     public static CharacterContainer Characters { get { return State.characters; } }
-    public static PlayerUpgradesContainer PlayerUpgrades { get { return State.playerUpgrades; } }
+    public static UpgradesContainer PlayerUpgrades { get { return State.playerUpgrades; } }
 
     public static void Restore(JSONNode node)
     {
@@ -34,7 +34,7 @@ public class GameState
 
         State.relics            = new RelicContainer(node);
         State.characters        = new CharacterContainer(node);
-        State.playerUpgrades    = new PlayerUpgradesContainer(node);
+        State.playerUpgrades    = new UpgradesContainer(node);
 
         State.player.OnRestore(node);
     }

@@ -6,7 +6,7 @@ public class HeroUnlockPanel : MonoBehaviour
     [SerializeField] Text TitleText;
     [SerializeField] Text CostText;
 
-    void Awake()
+    void Start()
     {
         InvokeRepeating("UpdatePanel", 0.0f, 0.5f);
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 using UnityEngine;
 
@@ -18,10 +19,10 @@ public class SquadManager : MonoBehaviour
 
     void Start()
     {
-        UpdateSquad();
+        StartCoroutine(UpdateSquad());
     }
 
-    void UpdateSquad()
+    IEnumerator UpdateSquad()
     {
         var values = Enum.GetValues(typeof(CharacterID));
 
@@ -37,6 +38,8 @@ public class SquadManager : MonoBehaviour
 
                 character.transform.localPosition = Vector3.zero;
             }
+
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -50,6 +53,6 @@ public class SquadManager : MonoBehaviour
 
     void OnHeroUnlocked(CharacterID _)
     {
-        UpdateSquad();
+        StartCoroutine(UpdateSquad());
     }
 }

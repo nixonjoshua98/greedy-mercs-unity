@@ -37,7 +37,16 @@ public class RelicContainer
         {
             RelicStaticData staticData = StaticData.GetRelic(relic.Key);
 
-            bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 1) * Formulas.CalcRelicEffect(relic.Key);
+            switch (staticData.bonusType)
+            {
+                case BonusType.CRIT_CHANCE:
+                    bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 0) + Formulas.CalcRelicEffect(relic.Key);
+                    break;
+
+                default:
+                    bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 1) * Formulas.CalcRelicEffect(relic.Key);
+                    break;
+            }
         }
 
         return bonuses;
@@ -49,9 +58,9 @@ public class RelicContainer
 
     // === Helper Methods ===
 
-    public UpgradeState GetRelic(RelicID playerUpgrade)
+    public UpgradeState GetRelic(RelicID relic)
     {
-        return relics[playerUpgrade];
+        return relics[relic];
     }
 
     public bool TryGetRelic(RelicID relic, out UpgradeState state)

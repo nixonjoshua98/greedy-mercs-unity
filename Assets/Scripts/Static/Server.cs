@@ -41,6 +41,8 @@ public static class Server
 
         UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, encoded);
 
+        www.timeout = 3;
+
         www.SetRequestHeader("Content-Type", "application/json");
 
         yield return www.SendWebRequest();
@@ -52,9 +54,13 @@ public static class Server
     {
         UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Convert.ToBase64String(Utils.GZip.Zip("{}")));
 
+        www.timeout = 3;
+
         www.SetRequestHeader("Content-Type", "application/json");
 
         yield return www.SendWebRequest();
+
+        Debug.Log(www.downloadHandler.text);
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);
     }

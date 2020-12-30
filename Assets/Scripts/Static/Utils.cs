@@ -38,6 +38,10 @@ namespace Utils
                 case BonusType.BOSS_GOLD:               return "Boss Gold";
                 case BonusType.MELEE_DAMAGE:            return "Melee Damage";
                 case BonusType.MAGE_DAMAGE:             return "Mage Damage";
+                case BonusType.CRIT_CHANCE:             return "Critical Hit Chance";
+                case BonusType.RANGED_DAMAGE:           return "Ranged Damage";
+                case BonusType.ALL_GOLD:                return "All Gold";
+                case BonusType.CRIT_DAMAGE:             return "Critical Hit Damage";
 
                 default:
                     return "<error>";

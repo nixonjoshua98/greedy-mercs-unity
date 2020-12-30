@@ -2,10 +2,6 @@
 	"0": {
 		"passives": [
 			{
-				"skill": 0,
-				"unlockLevel": 10
-			},
-			{
 				"skill": 6,
 				"unlockLevel": 25
 			},

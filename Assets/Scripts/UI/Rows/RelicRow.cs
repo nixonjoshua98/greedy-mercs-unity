@@ -65,7 +65,7 @@ public class RelicRow : UpgradeRow
 
         BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, levelsBuying);
 
-        if (GameState.Player.prestigePoints >= cost && state.level < data.maxLevel)
+        if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && state.level < data.maxLevel)
         {
             spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, UnityEngine.Vector3.zero);
 

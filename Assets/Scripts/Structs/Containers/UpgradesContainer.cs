@@ -5,11 +5,11 @@ using UnityEngine;
 
 using SimpleJSON;
 
-public class PlayerUpgradesContainer
+public class UpgradesContainer
 {
     Dictionary<UpgradeID, UpgradeState> upgrades;
 
-    public PlayerUpgradesContainer(JSONNode node)
+    public UpgradesContainer(JSONNode node)
     {
         upgrades = new Dictionary<UpgradeID, UpgradeState>();
 

@@ -52,7 +52,9 @@ public class RelicsTab : MonoBehaviour
 
     void OnEnable()
     {
-        InvokeRepeating("OnUpdate", 0.0f, 0.5f);
+        UpdateRows();
+
+        InvokeRepeating("OnUpdate", 0.5f, 0.5f);
     }
 
     void OnDisable()

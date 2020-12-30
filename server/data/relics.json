@@ -79,5 +79,15 @@
     "costPower": 1.03,
     "baseEffect": 2.0,
     "levelEffect": 0.5
+  },
+  "9": {
+    "name": "Lucky Gem",
+    "description": "A precious stone which boosts the wielders luck. Previous users were all blessed with fortune.",
+    "maxLevel": 10,
+    "bonusType": 8,
+    "baseCost": 5,
+    "costPower": 1.1,
+    "baseEffect": 0.005,
+    "levelEffect": 0.005
   }
 }

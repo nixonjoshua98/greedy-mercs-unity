@@ -16,10 +16,14 @@ public enum BonusType
     TAP_DAMAGE          = 2,
     BOSS_GOLD           = 3,
     HERO_TAP_DAMAGE_ADD = 4,
-
     MELEE_DAMAGE        = 5,
-    MAGE_DAMAGE         = 6
+    MAGE_DAMAGE         = 6,
+    RANGED_DAMAGE       = 7,
+    CRIT_CHANCE         = 8,
+    ALL_GOLD            = 9,
+    CRIT_DAMAGE         = 10
 }
+
 
 public enum RelicID
 {
@@ -31,10 +35,17 @@ public enum RelicID
     TAP_SCROLL      = 5,
     POWER_AXE       = 6,
     SPELL_TOME      = 7,
-    BRACERS         = 8
+    BRACERS         = 8,
+    LUCKY_GEM       = 9,
 }
 
 public enum UpgradeID
 {
     TAP_DAMAGE = 0
+}
+
+public enum BonusCollectionType
+{
+    HEROES = 0,
+    RELICS = 1
 }

@@ -38,5 +38,10 @@
 		"name": "Melee Damage Boost",
 		"bonusType": 5,
 		"value": 1.4
+	},
+	"8": {
+		"name": "A Helping Hand",
+		"bonusType": 4,
+		"value": 0.001
 	}
 }

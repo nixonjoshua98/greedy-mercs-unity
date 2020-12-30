@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using SimpleJSON;
@@ -17,7 +19,6 @@ public class PrestigeManager : MonoBehaviour
         Instance = this;
     }
 
-
     public static void StartPrestige()
     {
         JSONNode node = Utils.Json.GetDeviceNode();
@@ -35,9 +36,11 @@ public class PrestigeManager : MonoBehaviour
         {
             DataManager.IsPaused = true;
 
+            SquadManager.ToggleAttacks(false);
+
             Utils.File.Delete(DataManager.LOCAL_FILENAME);
 
-            SceneManager.LoadSceneAsync(0);
+            StartCoroutine(PrestigeAnimation());
         }
 
         else
@@ -46,5 +49,12 @@ public class PrestigeManager : MonoBehaviour
 
             Destroy(spawnedBlankPanel);
         }
+    }
+
+    IEnumerator PrestigeAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        SceneManager.LoadSceneAsync("InitScene");
     }
 }

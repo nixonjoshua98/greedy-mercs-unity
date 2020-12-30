@@ -1,11 +1,12 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+
+using SimpleJSON;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using SimpleJSON;
-
-public class LoginManager : MonoBehaviour
+public class Initializer : MonoBehaviour
 {
     [SerializeField] GameObject ServerErrorMessage;
 
@@ -13,22 +14,19 @@ public class LoginManager : MonoBehaviour
     {
         Debug.Log(Application.persistentDataPath);
 
-        StartGameStateRestore();
-    }
+        DataManager.IsPaused = false;
 
-    void StartGameStateRestore()
-    {
-        bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
-
-        GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
-
-        // === Request ===
+        StatsCache.Clear();
 
         Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
     }
 
     void ServerLoginCallback(long code, string compressedJson)
     {
+        bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
+
+        GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
+
         if (code == 200)
         {
             JSONNode node = Utils.Json.Decompress(compressedJson);
@@ -36,11 +34,19 @@ public class LoginManager : MonoBehaviour
             GameState.Update(node);
         }
 
+        else if (!isLocalSave && code != 200)
+        {
+            Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");
+
+            return;
+        }
+
         Server.GetStaticData(this, ServerStaticDataCallback);
     }
 
     void ServerStaticDataCallback(long code, string compressedJson)
     {
+
         if (code == 200)
         {
             JSONNode node = Utils.Json.Decompress(compressedJson);

@@ -12,9 +12,7 @@ class CachedValue
 public class StatsCache : MonoBehaviour
 {
     static Dictionary<CharacterID, BigDouble>   CharacterDamageCache    = new Dictionary<CharacterID, BigDouble>();
-
     static Dictionary<string, CachedValue>      CachedBonuses           = new Dictionary<string, CachedValue>();
-    static Dictionary<string, BigDouble>        CachedValues            = new Dictionary<string, BigDouble>();
 
     static Dictionary<BonusType, double> CharacterBonus 
     { 
@@ -48,11 +46,11 @@ public class StatsCache : MonoBehaviour
 
     public static bool ApplyCritHit(ref BigDouble val)
     {
-        BigDouble critChance = StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
+        BigDouble critChance = GetCritChance();
 
         if (critChance >= 1.0 || Random.Range(0.0f, 1.0f) < critChance)
         {
-            val *= StaticData.BASE_CRIT_MULTIPLIER;
+            val *= GetCritDamage();
 
             return true;
         }
@@ -61,6 +59,16 @@ public class StatsCache : MonoBehaviour
     }
 
     // === Calculations ===
+
+    public static BigDouble GetCritChance()
+    {
+        return StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
+    }
+
+    public static BigDouble GetCritDamage()
+    {
+        return StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
+    }
 
     public static BigDouble GetHeroDamage(CharacterID chara)
     {
@@ -101,7 +109,7 @@ public class StatsCache : MonoBehaviour
 
 
     // === Helper Methods ===
-    static double MultiplyBonuses(params BonusType[] types)
+    public static double MultiplyBonuses(params BonusType[] types)
     {
         double val = 1.0f;
 
@@ -111,7 +119,7 @@ public class StatsCache : MonoBehaviour
         return val;
     }
 
-    static double AddictiveBonuses(params BonusType[] types)
+    public static double AddictiveBonuses(params BonusType[] types)
     {
         double val = 0.0f;
 

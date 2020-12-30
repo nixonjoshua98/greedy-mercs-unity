@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Global : MonoBehaviour
@@ -8,7 +9,7 @@ public class Global : MonoBehaviour
     {
         Utils.File.Delete("log.log");
 
-        Application.logMessageReceived += Application_logMessageReceived;
+        //Application.logMessageReceived += Application_logMessageReceived;
 
         DontDestroyOnLoad(gameObject);
     }

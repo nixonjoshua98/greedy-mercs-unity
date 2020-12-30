@@ -43,9 +43,3 @@ public enum UpgradeID
 {
     TAP_DAMAGE = 0
 }
-
-public enum BonusCollectionType
-{
-    HEROES = 0,
-    RELICS = 1
-}

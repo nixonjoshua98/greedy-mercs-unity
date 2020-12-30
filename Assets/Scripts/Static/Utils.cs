@@ -184,6 +184,17 @@ namespace Utils
             }
         }
 
+        public static void Append(string filename, string content)
+        {
+            string path = GetPath(filename);
+
+            using (StreamWriter w = System.IO.File.AppendText(path))
+            {
+                w.WriteLine(content);
+            }
+        }
+
+
         public static void WriteJson(string filename, JSONNode node)
         {
             Write(filename, Format.FormatJson(node.ToString()));

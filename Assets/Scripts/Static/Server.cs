@@ -41,26 +41,25 @@ public static class Server
 
         UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, encoded);
 
-        www.timeout = 3;
-
-        www.SetRequestHeader("Content-Type", "application/json");
-
-        yield return www.SendWebRequest();
-
-        callback.Invoke(www.responseCode, www.downloadHandler.text);
+        yield return SendRequest(www, callback);
     }
 
     static IEnumerator Put(string endpoint, Action<long, string> callback)
     {
         UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Convert.ToBase64String(Utils.GZip.Zip("{}")));
 
+        yield return SendRequest(www, callback);
+    }
+
+    static IEnumerator SendRequest(UnityWebRequest www, Action<long, string> callback)
+    {
         www.timeout = 3;
 
         www.SetRequestHeader("Content-Type", "application/json");
 
         yield return www.SendWebRequest();
 
-        Debug.Log(www.downloadHandler.text);
+        Utils.File.Append("log.log", www.responseCode + " " + www.downloadHandler.text);
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);
     }

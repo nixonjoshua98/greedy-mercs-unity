@@ -52,18 +52,18 @@ public class RelicsTab : MonoBehaviour
 
     void OnEnable()
     {
-        UpdateRows();
+        UpdateUI();
 
-        InvokeRepeating("OnUpdate", 0.5f, 0.5f);
+        InvokeRepeating("UpdateUI", 0.5f, 0.5f);
     }
 
     void OnDisable()
     {
-        if (IsInvoking("OnUpdate"))
-            CancelInvoke("OnUpdate");
+        if (IsInvoking("UpdateUI"))
+            CancelInvoke("UpdateUI");
     }
 
-    void OnUpdate()
+    void UpdateUI()
     {
         PrestigeButtonText.text = GameState.Stage.stage >= StageData.MIN_PRESTIGE_STAGE ? "Cash Out" : "Locked Stage " + StageData.MIN_PRESTIGE_STAGE.ToString();
 

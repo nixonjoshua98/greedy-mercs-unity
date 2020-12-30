@@ -11,9 +11,9 @@ public class LoginManager : MonoBehaviour
 
     void Awake()
     {
-        StartGameStateRestore();
-
         Debug.Log(Application.persistentDataPath);
+
+        StartGameStateRestore();
     }
 
     void StartGameStateRestore()

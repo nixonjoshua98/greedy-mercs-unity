@@ -2,6 +2,8 @@
 
 using UnityEngine;
 
+using CharacterID = CharacterData.CharacterID;
+
 class CachedValue
 {
     public float CachedAt;
@@ -62,12 +64,12 @@ public class StatsCache : MonoBehaviour
 
     public static BigDouble GetCritChance()
     {
-        return StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
+        return Data.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
     }
 
     public static BigDouble GetCritDamage()
     {
-        return StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
+        return Data.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
     }
 
     public static BigDouble GetHeroDamage(CharacterID chara)

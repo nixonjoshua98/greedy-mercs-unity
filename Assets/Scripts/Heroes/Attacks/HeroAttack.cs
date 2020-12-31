@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using CharacterID = CharacterData.CharacterID;
 
 public abstract class HeroAttack: MonoBehaviour
 {

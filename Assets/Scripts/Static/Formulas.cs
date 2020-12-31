@@ -2,6 +2,10 @@
 
 using UnityEngine;
 
+using RelicID           = RelicData.RelicID;
+using CharacterID       = CharacterData.CharacterID;
+using RelicStaticData   = RelicData.RelicStaticData;
+
 public static class Formulas
 {
     /*
@@ -14,19 +18,19 @@ public static class Formulas
 
     public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * BigDouble.Pow(1.3f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.2f, Mathf.Max(stage - 65, 0));
+        return 15.0 * BigDouble.Pow(1.3f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.22f, Mathf.Max(stage - 65, 0));
     }
 
     public static BigDouble CalcBossHealth(int stage)
     {
-        return CalcEnemyHealth(stage) * 3.0f;
+        return CalcEnemyHealth(stage) * 5.0f;
     }
 
     // =====
 
     public static BigDouble CalcEnemyGold(int stage)
     {
-        return 12.5f * CalcEnemyHealth(stage) * (0.0045 + (0.0002 * Mathf.Max(0, 50 - (stage - 1))));
+        return 12.5f * CalcEnemyHealth(stage) * (0.0045 + (0.00015 * Mathf.Max(0, 70 - (stage - 1))));
     }
 
     public static BigDouble CalcBossGold(int stage)
@@ -42,7 +46,7 @@ public static class Formulas
 
         CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
 
-        return (hero.PurchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.03f * (int)heroId));
+        return (hero.PurchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.032f * (int)heroId));
     }
 
     // ===
@@ -65,7 +69,7 @@ public static class Formulas
 
         int maxLevels = int.Parse(bigAnswer.ToString());
 
-        return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.level, maxLevels);
+        return Mathf.Min(Data.MAX_CHAR_LEVEL - state.level, maxLevels);
     }
 
 
@@ -75,7 +79,7 @@ public static class Formulas
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 35.0f);
+        return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 50.0f);
     }
 
     // === Tap Damage Player Upgrade ===
@@ -91,7 +95,9 @@ public static class Formulas
     {
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
-        return int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
+        int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
+
+        return Mathf.Min(Data.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
     }
 
     // === Prestige Points ===
@@ -101,7 +107,7 @@ public static class Formulas
         if (stage < StageData.MIN_PRESTIGE_STAGE)
             return 0;
 
-        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageData.MIN_PRESTIGE_STAGE) / 10.0f), 2.0);
+        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageData.MIN_PRESTIGE_STAGE) / 10.0f), 2.1);
 
         return BigInteger.Parse(big.Ceiling().ToString("F0"));
     }
@@ -117,7 +123,7 @@ public static class Formulas
 
     public static double CalcRelicEffect(RelicID relic)
     {
-        RelicStaticData staticData = StaticData.GetRelic(relic);
+        RelicStaticData staticData = StaticData.Relics.Get(relic);
 
         UpgradeState state = GameState.Relics.GetRelic(relic);
 
@@ -128,7 +134,7 @@ public static class Formulas
 
     public static BigInteger CalcRelicLevelUpCost(RelicID relic, int levels)
     {
-        RelicStaticData staticData = StaticData.GetRelic(relic);
+        RelicStaticData staticData = StaticData.Relics.Get(relic);
 
         UpgradeState state = GameState.Relics.GetRelic(relic);
 
@@ -140,7 +146,7 @@ public static class Formulas
     public static int AffordRelicLevels(RelicID relic)
     {
         UpgradeState state          = GameState.Relics.GetRelic(relic);
-        RelicStaticData staticData  = StaticData.GetRelic(relic);
+        RelicStaticData staticData  = StaticData.Relics.Get(relic);
 
         BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.AsBigDouble(), staticData.baseCost, staticData.costPower, state.level - 1);
 

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using CharacterID = CharacterData.CharacterID;
+
 public class MercsTab : MonoBehaviour
 {
     static MercsTab Instance = null;

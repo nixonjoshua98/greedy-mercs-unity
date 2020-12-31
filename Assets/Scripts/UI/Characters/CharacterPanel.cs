@@ -1,9 +1,11 @@
 ﻿
 using UnityEngine;
 
+using CharacterID = CharacterData.CharacterID;
+
 public class CharacterPanel : MonoBehaviour
 {
-    [SerializeField] CharacterSkillsPanel skillsPanel;
+    [SerializeField] CharacterPassivesPanel skillsPanel;
 
     public void SetHero(CharacterID hero)
     {

@@ -4,3 +4,6 @@ from .prestige import Prestige
 from .staticdata import StaticData
 
 from .relics import UpgradeRelic, BuyRelic
+
+
+from .debug import ResetRelics

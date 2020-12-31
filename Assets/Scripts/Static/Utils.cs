@@ -67,9 +67,14 @@ namespace Utils
             return array;
         }
 
-        public static JSONNode Decompress(string data)
+        public static JSONNode Decode(string data)
         {
-            return JSON.Parse(Utils.GZip.Unzip(Convert.FromBase64String(data)));
+            return JSON.Parse(GZip.Unzip(Convert.FromBase64String(data)));
+        }
+
+        public static string Encode(JSONNode node)
+        {
+            return Convert.ToBase64String(GZip.Zip(node.ToString()));
         }
 
         public static JSONNode GetDeviceNode()

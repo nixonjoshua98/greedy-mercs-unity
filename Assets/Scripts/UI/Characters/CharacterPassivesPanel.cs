@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class CharacterSkillsPanel : MonoBehaviour
+using HeroPassiveUnlock = CharacterData.HeroPassiveUnlock;
+using PassiveSkill      = PassivesData.PassiveSkill;
+using CharacterID       = CharacterData.CharacterID;
+
+public class CharacterPassivesPanel : MonoBehaviour
 {
     CharacterID showingHero;
 
@@ -19,13 +23,13 @@ public class CharacterSkillsPanel : MonoBehaviour
 
     IEnumerator Start()
     {
-        List<HeroPassiveUnlock> unlocks = StaticData.GetCharPassives(showingHero);
+        List<HeroPassiveUnlock> unlocks = StaticData.Characters.GetPassives(showingHero);
 
         UpgradeState heroState = GameState.Characters.GetCharacter(showingHero);
 
         foreach (HeroPassiveUnlock unlock in unlocks)
         {
-            HeroPassiveSkill skill = StaticData.GetPassive(unlock.skill);
+            PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
 
             GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

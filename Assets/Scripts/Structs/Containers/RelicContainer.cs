@@ -5,6 +5,9 @@ using UnityEngine;
 
 using SimpleJSON;
 
+using RelicID           = RelicData.RelicID;
+using RelicStaticData   = RelicData.RelicStaticData;
+
 public class RelicContainer
 {
     Dictionary<RelicID, UpgradeState> relics;
@@ -35,7 +38,7 @@ public class RelicContainer
 
         foreach (var relic in relics)
         {
-            RelicStaticData staticData = StaticData.GetRelic(relic.Key);
+            RelicStaticData staticData = StaticData.Relics.Get(relic.Key);
 
             switch (staticData.bonusType)
             {

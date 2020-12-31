@@ -165,9 +165,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7696526641290794468}
+  - component: {fileID: 7167922000852565252}
   - component: {fileID: 7696526641290794266}
   - component: {fileID: 961353704137004436}
-  - component: {fileID: 7167922000852565252}
   m_Layer: 5
   m_Name: CharacterPassiveRow
   m_TagString: Untagged
@@ -197,6 +197,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -35}
   m_SizeDelta: {x: 1250, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7167922000852565252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7696526641290794469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83bf57b8ad32044786263921f0fa0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnlockText: {fileID: 5056712054370079678}
+  SkillNameText: {fileID: 7696526641431437956}
+  DescriptionText: {fileID: 6950921579199109070}
+  PanelImage: {fileID: 961353704137004436}
 --- !u!222 &7696526641290794266
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -234,22 +250,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7167922000852565252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7696526641290794469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83bf57b8ad32044786263921f0fa0a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnlockText: {fileID: 5056712054370079678}
-  SkillNameText: {fileID: 7696526641431437956}
-  DescriptionText: {fileID: 6950921579199109070}
-  PanelImage: {fileID: 961353704137004436}
 --- !u!1 &7696526641431437958
 GameObject:
   m_ObjectHideFlags: 0

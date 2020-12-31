@@ -7,6 +7,8 @@ using System.Collections.Generic;
 
 using SimpleJSON;
 
+using RelicID = RelicData.RelicID;
+
 public class RelicsTab : MonoBehaviour
 {
     static RelicsTab Instance = null;
@@ -70,9 +72,9 @@ public class RelicsTab : MonoBehaviour
         PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+" 
             + Utils.Format.FormatNumber(Formulas.CalcPrestigePoints(GameState.Stage.stage)) + "</color>)";
 
-        RelicCostText.text = GameState.Relics.Count < StaticData.numRelics ? Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.Relics.Count)) : "MAX";
+        RelicCostText.text = GameState.Relics.Count < StaticData.Relics.Count ? Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.Relics.Count)) : "MAX";
 
-        BuyRelicsButton.interactable = GameState.Relics.Count < StaticData.numRelics;
+        BuyRelicsButton.interactable = GameState.Relics.Count < StaticData.Relics.Count;
 
         UpdateRows();
     }
@@ -118,7 +120,7 @@ public class RelicsTab : MonoBehaviour
     {
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decompress(data);
+            JSONNode node = Utils.Json.Decode(data);
 
             GameState.Player.Update(node);
 

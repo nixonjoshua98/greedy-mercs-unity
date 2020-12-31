@@ -23,9 +23,9 @@ public class TapDamageUpgrade : UpgradeRow
         UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(upgradeId);
 
         DamageText.text = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
-        CostText.text   = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
+        CostText.text   = state.level >= Data.MAX_TAP_UPGRADE_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
 
-        UpdateText(state);
+        UpdateText(state, Data.MAX_TAP_UPGRADE_LEVEL);
     }
 
     // === Button Callbacks ===

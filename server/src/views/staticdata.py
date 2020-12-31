@@ -10,6 +10,4 @@ class StaticData(View):
 
 	def dispatch_request(self):
 
-		print()
-
 		return Response(utils.compress(app.data["static"]), status=200)

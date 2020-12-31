@@ -14,15 +14,9 @@ public class UpgradesContainer
         upgrades = new Dictionary<UpgradeID, UpgradeState>();
 
         foreach (JSONNode upgrade in node["playerUpgrades"].AsArray)
-        {
             upgrades[(UpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
-        }
 
-        foreach (UpgradeID upgrade in Enum.GetValues(typeof(UpgradeID)))
-        {
-            if (!upgrades.ContainsKey(upgrade))
-                AddUpgrade(upgrade);
-        }
+        if (!upgrades.ContainsKey(UpgradeID.TAP_DAMAGE))    AddUpgrade(UpgradeID.TAP_DAMAGE, 1);
     }
 
     public JSONNode ToJson()
@@ -37,8 +31,8 @@ public class UpgradesContainer
         return upgrades[playerUpgrade];
     }
 
-    public void AddUpgrade(UpgradeID playerUpgrade)
+    public void AddUpgrade(UpgradeID playerUpgrade, int level = 1)
     {
-        upgrades[playerUpgrade] = new UpgradeState { level = 1 };
+        upgrades[playerUpgrade] = new UpgradeState { level = level };
     }
 }

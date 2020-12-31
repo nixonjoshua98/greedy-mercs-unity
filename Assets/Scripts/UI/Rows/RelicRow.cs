@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 using SimpleJSON;
 
+using RelicID           = RelicData.RelicID;
+using RelicStaticData   = RelicData.RelicStaticData;
+
 public class RelicRow : UpgradeRow
 {
     [Space]
@@ -26,7 +29,7 @@ public class RelicRow : UpgradeRow
 
     void Start()
     {
-        RelicStaticData staticData = StaticData.GetRelic(relicId);
+        RelicStaticData staticData = StaticData.Relics.Get(relicId);
 
         LongDescriptionText.text    = staticData.description;
         NameText.text               = staticData.name;
@@ -42,7 +45,7 @@ public class RelicRow : UpgradeRow
 
     public override void UpdateRow()
     {
-        RelicStaticData data = StaticData.GetRelic(relicId);
+        RelicStaticData data = StaticData.Relics.Get(relicId);
         UpgradeState state   = GameState.Relics.GetRelic(relicId);
 
         ShortDescriptionText.text = "{effect} {type}"
@@ -60,7 +63,7 @@ public class RelicRow : UpgradeRow
     {
         int levelsBuying = BuyAmount;
 
-        RelicStaticData data    = StaticData.GetRelic(relicId);
+        RelicStaticData data    = StaticData.Relics.Get(relicId);
         UpgradeState state      = GameState.Relics.GetRelic(relicId);
 
         BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, levelsBuying);
@@ -82,7 +85,7 @@ public class RelicRow : UpgradeRow
     {
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decompress(compressed);
+            JSONNode node = Utils.Json.Decode(compressed);
 
             UpgradeState state = GameState.Relics.GetRelic(relicId);
 

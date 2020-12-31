@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+using CharacterID = CharacterData.CharacterID;
+
 namespace CustomEvents
 {
     public class GameObjectEvent : UnityEvent<GameObject> { }
@@ -29,4 +31,6 @@ public class EventManager : MonoBehaviour
     public static UnityEvent                    OnEnemySpawned          = new UnityEvent();
 
     public static UnityEvent                    OnKilledBoss            = new UnityEvent();
+
+    public static UnityEvent                    OnKillEnemy             = new UnityEvent();
 }

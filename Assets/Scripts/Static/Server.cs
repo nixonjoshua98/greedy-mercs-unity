@@ -23,6 +23,11 @@ public static class Server
         mono.StartCoroutine(Put("buyrelic", callback, node));
     }
 
+    public static void ResetRelics(MonoBehaviour mono, Action<long, string> callback)
+    {
+        mono.StartCoroutine(Put("resetrelics", callback, Utils.Json.GetDeviceNode()));
+    }
+
     public static void UpgradeRelic(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
     {
         mono.StartCoroutine(Put("upgraderelic", callback, node));
@@ -37,16 +42,14 @@ public static class Server
 
     static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
     {
-        string encoded = Convert.ToBase64String(Utils.GZip.Zip(json.ToString()));
-
-        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, encoded);
+        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Utils.Json.Encode(json));
 
         yield return SendRequest(www, callback);
     }
 
     static IEnumerator Put(string endpoint, Action<long, string> callback)
     {
-        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Convert.ToBase64String(Utils.GZip.Zip("{}")));
+        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Utils.Json.Encode(JSON.Parse("{}")));
 
         yield return SendRequest(www, callback);
     }
@@ -55,11 +58,13 @@ public static class Server
     {
         www.timeout = 3;
 
+        www.SetRequestHeader("Accept", "application/json");
         www.SetRequestHeader("Content-Type", "application/json");
 
         yield return www.SendWebRequest();
 
-        Utils.File.Append("log.log", www.responseCode + " " + www.downloadHandler.text);
+        if (www.isNetworkError || www.isHttpError)
+            Debug.Log(www.error);
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);
     }

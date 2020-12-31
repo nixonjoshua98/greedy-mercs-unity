@@ -29,7 +29,7 @@ public class Initializer : MonoBehaviour
 
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decompress(compressedJson);
+            JSONNode node = Utils.Json.Decode(compressedJson);
 
             GameState.Update(node);
         }
@@ -49,7 +49,7 @@ public class Initializer : MonoBehaviour
 
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decompress(compressedJson);
+            JSONNode node = Utils.Json.Decode(compressedJson);
 
             StaticData.Restore(node);
 

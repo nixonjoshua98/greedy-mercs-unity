@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using PassiveSkill      = PassivesData.PassiveSkill;
+using CharacterID       = CharacterData.CharacterID;
+using HeroPassiveUnlock = CharacterData.HeroPassiveUnlock;
+
 public class CharacterContainer
 {
     Dictionary<CharacterID, UpgradeState> characters;
@@ -49,13 +53,13 @@ public class CharacterContainer
         {
             if (GameState.Characters.TryGetHeroState(hero, out var state))
             {
-                List<HeroPassiveUnlock> heroPassiveUnlocks = StaticData.GetCharPassives(hero);
+                List<HeroPassiveUnlock> heroPassiveUnlocks = StaticData.Characters.GetPassives(hero);
 
                 foreach (HeroPassiveUnlock unlock in heroPassiveUnlocks)
                 {
                     if (state.level >= unlock.unlockLevel)
                     {
-                        HeroPassiveSkill skill = StaticData.GetPassive(unlock.skill);
+                        PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
 
                         switch (skill.bonusType)
                         {

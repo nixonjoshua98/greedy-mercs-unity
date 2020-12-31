@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using HeroPassiveUnlock = CharacterData.HeroPassiveUnlock;
+using PassiveSkill      = PassivesData.PassiveSkill;
+
 public class CharacterPassiveRow : MonoBehaviour
 {
     public Text UnlockText;
@@ -10,7 +13,7 @@ public class CharacterPassiveRow : MonoBehaviour
 
     public Image PanelImage;
 
-    public void UpdatePanel(UpgradeState heroState, HeroPassiveUnlock unlock, HeroPassiveSkill skill)
+    public void UpdatePanel(UpgradeState heroState, HeroPassiveUnlock unlock, PassiveSkill skill)
     {
         // Name
         SkillNameText.text = skill.name;
@@ -19,7 +22,7 @@ public class CharacterPassiveRow : MonoBehaviour
         UnlockText.text = UnlockText.text.Replace("{level}", unlock.unlockLevel.ToString());
 
         // Description
-        DescriptionText.text = (skill.description == "" ? DescriptionText.text : skill.description)
+        DescriptionText.text = (skill.description == null ? DescriptionText.text : skill.description)
             .Replace("{value}", "<color=orange>" + (skill.value * 100).ToString() + "%</color>")
             .Replace("{type}",  "<color=orange>" + Utils.Generic.BonusToString(skill.bonusType) + "</color>");
 

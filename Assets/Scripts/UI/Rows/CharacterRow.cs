@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using CharacterID = CharacterData.CharacterID;
+
 public class CharacterRow : UpgradeRow
 {
     [SerializeField] protected Text DamageText;
@@ -29,9 +31,9 @@ public class CharacterRow : UpgradeRow
         var state = GameState.Characters.GetCharacter(charId);
 
         DamageText.text             = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(charId)) + " DPS";
-        CostText.text               = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(charId, BuyAmount));
+        CostText.text               = state.level >= Data.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(charId, BuyAmount));
 
-        UpdateText(state, StaticData.MAX_CHAR_LEVEL);
+        UpdateText(state, Data.MAX_CHAR_LEVEL);
     }
 
     // === Button Callbacks ===

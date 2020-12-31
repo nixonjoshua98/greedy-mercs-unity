@@ -3,6 +3,8 @@ using System.Collections;
 
 using UnityEngine;
 
+using CharacterID = CharacterData.CharacterID;
+
 
 public class SquadManager : MonoBehaviour
 {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using CharacterID = CharacterData.CharacterID;
+
 public static class CharacterResources
 {
     static readonly List<CharacterStaticData> Heroes = new List<CharacterStaticData>()
@@ -11,7 +13,7 @@ public static class CharacterResources
         new CharacterStaticData(CharacterID.HERO_NUM_2,    BonusType.MELEE_DAMAGE,     "Stone Golem",      "GolemStone",       5_000),
         new CharacterStaticData(CharacterID.HERO_NUM_3,    BonusType.MAGE_DAMAGE,       "Fire Satyr",       "SatyrFire",       75_000),
         new CharacterStaticData(CharacterID.HERO_NUM_4,    BonusType.MELEE_DAMAGE,    "Fallen Angel",     "FallenAngel",       2_000_000),
-        new CharacterStaticData(CharacterID.HERO_NUM_5,    BonusType.MELEE_DAMAGE,    "War Minotaur",        "Minotaur",       150_000_000),
+        new CharacterStaticData(CharacterID.HERO_NUM_5,    BonusType.MELEE_DAMAGE,    "War Minotaur",        "Minotaur",       125_000_000),
         new CharacterStaticData(CharacterID.HERO_NUM_6,    BonusType.MELEE_DAMAGE,      "Reaper Man",       "ReaperMan",       5_000_000_000_000)
     };
 

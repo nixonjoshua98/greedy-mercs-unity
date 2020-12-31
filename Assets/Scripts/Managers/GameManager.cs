@@ -93,6 +93,8 @@ public class GameManager : MonoBehaviour
         if (CurrentEnemy.CompareTag("Enemy"))
         {
             GameState.Stage.AddKill();
+
+            EventManager.OnKillEnemy.Invoke();
         }
 
         else if (CurrentEnemy.CompareTag("BossEnemy"))

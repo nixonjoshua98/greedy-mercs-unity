@@ -392,6 +392,7 @@ MonoBehaviour:
   tabs:
   - {fileID: 8126593760380402104}
   - {fileID: 4719752647372603387}
+  AllowHidding: 1
 --- !u!222 &2961036063631574863
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -978,7 +979,7 @@ GameObject:
   - component: {fileID: 6636244067335074323}
   - component: {fileID: 8333375737150677273}
   m_Layer: 5
-  m_Name: CharacterSkills
+  m_Name: Passives
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1013,7 +1014,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8126593760380402104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2793fae210ba3643bdbe5eea9ffecca, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d81dfc21e0407d4b9224ea01de76abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SkillRow: {fileID: 7696526641290794469, guid: 3aafdb7d574a76d42aac5610867ab54a,

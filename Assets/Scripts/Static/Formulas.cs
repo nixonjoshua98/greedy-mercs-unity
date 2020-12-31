@@ -18,19 +18,19 @@ public static class Formulas
 
     public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * BigDouble.Pow(1.3f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.22f, Mathf.Max(stage - 65, 0));
+        return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.25f, Mathf.Max(stage - 65, 0));
     }
 
     public static BigDouble CalcBossHealth(int stage)
     {
-        return CalcEnemyHealth(stage) * 5.0f;
+        return CalcEnemyHealth(stage) * 3.0f;
     }
 
     // =====
 
     public static BigDouble CalcEnemyGold(int stage)
     {
-        return 12.5f * CalcEnemyHealth(stage) * (0.0045 + (0.00015 * Mathf.Max(0, 70 - (stage - 1))));
+        return 12.5f * CalcEnemyHealth(stage) * (0.0045 + (0.0002 * Mathf.Max(0, 65 - (stage - 1))));
     }
 
     public static BigDouble CalcBossGold(int stage)

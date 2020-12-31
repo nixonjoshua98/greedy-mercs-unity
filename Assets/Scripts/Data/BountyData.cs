@@ -30,5 +30,10 @@ namespace BountyData
             foreach (string key in node.Keys)
                 bounties[(BountyID)int.Parse(key)] = JsonUtility.FromJson<BountyStaticData>(node[key].ToString());
         }
+
+        public BountyStaticData Get(BountyID bounty)
+        {
+            return bounties[bounty];
+        }
     }
 }

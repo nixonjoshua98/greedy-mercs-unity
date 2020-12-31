@@ -3,7 +3,7 @@
     "name": "Gauntlet of Clicking",
     "description": "A rare glove used by the previous King, it was thought to be long lost before coming into your possession.",
     "bonusType": 2,
-    "baseCost": 1,
+    "baseCost": 2,
     "costPower": 1.03,
     "baseEffect": 1.2,
     "levelEffect": 0.4
@@ -30,7 +30,7 @@
     "name": "Berserk Potion",
     "description": "An extremely precious, and forbiddon, potion which enrages anyone who uses even one drop.",
     "bonusType": 0,
-    "baseCost": 1,
+    "baseCost": 2,
     "costPower": 1.03,
     "baseEffect": 1.2,
     "levelEffect": 0.4

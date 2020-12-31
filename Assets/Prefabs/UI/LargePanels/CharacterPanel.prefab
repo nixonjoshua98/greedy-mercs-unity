@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 2096200896451110582}
   - component: {fileID: 3926416452005019108}
   m_Layer: 5
-  m_Name: EmptyButton
+  m_Name: VariantButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -878,7 +878,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ?????
+  m_Text: Variants [Premium]
 --- !u!1 &8010159548220881226
 GameObject:
   m_ObjectHideFlags: 0

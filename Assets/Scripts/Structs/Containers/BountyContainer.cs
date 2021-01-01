@@ -53,7 +53,7 @@ public class BountyContainer
 
     public void Set(BountyID bounty, long startTime)
     {
-        bounties[bounty] = new BountyState { startTime = DateTimeOffset.FromUnixTimeSeconds(startTime).DateTime };
+        bounties[bounty] = new BountyState { startTime = DateTimeOffset.FromUnixTimeMilliseconds(startTime).DateTime };
     }
 
     public void Remove(BountyID bounty)

@@ -30,7 +30,10 @@ class StartBounty(View):
 
 		app.mongo.db.userBounties.insert_one(row)
 
-		return Response(utils.compress({"startTime": row["startTime"].timestamp()}), status=200)
+		# - Seconds -> Milliseconds
+		start_timestamp = row["startTime"].timestamp() * 1000
+
+		return Response(utils.compress({"startTime": start_timestamp}), status=200)
 
 
 class ClaimBounty(View):

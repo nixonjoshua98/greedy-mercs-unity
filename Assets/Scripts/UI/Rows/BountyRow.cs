@@ -34,7 +34,7 @@ public class BountyRow : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool isBountyOngoing = GameState.Bounties.TryGetBounty(bounty, out BountyState _);
+        bool isBountyOngoing = GameState.Bounties.TryGetBounty(bounty, out BountyState state);
 
         // Set soem defautl values ready to be updated
         ProgressBar.value = 0.0f; 

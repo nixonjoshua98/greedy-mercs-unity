@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -115,9 +116,7 @@ public class BountyRow : MonoBehaviour
         {
             var staticBountyData = StaticData.Bounties.Get(bounty);
 
-            double secondsSinceStart = (System.DateTime.UtcNow - state.startTime).TotalSeconds;
-
-            return (float)(secondsSinceStart / staticBountyData.duration);
+            return (float)((DateTime.UtcNow - state.startTime).TotalSeconds) / staticBountyData.duration;
         }
 
         return 0.0f;

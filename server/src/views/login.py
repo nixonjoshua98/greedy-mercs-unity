@@ -26,7 +26,7 @@ class Login(View):
 
 		# - Convert date to timestamp so we can jsonify it
 		for i, _ in enumerate(bounties):
-			bounties[i]["startTime"] = bounties[i]["startTime"].timestamp()
+			bounties[i]["startTime"] = bounties[i]["startTime"].timestamp() * 1000  # Convert to ms
 
 		print(user_id)
 

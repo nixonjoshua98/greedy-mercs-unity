@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+
+using System.Collections.Generic;
 
 using SimpleJSON;
 
-using DateTimeOffset = System.DateTimeOffset;
 
 using BountyID = BountyData.BountyID;
 
@@ -23,7 +24,7 @@ public class BountyContainer
 
         foreach (JSONNode bounty in node["bounties"].AsArray)
         {
-            bounties[(BountyID)int.Parse(bounty["bountyId"])] = new BountyState { startTime = DateTimeOffset.FromUnixTimeSeconds(bounty["startTime"].AsLong).DateTime };
+            Set((BountyID)int.Parse(bounty["bountyId"]), bounty["startTime"].AsLong);
         }
     }
 
@@ -33,7 +34,7 @@ public class BountyContainer
 
         foreach (var bounty in bounties)
         {
-            long startTimestamp = (new DateTimeOffset(bounty.Value.startTime)).ToUnixTimeSeconds();
+            long startTimestamp = (new DateTimeOffset(bounty.Value.startTime)).ToUnixTimeMilliseconds();
 
             JSONNode node = new JSONObject();
 

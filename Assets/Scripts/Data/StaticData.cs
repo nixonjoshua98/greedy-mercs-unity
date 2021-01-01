@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-
+﻿
 using SimpleJSON;
 
 using Characters        = CharacterData.Characters;

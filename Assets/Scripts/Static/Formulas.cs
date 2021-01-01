@@ -18,7 +18,7 @@ public static class Formulas
 
     public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.25f, Mathf.Max(stage - 65, 0));
+        return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 65, 0));
     }
 
     public static BigDouble CalcBossHealth(int stage)
@@ -69,7 +69,7 @@ public static class Formulas
 
         int maxLevels = int.Parse(bigAnswer.ToString());
 
-        return Mathf.Min(Data.MAX_CHAR_LEVEL - state.level, maxLevels);
+        return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.level, maxLevels);
     }
 
 
@@ -97,7 +97,7 @@ public static class Formulas
 
         int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
 
-        return Mathf.Min(Data.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
+        return Mathf.Min(StaticData.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
     }
 
     // === Prestige Points ===

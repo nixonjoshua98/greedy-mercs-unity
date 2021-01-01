@@ -51,17 +51,17 @@ namespace Utils
 
     public class Json
     {
-        public static JSONArray CreateJSONArray<TKey>(string key, Dictionary<TKey, UpgradeState> dict)
+        public static JSONArray CreateJSONArray<TKey, TValue>(string key, Dictionary<TKey, TValue> dict)
         {
             JSONArray array = new JSONArray();
 
             foreach (var entry in dict)
             {
-                JSONNode character = JSON.Parse(JsonUtility.ToJson(entry.Value));
+                JSONNode parsedValue = JSON.Parse(JsonUtility.ToJson(entry.Value));
 
-                character.Add(key, (int)(object)entry.Key);
+                parsedValue.Add(key, (int)(object)entry.Key);
 
-                array.Add(character);
+                array.Add(parsedValue);
             }
 
             return array;

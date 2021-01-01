@@ -64,12 +64,12 @@ public class StatsCache : MonoBehaviour
 
     public static BigDouble GetCritChance()
     {
-        return Data.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
+        return StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
     }
 
     public static BigDouble GetCritDamage()
     {
-        return Data.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
+        return StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
     }
 
     public static BigDouble GetHeroDamage(CharacterID chara)

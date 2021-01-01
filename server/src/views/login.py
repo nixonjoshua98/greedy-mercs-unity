@@ -20,11 +20,21 @@ class Login(View):
 			user_id = row["_id"]
 
 		items = app.mongo.db.userItems.find_one({"userId": user_id}) or dict()
+		bounties = app.mongo.db.userBounties.find({"userId": user_id}, {"_id": 0, "userId": 0})
+
+		bounties = list(bounties)  # - Convert from a cursor to a list
+
+		# - Convert date to timestamp so we can jsonify it
+		for i, _ in enumerate(bounties):
+			bounties[i]["startTime"] = bounties[i]["startTime"].timestamp()
+
+		print(user_id)
 
 		return Response(
 			utils.compress(
 				{
 					"relics": items.get("relics", []),
+					"bounties": bounties,
 					"bountyPoints": items.get("bountyPoints", 0),
 					"prestigePoints": str(items.get("prestigePoints", 0))
 				},

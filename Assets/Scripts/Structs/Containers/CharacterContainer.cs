@@ -1,7 +1,7 @@
 ﻿using System;
-using SimpleJSON;
-using System.Collections;
 using System.Collections.Generic;
+
+using SimpleJSON;
 
 using UnityEngine;
 

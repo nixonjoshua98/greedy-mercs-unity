@@ -1,5 +1,7 @@
-﻿
-using CharacterID = CharacterData.CharacterID;
+﻿using System;
+
+using BountyID      = BountyData.BountyID;
+using CharacterID   = CharacterData.CharacterID;
 
 public class CharacterStaticData
 {
@@ -26,4 +28,10 @@ public class CharacterStaticData
 public class UpgradeState
 {
     public int level = 1;
+}
+
+[System.Serializable]
+public class BountyState
+{
+    public DateTime startTime;
 }

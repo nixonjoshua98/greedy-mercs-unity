@@ -1,8 +1,14 @@
 
 {
   "0": {
-    "name": "<Test 420>",
+    "name": "Little Jerry",
     "bountyReward": 3,
+    "duration": 5
+  },
+
+    "1": {
+    "name": "Spike Dude",
+    "bountyReward": 5,
     "duration": 15
   }
 }

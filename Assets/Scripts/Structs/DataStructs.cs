@@ -3,6 +3,8 @@
 using BountyID      = BountyData.BountyID;
 using CharacterID   = CharacterData.CharacterID;
 
+// TODO: Move into CharacterData namespace
+
 public class CharacterStaticData
 {
     public readonly CharacterID HeroID;

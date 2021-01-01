@@ -12,6 +12,8 @@ public class RelicContainer
 {
     Dictionary<RelicID, UpgradeState> relics;
 
+    public int Count { get { return relics.Count; } }
+
     public RelicContainer(JSONNode node)
     {
         Update(node);
@@ -54,10 +56,6 @@ public class RelicContainer
 
         return bonuses;
     }
-
-    // === 
-
-    public int Count { get { return relics.Count; } }
 
     // === Helper Methods ===
 

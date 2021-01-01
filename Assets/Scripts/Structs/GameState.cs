@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 using SimpleJSON;
 
@@ -31,12 +29,13 @@ public class GameState
 
     public static void Restore(JSONNode node)
     {
-        Instance = JsonUtility.FromJson<_GameState>(node.ToString());
-
-        Instance.relics            = new RelicContainer(node);
-        Instance.bounties          = new BountyContainer(node);
-        Instance.characters        = new CharacterContainer(node);
-        Instance.playerUpgrades    = new UpgradesContainer(node);
+        Instance = new _GameState
+        {
+            relics = new RelicContainer(node),
+            bounties = new BountyContainer(node),
+            characters = new CharacterContainer(node),
+            playerUpgrades = new UpgradesContainer(node)
+        };
 
         Instance.player.OnRestore(node);
     }

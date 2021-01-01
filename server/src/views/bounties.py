@@ -46,11 +46,9 @@ class ClaimBounty(View):
 
 		# - User is not currently doing this bounty
 		if bounty_entry is None:
-			d = {"message": "You cannot collect the reward for this bounty."}
+			return Response(utils.compress({"message": ""}), status=400)
 
-			return Response(utils.compress(d), status=400)
-
-		static_data = self.get_static_bounty(bounty_to_claim)
+		static_data = app.data["static"]["bounties"][str(bounty_to_claim)]
 
 		percent_complete = (dt.datetime.utcnow() - bounty_entry["startTime"]).total_seconds() / static_data["duration"]
 
@@ -69,7 +67,3 @@ class ClaimBounty(View):
 			return Response(utils.compress(return_data), status=200)
 
 		return Response(utils.compress({"message": "You cannot collect the reward for this bounty."}), status=400)
-
-	@staticmethod
-	def get_static_bounty(bounty_id: int) -> dict:
-		return app.data["static"]["bounties"][str(bounty_id)]

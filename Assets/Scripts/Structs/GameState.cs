@@ -12,7 +12,7 @@ public class GameState
     {
         public StageData stage;
 
-        public PlayerState player = new PlayerState();
+        public PlayerState player;
 
         public RelicContainer relics;
         public BountyContainer bounties;
@@ -31,6 +31,9 @@ public class GameState
     {
         Instance = new _GameState
         {
+            player = new PlayerState(),
+            stage = new StageData(),
+
             relics = new RelicContainer(node),
             bounties = new BountyContainer(node),
             characters = new CharacterContainer(node),

@@ -20,8 +20,8 @@ public class BountyRow : MonoBehaviour
     [SerializeField] Text rewardText;
     [SerializeField] Text durationText;
 
-    [Header("Prefabs")]
-    [SerializeField] GameObject ErroMessageObject;
+    // Flag to stop double requests mapping
+    bool isSendingRequest = false;
 
     void Awake()
     {
@@ -32,45 +32,25 @@ public class BountyRow : MonoBehaviour
         durationText.text   = data.duration.ToString() + "s";
     }
 
-    void OnEnable()
+    void FixedUpdate()
     {
-        UpdateBounty();
+        bool isBountyOngoing = GameState.Bounties.TryGetBounty(bounty, out BountyState _);
 
-        InvokeRepeating("UpdateBounty", 0.5f, 0.5f);
-    }
-
-    void OnDisable()
-    {
-        CancelInvoke("UpdateBounty");
-    }
-
-    void UpdateBounty()
-    {
-        bool isBountyOngoing = GameState.Bounties.TryGetBounty(bounty, out BountyState state);
-
-        BountyButtonText.text = isBountyOngoing ? "Collect" : "Start";
-
-        BountyButton.interactable = !isBountyOngoing;
+        // Set soem defautl values ready to be updated
+        ProgressBar.value = 0.0f; 
+        BountyButtonText.text = "Start";
+        BountyButton.interactable = !isSendingRequest;
 
         if (isBountyOngoing)
         {
             float progressPercent = GetCompleteProgress();
 
-            if (progressPercent >= 1.0f)
-            {
-                BountyButtonText.text = "Collect";
+            BountyButtonText.text = progressPercent >= 1.0f ? "Collect" : "Processing";
 
-                BountyButton.interactable = true;
-            }
+            BountyButton.interactable = !isSendingRequest && progressPercent >= 1.0f;
 
             ProgressBar.value = progressPercent;
         }
-
-        else
-        {
-            ProgressBar.value = 0.0f;
-        }
-
     }
 
     // === Button Callbacks ===
@@ -96,29 +76,28 @@ public class BountyRow : MonoBehaviour
 
             Server.StartBounty(this, OnStartBountyCallback, node);
         }
+
+        isSendingRequest = true;
     }
 
     // === Server Callbacks ===
 
     void OnStartBountyCallback(long code, string compressed)
     {
+        isSendingRequest = false;
+
         if (code == 200)
         {
             JSONNode node = Utils.Json.Decode(compressed);
 
             GameState.Bounties.Set(bounty, node["startTime"].AsLong);
         }
-
-        else
-        {
-            Utils.UI.ShowError(ErroMessageObject, "Start Bounty", "Failed to start a new bounty.");
-        }
-
-        UpdateBounty();
     }
 
     void OnClaimBountyCallback(long code, string compressed)
     {
+        isSendingRequest = false;
+
         if (code == 200)
         {
             JSONNode node = Utils.Json.Decode(compressed);
@@ -126,11 +105,6 @@ public class BountyRow : MonoBehaviour
             GameState.Player.Update(node);
 
             GameState.Bounties.Remove(bounty);
-        }
-
-        else
-        {
-            Utils.UI.ShowError(ErroMessageObject, "Start Bounty", "Failed to claim bounty reward.");
         }
     }
 

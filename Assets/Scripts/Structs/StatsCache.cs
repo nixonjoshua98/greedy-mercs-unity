@@ -4,26 +4,27 @@ using UnityEngine;
 
 using CharacterID = CharacterData.CharacterID;
 
-class CachedValue
+class CacheValue
 {
     public float CachedAt;
 
-    public Dictionary<BonusType, double> CachedDict;
+    public BigDouble Value;
+
+    public Dictionary<BonusType, double> Dict;
 }
 
 public class StatsCache : MonoBehaviour
 {
-    static Dictionary<CharacterID, BigDouble>   CharacterDamageCache    = new Dictionary<CharacterID, BigDouble>();
-    static Dictionary<string, CachedValue>      CachedBonuses           = new Dictionary<string, CachedValue>();
+    static Dictionary<string, CacheValue> CachedValues = new Dictionary<string, CacheValue>();
 
     static Dictionary<BonusType, double> CharacterBonus 
     { 
         get 
         {
             if (IsCacheOutdated("CHARACTERS"))
-                CachedBonuses["CHARACTERS"].CachedDict = GameState.Characters.CalculateBonuses();
+                CachedValues["CHARACTERS"].Dict = GameState.Characters.CalculateBonuses();
             
-            return CachedBonuses["CHARACTERS"].CachedDict;
+            return CachedValues["CHARACTERS"].Dict;
         }
     }
 
@@ -32,19 +33,28 @@ public class StatsCache : MonoBehaviour
         get
         {
             if (IsCacheOutdated("RELICS"))
-                CachedBonuses["RELICS"].CachedDict = GameState.Relics.CalculateBonuses();
+                CachedValues["RELICS"].Dict = GameState.Relics.CalculateBonuses();
 
-            return CachedBonuses["RELICS"].CachedDict;
+            return CachedValues["RELICS"].Dict;
         }
+    }
+
+    static BigDouble TotalCharacterDamage { 
+        get 
+        { 
+            BigDouble total = 0; 
+            
+            foreach (CacheValue entry in CachedValues.Values)
+                total += entry.Value; 
+
+            return total; 
+        } 
     }
 
     public static void Clear()
     {
-        CachedBonuses.Clear();
-        CharacterDamageCache.Clear();
+        CachedValues.Clear();
     }
-
-    static BigDouble TotalCharacterDamage { get { BigDouble total = 0; foreach (BigDouble entry in CharacterDamageCache.Values) total += entry; return total; } }
 
     public static bool ApplyCritHit(ref BigDouble val)
     {
@@ -76,9 +86,12 @@ public class StatsCache : MonoBehaviour
     {
         CharacterStaticData staticData = CharacterResources.GetCharacter(chara);
 
-        CharacterDamageCache[chara] = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.ALL_MERC_DAMAGE, staticData.AttackType);
+        string key = "CHARACTER_" + chara.ToString();
 
-        return CharacterDamageCache[chara];
+        if (IsCacheOutdated(key))
+            CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.ALL_MERC_DAMAGE, staticData.AttackType);
+
+        return CachedValues[key].Value;
     }
 
     public static BigDouble GetEnemyGold(int stage)
@@ -93,15 +106,18 @@ public class StatsCache : MonoBehaviour
 
     public static BigDouble GetTapDamage()
     {
-        return Formulas.CalcTapDamage() * MultiplyBonuses(BonusType.TAP_DAMAGE) + (TotalCharacterDamage * AddictiveBonuses(BonusType.HERO_TAP_DAMAGE_ADD));
+        if (IsCacheOutdated("TAP_DAMAGE"))
+            CachedValues["TAP_DAMAGE"].Value = Formulas.CalcTapDamage() * MultiplyBonuses(BonusType.TAP_DAMAGE) + (TotalCharacterDamage * AddictiveBonuses(BonusType.HERO_TAP_DAMAGE_ADD));
+
+        return CachedValues["TAP_DAMAGE"].Value;
     }
 
     // === Internal Methods ===
     static bool IsCacheOutdated(string key)
     {
-        if (!CachedBonuses.ContainsKey(key) || (Time.realtimeSinceStartup - CachedBonuses[key].CachedAt) >= 1.0f)
+        if (!CachedValues.ContainsKey(key) || (Time.realtimeSinceStartup - CachedValues[key].CachedAt) >= 1.0f)
         {
-            CachedBonuses[key] = new CachedValue { CachedAt = Time.realtimeSinceStartup };
+            CachedValues[key] = new CacheValue { CachedAt = Time.realtimeSinceStartup };
 
             return true;
         }

@@ -67,7 +67,7 @@ public class RelicsTab : MonoBehaviour
 
     void UpdateUI()
     {
-        PrestigeButtonText.text = GameState.Stage.stage >= StageData.MIN_PRESTIGE_STAGE ? "Cash Out" : "Locked Stage " + StageData.MIN_PRESTIGE_STAGE.ToString();
+        PrestigeButtonText.text = GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE ? "Cash Out" : "Locked Stage " + StageState.MIN_PRESTIGE_STAGE.ToString();
 
         PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+" 
             + Utils.Format.FormatNumber(Formulas.CalcPrestigePoints(GameState.Stage.stage)) + "</color>)";
@@ -96,7 +96,7 @@ public class RelicsTab : MonoBehaviour
 
     public void OnPrestige()
     {
-        if (GameState.Stage.stage < StageData.MIN_PRESTIGE_STAGE)
+        if (GameState.Stage.stage < StageState.MIN_PRESTIGE_STAGE)
             return;
 
         PrestigeManager.StartPrestige();

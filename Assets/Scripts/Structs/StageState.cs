@@ -1,18 +1,17 @@
 ﻿
 [System.Serializable]
-public class StageData
+public class StageState
 {
     public const int MIN_PRESTIGE_STAGE = 80;
 
     const int ENEMIES_PER_STAGE = 6;
-
 
     public int stage;
     public int enemy;
 
     public bool isStageCompleted;
 
-    public StageData()
+    public StageState()
     {
         stage = enemy = 1;
 

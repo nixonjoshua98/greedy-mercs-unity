@@ -1,52 +1,54 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
 
-using CharacterID = CharacterData.CharacterID;
+using UnityEngine;
 
 public class MercsTab : MonoBehaviour
 {
     static MercsTab Instance = null;
 
-    [SerializeField] Transform heroRowsParent;
+    [Header("Transforms")]
+    [SerializeField] Transform scrollContent;
 
-    [Space]
-
+    [Header("Controllers")]
     [SerializeField] BuyAmountController buyAmount;
 
-    public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
+    [Header("Prefabs")]
+    [SerializeField] GameObject characterRowObject;
 
-    CharacterRow[] rows;
+    public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
 
     void Awake()
     {
         Instance = this;
 
-        rows = heroRowsParent.GetComponentsInChildren<CharacterRow>();
-
         EventManager.OnHeroUnlocked.AddListener(OnHeroUnlocked);
     }
 
-    void OnEnable()
+    IEnumerator Start()
     {
-        ToggleRows();
-
-        InvokeRepeating("ToggleRows", 0.0f, 0.5f);
-    }
-
-    void OnDisable()
-    {
-        CancelInvoke("ToggleRows");
-    }
-
-    void ToggleRows()
-    {
-        foreach (CharacterRow row in rows)
+        foreach (var chara in ResourceManager.Instance.Characters)
         {
-            row.gameObject.SetActive(row.IsUnlocked);
+            if (GameState.Characters.TryGetHeroState(chara.character, out UpgradeState _))
+                AddRow(chara);
+
+            yield return new WaitForFixedUpdate();
         }
     }
 
-    void OnHeroUnlocked(CharacterID _)
+    void AddRow(ScriptableCharacter chara)
     {
-        ToggleRows();
+        GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
+
+        spawnedRow.transform.SetSiblingIndex(0);
+
+        CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
+
+        row.SetCharacter(chara);
+    }
+
+    void OnHeroUnlocked(CharacterData.CharacterID chara)
+    {
+        AddRow(ResourceManager.Instance.GetCharacter(chara));
     }
 }

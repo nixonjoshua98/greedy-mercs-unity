@@ -10,7 +10,7 @@ public class GameState
 
     class _GameState
     {
-        public StageData stage;
+        public StageState stage;
 
         public PlayerState player;
 
@@ -20,7 +20,7 @@ public class GameState
         public UpgradesContainer playerUpgrades;
     }
 
-    public static StageData Stage { get { return Instance.stage; } }
+    public static StageState Stage { get { return Instance.stage; } }
     public static PlayerState Player { get { return Instance.player; } }
     public static RelicContainer Relics { get { return Instance.relics; } }
     public static BountyContainer Bounties { get { return Instance.bounties; } }
@@ -29,16 +29,12 @@ public class GameState
 
     public static void Restore(JSONNode node)
     {
-        Instance = new _GameState
-        {
-            player = new PlayerState(),
-            stage = new StageData(),
+        Instance = JsonUtility.FromJson<_GameState>(node.ToString());
 
-            relics = new RelicContainer(node),
-            bounties = new BountyContainer(node),
-            characters = new CharacterContainer(node),
-            playerUpgrades = new UpgradesContainer(node)
-        };
+        Instance.relics = new RelicContainer(node);
+        Instance.bounties = new BountyContainer(node);
+        Instance.characters = new CharacterContainer(node);
+        Instance.playerUpgrades = new UpgradesContainer(node);
 
         Instance.player.OnRestore(node);
     }

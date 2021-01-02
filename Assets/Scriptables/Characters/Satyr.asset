@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c037b4946605d541bbd30774a539d41, type: 3}
+  m_Name: Satyr
+  m_EditorClassIdentifier: 
+  character: 2
+  name: Satyr
+  attackType: 6
+  purchaseCost: 75000
+  prefab: {fileID: 4212931060154188390, guid: df452a08b65b01d40877b57dd8926bc3, type: 3}
+  icon: {fileID: 21300000, guid: 37a60f98c5f525f40ac9ddacf9388f47, type: 3}

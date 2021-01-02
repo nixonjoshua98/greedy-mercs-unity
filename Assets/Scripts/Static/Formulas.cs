@@ -104,10 +104,10 @@ public static class Formulas
 
     public static BigInteger CalcPrestigePoints(int stage)
     {
-        if (stage < StageData.MIN_PRESTIGE_STAGE)
+        if (stage < StageState.MIN_PRESTIGE_STAGE)
             return 0;
 
-        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageData.MIN_PRESTIGE_STAGE) / 10.0f), 2.1);
+        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageState.MIN_PRESTIGE_STAGE) / 10.0f), 2.1);
 
         return BigInteger.Parse(big.Ceiling().ToString("F0"));
     }

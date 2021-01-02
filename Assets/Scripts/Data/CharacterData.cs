@@ -9,12 +9,12 @@ namespace CharacterData
 {
     public enum CharacterID
     {
-        HERO_NUM_1 = 0,
-        HERO_NUM_2 = 1,
-        HERO_NUM_3 = 2,
-        HERO_NUM_4 = 3,
-        HERO_NUM_5 = 4,
-        HERO_NUM_6 = 5,
+        WRAITH = 0,
+        GOLEM = 1,
+        SATYR = 2,
+        ANGEL = 3,
+        MINOTAUR = 4,
+        REAPER = 5,
     }
 
     [System.Serializable]

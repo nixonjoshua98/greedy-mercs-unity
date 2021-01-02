@@ -503,7 +503,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2106441052226051538}
-        m_MethodName: OnInfoButton
+        m_MethodName: OnShowInfo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -634,7 +634,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2106441052226051538}
-        m_MethodName: OnBuy
+        m_MethodName: OnUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -916,7 +916,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2106441052226051538}
-        m_MethodName: OnInfoButton
+        m_MethodName: OnShowInfo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1019,12 +1019,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ed8b6b5d1e9d84697a7721ee824649, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuyText: {fileID: 4085051046408205343}
-  CostText: {fileID: 1287643996485162135}
+  Icon: {fileID: 7806120166706943225}
+  Name: {fileID: 7806120167199879548}
+  Damage: {fileID: 6350525033156998164}
+  UpgradeAmount: {fileID: 4085051046408205343}
+  UpgradeCost: {fileID: 1287643996485162135}
   LevelText: {fileID: 7416800234189964342}
-  UpgradeButton: {fileID: 0}
-  charID: 0
-  DamageText: {fileID: 6350525033156998164}
+  UpgradeButton: {fileID: 3200631783443604824}
   CharacterPanelObject: {fileID: 2961036064842033163, guid: 5f91f2821cb06e446b43e93691513694,
     type: 3}
 --- !u!1 &7806120167199879550

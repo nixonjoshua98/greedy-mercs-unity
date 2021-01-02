@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c037b4946605d541bbd30774a539d41, type: 3}
+  m_Name: Minotaur
+  m_EditorClassIdentifier: 
+  character: 4
+  name: Minotaur
+  attackType: 5
+  purchaseCost: 125000000
+  prefab: {fileID: 8552994621044990532, guid: 9be7505e9cb8dea4fae11d94ff1406fa, type: 3}
+  icon: {fileID: 21300000, guid: 7da75835c52cdfe449873865e9eb55a3, type: 3}

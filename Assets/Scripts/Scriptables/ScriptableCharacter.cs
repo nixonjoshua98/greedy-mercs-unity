@@ -10,6 +10,8 @@ public class ScriptableCharacter : ScriptableObject
 {
     public CharacterID character;
 
+    public int unlockOrder;
+
     public new string name;
 
     public BonusType attackType;

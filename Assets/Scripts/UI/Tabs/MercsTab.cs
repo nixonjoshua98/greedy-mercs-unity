@@ -27,7 +27,7 @@ public class MercsTab : MonoBehaviour
 
     IEnumerator Start()
     {
-        foreach (var chara in ResourceManager.Instance.Characters)
+        foreach (var chara in CharacterResources.Instance.Characters)
         {
             if (GameState.Characters.TryGetHeroState(chara.character, out UpgradeState _))
                 AddRow(chara);
@@ -49,6 +49,6 @@ public class MercsTab : MonoBehaviour
 
     void OnHeroUnlocked(CharacterData.CharacterID chara)
     {
-        AddRow(ResourceManager.Instance.GetCharacter(chara));
+        AddRow(CharacterResources.Instance.GetCharacter(chara));
     }
 }

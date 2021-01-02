@@ -4,11 +4,11 @@ using UnityEngine;
 
 using CharacterID = CharacterData.CharacterID;
 
-public class ResourceManager : MonoBehaviour
+public class CharacterResources : MonoBehaviour
 {
-    static ResourceManager _instance = null;
+    static CharacterResources _instance = null;
 
-    public static ResourceManager Instance { 
+    public static CharacterResources Instance { 
         get
         {
             if (_instance == null)
@@ -25,9 +25,15 @@ public class ResourceManager : MonoBehaviour
     // === Data ===
     public List<ScriptableCharacter> Characters;
 
+
     void Awake()
     {
         _instance = this;
+
+        for (int i = 0; i < Characters.Count; i++)
+        {
+            Characters[i].unlockOrder = i;
+        }
     }
 
     // === Helper Methods ===
@@ -40,5 +46,22 @@ public class ResourceManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public static bool GetNextHero(out ScriptableCharacter result)
+    {
+        result = null;
+
+        foreach (ScriptableCharacter chara in Instance.Characters)
+        {
+            if (!GameState.Characters.TryGetHeroState(chara.character, out var _))
+            {
+                result = chara;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

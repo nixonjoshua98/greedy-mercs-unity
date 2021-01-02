@@ -8,36 +8,38 @@ public class HeroUnlockPanel : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("UpdatePanel", 0.0f, 0.5f);
-    }
-
-    public void OnUnlockButton()
-    {
-        if (CharacterResources.GetNextHero(out CharacterStaticData hero))
-        {
-            if (GameState.Player.gold >= hero.PurchaseCost)
-            {
-                GameState.Player.gold -= hero.PurchaseCost;
-
-                GameState.Characters.AddHero(hero.HeroID);
-
-                EventManager.OnHeroUnlocked.Invoke(hero.HeroID);
-            }
-
-            UpdatePanel();
-        }
+        UpdatePanel();
     }
 
     void UpdatePanel()
     {
-        if (CharacterResources.GetNextHero(out CharacterStaticData hero))
+        if (CharacterResources.GetNextHero(out ScriptableCharacter chara))
         {
-            TitleText.text = hero.Name;
+            TitleText.text = chara.name;
 
-            CostText.text = Utils.Format.FormatNumber(hero.PurchaseCost);
+            CostText.text = Utils.Format.FormatNumber(chara.purchaseCost);
         }
 
         else
             Destroy(gameObject);
+    }
+
+    // === Button Callbacks ===
+
+    public void OnUnlockButton()
+    {
+        if (CharacterResources.GetNextHero(out ScriptableCharacter chara))
+        {
+            if (GameState.Player.gold >= chara.purchaseCost)
+            {
+                GameState.Player.gold -= chara.purchaseCost;
+
+                GameState.Characters.AddHero(chara.character);
+
+                EventManager.OnHeroUnlocked.Invoke(chara.character);
+            }
+
+            UpdatePanel();
+        }
     }
 }

@@ -84,12 +84,14 @@ public class StatsCache : MonoBehaviour
 
     public static BigDouble GetHeroDamage(CharacterID chara)
     {
-        CharacterStaticData staticData = CharacterResources.GetCharacter(chara);
-
         string key = "CHARACTER_" + chara.ToString();
 
         if (IsCacheOutdated(key))
-            CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.ALL_MERC_DAMAGE, staticData.AttackType);
+        {
+            ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
+
+            CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.ALL_MERC_DAMAGE, data.attackType);
+        }
 
         return CachedValues[key].Value;
     }

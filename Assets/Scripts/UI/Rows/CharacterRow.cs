@@ -37,6 +37,8 @@ public class CharacterRow : MonoBehaviour
 
         UpdateRow();
 
+        Debug.Log(chara.unlockOrder);
+
         InvokeRepeating("UpdateRow", 0.5f, 0.5f);
     }
 

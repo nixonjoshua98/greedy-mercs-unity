@@ -4566,7 +4566,7 @@ PrefabInstance:
     - target: {fileID: 6210200236224633173, guid: eeb75e8946a43c1489a589567788f076,
         type: 3}
       propertyPath: m_Name
-      value: ResourceManager
+      value: CharacterResources
       objectReference: {fileID: 0}
     - target: {fileID: 6210200236224633178, guid: eeb75e8946a43c1489a589567788f076,
         type: 3}

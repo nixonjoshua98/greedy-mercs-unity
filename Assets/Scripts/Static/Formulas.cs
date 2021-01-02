@@ -40,32 +40,32 @@ public static class Formulas
 
     // ===
 
-    public static BigDouble CalcCharacterDamage(CharacterID heroId)
+    public static BigDouble CalcCharacterDamage(CharacterID chara)
     {
-        var state = GameState.Characters.GetCharacter(heroId);
+        var state = GameState.Characters.GetCharacter(chara);
 
-        CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
+        ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
 
-        return (hero.PurchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.032f * (int)heroId));
+        return (data.purchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.032f * (int)chara));
     }
 
     // ===
 
-    public static BigDouble CalcCharacterLevelUpCost(CharacterID heroId, int levels)
+    public static BigDouble CalcCharacterLevelUpCost(CharacterID chara, int levels)
     {
-        var state = GameState.Characters.GetCharacter(heroId);
+        var state = GameState.Characters.GetCharacter(chara);
 
-        CharacterStaticData hero = CharacterResources.GetCharacter(heroId);
+        ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
 
-        return BigMath.SumGeometricSeries(levels, hero.PurchaseCost, 1.075, state.level);
+        return BigMath.SumGeometricSeries(levels, data.purchaseCost, 1.075, state.level);
     }
 
-    public static int AffordCharacterLevels(CharacterID charaId)
+    public static int AffordCharacterLevels(CharacterID chara)
     {
-        UpgradeState state              = GameState.Characters.GetCharacter(charaId);
-        CharacterStaticData staticData  = CharacterResources.GetCharacter(charaId);
+        UpgradeState state          = GameState.Characters.GetCharacter(chara);
+        ScriptableCharacter data    = CharacterResources.Instance.GetCharacter(chara);
 
-        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.gold, staticData.PurchaseCost, 1.075, state.level);
+        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.gold, data.purchaseCost, 1.075, state.level);
 
         int maxLevels = int.Parse(bigAnswer.ToString());
 

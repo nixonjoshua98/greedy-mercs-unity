@@ -24,14 +24,12 @@ public class SquadManager : MonoBehaviour
 
     IEnumerator Start()
     {
-        for (int i = 0; i < ResourceManager.Instance.Characters.Count; ++i)
+        for (int i = 0; i < CharacterResources.Instance.Characters.Count; ++i)
         {
-            var chara = ResourceManager.Instance.Characters[i];
+            var chara = CharacterResources.Instance.Characters[i];
 
             if (GameState.Characters.TryGetHeroState(chara.character, out UpgradeState _))
-            {
                 AddCharacter(chara);
-            }
 
             yield return new WaitForFixedUpdate();
         }
@@ -56,6 +54,6 @@ public class SquadManager : MonoBehaviour
 
     void OnHeroUnlocked(CharacterID chara)
     {
-        AddCharacter(ResourceManager.Instance.GetCharacter(chara));
+        AddCharacter(CharacterResources.Instance.GetCharacter(chara));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections;
 
 using UnityEngine;
@@ -10,7 +11,9 @@ public class SquadManager : MonoBehaviour
 {
     static SquadManager Instance = null;
 
-    [SerializeField] Transform[] HeroLocations;
+    [SerializeField] Transform SquadParent;
+
+    [SerializeField] List<Transform> locations;
 
     void Awake()
     {
@@ -19,42 +22,40 @@ public class SquadManager : MonoBehaviour
         EventManager.OnHeroUnlocked.AddListener(OnHeroUnlocked);
     }
 
-    void Start()
+    IEnumerator Start()
     {
-        StartCoroutine(UpdateSquad());
-    }
-
-    IEnumerator UpdateSquad()
-    {
-        var values = Enum.GetValues(typeof(CharacterID));
-
-        for (int i = 0; i < values.Length; ++i)
+        for (int i = 0; i < ResourceManager.Instance.Characters.Count; ++i)
         {
-            CharacterID current = (CharacterID)values.GetValue(i);
+            var chara = ResourceManager.Instance.Characters[i];
 
-            Transform spawnPoint = HeroLocations[i];
-
-            if (spawnPoint.childCount == 0 && GameState.Characters.TryGetHeroState(current, out UpgradeState _))
+            if (GameState.Characters.TryGetHeroState(chara.character, out UpgradeState _))
             {
-                GameObject character = Instantiate(CharacterResources.GetHeroGameObject(current), spawnPoint);
-
-                character.transform.localPosition = Vector3.zero;
+                AddCharacter(chara);
             }
 
             yield return new WaitForFixedUpdate();
         }
     }
 
+    void AddCharacter(ScriptableCharacter chara)
+    {
+        GameObject character = Instantiate(chara.prefab, locations[0]);
+
+        character.transform.localPosition = Vector3.zero;
+
+        locations.RemoveAt(0);
+    }
+
     public static void ToggleAttacks(bool enabled)
     {
-        HeroAttack[] attacks = Instance.HeroLocations[0].parent.GetComponentsInChildren<HeroAttack>();
+        HeroAttack[] attacks = Instance.SquadParent.GetComponentsInChildren<HeroAttack>();
 
         foreach (HeroAttack atk in attacks)
             atk.enabled = enabled;
     }
 
-    void OnHeroUnlocked(CharacterID _)
+    void OnHeroUnlocked(CharacterID chara)
     {
-        StartCoroutine(UpdateSquad());
+        AddCharacter(ResourceManager.Instance.GetCharacter(chara));
     }
 }

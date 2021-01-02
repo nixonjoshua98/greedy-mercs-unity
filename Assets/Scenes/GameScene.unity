@@ -831,7 +831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9854a9650506c1a40b007bf94cfe10a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeroLocations:
+  SquadParent: {fileID: 242049174}
+  locations:
   - {fileID: 43821335}
   - {fileID: 1479313657}
   - {fileID: 1932435040}

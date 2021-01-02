@@ -10,7 +10,8 @@ public class ScriptableCharacter : ScriptableObject
 {
     public CharacterID character;
 
-    public int unlockOrder;
+    // Value is assigned to in CharacterResources
+    [HideInInspector] public int unlockOrder;
 
     public new string name;
 

@@ -30,9 +30,22 @@ public class CharacterResources : MonoBehaviour
     {
         _instance = this;
 
+        double prevPurchaseCost = 0;
+
         for (int i = 0; i < Characters.Count; i++)
         {
-            Characters[i].unlockOrder = i;
+            var chara = Characters[i];
+
+            chara.unlockOrder = i;
+
+            if (chara.purchaseCost < prevPurchaseCost)
+            {
+                Debug.LogWarning("Hint: {0} | Character unlock order is incorrect (Purchase cost is not fully ascending)".Replace("{0}", chara.character.ToString()));
+
+                Debug.Break();
+            }
+
+            prevPurchaseCost = chara.purchaseCost;
         }
     }
 

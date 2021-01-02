@@ -46,7 +46,7 @@ public static class Formulas
 
         ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
 
-        return (data.purchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.032f * (int)chara));
+        return (data.purchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.032f * data.unlockOrder));
     }
 
     // ===

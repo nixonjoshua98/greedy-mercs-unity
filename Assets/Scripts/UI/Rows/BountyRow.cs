@@ -30,27 +30,28 @@ public class BountyRow : MonoBehaviour
 
         nameText.text       = data.name;
         rewardText.text     = data.bountyReward.ToString() + "x Bounty Points";
-        durationText.text   = data.duration.ToString() + "s";
     }
 
     void FixedUpdate()
     {
+        var data = StaticData.Bounties.Get(bounty);
+
         bool isBountyOngoing = GameState.Bounties.TryGetBounty(bounty, out BountyState state);
 
         // Set soem defautl values ready to be updated
-        ProgressBar.value = 0.0f; 
-        BountyButtonText.text = "Start";
-        BountyButton.interactable = !isSendingRequest;
+        ProgressBar.value           = 0.0f; 
+        BountyButtonText.text       = "Start";
+        BountyButton.interactable   = !isSendingRequest;
+        durationText.text           = Utils.Format.FormatSeconds(data.duration);
 
         if (isBountyOngoing)
         {
             float progressPercent = GetCompleteProgress();
 
-            BountyButtonText.text = progressPercent >= 1.0f ? "Collect" : "Processing";
-
-            BountyButton.interactable = !isSendingRequest && progressPercent >= 1.0f;
-
-            ProgressBar.value = progressPercent;
+            BountyButtonText.text       = progressPercent >= 1.0f ? "Collect" : "Processing";
+            durationText.text           = Utils.Format.FormatSeconds(progressPercent >= 1.0f ? data.duration : Mathf.CeilToInt(data.duration * (1 - progressPercent)));
+            BountyButton.interactable   = !isSendingRequest && progressPercent >= 1.0f;
+            ProgressBar.value           = progressPercent;
         }
     }
 

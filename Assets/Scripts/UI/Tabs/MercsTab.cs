@@ -40,7 +40,7 @@ public class MercsTab : MonoBehaviour
     {
         GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
-        spawnedRow.transform.SetSiblingIndex(0);
+        spawnedRow.transform.SetSiblingIndex(scrollContent.childCount);
 
         CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 

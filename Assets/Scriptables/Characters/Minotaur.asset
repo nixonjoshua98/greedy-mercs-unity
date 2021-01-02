@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Minotaur
   m_EditorClassIdentifier: 
   character: 4
+  unlockOrder: 4
   name: Minotaur
   attackType: 5
   purchaseCost: 125000000

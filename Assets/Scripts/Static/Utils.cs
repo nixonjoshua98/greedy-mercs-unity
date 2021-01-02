@@ -288,5 +288,13 @@ namespace Utils
 
             return string.Concat(result);
         }
+
+        public static string FormatSeconds(int seconds)
+        {
+            int hours = seconds / 3_600; seconds -= (3_600 * hours);
+            int mins = seconds / 60; seconds -= (60 * mins);
+
+            return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
+        }
     }
 }

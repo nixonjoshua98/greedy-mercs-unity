@@ -1147,7 +1147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f63d338aca697dd45bf70770233f99c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnAttackAnimationEndedCallback:
+  OnAnimationEventCallback:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1933520965609426
@@ -13547,7 +13547,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.13333334
-    functionName: OnAttackAnimationEnded
+    functionName: OnAnimationEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

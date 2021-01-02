@@ -4,10 +4,10 @@ using UnityEngine.Events;
 
 public class AnimationCallback : MonoBehaviour
 {
-    [SerializeField] public UnityEvent OnAttackAnimationEndedCallback;
+    [SerializeField] public UnityEvent OnAnimationEventCallback;
 
-    public void OnAttackAnimationEnded()
+    public void OnAnimationEvent()
     {
-        OnAttackAnimationEndedCallback.Invoke();
+        OnAnimationEventCallback.Invoke();
     }
 }

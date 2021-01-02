@@ -170,9 +170,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 4212931060154188391}
     m_Modifications:
     - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
       propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 5590839206907113548}
+    - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5590839206907113548}
+    - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAttackAnimationEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -5,7 +5,7 @@ using UnityEngine;
 
 using CharacterID = CharacterData.CharacterID;
 
-[CreateAssetMenu(menuName ="Scriptables/Character")]
+[CreateAssetMenu(menuName = "Scriptables/Character")]
 public class ScriptableCharacter : ScriptableObject
 {
     public CharacterID character;

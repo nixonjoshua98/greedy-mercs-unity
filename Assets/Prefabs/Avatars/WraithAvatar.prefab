@@ -592,7 +592,7 @@ GameObject:
   - component: {fileID: 5593621142731929140}
   - component: {fileID: 1048202788}
   m_Layer: 0
-  m_Name: 01
+  m_Name: WraithAvatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -644,23 +644,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f63d338aca697dd45bf70770233f99c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDyingAnimationEndedCallback:
+  OnAnimationEventCallback:
     m_PersistentCalls:
       m_Calls: []
-  OnAttackAnimationEndedCallback:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1048202788}
-        m_MethodName: OnAttackAnimationEnded
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &5829725157464698210
 GameObject:
   m_ObjectHideFlags: 0
@@ -13723,7 +13709,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.2
-    functionName: OnAttackAnimationEnded
+    functionName: OnAnimationEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -90,7 +90,7 @@
     "baseEffect": 0.005,
     "levelEffect": 0.005
   },
-    "10": {
+  "10": {
     "name": "Jade Necklace",
     "description": "A jade necklace which offers fortune to its user.",
     "bonusType": 9,

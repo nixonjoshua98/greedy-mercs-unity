@@ -198,9 +198,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552994619959746906, guid: f599d76226aa16e4b87e507fa32dd4b8,
         type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552994619959746906, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
       propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8552994621044990534}
+    - target: {fileID: 8552994619959746906, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552994619959746906, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552994619959746906, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8552994621044990534}
+    - target: {fileID: 8552994619959746906, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAttackAnimationEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552994619959746906, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f599d76226aa16e4b87e507fa32dd4b8, type: 3}
 --- !u!4 &7947168807643490579 stripped

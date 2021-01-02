@@ -4,7 +4,7 @@
     "description": "A rare glove used by the previous King, it was thought to be long lost before coming into your possession.",
     "bonusType": 2,
     "baseCost": 2,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 1.2,
     "levelEffect": 0.4
   },
@@ -13,7 +13,7 @@
     "description": "A standard issue sword given to new mercenarys. It has no special features and is very dull.",
     "bonusType": 0,
     "baseCost": 3,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   },
@@ -22,7 +22,7 @@
     "description": "An old pair of pants which are not good for anything besides offering a small boost to their wearer.",
     "bonusType": 1,
     "baseCost": 3,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 1.25,
     "levelEffect": 0.25
   },
@@ -31,7 +31,7 @@
     "description": "An extremely precious, and forbiddon, potion which enrages anyone who uses even one drop.",
     "bonusType": 0,
     "baseCost": 2,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 1.2,
     "levelEffect": 0.4
   },
@@ -40,7 +40,7 @@
     "description": "This ring is unknown in its making, but we do know that it is an extremely powerful item.",
     "bonusType": 3,
     "baseCost": 3,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 1.25,
     "levelEffect": 0.25
   },
@@ -49,7 +49,7 @@
     "description": "A scroll which contains a forbidden tap technique used by the wizard king.",
     "bonusType": 2,
     "baseCost": 3,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 2.0,
     "levelEffect": 1.0
   },
@@ -58,7 +58,7 @@
     "description": "A powerful axe which can destroy even the mightest defence.",
     "bonusType": 0,
     "baseCost": 3,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 1.5,
     "levelEffect": 0.5
   },
@@ -67,7 +67,7 @@
     "description": "Spell tome which contains a variety of legendary spells.",
     "bonusType": 6,
     "baseCost": 2,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   },
@@ -76,7 +76,7 @@
     "description": "Old bracers worn by a previous mercenary. It has limited defence capability.",
     "bonusType": 5,
     "baseCost": 2,
-    "costPower": 1.03,
+    "costPower": 1.05,
     "baseEffect": 2.0,
     "levelEffect": 0.5
   },
@@ -86,7 +86,7 @@
     "maxLevel": 10,
     "bonusType": 8,
     "baseCost": 5,
-    "costPower": 1.1,
+    "costPower": 1.05,
     "baseEffect": 0.005,
     "levelEffect": 0.005
   },
@@ -95,7 +95,7 @@
     "description": "A jade necklace which offers fortune to its user.",
     "bonusType": 9,
     "baseCost": 3,
-    "costPower": 1.1,
+    "costPower": 1.05,
     "baseEffect": 1.5,
     "levelEffect": 0.5
   }

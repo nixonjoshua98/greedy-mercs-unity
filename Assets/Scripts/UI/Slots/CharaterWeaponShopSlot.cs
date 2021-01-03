@@ -13,7 +13,7 @@ public class CharaterWeaponShopSlot : MonoBehaviour
 
     public Button button;
 
-    public void SetOwned(int owned)
+    public void SetWeaponsOwned(int owned)
     {
         ownedText.text = owned.ToString();
     }

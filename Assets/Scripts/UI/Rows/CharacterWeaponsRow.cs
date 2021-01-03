@@ -58,7 +58,7 @@ public class CharacterWeaponsRow : MonoBehaviour
         {
             int weaponOwned = GameState.Weapons.Get(character.character, i);
 
-            weaponSlots[i].SetOwned(weaponOwned);
+            weaponSlots[i].SetWeaponsOwned(weaponOwned);
         }
     }
 

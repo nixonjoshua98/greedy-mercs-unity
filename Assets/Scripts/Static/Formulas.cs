@@ -77,7 +77,7 @@ public static class Formulas
 
     public static BigDouble CalcTapDamage()
     {
-        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
         return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 50.0f);
     }
@@ -86,14 +86,14 @@ public static class Formulas
 
     public static BigDouble CalcTapDamageLevelUpCost(int levels)
     {
-        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
         return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, (state.level - 1));
     }
 
     public static int AffordTapDamageLevels()
     {
-        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
 
         int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
 

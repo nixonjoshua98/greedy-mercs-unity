@@ -13,7 +13,7 @@ public class UpgradesContainer
     {
         upgrades = new Dictionary<UpgradeID, UpgradeState>();
 
-        foreach (JSONNode upgrade in node["playerUpgrades"].AsArray)
+        foreach (JSONNode upgrade in node["upgrades"].AsArray)
             upgrades[(UpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
 
         if (!upgrades.ContainsKey(UpgradeID.TAP_DAMAGE))    AddUpgrade(UpgradeID.TAP_DAMAGE, 1);

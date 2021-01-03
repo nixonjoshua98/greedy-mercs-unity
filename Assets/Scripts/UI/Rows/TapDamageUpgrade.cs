@@ -20,7 +20,7 @@ public class TapDamageUpgrade : UpgradeRow
 
     public override void UpdateRow()
     {
-        UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(upgradeId);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(upgradeId);
 
         DamageText.text = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
         CostText.text   = state.level >= StaticData.MAX_TAP_UPGRADE_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
@@ -38,7 +38,7 @@ public class TapDamageUpgrade : UpgradeRow
 
         if (GameState.Player.gold >= cost)
         {
-            UpgradeState state = GameState.PlayerUpgrades.GetUpgrade(upgradeId);
+            UpgradeState state = GameState.Upgrades.GetUpgrade(upgradeId);
 
             state.level += levelsBuying;
 

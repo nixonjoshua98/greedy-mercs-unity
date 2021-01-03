@@ -17,6 +17,8 @@ public class CharacterWeaponsRow : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] GameObject CharaWeaponSlotObject;
 
+    List<CharaterWeaponShopSlot> weaponSlots;
+
     public void SetCharacter(ScriptableCharacter chara)
     {
         character = chara;
@@ -27,6 +29,8 @@ public class CharacterWeaponsRow : MonoBehaviour
     IEnumerator Start()
     {
         SetCharacter(CharacterResources.Instance.GetCharacter(CharacterData.CharacterID.GOLEM));
+
+        weaponSlots = new List<CharaterWeaponShopSlot>();
 
         for (int i = 0; i < character.weapons.Length; ++i)
         {
@@ -42,12 +46,32 @@ public class CharacterWeaponsRow : MonoBehaviour
 
             slot.button.onClick.AddListener(delegate { OnWeaponSelected(temp); });
 
+            weaponSlots.Add(slot);
+
             yield return new WaitForFixedUpdate();
         }
     }
 
+    void FixedUpdate()
+    {
+        for (int i = 0; i < weaponSlots.Count; ++i)
+        {
+            int weaponOwned = GameState.Weapons.Get(character.character, i);
+
+            weaponSlots[i].SetOwned(weaponOwned);
+        }
+    }
+
+    // === Button Callbacks ===
     void OnWeaponSelected(int index)
     {
-        EventManager.OnCharacterWeaponChange.Invoke(character, index);
+        int weaponOwned = GameState.Weapons.Get(character.character, index);
+
+        GameState.Weapons.Add(character.character, index, 1);
+
+        if (weaponOwned >= 1)
+        {
+            EventManager.OnCharacterWeaponChange.Invoke(character, index);
+        }
     }
 }

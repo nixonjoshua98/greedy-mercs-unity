@@ -11,16 +11,22 @@ namespace CustomEvents
     public class HealthEvent : UnityEvent<Health> { }
 
     public class HeroEvent : UnityEvent<CharacterID> { }
+
+    public class CharacterEvent : UnityEvent<ScriptableCharacter, int> { }
 }
 
 
 public class EventManager : MonoBehaviour
 {
-    public static CustomEvents.GameObjectEvent  OnBossSpawned           = new CustomEvents.GameObjectEvent();
+    public static CustomEvents.GameObjectEvent  OnBossSpawned               = new CustomEvents.GameObjectEvent();
 
-    public static CustomEvents.HealthEvent      OnEnemyHurt             = new CustomEvents.HealthEvent();
+    public static CustomEvents.HealthEvent      OnEnemyHurt                 = new CustomEvents.HealthEvent();
 
-    public static CustomEvents.HeroEvent        OnHeroUnlocked          = new CustomEvents.HeroEvent();
+    public static CustomEvents.HeroEvent        OnHeroUnlocked              = new CustomEvents.HeroEvent();
+
+    public static CustomEvents.CharacterEvent   OnCharacterWeaponChange     = new CustomEvents.CharacterEvent();
+
+    // === Standard Events ===
 
     public static UnityEvent                    OnStageUpdate           = new UnityEvent();
 

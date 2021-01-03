@@ -55,18 +55,15 @@ class ClaimBounty(View):
 
 		percent_complete = (dt.datetime.utcnow() - bounty_entry["startTime"]).total_seconds() / static_data["duration"]
 
-		# - User has finished the bounty
-		if percent_complete >= 1.0:
-			items = app.mongo.db.userItems.find_one_and_update(
-				{"userId": userid}, {"$inc": {"bountyPoints": static_data["bountyReward"]}},
-				return_document=ReturnDocument.AFTER,
-				upsert=True
-			)
+		if percent_complete < 1.0:
+			return Response(utils.compress({"message": "You cannot collect the reward for this bounty."}), status=400)
 
-			app.mongo.db.userBounties.delete_one({"userId": userid, "bountyId": bounty_to_claim})
+		items = app.mongo.db.userItems.find_one_and_update(
+			{"userId": userid}, {"$inc": {"bountyPoints": static_data["bountyReward"]}},
+			return_document=ReturnDocument.AFTER,
+			upsert=True
+		)
 
-			return_data = {"bountyPoints": items["bountyPoints"]}
+		app.mongo.db.userBounties.delete_one({"userId": userid, "bountyId": bounty_to_claim})
 
-			return Response(utils.compress(return_data), status=200)
-
-		return Response(utils.compress({"message": "You cannot collect the reward for this bounty."}), status=400)
+		return Response(utils.compress({"bountyPoints": items["bountyPoints"]}), status=200)

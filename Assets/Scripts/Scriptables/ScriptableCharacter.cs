@@ -22,4 +22,6 @@ public class ScriptableCharacter : ScriptableObject
     public GameObject prefab;
 
     public Sprite icon;
+
+    public ScriptableWeapon[] weapons;
 }

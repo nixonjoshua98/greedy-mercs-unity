@@ -6,7 +6,7 @@ using CharacterID = CharacterData.CharacterID;
 
 public abstract class HeroAttack: MonoBehaviour
 {
-    [SerializeField] CharacterID heroId;
+    [SerializeField] protected CharacterID heroId;
 
     [Space]
 

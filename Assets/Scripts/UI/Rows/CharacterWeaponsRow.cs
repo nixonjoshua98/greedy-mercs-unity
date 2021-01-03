@@ -69,9 +69,6 @@ public class CharacterWeaponsRow : MonoBehaviour
 
         GameState.Weapons.Add(character.character, index, 1);
 
-        if (weaponOwned >= 1)
-        {
-            EventManager.OnCharacterWeaponChange.Invoke(character, index);
-        }
+        EventManager.OnCharacterWeaponChange.Invoke(character, index);
     }
 }

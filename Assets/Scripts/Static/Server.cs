@@ -12,6 +12,9 @@ public static class Server
     public static void StartBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/start", callback, node));
     public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));
 
+    // === Weapons ===
+    public static void BuyWeapon(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("weapon/buy", callback, node));
+
     public static void Login(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
     {
         mono.StartCoroutine(Put("login", callback, node));

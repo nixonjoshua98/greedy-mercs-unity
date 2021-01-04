@@ -48,6 +48,7 @@ MonoBehaviour:
   heroId: 3
   anim: {fileID: 4140710708500218812}
   AttackDelay: 0.4
+  weaponSlot: {fileID: 4044664077747972816}
 --- !u!1 &4044917155967761224
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,10 +141,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FallenAngelAvatar
       objectReference: {fileID: 0}
-    - target: {fileID: 4056612323616816, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -17.762127
-      objectReference: {fileID: 0}
     - target: {fileID: 4301320719418220, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -188,98 +185,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4301320719418220, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4301320719418220, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4314040703520416, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 122.262215
-      objectReference: {fileID: 0}
-    - target: {fileID: 4373345345889030, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -155.23549
-      objectReference: {fileID: 0}
-    - target: {fileID: 4558492282493154, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -102.51943
-      objectReference: {fileID: 0}
-    - target: {fileID: 4565050223582410, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 2.9376616
-      objectReference: {fileID: 0}
-    - target: {fileID: 4610402814683650, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 79.43667
-      objectReference: {fileID: 0}
-    - target: {fileID: 4865374395491824, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -13.526499
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 4044917154262169176}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnAttackAnimationEnd
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAttackAnimationEndedCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
         type: 3}
       propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 4044917154262169176}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnAttackAnimationEnd
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977545085281559693, guid: e0bd3015af80d894da39ba968ceb587e,
-        type: 3}
-      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
 --- !u!4 &4047934244842792548 stripped
@@ -291,6 +201,12 @@ Transform:
 --- !u!95 &4140710708500218812 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95891482203547316, guid: e0bd3015af80d894da39ba968ceb587e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4044917155986515208}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4044664077747972816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1097537579044824, guid: e0bd3015af80d894da39ba968ceb587e,
     type: 3}
   m_PrefabInstance: {fileID: 4044917155986515208}
   m_PrefabAsset: {fileID: 0}

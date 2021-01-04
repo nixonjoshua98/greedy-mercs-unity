@@ -51,7 +51,7 @@ class ClaimBounty(View):
 		if bounty_entry is None:
 			return Response(utils.compress({"message": ""}), status=400)
 
-		static_data = app.data["static"]["bounties"][str(bounty_to_claim)]
+		static_data = app.staticdata["bounties"][str(bounty_to_claim)]
 
 		percent_complete = (dt.datetime.utcnow() - bounty_entry["startTime"]).total_seconds() / static_data["duration"]
 

@@ -33,6 +33,7 @@ class Login(View):
 		return Response(
 			utils.compress(
 				{
+					"weapons": items.get("weapons", dict()),
 					"relics": items.get("relics", dict()),
 					"bounties": bounties,
 					"bountyPoints": items.get("bountyPoints", 0),

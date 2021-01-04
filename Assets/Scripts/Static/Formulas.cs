@@ -14,8 +14,6 @@ public static class Formulas
      * ===
      */
 
-    // =====
-
     public static BigDouble CalcEnemyHealth(int stage)
     {
         return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 65, 0));

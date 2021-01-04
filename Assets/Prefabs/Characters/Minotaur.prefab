@@ -48,6 +48,7 @@ MonoBehaviour:
   heroId: 4
   anim: {fileID: 4196962537881791945}
   AttackDelay: 0.5
+  weaponSlot: {fileID: 2006900576644043195}
 --- !u!1 &8552994621849392845
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +243,12 @@ Transform:
 --- !u!95 &4196962537881791945 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5516008474935807127, guid: f599d76226aa16e4b87e507fa32dd4b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 8552994619959746910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2006900576644043195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7884578347305545957, guid: f599d76226aa16e4b87e507fa32dd4b8,
     type: 3}
   m_PrefabInstance: {fileID: 8552994619959746910}
   m_PrefabAsset: {fileID: 0}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 using CharacterID = CharacterData.CharacterID;
 
-public abstract class HeroAttack: MonoBehaviour
+public abstract class HeroAttack : MonoBehaviour
 {
     [SerializeField] protected CharacterID heroId;
 

@@ -3,6 +3,7 @@ using SimpleJSON;
 
 using Characters        = CharacterData.Characters;
 using Passives          = PassivesData.Passives;
+using Weapons           = WeaponData.Weapons;
 using Bounties          = BountyData.Bounties;
 using Relics            = RelicData.Relics;
 
@@ -20,6 +21,7 @@ public class StaticData
 
     // === Accessors ===
     public static Relics Relics { get { return Instance.relics; } }
+    public static Weapons Weapons { get { return Instance.weapons; } }
     public static Bounties Bounties { get { return Instance.bounties; } }
     public static Passives Passives { get { return Instance.passives; } }
     public static Characters Characters {  get { return Instance.characters; } }
@@ -38,14 +40,16 @@ public class StaticData
         public Characters   characters;
         public Passives     passives;
         public Bounties     bounties;
+        public Weapons      weapons;
         public Relics       relics;
 
         public _StaticData(JSONNode json)
         {
-            relics = new Relics(json["relics"]);
-            bounties = new Bounties(json["bounties"]);
-            passives = new Passives(json["characterPassives"]);
-            characters = new Characters(json["characters"]);
+            weapons     = new Weapons(json["weapons"]);
+            relics      = new Relics(json["relics"]);
+            bounties    = new Bounties(json["bounties"]);
+            passives    = new Passives(json["characterPassives"]);
+            characters  = new Characters(json["characters"]);
         }
     }
 }

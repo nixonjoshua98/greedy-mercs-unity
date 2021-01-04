@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,6 +63,23 @@ public class WeaponContainer
     public int Get(CharacterID chara, int index)
     {
         return Get(chara).GetValueOrDefault(index, 0);
+    }
+
+    public int GetHighestTier(CharacterID chara)
+    {
+        var characterWeapons = Get(chara);
+
+        var keys = characterWeapons.Keys.ToList();
+
+        keys.Sort((a, b) => b.CompareTo(a));
+
+        foreach (int key in keys)
+        {
+            if (characterWeapons[key] > 0)
+                return key;
+        }
+
+        return 0;
     }
 
     public void Add(CharacterID chara, int index, int amount)

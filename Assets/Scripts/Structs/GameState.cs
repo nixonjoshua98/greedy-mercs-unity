@@ -44,6 +44,7 @@ public class GameState
     public static void Update(JSONNode node)
     {
         Instance.player.Update(node);
+        Instance.weapons.Update(node);
         Instance.relics.Update(node);
         Instance.bounties.Update(node);
     }

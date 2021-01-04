@@ -11,6 +11,15 @@ public class MeleeHeroAttack : HeroAttack
 
     void Start()
     {
+        int highestWeapon = GameState.Weapons.GetHighestTier(heroId);
+
+        if (highestWeapon > 0)
+        {
+            ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(heroId);
+
+            SwapWeapons(chara.weapons[highestWeapon].prefab);
+        }
+
         EventManager.OnCharacterWeaponChange.AddListener(OnCharacterWeaponChange);
     }
 

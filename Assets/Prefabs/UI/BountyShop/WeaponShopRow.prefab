@@ -138,6 +138,8 @@ MonoBehaviour:
   weaponsScrollContent: {fileID: 8259429912278829616}
   CharaWeaponSlotObject: {fileID: 4300378605926117222, guid: 1389a794f3a7f6847a1c7392f4dc7c8c,
     type: 3}
+  ConfirmSliderObject: {fileID: 4699740934719019892, guid: f5b97d197683cc44699ebfa2a043bcf3,
+    type: 3}
 --- !u!1 &8259429911969779645
 GameObject:
   m_ObjectHideFlags: 0

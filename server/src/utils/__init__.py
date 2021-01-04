@@ -4,15 +4,6 @@ import gzip
 import base64
 
 
-def get(ls: list, **kwargs):
-
-	for i, ele in enumerate(ls):
-		if all(ele[attr] == val for attr, val in kwargs.items()):
-			return ele
-
-	return None
-
-
 def compress(data: dict) -> str:
 	"""
 	:param data: The dictionary we want to compress, ready to send back to the client

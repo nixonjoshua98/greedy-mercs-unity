@@ -3,10 +3,10 @@
     "name": "Gauntlet of Clicking",
     "description": "A rare glove used by the previous King, it was thought to be long lost before coming into your possession.",
     "bonusType": 2,
-    "baseCost": 2,
+    "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 1.2,
-    "levelEffect": 0.4
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
   },
   "1": {
     "name": "Iron Sword",
@@ -14,7 +14,7 @@
     "bonusType": 0,
     "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 2.0,
+    "baseEffect": 1.5,
     "levelEffect": 0.5
   },
   "2": {
@@ -23,17 +23,17 @@
     "bonusType": 1,
     "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 1.25,
-    "levelEffect": 0.25
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
   },
   "3": {
     "name": "Berserk Potion",
     "description": "An extremely precious, and forbiddon, potion which enrages anyone who uses even one drop.",
     "bonusType": 0,
-    "baseCost": 2,
+    "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 1.2,
-    "levelEffect": 0.4
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
   },
   "4": {
     "name": "The Last Ring",
@@ -41,8 +41,8 @@
     "bonusType": 3,
     "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 1.25,
-    "levelEffect": 0.25
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
   },
   "5": {
     "name": "Forbidden Scroll",
@@ -50,8 +50,8 @@
     "bonusType": 2,
     "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 2.0,
-    "levelEffect": 1.0
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
   },
   "6": {
     "name": "Power Axe",
@@ -66,18 +66,18 @@
     "name": "Spell Tome",
     "description": "Spell tome which contains a variety of legendary spells.",
     "bonusType": 6,
-    "baseCost": 2,
+    "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 2.0,
+    "baseEffect": 1.5,
     "levelEffect": 0.5
   },
   "8": {
     "name": "Bracers",
     "description": "Old bracers worn by a previous mercenary. It has limited defence capability.",
     "bonusType": 5,
-    "baseCost": 2,
+    "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 2.0,
+    "baseEffect": 1.5,
     "levelEffect": 0.5
   },
   "9": {
@@ -85,7 +85,7 @@
     "description": "A precious stone which boosts the wielders luck. Previous users were all blessed with fortune.",
     "maxLevel": 10,
     "bonusType": 8,
-    "baseCost": 5,
+    "baseCost": 3,
     "costPower": 1.05,
     "baseEffect": 0.005,
     "levelEffect": 0.005
@@ -98,5 +98,23 @@
     "costPower": 1.05,
     "baseEffect": 1.5,
     "levelEffect": 0.5
+  },
+  "11": {
+    "name": "Bow of Artemis",
+    "description": "This bow is said to have been used by the ancient God, and is said to be unparelled in its power.",
+    "bonusType": 7,
+    "baseCost": 3,
+    "costPower": 1.05,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+    "12": {
+    "name": "Book of Wealth",
+    "description": "A book left behind by the now-deceased richest man in the world. It contains everything he learnt throughout his life",
+    "bonusType": 11,
+    "baseCost": 3,
+    "costPower": 1.05,
+    "baseEffect": 1.05,
+    "levelEffect": 0.05
   }
 }

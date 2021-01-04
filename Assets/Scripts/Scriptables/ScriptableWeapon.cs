@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+[PreferBinarySerialization]
 [CreateAssetMenu(menuName = "Scriptables/Weapon")]
 public class ScriptableWeapon : ScriptableObject
 {

@@ -10,12 +10,12 @@
 		"value": 1.25
 	},
 	"2": {
-		"name": "Non-Boss Gold",
+		"name": "Increase Enemy Gold",
 		"bonusType": 1,
 		"value": 1.1
 	},
 	"3": {
-		"name": "Non-Boss Gold",
+		"name": "Increase Enemy Gold",
 		"bonusType": 1,
 		"value": 1.25
 	},
@@ -43,5 +43,10 @@
 		"name": "A Helping Hand",
 		"bonusType": 4,
 		"value": 0.001
+	},
+	"9": {
+		"name": "Ranged Damage Boost",
+		"bonusType": 7,
+		"value": 1.25
 	}
 }

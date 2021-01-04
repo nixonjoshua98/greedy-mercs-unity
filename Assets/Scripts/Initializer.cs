@@ -21,7 +21,7 @@ public class Initializer : MonoBehaviour
         Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
     }
 
-    void ServerLoginCallback(long code, string compressedJson)
+    void ServerLoginCallback(long code, string compressed)
     {
         bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
 
@@ -29,7 +29,7 @@ public class Initializer : MonoBehaviour
 
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decode(compressedJson);
+            JSONNode node = Utils.Json.Decode(compressed);
 
             GameState.Update(node);
         }

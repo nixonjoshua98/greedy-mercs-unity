@@ -5,6 +5,7 @@ using UnityEngine;
 
 using CharacterID = CharacterData.CharacterID;
 
+[PreferBinarySerialization]
 [CreateAssetMenu(menuName = "Scriptables/Character")]
 public class ScriptableCharacter : ScriptableObject
 {

@@ -70,7 +70,7 @@ public class RelicsTab : MonoBehaviour
         PrestigeButtonText.text = GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE ? "Cash Out" : "Locked Stage " + StageState.MIN_PRESTIGE_STAGE.ToString();
 
         PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+" 
-            + Utils.Format.FormatNumber(Formulas.CalcPrestigePoints(GameState.Stage.stage)) + "</color>)";
+            + Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage)) + "</color>)";
 
         RelicCostText.text = GameState.Relics.Count < StaticData.Relics.Count ? Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.Relics.Count)) : "MAX";
 

@@ -10,8 +10,17 @@ from src.views import Login, StaticData, Prestige, BuyRelic, UpgradeRelic, Reset
 
 from src.views import StartBounty, ClaimBounty
 
+from src.classes.relic import Relic
 
-app = Flask(__name__)
+
+class FlaskApplication(Flask):
+
+	staticdata: dict
+
+	objects: dict
+
+
+app = FlaskApplication(__name__)
 
 app.mongo = PyMongo()
 
@@ -22,6 +31,17 @@ app.data = {
 		"characters": 			utils.read_data_file("characters.json"),
 		"characterPassives":	utils.read_data_file("characterPassives.json"),
 	}
+}
+
+app.staticdata = {
+		"relics": 				utils.read_data_file("relics.json"),
+		"bounties":				utils.read_data_file("bounties.json"),
+		"characters": 			utils.read_data_file("characters.json"),
+		"characterPassives":	utils.read_data_file("characterPassives.json"),
+	}
+
+app.objects = {
+	"relics": {int(k): Relic.from_dict(r) for k, r in app.staticdata["relics"].items()}
 }
 
 app.mongo.init_app(app, uri="mongodb://localhost:27017/temp")

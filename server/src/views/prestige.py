@@ -1,14 +1,8 @@
-import math
-
-from pymongo import ReturnDocument
-
 from flask import Response, request, current_app as app
 
 from flask.views import View
 
-from src import utils, checks
-
-MIN_PRESTIGE_STAGE = 80
+from src import utils, checks, formulas
 
 
 class Prestige(View):
@@ -18,31 +12,19 @@ class Prestige(View):
 
 		data = utils.decompress(request.data)
 
-		prestige_stage = data["prestigeStage"]
-
-		if prestige_stage < MIN_PRESTIGE_STAGE:
-			return Response(utils.compress({"message": ""}), status=400)
-
-		prestigePointsEarned = self.calc_prestige_points(prestige_stage)
-
 		userItems = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
+		prestige_points, user_relics = userItems.get("prestigePoints", 0), userItems.get("relics", dict())
+
+		points_earned = formulas.stage_prestige_points(data["prestigeStage"], app.objects["relics"], user_relics)
+
+		new_prestige_points = int(userItems.get("prestigePoints", 0)) + points_earned
+
 		# - Perform the prestige on the database
-		userItems = app.mongo.db.userItems.find_one_and_update(
-			{
-				"userId": userid
-			},
-			{
-				"$set": {
-					"prestigePoints": str(int(userItems.get("prestigePoints", 0)) + prestigePointsEarned)
-				}
-			},
+		app.mongo.db.userItems.update_one(
+			{"userId": userid},
+			{"$set": {"prestigePoints": str(new_prestige_points)}},
 			upsert=True,
-			return_document=ReturnDocument.AFTER
 		)
 
-		return Response(utils.compress({"prestigePoints": userItems["prestigePoints"]}), status=200)
-
-	@staticmethod
-	def calc_prestige_points(stage):
-		return math.ceil(math.pow(math.ceil((stage - MIN_PRESTIGE_STAGE) / 10.0), 2.1))
+		return Response(utils.compress({"prestigePoints": str(new_prestige_points)}), status=200)

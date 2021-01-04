@@ -22,15 +22,22 @@ public class RelicContainer
     {
         relics = new Dictionary<RelicID, UpgradeState>();
 
-        foreach (JSONNode chara in node["relics"].AsArray)
+        foreach (string relicId in node["relics"].Keys)
         {
-            relics[(RelicID)int.Parse(chara["relicId"])] = JsonUtility.FromJson<UpgradeState>(chara.ToString());
+            relics[(RelicID)int.Parse(relicId)] = new UpgradeState { level = node["relics"][relicId].AsInt };
         }
     }
 
     public JSONNode ToJson()
     {
-        return Utils.Json.CreateJSONArray("relicId", relics);
+        JSONNode node = new JSONObject();
+
+        foreach (var relic in relics)
+        {
+            node.Add(((int)relic.Key).ToString(), relic.Value.level);
+        }
+
+        return node;
     }
 
     public Dictionary<BonusType, double> CalculateBonuses()

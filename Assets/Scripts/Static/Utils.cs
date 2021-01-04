@@ -42,6 +42,7 @@ namespace Utils
                 case BonusType.RANGED_DAMAGE:           return "Ranged Damage";
                 case BonusType.ALL_GOLD:                return "All Gold";
                 case BonusType.CRIT_DAMAGE:             return "Critical Hit Damage";
+                case BonusType.CASH_OUT_BONUS:          return "Cash Out Bonus";
 
                 default:
                     return "<error>";

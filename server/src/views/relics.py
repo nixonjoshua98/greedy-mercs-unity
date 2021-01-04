@@ -1,14 +1,9 @@
-import math
 import random
-
-from pymongo import ReturnDocument
 
 from flask import Response, request, current_app as app
 from flask.views import View
 
-from src import utils, checks
-
-NUM_RELICS = 11
+from src import utils, checks, formulas
 
 
 class BuyRelic(View):
@@ -19,54 +14,41 @@ class BuyRelic(View):
 		# - Load user data from the database
 		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
-		prestigePointsString = items.get("prestigePoints", 0)
+		prestige_points = int(items.get("prestigePoints", 0))
 
-		relic, cost = self.get_next_relic(items.get("relics", []))
+		relics = items.get("relics", [])
 
 		# - No relic available
-		if relic is None or cost is None:
+		if len(relics) == len(app.objects["relics"]):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		# - User cannot afford the next relic
-		if int(prestigePointsString) < cost:
+		if prestige_points < (cost := formulas.next_relic_cost(len(relics))):
 			return Response(utils.compress({"message": ""}), status=400)
 
-		remainPrestigePoints = int(prestigePointsString) - cost
+		new_relic_id = self.get_next_relic(relics)
 
-		updatedUserItems = app.mongo.db.userItems.find_one_and_update(
-			{
-				"userId": userid
-			},
+		remainPrestigePoints = prestige_points - cost
 
-			{
-				"$set": {"prestigePoints": str(remainPrestigePoints)},
-				"$push": {"relics": {"relicId": relic, "level": 1}}
-			},
-
-			return_document=ReturnDocument.AFTER,
+		app.mongo.db.userItems.update_one(
+			{"userId": userid},
+			{"$set": {"prestigePoints": str(remainPrestigePoints), f"relics.{new_relic_id}": 1}},
 			upsert=True
 		)
 
-		return Response(
-			utils.compress({
-				"relicBought": relic,
-				"prestigePoints": str(updatedUserItems["prestigePoints"])
-			}),
-			status=200
-		)
+		return_data = {"relicBought": new_relic_id, "prestigePoints": str(remainPrestigePoints)}
 
-	def get_next_relic(self, relics):
+		return Response(utils.compress(return_data), status=200)
 
-		if len(relics) == NUM_RELICS:
-			return None, None
+	def get_next_relic(self, relics: dict):
 
-		owned = [relic["relicId"] for relic in relics]
+		owned = relics.keys()
 
-		all_relics = [i for i in range(NUM_RELICS)]
+		all_relics = [k for k, v in app.objects["relics"].items()]
 
 		available = list(set(all_relics) - set(owned))
 
-		return random.choice(available), math.floor(math.pow(1.5, len(relics)))
+		return random.choice(available)
 
 
 class UpgradeRelic(View):
@@ -79,60 +61,33 @@ class UpgradeRelic(View):
 		# - Load user data from the database
 		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
-		ownedRelics = items.get("relics", [])
+		user_relics = {int(k): v for k, v in items.get("relics", dict()).items()}
 
-		prestigePointsString = items.get("prestigePoints", 0)  # prestigePoints are stored as a string
-
-		relicEntry = utils.get(ownedRelics, relicId=data["relicId"])
+		prestige_points = int(items.get("prestigePoints", 0))  # prestigePoints are stored as a string
 
 		# - User is trying to upgrade an invalid relic or one they do not currently own
-		if relicEntry is None:
+		if (relic_level := user_relics.get(data["relicId"])) is None:
 			return Response(utils.compress({"message": "You do not own this relic"}), status=400)
 
-		cost = self.get_relic_cost(self.get_relic_data(data["relicId"]), relicEntry["level"], data["buyLevels"])
+		cost = formulas.relic_levelup_cost(relic_level, data["buyLevels"], app.objects["relics"][data["relicId"]])
 
 		# - User cannot afford to upgrade
-		if cost > int(prestigePointsString):
+		if cost > prestige_points:
 			return Response(utils.compress({"message": "You cannot afford to upgrade this relic"}), status=400)
 
-		remainPrestigePoints = int(prestigePointsString) - cost
+		remain_prestige_points = prestige_points - cost
 
-		updatedUserItems = app.mongo.db.userItems.find_one_and_update(
-			{
-				"userId": userid,
-				"relics.relicId": data["relicId"]
-			},
+		app.mongo.db.userItems.update_one(
+			{"userId": userid},
 
 			{
-				"$set": {"prestigePoints": str(remainPrestigePoints)},
-				"$inc": {"relics.$.level": data["buyLevels"]}
+				"$set": {"prestigePoints": str(remain_prestige_points)},
+				"$inc": {f"relics.{data['relicId']}": data["buyLevels"]}
 			},
 
-			return_document=ReturnDocument.AFTER,
 			upsert=True
 		)
 
-		updatedRelicEntry = utils.get(updatedUserItems.get("relics", []), relicId=data["relicId"])
+		return_data = {"relicLevel": relic_level + data["buyLevels"], "prestigePoints": str(remain_prestige_points)}
 
-		return Response(
-			utils.compress({
-				"relicLevel": updatedRelicEntry["level"],
-				"prestigePoints": str(updatedUserItems.get("prestigePoints", 0))
-			}),
-			status=200
-		)
-
-	@staticmethod
-	def get_relic_data(relic):
-
-		return app.data["static"]["relics"].get(str(relic))
-
-	@staticmethod
-	def get_relic_cost(relic_data, start, levels):
-
-		base_cost = relic_data["baseCost"]
-		cost_power = relic_data["costPower"]
-
-		val = base_cost * math.pow(cost_power, start - 1) * (1 - math.pow(cost_power, levels)) / (1 - cost_power)
-
-		return math.ceil(val)
+		return Response(utils.compress(return_data), status=200)

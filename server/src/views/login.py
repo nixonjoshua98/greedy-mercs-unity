@@ -14,13 +14,13 @@ class Login(View):
 		if (row := app.mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
 			result = app.mongo.db.userLogins.insert_one({"deviceId": data["deviceId"]})
 
-			user_id = result.inserted_id
+			uid = result.inserted_id
 
 		else:
-			user_id = row["_id"]
+			uid = row["_id"]
 
-		items = app.mongo.db.userItems.find_one({"userId": user_id}) or dict()
-		bounties = app.mongo.db.userBounties.find({"userId": user_id}, {"_id": 0, "userId": 0})
+		items = app.mongo.db.userItems.find_one({"userId": uid}) or dict()
+		bounties = app.mongo.db.userBounties.find({"userId": uid}, {"_id": 0, "userId": 0})
 
 		bounties = list(bounties)  # - Convert from a cursor to a list
 
@@ -28,12 +28,12 @@ class Login(View):
 		for i, _ in enumerate(bounties):
 			bounties[i]["startTime"] = bounties[i]["startTime"].timestamp() * 1000  # Convert to ms
 
-		print(user_id)
+		print(uid)
 
 		return Response(
 			utils.compress(
 				{
-					"relics": items.get("relics", []),
+					"relics": items.get("relics", dict()),
 					"bounties": bounties,
 					"bountyPoints": items.get("bountyPoints", 0),
 					"prestigePoints": str(items.get("prestigePoints", 0))

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Numerics;
+
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -70,7 +72,12 @@ public class StatsCache : MonoBehaviour
         return false;
     }
 
-    // === Calculations ===
+    public static BigInteger GetPrestigePoints(int stage)
+    {
+        BigDouble big = Formulas.CalcPrestigePoints(stage).AsBigDouble() * AddictiveBonuses(BonusType.CASH_OUT_BONUS);
+
+        return BigInteger.Parse(big.Ceiling().ToString("F0"));
+    }
 
     public static BigDouble GetCritChance()
     {
@@ -84,7 +91,7 @@ public class StatsCache : MonoBehaviour
 
     public static BigDouble GetHeroDamage(CharacterID chara)
     {
-        string key = "CHARACTER_" + chara.ToString();
+        string key = "CHARACTER_DMG_" + chara.ToString();
 
         if (IsCacheOutdated(key))
         {

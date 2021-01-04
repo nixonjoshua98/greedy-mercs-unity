@@ -1,6 +1,7 @@
-﻿
-public enum BonusType
-{
+import enum
+
+
+class BonusType(enum.IntEnum):
     ALL_MERC_DAMAGE     = 0,
     ENEMY_GOLD          = 1,
     TAP_DAMAGE          = 2,
@@ -13,9 +14,3 @@ public enum BonusType
     ALL_GOLD            = 9,
     CRIT_DAMAGE         = 10,
     CASH_OUT_BONUS      = 11
-}
-
-public enum UpgradeID
-{
-    TAP_DAMAGE = 0
-}

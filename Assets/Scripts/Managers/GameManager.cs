@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
+        StatsCache.Clear();
+
         EventManager.OnBossSpawned.AddListener(OnBossSpawned);
         EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
     }

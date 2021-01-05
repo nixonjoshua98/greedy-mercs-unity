@@ -1,11 +1,11 @@
 import math
 
+import datetime as dt
+
 from src.enums import BonusType
 
-from src.classes.relic import Relic
 
-
-def relic_levelup_cost(startlevel: int, levelsbuying: int, staticdata: Relic) -> int:
+def relic_levelup_cost(startlevel: int, levelsbuying: int, staticdata) -> int:
 	"""
 	Calculate the levelup cost of a relic going from level <startlevel> to level <startlevel> + <levelsbuying>
 	====================
@@ -59,6 +59,18 @@ def stage_prestige_points(stage, staticrelics, userrelics):
 	relic_bonuses = bonuses_from_relics(staticrelics, userrelics)
 
 	return math.ceil(math.pow(math.ceil((stage - 80) / 10.0), 2.1) * relic_bonuses.get(BonusType.CASH_OUT_BONUS, 1))
+
+
+def bounty_point_claim(static, max_stage, last_claim) -> int:
+	hourly_points = 0
+
+	for key, bounty in static.items():
+		if max_stage >= bounty["unlockStage"]:
+			hourly_points += bounty["bountyPoints"]
+
+	seconds_since_claim = (dt.datetime.utcnow() - last_claim).total_seconds()
+
+	return math.floor(hourly_points * (seconds_since_claim / 3_600))
 
 
 def sum_geometric(startcost, levelsowned, levelsbuying, power):

@@ -28,7 +28,7 @@ public class PlayerState
 
     public void Update(JSONNode node)
     {
-        bountyPoints    = node.HasKey("bountyPoints") ? int.Parse(node["bountyPoints"].Value) : bountyPoints;
+        bountyPoints    = node.HasKey("bountyPoints") ? node["bountyPoints"].AsInt : bountyPoints;
         prestigePoints  = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
     }
 

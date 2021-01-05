@@ -5,7 +5,7 @@ from .staticdata import StaticData
 
 from .relics import UpgradeRelic, BuyRelic
 
-from .bounties import StartBounty, ClaimBounty
+from .bounties import ClaimBounty
 
 from .weapons import BuyWeapon
 

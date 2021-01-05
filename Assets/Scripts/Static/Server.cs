@@ -9,7 +9,6 @@ using SimpleJSON;
 public static class Server
 {
     // === Bounties ===
-    public static void StartBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/start", callback, node));
     public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));
 
     // === Weapons ===

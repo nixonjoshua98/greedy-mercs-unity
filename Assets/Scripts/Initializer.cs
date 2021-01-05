@@ -16,8 +16,6 @@ public class Initializer : MonoBehaviour
 
         DataManager.IsPaused = false;
 
-        StatsCache.Clear();
-
         Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
     }
 
@@ -63,7 +61,7 @@ public class Initializer : MonoBehaviour
 
             else
             {
-                Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");
+                Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required.");
 
                 return;
             }

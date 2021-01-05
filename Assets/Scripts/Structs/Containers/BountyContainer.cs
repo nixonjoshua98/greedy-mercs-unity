@@ -4,14 +4,12 @@ using System.Collections.Generic;
 
 using SimpleJSON;
 
+using UnityEngine;
 
-using BountyID = BountyData.BountyID;
 
 public class BountyContainer
 {
-    Dictionary<BountyID, BountyState> bounties;
-
-    public int Count { get { return bounties.Count; } }
+    DateTime lastClaimTime;
 
     public BountyContainer(JSONNode node)
     {
@@ -20,45 +18,50 @@ public class BountyContainer
 
     public void Update(JSONNode node)
     {
-        bounties = new Dictionary<BountyID, BountyState>();
+        if (node.HasKey("bounties"))
+            node = node["bounties"];
 
-        foreach (JSONNode bounty in node["bounties"].AsArray)
-        {
-            Set((BountyID)int.Parse(bounty["bountyId"]), bounty["startTime"].AsLong);
-        }
+        lastClaimTime = DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime;
     }
 
     public JSONNode ToJson()
     {
-        JSONArray array = new JSONArray();
+        JSONNode node = new JSONObject();
 
-        foreach (var bounty in bounties)
+        node.Add("lastClaimTime", (new DateTimeOffset(lastClaimTime)).ToUnixTimeMilliseconds());
+
+        return node;
+    }
+
+    // === Helper ===
+    public int TimeSinceClaim
+    {
+        get
         {
-            long startTimestamp = (new DateTimeOffset(bounty.Value.startTime)).ToUnixTimeMilliseconds();
+            float secondsSinceClaim = (float)(DateTime.UtcNow - lastClaimTime).TotalSeconds;
 
-            JSONNode node = new JSONObject();
-
-            node.Add("startTime", startTimestamp);
-            node.Add("bountyId", (int)bounty.Key);
-
-            array.Add(node);
+            return Mathf.FloorToInt(Mathf.Min(6 * 3_600, secondsSinceClaim));
         }
-
-        return array;
     }
 
-    public bool TryGetBounty(BountyID bounty, out BountyState state)
-    {
-        return bounties.TryGetValue(bounty, out state);
-    }
+    public float PercentFilled { get { return TimeSinceClaim / (6 * 3_600.0f); } }
 
-    public void Set(BountyID bounty, long startTime)
-    {
-        bounties[bounty] = new BountyState { startTime = DateTimeOffset.FromUnixTimeMilliseconds(startTime).DateTime };
-    }
+    public int CurrentClaimAmount { get { return Mathf.FloorToInt((TimeSinceClaim / 3_600.0f) * HourlyIncome); } }
 
-    public void Remove(BountyID bounty)
+    public int MaxClaimAmount {  get { return HourlyIncome * 6; } }
+
+    public int HourlyIncome
     {
-        bounties.Remove(bounty);
+        get
+        {
+            int total = 0;
+
+            foreach (var bounty in StaticData.Bounties.All())
+            {
+                total += bounty.Value.bountyPoints;
+            }
+
+            return total;
+        }
     }
 }

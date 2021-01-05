@@ -101,6 +101,15 @@ namespace Utils
             return createdObject;
         }
 
+        public static GameObject Instantiate(GameObject o, Transform parent, UnityEngine.Vector3 pos)
+        {
+            GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
+
+            createdObject.transform.SetParent(parent, false);
+
+            return createdObject;
+        }
+
         public static void ShowError(GameObject o, string title, string desc)
         {
             if (Instantiate(o, UnityEngine.Vector3.zero).TryGetComponent(out ErrorMessage error))

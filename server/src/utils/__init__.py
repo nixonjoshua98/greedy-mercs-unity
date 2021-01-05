@@ -3,6 +3,8 @@ import json
 import gzip
 import base64
 
+import datetime as dt
+
 
 def compress(data: dict) -> str:
 	"""
@@ -12,7 +14,13 @@ def compress(data: dict) -> str:
 		Returns a compressed gzip + encoded with base64 string
 	"""
 
-	data_bytes = json.dumps(data).encode("utf-8")
+	def default(o):
+		if isinstance(o, (dt.date, dt.datetime)):
+			return int(o.timestamp() * 1000)
+
+		return o
+
+	data_bytes = json.dumps(data, default=default).encode("utf-8")
 
 	compressed = gzip.compress(data_bytes)
 

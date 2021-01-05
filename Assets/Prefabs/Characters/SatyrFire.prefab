@@ -121,6 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4212931060154188391}
   - component: {fileID: 5590839206907113548}
+  - component: {fileID: 4229036076114746539}
   m_Layer: 0
   m_Name: SatyrFire
   m_TagString: Untagged
@@ -163,6 +164,18 @@ MonoBehaviour:
   Projectile: {fileID: 1372040286346358, guid: 53ebac442b16db64f9177d0c749cbb06, type: 3}
   ProjectileStart: {fileID: 7637163329336135085}
   weaponSlot: {fileID: 874984638601253130}
+--- !u!114 &4229036076114746539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212931060154188390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0

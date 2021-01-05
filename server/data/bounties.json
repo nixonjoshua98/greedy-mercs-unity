@@ -2,7 +2,7 @@
 {
   "0": {
     "name": "Little Jerry",
-    "bountyReward": 300,
-    "duration": 9
+    "bountyPoints": 30000,
+    "unlockStage": 0
   }
 }

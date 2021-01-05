@@ -6,34 +6,7 @@ from flask import Response, request, current_app as app
 
 from flask.views import View
 
-from src import utils, checks
-
-
-class StartBounty(View):
-
-	@checks.login_check
-	def dispatch_request(self, *, userid):
-
-		data = utils.decompress(request.data)
-
-		bounties = list(app.mongo.db.userBounties.find({"userId": userid}, {"_id": 0, "userId": 0}))
-
-		bounty_ids = [b["bountyId"] for b in bounties]
-
-		# - Already in the process of this bounty
-		if (target_bounty := data["startBountyId"]) in bounty_ids:
-			d = {"message": "You are already in the proces of completing this bounty."}
-
-			return Response(utils.compress(d), status=400)
-
-		row = {"userId": userid, "startTime": dt.datetime.utcnow(), "bountyId": target_bounty}
-
-		app.mongo.db.userBounties.insert_one(row)
-
-		# - Seconds -> Milliseconds
-		start_timestamp = row["startTime"].timestamp() * 1000
-
-		return Response(utils.compress({"startTime": start_timestamp}), status=200)
+from src import utils, checks, formulas
 
 
 class ClaimBounty(View):
@@ -43,27 +16,31 @@ class ClaimBounty(View):
 
 		data = utils.decompress(request.data)
 
-		bounty_to_claim = data["claimBountyId"]
+		bounties = app.mongo.db.userBounties.find_one({"userId": userid})
 
-		bounty_entry = app.mongo.db.userBounties.find_one({"userId": userid, "bountyId": bounty_to_claim})
-
-		# - User is not currently doing this bounty
-		if bounty_entry is None:
+		if bounties is None:
 			return Response(utils.compress({"message": ""}), status=400)
 
-		static_data = app.staticdata["bounties"][str(bounty_to_claim)]
+		stats = app.mongo.db.userStats.find_one({"userId": userid}) or dict()
 
-		percent_complete = (dt.datetime.utcnow() - bounty_entry["startTime"]).total_seconds() / static_data["duration"]
+		max_stage = max(stats.get("maxStage", 0), data.get("currentStage", 0))
 
-		if percent_complete < 1.0:
-			return Response(utils.compress({"message": "You cannot collect the reward for this bounty."}), status=400)
+		earned_points = formulas.bounty_point_claim(app.staticdata["bounties"], max_stage, bounties["lastClaimTime"])
+
+		if earned_points == 0:
+			return Response(utils.compress({"message": ""}), status=400)
 
 		items = app.mongo.db.userItems.find_one_and_update(
-			{"userId": userid}, {"$inc": {"bountyPoints": static_data["bountyReward"]}},
+			{"userId": userid},
+			{"$inc": {"bountyPoints": earned_points}},
 			return_document=ReturnDocument.AFTER,
 			upsert=True
 		)
 
-		app.mongo.db.userBounties.delete_one({"userId": userid, "bountyId": bounty_to_claim})
+		now = dt.datetime.utcnow()
 
-		return Response(utils.compress({"bountyPoints": items["bountyPoints"]}), status=200)
+		#app.mongo.db.userBounties.update_one({"userId": userid}, {"$set": {"lastClaimTime": now}})
+
+		return_data = {"bountyPoints": items["bountyPoints"], "lastClaimTime": now}
+
+		return Response(utils.compress(return_data), status=200)

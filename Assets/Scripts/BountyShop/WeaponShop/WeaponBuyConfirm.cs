@@ -3,54 +3,57 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using WeaponStaticData = WeaponData.WeaponStaticData;
-
-public class WeaponBuyConfirm : MonoBehaviour
+namespace WeaponsUI
 {
-    [SerializeField] Slider slider;
+    using WeaponStaticData = WeaponData.WeaponStaticData;
 
-    [Header("Text")]
-    [SerializeField] Text costText;
-    [SerializeField] Text titleText;
-    [SerializeField] Text descText;
-    [SerializeField] Text sliderText;
-    [Space]
-    [SerializeField] Button okButton;
-
-    Action<bool, int> callback;
-
-    WeaponStaticData weaponStaticData;
-
-    public void Init(ScriptableCharacter chara, WeaponStaticData weapon, int maxVal, Action<bool, int> func)
+    public class WeaponBuyConfirm : MonoBehaviour
     {
-        weaponStaticData    = weapon;
-        callback            = func;
+        [SerializeField] Slider slider;
 
-        titleText.text  = chara.name;
-        descText.text   = string.Format("Tier {0} Weapon", weapon.tier);
+        [Header("Text")]
+        [SerializeField] Text costText;
+        [SerializeField] Text titleText;
+        [SerializeField] Text descText;
+        [SerializeField] Text sliderText;
+        [Space]
+        [SerializeField] Button okButton;
 
-        slider.maxValue = maxVal;
-    }
+        Action<bool, int> callback;
 
-    public void OnSliderValueChanged()
-    {
-        int cost = weaponStaticData.cost * (int)slider.value;
+        WeaponStaticData weaponStaticData;
 
-        sliderText.text = slider.value.ToString();
-        costText.text   = cost + "x Bounty Points";
+        public void Init(ScriptableCharacter chara, WeaponStaticData weapon, int maxVal, Action<bool, int> func)
+        {
+            weaponStaticData = weapon;
+            callback = func;
 
-        okButton.interactable = GameState.Player.bountyPoints >= cost;
+            titleText.text = chara.name;
+            descText.text = string.Format("Tier {0} Weapon", weapon.tier);
 
-        if (cost > GameState.Player.bountyPoints)
-            costText.text = "<color=red>" + costText.text + "</color>";
-    }
+            slider.maxValue = maxVal;
+        }
 
-    public void OnClick(int index)
-    {
-        bool confirmed = index == 0;
+        public void OnSliderValueChanged()
+        {
+            int cost = weaponStaticData.cost * (int)slider.value;
 
-        callback(confirmed, (int)slider.value);
+            sliderText.text = slider.value.ToString();
+            costText.text = cost + "x Bounty Points";
 
-        Destroy(gameObject);
+            okButton.interactable = GameState.Player.bountyPoints >= cost;
+
+            if (cost > GameState.Player.bountyPoints)
+                costText.text = "<color=red>" + costText.text + "</color>";
+        }
+
+        public void OnClick(int index)
+        {
+            bool confirmed = index == 0;
+
+            callback(confirmed, (int)slider.value);
+
+            Destroy(gameObject);
+        }
     }
 }

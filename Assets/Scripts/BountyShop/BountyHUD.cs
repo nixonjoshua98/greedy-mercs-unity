@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace BountyUI
 {
-    public class BountyShop : MonoBehaviour
+    public class BountyHUD : MonoBehaviour
     {
         [SerializeField] Text bountyPoints;
 

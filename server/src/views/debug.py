@@ -5,11 +5,11 @@ from flask.views import View
 from src import checks
 
 
-class ResetRelics(View):
+class ResetAccount(View):
 
 	@checks.login_check
 	def dispatch_request(self, *, userid):
 
-		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"relics": dict()}}) or dict()
+		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"relics": {}, "weapons": {}}})
 
 		return "OK", 200

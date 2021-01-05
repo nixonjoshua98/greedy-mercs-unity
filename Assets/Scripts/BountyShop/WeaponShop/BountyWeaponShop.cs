@@ -2,32 +2,42 @@
 
 using UnityEngine;
 
-namespace BountyUI
+namespace WeaponsUI
 {
     public class BountyWeaponShop : MonoBehaviour
     {
         [SerializeField] Transform scrollContent;
 
-        [Header("Prefabs")]
-        [SerializeField] GameObject WeaponSelection;
+        [Header("References")]
+        [SerializeField] WeaponSelection selection;
 
-        IEnumerator Start()
+        [Header("Prefabs")]
+        [SerializeField] GameObject CharacterButton;
+
+        void Start()
         {
             foreach (ScriptableCharacter chara in CharacterResources.Instance.Characters)
             {
                 if (chara.weapons.Length > 0)
                 {
-                    GameObject inst = Utils.UI.Instantiate(WeaponSelection, Vector3.zero);
+                    var temp = chara;
+
+                    GameObject inst = Utils.UI.Instantiate(CharacterButton, Vector3.zero);
+
+                    var component = inst.GetComponent<CharacterWeaponShopIcon>();
+
+                    component.SetCharacter(chara);
+
+                    component.button.onClick.AddListener(delegate { OnClick(temp); });
 
                     inst.transform.SetParent(scrollContent);
-
-                    WeaponSelection row = inst.GetComponent<WeaponSelection>();
-
-                    row.SetCharacter(chara);
                 }
-
-                yield return new WaitForFixedUpdate();
             }
+        }
+
+        void OnClick(ScriptableCharacter character)
+        {
+            selection.SetCharacter(character);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BountyUI
+namespace WeaponsUI
 {
     using WeaponData;
 
@@ -26,17 +26,27 @@ namespace BountyUI
 
         List<WeaponSlot> weaponSlots;
 
+        void Awake()
+        {
+            weaponSlots = new List<WeaponSlot>();
+
+            SetCharacter(CharacterResources.Instance.Characters[0]);
+        }
+
         public void SetCharacter(ScriptableCharacter chara)
         {
             character = chara;
 
             characterIcon.sprite = chara.icon;
 
-            StartCoroutine(Create());
+            Create();
         }
 
-        IEnumerator Create()
+        void Create()
         {
+            foreach (WeaponSlot slot in weaponSlots)
+                Destroy(slot.gameObject);
+
             weaponSlots = new List<WeaponSlot>();
 
             for (int i = 0; i < character.weapons.Length; ++i)
@@ -54,8 +64,6 @@ namespace BountyUI
                 slot.button.onClick.AddListener(delegate { OnWeaponSelected(temp); });
 
                 weaponSlots.Add(slot);
-
-                yield return new WaitForFixedUpdate();
             }
         }
         // === Button Callbacks ===

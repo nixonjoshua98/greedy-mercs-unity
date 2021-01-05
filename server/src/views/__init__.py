@@ -10,4 +10,4 @@ from .bounties import StartBounty, ClaimBounty
 from .weapons import BuyWeapon
 
 
-from .debug import ResetRelics
+from .debug import ResetAccount

@@ -10,7 +10,7 @@ from src.views import (
 	Login,
 	StaticData,
 	Prestige,
-	BuyRelic, UpgradeRelic, ResetRelics,
+	BuyRelic, UpgradeRelic, ResetAccount,
 	StartBounty, ClaimBounty,
 	BuyWeapon
 )
@@ -35,7 +35,7 @@ app.objects = {
 
 app.mongo.init_app(app, uri="mongodb://localhost:27017/temp")
 
-app.add_url_rule("/api/resetrelics", 	view_func=ResetRelics.as_view("resetrelics"), methods=["PUT"])
+app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics"), methods=["PUT"])
 
 # === Bounties === #
 app.add_url_rule("/api/bounty/start", view_func=StartBounty.as_view("startbounty"), methods=["PUT"])

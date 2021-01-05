@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 
-namespace BountyUI
+namespace WeaponsUI
 {
     using WeaponData;
 
@@ -27,6 +27,8 @@ namespace BountyUI
             ScriptableWeapon weapon = character.weapons[weaponIndex];
 
             icon.sprite = weapon.icon;
+
+            FixedUpdate();
         }
 
         public void FixedUpdate()

@@ -109,8 +109,8 @@
     "levelEffect": 0.5
   },
     "12": {
-    "name": "Book of Wealth",
-    "description": "A book left behind by the now-deceased richest man in the world. It contains everything he learnt throughout his life",
+    "name": "Bag of Wealth",
+    "description": "A bag left behind by the now-deceased richest man in the world. It contains everything he learnt and collected throughout his life",
     "bonusType": 11,
     "baseCost": 3,
     "costPower": 1.05,

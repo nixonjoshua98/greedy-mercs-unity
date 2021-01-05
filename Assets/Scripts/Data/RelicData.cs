@@ -19,7 +19,7 @@ namespace RelicData
         LUCKY_GEM = 9,
         JADE_NECKLACE = 10,
         ARTEMIS_BOW =11,
-        WEALTH_BOOK = 12
+        WEALTH_BAG = 12
     }
 
     public class RelicStaticData

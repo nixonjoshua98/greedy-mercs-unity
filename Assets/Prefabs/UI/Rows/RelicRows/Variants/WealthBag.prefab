@@ -16,12 +16,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ae496f5dad56ea645b72d374a0376368,
+      objectReference: {fileID: 21300000, guid: fe025e83f69d0b54f8a4fe3c7c128fd7,
         type: 3}
     - target: {fileID: 5177424658338442645, guid: 9f268386a9076f24d93f739ba9bc2ab7,
         type: 3}
       propertyPath: m_Name
-      value: WealthBook
+      value: WealthBag
       objectReference: {fileID: 0}
     - target: {fileID: 5177424658338442645, guid: 9f268386a9076f24d93f739ba9bc2ab7,
         type: 3}

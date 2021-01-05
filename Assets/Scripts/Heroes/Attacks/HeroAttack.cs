@@ -56,7 +56,7 @@ public abstract class HeroAttack : MonoBehaviour
     {
         float timeSinceAttack = Time.realtimeSinceStartup - lastAttackTime;
 
-        GameManager.TryDealDamageToEnemy(StatsCache.GetHeroDamage(heroId) * (timeSinceAttack * Time.timeScale));
+        GameManager.TryDealDamageToEnemy(StatsCache.GetCharacterDamage(heroId) * (timeSinceAttack * Time.timeScale));
 
         lastAttackTime = Time.realtimeSinceStartup;
     }

@@ -31,7 +31,7 @@ namespace Utils
         {
             switch (skill)
             {
-                case BonusType.ALL_MERC_DAMAGE:         return "Merc Damage";
+                case BonusType.MERC_DAMAGE:         return "Merc Damage";
                 case BonusType.TAP_DAMAGE:              return "Tap Damage";
                 case BonusType.HERO_TAP_DAMAGE_ADD:     return "Merc Tap Damage Bonus";
                 case BonusType.ENEMY_GOLD:              return "Enemy Gold";
@@ -229,10 +229,25 @@ namespace Utils
 
             int n = (int)BigInteger.Log(val, 1000);
 
-            BigInteger m = val / BigInteger.Pow(1000, n);
+            BigDouble m = val.AsBigDouble() / BigInteger.Pow(1000, n).AsBigDouble();
 
             if (n < unitsTable.Count)
-                return m.ToString() + unitsTable[n];
+                return m.ToString("F2") + unitsTable[n];
+
+            return val.ToString("E2").Replace("+", "").Replace("E", "e");
+        }
+
+        public static string FormatNumber(int val)
+        {
+            if (val <= 1_000)
+                return val.ToString();
+
+            int n = (int)Mathf.Log(val, 1000);
+
+            float m = val / Mathf.Pow(1000, n);
+
+            if (n < unitsTable.Count)
+                return m.ToString("0.0") + unitsTable[n];
 
             return val.ToString("E2").Replace("+", "").Replace("E", "e");
         }

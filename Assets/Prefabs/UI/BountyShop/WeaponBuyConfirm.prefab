@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.5461459, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -915,7 +915,6 @@ MonoBehaviour:
   descText: {fileID: 4870414337604060088}
   sliderText: {fileID: 542246872327566492}
   okButton: {fileID: 8342704850287115955}
-  okButtonText: {fileID: 4101535027472371950}
 --- !u!1 &5798964418825862854
 GameObject:
   m_ObjectHideFlags: 0

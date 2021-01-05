@@ -1,27 +1,30 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class BountyWeaponShop : MonoBehaviour
+namespace BountyUI
 {
-    [SerializeField] Transform scrollContent;
-
-    [Header("Prefabs")]
-    [SerializeField] GameObject WeaponShopRow;
-
-    IEnumerator Start()
+    public class BountyWeaponShop : MonoBehaviour
     {
-        foreach (ScriptableCharacter chara in CharacterResources.Instance.Characters)
+        [SerializeField] Transform scrollContent;
+
+        [Header("Prefabs")]
+        [SerializeField] GameObject WeaponSelection;
+
+        IEnumerator Start()
         {
-            if (chara.weapons.Length > 0)
+            foreach (ScriptableCharacter chara in CharacterResources.Instance.Characters)
             {
-                GameObject inst = Utils.UI.Instantiate(WeaponShopRow, Vector3.zero);
+                if (chara.weapons.Length > 0)
+                {
+                    GameObject inst = Utils.UI.Instantiate(WeaponSelection, Vector3.zero);
 
-                inst.transform.SetParent(scrollContent);
+                    inst.transform.SetParent(scrollContent);
 
-                CharacterWeaponsRow row = inst.GetComponent<CharacterWeaponsRow>();
+                    WeaponSelection row = inst.GetComponent<WeaponSelection>();
 
-                row.SetCharacter(chara);
+                    row.SetCharacter(chara);
+                }
 
                 yield return new WaitForFixedUpdate();
             }

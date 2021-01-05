@@ -1,7 +1,7 @@
 ﻿
 public enum BonusType
 {
-    ALL_MERC_DAMAGE     = 0,
+    MERC_DAMAGE     = 0,
     ENEMY_GOLD          = 1,
     TAP_DAMAGE          = 2,
     BOSS_GOLD           = 3,

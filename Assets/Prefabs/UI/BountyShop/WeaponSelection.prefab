@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 8259429911638738633}
   - component: {fileID: 8259429911638738638}
   m_Layer: 5
-  m_Name: WeaponShopRow
+  m_Name: WeaponSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

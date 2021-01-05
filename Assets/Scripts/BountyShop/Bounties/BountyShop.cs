@@ -2,12 +2,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BountyShop : MonoBehaviour
+namespace BountyUI
 {
-    [SerializeField] Text bountyPoints;
-
-    void FixedUpdate()
+    public class BountyShop : MonoBehaviour
     {
-        bountyPoints.text = GameState.Player.bountyPoints.ToString() + " Bounty Points";
+        [SerializeField] Text bountyPoints;
+
+        void FixedUpdate()
+        {
+            bountyPoints.text = Utils.Format.FormatNumber(GameState.Player.bountyPoints) + " Bounty Points";
+        }
     }
 }

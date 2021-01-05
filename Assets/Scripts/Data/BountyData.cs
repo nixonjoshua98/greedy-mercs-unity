@@ -9,7 +9,6 @@ namespace BountyData
     public enum BountyID
     {
         BOUNTY_ONE = 0,
-        BOUNTY_TWO = 1,
     }
 
     public class BountyStaticData

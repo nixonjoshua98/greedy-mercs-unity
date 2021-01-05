@@ -14,6 +14,8 @@ namespace WeaponData
 
         public int maxOwned;
 
+        public float damageBonus;
+
         public int tier;
     }
 
@@ -31,19 +33,19 @@ namespace WeaponData
         {
             weapons = new List<WeaponStaticData>();
 
-            foreach (string weaponTier in node.Keys)
+            foreach (string weaponIndex in node.Keys)
             {
-                var data = JsonUtility.FromJson<WeaponStaticData>(node[weaponTier].ToString());
+                var data = JsonUtility.FromJson<WeaponStaticData>(node[weaponIndex].ToString());
 
-                data.tier = int.Parse(weaponTier) + 1;
+                data.tier = int.Parse(weaponIndex) + 1;
 
                 weapons.Add(data);
             }
         }
 
-        public WeaponStaticData Get(int weaponTier)
+        public WeaponStaticData Get(int weaponIndex)
         {
-            return weapons[weaponTier];
+            return weapons[weaponIndex];
         }
     }
 }

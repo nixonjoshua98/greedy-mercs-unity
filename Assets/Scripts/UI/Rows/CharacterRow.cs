@@ -44,7 +44,7 @@ public class CharacterRow : MonoBehaviour
     {
         var state = GameState.Characters.GetCharacter(character.character);
 
-        Damage.text         = Utils.Format.FormatNumber(StatsCache.GetHeroDamage(character.character)) + " DPS";
+        Damage.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.character)) + " DPS";
         UpgradeCost.text    = state.level >= maxCharacterLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.character, BuyAmount));
         LevelText.text      = "Level " + state.level.ToString();
         UpgradeAmount.text  = state.level >= maxCharacterLevel ? "" : "x" + BuyAmount.ToString();

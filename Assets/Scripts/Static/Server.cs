@@ -63,8 +63,6 @@ public static class Server
 
     static IEnumerator SendRequest(UnityWebRequest www, Action<long, string> callback)
     {
-        www.timeout = 3;
-
         www.SetRequestHeader("Accept", "application/json");
         www.SetRequestHeader("Content-Type", "application/json");
 

@@ -17,10 +17,10 @@ public class MeleeHeroAttack : HeroAttack
         {
             ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(heroId);
 
-            SwapWeapons(chara.weapons[highestWeapon].prefab);
+            SwapWeapons(chara.weapons[highestWeapon]);
         }
 
-        EventManager.OnCharacterWeaponChange.AddListener(OnCharacterWeaponChange);
+        EventManager.OnWeaponBought.AddListener(OnWeaponBought);
     }
 
     public override void OnAttackAnimationEnd()
@@ -28,20 +28,21 @@ public class MeleeHeroAttack : HeroAttack
         DealDamage();
     }
 
-    void OnCharacterWeaponChange(ScriptableCharacter chara, int index)
+    void OnWeaponBought(ScriptableCharacter chara, int weaponIndex)
     {
         if (chara.character == heroId)
         {
-            ScriptableWeapon weapon = chara.weapons[index];
+            ScriptableWeapon weapon = chara.weapons[weaponIndex];
 
-            SwapWeapons(weapon.prefab);
+            int highestWeapon = GameState.Weapons.GetHighestTier(chara.character);
+
+            if (weaponIndex >= highestWeapon)
+                SwapWeapons(weapon);
         }
     }
 
-    void SwapWeapons(GameObject newWeapon)
+    void SwapWeapons(ScriptableWeapon weapon)
     {
-        Instantiate(newWeapon, weaponSlot.transform);
-
-        Destroy(weaponSlot.transform.GetChild(0).gameObject);
+        weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
     }
 }

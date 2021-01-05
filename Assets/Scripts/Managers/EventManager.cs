@@ -24,7 +24,7 @@ public class EventManager : MonoBehaviour
 
     public static CustomEvents.HeroEvent        OnHeroUnlocked              = new CustomEvents.HeroEvent();
 
-    public static CustomEvents.CharacterEvent   OnCharacterWeaponChange     = new CustomEvents.CharacterEvent();
+    public static CustomEvents.CharacterEvent   OnWeaponBought     = new CustomEvents.CharacterEvent();
 
     // === Standard Events ===
 

@@ -89,7 +89,7 @@ public class StatsCache : MonoBehaviour
         return StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
     }
 
-    public static BigDouble GetHeroDamage(CharacterID chara)
+    public static BigDouble GetCharacterDamage(CharacterID chara)
     {
         string key = "CHARACTER_DMG_" + chara.ToString();
 
@@ -97,7 +97,7 @@ public class StatsCache : MonoBehaviour
         {
             ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
 
-            CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.ALL_MERC_DAMAGE, data.attackType);
+            CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(chara, BonusType.MERC_DAMAGE, data.attackType);
         }
 
         return CachedValues[key].Value;
@@ -144,6 +144,11 @@ public class StatsCache : MonoBehaviour
             val *= CharacterBonus.GetValueOrDefault(type, 1) * RelicBonus.GetValueOrDefault(type, 1);
 
         return val;
+    }
+
+    public static double MultiplyBonuses(CharacterID character, params BonusType[] types)
+    {
+        return MultiplyBonuses(types) * GameState.Weapons.CalculateDamageBonus(character);
     }
 
     public static double AddictiveBonuses(params BonusType[] types)

@@ -16,7 +16,7 @@ class BuyRelic(View):
 
 		prestige_points = int(items.get("prestigePoints", 0))
 
-		relics = items.get("relics", [])
+		relics = items.get("relics", dict())
 
 		# - No relic available
 		if len(relics) == len(app.objects["relics"]):
@@ -42,9 +42,9 @@ class BuyRelic(View):
 
 	def get_next_relic(self, relics: dict):
 
-		owned = relics.keys()
+		owned = [int(k) for k in relics.keys()]
 
-		all_relics = [k for k, v in app.objects["relics"].items()]
+		all_relics = [int(k) for k, v in app.objects["relics"].items()]
 
 		available = list(set(all_relics) - set(owned))
 

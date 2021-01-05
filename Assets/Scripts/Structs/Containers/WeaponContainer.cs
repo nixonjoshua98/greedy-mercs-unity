@@ -5,6 +5,8 @@ using UnityEngine;
 
 using SimpleJSON;
 
+using WeaponData;
+
 using CharacterID = CharacterData.CharacterID;
 
 public class WeaponContainer
@@ -52,6 +54,24 @@ public class WeaponContainer
         return node;
     }
 
+    public double CalculateDamageBonus(CharacterID character)
+    {
+        double bonus = 1.0f;
+
+        foreach (KeyValuePair<int, int> weapon in Get(character))
+        {
+            WeaponStaticData staticData = StaticData.Weapons.Get(weapon.Key);
+
+            // Weapon owned > 0
+            if (weapon.Value > 0)
+                bonus *= (weapon.Value * staticData.damageBonus);
+        }
+
+        return bonus;
+    }
+
+
+    // === Helper Methods ===
     public Dictionary<int, int> Get(CharacterID chara)
     {
         if (!weapons.ContainsKey(chara))

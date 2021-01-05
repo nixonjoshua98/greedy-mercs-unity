@@ -10,6 +10,6 @@ class ResetRelics(View):
 	@checks.login_check
 	def dispatch_request(self, *, userid):
 
-		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"relics": []}}) or dict()
+		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"relics": dict()}}) or dict()
 
 		return "OK", 200

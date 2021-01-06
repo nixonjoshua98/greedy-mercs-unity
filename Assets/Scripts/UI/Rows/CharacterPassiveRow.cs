@@ -21,8 +21,10 @@ public class CharacterPassiveRow : MonoBehaviour
         // Unlock Level
         UnlockText.text = UnlockText.text.Replace("{level}", unlock.unlockLevel.ToString());
 
+        string desc = skill.value < 1 ? "Increase your {type} by {value}" : "Multiply your {type} by {value}";
+
         // Description
-        DescriptionText.text = (skill.description == null ? DescriptionText.text : skill.description)
+        DescriptionText.text = desc
             .Replace("{value}", "<color=orange>" + (skill.value * 100).ToString() + "%</color>")
             .Replace("{type}",  "<color=orange>" + Utils.Generic.BonusToString(skill.bonusType) + "</color>");
 

@@ -29,7 +29,7 @@ public class MercsTab : MonoBehaviour
     {
         foreach (var chara in CharacterResources.Instance.Characters)
         {
-            if (GameState.Characters.TryGetHeroState(chara.character, out UpgradeState _))
+            if (GameState.Characters.TryGetState(chara.character, out UpgradeState _))
                 AddRow(chara);
 
             yield return new WaitForFixedUpdate();

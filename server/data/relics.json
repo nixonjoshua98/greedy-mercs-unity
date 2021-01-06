@@ -110,7 +110,7 @@
   },
     "12": {
     "name": "Bag of Wealth",
-    "description": "A bag left behind by the now-deceased richest man in the world. It contains everything he learnt and collected throughout his life",
+    "description": "A bag left behind by the now deceased richest man in the world. It contains everything he learnt and collected throughout his life",
     "bonusType": 11,
     "baseCost": 3,
     "costPower": 1.05,

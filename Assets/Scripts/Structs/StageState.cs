@@ -13,6 +13,11 @@ public class StageState
 
     public StageState()
     {
+        Reset();
+    }
+
+    public void Reset()
+    {
         stage = enemy = 1;
 
         isStageCompleted = false;

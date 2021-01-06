@@ -18,11 +18,19 @@ public class ScriptableCharacter : ScriptableObject
 
     public BonusType attackType;
 
-    public double purchaseCost;
+    public string purchaseCostString;
 
     public GameObject prefab;
 
     public Sprite icon;
 
     public ScriptableWeapon[] weapons;
+
+    // Set at Awake
+    [HideInInspector] public BigDouble purchaseCost;
+
+    void Awake()
+    {
+        purchaseCost = BigDouble.Parse(purchaseCostString);
+    }
 }

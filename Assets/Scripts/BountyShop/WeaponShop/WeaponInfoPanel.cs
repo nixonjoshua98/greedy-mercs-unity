@@ -73,21 +73,18 @@ namespace WeaponsUI
 
                 buyButton.interactable = prevWeaponOwned >= weaponStaticData.mergeCost && !maxOwned;
             }
-
-            double currentDamageMultiplier = Formulas.CalcWeaponDamage(weaponIndex, weaponsOwned);
         }
 
-        public void OnClick(int index)
+        public void OnClose()
+        {
+            Destroy(gameObject);
+        }
+
+        public void OnBuy()
         {
             buyButton.interactable = false;
 
-            if (index == 0)
-            {
-                callback(UpdatePanel);
-            }
-
-            else
-                Destroy(gameObject);
+            callback(UpdatePanel);
         }
     }
 }

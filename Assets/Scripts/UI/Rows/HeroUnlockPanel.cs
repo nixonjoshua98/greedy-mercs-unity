@@ -34,7 +34,7 @@ public class HeroUnlockPanel : MonoBehaviour
             {
                 GameState.Player.gold -= chara.purchaseCost;
 
-                GameState.Characters.AddHero(chara.character);
+                GameState.Characters.Add(chara.character);
 
                 EventManager.OnHeroUnlocked.Invoke(chara.character);
             }

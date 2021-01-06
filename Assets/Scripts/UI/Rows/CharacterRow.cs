@@ -24,7 +24,7 @@ public class CharacterRow : MonoBehaviour
     // ===
     int maxCharacterLevel;
 
-    protected int BuyAmount { get { return MercsTab.BuyAmount == -1 ? Formulas.AffordCharacterLevels(character.character) : MercsTab.BuyAmount; } }
+    protected int BuyAmount { get { return MercsTab.BuyAmount == -1 ? Formulas.AffordCharacterLevels(character.character) : Mathf.Min(Formulas.AffordCharacterLevels(character.character), MercsTab.BuyAmount); } }
 
     public void SetCharacter(ScriptableCharacter chara)
     {
@@ -42,7 +42,7 @@ public class CharacterRow : MonoBehaviour
 
     void UpdateRow()
     {
-        var state = GameState.Characters.GetCharacter(character.character);
+        var state = GameState.Characters.Get(character.character);
 
         Damage.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.character)) + " DPS";
         UpgradeCost.text    = state.level >= maxCharacterLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.character, BuyAmount));
@@ -58,7 +58,7 @@ public class CharacterRow : MonoBehaviour
     {
         int levelsBuying = BuyAmount;
 
-        var state = GameState.Characters.GetCharacter(character.character);
+        var state = GameState.Characters.Get(character.character);
 
         BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.character, levelsBuying);
 

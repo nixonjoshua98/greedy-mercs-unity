@@ -28,19 +28,26 @@ public class CharacterContainer
         return Utils.Json.CreateJSONArray("characterId", characters);
     }
 
+    public void Empty()
+    {
+        characters.Clear();
+
+        characters = new Dictionary<CharacterID, UpgradeState>();
+    }
+
     // === Helper Methods ===
 
-    public UpgradeState GetCharacter(CharacterID chara) 
+    public UpgradeState Get(CharacterID chara) 
     { 
         return characters[chara]; 
     }
 
-    public bool TryGetHeroState(CharacterID chara, out UpgradeState result) 
+    public bool TryGetState(CharacterID chara, out UpgradeState result) 
     {
         return characters.TryGetValue(chara, out result);
     }
 
-    public void AddHero(CharacterID charaId)
+    public void Add(CharacterID charaId)
     {
         characters[charaId] = new UpgradeState { level = 1 };
     }
@@ -51,7 +58,7 @@ public class CharacterContainer
 
         foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
         {
-            if (GameState.Characters.TryGetHeroState(hero, out var state))
+            if (GameState.Characters.TryGetState(hero, out var state))
             {
                 List<HeroPassiveUnlock> heroPassiveUnlocks = StaticData.Characters.GetPassives(hero);
 
@@ -61,16 +68,11 @@ public class CharacterContainer
                     {
                         PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
 
-                        switch (skill.bonusType)
-                        {
-                            case BonusType.HERO_TAP_DAMAGE_ADD:
-                                bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 0) + skill.value;
-                                break;
+                        if (skill.value < 1)
+                            bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 0) + skill.value;
 
-                            default:
-                                bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;
-                                break;
-                        }
+                        else
+                            bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;
                     }
                 }
             }

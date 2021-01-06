@@ -25,7 +25,7 @@ public class CharacterPassivesPanel : MonoBehaviour
     {
         List<HeroPassiveUnlock> unlocks = StaticData.Characters.GetPassives(showingHero);
 
-        UpgradeState heroState = GameState.Characters.GetCharacter(showingHero);
+        UpgradeState heroState = GameState.Characters.Get(showingHero);
 
         foreach (HeroPassiveUnlock unlock in unlocks)
         {

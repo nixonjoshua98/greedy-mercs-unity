@@ -23,7 +23,7 @@ public static class Formulas
 
     public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 65, 0));
+        return 15.0 * BigDouble.Pow(1.35f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 65, 0));
     }
 
     public static BigDouble CalcBossHealth(int stage)
@@ -35,7 +35,7 @@ public static class Formulas
 
     public static BigDouble CalcEnemyGold(int stage)
     {
-        return 12.5f * CalcEnemyHealth(stage) * (0.0045 + (0.0002 * Mathf.Max(0, 65 - (stage - 1))));
+        return 10.0f * CalcEnemyHealth(stage) * (0.008 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
     }
 
     public static BigDouble CalcBossGold(int stage)
@@ -47,18 +47,18 @@ public static class Formulas
 
     public static BigDouble CalcCharacterDamage(CharacterID chara)
     {
-        var state = GameState.Characters.GetCharacter(chara);
+        var state = GameState.Characters.Get(chara);
 
         ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
 
-        return (data.purchaseCost / 10.0f) * state.level * BigDouble.Pow(3.5f, (state.level - 1) / 100.0f) * (1 - (0.032f * data.unlockOrder));
+        return (data.purchaseCost / 10.0f) * state.level * BigDouble.Pow(3.0f, (state.level - 1) / 100.0f) * (1 - (0.032f * data.unlockOrder));
     }
 
     // ===
 
     public static BigDouble CalcCharacterLevelUpCost(CharacterID chara, int levels)
     {
-        var state = GameState.Characters.GetCharacter(chara);
+        var state = GameState.Characters.Get(chara);
 
         ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
 
@@ -67,7 +67,7 @@ public static class Formulas
 
     public static int AffordCharacterLevels(CharacterID chara)
     {
-        UpgradeState state          = GameState.Characters.GetCharacter(chara);
+        UpgradeState state          = GameState.Characters.Get(chara);
         ScriptableCharacter data    = CharacterResources.Instance.GetCharacter(chara);
 
         BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.gold, data.purchaseCost, 1.075, state.level);

@@ -30,7 +30,7 @@ public class PrestigeManager : MonoBehaviour
         Server.Prestige(Instance, Instance.OnPrestigeCallback, node);
     }
 
-    void OnPrestigeCallback(long code, string data)
+    void OnPrestigeCallback(long code, string compressed)
     {
         if (code == 200)
         {
@@ -38,7 +38,9 @@ public class PrestigeManager : MonoBehaviour
 
             SquadManager.ToggleAttacks(false);
 
-            Utils.File.Delete(DataManager.LOCAL_FILENAME);
+            GameState.Restore(Utils.Json.Decode(compressed));
+
+            Utils.File.WriteJson(DataManager.LOCAL_FILENAME, GameState.ToJson());
 
             StartCoroutine(PrestigeAnimation());
         }
@@ -55,6 +57,6 @@ public class PrestigeManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        SceneManager.LoadSceneAsync("InitScene");
+        SceneManager.LoadSceneAsync("GameScene");
     }
 }

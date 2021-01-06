@@ -17,7 +17,7 @@
 	"3": {
 		"name": "Increase Enemy Gold",
 		"bonusType": 1,
-		"value": 1.25
+		"value": 1.1
 	},
 	"4": {
 		"name": "Tap Damage",
@@ -48,5 +48,10 @@
 		"name": "Ranged Damage Boost",
 		"bonusType": 7,
 		"value": 1.25
+	},
+	"10": {
+		"name": "Crit Chance",
+		"bonusType": 8,
+		"value": 0.01
 	}
 }

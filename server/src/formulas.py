@@ -32,7 +32,7 @@ def bonuses_from_relics(staticrelics, userrelics):
 	d = {}
 
 	for relicid, relic in staticrelics.items():
-		level = userrelics.get(relicid, 0)
+		level = userrelics.get(str(relicid), 0)
 
 		if relic.bonusType in (BonusType.CRIT_CHANCE,):
 			d[relic.bonusType] = d.get(relic.bonusType, 0) + relic_effect(relic.baseeffect, relic.leveleffect, level)
@@ -58,7 +58,11 @@ def stage_prestige_points(stage, staticrelics, userrelics):
 
 	relic_bonuses = bonuses_from_relics(staticrelics, userrelics)
 
-	return math.ceil(math.pow(math.ceil((stage - 80) / 10.0), 2.1) * relic_bonuses.get(BonusType.CASH_OUT_BONUS, 1))
+	stage = max(stage, 80)
+
+	bonus = relic_bonuses.get(BonusType.CASH_OUT_BONUS, 1)
+
+	return math.ceil(math.pow(math.ceil((stage - 80) / 10.0), 2.1) * bonus)
 
 
 def bounty_point_claim(static, max_stage, last_claim) -> int:

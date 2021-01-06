@@ -28,7 +28,7 @@ public class SquadManager : MonoBehaviour
         {
             var chara = CharacterResources.Instance.Characters[i];
 
-            if (GameState.Characters.TryGetHeroState(chara.character, out UpgradeState _))
+            if (GameState.Characters.TryGetState(chara.character, out UpgradeState _))
                 AddCharacter(chara);
 
             yield return new WaitForFixedUpdate();

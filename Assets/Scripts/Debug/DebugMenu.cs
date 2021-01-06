@@ -20,6 +20,6 @@ public class DebugMenu : MonoBehaviour
 
     void ResetRelicsCallback(long code, string _)
     {
-        SceneManager.LoadSceneAsync("InitScene");
+        SceneManager.LoadSceneAsync("LoadScene");
     }
 }

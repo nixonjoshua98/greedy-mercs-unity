@@ -16,6 +16,11 @@ public class PlayerState
         Update(node);
     }
 
+    public void SoftReset()
+    {
+        gold = 0;
+    }
+
     public void Update(JSONNode node)
     {
         if (node.HasKey("player"))

@@ -23,7 +23,7 @@ class ClaimBounty(View):
 
 		stats = app.mongo.db.userStats.find_one({"userId": userid}) or dict()
 
-		max_stage = max(stats.get("maxStage", 0), data.get("currentStage", 0))
+		max_stage = max(stats.get("maxPrestigeStage", 0), data.get("currentStage", 0))
 
 		earned_points = formulas.bounty_point_claim(app.staticdata["bounties"], max_stage, bounties["lastClaimTime"])
 

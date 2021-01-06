@@ -22,7 +22,7 @@
 				"unlockLevel": 125
 			},
 			{
-				"skill": 3,
+				"skill": 10,
 				"unlockLevel": 150
 			},
 			{
@@ -182,11 +182,11 @@
 				"unlockLevel": 75
 			},
 			{
-				"skill": 3,
+				"skill": 10,
 				"unlockLevel": 100
 			},
 			{
-				"skill": 8,
+				"skill": 4,
 				"unlockLevel": 125
 			},
 			{
@@ -299,6 +299,62 @@
 			},
 			{
 				"skill": 5,
+				"unlockLevel": 125
+			},
+			{
+				"skill": 6,
+				"unlockLevel": 150
+			},
+			{
+				"skill": 4,
+				"unlockLevel": 200
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 250
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 300
+			},
+			{
+				"skill": 0,
+				"unlockLevel": 350
+			},
+			{
+				"skill": 3,
+				"unlockLevel": 400
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 450
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 500
+			}
+		]
+	},
+		"6": {
+		"passives": [
+			{
+				"skill": 7,
+				"unlockLevel": 25
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 50
+			},
+			{
+				"skill": 4,
+				"unlockLevel": 75
+			},
+			{
+				"skill": 6,
+				"unlockLevel": 100
+			},
+			{
+				"skill": 3,
 				"unlockLevel": 125
 			},
 			{

@@ -15,6 +15,7 @@ namespace CharacterData
         ANGEL = 3,
         MINOTAUR = 4,
         REAPER = 5,
+        FIRE_GOLEM = 6
     }
 
     [System.Serializable]

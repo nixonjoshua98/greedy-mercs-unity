@@ -1,15 +1,24 @@
 ﻿
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
-public class TapController : MonoBehaviour
+public class TapController : MonoBehaviour, IPointerDownHandler
 {
+    [SerializeField] ParticleSystem ps;
+
     public void Awake()
     {
         //InvokeRepeating("DoClick", 0.1f, 0.1f);
     }
 
-    public void OnClick()
+    public void OnPointerDown(PointerEventData eventData)
     {
+        ps.gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 1.0f));
+
+        ps.Play();
+
         DoClick();
     }
 

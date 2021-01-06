@@ -192,9 +192,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5943932086643442053}
-        m_MethodName: OnClick
-        m_Mode: 3
+      - m_Target: {fileID: 9109830263608219622}
+        m_MethodName: DestroyNow
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -323,8 +323,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5943932086643442053}
-        m_MethodName: OnClick
-        m_Mode: 3
+        m_MethodName: OnBuy
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -437,7 +437,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3113040057899015656}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8823339778653682420}
@@ -580,9 +580,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6436401465784355666}
+  - component: {fileID: 5943932086643442053}
   - component: {fileID: 1333561019390492140}
   - component: {fileID: 2467651867722854781}
-  - component: {fileID: 5943932086643442053}
+  - component: {fileID: 9109830263608219622}
   m_Layer: 5
   m_Name: WeaponInfo
   m_TagString: Untagged
@@ -610,6 +611,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5943932086643442053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4699740934719019892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63da5a95606086f42bc0aa25666991f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleText: {fileID: 8196737098522494397}
+  descText: {fileID: 4870414337604060088}
+  costText: {fileID: 102563709692520338}
+  weaponDamageText: {fileID: 1372850482107827708}
+  mergeImage: {fileID: 7146941824657924074}
+  weaponImage: {fileID: 8281618540078619435}
+  characterImage: {fileID: 1291412459389437676}
+  buyButton: {fileID: 8342704850287115955}
 --- !u!222 &1333561019390492140
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -647,7 +668,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5943932086643442053
+--- !u!114 &9109830263608219622
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -656,17 +677,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4699740934719019892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63da5a95606086f42bc0aa25666991f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 35a5e2ab15c16be4d8de5a930110e5ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 8196737098522494397}
-  descText: {fileID: 4870414337604060088}
-  costText: {fileID: 102563709692520338}
-  weaponDamageText: {fileID: 1372850482107827708}
-  mergeImage: {fileID: 7146941824657924074}
-  weaponImage: {fileID: 8281618540078619435}
-  characterImage: {fileID: 1291412459389437676}
-  buyButton: {fileID: 8342704850287115955}
 --- !u!1 &4845532221055063151
 GameObject:
   m_ObjectHideFlags: 0

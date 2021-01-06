@@ -30,7 +30,7 @@ public class CharacterResources : MonoBehaviour
     {
         _instance = this;
 
-        double prevPurchaseCost = 0;
+        BigDouble prevPurchaseCost = 0;
 
         for (int i = 0; i < Characters.Count; i++)
         {
@@ -67,7 +67,7 @@ public class CharacterResources : MonoBehaviour
 
         foreach (ScriptableCharacter chara in Instance.Characters)
         {
-            if (!GameState.Characters.TryGetHeroState(chara.character, out var _))
+            if (!GameState.Characters.TryGetState(chara.character, out var _))
             {
                 result = chara;
 

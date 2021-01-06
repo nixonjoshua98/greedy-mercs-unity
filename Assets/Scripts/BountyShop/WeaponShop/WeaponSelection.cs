@@ -67,67 +67,52 @@ namespace WeaponsUI
             }
         }
         // === Button Callbacks ===
-        void OnWeaponSelected(int weaponTier)
+        void OnWeaponSelected(int weaponIndex)
         {
-            int weaponOwned = GameState.Weapons.Get(character.character, weaponTier);
+            int weaponOwned = GameState.Weapons.Get(character.character, weaponIndex);
 
-            WeaponStaticData staticWeaponData = StaticData.Weapons.Get(weaponTier);
-
-            // Already own max amount
-            if (weaponOwned >= staticWeaponData.maxOwned)
-                return;
+            WeaponStaticData staticWeaponData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
             // Local callback function
-            void callback(bool confirmed, int total) => OnConfirm(weaponTier, confirmed, total);
+            void callback(Action panelCallback) => OnConfirm(weaponIndex, panelCallback);
 
-            // The number of weapons the user can buy (this does not factor in if they can afford it)
-            int maxLevelsBuy = Mathf.Max(0, staticWeaponData.maxOwned - weaponOwned);
-
-            WeaponBuyConfirm confirm = Utils.UI.Instantiate(ConfirmSliderObject, Vector3.zero).GetComponent<WeaponBuyConfirm>();
+            WeaponInfoPanel confirm = Utils.UI.Instantiate(ConfirmSliderObject, Vector3.zero).GetComponent<WeaponInfoPanel>();
 
             // Init the confirm widget
-            confirm.Init(character, staticWeaponData, maxLevelsBuy, callback);
+            confirm.Init(character, character.weapons[weaponIndex], weaponIndex, callback);
         }
 
-        void OnConfirm(int weaponTier, bool confirmed, int total)
+        void OnConfirm(int weaponIndex, Action callback)
         {
             // Local method to forward some arguments to the method
-            void ServerCallback(long code, string compressed) => OnServerWeaponBuy(weaponTier, total, code, compressed);
+            void ServerCallback(long code, string compressed) => OnServerWeaponBuy(weaponIndex, code, compressed, callback);
 
-            if (confirmed && total > 0)
+            WeaponStaticData weapon = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
+
+            // User can afford (lcoally) so we ask the server to verify
+            if (weapon.buyCost <= GameState.Player.bountyPoints)
             {
-                WeaponStaticData weapon = StaticData.Weapons.Get(weaponTier);
+                var node = Utils.Json.GetDeviceNode();
 
-                int cost = weapon.cost * total;
+                node.Add("characterId", (int)character.character);
+                node.Add("weaponId", weaponIndex);
 
-                // User can afford (lcoally) so we ask the server to verify
-                if (cost <= GameState.Player.bountyPoints)
-                {
-                    var node = Utils.Json.GetDeviceNode();
-
-                    node.Add("characterId", (int)character.character);
-                    node.Add("weaponId", weaponTier);
-                    node.Add("buying", total);
-
-                    Server.BuyWeapon(this, ServerCallback, node);
-                }
+                Server.BuyWeapon(this, ServerCallback, node);
             }
         }
 
-        void OnServerWeaponBuy(int weaponIndex, int total, long code, string compressed)
+        void OnServerWeaponBuy(int weaponIndex, long code, string compressed, Action callback)
         {
             if (code == 200)
             {
-                WeaponStaticData weapon = StaticData.Weapons.Get(weaponIndex);
+                var node = Utils.Json.Decode(compressed);
 
-                // Subtract the amount
-                GameState.Player.bountyPoints -= (weapon.cost * total);
-
-                // Add the weapons to the user
-                GameState.Weapons.Add(character.character, weaponIndex, total);
+                GameState.Update(node);
 
                 EventManager.OnWeaponBought.Invoke(character, weaponIndex);
             }
+
+            callback();
         }
     }
 }

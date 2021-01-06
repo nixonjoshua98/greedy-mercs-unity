@@ -20,11 +20,14 @@ public class RelicContainer
 
     public void Update(JSONNode node)
     {
-        relics = new Dictionary<RelicID, UpgradeState>();
-
-        foreach (string relicId in node["relics"].Keys)
+        if (node.HasKey("relics"))
         {
-            relics[(RelicID)int.Parse(relicId)] = new UpgradeState { level = node["relics"][relicId].AsInt };
+            relics = new Dictionary<RelicID, UpgradeState>();
+
+            foreach (string relicId in node["relics"].Keys)
+            {
+                relics[(RelicID)int.Parse(relicId)] = new UpgradeState { level = node["relics"][relicId].AsInt };
+            }
         }
     }
 

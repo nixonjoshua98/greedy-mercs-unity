@@ -14,6 +14,13 @@ public static class Formulas
      * ===
      */
 
+    public static double CalcWeaponDamage(int weaponIndex, int owned)
+    {
+        var staticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
+
+        return owned * staticData.damageBonus;
+    }
+
     public static BigDouble CalcEnemyHealth(int stage)
     {
         return 15.0 * BigDouble.Pow(1.29f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 65, 0));
@@ -146,7 +153,7 @@ public static class Formulas
         UpgradeState state          = GameState.Relics.GetRelic(relic);
         RelicStaticData staticData  = StaticData.Relics.Get(relic);
 
-        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.AsBigDouble(), staticData.baseCost, staticData.costPower, state.level - 1);
+        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.ToBigDouble(), staticData.baseCost, staticData.costPower, state.level - 1);
 
         int maxLevels = int.Parse(bigAnswer.ToString());
 

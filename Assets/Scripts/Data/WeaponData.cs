@@ -10,7 +10,8 @@ namespace WeaponData
     [System.Serializable]
     public struct WeaponStaticData
     {
-        public int cost;
+        public int buyCost;
+        public int mergeCost;
 
         public int maxOwned;
 
@@ -43,7 +44,7 @@ namespace WeaponData
             }
         }
 
-        public WeaponStaticData Get(int weaponIndex)
+        public WeaponStaticData GetWeaponAtIndex(int weaponIndex)
         {
             return weapons[weaponIndex];
         }

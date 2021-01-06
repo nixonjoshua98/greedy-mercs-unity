@@ -1,19 +1,19 @@
 {
   "0": {
-    "damageBonus": 1.25,
-    "maxOwned": 10,
-    "cost": 3
+    "damageBonus": 1.1,
+    "maxOwned": 25,
+    "buyCost": 5
   },
 
   "1": {
     "damageBonus": 1.5,
     "maxOwned": 10,
-    "cost": 10
+    "mergeCost": 3
   },
 
   "2": {
     "damageBonus": 2.0,
     "maxOwned": 10,
-    "cost": 25
+    "mergeCost": 3
   }
 }

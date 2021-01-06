@@ -14,6 +14,8 @@ class ClaimBounty(View):
 	@checks.login_check
 	def dispatch_request(self, *, userid):
 
+		now = dt.datetime.utcnow()
+
 		data = utils.decompress(request.data)
 
 		bounties = app.mongo.db.userBounties.find_one({"userId": userid})
@@ -30,17 +32,12 @@ class ClaimBounty(View):
 		if earned_points == 0:
 			return Response(utils.compress({"message": ""}), status=400)
 
-		items = app.mongo.db.userItems.find_one_and_update(
-			{"userId": userid},
-			{"$inc": {"bountyPoints": earned_points}},
-			return_document=ReturnDocument.AFTER,
-			upsert=True
-		)
+		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
-		now = dt.datetime.utcnow()
+		bp = int(items.get("bountyPoints", 0)) + earned_points
 
-		#app.mongo.db.userBounties.update_one({"userId": userid}, {"$set": {"lastClaimTime": now}})
+		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"bountyPoints": str(bp)}}, upsert=True)
 
-		return_data = {"bountyPoints": items["bountyPoints"], "lastClaimTime": now}
+		app.mongo.db.userBounties.update_one({"userId": userid}, {"$set": {"lastClaimTime": now}})
 
-		return Response(utils.compress(return_data), status=200)
+		return Response(utils.compress({"bountyPoints": str(bp), "lastClaimTime": now}), status=200)

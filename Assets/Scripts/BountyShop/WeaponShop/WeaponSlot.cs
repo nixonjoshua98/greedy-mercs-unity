@@ -33,7 +33,7 @@ namespace WeaponsUI
 
         public void FixedUpdate()
         {
-            WeaponStaticData staticData = StaticData.Weapons.Get(weaponIndex);
+            WeaponStaticData staticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
             int weaponOwned = GameState.Weapons.Get(character.character, weaponIndex);
 

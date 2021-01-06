@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class BountyContainer
 {
+    const int MAX_HOURS = 12;
+
     DateTime lastClaimTime;
 
     public BountyContainer(JSONNode node)
@@ -40,15 +42,15 @@ public class BountyContainer
         {
             float secondsSinceClaim = (float)(DateTime.UtcNow - lastClaimTime).TotalSeconds;
 
-            return Mathf.FloorToInt(Mathf.Min(6 * 3_600, secondsSinceClaim));
+            return Mathf.Max(0, Mathf.FloorToInt(Mathf.Min(MAX_HOURS * 3_600.0f, secondsSinceClaim)));
         }
     }
 
-    public float PercentFilled { get { return TimeSinceClaim / (6 * 3_600.0f); } }
+    public float PercentFilled { get { return TimeSinceClaim / (MAX_HOURS * 3_600.0f); } }
 
     public int CurrentClaimAmount { get { return Mathf.FloorToInt((TimeSinceClaim / 3_600.0f) * HourlyIncome); } }
 
-    public int MaxClaimAmount {  get { return HourlyIncome * 6; } }
+    public int MaxClaimAmount {  get { return HourlyIncome * 12; } }
 
     public int HourlyIncome
     {

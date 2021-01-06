@@ -74,7 +74,7 @@ public class StatsCache : MonoBehaviour
 
     public static BigInteger GetPrestigePoints(int stage)
     {
-        BigDouble big = Formulas.CalcPrestigePoints(stage).AsBigDouble() * AddictiveBonuses(BonusType.CASH_OUT_BONUS);
+        BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyBonuses(BonusType.CASH_OUT_BONUS);
 
         return BigInteger.Parse(big.Ceiling().ToString("F0"));
     }

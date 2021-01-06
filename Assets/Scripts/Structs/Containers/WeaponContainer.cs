@@ -20,17 +20,20 @@ public class WeaponContainer
 
     public void Update(JSONNode node)
     {
-        weapons = new Dictionary<CharacterID, Dictionary<int, int>>();
-
-        foreach (string stringKey in node["weapons"].Keys)
+        if (node.HasKey("weapons"))
         {
-            CharacterID key = (CharacterID)int.Parse(stringKey);
+            weapons = new Dictionary<CharacterID, Dictionary<int, int>>();
 
-            weapons[key] = new Dictionary<int, int>();
-
-            foreach (string weaponString in node["weapons"][stringKey].Keys)
+            foreach (string stringKey in node["weapons"].Keys)
             {
-                weapons[key][int.Parse(weaponString)] = node["weapons"][stringKey][weaponString].AsInt;
+                CharacterID key = (CharacterID)int.Parse(stringKey);
+
+                weapons[key] = new Dictionary<int, int>();
+
+                foreach (string weaponString in node["weapons"][stringKey].Keys)
+                {
+                    weapons[key][int.Parse(weaponString)] = node["weapons"][stringKey][weaponString].AsInt;
+                }
             }
         }
     }
@@ -60,7 +63,7 @@ public class WeaponContainer
 
         foreach (KeyValuePair<int, int> weapon in Get(character))
         {
-            WeaponStaticData staticData = StaticData.Weapons.Get(weapon.Key);
+            WeaponStaticData staticData = StaticData.Weapons.GetWeaponAtIndex(weapon.Key);
 
             // Weapon owned > 0
             if (weapon.Value > 0)

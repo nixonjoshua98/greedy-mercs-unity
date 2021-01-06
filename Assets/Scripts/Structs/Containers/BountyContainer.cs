@@ -23,7 +23,7 @@ public class BountyContainer
         if (node.HasKey("bounties"))
             node = node["bounties"];
 
-        lastClaimTime = DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime;
+        lastClaimTime = node.HasKey("lastClaimTime") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime : lastClaimTime;
     }
 
     public JSONNode ToJson()

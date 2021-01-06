@@ -1,7 +1,5 @@
 import datetime as dt
 
-from pymongo import ReturnDocument
-
 from flask import Response, request, current_app as app
 
 from flask.views import View

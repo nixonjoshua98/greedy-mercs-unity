@@ -31,7 +31,6 @@ namespace BountyUI
                 bountyIcon.SetBountyIndex(bounty.Key);
 
                 yield return new WaitForFixedUpdate();
-
             }
         }
 
@@ -39,10 +38,10 @@ namespace BountyUI
         {
             bountyPoints.text = Utils.Format.FormatNumber(GameState.Player.bountyPoints) + " Bounty Points";
 
-            UpdateCollection();
+            UpdateSlider();
         }
 
-        void UpdateCollection()
+        void UpdateSlider()
         {
             collectionSlider.value  = GameState.Bounties.PercentFilled;
 

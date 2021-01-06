@@ -19,17 +19,18 @@ class Login(View):
 
 			uid = result.inserted_id
 
-			app.mongo.db.userBounties.update_one(
-				{"userId": uid},
-				{"$set": {"lastClaimTime": dt.datetime.utcnow()}},
-				upsert=True
-			)
-
 		else:
 			uid = row["_id"]
 
 		items = app.mongo.db.userItems.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
-		bounties = app.mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
+		bounties = app.mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0})
+
+		if bounties is None:
+			now = dt.datetime.utcnow()
+
+			app.mongo.db.userBounties.update_one({"userId": uid}, {"$set": {"lastClaimTime": now}}, upsert=True)
+
+			bounties = {"lastClaimTime": now}
 
 		print(uid)
 

@@ -18,7 +18,7 @@ public static class Formulas
     {
         var staticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
-        return owned * staticData.damageBonus;
+        return 1 + (owned * (staticData.damageBonus - 1));
     }
 
     public static BigDouble CalcEnemyHealth(int stage)
@@ -51,7 +51,7 @@ public static class Formulas
 
         ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
 
-        return (data.purchaseCost / 10.0f) * state.level * BigDouble.Pow(3.0f, (state.level - 1) / 100.0f) * (1 - (0.032f * data.unlockOrder));
+        return (data.purchaseCost / (10.0f + data.unlockOrder)) * state.level * BigDouble.Pow(2.0f, (state.level - 1) / 100.0f) * (1 - (0.03f * data.unlockOrder));
     }
 
     // ===

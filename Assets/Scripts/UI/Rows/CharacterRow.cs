@@ -21,23 +21,29 @@ public class CharacterRow : MonoBehaviour
 
     ScriptableCharacter character;
 
-    // ===
-    int maxCharacterLevel;
+    protected int BuyAmount
+    {
+        get
+        {
+            if (MercsTab.BuyAmount == -1)
+                return Formulas.AffordCharacterLevels(character.character);
 
-    protected int BuyAmount { get { return MercsTab.BuyAmount == -1 ? Formulas.AffordCharacterLevels(character.character) : Mathf.Min(Formulas.AffordCharacterLevels(character.character), MercsTab.BuyAmount); } }
+            var state = GameState.Characters.Get(character.character);
+
+            return Mathf.Min(MercsTab.BuyAmount, StaticData.MAX_CHAR_LEVEL - state.level);
+        }
+    }
 
     public void SetCharacter(ScriptableCharacter chara)
     {
         character = chara;
 
-        Name.text = chara.name;
+        Name.text   = chara.name;
         Icon.sprite = chara.icon;
-
-        maxCharacterLevel = StaticData.MAX_CHAR_LEVEL;
 
         UpdateRow();
 
-        InvokeRepeating("UpdateRow", 0.5f, 0.5f);
+        InvokeRepeating("UpdateRow", 0.25f, 0.25f);
     }
 
     void UpdateRow()
@@ -45,11 +51,11 @@ public class CharacterRow : MonoBehaviour
         var state = GameState.Characters.Get(character.character);
 
         Damage.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.character)) + " DPS";
-        UpgradeCost.text    = state.level >= maxCharacterLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.character, BuyAmount));
+        UpgradeCost.text    = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.character, BuyAmount));
         LevelText.text      = "Level " + state.level.ToString();
-        UpgradeAmount.text  = state.level >= maxCharacterLevel ? "" : "x" + BuyAmount.ToString();
+        UpgradeAmount.text  = state.level >= StaticData.MAX_CHAR_LEVEL ? "" : "x" + BuyAmount.ToString();
 
-        UpgradeButton.interactable = state.level < maxCharacterLevel;
+        UpgradeButton.interactable = state.level < StaticData.MAX_CHAR_LEVEL;
     }
 
     // === Button Callbacks ===
@@ -62,7 +68,7 @@ public class CharacterRow : MonoBehaviour
 
         BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.character, levelsBuying);
 
-        if (state.level < maxCharacterLevel && GameState.Player.gold >= cost)
+        if (state.level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
         {
             state.level += levelsBuying;
 

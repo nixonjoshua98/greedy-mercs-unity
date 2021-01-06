@@ -40,7 +40,10 @@ public class RelicRow : UpgradeRow
         if (RelicsTab.BuyAmount == -1)
             return Formulas.AffordRelicLevels(relicId);
 
-        return Mathf.Min(RelicsTab.BuyAmount, Formulas.AffordRelicLevels(relicId));
+        RelicStaticData data    = StaticData.Relics.Get(relicId);
+        UpgradeState state      = GameState.Relics.GetRelic(relicId);
+
+        return Mathf.Min(RelicsTab.BuyAmount, data.maxLevel - state.level);
     }
 
     public override void UpdateRow()

@@ -124,7 +124,7 @@ public class StatsCache : MonoBehaviour
     // === Internal Methods ===
     static bool IsCacheOutdated(string key)
     {
-        if (!CachedValues.ContainsKey(key) || (Time.realtimeSinceStartup - CachedValues[key].CachedAt) >= 1.0f)
+        if (!CachedValues.ContainsKey(key) || (Time.realtimeSinceStartup - CachedValues[key].CachedAt) >= 0.5f)
         {
             CachedValues[key] = new CacheValue { CachedAt = Time.realtimeSinceStartup };
 

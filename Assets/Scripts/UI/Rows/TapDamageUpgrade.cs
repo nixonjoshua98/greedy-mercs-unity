@@ -15,7 +15,9 @@ public class TapDamageUpgrade : UpgradeRow
         if (PlayerTab.BuyAmount == -1)
             return Formulas.AffordTapDamageLevels();
 
-        return Mathf.Min(PlayerTab.BuyAmount, Formulas.AffordTapDamageLevels());
+        var state = GameState.Upgrades.GetUpgrade(upgradeId);
+
+        return Mathf.Min(PlayerTab.BuyAmount, StaticData.MAX_TAP_UPGRADE_LEVEL - state.level);
     }
 
     public override void UpdateRow()

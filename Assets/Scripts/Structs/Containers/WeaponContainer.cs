@@ -63,11 +63,7 @@ public class WeaponContainer
 
         foreach (KeyValuePair<int, int> weapon in Get(character))
         {
-            WeaponStaticData staticData = StaticData.Weapons.GetWeaponAtIndex(weapon.Key);
-
-            // Weapon owned > 0
-            if (weapon.Value > 0)
-                bonus *= (weapon.Value * staticData.damageBonus);
+            bonus *= Formulas.CalcWeaponDamage(weapon.Key, weapon.Value);
         }
 
         return bonus;

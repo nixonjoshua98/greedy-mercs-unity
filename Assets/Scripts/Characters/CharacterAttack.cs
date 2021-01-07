@@ -33,12 +33,9 @@ public abstract class CharacterAttack : MonoBehaviour
         // === Call the callback for the intial weapon change at creation ===
         int highestWeapon = GameState.Weapons.GetHighestTier(character);
 
-        if (highestWeapon > 0)
-        {
-            ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(character);
+        ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(character);
 
-            OnChangeWeapon(chara.weapons[highestWeapon]);
-        }
+        OnChangeWeapon(chara.weapons[highestWeapon]);
 
         EventManager.OnWeaponBought.AddListener(OnWeaponBought);
     }

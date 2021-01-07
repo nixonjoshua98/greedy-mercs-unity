@@ -4,13 +4,11 @@
     "maxOwned": 25,
     "buyCost": 5
   },
-
   "1": {
     "damageBonus": 1.25,
     "maxOwned": 10,
     "mergeCost": 3
   },
-
   "2": {
     "damageBonus": 1.5,
     "maxOwned": 10,

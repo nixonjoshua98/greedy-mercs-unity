@@ -8,4 +8,6 @@ using UnityEngine;
 public class ScriptableWeapon : ScriptableObject
 {
     public Sprite icon;
+
+    public GameObject projectile;
 }

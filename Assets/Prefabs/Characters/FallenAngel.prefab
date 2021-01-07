@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4044917154262169177}
-  - component: {fileID: 4044917154262169176}
   - component: {fileID: 2821288421720637013}
+  - component: {fileID: -3466918011677489780}
   m_Layer: 0
   m_Name: FallenAngel
   m_TagString: Untagged
@@ -34,22 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4044917154262169176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4044917154262169182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4834a3d103d90704e91fdefe63e30548, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heroId: 3
-  anim: {fileID: 4140710708500218812}
-  AttackDelay: 0.4
-  weaponSlot: {fileID: 4044664077747972816}
 --- !u!114 &2821288421720637013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +46,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3466918011677489780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044917154262169182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2af7204dd55304cafe586c29097b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: 3
+  anim: {fileID: 4140710708500218812}
+  delayBetweenAttacks: 1
+  weaponSlot: {fileID: 4044664077747972816}
 --- !u!1 &4044917155967761224
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +202,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4044917154262169176}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
 --- !u!4 &4047934244842792548 stripped

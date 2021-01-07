@@ -16,7 +16,7 @@ from src.views import (
 	BuyWeapon
 )
 
-from src.classes.relic import Relic
+from src.staticobjects import Relic
 
 app = Flask(__name__)
 

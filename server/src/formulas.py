@@ -69,7 +69,7 @@ def bounty_point_claim(static, max_stage, last_claim) -> int:
 	hourly_points = 0
 
 	for key, bounty in static.items():
-		if max_stage >= bounty["unlockStage"]:
+		if max_stage > bounty["unlockStage"]:
 			hourly_points += bounty["bountyPoints"]
 
 	seconds_since_claim = (dt.datetime.utcnow() - last_claim).total_seconds()

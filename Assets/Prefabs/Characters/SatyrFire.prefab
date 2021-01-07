@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4212931060154188391}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4212931058517878090
 GameObject:
@@ -120,8 +120,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4212931060154188391}
-  - component: {fileID: 5590839206907113548}
   - component: {fileID: 4229036076114746539}
+  - component: {fileID: 3451255439073906347}
   m_Layer: 0
   m_Name: SatyrFire
   m_TagString: Untagged
@@ -140,30 +140,12 @@ Transform:
   m_LocalPosition: {x: 9.27, y: -0.55, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4152767962883369001}
   - {fileID: 7637163329336135085}
+  - {fileID: 4152767962883369001}
   - {fileID: 4212931058517878091}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5590839206907113548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ced2482b9238674faa8d3046230212c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heroId: 2
-  anim: {fileID: 2828557145166165476}
-  AttackDelay: 0.6
-  Projectile: {fileID: 1372040286346358, guid: 53ebac442b16db64f9177d0c749cbb06, type: 3}
-  ProjectileStart: {fileID: 7637163329336135085}
-  weaponSlot: {fileID: 874984638601253130}
 --- !u!114 &4229036076114746539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +158,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3451255439073906347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212931060154188390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1f88c232469964ea4b771ccf94f352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: 2
+  anim: {fileID: 2828557145166165476}
+  delayBetweenAttacks: 1
+  ProjectileObject: {fileID: 892358329798779585, guid: cb280996a128c434a9838ee89aee0817,
+    type: 3}
+  startPosition: {fileID: 7637163329336135085}
+  weaponSlot: {fileID: 874984638601253130}
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,7 +187,11 @@ PrefabInstance:
     - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
       propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5590839206907113548}
+      objectReference: {fileID: 3451255439073906347}
+    - target: {fileID: 1196250874, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAttackEvent
+      objectReference: {fileID: 0}
     - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -225,7 +230,7 @@ PrefabInstance:
     - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
         type: 3}

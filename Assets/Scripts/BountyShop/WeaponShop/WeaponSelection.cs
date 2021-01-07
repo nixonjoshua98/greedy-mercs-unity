@@ -106,10 +106,10 @@ namespace WeaponsUI
             if (code == 200)
             {
                 var node = Utils.Json.Decode(compressed);
+              
+                EventManager.OnWeaponBought.Invoke(character, weaponIndex);
 
                 GameState.Update(node);
-
-                EventManager.OnWeaponBought.Invoke(character, weaponIndex);
             }
 
             callback();

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3769961914306909962}
-  - component: {fileID: 3769961914306909963}
   - component: {fileID: -8224316376877294289}
+  - component: {fileID: 1189416609139238448}
   m_Layer: 0
   m_Name: ReaperMan
   m_TagString: Untagged
@@ -34,22 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3769961914306909963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769961914306909961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4834a3d103d90704e91fdefe63e30548, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heroId: 5
-  anim: {fileID: 3820480451276261416}
-  AttackDelay: 1
-  weaponSlot: {fileID: 3771151371676756736}
 --- !u!114 &-8224316376877294289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +46,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1189416609139238448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769961914306909961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2af7204dd55304cafe586c29097b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: 5
+  anim: {fileID: 3820480451276261416}
+  delayBetweenAttacks: 1
+  weaponSlot: {fileID: 3771151371676756736}
 --- !u!1 &3769961915185294457
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,11 +204,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f2d67eda5136acb4eb7989d1657ea16e,
         type: 3}
+    - target: {fileID: 212168925770977038, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 668092448973186122, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30,
         type: 3}
       propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3769961914306909963}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30, type: 3}
 --- !u!4 &3765211726056894846 stripped

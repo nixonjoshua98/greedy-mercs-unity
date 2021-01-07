@@ -90,8 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5097099789489235669}
-  - component: {fileID: 5097099789489235690}
   - component: {fileID: 584215120242430387}
+  - component: {fileID: 5626720670049821243}
   m_Layer: 0
   m_Name: GolemStone
   m_TagString: Untagged
@@ -115,22 +115,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5097099789489235690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5097099789489235668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4834a3d103d90704e91fdefe63e30548, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heroId: 1
-  anim: {fileID: 1791531129569585673}
-  AttackDelay: 1.1
-  weaponSlot: {fileID: 5292051542539626501}
 --- !u!114 &584215120242430387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +127,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5626720670049821243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5097099789489235668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2af7204dd55304cafe586c29097b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: 1
+  anim: {fileID: 1791531129569585673}
+  delayBetweenAttacks: 1
+  weaponSlot: {fileID: 5292051542539626501}
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219,7 +219,12 @@ PrefabInstance:
         type: 3}
       propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5097099789489235690}
+      objectReference: {fileID: 5626720670049821243}
+    - target: {fileID: 5888709214993039019, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAttackEvent
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce9de6eff68268441bd3dbe5c5b088c9, type: 3}
 --- !u!4 &70885874337222266 stripped

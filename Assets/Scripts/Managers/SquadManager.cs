@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -11,13 +12,21 @@ public class SquadManager : MonoBehaviour
 {
     static SquadManager Instance = null;
 
-    [SerializeField] Transform SquadParent;
+    List<Transform> characterSpots;
 
-    [SerializeField] List<Transform> locations;
+    List<HeroAttack> attacks;
+
 
     void Awake()
     {
         Instance = this;
+
+        attacks = new List<HeroAttack>();
+
+        characterSpots = new List<Transform>();
+
+        for (int i = 0; i < transform.childCount; ++i)
+            characterSpots.Add(transform.GetChild(i));
 
         EventManager.OnHeroUnlocked.AddListener(OnHeroUnlocked);
     }
@@ -29,7 +38,9 @@ public class SquadManager : MonoBehaviour
             var chara = CharacterResources.Instance.Characters[i];
 
             if (GameState.Characters.TryGetState(chara.character, out UpgradeState _))
+            {
                 AddCharacter(chara);
+            }
 
             yield return new WaitForFixedUpdate();
         }
@@ -37,19 +48,20 @@ public class SquadManager : MonoBehaviour
 
     void AddCharacter(ScriptableCharacter chara)
     {
-        GameObject character = Instantiate(chara.prefab, locations[0]);
+        GameObject character = Instantiate(chara.prefab, transform);
 
-        character.transform.localPosition = Vector3.zero;
+        character.transform.position = characterSpots[0].position;
 
-        locations.RemoveAt(0);
+        attacks.Add(character.GetComponent<HeroAttack>());
+
+        Destroy(characterSpots[0].gameObject);
+
+        characterSpots.RemoveAt(0);
     }
 
     public static void ToggleAttacks(bool enabled)
     {
-        HeroAttack[] attacks = Instance.SquadParent.GetComponentsInChildren<HeroAttack>();
 
-        foreach (HeroAttack atk in attacks)
-            atk.enabled = enabled;
     }
 
     void OnHeroUnlocked(CharacterID chara)

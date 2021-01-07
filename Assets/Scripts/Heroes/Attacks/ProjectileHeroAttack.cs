@@ -69,7 +69,7 @@ public class ProjectileHeroAttack : HeroAttack
             yield return new WaitForFixedUpdate();
         }
 
-        OnProjectileFinished();
+        DealDamage();
 
         Destroy(projectile);
     }

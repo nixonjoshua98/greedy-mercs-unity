@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8552994621044990535}
-  - component: {fileID: 8552994621044990534}
   - component: {fileID: 9045855751808842391}
+  - component: {fileID: 7584063817302087079}
   m_Layer: 0
   m_Name: Minotaur
   m_TagString: Untagged
@@ -34,22 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8552994621044990534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8552994621044990532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4834a3d103d90704e91fdefe63e30548, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heroId: 4
-  anim: {fileID: 4196962537881791945}
-  AttackDelay: 0.5
-  weaponSlot: {fileID: 2006900576644043195}
 --- !u!114 &9045855751808842391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +46,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7584063817302087079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552994621044990532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2af7204dd55304cafe586c29097b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: 4
+  anim: {fileID: 4196962537881791945}
+  delayBetweenAttacks: 0.8
+  weaponSlot: {fileID: 2006900576644043195}
 --- !u!1 &8552994621849392845
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnAnimationEventCallback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 8552994621044990534}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f599d76226aa16e4b87e507fa32dd4b8, type: 3}
 --- !u!4 &7947168807643490579 stripped

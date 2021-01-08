@@ -10,6 +10,10 @@ class ResetAccount(View):
 	@checks.login_check
 	def dispatch_request(self, *, userid):
 
-		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"relics": {}, "weapons": {}}})
+		app.mongo.db.userItems.delete_one({"userId": userid})
+
+		app.mongo.db.userStats.delete_one({"userId": userid})
+
+		app.mongo.db.userBounties.delete_one({"userId": userid})
 
 		return "OK", 200

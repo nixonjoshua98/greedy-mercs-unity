@@ -6,6 +6,7 @@ using SimpleJSON;
 
 using UnityEngine;
 
+using BountyStaticData = BountyData.BountyStaticData;
 
 public class BountyContainer
 {
@@ -13,8 +14,12 @@ public class BountyContainer
 
     DateTime lastClaimTime;
 
+    public DateTime LastClaimTime {  get { return lastClaimTime; } }
+
     public BountyContainer(JSONNode node)
     {
+        lastClaimTime = DateTime.UtcNow;
+
         Update(node);
     }
 
@@ -30,16 +35,39 @@ public class BountyContainer
     {
         JSONNode node = new JSONObject();
 
-        node.Add("lastClaimTime", (new DateTimeOffset(lastClaimTime)).ToUnixTimeMilliseconds());
+        node.Add("lastClaimTime", lastClaimTime.ToUnixMilliseconds());
 
         return node;
     }
 
     // === Helper ===
+
+    public List<BountyStaticData> Unlocked()
+    {
+        int stage = Mathf.Max(GameState.Player.maxPrestigeStage, GameState.Stage.stage);
+
+        List<BountyStaticData> unlocked = new List<BountyStaticData>();
+
+        foreach (var bounty in StaticData.Bounties.All())
+        {
+            if (stage > bounty.Value.unlockStage)
+            {
+                unlocked.Add(bounty.Value);
+            }
+        }
+
+        return unlocked;
+    }
+
+
+
     public int TimeSinceClaim
     {
         get
         {
+            if (HourlyIncome == 0)
+                lastClaimTime = DateTime.UtcNow;
+
             float secondsSinceClaim = (float)(DateTime.UtcNow - lastClaimTime).TotalSeconds;
 
             return Mathf.Max(0, Mathf.FloorToInt(Mathf.Min(MAX_HOURS * 3_600.0f, secondsSinceClaim)));
@@ -58,9 +86,9 @@ public class BountyContainer
         {
             int total = 0;
 
-            foreach (var bounty in StaticData.Bounties.All())
+            foreach (var bounty in Unlocked())
             {
-                total += bounty.Value.bountyPoints;
+                total += bounty.bountyPoints;
             }
 
             return total;

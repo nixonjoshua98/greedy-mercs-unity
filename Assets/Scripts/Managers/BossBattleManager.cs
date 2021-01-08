@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using SD = RotaryHeart.Lib.SerializableDictionary;
+
+[System.Serializable]
+public class NamedBossesDict : SD.SerializableDictionaryBase<int, ScriptableStageBoss> { }
+
 public class BossBattleManager : MonoBehaviour
 {
     static BossBattleManager Instance = null;
@@ -15,16 +20,22 @@ public class BossBattleManager : MonoBehaviour
     // -----------------------
 
     [Header("UI Objects & Components")]
+    [SerializeField] GameObject bossAnimObject;
+
     [SerializeField] Slider BossSlider;
-    [SerializeField] Text BossTimerText; 
 
     [SerializeField] GameObject BossButton;
-    [SerializeField] GameObject BossText;
+
+    [Header("Text")]
+    [SerializeField] Text BossTimerText;
+    [SerializeField] Text bossNameText;
 
     [Header("Objects")]
     [SerializeField] Transform BossSpawnPoint;
-    [Space]
+
+    [Header("Bosses")]
     [SerializeField] GameObject[] BossObjects;
+    [SerializeField] NamedBossesDict namedBosses;
 
     GameObject CurrentBossEnemy;
 
@@ -39,7 +50,7 @@ public class BossBattleManager : MonoBehaviour
 
     void SetUIActive(bool active)
     {
-        BossText.SetActive(active);
+        bossAnimObject.SetActive(active);
 
         BossSlider.gameObject.SetActive(active);
         BossTimerText.gameObject.SetActive(active);
@@ -71,7 +82,25 @@ public class BossBattleManager : MonoBehaviour
     {
         SetUIActive(true);
 
-        CurrentBossEnemy = Instantiate(BossObjects[Random.Range(0, BossObjects.Length)], BossSpawnPoint.position, Quaternion.identity);
+        GameObject bossToSpawn;
+
+        bool isNamedBoss = namedBosses.TryGetValue(GameState.Stage.stage, out ScriptableStageBoss boss);
+
+        if (isNamedBoss)
+        {
+            bossToSpawn = boss.prefab;
+
+            bossNameText.text = boss.name.ToUpper();
+        }
+        // Normal boss
+        else
+        {
+            bossNameText.text = "BOSS BATTLE";
+
+            bossToSpawn = BossObjects[Random.Range(0, BossObjects.Length)];
+        }
+
+        CurrentBossEnemy = Instantiate(bossToSpawn, BossSpawnPoint.position, Quaternion.identity);
 
         EventManager.OnBossSpawned.Invoke(CurrentBossEnemy);
 

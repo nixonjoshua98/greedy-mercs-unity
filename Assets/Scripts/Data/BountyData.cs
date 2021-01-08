@@ -9,6 +9,8 @@ namespace BountyData
         public string name;
 
         public int bountyPoints;
+
+        public int unlockStage;
     }
 
     public class Bounties

@@ -24,6 +24,11 @@ public static class Extensions
     {
         return BigDouble.Parse(val.ToString());
     }
+
+    public static long ToUnixMilliseconds(this DateTime dt)
+    {
+        return (new DateTimeOffset(dt)).ToUnixTimeMilliseconds();
+    }
 }
 
 namespace Utils

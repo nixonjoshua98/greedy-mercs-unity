@@ -2378,7 +2378,7 @@ GameObject:
   - component: {fileID: 542105312}
   - component: {fileID: 542105311}
   m_Layer: 5
-  m_Name: BountIncomeText
+  m_Name: CollectionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2576,15 +2576,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a2545fb1a6b874e882b08646d189b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossAnimObject: {fileID: 751416876}
   BossSlider: {fileID: 1001024606}
-  BossTimerText: {fileID: 1001024605}
   BossButton: {fileID: 94065578}
-  BossText: {fileID: 751416876}
+  BossTimerText: {fileID: 1001024605}
+  bossNameText: {fileID: 751416878}
   BossSpawnPoint: {fileID: 1162191959}
   BossObjects:
   - {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
   - {fileID: 5799380237597311610, guid: 7727b43d97be31a498925e4ac622404e, type: 3}
   - {fileID: 8235730012151374199, guid: f64bb41d447e2624b8cf303609619b0f, type: 3}
+  namedBosses:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 05000000
+    _keys: 05000000
+    _values:
+    - {fileID: 11400000, guid: 54c3d10d9e9bf4c4cae3647cc137a206, type: 2}
 --- !u!1001 &564495045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3602,15 +3630,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9854a9650506c1a40b007bf94cfe10a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SquadParent: {fileID: 653920326}
-  locations:
-  - {fileID: 1171607898}
-  - {fileID: 760055831}
-  - {fileID: 741722248}
-  - {fileID: 774693203}
-  - {fileID: 1616156851}
-  - {fileID: 1301392685}
-  - {fileID: 2118678020}
 --- !u!1 &670878785
 GameObject:
   m_ObjectHideFlags: 0
@@ -4056,26 +4075,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 824469540}
     m_Modifications:
-    - target: {fileID: 972892592594191886, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 972892592594191886, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 972892592594191886, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 972892592594191887, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 972892593111626168, guid: 0e4209947266366499441aaf137589d5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4184,27 +4183,7 @@ PrefabInstance:
     - target: {fileID: 972892593111626169, guid: 0e4209947266366499441aaf137589d5,
         type: 3}
       propertyPath: m_Name
-      value: BossText
-      objectReference: {fileID: 0}
-    - target: {fileID: 972892593661309260, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 972892593661309263, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 972892593661309263, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 972892593661309263, guid: 0e4209947266366499441aaf137589d5,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
+      value: BossTitle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e4209947266366499441aaf137589d5, type: 3}
@@ -4220,6 +4199,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 751416875}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &751416878 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1260222464608095553, guid: 0e4209947266366499441aaf137589d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 751416875}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &760055830
 GameObject:
   m_ObjectHideFlags: 0
@@ -11347,6 +11338,6 @@ MonoBehaviour:
   bountyIncomeText: {fileID: 542105311}
   claimButtonText: {fileID: 2032707236}
   collectionSlider: {fileID: 1456412860}
-  bountyIconObject: {fileID: 1426325047700601188, guid: 66bbe82d105b1084799edac4b3709e56,
+  BountyIconObject: {fileID: 1426325047700601188, guid: 66bbe82d105b1084799edac4b3709e56,
     type: 3}
   bountyIconsParent: {fileID: 102590906}

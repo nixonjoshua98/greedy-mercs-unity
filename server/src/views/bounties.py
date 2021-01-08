@@ -19,7 +19,7 @@ class ClaimBounty(View):
 		bounties = app.mongo.db.userBounties.find_one({"userId": userid})
 
 		if bounties is None:
-			return Response(utils.compress({"message": ""}), status=400)
+			bounties = {"lastClaimTime": dt.datetime.utcfromtimestamp(data["lastClaimTime"] / 1000.0)}
 
 		stats = app.mongo.db.userStats.find_one({"userId": userid}) or dict()
 
@@ -36,6 +36,6 @@ class ClaimBounty(View):
 
 		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"bountyPoints": str(bp)}}, upsert=True)
 
-		app.mongo.db.userBounties.update_one({"userId": userid}, {"$set": {"lastClaimTime": now}})
+		app.mongo.db.userBounties.update_one({"userId": userid}, {"$set": {"lastClaimTime": now}}, upsert=True)
 
 		return Response(utils.compress({"bountyPoints": str(bp), "lastClaimTime": now}), status=200)

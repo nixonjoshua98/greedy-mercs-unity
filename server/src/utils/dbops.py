@@ -38,20 +38,17 @@ def get_player_data(mongo, uid):
 	"""
 
 	items = mongo.db.userItems.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
-	bounties = mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0})
+	stats = mongo.db.userStats.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
-	if bounties is None:
-		now = dt.datetime.utcnow()
-
-		mongo.db.userBounties.update_one({"userId": uid}, {"$set": {"lastClaimTime": now}}, upsert=True)
-
-		bounties = {"lastClaimTime": now}
+	bounties = mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
 	return {
 		"weapons": items.get("weapons", dict()),
 		"relics": items.get("relics", dict()),
 
 		"bounties": bounties,
+
+		"maxPrestigeStage": stats.get("maxPrestigeStage", 0),
 
 		"bountyPoints": items.get("bountyPoints", 0),
 		"prestigePoints": str(items.get("prestigePoints", 0))

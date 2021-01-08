@@ -2,6 +2,8 @@
 
 using SimpleJSON;
 
+using UnityEngine;
+
 
 [System.Serializable]
 public class PlayerState
@@ -10,6 +12,8 @@ public class PlayerState
 
     public BigInteger bountyPoints      = 0;
     public BigInteger prestigePoints    = 0;
+
+    public int maxPrestigeStage = 0;
 
     public void OnRestore(JSONNode node)
     {
@@ -28,13 +32,15 @@ public class PlayerState
 
         gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
 
+        maxPrestigeStage = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
+
         bountyPoints    = node.HasKey("bountyPoints")   ? BigInteger.Parse(node["bountyPoints"].Value, System.Globalization.NumberStyles.Any)   : bountyPoints;
         prestigePoints  = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
     }
 
     public JSONNode ToJson()
     {
-        JSONNode node = new JSONObject();
+        JSONNode node = JSON.Parse(JsonUtility.ToJson(this));
 
         node.Add("gold", gold.ToString().Replace("E", "e"));
         node.Add("bountyPoints", bountyPoints.ToString());

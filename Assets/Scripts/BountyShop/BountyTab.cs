@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,28 +16,66 @@ namespace BountyUI
         [SerializeField] Slider collectionSlider;
 
         [Header("Prefabs")]
-        [SerializeField] GameObject bountyIconObject;
+        [SerializeField] GameObject BountyIconObject;
 
         [Header("References")]
         [SerializeField] Transform bountyIconsParent;
 
-        IEnumerator Start()
+        List<GameObject> icons;
+
+        int numRelicsDisplayed = 0;
+
+        void Awake()
         {
-            foreach (var bounty in StaticData.Bounties.All())
+            icons = new List<GameObject>();
+        }
+
+        void OnEnable()
+        {
+            CheckNewBounty();
+
+            InvokeRepeating("CheckNewBounty", 1.0f, 1.0f);
+        }
+
+        void OnDisable()
+        {
+            CancelInvoke("CheckNewBounty");
+        }
+
+        void CheckNewBounty()
+        {
+            if (GameState.Bounties.Unlocked().Count != numRelicsDisplayed)
             {
-                GameObject inst = Utils.UI.Instantiate(bountyIconObject, bountyIconsParent, Vector3.one);
+                foreach (GameObject o in icons)
+                    Destroy(o);
+
+                CreateIcons();
+            }
+        }    
+
+        void CreateIcons()
+        {
+            numRelicsDisplayed = 0;
+
+            icons = new List<GameObject>();
+
+            foreach (var bounty in GameState.Bounties.Unlocked())
+            {
+                numRelicsDisplayed++;
+
+                GameObject inst = Utils.UI.Instantiate(BountyIconObject, bountyIconsParent, Vector3.one);
 
                 BountyIcon bountyIcon = inst.GetComponent<BountyIcon>();
 
-                bountyIcon.SetBountyIndex(bounty.Key);
+                bountyIcon.SetBounty(bounty);
 
-                yield return new WaitForFixedUpdate();
+                icons.Add(inst);
             }
         }
 
         void FixedUpdate()
         {
-            bountyPoints.text = Utils.Format.FormatNumber(GameState.Player.bountyPoints) + " Bounty Points";
+            bountyPoints.text = Utils.Format.FormatNumber(GameState.Player.bountyPoints);
 
             UpdateSlider();
         }
@@ -59,9 +98,9 @@ namespace BountyUI
             var node = Utils.Json.GetDeviceNode();
 
             node.Add("currentStage", GameState.Stage.stage);
+            node.Add("lastClaimTime", GameState.Bounties.LastClaimTime.ToUnixMilliseconds());
 
             Server.ClaimBounty(this, OnBountyClaim, node);
-
         }
 
         // === Server Callbacks ===

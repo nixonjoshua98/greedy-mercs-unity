@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using BountyStaticData = BountyData.BountyStaticData;
+
 namespace BountyUI
 {
     public class BountyIcon : MonoBehaviour
@@ -11,20 +13,12 @@ namespace BountyUI
         [Header("Components")]
         [SerializeField] Text bountyName;
         [SerializeField] Text info;
-        [SerializeField] Image icon;
-        [SerializeField] Button button;
 
-        int bountyIndex;
-
-        public void SetBountyIndex(int _bountyIndex)
+        public void SetBounty(BountyStaticData bounty)
         {
-            bountyIndex = _bountyIndex;
+            bountyName.text = bounty.name;
 
-            var staticData = StaticData.Bounties.Get(bountyIndex);
-
-            bountyName.text = staticData.name;
-
-            info.text = string.Format("{0} Points / hour", staticData.bountyPoints);
+            info.text = string.Format("{0} Points / hour", bounty.bountyPoints);
         }
     }
 }

@@ -14,14 +14,14 @@ public class SquadManager : MonoBehaviour
 
     List<Transform> characterSpots;
 
-    List<HeroAttack> attacks;
+    List<CharacterAttack> attacks;
 
 
     void Awake()
     {
         Instance = this;
 
-        attacks = new List<HeroAttack>();
+        attacks = new List<CharacterAttack>();
 
         characterSpots = new List<Transform>();
 
@@ -50,22 +50,58 @@ public class SquadManager : MonoBehaviour
     {
         GameObject character = Instantiate(chara.prefab, transform);
 
-        character.transform.position = characterSpots[0].position;
+        Vector3 endPos      = characterSpots[0].position;
+        Vector3 startPos    = endPos - new Vector3(7, 0, 0);
 
-        attacks.Add(character.GetComponent<HeroAttack>());
+        character.transform.position = startPos;
+
+        var atk = character.GetComponent<CharacterAttack>();
+
+        attacks.Add(atk);
 
         Destroy(characterSpots[0].gameObject);
 
         characterSpots.RemoveAt(0);
-    }
 
-    public static void ToggleAttacks(bool enabled)
-    {
-
+        StartCoroutine(MoveInCharacter(atk, startPos, endPos, 2.0f));
     }
 
     void OnHeroUnlocked(CharacterID chara)
     {
         AddCharacter(CharacterResources.Instance.GetCharacter(chara));
+    }
+
+    IEnumerator MoveInCharacter(CharacterAttack atk, Vector3 start, Vector3 end, float duration)
+    {
+        atk.ToggleAttacking(false);
+
+        atk.Anim.Play("Walk");
+
+        yield return Utils.Lerp.Local(atk.gameObject, start, end, duration);
+
+        atk.Anim.Play("Idle");
+
+        atk.ToggleAttacking(true);
+    }
+
+    public static IEnumerator MoveOut(float duration)
+    {
+        foreach (var atk in Instance.attacks)
+        {
+            Character character = atk.GetComponent<Character>();
+
+            character.Flip();
+
+            atk.ToggleAttacking(false);
+
+            atk.Anim.Play("Walk");
+
+            Vector3 start   = atk.transform.localPosition;
+            Vector3 end     = start - new Vector3(7, 0, 0);
+
+            Instance.StartCoroutine(Utils.Lerp.Local(atk.gameObject, start, end, duration));
+        }
+
+        yield return new WaitForSeconds(duration);
     }
 }

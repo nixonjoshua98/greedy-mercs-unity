@@ -3,12 +3,15 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Numerics;
+using System.Collections;
 using System.IO.Compression;
 using System.Collections.Generic;
 
 using SimpleJSON;
 
 using UnityEngine;
+
+using Vector3 = UnityEngine.Vector3;
 
 public static class Extensions
 {    
@@ -31,7 +34,7 @@ namespace Utils
         {
             switch (skill)
             {
-                case BonusType.MERC_DAMAGE:         return "Merc Damage";
+                case BonusType.MERC_DAMAGE:             return "Merc Damage";
                 case BonusType.TAP_DAMAGE:              return "Tap Damage";
                 case BonusType.HERO_TAP_DAMAGE_ADD:     return "Merc Tap Damage Bonus";
                 case BonusType.ENEMY_GOLD:              return "Enemy Gold";
@@ -49,6 +52,26 @@ namespace Utils
             }
         }
     }
+
+    public class Lerp
+    {
+        public static IEnumerator Local(GameObject o, Vector3 start, Vector3 end, float dur)
+        {
+            float progress = 0.0f;
+
+            o.transform.localPosition = start;
+
+            while (progress < 1.0f)
+            {
+                progress += (Time.deltaTime / dur);
+
+                o.transform.localPosition = Vector3.Lerp(start, end, progress);
+
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
+
 
     public class Json
     {

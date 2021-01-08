@@ -18,8 +18,7 @@ public class SatyrAttack : CharacterProjectileAttack
     protected override void OnChangeWeapon(ScriptableWeapon weapon)
     {
         weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
-
-        if (weapon.projectile != null)
-            ProjectileObject = weapon.projectile;
+        
+        ProjectileObject = weapon.prefab;
     }
 }

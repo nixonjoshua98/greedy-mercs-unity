@@ -36,8 +36,6 @@ public class PrestigeManager : MonoBehaviour
         {
             DataManager.IsPaused = true;
 
-            SquadManager.ToggleAttacks(false);
-
             GameState.Restore(Utils.Json.Decode(compressed));
 
             Utils.File.WriteJson(DataManager.LOCAL_FILENAME, GameState.ToJson());
@@ -55,7 +53,7 @@ public class PrestigeManager : MonoBehaviour
 
     IEnumerator PrestigeAnimation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return SquadManager.MoveOut(1.5f);
 
         SceneManager.LoadSceneAsync("GameScene");
     }

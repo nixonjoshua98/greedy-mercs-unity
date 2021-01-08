@@ -13,6 +13,8 @@ public abstract class CharacterAttack : MonoBehaviour
     [Header("Components")]
     [SerializeField] protected Animator anim;
 
+    public Animator Anim { get { return anim; } }
+
     [Header("Properties")]
     [SerializeField, Range(0, 2.5f)] float delayBetweenAttacks = 0.25f;
 
@@ -22,6 +24,8 @@ public abstract class CharacterAttack : MonoBehaviour
 
     bool isAttacksToggled;
 
+    public bool move;
+
     protected bool CanAttack { get { return isAttacksToggled && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"); } }
 
     void Awake()
@@ -29,13 +33,16 @@ public abstract class CharacterAttack : MonoBehaviour
         ToggleAttacking(true);
 
         attackTimer = delayBetweenAttacks;
-        
-        // === Call the callback for the intial weapon change at creation ===
-        int highestWeapon = GameState.Weapons.GetHighestTier(character);
 
+        // === Call the callback for the intial weapon change at creation ===
         ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(character);
 
-        OnChangeWeapon(chara.weapons[highestWeapon]);
+        if (chara.weapons.Length > 1)
+        {
+            int highestWeapon = GameState.Weapons.GetHighestTier(character);
+
+            OnChangeWeapon(chara.weapons[highestWeapon]);
+        }
 
         EventManager.OnWeaponBought.AddListener(OnWeaponBought);
     }

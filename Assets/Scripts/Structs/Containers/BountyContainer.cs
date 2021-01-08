@@ -6,6 +6,7 @@ using SimpleJSON;
 
 using UnityEngine;
 
+
 public class BountyContainer
 {
     const int MAX_HOURS = 12;
@@ -40,18 +41,16 @@ public class BountyContainer
 
     // === Helper ===
 
-    public Dictionary<int, BountySO> Unlocked()
+    public Dictionary<BountyID, BountySO> Unlocked()
     {
         int stage = Mathf.Max(GameState.Player.maxPrestigeStage, GameState.Stage.stage);
 
-        Dictionary<int, BountySO> unlocked = new Dictionary<int, BountySO>();
+        Dictionary<BountyID, BountySO> unlocked = new Dictionary<BountyID, BountySO>();
 
-        foreach (int key in BountyResources.Keys)
+        foreach (BountySO bounty in StaticData.Bounties.List)
         {
-            BountySO bounty = BountyResources.Get(key);
-
             if (stage > bounty.unlockStage)
-                unlocked.Add(key, bounty);
+                unlocked.Add(bounty.BountyID, bounty);
         }
 
         return unlocked;

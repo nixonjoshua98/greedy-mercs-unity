@@ -10,6 +10,9 @@ public class Initializer : MonoBehaviour
 {
     [SerializeField] GameObject ServerErrorMessage;
 
+    [Header("Scriptables")]
+    [SerializeField] BountyListSO BountyList;
+
     void Awake()
     {
         Debug.Log(Application.persistentDataPath);
@@ -73,6 +76,10 @@ public class Initializer : MonoBehaviour
 
     void RestoreStaticData(JSONNode node)
     {
+        BountyList.Restore(node["bounties"]);
+
         StaticData.Restore(node);
+
+        StaticData.AssignBounties(BountyList);
     }
 }

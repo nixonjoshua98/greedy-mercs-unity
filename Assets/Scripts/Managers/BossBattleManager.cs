@@ -78,7 +78,7 @@ public class BossBattleManager : MonoBehaviour
 
         GameObject bossToSpawn;
 
-        bool isNamedBoss = BountyResources.GetStageBoss(GameState.Stage.stage, out BountySO boss);
+        bool isNamedBoss = StaticData.Bounties.GetStageBoss(GameState.Stage.stage, out BountySO boss);
 
         if (isNamedBoss)
         {

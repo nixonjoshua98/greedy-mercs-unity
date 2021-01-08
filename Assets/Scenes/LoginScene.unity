@@ -213,7 +213,7 @@ RectTransform:
   m_Children:
   - {fileID: 1388807365}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -463,7 +463,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &993344751
 GameObject:
@@ -496,6 +496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerErrorMessage: {fileID: 4981266009914089297, guid: 668c075a7cb13014e97fba64c15fffca,
     type: 3}
+  BountyList: {fileID: 11400000, guid: a4189d8736398f243bc8283ca9c72c93, type: 2}
 --- !u!4 &993344753
 Transform:
   m_ObjectHideFlags: 0
@@ -508,7 +509,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1388807364
 GameObject:

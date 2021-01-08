@@ -1,13 +1,11 @@
 ﻿
 using UnityEngine;
 
-using ServerBountyData = BountyData.ServerBountyData;
-
 [PreferBinarySerialization]
 [CreateAssetMenu(menuName = "Scriptables/Bounty")]
 public class BountySO : ScriptableObject
 {
-    public int BountyID;
+    public BountyID BountyID;
 
     [Space]
 
@@ -20,10 +18,8 @@ public class BountySO : ScriptableObject
     [HideInInspector] public int bountyPoints;
     [HideInInspector] public int unlockStage;
 
-    public void OnAwake()
+    public void Init(BountyStaticData data)
     {
-        ServerBountyData data = StaticData.Bounties.Get(BountyID);
-
         bountyPoints    = data.bountyPoints;
         unlockStage     = data.unlockStage;
     }

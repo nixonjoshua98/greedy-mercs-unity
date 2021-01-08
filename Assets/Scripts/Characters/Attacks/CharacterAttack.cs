@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Stopwatch     = System.Diagnostics.Stopwatch;
 using CharacterID   = CharacterData.CharacterID;
 
 public abstract class CharacterAttack : MonoBehaviour
@@ -23,9 +22,7 @@ public abstract class CharacterAttack : MonoBehaviour
     float lastAttackTime;
 
     bool isAttacksToggled;
-
-    public bool move;
-
+    
     protected bool CanAttack { get { return isAttacksToggled && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"); } }
 
     void Awake()

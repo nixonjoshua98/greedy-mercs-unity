@@ -13,7 +13,7 @@ namespace BountyUI
         [SerializeField] Image icon;
         [SerializeField] Text info;
 
-        public void SetBounty(ScriptableBounty bounty)
+        public void SetBounty(BountySO bounty)
         {
             bountyName.text = bounty.name;
 

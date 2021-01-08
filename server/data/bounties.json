@@ -1,10 +1,10 @@
 {
   "0": {
-    "bountyPoints": 5,
+    "bountyPoints": 500,
     "unlockStage": 5
   },
   "1": {
-    "bountyPoints": 5,
+    "bountyPoints": 500,
     "unlockStage": 25
   }
 }

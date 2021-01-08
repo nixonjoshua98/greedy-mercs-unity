@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6544068551130211092}
   - component: {fileID: 3580342980841700697}
   m_Layer: 0
-  m_Name: Mr. Understood
+  m_Name: Mr. Misunderstood
   m_TagString: BossEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 910022803194667864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.4841307, y: 8.0700035, z: 1}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 914214804004490412}
   - {fileID: 7175337199097397348}

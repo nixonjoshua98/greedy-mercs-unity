@@ -44,12 +44,11 @@ public class Initializer : MonoBehaviour
 
     void ServerStaticDataCallback(long code, string compressedJson)
     {
-
         if (code == 200)
         {
             JSONNode node = Utils.Json.Decode(compressedJson);
 
-            StaticData.Restore(node);
+            RestoreStaticData(node);
 
             Utils.File.WriteJson(DataManager.LOCAL_STATIC_FILENAME, node);
         }
@@ -57,7 +56,9 @@ public class Initializer : MonoBehaviour
         else
         {
             if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
-                StaticData.Restore(JSON.Parse(localSaveJson));
+            {
+                RestoreStaticData(JSON.Parse(localSaveJson));
+            }
 
             else
             {
@@ -68,5 +69,10 @@ public class Initializer : MonoBehaviour
         }
 
         SceneManager.LoadSceneAsync("GameScene");
+    }
+
+    void RestoreStaticData(JSONNode node)
+    {
+        StaticData.Restore(node);
     }
 }

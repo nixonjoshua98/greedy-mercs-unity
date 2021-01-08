@@ -1,36 +1,40 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
+
 using UnityEngine;
+
 
 public class BountyResources : MonoBehaviour
 {
     static BountyResources Instance = null;
 
-    // === Data ===
-    public List<ScriptableBounty> bounties;
+    public List<BountySO> bountyList;
 
-    public static List<ScriptableBounty> All { get { return Instance.bounties; } }
+    public static List<int> Keys { get { return Instance.bountyList.Select(o => o.BountyID).ToList(); } }
+
 
     void Awake()
     {
         Instance = this;
 
-        foreach (var bounty in StaticData.Bounties.All())
-        {
-            bounties[bounty.Key].Init(bounty.Value);
-        }
+        foreach (var row in bountyList)
+            row.OnAwake();
     }
 
-    public static ScriptableBounty Get(int index)
+    void Start()
     {
-        return Instance.bounties[index];
     }
 
-    public static bool TryGetStageBoss(int stage, out ScriptableBounty bounty)
+    public static BountySO Get(int bountyIndex)
+    {
+        return Instance.bountyList[bountyIndex];
+    }
+
+    public static bool GetStageBoss(int stage, out BountySO bounty)
     {
         bounty = null;
 
-        foreach (var b in All)
+        foreach (var b in Instance.bountyList)
         {
             if (b.unlockStage == stage)
             {

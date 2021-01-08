@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 913062268}
   - component: {fileID: 82948662021645400}
   m_Layer: 0
-  m_Name: ResourceManager
+  m_Name: Resources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,9 +65,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd47fbeb6683784686b057fadc8dc71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounties:
-  - {fileID: 11400000, guid: 4e610020ebf8fa94786188eca7f0b344, type: 2}
+  bountyList:
   - {fileID: 11400000, guid: af667dc0277b479419f99f61a31e24ef, type: 2}
+  - {fileID: 11400000, guid: 5f92bcfb869b4864e91bd9c078af77cc, type: 2}
 --- !u!114 &82948662021645400
 MonoBehaviour:
   m_ObjectHideFlags: 0

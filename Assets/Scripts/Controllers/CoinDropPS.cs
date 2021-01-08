@@ -8,8 +8,8 @@ public class CoinDropPS : MonoBehaviour
 
     void Awake()
     {
-        EventManager.OnKillEnemy.AddListener(Activate);
-        EventManager.OnKilledBoss.AddListener(Activate);
+        Events.OnKillEnemy.AddListener(Activate);
+        Events.OnKilledBoss.AddListener(Activate);
     }
 
     void Activate()

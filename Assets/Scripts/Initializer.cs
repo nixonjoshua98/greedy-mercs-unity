@@ -6,6 +6,8 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using BountyData;
+
 public class Initializer : MonoBehaviour
 {
     [SerializeField] GameObject ServerErrorMessage;
@@ -16,8 +18,6 @@ public class Initializer : MonoBehaviour
     void Awake()
     {
         Debug.Log(Application.persistentDataPath);
-
-        DataManager.IsPaused = false;
 
         Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
     }

@@ -12,8 +12,8 @@ public class HUD : MonoBehaviour
 
     void Awake()
     {
-        EventManager.OnStageUpdate.AddListener(OnStageUpdate);
-        EventManager.OnBossSpawned.AddListener(OnBossSpawned);
+        Events.OnStageUpdate.AddListener(OnStageUpdate);
+        Events.OnBossSpawned.AddListener(OnBossSpawned);
 
         UpdateInterface();
     }

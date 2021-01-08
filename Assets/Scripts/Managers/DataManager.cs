@@ -25,7 +25,7 @@ public class DataManager : MonoBehaviour
 
         else
         {
-            Debug.LogWarning("Game state was no restored (most likely started the wrong scene)");
+            Debug.LogWarning("Game state was no restored properly (most likely started the wrong scene)");
 
             Debug.Break();
         }

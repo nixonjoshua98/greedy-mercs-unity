@@ -1,26 +1,36 @@
 ﻿
 using UnityEngine;
 
-[PreferBinarySerialization]
-[CreateAssetMenu(menuName = "Scriptables/Bounty")]
-public class BountySO : ScriptableObject
+namespace BountyData
 {
-    public BountyID BountyID;
-
-    [Space]
-
-    public new string name;
-
-    public Sprite icon;
-
-    public GameObject prefab;
-
-    [HideInInspector] public int bountyPoints;
-    [HideInInspector] public int unlockStage;
-
-    public void Init(BountyStaticData data)
+    public enum BountyID
     {
-        bountyPoints    = data.bountyPoints;
-        unlockStage     = data.unlockStage;
+        BOUNTY_ONE = 0,
+        BOUNTY_TWO = 1,
+    }
+
+    [PreferBinarySerialization]
+    [CreateAssetMenu(menuName = "Scriptables/Bounty")]
+    public class BountySO : ScriptableObject
+    {
+        public BountyID BountyID;
+
+        [Space]
+
+        public new string name;
+
+        public Sprite icon;
+
+        public GameObject prefab;
+
+        [Header("Runtime")]
+        public int bountyPoints;
+        public int unlockStage;
+
+        public void Init(BountyStaticData data)
+        {
+            bountyPoints = data.bountyPoints;
+            unlockStage = data.unlockStage;
+        }
     }
 }

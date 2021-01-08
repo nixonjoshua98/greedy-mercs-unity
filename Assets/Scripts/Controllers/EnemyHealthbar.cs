@@ -11,11 +11,11 @@ public class EnemyHealthbar : MonoBehaviour
 
     void Awake()
     {
-        EventManager.OnEnemyHurt.AddListener(OnEnemyHurt);
+        Events.OnEnemyHurt.AddListener(OnEnemyHurt);
 
-        EventManager.OnEnemySpawned.AddListener(OnEnemySpawned);
+        Events.OnEnemySpawned.AddListener(OnEnemySpawned);
 
-        EventManager.OnBossSpawned.AddListener(OnBossSpawned);
+        Events.OnBossSpawned.AddListener(OnBossSpawned);
     }
 
     void OnEnemySpawned() { healthbar.value = 1.0f; }

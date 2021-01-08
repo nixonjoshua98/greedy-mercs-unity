@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,7 +77,7 @@ public class BossBattleManager : MonoBehaviour
 
         GameObject bossToSpawn;
 
-        bool isNamedBoss = StaticData.Bounties.GetStageBoss(GameState.Stage.stage, out BountySO boss);
+        bool isNamedBoss = StaticData.Bounties.GetStageBoss(GameState.Stage.stage, out var boss);
 
         if (isNamedBoss)
         {
@@ -96,7 +95,7 @@ public class BossBattleManager : MonoBehaviour
 
         CurrentBossEnemy = Instantiate(bossToSpawn, BossSpawnPoint.position, Quaternion.identity);
 
-        EventManager.OnBossSpawned.Invoke(CurrentBossEnemy);
+        Events.OnBossSpawned.Invoke(CurrentBossEnemy);
 
         yield return ITimer();
 
@@ -110,12 +109,12 @@ public class BossBattleManager : MonoBehaviour
 
             Destroy(CurrentBossEnemy);
 
-            EventManager.OnFailedToKillBoss.Invoke();
+            Events.OnFailedToKillBoss.Invoke();
         }
 
         else
         {
-            EventManager.OnKilledBoss.Invoke();
+            Events.OnKilledBoss.Invoke();
         }
     }
 

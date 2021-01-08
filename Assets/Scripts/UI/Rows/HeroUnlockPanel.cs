@@ -36,7 +36,7 @@ public class HeroUnlockPanel : MonoBehaviour
 
                 GameState.Characters.Add(chara.character);
 
-                EventManager.OnHeroUnlocked.Invoke(chara.character);
+                Events.OnHeroUnlocked.Invoke(chara.character);
             }
 
             UpdatePanel();

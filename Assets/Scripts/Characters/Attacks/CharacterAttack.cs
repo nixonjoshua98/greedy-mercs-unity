@@ -41,7 +41,7 @@ public abstract class CharacterAttack : MonoBehaviour
             OnChangeWeapon(chara.weapons[highestWeapon]);
         }
 
-        EventManager.OnWeaponBought.AddListener(OnWeaponBought);
+        Events.OnWeaponBought.AddListener(OnWeaponBought);
     }
 
     void Start()

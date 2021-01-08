@@ -6,6 +6,8 @@ using Passives          = PassivesData.Passives;
 using Weapons           = WeaponData.Weapons;
 using Relics            = RelicData.Relics;
 
+using BountyData;
+
 
 
 public class StaticData

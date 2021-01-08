@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
 
         StatsCache.Clear();
 
-        EventManager.OnBossSpawned.AddListener(OnBossSpawned);
-        EventManager.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+        Events.OnBossSpawned.AddListener(OnBossSpawned);
+        Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
     }
 
     void Start()
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
                     health.TakeDamage(amount);
 
-                    EventManager.OnEnemyHurt.Invoke(health);
+                    Events.OnEnemyHurt.Invoke(health);
 
                     if (health.IsDead)
                     {
@@ -98,14 +98,14 @@ public class GameManager : MonoBehaviour
         {
             GameState.Stage.AddKill();
 
-            EventManager.OnKillEnemy.Invoke();
+            Events.OnKillEnemy.Invoke();
         }
 
         else if (CurrentEnemy.CompareTag("BossEnemy"))
         {
             GameState.Stage.AdvanceStage();
 
-            EventManager.OnNewStageStarted.Invoke();
+            Events.OnNewStageStarted.Invoke();
         }
 
         SpawnNextEnemy();
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EventManager.OnStageUpdate.Invoke();
+            Events.OnStageUpdate.Invoke();
 
             SpawnEnemy();
         }
@@ -136,6 +136,6 @@ public class GameManager : MonoBehaviour
     {
         CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
 
-        EventManager.OnEnemySpawned.Invoke();
+        Events.OnEnemySpawned.Invoke();
     }
 }

@@ -26,7 +26,7 @@ public class Background : MonoBehaviour
 
     void Awake()
     {
-        EventManager.OnNewStageStarted.AddListener(OnNewStageStarted);
+        Events.OnNewStageStarted.AddListener(OnNewStageStarted);
     }
 
     void Start()

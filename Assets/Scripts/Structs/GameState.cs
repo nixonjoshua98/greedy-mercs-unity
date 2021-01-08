@@ -2,6 +2,8 @@
 
 using SimpleJSON;
 
+using BountyData;
+
 
 [System.Serializable]
 public class GameState

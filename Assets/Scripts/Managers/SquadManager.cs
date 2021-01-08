@@ -28,7 +28,7 @@ public class SquadManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; ++i)
             characterSpots.Add(transform.GetChild(i));
 
-        EventManager.OnHeroUnlocked.AddListener(OnHeroUnlocked);
+        Events.OnHeroUnlocked.AddListener(OnHeroUnlocked);
     }
 
     IEnumerator Start()

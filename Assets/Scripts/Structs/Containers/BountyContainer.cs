@@ -6,86 +6,88 @@ using SimpleJSON;
 
 using UnityEngine;
 
-
-public class BountyContainer
+namespace BountyData
 {
-    const int MAX_HOURS = 12;
-
-    DateTime lastClaimTime;
-
-    public DateTime LastClaimTime {  get { return lastClaimTime; } }
-
-    public BountyContainer(JSONNode node)
+    public class BountyContainer
     {
-        lastClaimTime = DateTime.UtcNow;
+        const int MAX_HOURS = 12;
 
-        Update(node);
-    }
+        DateTime lastClaimTime;
 
-    public void Update(JSONNode node)
-    {
-        if (node.HasKey("bounties"))
-            node = node["bounties"];
+        public DateTime LastClaimTime { get { return lastClaimTime; } }
 
-        lastClaimTime = node.HasKey("lastClaimTime") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime : lastClaimTime;
-    }
-
-    public JSONNode ToJson()
-    {
-        JSONNode node = new JSONObject();
-
-        node.Add("lastClaimTime", lastClaimTime.ToUnixMilliseconds());
-
-        return node;
-    }
-
-    // === Helper ===
-
-    public Dictionary<BountyID, BountySO> Unlocked()
-    {
-        int stage = Mathf.Max(GameState.Player.maxPrestigeStage, GameState.Stage.stage);
-
-        Dictionary<BountyID, BountySO> unlocked = new Dictionary<BountyID, BountySO>();
-
-        foreach (BountySO bounty in StaticData.Bounties.List)
+        public BountyContainer(JSONNode node)
         {
-            if (stage > bounty.unlockStage)
-                unlocked.Add(bounty.BountyID, bounty);
+            lastClaimTime = DateTime.UtcNow;
+
+            Update(node);
         }
 
-        return unlocked;
-    }
-
-
-    public int TimeSinceClaim
-    {
-        get
+        public void Update(JSONNode node)
         {
-            if (HourlyIncome == 0)
-                lastClaimTime = DateTime.UtcNow;
+            if (node.HasKey("bounties"))
+                node = node["bounties"];
 
-            float secondsSinceClaim = (float)(DateTime.UtcNow - lastClaimTime).TotalSeconds;
-
-            return Mathf.Max(0, Mathf.FloorToInt(Mathf.Min(MAX_HOURS * 3_600.0f, secondsSinceClaim)));
+            lastClaimTime = node.HasKey("lastClaimTime") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime : lastClaimTime;
         }
-    }
 
-    public float PercentFilled { get { return TimeSinceClaim / (MAX_HOURS * 3_600.0f); } }
-
-    public int CurrentClaimAmount { get { return Mathf.FloorToInt((TimeSinceClaim / 3_600.0f) * HourlyIncome); } }
-
-    public int MaxClaimAmount {  get { return HourlyIncome * 12; } }
-
-    public int HourlyIncome
-    {
-        get
+        public JSONNode ToJson()
         {
-            int total = 0;
+            JSONNode node = new JSONObject();
 
-            foreach (var bounty in Unlocked())
-                total += bounty.Value.bountyPoints;
+            node.Add("lastClaimTime", lastClaimTime.ToUnixMilliseconds());
 
-            return total;
+            return node;
+        }
+
+        // === Helper ===
+
+        public Dictionary<BountyID, BountySO> Unlocked()
+        {
+            int stage = Mathf.Max(GameState.Player.maxPrestigeStage, GameState.Stage.stage);
+
+            Dictionary<BountyID, BountySO> unlocked = new Dictionary<BountyID, BountySO>();
+
+            foreach (BountySO bounty in StaticData.Bounties.BountyList)
+            {
+                if (stage > bounty.unlockStage)
+                    unlocked.Add(bounty.BountyID, bounty);
+            }
+
+            return unlocked;
+        }
+
+
+        public int TimeSinceClaim
+        {
+            get
+            {
+                if (HourlyIncome == 0)
+                    lastClaimTime = DateTime.UtcNow;
+
+                float secondsSinceClaim = (float)(DateTime.UtcNow - lastClaimTime).TotalSeconds;
+
+                return Mathf.Max(0, Mathf.FloorToInt(Mathf.Min(MAX_HOURS * 3_600.0f, secondsSinceClaim)));
+            }
+        }
+
+        public float PercentFilled { get { return TimeSinceClaim / (MAX_HOURS * 3_600.0f); } }
+
+        public int CurrentClaimAmount { get { return Mathf.FloorToInt((TimeSinceClaim / 3_600.0f) * HourlyIncome); } }
+
+        public int MaxClaimAmount { get { return HourlyIncome * 12; } }
+
+        public int HourlyIncome
+        {
+            get
+            {
+                int total = 0;
+
+                foreach (var bounty in Unlocked())
+                    total += bounty.Value.bountyPoints;
+
+                return total;
+            }
         }
     }
 }

@@ -1,7 +1,5 @@
 {
   "0": {
-    "name": "Gauntlet of Clicking",
-    "description": "A rare glove used by the previous King, it was thought to be long lost before coming into your possession.",
     "bonusType": 2,
     "baseCost": 3,
     "costPower": 1.05,
@@ -9,8 +7,6 @@
     "levelEffect": 0.5
   },
   "1": {
-    "name": "Iron Sword",
-    "description": "A standard issue sword given to new mercenarys. It has no special features and is very dull.",
     "bonusType": 0,
     "baseCost": 3,
     "costPower": 1.05,
@@ -18,8 +14,6 @@
     "levelEffect": 0.5
   },
   "2": {
-    "name": "Old Pants",
-    "description": "An old pair of pants which are not good for anything besides offering a small boost to their wearer.",
     "bonusType": 1,
     "baseCost": 3,
     "costPower": 1.05,
@@ -27,8 +21,6 @@
     "levelEffect": 0.5
   },
   "3": {
-    "name": "Berserk Potion",
-    "description": "An extremely precious, and forbiddon, potion which enrages anyone who uses even one drop.",
     "bonusType": 0,
     "baseCost": 3,
     "costPower": 1.05,
@@ -36,8 +28,6 @@
     "levelEffect": 0.5
   },
   "4": {
-    "name": "The Last Ring",
-    "description": "This ring is unknown in its making, but we do know that it is an extremely powerful item.",
     "bonusType": 3,
     "baseCost": 3,
     "costPower": 1.05,
@@ -45,8 +35,6 @@
     "levelEffect": 0.5
   },
   "5": {
-    "name": "Forbidden Scroll",
-    "description": "A scroll which contains a forbidden tap technique used by the wizard king.",
     "bonusType": 2,
     "baseCost": 3,
     "costPower": 1.05,
@@ -54,8 +42,6 @@
     "levelEffect": 0.5
   },
   "6": {
-    "name": "Power Axe",
-    "description": "A powerful axe which can destroy even the mightest defence.",
     "bonusType": 0,
     "baseCost": 3,
     "costPower": 1.05,
@@ -63,8 +49,6 @@
     "levelEffect": 0.5
   },
   "7": {
-    "name": "Spell Tome",
-    "description": "Spell tome which contains a variety of legendary spells.",
     "bonusType": 6,
     "baseCost": 3,
     "costPower": 1.05,
@@ -72,8 +56,6 @@
     "levelEffect": 0.5
   },
   "8": {
-    "name": "Bracers",
-    "description": "Old bracers worn by a previous mercenary. It has limited defence capability.",
     "bonusType": 5,
     "baseCost": 3,
     "costPower": 1.05,
@@ -81,8 +63,6 @@
     "levelEffect": 0.5
   },
   "9": {
-    "name": "Lucky Gem",
-    "description": "A precious stone which boosts the wielders luck. Previous users were all blessed with fortune.",
     "maxLevel": 10,
     "bonusType": 8,
     "baseCost": 3,
@@ -91,8 +71,6 @@
     "levelEffect": 0.005
   },
   "10": {
-    "name": "Jade Necklace",
-    "description": "A jade necklace which offers fortune to its user.",
     "bonusType": 9,
     "baseCost": 3,
     "costPower": 1.05,
@@ -100,8 +78,6 @@
     "levelEffect": 0.5
   },
   "11": {
-    "name": "Bow of Artemis",
-    "description": "This bow is said to have been used by the ancient God, and is said to be unparelled in its power.",
     "bonusType": 7,
     "baseCost": 3,
     "costPower": 1.05,
@@ -109,8 +85,6 @@
     "levelEffect": 0.5
   },
     "12": {
-    "name": "Bag of Wealth",
-    "description": "A bag left behind by the now deceased richest man in the world. It contains everything he learnt and collected throughout his life",
     "bonusType": 11,
     "baseCost": 3,
     "costPower": 1.05,

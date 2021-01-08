@@ -25,6 +25,8 @@ public class PrestigeManager : MonoBehaviour
 
         node.Add("prestigeStage", GameState.Stage.stage);
 
+        SquadManager.ToggleAttacking(false);
+
         Instance.spawnedBlankPanel = Utils.UI.Instantiate(Instance.BlankPanel, Vector3.zero);
 
         Server.Prestige(Instance, Instance.OnPrestigeCallback, node);
@@ -36,9 +38,7 @@ public class PrestigeManager : MonoBehaviour
         {
             DataManager.IsPaused = true;
 
-            GameState.Restore(Utils.Json.Decode(compressed));
-
-            Utils.File.WriteJson(DataManager.LOCAL_FILENAME, GameState.ToJson());
+            Utils.File.WriteJson(DataManager.LOCAL_FILENAME, Utils.Json.Decode(compressed));
 
             StartCoroutine(PrestigeAnimation());
         }
@@ -47,13 +47,19 @@ public class PrestigeManager : MonoBehaviour
         {
             Utils.UI.ShowError(ErrorMessage, "Server Connection", "A server connection is required to cash out!");
 
+            SquadManager.ToggleAttacking(true);
+
             Destroy(spawnedBlankPanel);
         }
     }
 
     IEnumerator PrestigeAnimation()
     {
-        yield return SquadManager.MoveOut(1.5f);
+        yield return SquadManager.MoveOut(1.0f);
+
+        bool _ = Utils.File.ReadJson(DataManager.LOCAL_FILENAME, out JSONNode node);
+
+        GameState.Restore(node);
 
         SceneManager.LoadSceneAsync("GameScene");
     }

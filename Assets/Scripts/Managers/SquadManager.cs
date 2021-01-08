@@ -46,6 +46,12 @@ public class SquadManager : MonoBehaviour
         }
     }
 
+    public static void ToggleAttacking(bool val)
+    {
+        foreach (var atk in Instance.attacks)
+            atk.ToggleAttacking(val);
+    }
+
     void AddCharacter(ScriptableCharacter chara)
     {
         GameObject character = Instantiate(chara.prefab, transform);

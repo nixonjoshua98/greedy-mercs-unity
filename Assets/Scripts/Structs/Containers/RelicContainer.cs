@@ -49,16 +49,16 @@ public class RelicContainer
 
         foreach (var relic in relics)
         {
-            RelicStaticData staticData = StaticData.Relics.Get(relic.Key);
+            ScriptableRelic data = RelicResources.Get(relic.Key);
 
-            switch (staticData.bonusType)
+            switch (data.data.bonusType)
             {
                 case BonusType.CRIT_CHANCE:
-                    bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 0) + Formulas.CalcRelicEffect(relic.Key);
+                    bonuses[data.data.bonusType] = bonuses.GetValueOrDefault(data.data.bonusType, 0) + Formulas.CalcRelicEffect(relic.Key);
                     break;
 
                 default:
-                    bonuses[staticData.bonusType] = bonuses.GetValueOrDefault(staticData.bonusType, 1) * Formulas.CalcRelicEffect(relic.Key);
+                    bonuses[data.data.bonusType] = bonuses.GetValueOrDefault(data.data.bonusType, 1) * Formulas.CalcRelicEffect(relic.Key);
                     break;
             }
         }
@@ -68,7 +68,7 @@ public class RelicContainer
 
     // === Helper Methods ===
 
-    public UpgradeState GetRelic(RelicID relic)
+    public UpgradeState Get(RelicID relic)
     {
         return relics[relic];
     }
@@ -81,5 +81,10 @@ public class RelicContainer
     public void AddRelic(RelicID relic)
     {
         relics[relic] = new UpgradeState { level = 1 };
+    }
+
+    public Dictionary<RelicID, UpgradeState> Unlocked()
+    {
+        return relics;
     }
 }

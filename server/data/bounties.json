@@ -1,8 +1,10 @@
-
 {
   "0": {
-    "name": "Little Jimmy",
-    "bountyPoints": 1000,
+    "bountyPoints": 5,
     "unlockStage": 5
+  },
+  "1": {
+    "bountyPoints": 5,
+    "unlockStage": 25
   }
 }

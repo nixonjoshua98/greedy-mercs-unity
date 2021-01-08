@@ -8,16 +8,21 @@ using SimpleJSON;
 using RelicID           = RelicData.RelicID;
 using RelicStaticData   = RelicData.RelicStaticData;
 
-public class RelicRow : UpgradeRow
+public class RelicRow : MonoBehaviour
 {
-    [Space]
-
-    [SerializeField] RelicID relicId;
+    RelicID relic;
 
     [Header("Components")]
-    [SerializeField] Text NameText;
-    [SerializeField] Text ShortDescriptionText;
-    [SerializeField] Text LongDescriptionText;
+    [SerializeField] Image icon;
+    [Space]
+    [SerializeField] Button buyButton;
+    [Space]
+    [SerializeField] Text buyText;
+    [SerializeField] Text costText;
+    [SerializeField] Text levelText;
+    [SerializeField] Text nameText;
+    [SerializeField] Text effectText;
+    [SerializeField] Text descText;
 
     [Header("Prefabs")]
     [SerializeField] GameObject ErrorMessage;
@@ -25,59 +30,64 @@ public class RelicRow : UpgradeRow
 
     GameObject spawnedBlankPanel;
 
-    public override bool IsUnlocked { get { return GameState.Relics.TryGetRelic(relicId, out var _); } }
+    int BuyAmount {
+        get 
+        {
+            if (RelicsTab.BuyAmount == -1)
+                return Formulas.AffordRelicLevels(relic);
 
-    void Start()
-    {
-        RelicStaticData staticData = StaticData.Relics.Get(relicId);
+            ScriptableRelic data    = RelicResources.Get(relic);
+            UpgradeState state      = GameState.Relics.Get(relic);
 
-        LongDescriptionText.text    = staticData.description;
-        NameText.text               = staticData.name;
+            return Mathf.Min(RelicsTab.BuyAmount, data.data.maxLevel - state.level);
+        }
     }
 
-    protected override int GetBuyAmount()
+    public void Init(ScriptableRelic data)
     {
-        if (RelicsTab.BuyAmount == -1)
-            return Formulas.AffordRelicLevels(relicId);
+        descText.text   = data.description;
+        nameText.text   = data.name;
+        icon.sprite     = data.icon;
 
-        RelicStaticData data    = StaticData.Relics.Get(relicId);
-        UpgradeState state      = GameState.Relics.GetRelic(relicId);
-
-        return Mathf.Min(RelicsTab.BuyAmount, data.maxLevel - state.level);
+        relic = data.relic;
     }
 
-    public override void UpdateRow()
+    void FixedUpdate()
     {
-        RelicStaticData data = StaticData.Relics.Get(relicId);
-        UpgradeState state   = GameState.Relics.GetRelic(relicId);
+        UpdateRow();
+    }
 
-        ShortDescriptionText.text = "{effect} {type}"
-            .Replace("{type}", "<color=orange>" + Utils.Generic.BonusToString(data.bonusType) + "</color>")
-            .Replace("{effect}", "<color=orange>" + Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relicId) * 100) + "%</color>");
+    void UpdateRow()
+    {
+        var data                = RelicResources.Get(relic).data;
+        UpgradeState state      = GameState.Relics.Get(relic);
 
-        CostText.text = state.level >= data.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relicId, BuyAmount));
+        effectText.text     = Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relic) * 100) + "% " + Utils.Generic.BonusToString(data.bonusType);
+        costText.text       = state.level >= data.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relic, BuyAmount));
+        levelText.text      = "Level " + state.level.ToString();
+        buyText.text        = state.level >= data.maxLevel ? "" : "x" + BuyAmount.ToString();
 
-        UpdateText(state, data.maxLevel);
+        buyButton.interactable = state.level < data.maxLevel;
     }
 
     // === Button Callbacks
 
-    public override void OnBuy()
+    public void OnBuy()
     {
         int levelsBuying = BuyAmount;
 
-        RelicStaticData data    = StaticData.Relics.Get(relicId);
-        UpgradeState state      = GameState.Relics.GetRelic(relicId);
+        ScriptableRelic data    = RelicResources.Get(relic);
+        UpgradeState state      = GameState.Relics.Get(relic);
 
-        BigInteger cost = Formulas.CalcRelicLevelUpCost(relicId, levelsBuying);
+        BigInteger cost = Formulas.CalcRelicLevelUpCost(relic, levelsBuying);
 
-        if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && state.level < data.maxLevel)
+        if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.data.maxLevel)
         {
             spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, UnityEngine.Vector3.zero);
 
             JSONNode node = Utils.Json.GetDeviceNode();
 
-            node.Add("relicId", (int)relicId);
+            node.Add("relicId", (int)relic);
             node.Add("buyLevels", BuyAmount);
 
             Server.UpgradeRelic(this, OnRelicUpgradeCallback, node);
@@ -88,9 +98,8 @@ public class RelicRow : UpgradeRow
     {
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decode(compressed);
-
-            UpgradeState state = GameState.Relics.GetRelic(relicId);
+            JSONNode node       = Utils.Json.Decode(compressed);
+            UpgradeState state  = GameState.Relics.Get(relic);
 
             state.level = node["relicLevel"].AsInt;
 

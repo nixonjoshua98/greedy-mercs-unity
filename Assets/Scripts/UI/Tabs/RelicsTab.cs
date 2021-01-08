@@ -9,6 +9,8 @@ using SimpleJSON;
 
 using RelicID = RelicData.RelicID;
 
+using Vector3 = UnityEngine.Vector3;
+
 public class RelicsTab : MonoBehaviour
 {
     static RelicsTab Instance = null;
@@ -28,6 +30,8 @@ public class RelicsTab : MonoBehaviour
     [SerializeField] Text RelicCostText;
 
     [Header("Prefabs")]
+    [SerializeField] GameObject RelicRowObject;
+
     [SerializeField] GameObject BlankPanel;
     [SerializeField] GameObject ErrorMessage;
 
@@ -43,29 +47,26 @@ public class RelicsTab : MonoBehaviour
 
         rows = new List<RelicRow>();
 
-        for (int i = 0; i < rowParent.transform.childCount; ++i)
+        foreach (var relic in GameState.Relics.Unlocked())
         {
-            Transform child = rowParent.transform.GetChild(i);
-
-            if (child.TryGetComponent(out RelicRow row))
-                rows.Add(row);
+            AddRow(relic.Key);
         }
     }
 
-    void OnEnable()
+    void AddRow(RelicID relic)
     {
-        UpdateUI();
+        ScriptableRelic scriptable = RelicResources.Get(relic);
 
-        InvokeRepeating("UpdateUI", 0.5f, 0.5f);
+        GameObject inst = Utils.UI.Instantiate(RelicRowObject, rowParent.transform, Vector3.zero);
+
+        RelicRow row = inst.GetComponent<RelicRow>();
+
+        row.Init(scriptable);
+
+        rows.Add(row);
     }
 
-    void OnDisable()
-    {
-        if (IsInvoking("UpdateUI"))
-            CancelInvoke("UpdateUI");
-    }
-
-    void UpdateUI()
+    void FixedUpdate()
     {
         PrestigeButtonText.text = GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE ? "Cash Out" : "Locked Stage " + StageState.MIN_PRESTIGE_STAGE.ToString();
 
@@ -75,21 +76,6 @@ public class RelicsTab : MonoBehaviour
         RelicCostText.text = GameState.Relics.Count < StaticData.Relics.Count ? Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.Relics.Count)) : "MAX";
 
         BuyRelicsButton.interactable = GameState.Relics.Count < StaticData.Relics.Count;
-
-        UpdateRows();
-    }
-
-    void UpdateRows()
-    {
-        foreach (RelicRow row in rows)
-        {
-            row.gameObject.SetActive(row.IsUnlocked);
-
-            if (row.IsUnlocked)
-            {
-                row.UpdateRow();
-            }
-        }
     }
 
     // === Button Callbacks ===
@@ -110,7 +96,7 @@ public class RelicsTab : MonoBehaviour
         }
         else
         {
-            spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, UnityEngine.Vector3.zero);
+            spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
 
             Server.BuyRelic(this, OnBuyRelicCallback, Utils.Json.GetDeviceNode());
         }
@@ -122,9 +108,13 @@ public class RelicsTab : MonoBehaviour
         {
             JSONNode node = Utils.Json.Decode(data);
 
+            RelicID relic = (RelicID)node["relicBought"].AsInt;
+
             GameState.Player.Update(node);
 
-            GameState.Relics.AddRelic((RelicID)node["relicBought"].AsInt);
+            GameState.Relics.AddRelic(relic);
+
+            AddRow(relic);
         }
 
         else

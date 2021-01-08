@@ -1,7 +1,7 @@
 ﻿
 public enum BonusType
 {
-    MERC_DAMAGE     = 0,
+    MERC_DAMAGE         = 0,
     ENEMY_GOLD          = 1,
     TAP_DAMAGE          = 2,
     BOSS_GOLD           = 3,
@@ -17,5 +17,5 @@ public enum BonusType
 
 public enum UpgradeID
 {
-    TAP_DAMAGE = 0
+    CLICK_DAMAGE = 0
 }

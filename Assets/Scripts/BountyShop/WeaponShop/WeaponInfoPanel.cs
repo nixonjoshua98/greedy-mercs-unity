@@ -13,6 +13,7 @@ namespace WeaponsUI
         [SerializeField] Text titleText;
         [SerializeField] Text descText;
         [SerializeField] Text costText;
+        [SerializeField] Text abilityText;
         [SerializeField] Text weaponDamageText;
 
         [Header("Images")]

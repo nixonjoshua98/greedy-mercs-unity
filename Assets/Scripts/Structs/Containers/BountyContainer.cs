@@ -42,23 +42,24 @@ public class BountyContainer
 
     // === Helper ===
 
-    public List<BountyStaticData> Unlocked()
+    public Dictionary<int, ScriptableBounty> Unlocked()
     {
         int stage = Mathf.Max(GameState.Player.maxPrestigeStage, GameState.Stage.stage);
 
-        List<BountyStaticData> unlocked = new List<BountyStaticData>();
+        Dictionary<int, ScriptableBounty> unlocked = new Dictionary<int, ScriptableBounty>();
 
-        foreach (var bounty in StaticData.Bounties.All())
+        for (int i = 0; i < BountyResources.All.Count; ++i)
         {
-            if (stage > bounty.Value.unlockStage)
+            ScriptableBounty bounty = BountyResources.Get(i);
+
+            if (stage > bounty.unlockStage)
             {
-                unlocked.Add(bounty.Value);
+                unlocked[i] = bounty;
             }
         }
 
         return unlocked;
     }
-
 
 
     public int TimeSinceClaim
@@ -87,9 +88,7 @@ public class BountyContainer
             int total = 0;
 
             foreach (var bounty in Unlocked())
-            {
-                total += bounty.bountyPoints;
-            }
+                total += bounty.Value.bountyPoints;
 
             return total;
         }

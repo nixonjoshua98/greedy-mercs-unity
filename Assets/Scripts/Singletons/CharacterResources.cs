@@ -6,21 +6,7 @@ using CharacterID = CharacterData.CharacterID;
 
 public class CharacterResources : MonoBehaviour
 {
-    static CharacterResources _instance = null;
-
-    public static CharacterResources Instance { 
-        get
-        {
-            if (_instance == null)
-            {
-                Debug.LogError("ResourceManager.Instance is null");
-
-                Debug.Break();
-            }
-
-            return _instance;
-        } 
-    }
+    public static CharacterResources Instance = null;
 
     // === Data ===
     public List<ScriptableCharacter> Characters;
@@ -28,7 +14,7 @@ public class CharacterResources : MonoBehaviour
 
     void Awake()
     {
-        _instance = this;
+        Instance = this;
 
         BigDouble prevPurchaseCost = 0;
 

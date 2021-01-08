@@ -67,7 +67,7 @@ namespace BountyUI
 
                 BountyIcon bountyIcon = inst.GetComponent<BountyIcon>();
 
-                bountyIcon.SetBounty(bounty);
+                bountyIcon.SetBounty(BountyResources.Get(bounty.Key));
 
                 icons.Add(inst);
             }

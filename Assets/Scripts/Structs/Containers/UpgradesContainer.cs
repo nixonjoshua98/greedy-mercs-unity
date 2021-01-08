@@ -16,7 +16,7 @@ public class UpgradesContainer
         foreach (JSONNode upgrade in node["upgrades"].AsArray)
             upgrades[(UpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
 
-        if (!upgrades.ContainsKey(UpgradeID.TAP_DAMAGE))    AddUpgrade(UpgradeID.TAP_DAMAGE, 1);
+        if (!upgrades.ContainsKey(UpgradeID.CLICK_DAMAGE))    AddUpgrade(UpgradeID.CLICK_DAMAGE, 1);
     }
 
     public JSONNode ToJson()

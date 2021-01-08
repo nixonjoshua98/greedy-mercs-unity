@@ -243,6 +243,20 @@ namespace Utils
             Write(filename, Format.FormatJson(node.ToString()));
         }
 
+        public static bool ReadJson(string filename, out JSONNode node)
+        {
+            node = null;
+
+            if (Read(filename, out string content))
+            {
+                node = JSON.Parse(content);
+
+                return true;
+            }
+
+            return false;
+        }
+
         public static void Delete(string filename)
         {
             string path = GetPath(filename);

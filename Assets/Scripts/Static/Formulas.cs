@@ -82,7 +82,7 @@ public static class Formulas
 
     public static BigDouble CalcTapDamage()
     {
-        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.CLICK_DAMAGE);
 
         return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 50.0f);
     }
@@ -91,14 +91,14 @@ public static class Formulas
 
     public static BigDouble CalcTapDamageLevelUpCost(int levels)
     {
-        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.CLICK_DAMAGE);
 
         return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, (state.level - 1));
     }
 
     public static int AffordTapDamageLevels()
     {
-        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.TAP_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.CLICK_DAMAGE);
 
         int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
 
@@ -128,35 +128,34 @@ public static class Formulas
 
     public static double CalcRelicEffect(RelicID relic)
     {
-        RelicStaticData staticData = StaticData.Relics.Get(relic);
+        ScriptableRelic data = RelicResources.Get(relic);
 
-        UpgradeState state = GameState.Relics.GetRelic(relic);
+        UpgradeState state = GameState.Relics.Get(relic);
 
-        return staticData.baseEffect + (staticData.levelEffect * (state.level - 1));
+        return data.data.baseEffect + (data.data.levelEffect * (state.level - 1));
     }
 
     // === Relics ===
 
     public static BigInteger CalcRelicLevelUpCost(RelicID relic, int levels)
     {
-        RelicStaticData staticData = StaticData.Relics.Get(relic);
+        ScriptableRelic data    = RelicResources.Get(relic);
+        UpgradeState state      = GameState.Relics.Get(relic);
 
-        UpgradeState state = GameState.Relics.GetRelic(relic);
-
-        BigDouble val = BigMath.SumGeometricSeries(levels, staticData.baseCost, staticData.costPower, state.level - 1);
+        BigDouble val = BigMath.SumGeometricSeries(levels, data.data.baseCost, data.data.costPower, state.level - 1);
 
         return BigInteger.Parse(val.Ceiling().ToString("F0"));
     }
 
     public static int AffordRelicLevels(RelicID relic)
     {
-        UpgradeState state          = GameState.Relics.GetRelic(relic);
-        RelicStaticData staticData  = StaticData.Relics.Get(relic);
+        UpgradeState state      = GameState.Relics.Get(relic);
+        ScriptableRelic data    = RelicResources.Get(relic);
 
-        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.ToBigDouble(), staticData.baseCost, staticData.costPower, state.level - 1);
+        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.ToBigDouble(), data.data.baseCost, data.data.costPower, state.level - 1);
 
         int maxLevels = int.Parse(bigAnswer.ToString());
 
-        return Mathf.Min(staticData.maxLevel - state.level, maxLevels);
+        return Mathf.Min(data.data.maxLevel - state.level, maxLevels);
     }
 }

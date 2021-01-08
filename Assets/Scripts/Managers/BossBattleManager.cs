@@ -4,11 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using SD = RotaryHeart.Lib.SerializableDictionary;
-
-[System.Serializable]
-public class NamedBossesDict : SD.SerializableDictionaryBase<int, ScriptableStageBoss> { }
-
 public class BossBattleManager : MonoBehaviour
 {
     static BossBattleManager Instance = null;
@@ -35,7 +30,6 @@ public class BossBattleManager : MonoBehaviour
 
     [Header("Bosses")]
     [SerializeField] GameObject[] BossObjects;
-    [SerializeField] NamedBossesDict namedBosses;
 
     GameObject CurrentBossEnemy;
 
@@ -84,7 +78,7 @@ public class BossBattleManager : MonoBehaviour
 
         GameObject bossToSpawn;
 
-        bool isNamedBoss = namedBosses.TryGetValue(GameState.Stage.stage, out ScriptableStageBoss boss);
+        bool isNamedBoss = BountyResources.TryGetStageBoss(GameState.Stage.stage, out ScriptableBounty boss);
 
         if (isNamedBoss)
         {

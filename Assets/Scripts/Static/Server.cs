@@ -65,6 +65,9 @@ public static class Server
         www.SetRequestHeader("Accept", "application/json");
         www.SetRequestHeader("Content-Type", "application/json");
 
+
+        www.timeout = 3;
+
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)

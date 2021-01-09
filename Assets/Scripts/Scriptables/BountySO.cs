@@ -5,8 +5,11 @@ namespace BountyData
 {
     public enum BountyID
     {
-        BOUNTY_ONE = 0,
-        BOUNTY_TWO = 1,
+        BOUNTY_ONE      = 0,
+        BOUNTY_TWO      = 1,
+        BOUNTY_THREE    = 2,
+        BOUNTY_FOUR     = 3,
+        BOUNTY_GIVE     = 4
     }
 
     [PreferBinarySerialization]

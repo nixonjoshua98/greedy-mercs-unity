@@ -31,6 +31,7 @@ public class RelicsTab : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] GameObject RelicRowObject;
+    [SerializeField] GameObject PrestigePanelObject;
 
     [SerializeField] GameObject BlankPanel;
     [SerializeField] GameObject ErrorMessage;
@@ -80,12 +81,10 @@ public class RelicsTab : MonoBehaviour
 
     // === Button Callbacks ===
 
-    public void OnPrestige()
+    public void ShowPrestigePanel()
     {
-        if (GameState.Stage.stage < StageState.MIN_PRESTIGE_STAGE)
-            return;
-
-        PrestigeManager.StartPrestige();
+        if (GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE)
+            Utils.UI.Instantiate(PrestigePanelObject, Vector3.zero);
     }
 
     public void OnBuyRelic()

@@ -25,6 +25,11 @@ public static class Extensions
         return BigDouble.Parse(val.ToString());
     }
 
+    public static BigInteger ToBigInteger(this BigDouble val)
+    {
+        return BigInteger.Parse(val.Ceiling().ToString("F0"));
+    }
+
     public static long ToUnixMilliseconds(this DateTime dt)
     {
         return (new DateTimeOffset(dt)).ToUnixTimeMilliseconds();
@@ -71,6 +76,22 @@ namespace Utils
                 progress += (Time.deltaTime / dur);
 
                 o.transform.localPosition = Vector3.Lerp(start, end, progress);
+
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        public static IEnumerator RectTransform(RectTransform rt, Vector3 start, Vector3 end, float dur)
+        {
+            float progress = 0.0f;
+
+            rt.localScale = start;
+
+            while (progress < 1.0f)
+            {
+                progress += (Time.deltaTime / dur);
+
+                rt.localScale = Vector3.Lerp(start, end, progress);
 
                 yield return new WaitForEndOfFrame();
             }

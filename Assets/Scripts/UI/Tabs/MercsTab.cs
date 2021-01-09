@@ -22,7 +22,7 @@ public class MercsTab : MonoBehaviour
     {
         Instance = this;
 
-        Events.OnHeroUnlocked.AddListener(OnHeroUnlocked);
+        Events.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
     }
 
     IEnumerator Start()

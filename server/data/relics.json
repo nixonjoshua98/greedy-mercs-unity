@@ -84,11 +84,18 @@
     "baseEffect": 1.5,
     "levelEffect": 0.5
   },
-    "12": {
+  "12": {
     "bonusType": 11,
     "baseCost": 3,
     "costPower": 1.05,
     "baseEffect": 1.05,
+    "levelEffect": 0.05
+  },
+  "13": {
+    "bonusType": 1,
+    "baseCost": 3,
+    "costPower": 1.05,
+    "baseEffect": 1.5,
     "levelEffect": 0.05
   }
 }

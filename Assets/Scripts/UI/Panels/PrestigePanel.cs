@@ -50,7 +50,7 @@ public class PrestigePanel : MonoBehaviour
         {
             DataManager.IsPaused = true;
 
-            //Utils.File.WriteJson(DataManager.LOCAL_FILENAME, Utils.Json.Decode(compressed));
+            Utils.File.WriteJson(DataManager.LOCAL_FILENAME, Utils.Json.Decode(compressed));
 
             StartCoroutine(RunPrestigeAnimation());
         }

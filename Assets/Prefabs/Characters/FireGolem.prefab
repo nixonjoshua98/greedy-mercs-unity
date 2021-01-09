@@ -112,6 +112,7 @@ Transform:
   m_Children:
   - {fileID: 523455695664428036}
   - {fileID: 527510453611528101}
+  - {fileID: 2197435855663032359}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -127,6 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: 6
+  levelupParticles: {fileID: 2197435855663032357}
 --- !u!114 &5143359489580960681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,11 +142,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2af7204dd55304cafe586c29097b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: 6
+  character: {fileID: 527510453790322698}
   anim: {fileID: 433373275325761648}
   delayBetweenAttacks: 0.7
-  move: 0
   weaponSlot: {fileID: 528213451370489590}
+--- !u!1001 &284985122984930919
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 527510453790322701}
+    m_Modifications:
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583553, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_Name
+      value: Levelup PS
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 278164bf47f1caa4091848fc919523bf, type: 3}
+--- !u!4 &2197435855663032359 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 284985122984930919}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2197435855663032357 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2128694305123583554, guid: 278164bf47f1caa4091848fc919523bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 284985122984930919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &527510451738759756
 PrefabInstance:
   m_ObjectHideFlags: 0

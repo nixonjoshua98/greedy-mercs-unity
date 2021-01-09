@@ -31,6 +31,7 @@ Transform:
   m_Children:
   - {fileID: 3765211726056894846}
   - {fileID: 3769961915185294458}
+  - {fileID: 803827876587762111}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: 5
+  levelupParticles: {fileID: 803827876587762109}
 --- !u!114 &1189416609139238448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2af7204dd55304cafe586c29097b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: 5
+  character: {fileID: -8224316376877294289}
   anim: {fileID: 3820480451276261416}
   delayBetweenAttacks: 1
   weaponSlot: {fileID: 3771151371676756736}
@@ -143,6 +146,87 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1634068895937083391
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3769961914306909962}
+    m_Modifications:
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128694305123583553, guid: 278164bf47f1caa4091848fc919523bf,
+        type: 3}
+      propertyPath: m_Name
+      value: Levelup PS
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 278164bf47f1caa4091848fc919523bf, type: 3}
+--- !u!4 &803827876587762111 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2128694305123583552, guid: 278164bf47f1caa4091848fc919523bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1634068895937083391}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &803827876587762109 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2128694305123583554, guid: 278164bf47f1caa4091848fc919523bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1634068895937083391}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3769961914370844628
 PrefabInstance:
   m_ObjectHideFlags: 0

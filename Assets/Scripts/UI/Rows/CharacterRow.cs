@@ -75,6 +75,8 @@ public class CharacterRow : MonoBehaviour
             GameState.Player.gold -= cost;
 
             UpdateRow();
+
+            Events.OnCharacterLevelUp.Invoke(character.character);
         }
     }
 

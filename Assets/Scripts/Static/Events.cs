@@ -4,27 +4,31 @@ using UnityEngine.Events;
 
 using CharacterID = CharacterData.CharacterID;
 
+using CustomEvents;
+
 namespace CustomEvents
 {
     public class GameObjectEvent : UnityEvent<GameObject> { }
 
     public class HealthEvent : UnityEvent<Health> { }
 
-    public class HeroEvent : UnityEvent<CharacterID> { }
+    public class CharacterEvent : UnityEvent<CharacterID> { }
 
-    public class CharacterEvent : UnityEvent<ScriptableCharacter, int> { }
+    public class ScriptableCharacterEvent : UnityEvent<ScriptableCharacter, int> { }
 }
 
 
 public class Events : MonoBehaviour
 {
-    public static CustomEvents.GameObjectEvent  OnBossSpawned               = new CustomEvents.GameObjectEvent();
+    public static GameObjectEvent               OnBossSpawned       = new GameObjectEvent();
 
-    public static CustomEvents.HealthEvent      OnEnemyHurt                 = new CustomEvents.HealthEvent();
+    public static HealthEvent                   OnEnemyHurt         = new HealthEvent();
 
-    public static CustomEvents.HeroEvent        OnHeroUnlocked              = new CustomEvents.HeroEvent();
+    public static CharacterEvent                OnCharacterUnlocked = new CharacterEvent();
 
-    public static CustomEvents.CharacterEvent   OnWeaponBought              = new CustomEvents.CharacterEvent();
+    public static ScriptableCharacterEvent      OnWeaponBought      = new ScriptableCharacterEvent();
+
+    public static CharacterEvent                OnCharacterLevelUp  = new CharacterEvent();
 
     // === Standard Events ===
 

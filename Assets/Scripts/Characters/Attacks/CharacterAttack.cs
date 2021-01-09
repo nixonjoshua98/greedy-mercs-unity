@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using CharacterID   = CharacterData.CharacterID;
 
+[RequireComponent(typeof(Character))]
 public abstract class CharacterAttack : MonoBehaviour
 {
-    [SerializeField] protected CharacterID character;
+    [Header("Scripts")]
+    [SerializeField] Character character;
 
     [Header("Components")]
     [SerializeField] protected Animator anim;
@@ -32,11 +33,11 @@ public abstract class CharacterAttack : MonoBehaviour
         attackTimer = delayBetweenAttacks;
 
         // === Call the callback for the intial weapon change at creation ===
-        ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(character);
+        ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(character.CharacterID);
 
         if (chara.weapons.Length > 1)
         {
-            int highestWeapon = GameState.Weapons.GetHighestTier(character);
+            int highestWeapon = GameState.Weapons.GetHighestTier(character.CharacterID);
 
             OnChangeWeapon(chara.weapons[highestWeapon]);
         }
@@ -73,7 +74,7 @@ public abstract class CharacterAttack : MonoBehaviour
 
     void OnWeaponBought(ScriptableCharacter chara, int weaponIndex)
     {
-        if (chara.character == character)
+        if (chara.character == character.CharacterID)
         {
             ScriptableWeapon weapon = chara.weapons[weaponIndex];
 
@@ -95,7 +96,7 @@ public abstract class CharacterAttack : MonoBehaviour
     {
         float timeSinceAttack = Time.realtimeSinceStartup - lastAttackTime;
 
-        GameManager.TryDealDamageToEnemy(StatsCache.GetCharacterDamage(character) * (timeSinceAttack * Time.timeScale));
+        GameManager.TryDealDamageToEnemy(StatsCache.GetCharacterDamage(character.CharacterID) * (timeSinceAttack * Time.timeScale));
 
         lastAttackTime = Time.realtimeSinceStartup;
     }

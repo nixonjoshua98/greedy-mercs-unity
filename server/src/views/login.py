@@ -1,5 +1,3 @@
-import datetime as dt
-
 from flask import Response, request, current_app as app
 
 from flask.views import View
@@ -10,7 +8,6 @@ from src import utils
 class Login(View):
 
 	def dispatch_request(self):
-
 		data = utils.decompress(request.data)
 
 		# - New login detected

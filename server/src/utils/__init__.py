@@ -8,6 +8,16 @@ import datetime as dt
 from . import dbops
 
 
+def prestige_bounty_levels_earned(stage, staticbounties):
+	levels = dict()
+
+	for key, bounty in staticbounties.items():
+		if stage > bounty.unlock_stage:
+			levels[key] = 1
+
+	return levels
+
+
 def compress(data: dict) -> str:
 	"""
 	:param data: The dictionary we want to compress, ready to send back to the client

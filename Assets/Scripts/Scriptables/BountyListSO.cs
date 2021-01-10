@@ -41,6 +41,8 @@ namespace BountyData
 
         // === Helper Methods ===
 
+        public BountySO Get(BountyID bounty) => BountyDict[bounty];
+
         public bool GetStageBoss(int stage, out BountySO bounty)
         {
             bounty = null;

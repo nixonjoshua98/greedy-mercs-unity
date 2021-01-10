@@ -16,6 +16,12 @@ public class GameManager : MonoBehaviour
 
     GameObject CurrentEnemy;
 
+    // === Internal ===
+    Health _enemyHealth;
+
+    // === Public ===
+    public static Health CurrentEnemyHealth { get { return Instance._enemyHealth; } }
+
     public static bool IsEnemyAvailable {  get { return Instance.CurrentEnemy != null; } }
 
     void Awake()
@@ -38,24 +44,21 @@ public class GameManager : MonoBehaviour
     {
         if (Instance.CurrentEnemy != null)
         {
-            if (Instance.CurrentEnemy.TryGetComponent(out Health health))
+            if (!CurrentEnemyHealth.IsDead)
             {
-                if (!health.IsDead)
+                Color col = StatsCache.ApplyCritHit(ref amount) ? Color.red : Color.white;
+
+                Instance.damageNumbers.Add(amount, col);
+
+                CurrentEnemyHealth.TakeDamage(amount);
+
+                Events.OnEnemyHurt.Invoke(CurrentEnemyHealth);
+
+                if (CurrentEnemyHealth.IsDead)
                 {
-                    Color col = StatsCache.ApplyCritHit(ref amount) ? Color.red : Color.white;
+                    Instance.OnEnemyDeath();
 
-                    Instance.damageNumbers.Add(amount, col);
-
-                    health.TakeDamage(amount);
-
-                    Events.OnEnemyHurt.Invoke(health);
-
-                    if (health.IsDead)
-                    {
-                        Instance.OnEnemyDeath();
-
-                        Destroy(Instance.CurrentEnemy);
-                    }
+                    Destroy(Instance.CurrentEnemy);
                 }
             }
         }
@@ -85,6 +88,8 @@ public class GameManager : MonoBehaviour
         }
 
         CurrentEnemy = boss;
+
+        _enemyHealth = CurrentEnemy.GetComponent<Health>();
     }
 
     void OnEnemyDeath()
@@ -135,6 +140,8 @@ public class GameManager : MonoBehaviour
     void SpawnEnemy()
     {
         CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
+
+        _enemyHealth = CurrentEnemy.GetComponent<Health>();
 
         Events.OnEnemySpawned.Invoke();
     }

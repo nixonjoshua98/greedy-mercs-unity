@@ -74,7 +74,7 @@ namespace WeaponsUI
             WeaponStaticData staticWeaponData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
             // Local callback function
-            void callback(Action panelCallback) => OnConfirm(weaponIndex, panelCallback);
+            void callback(int buying, Action panelCallback) => OnConfirm(weaponIndex, buying, panelCallback);
 
             WeaponInfoPanel confirm = Utils.UI.Instantiate(ConfirmSliderObject, Vector3.zero).GetComponent<WeaponInfoPanel>();
 
@@ -82,7 +82,7 @@ namespace WeaponsUI
             confirm.Init(character, character.weapons[weaponIndex], weaponIndex, callback);
         }
 
-        void OnConfirm(int weaponIndex, Action callback)
+        void OnConfirm(int weaponIndex, int buying, Action callback)
         {
             // Local method to forward some arguments to the method
             void ServerCallback(long code, string compressed) => OnServerWeaponBuy(weaponIndex, code, compressed, callback);
@@ -96,6 +96,7 @@ namespace WeaponsUI
 
                 node.Add("characterId", (int)character.character);
                 node.Add("weaponId", weaponIndex);
+                node.Add("buyAmount", buying);
 
                 Server.BuyWeapon(this, ServerCallback, node);
             }

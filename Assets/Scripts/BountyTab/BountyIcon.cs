@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace BountyUI
@@ -10,18 +7,29 @@ namespace BountyUI
 
     public class BountyIcon : MonoBehaviour
     {
+        BountyID bounty;
+
         [Header("Components")]
+        [SerializeField] Text pointsText;
         [SerializeField] Text bountyName;
+        [SerializeField] Text levelText;
+
         [SerializeField] Image icon;
-        [SerializeField] Text info;
 
-        public void SetBounty(BountySO bounty)
+        public void SetBounty(BountySO scriptableBounty)
         {
-            bountyName.text = bounty.name;
+            bounty = scriptableBounty.BountyID;
 
-            info.text = string.Format("{0} Points / hour", bounty.bountyPoints);
+            bountyName.text = scriptableBounty.name;
 
-            icon.sprite = bounty.icon;
+            pointsText.text = string.Format("{0} Points / hour", Formulas.CalcBountyHourlyIncome(scriptableBounty.BountyID));
+
+            icon.sprite = scriptableBounty.icon;
+        }
+
+        void FixedUpdate()
+        {
+            levelText.text = "Level " + GameState.Bounties.GetState(bounty).level;
         }
     }
 }

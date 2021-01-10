@@ -14,6 +14,9 @@ public class CharacterResources : MonoBehaviour
 
     void Awake()
     {
+        foreach (var c in Characters)
+            c.Init();
+
         Instance = this;
 
         BigDouble prevPurchaseCost = 0;

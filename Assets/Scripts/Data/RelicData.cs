@@ -20,7 +20,7 @@ namespace RelicData
         JADE_NECKLACE   = 10,
         ARTEMIS_BOW     = 11,
         WEALTH_BAG      = 12,
-        MEAT            = 13
+        THIEF_BELT      = 13
     }
 
     public class RelicStaticData

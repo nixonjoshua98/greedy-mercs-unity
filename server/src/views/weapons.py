@@ -14,7 +14,7 @@ class BuyWeapon(View):
 
 		data = utils.decompress(request.data)
 
-		chara, weapon, buying = data["characterId"], data["weaponId"], 1
+		chara, weapon, buying = data["characterId"], data["weaponId"], data["buyAmount"]
 
 		static_weapon = app.staticdata["weapons"][str(weapon)]
 
@@ -31,11 +31,11 @@ class BuyWeapon(View):
 
 		# - Buy weapon
 		if static_weapon.get("buyCost") is not None:
-			return self.buy_weapon(userid, user_items, chara, weapon, 1)
+			return self.buy_weapon(userid, user_items, chara, weapon, buying)
 
 		# - Merge weapon
 		elif static_weapon.get("mergeCost") is not None:
-			return self.merge_weapon(userid, user_items, chara, weapon, 1)
+			return self.merge_weapon(userid, user_items, chara, weapon, buying)
 
 		return Response(utils.compress({"message": ""}), status=500)
 
@@ -72,7 +72,7 @@ class BuyWeapon(View):
 
 		prev_weapon_owned = character_weapons.get(str(weapon - 1), 0)
 
-		if prev_weapon_owned < (merge_cost := (data.get("mergeCost", 0) * nummerging)):
+		if prev_weapon_owned < (merge_cost := (data["mergeCost"] * nummerging)):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		items = app.mongo.db.userItems.find_one_and_update(

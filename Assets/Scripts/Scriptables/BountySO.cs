@@ -9,7 +9,7 @@ namespace BountyData
         BOUNTY_TWO      = 1,
         BOUNTY_THREE    = 2,
         BOUNTY_FOUR     = 3,
-        BOUNTY_GIVE     = 4
+        BOUNTY_FIVE     = 4
     }
 
     [PreferBinarySerialization]

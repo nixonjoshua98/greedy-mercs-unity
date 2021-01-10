@@ -20,12 +20,15 @@ public class PrestigePanel : MonoBehaviour
 
     void Awake()
     {
+        UpdatePanel();
+
         InvokeRepeating("UpdatePanel", 0.1f, 0.1f);
     }
 
+
     void UpdatePanel()
     {
-        bountyLevelsText.text = "Soon^tm";
+        bountyLevelsText.text = GameState.Bounties.GetPrestigeBountyLevels().ToString();
 
         prestigePointText.text = Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage));
     }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,23 +7,18 @@ public class EnemyHealthbar : MonoBehaviour
     [SerializeField] Slider healthbar;
     [SerializeField] Text healthText;
 
-    void Awake()
+    void FixedUpdate()
     {
-        Events.OnEnemyHurt.AddListener(OnEnemyHurt);
+        Health hp = GameManager.CurrentEnemyHealth;
 
-        Events.OnEnemySpawned.AddListener(OnEnemySpawned);
+        healthText.text = "";
+        healthbar.value = 0.0f;
 
-        Events.OnBossSpawned.AddListener(OnBossSpawned);
-    }
+        if (hp != null && hp.CurrentHealth > 0)
+        {
+            healthText.text = Utils.Format.FormatNumber(hp.CurrentHealth);
 
-    void OnEnemySpawned() { healthbar.value = 1.0f; }
-
-    void OnBossSpawned(GameObject _) { healthbar.value = 1.0f; }
-
-    void OnEnemyHurt(Health health)
-    {
-        healthbar.value = float.Parse((health.CurrentHealth / health.MaxHealth).ToString());
-
-        healthText.text = health.CurrentHealth > 0 ? Utils.Format.FormatNumber(health.CurrentHealth) : "";
+            healthbar.value = float.Parse((hp.CurrentHealth / hp.MaxHealth).ToString());
+        }
     }
 }

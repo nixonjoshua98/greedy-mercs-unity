@@ -14,10 +14,14 @@ namespace BountyData
 
         DateTime lastClaimTime;
 
+        Dictionary<BountyID, UpgradeState> bountyStates;
+
         public DateTime LastClaimTime { get { return lastClaimTime; } }
 
         public BountyContainer(JSONNode node)
         {
+            bountyStates = new Dictionary<BountyID, UpgradeState>();
+
             lastClaimTime = DateTime.UtcNow;
 
             Update(node);
@@ -29,6 +33,16 @@ namespace BountyData
                 node = node["bounties"];
 
             lastClaimTime = node.HasKey("lastClaimTime") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime : lastClaimTime;
+
+            if (node.HasKey("bountyLevels"))
+            {
+                node = node["bountyLevels"];
+
+                foreach (string key in node.Keys)
+                {
+                    bountyStates[(BountyID)int.Parse(key)] = new UpgradeState { level = node[key].AsInt };
+                }
+            }
         }
 
         public JSONNode ToJson()
@@ -57,6 +71,37 @@ namespace BountyData
             return unlocked;
         }
 
+        public int GetPrestigeBountyLevels()
+        {
+            int total = 0;
+
+            foreach (BountySO bounty in StaticData.Bounties.BountyList)
+            {
+                if (GameState.Player.maxPrestigeStage > bounty.unlockStage && GameState.Stage.stage > bounty.unlockStage)
+                    total++;
+            }
+
+            return total;
+        }
+
+        // === States ===
+
+        public UpgradeState GetState(BountyID bounty)
+        {
+            if (bountyStates.TryGetValue(bounty, out UpgradeState state))
+                return state;
+
+            AddState(bounty, 1);
+
+            return GetState(bounty);
+        }
+
+        public void AddState(BountyID bounty, int level)
+        {
+            bountyStates[bounty] = new UpgradeState { level = level };
+        }
+
+        // === Attributes ===
 
         public int TimeSinceClaim
         {
@@ -84,7 +129,7 @@ namespace BountyData
                 int total = 0;
 
                 foreach (var bounty in Unlocked())
-                    total += bounty.Value.bountyPoints;
+                    total += Formulas.CalcBountyHourlyIncome(bounty.Key);
 
                 return total;
             }

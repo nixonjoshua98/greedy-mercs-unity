@@ -29,7 +29,7 @@ public class ScriptableCharacter : ScriptableObject
     // Set at Awake
     [HideInInspector] public BigDouble purchaseCost;
 
-    void Awake()
+    public void Init()
     {
         purchaseCost = BigDouble.Parse(purchaseCostString);
     }

@@ -5,7 +5,7 @@ public class DebugMenu : MonoBehaviour
 {
     public void OnGoldButton()
     {
-        GameState.Player.gold = BigDouble.Parse("1.0e500");
+        GameState.Player.gold = BigDouble.Parse("1.0e5000");
     }
 
     public void OnStageAdvance()

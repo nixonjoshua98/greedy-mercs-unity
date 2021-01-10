@@ -25,7 +25,12 @@ class ClaimBounty(View):
 
 		max_stage = max(stats.get("maxPrestigeStage", 0), data.get("currentStage", 0))
 
-		earned_points = formulas.bounty_point_claim(app.staticdata["bounties"], max_stage, bounties["lastClaimTime"])
+		earned_points = formulas.hourly_bounty_income(
+			staticbounties=app.objects["bounties"],
+			bountylevels=bounties.get("bountyLevels", dict()),
+			maxstage=max_stage,
+			lastclaim=bounties["lastClaimTime"]
+		)
 
 		if earned_points == 0:
 			return Response(utils.compress({"message": ""}), status=400)

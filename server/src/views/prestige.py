@@ -22,6 +22,7 @@ class Prestige(View):
 
 		pp = int(userItems.get("prestigePoints", 0)) + points_earned
 
+		utils.dbops.add_bounty_prestige_levels(userid, stage)
 		utils.dbops.update_max_prestige_stage(app.mongo, userid, stage)
 
 		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)

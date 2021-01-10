@@ -16,7 +16,7 @@ from src.views import (
 	BuyWeapon
 )
 
-from src.staticobjects import Relic
+from src.staticobjects import Relic, Bounty
 
 app = Flask(__name__)
 
@@ -31,7 +31,8 @@ app.staticdata = {
 	}
 
 app.objects = {
-	"relics": {int(k): Relic.from_dict(r) for k, r in app.staticdata["relics"].items()}
+	"relics": {int(k): Relic.from_dict(r) for k, r in app.staticdata["relics"].items()},
+	"bounties": {int(k): Bounty.from_dict(r) for k, r in app.staticdata["bounties"].items()}
 }
 
 app.mongo.init_app(app, uri="mongodb://localhost:27017/temp")

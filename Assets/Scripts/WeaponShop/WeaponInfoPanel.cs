@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace WeaponsUI
         [SerializeField] Text titleText;
         [SerializeField] Text descText;
         [SerializeField] Text costText;
-        [SerializeField] Text abilityText;
+        [SerializeField] Text buyMaxText;
         [SerializeField] Text weaponDamageText;
 
         [Header("Images")]
@@ -23,18 +24,45 @@ namespace WeaponsUI
 
         [Space]
         [SerializeField] Button buyButton;
+        [SerializeField] Button buyMaxButton;
 
-        Action<Action> callback;
+        Action<int, Action> callback;
 
         WeaponStaticData weaponStaticData;
 
-        Action UpdatePanel;
+        // - Scriptables
+        ScriptableCharacter character;
+        ScriptableWeapon weapon;
 
-        public void Init(ScriptableCharacter chara, ScriptableWeapon weapon, int weaponIndex, Action<Action> func)
+        int weaponIndex;
+
+        int BuyMaxAmount
         {
-            weaponStaticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
+            get
+            {
+                int weaponsOwned = GameState.Weapons.Get(character.character, weaponIndex);
+                int weaponsLeft = weaponStaticData.maxOwned - weaponsOwned;
 
-            callback = func;
+                if (weaponIndex == 0)
+                    return (int)BigInteger.Min(weaponsLeft, GameState.Player.bountyPoints / weaponStaticData.buyCost);
+
+                else
+                {
+                    int prevWeaponOwned = GameState.Weapons.Get(character.character, weaponIndex - 1);
+
+                    return Mathf.Min(weaponsLeft, prevWeaponOwned / weaponStaticData.mergeCost);
+                }
+            }
+        }
+
+        public void Init(ScriptableCharacter chara, ScriptableWeapon _weapon, int _weaponIndex, Action<int, Action> func)
+        {
+            callback    = func;
+            character   = chara;
+            weapon      = _weapon;
+            weaponIndex = _weaponIndex;
+
+            weaponStaticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
             titleText.text  = chara.name;
             descText.text   = string.Format("Tier {0} Weapon", weaponStaticData.tier);
@@ -42,38 +70,49 @@ namespace WeaponsUI
             weaponImage.sprite      = weapon.icon;
             characterImage.sprite   = chara.icon;
 
-            UpdatePanel = () => { _UpdatePanel(chara, weapon, weaponIndex); };
-
             UpdatePanel();
         }
 
-        void _UpdatePanel(ScriptableCharacter chara, ScriptableWeapon weapon, int weaponIndex)
+        void UpdatePanel()
         {
-            int weaponsOwned = GameState.Weapons.Get(chara.character, weaponIndex);
+            int weaponsOwned = GameState.Weapons.Get(character.character, weaponIndex);
 
-            bool maxOwned = weaponsOwned >= weaponStaticData.maxOwned;
-
-            weaponDamageText.text = Utils.Format.FormatNumber(Formulas.CalcWeaponDamage(weaponIndex, weaponsOwned) * 100) + "%";
+            weaponDamageText.text   = Utils.Format.FormatNumber(Formulas.CalcWeaponDamage(weaponIndex, weaponsOwned) * 100) + "%";
+            buyMaxText.text         = "Buy x" + BuyMaxAmount;
 
             if (weaponIndex == 0)
-            {
-                mergeImage.sprite       = weapon.icon;
-                costText.text           = string.Format("{0}x Bounty Points", weaponStaticData.buyCost);
-                buyButton.interactable  = GameState.Player.bountyPoints >= weaponStaticData.buyCost && !maxOwned;
-            }
+                UpdateBuyWeapon();
 
             else
-            {
-                ScriptableWeapon prevWeapon = chara.weapons[weaponIndex - 1];
-                WeaponStaticData prevWeaponStaticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex - 1);
+                UpdateMergeWeapon();
+        }
 
-                int prevWeaponOwned = GameState.Weapons.Get(chara.character, weaponIndex - 1);
+        void UpdateBuyWeapon()
+        {
+            int weaponsOwned    = GameState.Weapons.Get(character.character, weaponIndex);
+            int weaponsLeft     = weaponStaticData.maxOwned - weaponsOwned;
 
-                mergeImage.sprite = prevWeapon.icon;
-                costText.text = string.Format("{0}/{1} Tier {2} Weapons", prevWeaponOwned, weaponStaticData.mergeCost, prevWeaponStaticData.tier);
+            mergeImage.sprite   = weapon.icon;
+            costText.text       = string.Format("{0}x Bounty Points", weaponStaticData.buyCost);
 
-                buyButton.interactable = prevWeaponOwned >= weaponStaticData.mergeCost && !maxOwned;
-            }
+            buyButton.interactable      = weaponsLeft > 0 && GameState.Player.bountyPoints >= (weaponStaticData.buyCost * 1);
+            buyMaxButton.interactable   = weaponsLeft > 0 && GameState.Player.bountyPoints >= (weaponStaticData.buyCost * BuyMaxAmount);
+        }
+
+        void UpdateMergeWeapon()
+        {
+            int weaponsOwned    = GameState.Weapons.Get(character.character, weaponIndex);
+            int weaponsLeft     = weaponStaticData.maxOwned - weaponsOwned;
+
+            ScriptableWeapon prevWeapon = character.weapons[weaponIndex - 1];
+
+            int prevWeaponOwned = GameState.Weapons.Get(character.character, weaponIndex - 1);
+
+            mergeImage.sprite   = prevWeapon.icon;
+            costText.text       = string.Format("{0}/{1} Tier {2} Weapons", prevWeaponOwned, weaponStaticData.mergeCost, weaponIndex + 1);
+
+            buyButton.interactable      = weaponsLeft > 0 && prevWeaponOwned >= (weaponStaticData.mergeCost * 1);
+            buyMaxButton.interactable   = weaponsLeft > 0 && prevWeaponOwned >= (weaponStaticData.mergeCost * BuyMaxAmount);
         }
 
         public void OnClose()
@@ -83,9 +122,18 @@ namespace WeaponsUI
 
         public void OnBuy()
         {
-            buyButton.interactable = false;
+            buyButton.interactable      = false;
+            buyMaxButton.interactable   = false;
 
-            callback(UpdatePanel);
+            callback(1, UpdatePanel);
+        }
+
+        public void OnBuyMax()
+        {
+            buyButton.interactable      = false;
+            buyMaxButton.interactable   = false;
+
+            callback(BuyMaxAmount, UpdatePanel);
         }
     }
 }

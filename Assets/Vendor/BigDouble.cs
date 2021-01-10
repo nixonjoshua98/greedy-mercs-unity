@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Globalization;
+
 using Random = System.Random;
 
-// I'm not sure if there's a "Yes, this is Unity" define symbol
-// (#if UNITY doesn't seem to work). If you happen to know one - please create
-// an issue here https://github.com/Razenpok/BreakInfinity.cs/issues.
-#if UNITY_2017_1_OR_NEWER
-using UnityEngine;
-#endif
-
-#if UNITY_2017_1_OR_NEWER
-    [Serializable]
-#endif
-    public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEquatable<BigDouble>
+public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEquatable<BigDouble>
     {
         public const double Tolerance = 1e-18;
 
@@ -27,15 +18,8 @@ using UnityEngine;
         //The smallest exponent that can appear in a Double, though not all mantissas are valid here.
         private const long DoubleExpMin = -324;
 
-#if UNITY_2017_1_OR_NEWER
-        [SerializeField]
-        private double mantissa;
-        [SerializeField]
-        private long exponent;
-#else
         private double mantissa;
         private long exponent;
-#endif
 
         // This constructor is used to prevent non-normalized values to be created via constructor.
         // ReSharper disable once UnusedParameter.Local
@@ -661,10 +645,9 @@ using UnityEngine;
 
         public static BigDouble Pow(BigDouble value, long power)
         {
-            return Is10(value)
-                ? Pow10(power)
-                // TODO: overflows
-                : Normalize(Math.Pow(value.Mantissa, power), value.Exponent * power);
+            // TODO: overflows
+       
+            return Is10(value) ? Pow10(power) : Normalize(Math.Pow(value.Mantissa, power), value.Exponent * power);
         }
 
         public static BigDouble Pow(BigDouble value, double power)

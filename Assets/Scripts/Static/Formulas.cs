@@ -2,9 +2,9 @@
 
 using UnityEngine;
 
-using RelicID           = RelicData.RelicID;
-using CharacterID       = CharacterData.CharacterID;
-using RelicStaticData   = RelicData.RelicStaticData;
+using RelicID       = RelicData.RelicID;
+using BountyID      = BountyData.BountyID;
+using CharacterID   = CharacterData.CharacterID;
 
 public static class Formulas
 {
@@ -13,6 +13,17 @@ public static class Formulas
      * This classs stores all the game formulas *BUT* they should only be called from their respective cache/manager class
      * ===
      */
+
+    // === Bounties ===
+
+    public static int CalcBountyHourlyIncome(BountyID bounty)
+    {
+        var scriptable = StaticData.Bounties.Get(bounty);
+
+        var state = GameState.Bounties.GetState(bounty);
+
+        return scriptable.bountyPoints + state.level;
+    }
 
     public static double CalcWeaponDamage(int weaponIndex, int owned)
     {
@@ -23,7 +34,10 @@ public static class Formulas
 
     public static BigDouble CalcEnemyHealth(int stage)
     {
-        return 15.0 * BigDouble.Pow(1.35f, Mathf.Min(stage - 1, 65)) * BigDouble.Pow(1.15f, Mathf.Max(stage - 65, 0));
+        BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
+        BigDouble y = BigDouble.Pow(1.15, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
+
+        return 15 * x * y;
     }
 
     public static BigDouble CalcBossHealth(int stage)

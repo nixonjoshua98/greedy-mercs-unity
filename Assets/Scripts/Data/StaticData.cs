@@ -12,7 +12,7 @@ using BountyData;
 
 public class StaticData
 {
-    public const int MAX_CHAR_LEVEL         = 1_000;
+    public const int MAX_CHAR_LEVEL         = 100_000;
     public const int MAX_TAP_UPGRADE_LEVEL  = 1_000;
 
     public const float BASE_CRIT_CHANCE     = 0.01f;

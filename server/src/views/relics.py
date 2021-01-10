@@ -58,6 +58,8 @@ class UpgradeRelic(View):
 
 		data = utils.decompress(request.data)
 
+		levels_buying = data["buyLevels"]
+
 		# - Load user data from the database
 		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
@@ -65,11 +67,16 @@ class UpgradeRelic(View):
 
 		prestige_points = int(items.get("prestigePoints", 0))  # prestigePoints are stored as a string
 
+		static_relic = app.objects["relics"][data["relicId"]]
+
 		# - User is trying to upgrade an invalid relic or one they do not currently own
 		if (relic_level := user_relics.get(data["relicId"])) is None:
 			return Response(utils.compress({"message": "You do not own this relic"}), status=400)
 
-		cost = formulas.relic_levelup_cost(relic_level, data["buyLevels"], app.objects["relics"][data["relicId"]])
+		elif (relic_level + levels_buying) > static_relic.max_level:
+			return Response(utils.compress({"message": "Buying will exceed the relic max level"}), status=400)
+
+		cost = static_relic.levelup(relic_level, data["buyLevels"])
 
 		# - User cannot afford to upgrade
 		if cost > prestige_points:

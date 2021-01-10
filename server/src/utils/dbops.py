@@ -1,8 +1,8 @@
+from flask import current_app as app
+
 from pymongo import MongoClient
 
 from bson import ObjectId
-
-import datetime as dt
 
 
 def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int):
@@ -22,6 +22,35 @@ def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int):
 		{"userId": userid, "maxPrestigeStage": {"$lt": stage}},
 		{"$set": {"maxPrestigeStage": stage}},
 		upsert=True
+	)
+
+
+def add_bounty_prestige_levels(userid, stage):
+	"""
+	Updates a users bounty levels based upon their prestige stage
+	====================
+
+	:param userid: The internal ID for the user we are updating
+	:param stage: The stage at which the user prestiged at
+
+	:return:
+		Returns the result of the query
+	"""
+
+	def prestige_bounty_levels_earned():
+		levels = dict()
+
+		for key, bounty in app.objects["bounties"].items():
+			if stage > bounty.unlock_stage:
+				levels[key] = 1
+
+		return levels
+
+	bounty_levels = prestige_bounty_levels_earned()
+
+	return app.mongo.db.userBounties.update_one(
+		{"userId": userid},
+		{"$inc": {f"bountyLevels.{key}": level for key, level in bounty_levels.items()}}
 	)
 
 

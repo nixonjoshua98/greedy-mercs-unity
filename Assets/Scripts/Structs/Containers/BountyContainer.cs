@@ -10,7 +10,7 @@ namespace BountyData
 {
     public class BountyContainer
     {
-        const int MAX_HOURS = 12;
+        const int MAX_HOURS = 8;
 
         DateTime lastClaimTime;
 
@@ -37,6 +37,8 @@ namespace BountyData
             if (node.HasKey("bountyLevels"))
             {
                 node = node["bountyLevels"];
+
+                bountyStates = new Dictionary<BountyID, UpgradeState>();
 
                 foreach (string key in node.Keys)
                 {

@@ -4,7 +4,11 @@ using UnityEngine.EventSystems;
 
 public class TapController : MonoBehaviour, IPointerDownHandler
 {
+    const float CLICK_DELAY = 1.0f / 20.0f;
+
     [SerializeField] ParticleSystem ps;
+
+    float lastClickTime = 0;
 
     public void Awake()
     {
@@ -13,11 +17,18 @@ public class TapController : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        ps.gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 1.0f));
+        float clickTimeNow = Time.time;
 
-        ps.Play();
+        if (clickTimeNow - lastClickTime >= CLICK_DELAY)
+        {
+            lastClickTime = clickTimeNow;
 
-        DoClick();
+            ps.gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 1.0f));
+
+            ps.Play();
+
+            DoClick();
+        }
     }
 
     void DoClick()

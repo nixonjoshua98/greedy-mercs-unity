@@ -50,22 +50,21 @@ public class RelicRow : MonoBehaviour
         icon.sprite     = data.icon;
 
         relic = data.relic;
-    }
 
-    void FixedUpdate()
-    {
         UpdateRow();
+
+        InvokeRepeating("UpdateRow", 0.3f, 0.3f);
     }
 
     void UpdateRow()
     {
-        var data                = RelicResources.Get(relic).data;
-        UpgradeState state      = GameState.Relics.Get(relic);
+        var data            = RelicResources.Get(relic).data;
+        UpgradeState state  = GameState.Relics.Get(relic);
 
-        effectText.text     = Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relic) * 100) + "% " + Utils.Generic.BonusToString(data.bonusType);
-        costText.text       = state.level >= data.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relic, BuyAmount));
-        levelText.text      = "Level " + state.level.ToString();
-        buyText.text        = state.level >= data.maxLevel ? "" : "x" + BuyAmount.ToString();
+        effectText.text = Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relic) * 100) + "% " + Utils.Generic.BonusToString(data.bonusType);
+        costText.text   = state.level >= data.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relic, BuyAmount));
+        levelText.text  = "Level " + state.level.ToString();
+        buyText.text    = state.level >= data.maxLevel ? "" : "x" + BuyAmount.ToString();
 
         buyButton.interactable = state.level < data.maxLevel;
     }

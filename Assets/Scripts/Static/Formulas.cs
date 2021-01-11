@@ -22,7 +22,7 @@ public static class Formulas
 
         var state = GameState.Bounties.GetState(bounty);
 
-        return scriptable.bountyPoints + state.level;
+        return scriptable.bountyPoints + (state.level - 1);
     }
 
     public static double CalcWeaponDamage(int weaponIndex, int owned)

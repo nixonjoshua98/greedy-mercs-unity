@@ -41,7 +41,7 @@ def hourly_bounty_income(staticbounties: dict, bountylevels: dict, maxstage, las
 
 	for key, bounty in staticbounties.items():
 		if maxstage > bounty.unlock_stage:
-			hourly_points += bounty.bounty_points + bountylevels.get(str(key), 0)
+			hourly_points += bounty.bounty_points + (bountylevels.get(str(key), 1) - 1)
 
 	seconds_since_claim = (dt.datetime.utcnow() - lastclaim).total_seconds()
 

@@ -76,7 +76,7 @@ public abstract class CharacterAttack : MonoBehaviour
     {
         if (chara.CharacterID == character.CharacterID)
         {
-            ScriptableWeapon weapon = chara.weapons[weaponIndex];
+            WeaponSO weapon = chara.weapons[weaponIndex];
 
             int highestWeapon = GameState.Weapons.GetHighestTier(chara.CharacterID);
 
@@ -85,7 +85,7 @@ public abstract class CharacterAttack : MonoBehaviour
         }
     }
 
-    protected abstract void OnChangeWeapon(ScriptableWeapon weapon);
+    protected abstract void OnChangeWeapon(WeaponSO weapon);
 
     void StartAttack()
     {

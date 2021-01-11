@@ -53,7 +53,7 @@ namespace WeaponsUI
             {
                 int temp = i;
 
-                ScriptableWeapon weapon = character.weapons[i];
+                WeaponSO weapon = character.weapons[i];
 
                 GameObject spawned = Instantiate(CharaWeaponSlotObject, weaponsScrollContent);
                 

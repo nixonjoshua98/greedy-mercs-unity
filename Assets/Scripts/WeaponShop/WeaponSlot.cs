@@ -25,7 +25,7 @@ namespace WeaponsUI
             character = _character;
             weaponIndex = _weaponIndex;
 
-            ScriptableWeapon weapon = character.weapons[weaponIndex];
+            WeaponSO weapon = character.weapons[weaponIndex];
 
             icon.sprite = weapon.icon;
 

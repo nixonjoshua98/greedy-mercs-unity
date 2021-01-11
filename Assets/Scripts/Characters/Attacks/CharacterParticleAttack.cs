@@ -17,7 +17,7 @@ public class CharacterParticleAttack : CharacterAttack
         DealDamage();
     }
 
-    protected override void OnChangeWeapon(ScriptableWeapon weapon)
+    protected override void OnChangeWeapon(WeaponSO weapon)
     {
         GameObject newParticleSystem = Instantiate(weapon.prefab, transform);
 

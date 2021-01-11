@@ -20,9 +20,6 @@ namespace WeaponsUI
         [Header("Prefabs")]
         [SerializeField] GameObject WeaponRecipeRowObject;
 
-        [Header("Sprites")]
-        [SerializeField] Sprite TransparentSquare;
-
         [Header("Text")]
         [SerializeField] Text titleText;
         [SerializeField] Text descText;
@@ -33,7 +30,7 @@ namespace WeaponsUI
         [SerializeField] Image weaponImage;
         [SerializeField] Image characterImage;
 
-        [Space]
+        [Header("Buttons")]
         [SerializeField] Button buyButton;
         [SerializeField] Button buyMaxButton;
 
@@ -43,7 +40,7 @@ namespace WeaponsUI
 
         // - Scriptables
         CharacterSO character;
-        ScriptableWeapon weapon;
+        WeaponSO weapon;
 
         int weaponIndex;
 
@@ -71,7 +68,7 @@ namespace WeaponsUI
             }
         }
 
-        public void Init(CharacterSO chara, ScriptableWeapon _weapon, int _weaponIndex, Action<int, Action> func)
+        public void Init(CharacterSO chara, WeaponSO _weapon, int _weaponIndex, Action<int, Action> func)
         {
             callback    = func;
             character   = chara;
@@ -93,7 +90,7 @@ namespace WeaponsUI
         {
             if (weaponStaticData.buyCost > 0)
             {
-                ScriptableWeapon weapon = character.weapons[weaponIndex];
+                WeaponSO weapon = character.weapons[weaponIndex];
 
                 GameObject o = Utils.UI.Instantiate(WeaponRecipeRowObject, weaponRecipeParent.transform, Vector3.zero);
 
@@ -105,7 +102,7 @@ namespace WeaponsUI
 
             foreach (KeyValuePair<int, int> entry in recipe)
             {
-                ScriptableWeapon recipeWeapon = character.weapons[entry.Key];
+                WeaponSO recipeWeapon = character.weapons[entry.Key];
 
                 GameObject o = Utils.UI.Instantiate(WeaponRecipeRowObject, weaponRecipeParent.transform, Vector3.zero);
 

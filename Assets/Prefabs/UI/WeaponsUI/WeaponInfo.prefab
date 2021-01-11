@@ -705,12 +705,11 @@ MonoBehaviour:
   weaponRecipeParent: {fileID: 8893746476816162207}
   WeaponRecipeRowObject: {fileID: 5959583175844590435, guid: ecefce978d9a73e4ebf78f16d5b016c7,
     type: 3}
-  TransparentSquare: {fileID: 21300000, guid: 9f02e6e78dfd9404089a01e796ec3263, type: 3}
+  BountyPointIcon: {fileID: 21300000, guid: 0c266964a590c474592322472dcb6097, type: 3}
   titleText: {fileID: 8196737098522494397}
   descText: {fileID: 4870414337604060088}
   buyMaxText: {fileID: 8321398115079314008}
   weaponDamageText: {fileID: 1372850482107827708}
-  mergeImage: {fileID: 0}
   weaponImage: {fileID: 8281618540078619435}
   characterImage: {fileID: 1291412459389437676}
   buyButton: {fileID: 8342704850287115955}

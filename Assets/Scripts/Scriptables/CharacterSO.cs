@@ -28,7 +28,7 @@ namespace CharacterData
 
         public Sprite icon;
 
-        public ScriptableWeapon[] weapons;
+        public WeaponSO[] weapons;
 
         // - Runtime
         [HideInInspector] public int unlockOrder;

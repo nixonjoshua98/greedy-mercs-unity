@@ -13,7 +13,7 @@ public class CharacterMeleeAttack : CharacterAttack
         DealDamage();
     }
 
-    protected override void OnChangeWeapon(ScriptableWeapon weapon)
+    protected override void OnChangeWeapon(WeaponSO weapon)
     {
         weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
     }

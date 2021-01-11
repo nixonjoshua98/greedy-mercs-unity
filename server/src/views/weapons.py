@@ -14,76 +14,38 @@ class BuyWeapon(View):
 
 		data = utils.decompress(request.data)
 
-		chara, weapon, buying = data["characterId"], data["weaponId"], data["buyAmount"]
+		chara_id, weapon_id, buying = data["characterId"], data["weaponId"], data["buyAmount"]
 
-		static_weapon = app.staticdata["weapons"][str(weapon)]
+		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
-		user_items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
+		weapons = {int(k): v for k, v in items.get("weapons", dict()).get(str(chara_id), dict()).items()}
 
-		user_weapons = user_items.get("weapons", dict())
+		weapon_data = app.objects["weapons"][weapon_id]
 
-		# - Num of weapons owned of the weapon in question
-		weapons_owned = user_weapons.get(str(chara), dict()).get(str(weapon), 0)
-
-		# - Limit user to the owned limit of each weapon, regardless of buying or merging
-		if (weapons_owned + buying) > static_weapon["maxOwned"]:
-			return Response(utils.compress({"message": ""}), status=400)
-
-		# - Buy weapon
-		if static_weapon.get("buyCost") is not None:
-			return self.buy_weapon(userid, user_items, chara, weapon, buying)
-
-		# - Merge weapon
-		elif static_weapon.get("mergeCost") is not None:
-			return self.merge_weapon(userid, user_items, chara, weapon, buying)
-
-		return Response(utils.compress({"message": ""}), status=500)
-
-	def buy_weapon(self, userid, items, character, weapon, numbuying):
+		for index, amount in weapon_data.merge_recipe.items():
+			if weapons.get(index, 0) < (amount * buying):
+				return Response(utils.compress({"message": "Cannot fulfill merge recipe"}), status=400)
 
 		bp = int(items.get("bountyPoints", 0))
 
-		data = app.staticdata["weapons"][str(weapon)]
+		if weapon_data.buy_cost > 0 and bp < weapon_data.buy_cost * buying:
+			return Response(utils.compress({"message": "Cannot afford the BP"}), status=400)
 
-		# - User cannot afford to buy x weapons
-		if (buy_cost := data["buyCost"] * numbuying) > bp:
-			return Response(utils.compress({"message": ""}), status=400)
+		elif weapons.get(weapon_id, 0) + buying > weapon_data.max_owned:
+			return Response(utils.compress({"message": "Buying will exceed max owned"}), status=400)
 
-		items = app.mongo.db.userItems.find_one_and_update(
-			{"userId": userid},
-			{
-				"$inc": {f"weapons.{character}.{weapon}": numbuying},
-				"$set": {"bountyPoints": str(bp - buy_cost)}
-			},
-			upsert=True,
-			return_document=ReturnDocument.AFTER
+		query = {"$inc": {}}
 
-		)
+		for index, amount in weapon_data.merge_recipe.items():
+			query["$inc"].update({f"weapons.{chara_id}.{index}": -(amount * buying)})
 
-		return_data = {"weapons": items["weapons"], "bountyPoints": str(items["bountyPoints"])}
+		query.update({"$set": {"bountyPoints": str(bp - (weapon_data.buy_cost * buying))}})
 
-		return Response(utils.compress(return_data), status=200)
-
-	def merge_weapon(self, userid, items, character, weapon: int, nummerging: int):
-
-		data = app.staticdata["weapons"][str(weapon)]
-
-		character_weapons = items.get("weapons", dict()).get(str(character), dict())
-
-		prev_weapon_owned = character_weapons.get(str(weapon - 1), 0)
-
-		if prev_weapon_owned < (merge_cost := (data["mergeCost"] * nummerging)):
-			return Response(utils.compress({"message": ""}), status=400)
+		query["$inc"].update({f"weapons.{chara_id}.{weapon_id}": buying})
 
 		items = app.mongo.db.userItems.find_one_and_update(
 			{"userId": userid},
-
-			{
-				"$inc": {
-					f"weapons.{character}.{weapon}": nummerging,
-					f"weapons.{character}.{weapon - 1}": -merge_cost
-				}
-			},
+			query,
 			upsert=True,
 			return_document=ReturnDocument.AFTER
 		)

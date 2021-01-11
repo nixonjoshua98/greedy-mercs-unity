@@ -3,6 +3,8 @@ using System.Collections;
 
 using UnityEngine;
 
+using CharacterData;
+
 public class MercsTab : MonoBehaviour
 {
     static MercsTab Instance = null;
@@ -27,16 +29,16 @@ public class MercsTab : MonoBehaviour
 
     IEnumerator Start()
     {
-        foreach (var chara in CharacterResources.Instance.Characters)
+        foreach (var chara in StaticData.Chars.CharacterList)
         {
-            if (GameState.Characters.TryGetState(chara.character, out UpgradeState _))
+            if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
                 AddRow(chara);
 
             yield return new WaitForFixedUpdate();
         }
     }
 
-    void AddRow(ScriptableCharacter chara)
+    void AddRow(CharacterSO chara)
     {
         GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
@@ -49,6 +51,6 @@ public class MercsTab : MonoBehaviour
 
     void OnHeroUnlocked(CharacterData.CharacterID chara)
     {
-        AddRow(CharacterResources.Instance.GetCharacter(chara));
+        AddRow(StaticData.Chars.Get(chara));
     }
 }

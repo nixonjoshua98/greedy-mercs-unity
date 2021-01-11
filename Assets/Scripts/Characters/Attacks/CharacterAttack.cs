@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using CharacterData;
 
 [RequireComponent(typeof(Character))]
 public abstract class CharacterAttack : MonoBehaviour
@@ -32,8 +33,7 @@ public abstract class CharacterAttack : MonoBehaviour
 
         attackTimer = delayBetweenAttacks;
 
-        // === Call the callback for the intial weapon change at creation ===
-        ScriptableCharacter chara = CharacterResources.Instance.GetCharacter(character.CharacterID);
+        CharacterSO chara = StaticData.Chars.Get(character.CharacterID);
 
         if (chara.weapons.Length > 1)
         {
@@ -72,13 +72,13 @@ public abstract class CharacterAttack : MonoBehaviour
 
     public abstract void OnAttackEvent();
 
-    void OnWeaponBought(ScriptableCharacter chara, int weaponIndex)
+    void OnWeaponBought(CharacterSO chara, int weaponIndex)
     {
-        if (chara.character == character.CharacterID)
+        if (chara.CharacterID == character.CharacterID)
         {
             ScriptableWeapon weapon = chara.weapons[weaponIndex];
 
-            int highestWeapon = GameState.Weapons.GetHighestTier(chara.character);
+            int highestWeapon = GameState.Weapons.GetHighestTier(chara.CharacterID);
 
             if (weaponIndex > highestWeapon)
                 OnChangeWeapon(weapon);

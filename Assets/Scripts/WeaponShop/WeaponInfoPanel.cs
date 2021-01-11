@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Numerics;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
 
+using Vector3 = UnityEngine.Vector3;
+
 namespace WeaponsUI
 {
-    using WeaponStaticData = WeaponData.WeaponStaticData;
+    using CharacterData;
+    using WeaponData;
 
     public class WeaponInfoPanel : MonoBehaviour
     {
+        [Header("Components")]
+        [SerializeField] GameObject weaponRecipeParent;
+
+        [Header("Prefabs")]
+        [SerializeField] GameObject WeaponRecipeRowObject;
+
+        [Header("Sprites")]
+        [SerializeField] Sprite TransparentSquare;
+
         [Header("Text")]
         [SerializeField] Text titleText;
         [SerializeField] Text descText;
-        [SerializeField] Text costText;
         [SerializeField] Text buyMaxText;
         [SerializeField] Text weaponDamageText;
 
         [Header("Images")]
-        [SerializeField] Image mergeImage;
         [SerializeField] Image weaponImage;
         [SerializeField] Image characterImage;
 
@@ -28,10 +39,10 @@ namespace WeaponsUI
 
         Action<int, Action> callback;
 
-        WeaponStaticData weaponStaticData;
+        WeaponStaticData weaponStaticData {  get { return StaticData.Weapons.GetWeaponAtIndex(weaponIndex); } }
 
         // - Scriptables
-        ScriptableCharacter character;
+        CharacterSO character;
         ScriptableWeapon weapon;
 
         int weaponIndex;
@@ -40,32 +51,37 @@ namespace WeaponsUI
         {
             get
             {
-                int weaponsOwned = GameState.Weapons.Get(character.character, weaponIndex);
-                int weaponsLeft = weaponStaticData.maxOwned - weaponsOwned;
+                int weaponsOwned    = GameState.Weapons.Get(character.CharacterID, weaponIndex);
+                int weaponsLeft     = weaponStaticData.maxOwned - weaponsOwned;
 
-                if (weaponIndex == 0)
-                    return (int)BigInteger.Min(weaponsLeft, GameState.Player.bountyPoints / weaponStaticData.buyCost);
+                Dictionary<int, int> recipe = weaponStaticData.mergeRecipe;
 
-                else
+                int maxMergeBuy = int.MaxValue;
+
+                foreach (KeyValuePair<int, int> entry in recipe)
                 {
-                    int prevWeaponOwned = GameState.Weapons.Get(character.character, weaponIndex - 1);
+                    int prevWeaponOwned = GameState.Weapons.Get(character.CharacterID, entry.Key);
 
-                    return Mathf.Min(weaponsLeft, prevWeaponOwned / weaponStaticData.mergeCost);
+                    maxMergeBuy = Mathf.Min(maxMergeBuy, prevWeaponOwned / entry.Value);
                 }
+
+                int maxBuy = (int)BigInteger.Min(maxMergeBuy, weaponStaticData.buyCost > 0 ? GameState.Player.bountyPoints / weaponStaticData.buyCost : weaponStaticData.maxOwned);
+
+                return Mathf.Min(maxBuy, weaponsLeft);
             }
         }
 
-        public void Init(ScriptableCharacter chara, ScriptableWeapon _weapon, int _weaponIndex, Action<int, Action> func)
+        public void Init(CharacterSO chara, ScriptableWeapon _weapon, int _weaponIndex, Action<int, Action> func)
         {
             callback    = func;
             character   = chara;
             weapon      = _weapon;
             weaponIndex = _weaponIndex;
 
-            weaponStaticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
+            CreateRecipePanel(weaponStaticData.mergeRecipe);
 
             titleText.text  = chara.name;
-            descText.text   = string.Format("Tier {0} Weapon", weaponStaticData.tier);
+            descText.text   = string.Format("Tier {0} Weapon", weaponIndex + 1);
 
             weaponImage.sprite      = weapon.icon;
             characterImage.sprite   = chara.icon;
@@ -73,14 +89,40 @@ namespace WeaponsUI
             UpdatePanel();
         }
 
+        void CreateRecipePanel(Dictionary<int, int> recipe)
+        {
+            if (weaponStaticData.buyCost > 0)
+            {
+                ScriptableWeapon weapon = character.weapons[weaponIndex];
+
+                GameObject o = Utils.UI.Instantiate(WeaponRecipeRowObject, weaponRecipeParent.transform, Vector3.zero);
+
+                WeaponRecipeRow row = o.GetComponent<WeaponRecipeRow>();
+
+                row.Init(weapon.icon, string.Format("{0}x Bounty Points", weaponStaticData.buyCost));
+            }
+
+
+            foreach (KeyValuePair<int, int> entry in recipe)
+            {
+                ScriptableWeapon recipeWeapon = character.weapons[entry.Key];
+
+                GameObject o = Utils.UI.Instantiate(WeaponRecipeRowObject, weaponRecipeParent.transform, Vector3.zero);
+
+                WeaponRecipeRow row = o.GetComponent<WeaponRecipeRow>();
+
+                row.Init(recipeWeapon.icon, string.Format("{0}x Tier {1} Weapons", entry.Value, entry.Key + 1));
+            }
+        }
+
         void UpdatePanel()
         {
-            int weaponsOwned = GameState.Weapons.Get(character.character, weaponIndex);
+            int weaponsOwned = GameState.Weapons.Get(character.CharacterID, weaponIndex);
 
-            weaponDamageText.text   = Utils.Format.FormatNumber(Formulas.CalcWeaponDamage(weaponIndex, weaponsOwned) * 100) + "%";
+            weaponDamageText.text   = Utils.Format.FormatNumber(Formulas.CalcWeaponDamageMultiplier(weaponIndex, weaponsOwned) * 100) + "%";
             buyMaxText.text         = "Buy x" + BuyMaxAmount;
 
-            if (weaponIndex == 0)
+            if (weaponStaticData.buyCost > 0)
                 UpdateBuyWeapon();
 
             else
@@ -89,30 +131,16 @@ namespace WeaponsUI
 
         void UpdateBuyWeapon()
         {
-            int weaponsOwned    = GameState.Weapons.Get(character.character, weaponIndex);
-            int weaponsLeft     = weaponStaticData.maxOwned - weaponsOwned;
-
-            mergeImage.sprite   = weapon.icon;
-            costText.text       = string.Format("{0}x Bounty Points", weaponStaticData.buyCost);
-
-            buyButton.interactable      = weaponsLeft > 0 && GameState.Player.bountyPoints >= (weaponStaticData.buyCost * 1);
-            buyMaxButton.interactable   = weaponsLeft > 0 && GameState.Player.bountyPoints >= (weaponStaticData.buyCost * BuyMaxAmount);
+            buyButton.interactable      = BuyMaxAmount > 0 && GameState.Player.bountyPoints >= (weaponStaticData.buyCost * 1);
+            buyMaxButton.interactable   = BuyMaxAmount > 0 && GameState.Player.bountyPoints >= (weaponStaticData.buyCost * BuyMaxAmount);
         }
 
         void UpdateMergeWeapon()
         {
-            int weaponsOwned    = GameState.Weapons.Get(character.character, weaponIndex);
-            int weaponsLeft     = weaponStaticData.maxOwned - weaponsOwned;
+            int prevWeaponOwned = GameState.Weapons.Get(character.CharacterID, weaponIndex - 1);
 
-            ScriptableWeapon prevWeapon = character.weapons[weaponIndex - 1];
-
-            int prevWeaponOwned = GameState.Weapons.Get(character.character, weaponIndex - 1);
-
-            mergeImage.sprite   = prevWeapon.icon;
-            costText.text       = string.Format("{0}/{1} Tier {2} Weapons", prevWeaponOwned, weaponStaticData.mergeCost, weaponIndex + 1);
-
-            buyButton.interactable      = weaponsLeft > 0 && prevWeaponOwned >= (weaponStaticData.mergeCost * 1);
-            buyMaxButton.interactable   = weaponsLeft > 0 && prevWeaponOwned >= (weaponStaticData.mergeCost * BuyMaxAmount);
+            buyButton.interactable      = BuyMaxAmount > 0 && prevWeaponOwned >= (weaponStaticData.mergeCost * 1);
+            buyMaxButton.interactable   = BuyMaxAmount > 0 && prevWeaponOwned >= (weaponStaticData.mergeCost * BuyMaxAmount);
         }
 
         public void OnClose()

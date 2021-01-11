@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace WeaponsUI
 {
+    using CharacterData;
+
     public class BountyWeaponShop : MonoBehaviour
     {
         [SerializeField] Transform scrollContent;
@@ -16,7 +18,7 @@ namespace WeaponsUI
 
         void Start()
         {
-            foreach (ScriptableCharacter chara in CharacterResources.Instance.Characters)
+            foreach (CharacterSO chara in StaticData.Chars.CharacterList)
             {
                 if (chara.weapons.Length > 0)
                 {
@@ -35,7 +37,7 @@ namespace WeaponsUI
             }
         }
 
-        void OnClick(ScriptableCharacter character)
+        void OnClick(CharacterSO character)
         {
             selection.SetCharacter(character);
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using CharacterID = CharacterData.CharacterID;
+using CharacterData;
 
 class CacheValue
 {
@@ -95,7 +95,7 @@ public class StatsCache : MonoBehaviour
 
         if (IsCacheOutdated(key))
         {
-            ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
+            CharacterSO data = StaticData.Chars.Get(chara);
 
             CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(chara, BonusType.MERC_DAMAGE, data.attackType);
         }

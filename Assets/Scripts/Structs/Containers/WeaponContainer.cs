@@ -63,7 +63,8 @@ public class WeaponContainer
 
         foreach (KeyValuePair<int, int> weapon in Get(character))
         {
-            bonus *= Formulas.CalcWeaponDamage(weapon.Key, weapon.Value);
+            if (weapon.Value > 0)
+                bonus *= Formulas.CalcWeaponDamageMultiplier(weapon.Key, weapon.Value);
         }
 
         return bonus;

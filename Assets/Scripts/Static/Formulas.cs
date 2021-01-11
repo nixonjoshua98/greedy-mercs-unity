@@ -4,7 +4,9 @@ using UnityEngine;
 
 using RelicID       = RelicData.RelicID;
 using BountyID      = BountyData.BountyID;
-using CharacterID   = CharacterData.CharacterID;
+
+using CharacterData;
+
 
 public static class Formulas
 {
@@ -25,11 +27,11 @@ public static class Formulas
         return scriptable.bountyPoints + (state.level - 1);
     }
 
-    public static double CalcWeaponDamage(int weaponIndex, int owned)
+    public static double CalcWeaponDamageMultiplier(int weaponIndex, int owned)
     {
         var staticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
-        return 1 + (owned * (staticData.damageBonus - 1));
+        return 1 + ((staticData.damageBonus - 1) * owned);
     }
 
     public static BigDouble CalcEnemyHealth(int stage)
@@ -61,9 +63,8 @@ public static class Formulas
 
     public static BigDouble CalcCharacterDamage(CharacterID chara)
     {
-        var state = GameState.Characters.Get(chara);
-
-        ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
+        var state           = GameState.Characters.Get(chara);
+        CharacterSO data    = StaticData.Chars.Get(chara);
 
         return (data.purchaseCost / (10.0f + data.unlockOrder)) * state.level * BigDouble.Pow(2.0f, (state.level - 1) / 100.0f) * (1 - (0.03f * data.unlockOrder));
     }
@@ -72,21 +73,20 @@ public static class Formulas
 
     public static BigDouble CalcCharacterLevelUpCost(CharacterID chara, int levels)
     {
-        var state = GameState.Characters.Get(chara);
-
-        ScriptableCharacter data = CharacterResources.Instance.GetCharacter(chara);
+        var state           = GameState.Characters.Get(chara);
+        CharacterSO data    = StaticData.Chars.Get(chara);
 
         return BigMath.SumGeometricSeries(levels, data.purchaseCost, 1.075, state.level);
     }
 
     public static int AffordCharacterLevels(CharacterID chara)
     {
-        UpgradeState state          = GameState.Characters.Get(chara);
-        ScriptableCharacter data    = CharacterResources.Instance.GetCharacter(chara);
+        UpgradeState state  = GameState.Characters.Get(chara);
+        CharacterSO data    = StaticData.Chars.Get(chara);
 
-        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.gold, data.purchaseCost, 1.075, state.level);
+        BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.purchaseCost, 1.075, state.level);
 
-        int maxLevels = int.Parse(bigAnswer.ToString());
+        int maxLevels = int.Parse(val.ToString());
 
         return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.level, maxLevels);
     }

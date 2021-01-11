@@ -5,6 +5,7 @@ using UnityEngine.UI;
 namespace WeaponsUI
 {
     using WeaponData;
+    using CharacterData;
 
     public class WeaponSlot : MonoBehaviour
     {
@@ -15,11 +16,11 @@ namespace WeaponsUI
 
         public Button button;
 
-        ScriptableCharacter character;
+        CharacterSO character;
 
         int weaponIndex;
 
-        public void Init(ScriptableCharacter _character, int _weaponIndex /* Position in ScriptableCharacter.weapons (WeaponTier - 1)*/)
+        public void Init(CharacterSO _character, int _weaponIndex /* Position in ScriptableCharacter.weapons (WeaponTier - 1)*/)
         {
             character = _character;
             weaponIndex = _weaponIndex;
@@ -35,7 +36,7 @@ namespace WeaponsUI
         {
             WeaponStaticData staticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
-            int weaponOwned = GameState.Weapons.Get(character.character, weaponIndex);
+            int weaponOwned = GameState.Weapons.Get(character.CharacterID, weaponIndex);
 
             ownedText.text = weaponOwned.ToString();
 

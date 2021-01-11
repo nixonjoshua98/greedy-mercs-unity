@@ -8,16 +8,17 @@ using UnityEngine;
 namespace WeaponData
 {
     [System.Serializable]
-    public struct WeaponStaticData
+    public class WeaponStaticData
     {
-        public int buyCost;
+        public int buyCost = -1;
+
         public int mergeCost;
 
         public int maxOwned;
 
         public float damageBonus;
 
-        public int tier;
+        public Dictionary<int, int> mergeRecipe;
     }
 
 
@@ -38,7 +39,14 @@ namespace WeaponData
             {
                 var data = JsonUtility.FromJson<WeaponStaticData>(node[weaponIndex].ToString());
 
-                data.tier = int.Parse(weaponIndex) + 1;
+                Dictionary<int, int> recipe = new Dictionary<int, int>();
+
+                foreach (string recipeWeaponIndex in node[weaponIndex]["mergeRecipe"].Keys)
+                {
+                    recipe[int.Parse(recipeWeaponIndex)] = node[weaponIndex]["mergeRecipe"][recipeWeaponIndex].AsInt;
+                }
+
+                data.mergeRecipe = recipe;
 
                 weapons.Add(data);
             }

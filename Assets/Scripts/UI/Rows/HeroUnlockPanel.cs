@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using CharacterData;
+
 public class HeroUnlockPanel : MonoBehaviour
 {
     [SerializeField] Text TitleText;
@@ -13,7 +15,7 @@ public class HeroUnlockPanel : MonoBehaviour
 
     void UpdatePanel()
     {
-        if (CharacterResources.GetNextHero(out ScriptableCharacter chara))
+        if (StaticData.Chars.GetNextHero(out CharacterSO chara))
         {
             TitleText.text = chara.name;
 
@@ -28,15 +30,15 @@ public class HeroUnlockPanel : MonoBehaviour
 
     public void OnUnlockButton()
     {
-        if (CharacterResources.GetNextHero(out ScriptableCharacter chara))
+        if (StaticData.Chars.GetNextHero(out CharacterSO chara))
         {
             if (GameState.Player.gold >= chara.purchaseCost)
             {
                 GameState.Player.gold -= chara.purchaseCost;
 
-                GameState.Characters.Add(chara.character);
+                GameState.Characters.Add(chara.CharacterID);
 
-                Events.OnCharacterUnlocked.Invoke(chara.character);
+                Events.OnCharacterUnlocked.Invoke(chara.CharacterID);
             }
 
             UpdatePanel();

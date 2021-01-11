@@ -9,21 +9,13 @@ namespace CharacterData
 {
     public enum CharacterID
     {
-        WRAITH = 0,
-        GOLEM = 1,
-        SATYR = 2,
-        ANGEL = 3,
-        MINOTAUR = 4,
-        REAPER = 5,
-        FIRE_GOLEM = 6
-    }
-
-    [System.Serializable]
-    public class HeroPassiveUnlock
-    {
-        public int skill;
-
-        public int unlockLevel;
+        WRAITH      = 0,
+        GOLEM       = 1,
+        SATYR       = 2,
+        ANGEL       = 3,
+        MINOTAUR    = 4,
+        REAPER      = 5,
+        FIRE_GOLEM  = 6
     }
 
     public class Characters

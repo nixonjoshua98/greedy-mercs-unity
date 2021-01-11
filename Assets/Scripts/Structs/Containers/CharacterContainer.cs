@@ -28,13 +28,6 @@ public class CharacterContainer
         return Utils.Json.CreateJSONArray("characterId", characters);
     }
 
-    public void Empty()
-    {
-        characters.Clear();
-
-        characters = new Dictionary<CharacterID, UpgradeState>();
-    }
-
     // === Helper Methods ===
 
     public UpgradeState Get(CharacterID chara) 
@@ -42,10 +35,9 @@ public class CharacterContainer
         return characters[chara]; 
     }
 
-    public bool TryGetState(CharacterID chara, out UpgradeState result) 
-    {
-        return characters.TryGetValue(chara, out result);
-    }
+    public bool Contains(CharacterID chara) => characters.ContainsKey(chara);
+
+    public bool TryGetState(CharacterID chara, out UpgradeState result) => characters.TryGetValue(chara, out result);
 
     public void Add(CharacterID charaId)
     {
@@ -69,7 +61,9 @@ public class CharacterContainer
                         PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
 
                         if (skill.value < 1)
+                        {
                             bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 0) + skill.value;
+                        }
 
                         else
                             bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;

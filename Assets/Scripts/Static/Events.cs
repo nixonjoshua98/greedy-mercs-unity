@@ -6,6 +6,8 @@ using CharacterID = CharacterData.CharacterID;
 
 using CustomEvents;
 
+using CharacterData;
+
 namespace CustomEvents
 {
     public class GameObjectEvent : UnityEvent<GameObject> { }
@@ -14,7 +16,7 @@ namespace CustomEvents
 
     public class CharacterEvent : UnityEvent<CharacterID> { }
 
-    public class ScriptableCharacterEvent : UnityEvent<ScriptableCharacter, int> { }
+    public class ScriptableCharacterEvent : UnityEvent<CharacterSO, int> { }
 }
 
 

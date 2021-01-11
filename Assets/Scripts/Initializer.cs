@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using SimpleJSON;
+﻿using SimpleJSON;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using BountyData;
+using CharacterData;
 
 public class Initializer : MonoBehaviour
 {
@@ -14,6 +12,7 @@ public class Initializer : MonoBehaviour
 
     [Header("Scriptables")]
     [SerializeField] BountyListSO BountyList;
+    [SerializeField] CharacterListSO CharacterList;
 
     void Awake()
     {
@@ -77,9 +76,11 @@ public class Initializer : MonoBehaviour
     void RestoreStaticData(JSONNode node)
     {
         BountyList.Restore(node["bounties"]);
+        CharacterList.Restore(node["characters"]);
 
         StaticData.Restore(node);
 
         StaticData.AssignBounties(BountyList);
+        StaticData.AssignCharacters(CharacterList);
     }
 }

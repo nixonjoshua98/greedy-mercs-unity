@@ -1,6 +1,5 @@
 ﻿using System;
 
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -9,10 +8,11 @@ using UnityEngine.UI;
 namespace WeaponsUI
 {
     using WeaponData;
+    using CharacterData;
 
     public class WeaponSelection : MonoBehaviour
     {
-        ScriptableCharacter character;
+        CharacterSO character;
 
         [Header("Components")]
         [SerializeField] Image characterIcon;
@@ -30,10 +30,10 @@ namespace WeaponsUI
         {
             weaponSlots = new List<WeaponSlot>();
 
-            SetCharacter(CharacterResources.Instance.Characters[0]);
+            SetCharacter(StaticData.Chars.CharacterList[0]);
         }
 
-        public void SetCharacter(ScriptableCharacter chara)
+        public void SetCharacter(CharacterSO chara)
         {
             character = chara;
 
@@ -69,7 +69,7 @@ namespace WeaponsUI
         // === Button Callbacks ===
         void OnWeaponSelected(int weaponIndex)
         {
-            int weaponOwned = GameState.Weapons.Get(character.character, weaponIndex);
+            int weaponOwned = GameState.Weapons.Get(character.CharacterID, weaponIndex);
 
             WeaponStaticData staticWeaponData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
 
@@ -94,7 +94,7 @@ namespace WeaponsUI
             {
                 var node = Utils.Json.GetDeviceNode();
 
-                node.Add("characterId", (int)character.character);
+                node.Add("characterId", (int)character.CharacterID);
                 node.Add("weaponId", weaponIndex);
                 node.Add("buyAmount", buying);
 

@@ -5,8 +5,7 @@ using System.Collections;
 
 using UnityEngine;
 
-using CharacterID = CharacterData.CharacterID;
-
+using CharacterData;
 
 public class SquadManager : MonoBehaviour
 {
@@ -33,11 +32,9 @@ public class SquadManager : MonoBehaviour
 
     IEnumerator Start()
     {
-        for (int i = 0; i < CharacterResources.Instance.Characters.Count; ++i)
+        foreach (CharacterSO chara in StaticData.Chars.CharacterList)
         {
-            var chara = CharacterResources.Instance.Characters[i];
-
-            if (GameState.Characters.TryGetState(chara.character, out UpgradeState _))
+            if (GameState.Characters.Contains(chara.CharacterID))
             {
                 AddCharacter(chara);
             }
@@ -52,7 +49,7 @@ public class SquadManager : MonoBehaviour
             atk.ToggleAttacking(val);
     }
 
-    void AddCharacter(ScriptableCharacter chara)
+    void AddCharacter(CharacterSO chara)
     {
         GameObject character = Instantiate(chara.prefab, transform);
 
@@ -74,7 +71,7 @@ public class SquadManager : MonoBehaviour
 
     void OnHeroUnlocked(CharacterID chara)
     {
-        AddCharacter(CharacterResources.Instance.GetCharacter(chara));
+        AddCharacter(StaticData.Chars.Get(chara));
     }
 
     IEnumerator MoveInCharacter(CharacterAttack atk, Vector3 start, Vector3 end, float duration)

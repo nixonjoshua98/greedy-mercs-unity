@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 namespace WeaponsUI
 {
+    using CharacterData;
+
     public class CharacterWeaponShopIcon : MonoBehaviour
     {
         [Header("Components")]
@@ -14,9 +16,9 @@ namespace WeaponsUI
         public Button button;
 
         // ===
-        ScriptableCharacter character;
+        CharacterSO character;
 
-        public void SetCharacter(ScriptableCharacter _character)
+        public void SetCharacter(CharacterSO _character)
         {
             character = _character;
 

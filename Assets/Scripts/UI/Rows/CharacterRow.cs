@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using CharacterData;
+
 public class CharacterRow : MonoBehaviour
 {
     [Header("Images")]
@@ -19,22 +21,22 @@ public class CharacterRow : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] GameObject CharacterPanelObject;
 
-    ScriptableCharacter character;
+    CharacterSO character;
 
     protected int BuyAmount
     {
         get
         {
             if (MercsTab.BuyAmount == -1)
-                return Formulas.AffordCharacterLevels(character.character);
+                return Formulas.AffordCharacterLevels(character.CharacterID);
 
-            var state = GameState.Characters.Get(character.character);
+            var state = GameState.Characters.Get(character.CharacterID);
 
             return Mathf.Min(MercsTab.BuyAmount, StaticData.MAX_CHAR_LEVEL - state.level);
         }
     }
 
-    public void SetCharacter(ScriptableCharacter chara)
+    public void SetCharacter(CharacterSO chara)
     {
         character = chara;
 
@@ -48,10 +50,10 @@ public class CharacterRow : MonoBehaviour
 
     void UpdateRow()
     {
-        var state = GameState.Characters.Get(character.character);
+        var state = GameState.Characters.Get(character.CharacterID);
 
-        Damage.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.character)) + " DPS";
-        UpgradeCost.text    = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.character, BuyAmount));
+        Damage.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
+        UpgradeCost.text    = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.CharacterID, BuyAmount));
         LevelText.text      = "Level " + state.level.ToString();
         UpgradeAmount.text  = state.level >= StaticData.MAX_CHAR_LEVEL ? "" : "x" + BuyAmount.ToString();
 
@@ -64,9 +66,9 @@ public class CharacterRow : MonoBehaviour
     {
         int levelsBuying = BuyAmount;
 
-        var state = GameState.Characters.Get(character.character);
+        var state = GameState.Characters.Get(character.CharacterID);
 
-        BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.character, levelsBuying);
+        BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.CharacterID, levelsBuying);
 
         if (state.level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
         {
@@ -76,7 +78,7 @@ public class CharacterRow : MonoBehaviour
 
             UpdateRow();
 
-            Events.OnCharacterLevelUp.Invoke(character.character);
+            Events.OnCharacterLevelUp.Invoke(character.CharacterID);
         }
     }
 
@@ -84,6 +86,6 @@ public class CharacterRow : MonoBehaviour
     {
         GameObject panel = Utils.UI.Instantiate(CharacterPanelObject, Vector3.zero);
 
-        panel.GetComponent<CharacterPanel>().SetHero(character.character);
+        panel.GetComponent<CharacterPanel>().SetHero(character.CharacterID);
     }
 }

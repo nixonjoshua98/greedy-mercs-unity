@@ -1,17 +1,38 @@
 {
   "0": {
     "damageBonus": 1.1,
-    "maxOwned": 25,
+    "maxOwned": 10,
+
     "buyCost": 15
   },
+
   "1": {
     "damageBonus": 1.25,
     "maxOwned": 10,
-    "mergeCost": 3
+
+    "mergeRecipe": {
+      "0": 3
+    }
   },
+
   "2": {
     "damageBonus": 1.5,
     "maxOwned": 10,
-    "mergeCost": 3
+
+    "mergeRecipe": {
+      "1": 3
+    }
+  },
+
+  "3": {
+    "damageBonus": 2.0,
+    "maxOwned": 10,
+
+    "buyCost": 100,
+
+    "mergeRecipe": {
+      "1": 1,
+      "2": 1
+    }
   }
 }

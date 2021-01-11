@@ -9,6 +9,7 @@ namespace BountyData
     {
         public int bountyPoints;
         public int unlockStage;
+        public int maxLevel;
     }
 
     [PreferBinarySerialization]

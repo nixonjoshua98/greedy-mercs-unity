@@ -1,14 +1,14 @@
 {
   "0": {
     "bonusType": 2,
-    "baseCost": 3,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
-    "levelEffect": 0.5
+    "baseCost": 1,
+    "costPower": 1.04,
+    "baseEffect": 2.0,
+    "levelEffect": 1.0
   },
   "1": {
     "bonusType": 0,
-    "baseCost": 3,
+    "baseCost": 5,
     "costPower": 1.05,
     "baseEffect": 1.5,
     "levelEffect": 0.5
@@ -17,12 +17,12 @@
     "bonusType": 1,
     "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 1.5,
-    "levelEffect": 0.5
+    "baseEffect": 1.8,
+    "levelEffect": 0.6
   },
   "3": {
     "bonusType": 0,
-    "baseCost": 3,
+    "baseCost": 5,
     "costPower": 1.05,
     "baseEffect": 1.5,
     "levelEffect": 0.5
@@ -30,20 +30,20 @@
   "4": {
     "bonusType": 3,
     "baseCost": 3,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
-    "levelEffect": 0.5
+    "costPower": 1.04,
+    "baseEffect": 1.6,
+    "levelEffect": 0.4
   },
   "5": {
     "bonusType": 2,
-    "baseCost": 3,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
-    "levelEffect": 0.5
+    "baseCost": 1,
+    "costPower": 1.04,
+    "baseEffect": 2.0,
+    "levelEffect": 1.0
   },
   "6": {
     "bonusType": 0,
-    "baseCost": 3,
+    "baseCost": 5,
     "costPower": 1.05,
     "baseEffect": 1.5,
     "levelEffect": 0.5
@@ -51,43 +51,43 @@
   "7": {
     "bonusType": 6,
     "baseCost": 3,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
+    "costPower": 1.04,
+    "baseEffect": 1.75,
     "levelEffect": 0.5
   },
   "8": {
     "bonusType": 5,
     "baseCost": 3,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
+    "costPower": 1.04,
+    "baseEffect": 1.75,
     "levelEffect": 0.5
   },
   "9": {
-    "maxLevel": 10,
     "bonusType": 8,
-    "baseCost": 3,
-    "costPower": 1.05,
+    "maxLevel": 10,
+    "baseCost": 5,
+    "costPower": 1.1,
     "baseEffect": 0.005,
     "levelEffect": 0.005
   },
   "10": {
     "bonusType": 9,
     "baseCost": 3,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
+    "costPower": 1.04,
+    "baseEffect": 1.25,
     "levelEffect": 0.5
   },
   "11": {
     "bonusType": 7,
     "baseCost": 3,
-    "costPower": 1.05,
-    "baseEffect": 1.5,
+    "costPower": 1.04,
+    "baseEffect": 1.75,
     "levelEffect": 0.5
   },
   "12": {
     "bonusType": 11,
-    "baseCost": 3,
-    "costPower": 1.05,
+    "baseCost": 5,
+    "costPower": 1.1,
     "baseEffect": 1.05,
     "levelEffect": 0.05
   },
@@ -95,7 +95,14 @@
     "bonusType": 1,
     "baseCost": 3,
     "costPower": 1.05,
-    "baseEffect": 1.5,
-    "levelEffect": 0.05
+    "baseEffect": 1.8,
+    "levelEffect": 0.6
+  },
+  "14": {
+    "bonusType": 10,
+    "baseCost": 3,
+    "costPower": 1.05,
+    "baseEffect": 1.25,
+    "levelEffect": 0.5
   }
 }

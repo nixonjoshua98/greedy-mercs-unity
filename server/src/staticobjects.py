@@ -27,11 +27,13 @@ class Relic:
 
 
 class Bounty:
-	def __init__(self, bountypoints, unlockstage):
+	def __init__(self, bountypoints, unlockstage, maxlevel, **_):
 
 		self.bounty_points = bountypoints
 
 		self.unlock_stage = unlockstage
+
+		self.max_level = maxlevel
 
 	@classmethod
 	def from_dict(cls, data: dict): return cls(**{k.lower(): v for k, v in data.items()})

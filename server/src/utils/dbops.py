@@ -37,14 +37,18 @@ def add_bounty_prestige_levels(userid, stage):
 		Returns the result of the query
 	"""
 
+	levels = (app.mongo.db.userBounties.find_one({"userId": userid}) or dict()).get("bountyLevels", dict())
+
 	def prestige_bounty_levels_earned():
-		levels = dict()
+		new_levels = dict()
 
 		for key, bounty in app.objects["bounties"].items():
-			if stage > bounty.unlock_stage:
-				levels[key] = 1
+			level = levels.get(str(key), 0)
 
-		return levels
+			if stage > bounty.unlock_stage and level + 1 <= bounty.max_level:
+				new_levels[key] = 1
+
+		return new_levels
 
 	bounty_levels = prestige_bounty_levels_earned()
 

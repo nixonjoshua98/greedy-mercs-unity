@@ -29,11 +29,13 @@ namespace BountyData
         [Header("Runtime")]
         public int bountyPoints;
         public int unlockStage;
+        public int maxLevel;
 
         public void Init(BountyStaticData data)
         {
             bountyPoints = data.bountyPoints;
             unlockStage = data.unlockStage;
+            maxLevel = data.maxLevel;
         }
     }
 }

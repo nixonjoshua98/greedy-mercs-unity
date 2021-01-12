@@ -19,10 +19,7 @@ public class Initializer : MonoBehaviour
     [SerializeField] CharacterListSO CharacterList;
     void Awake()
     {
-        StaticData.AssignRelics(RelicList);
-        StaticData.AssignSkills(SkillList);
-        StaticData.AssignBounties(BountyList);
-        StaticData.AssignCharacters(CharacterList);
+        StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList);
     }
 
     void Start()

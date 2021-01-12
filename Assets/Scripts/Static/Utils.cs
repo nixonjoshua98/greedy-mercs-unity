@@ -1,13 +1,15 @@
-﻿using SimpleJSON;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Numerics;
 using System.Text;
+using System.Numerics;
+using System.Collections;
+using System.IO.Compression;
+using System.Collections.Generic;
+
 using UnityEngine;
+using SimpleJSON;
+
 using Vector3 = UnityEngine.Vector3;
 
 public static class Extensions

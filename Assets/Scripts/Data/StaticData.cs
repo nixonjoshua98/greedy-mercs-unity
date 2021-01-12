@@ -28,7 +28,6 @@ public class StaticData
     public static BountyListSO Bounties;
     public static CharacterListSO Chars;
 
-
     public static void Restore(JSONNode node)
     {
         Weapons     = new Weapons(node["weapons"]);
@@ -42,8 +41,11 @@ public class StaticData
         Bounties.Restore(node["bounties"]);
     }
 
-    public static void AssignSkills(SkillListSO ls) => Skills = ls;
-    public static void AssignBounties(BountyListSO ls) => Bounties = ls;
-    public static void AssignCharacters(CharacterListSO ls) => Chars = ls;
-    public static void AssignRelics(RelicListSO ls) => Relics = ls;
+    public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, RelicListSO relics)
+    {
+        Chars       = chars;
+        Relics      = relics;
+        Skills      = skills;
+        Bounties    = bounties;
+    }
 }

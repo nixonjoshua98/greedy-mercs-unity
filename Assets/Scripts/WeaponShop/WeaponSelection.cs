@@ -106,7 +106,7 @@ namespace WeaponsUI
         {
             if (code == 200)
             {
-                var node = Utils.Json.Decode(compressed);
+                var node = Utils.Json.Decompress(compressed);
               
                 Events.OnWeaponBought.Invoke(character, weaponIndex);
 

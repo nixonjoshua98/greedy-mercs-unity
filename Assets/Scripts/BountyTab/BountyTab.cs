@@ -108,7 +108,7 @@ namespace BountyUI
         {
             if (code == 200)
             {
-                var node = Utils.Json.Decode(compressed);
+                var node = Utils.Json.Decompress(compressed);
 
                 GameState.Player.Update(node);
                 GameState.Bounties.Update(node);

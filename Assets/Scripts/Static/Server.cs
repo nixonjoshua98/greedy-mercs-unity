@@ -48,14 +48,14 @@ public static class Server
 
     static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
     {
-        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Utils.Json.Encode(json));
+        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Utils.Json.Compress(json));
 
         yield return SendRequest(www, callback);
     }
 
     static IEnumerator Put(string endpoint, Action<long, string> callback)
     {
-        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Utils.Json.Encode(JSON.Parse("{}")));
+        UnityWebRequest www = UnityWebRequest.Put("http://31.53.80.1:2122/api/" + endpoint, Utils.Json.Compress(JSON.Parse("{}")));
 
         yield return SendRequest(www, callback);
     }

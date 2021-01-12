@@ -2,9 +2,9 @@
 
 using UnityEngine;
 
-using RelicID       = RelicData.RelicID;
 using BountyID      = BountyData.BountyID;
 
+using RelicData;
 using CharacterData;
 
 
@@ -142,34 +142,33 @@ public static class Formulas
 
     public static double CalcRelicEffect(RelicID relic)
     {
-        ScriptableRelic data = RelicResources.Get(relic);
+        RelicSO data        = StaticData.Relics.Get(relic);
+        UpgradeState state  = GameState.Relics.Get(relic);
 
-        UpgradeState state = GameState.Relics.Get(relic);
-
-        return data.data.baseEffect + (data.data.levelEffect * (state.level - 1));
+        return data.baseEffect + (data.levelEffect * (state.level - 1));
     }
 
     // === Relics ===
 
     public static BigInteger CalcRelicLevelUpCost(RelicID relic, int levels)
     {
-        ScriptableRelic data    = RelicResources.Get(relic);
-        UpgradeState state      = GameState.Relics.Get(relic);
+        RelicSO data        = StaticData.Relics.Get(relic);
+        UpgradeState state  = GameState.Relics.Get(relic);
 
-        BigDouble val = BigMath.SumGeometricSeries(levels, data.data.baseCost, data.data.costPower, state.level - 1);
+        BigDouble val = BigMath.SumGeometricSeries(levels, data.baseCost, data.costPower, state.level - 1);
 
         return BigInteger.Parse(val.Ceiling().ToString("F0"));
     }
 
     public static int AffordRelicLevels(RelicID relic)
     {
-        UpgradeState state      = GameState.Relics.Get(relic);
-        ScriptableRelic data    = RelicResources.Get(relic);
+        UpgradeState state  = GameState.Relics.Get(relic);
+        RelicSO data        = StaticData.Relics.Get(relic);
 
-        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.ToBigDouble(), data.data.baseCost, data.data.costPower, state.level - 1);
+        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.ToBigDouble(), data.baseCost, data.costPower, state.level - 1);
 
         int maxLevels = int.Parse(bigAnswer.ToString());
 
-        return Mathf.Min(data.data.maxLevel - state.level, maxLevels);
+        return Mathf.Min(data.maxLevel - state.level, maxLevels);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,9 +13,6 @@ public class PrestigePanel : MonoBehaviour
     [SerializeField] Text bountyLevelsText;
 
     [SerializeField] RectTransform lootBagRect;
-
-    [Header("Prefabs")]
-    [SerializeField] GameObject ErrorMessage;
 
     void Awake()
     {
@@ -53,14 +49,14 @@ public class PrestigePanel : MonoBehaviour
         {
             DataManager.IsPaused = true;
 
-            Utils.File.WriteJson(DataManager.LOCAL_FILENAME, Utils.Json.Decode(compressed));
+            Utils.File.WriteJson(DataManager.LOCAL_FILENAME, Utils.Json.Decompress(compressed));
 
             StartCoroutine(RunPrestigeAnimation());
         }
 
         else
         {
-            Utils.UI.ShowError(ErrorMessage, "Server Connection", "Failed to contact the server :(");
+            Utils.UI.ShowMessage("Server Connection", "Failed to contact the server :(");
 
             SquadManager.ToggleAttacking(true);
         }

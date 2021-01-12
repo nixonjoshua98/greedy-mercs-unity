@@ -3,6 +3,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using RelicData;
+using SkillData;
 using BountyData;
 using CharacterData;
 
@@ -11,10 +13,19 @@ public class Initializer : MonoBehaviour
     [SerializeField] GameObject ServerErrorMessage;
 
     [Header("Scriptables")]
+    [SerializeField] RelicListSO RelicList;
+    [SerializeField] SkillListSO SkillList;
     [SerializeField] BountyListSO BountyList;
     [SerializeField] CharacterListSO CharacterList;
-
     void Awake()
+    {
+        StaticData.AssignRelics(RelicList);
+        StaticData.AssignSkills(SkillList);
+        StaticData.AssignBounties(BountyList);
+        StaticData.AssignCharacters(CharacterList);
+    }
+
+    void Start()
     {
         Debug.Log(Application.persistentDataPath);
 
@@ -29,16 +40,19 @@ public class Initializer : MonoBehaviour
 
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decode(compressed);
+            JSONNode node = Utils.Json.Decompress(compressed);
 
             GameState.Update(node);
         }
 
-        else if (!isLocalSave && code != 200)
+        else
         {
-            Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");
+            if (!isLocalSave)
+            {
+                Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");
 
-            return;
+                return;
+            }
         }
 
         Server.GetStaticData(this, ServerStaticDataCallback);
@@ -48,7 +62,7 @@ public class Initializer : MonoBehaviour
     {
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decode(compressedJson);
+            JSONNode node = Utils.Json.Decompress(compressedJson);
 
             RestoreStaticData(node);
 
@@ -75,12 +89,6 @@ public class Initializer : MonoBehaviour
 
     void RestoreStaticData(JSONNode node)
     {
-        BountyList.Restore(node["bounties"]);
-        CharacterList.Restore(node["characters"]);
-
         StaticData.Restore(node);
-
-        StaticData.AssignBounties(BountyList);
-        StaticData.AssignCharacters(CharacterList);
     }
 }

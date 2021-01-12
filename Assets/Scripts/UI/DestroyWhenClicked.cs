@@ -5,8 +5,13 @@ using System.Collections.Generic;
 
 public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
 {
+    [SerializeField] bool Enabled = true;
+
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (!Enabled)
+            return;
+
         GraphicRaycaster raycaster = transform.parent.GetComponent<GraphicRaycaster>();
 
         List<RaycastResult> results = new List<RaycastResult>();

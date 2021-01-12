@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 using SimpleJSON;
 
-using RelicID = RelicData.RelicID;
+using RelicData;
 
 using Vector3 = UnityEngine.Vector3;
 
@@ -34,7 +34,6 @@ public class RelicsTab : MonoBehaviour
     [SerializeField] GameObject PrestigePanelObject;
 
     [SerializeField] GameObject BlankPanel;
-    [SerializeField] GameObject ErrorMessage;
 
     public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
 
@@ -56,7 +55,7 @@ public class RelicsTab : MonoBehaviour
 
     void AddRow(RelicID relic)
     {
-        ScriptableRelic scriptable = RelicResources.Get(relic);
+        RelicSO scriptable = StaticData.Relics.Get(relic);
 
         GameObject inst = Utils.UI.Instantiate(RelicRowObject, rowParent.transform, Vector3.zero);
 
@@ -91,7 +90,7 @@ public class RelicsTab : MonoBehaviour
     {
         if (GameState.Player.prestigePoints < Formulas.CalcNextRelicCost(GameState.Relics.Count))
         {
-            Utils.UI.ShowError(ErrorMessage, "Poor Player Alert", "You cannot afford to buy a new relic :(");
+            Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new relic");
         }
         else
         {
@@ -105,7 +104,7 @@ public class RelicsTab : MonoBehaviour
     {
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decode(data);
+            JSONNode node = Utils.Json.Decompress(data);
 
             RelicID relic = (RelicID)node["relicBought"].AsInt;
 
@@ -118,7 +117,7 @@ public class RelicsTab : MonoBehaviour
 
         else
         {
-            Utils.UI.ShowError(ErrorMessage, "Buy Relic", "A connection to the server is required");
+            Utils.UI.ShowMessage("Buy Relic", "A connection to the server is required to buy a new relic");
         }
 
         Destroy(spawnedBlankPanel);

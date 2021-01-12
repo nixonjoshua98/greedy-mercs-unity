@@ -25,7 +25,6 @@
   "3": {
     "damageBonus": 2.0,
     "maxOwned": 10,
-    "buyCost": 100,
 
     "mergeRecipe": {
       "2": 3

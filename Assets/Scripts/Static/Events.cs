@@ -34,6 +34,8 @@ public class Events : MonoBehaviour
 
     // === Standard Events ===
 
+    public static UnityEvent                    OnPlayerTap             = new UnityEvent();
+
     public static UnityEvent                    OnStageUpdate           = new UnityEvent();
 
     public static UnityEvent                    OnNewStageStarted       = new UnityEvent();

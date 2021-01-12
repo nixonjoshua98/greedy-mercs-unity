@@ -34,5 +34,7 @@ public class TapController : MonoBehaviour, IPointerDownHandler
     void DoClick()
     {
         GameManager.TryDealDamageToEnemy(StatsCache.GetTapDamage());
+
+        Events.OnPlayerTap.Invoke();
     }
 }

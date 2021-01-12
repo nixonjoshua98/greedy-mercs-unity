@@ -22,7 +22,7 @@ namespace WeaponsUI
 
         public void Init(CharacterSO _character, int _weaponIndex /* Position in ScriptableCharacter.weapons (WeaponTier - 1)*/)
         {
-            character = _character;
+            character   = _character;
             weaponIndex = _weaponIndex;
 
             WeaponSO weapon = character.weapons[weaponIndex];

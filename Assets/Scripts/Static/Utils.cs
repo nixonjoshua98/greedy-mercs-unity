@@ -1,16 +1,13 @@
-﻿using System;
+﻿using SimpleJSON;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.IO.Compression;
 using System.Linq;
 using System.Numerics;
-using System.Collections;
-using System.IO.Compression;
-using System.Collections.Generic;
-
-using SimpleJSON;
-
+using System.Text;
 using UnityEngine;
-
 using Vector3 = UnityEngine.Vector3;
 
 public static class Extensions
@@ -50,7 +47,6 @@ namespace Utils
                 case BonusType.ENEMY_GOLD:              return "Enemy Gold";
                 case BonusType.BOSS_GOLD:               return "Boss Gold";
                 case BonusType.MELEE_DAMAGE:            return "Melee Damage";
-                case BonusType.MAGE_DAMAGE:             return "Mage Damage";
                 case BonusType.CRIT_CHANCE:             return "Critical Hit Chance";
                 case BonusType.RANGED_DAMAGE:           return "Ranged Damage";
                 case BonusType.ALL_GOLD:                return "All Gold";
@@ -117,12 +113,12 @@ namespace Utils
             return array;
         }
 
-        public static JSONNode Decode(string data)
+        public static JSONNode Decompress(string data)
         {
             return JSON.Parse(GZip.Unzip(Convert.FromBase64String(data)));
         }
 
-        public static string Encode(JSONNode node)
+        public static string Compress(JSONNode node)
         {
             return Convert.ToBase64String(GZip.Zip(node.ToString()));
         }
@@ -139,7 +135,7 @@ namespace Utils
 
     public class UI
     {
-        public static GameObject Instantiate(GameObject o, UnityEngine.Vector3 pos)
+        public static GameObject Instantiate(GameObject o, Vector3 pos)
         {
             GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
 
@@ -150,7 +146,7 @@ namespace Utils
             return createdObject;
         }
 
-        public static GameObject Instantiate(GameObject o, Transform parent, UnityEngine.Vector3 pos)
+        public static GameObject Instantiate(GameObject o, Transform parent, Vector3 pos)
         {
             GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
 
@@ -159,9 +155,18 @@ namespace Utils
             return createdObject;
         }
 
+        public static void ShowMessage(string title, string desc)
+        {
+            GameObject o = Resources.Load<GameObject>("Message");
+
+            Message msg = Instantiate(o, Vector3.zero).GetComponent<Message>();
+
+            msg.Set(title, desc);
+        }
+
         public static void ShowError(GameObject o, string title, string desc)
         {
-            if (Instantiate(o, UnityEngine.Vector3.zero).TryGetComponent(out ErrorMessage error))
+            if (Instantiate(o, Vector3.zero).TryGetComponent(out ErrorMessage error))
             {
                 error.Title.text = title;
                 error.Description.text = desc;

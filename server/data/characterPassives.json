@@ -30,9 +30,9 @@
 		"value": 1.1
 	},
 	"6": {
-		"name": "Mage Damage Boost",
-		"bonusType": 6,
-		"value": 1.25
+		"name": "Increased Boss Gold",
+		"bonusType": 3,
+		"value": 1.15
 	},
 	"7": {
 		"name": "Melee Damage Boost",

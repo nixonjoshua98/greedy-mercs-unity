@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 using SimpleJSON;
 
-using RelicID           = RelicData.RelicID;
-using RelicStaticData   = RelicData.RelicStaticData;
+using RelicData;
 
 public class RelicRow : MonoBehaviour
 {
@@ -25,7 +24,6 @@ public class RelicRow : MonoBehaviour
     [SerializeField] Text descText;
 
     [Header("Prefabs")]
-    [SerializeField] GameObject ErrorMessage;
     [SerializeField] GameObject BlankPanel;
 
     GameObject spawnedBlankPanel;
@@ -36,14 +34,14 @@ public class RelicRow : MonoBehaviour
             if (RelicsTab.BuyAmount == -1)
                 return Formulas.AffordRelicLevels(relic);
 
-            ScriptableRelic data    = RelicResources.Get(relic);
-            UpgradeState state      = GameState.Relics.Get(relic);
+            RelicSO data        = StaticData.Relics.Get(relic);
+            UpgradeState state  = GameState.Relics.Get(relic);
 
-            return Mathf.Min(RelicsTab.BuyAmount, data.data.maxLevel - state.level);
+            return Mathf.Min(RelicsTab.BuyAmount, data.maxLevel - state.level);
         }
     }
 
-    public void Init(ScriptableRelic data)
+    public void Init(RelicSO data)
     {
         descText.text   = data.description;
         nameText.text   = data.name;
@@ -58,15 +56,15 @@ public class RelicRow : MonoBehaviour
 
     void UpdateRow()
     {
-        var data            = RelicResources.Get(relic).data;
+        RelicSO scriptable  = StaticData.Relics.Get(relic);
         UpgradeState state  = GameState.Relics.Get(relic);
 
-        effectText.text = Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relic) * 100) + "% " + Utils.Generic.BonusToString(data.bonusType);
-        costText.text   = state.level >= data.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relic, BuyAmount));
+        effectText.text = Utils.Format.FormatNumber(Formulas.CalcRelicEffect(relic) * 100) + "% " + Utils.Generic.BonusToString(scriptable.bonusType);
+        costText.text   = state.level >= scriptable.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcRelicLevelUpCost(relic, BuyAmount));
         levelText.text  = "Level " + state.level.ToString();
-        buyText.text    = state.level >= data.maxLevel ? "" : "x" + BuyAmount.ToString();
+        buyText.text    = state.level >= scriptable.maxLevel ? "" : "x" + BuyAmount.ToString();
 
-        buyButton.interactable = state.level < data.maxLevel;
+        buyButton.interactable = state.level < scriptable.maxLevel;
     }
 
     // === Button Callbacks
@@ -75,12 +73,12 @@ public class RelicRow : MonoBehaviour
     {
         int levelsBuying = BuyAmount;
 
-        ScriptableRelic data    = RelicResources.Get(relic);
+        RelicSO data            = StaticData.Relics.Get(relic);
         UpgradeState state      = GameState.Relics.Get(relic);
 
         BigInteger cost = Formulas.CalcRelicLevelUpCost(relic, levelsBuying);
 
-        if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.data.maxLevel)
+        if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.maxLevel)
         {
             spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, UnityEngine.Vector3.zero);
 
@@ -97,17 +95,24 @@ public class RelicRow : MonoBehaviour
     {
         if (code == 200)
         {
-            JSONNode node       = Utils.Json.Decode(compressed);
-            UpgradeState state  = GameState.Relics.Get(relic);
+            JSONNode node = Utils.Json.Decompress(compressed);
+            UpgradeState state = GameState.Relics.Get(relic);
 
             state.level = node["relicLevel"].AsInt;
 
             GameState.Player.prestigePoints = BigInteger.Parse(node["prestigePoints"].Value);
         }
 
+        else if (code == 400 || code == 500)
+        {
+            JSONNode node = Utils.Json.Decompress(compressed);
+
+            Utils.UI.ShowMessage("Relic Upgrade Error", node["message"].Value.ToString());
+        }
+
         else
         {
-            Utils.UI.ShowError(ErrorMessage, "Server Error " + code, "Failed to upgrade relic :(");
+            Utils.UI.ShowMessage("Server Error ", "Failed to upgrade relic :(");
         }
 
         UpdateRow();

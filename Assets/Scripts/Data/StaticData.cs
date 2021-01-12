@@ -1,11 +1,11 @@
 ﻿
 using SimpleJSON;
 
-using Characters        = CharacterData.Characters;
 using Passives          = PassivesData.Passives;
 using Weapons           = WeaponData.Weapons;
-using Relics            = RelicData.Relics;
 
+using RelicData;
+using SkillData;
 using BountyData;
 using CharacterData;
 
@@ -22,8 +22,9 @@ public class StaticData
     public static Characters Characters;
     public static Passives Passives;
     public static Weapons Weapons;
-    public static Relics Relics;
 
+    public static RelicListSO Relics;
+    public static SkillListSO Skills;
     public static BountyListSO Bounties;
     public static CharacterListSO Chars;
 
@@ -31,11 +32,18 @@ public class StaticData
     public static void Restore(JSONNode node)
     {
         Weapons     = new Weapons(node["weapons"]);
-        Relics      = new Relics(node["relics"]);
         Passives    = new Passives(node["characterPassives"]);
         Characters  = new Characters(node["characters"]);
+
+        Skills.Init();
+
+        Relics.Restore(node["relics"]);
+        Chars.Restore(node["characters"]);
+        Bounties.Restore(node["bounties"]);
     }
 
+    public static void AssignSkills(SkillListSO ls) => Skills = ls;
     public static void AssignBounties(BountyListSO ls) => Bounties = ls;
     public static void AssignCharacters(CharacterListSO ls) => Chars = ls;
+    public static void AssignRelics(RelicListSO ls) => Relics = ls;
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 
 public class CharacterParticleAttack : CharacterAttack
@@ -19,12 +17,6 @@ public class CharacterParticleAttack : CharacterAttack
 
     protected override void OnChangeWeapon(WeaponSO weapon)
     {
-        GameObject newParticleSystem = Instantiate(weapon.prefab, transform);
 
-        newParticleSystem.transform.position = ps.gameObject.transform.position;
-
-        Destroy(ps.gameObject);
-
-        ps = newParticleSystem.GetComponent<ParticleSystem>();
     }
 }

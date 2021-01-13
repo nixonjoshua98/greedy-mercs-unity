@@ -13,16 +13,13 @@ public class PlayerState
     public BigInteger bountyPoints      = 0;
     public BigInteger prestigePoints    = 0;
 
+    public float currentEnergy = 0;
+
     public int maxPrestigeStage = 0;
 
     public void OnRestore(JSONNode node)
     {
         Update(node);
-    }
-
-    public void SoftReset()
-    {
-        gold = 0;
     }
 
     public void Update(JSONNode node)
@@ -32,7 +29,8 @@ public class PlayerState
 
         gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
 
-        maxPrestigeStage = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
+        maxPrestigeStage    = node.HasKey("maxPrestigeStage")   ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
+        currentEnergy       = node.HasKey("currentEnergy")      ? node["currentEnergy"].AsFloat : currentEnergy;
 
         bountyPoints    = node.HasKey("bountyPoints")   ? BigInteger.Parse(node["bountyPoints"].Value, System.Globalization.NumberStyles.Any)   : bountyPoints;
         prestigePoints  = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;

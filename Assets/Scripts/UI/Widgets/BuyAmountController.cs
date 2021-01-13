@@ -8,6 +8,8 @@ public class BuyAmountController : MonoBehaviour
 {
     [SerializeField] Button[] Buttons;
 
+    [SerializeField] int[] amounts;
+
     Image[] Images;
 
     [HideInInspector] public int BuyAmount;
@@ -32,8 +34,6 @@ public class BuyAmountController : MonoBehaviour
 
     public void OnChange(int index)
     {
-        int[] amounts = new int[4] { 1, 10, 100, -1 };
-
         BuyAmount = amounts[index];
 
         for (int i = 0; i < Buttons.Length; ++i)

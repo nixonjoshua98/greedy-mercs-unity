@@ -14,7 +14,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public static class Extensions
 {    
-    public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
+    public static TValue GetOrVal<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
     {
         return dict.TryGetValue(key, out var value) ? value : fallback;
     }
@@ -166,13 +166,13 @@ namespace Utils
             msg.Set(title, desc);
         }
 
-        public static void ShowError(GameObject o, string title, string desc)
+        public static void ShowMessage(string name, string title, string desc)
         {
-            if (Instantiate(o, Vector3.zero).TryGetComponent(out ErrorMessage error))
-            {
-                error.Title.text = title;
-                error.Description.text = desc;
-            }
+            GameObject o = Resources.Load<GameObject>(name);
+
+            Message msg = Instantiate(o, Vector3.zero).GetComponent<Message>();
+
+            msg.Set(title, desc);
         }
     }
     public class GZip

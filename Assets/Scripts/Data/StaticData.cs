@@ -4,7 +4,7 @@ using SimpleJSON;
 using Passives          = PassivesData.Passives;
 using Weapons           = WeaponData.Weapons;
 
-using RelicData;
+using PrestigeItemsData;
 using SkillData;
 using BountyData;
 using CharacterData;
@@ -23,7 +23,7 @@ public class StaticData
     public static Passives Passives;
     public static Weapons Weapons;
 
-    public static RelicListSO Relics;
+    public static PrestigeItemListSO PrestigeItems;
     public static SkillListSO Skills;
     public static BountyListSO Bounties;
     public static CharacterListSO Chars;
@@ -36,15 +36,15 @@ public class StaticData
 
         Skills.Init();
 
-        Relics.Restore(node["relics"]);
+        PrestigeItems.Restore(node["prestigeItems"]);
         Chars.Restore(node["characters"]);
         Bounties.Restore(node["bounties"]);
     }
 
-    public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, RelicListSO relics)
+    public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, PrestigeItemListSO prestigeItems)
     {
         Chars       = chars;
-        Relics      = relics;
+        PrestigeItems      = prestigeItems;
         Skills      = skills;
         Bounties    = bounties;
     }

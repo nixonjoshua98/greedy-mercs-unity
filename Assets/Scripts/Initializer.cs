@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using RelicData;
+using PrestigeItemsData;
 using SkillData;
 using BountyData;
 using CharacterData;
@@ -13,7 +13,7 @@ public class Initializer : MonoBehaviour
     [SerializeField] GameObject ServerErrorMessage;
 
     [Header("Scriptables")]
-    [SerializeField] RelicListSO RelicList;
+    [SerializeField] PrestigeItemListSO RelicList;
     [SerializeField] SkillListSO SkillList;
     [SerializeField] BountyListSO BountyList;
     [SerializeField] CharacterListSO CharacterList;
@@ -46,7 +46,7 @@ public class Initializer : MonoBehaviour
         {
             if (!isLocalSave)
             {
-                Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required when playing for the first time");
+                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required");
 
                 return;
             }
@@ -75,7 +75,7 @@ public class Initializer : MonoBehaviour
 
             else
             {
-                Utils.UI.ShowError(ServerErrorMessage, "Server Connection", "A connection to the server is required.");
+                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
 
                 return;
             }

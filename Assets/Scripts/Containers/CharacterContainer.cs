@@ -44,7 +44,7 @@ public class CharacterContainer
         characters[charaId] = new UpgradeState { level = 1 };
     }
 
-    public Dictionary<BonusType, double> CalculateBonuses()
+    public Dictionary<BonusType, double> CalcBonuses()
     {
         Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 
@@ -62,11 +62,11 @@ public class CharacterContainer
 
                         if (skill.value < 1)
                         {
-                            bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 0) + skill.value;
+                            bonuses[skill.bonusType] = bonuses.GetOrVal(skill.bonusType, 0) + skill.value;
                         }
 
                         else
-                            bonuses[skill.bonusType] = bonuses.GetValueOrDefault(skill.bonusType, 1) * skill.value;
+                            bonuses[skill.bonusType] = bonuses.GetOrVal(skill.bonusType, 1) * skill.value;
                     }
                 }
             }

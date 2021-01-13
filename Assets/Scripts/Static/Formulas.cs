@@ -4,7 +4,7 @@ using UnityEngine;
 
 using BountyID      = BountyData.BountyID;
 
-using RelicData;
+using PrestigeItemsData;
 using CharacterData;
 
 
@@ -126,49 +126,53 @@ public static class Formulas
         if (stage < StageState.MIN_PRESTIGE_STAGE)
             return 0;
 
-        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageState.MIN_PRESTIGE_STAGE) / 10.0f), 2.1);
+        BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageState.MIN_PRESTIGE_STAGE) / 10.0f), 2.2);
 
         return BigInteger.Parse(big.Ceiling().ToString("F0"));
     }
 
     // ===
 
-    public static BigInteger CalcNextRelicCost(int numRelics)
+    public static BigInteger CalcNextPrestigeItemCost(int numRelics)
     {
-        return BigInteger.Parse(BigDouble.Pow(1.5, numRelics).Floor().ToString("F0"));
+        return BigInteger.Parse(((numRelics + 1) * BigDouble.Pow(1.5, numRelics).Floor()).ToString("F0"));
     }
 
     // ===
 
-    public static double CalcRelicEffect(RelicID relic)
+    public static double CalcPrestigeItemEffect(PrestigeItemID relic)
     {
-        RelicSO data        = StaticData.Relics.Get(relic);
-        UpgradeState state  = GameState.Relics.Get(relic);
+        PrestigeItemSO data        = StaticData.PrestigeItems.Get(relic);
+        UpgradeState state  = GameState.PrestigeItems.Get(relic);
 
         return data.baseEffect + (data.levelEffect * (state.level - 1));
     }
 
     // === Relics ===
 
-    public static BigInteger CalcRelicLevelUpCost(RelicID relic, int levels)
+    public static BigInteger CalcPrestigeItemLevelUpCost(PrestigeItemID relic, int levels)
     {
-        RelicSO data        = StaticData.Relics.Get(relic);
-        UpgradeState state  = GameState.Relics.Get(relic);
+        // https://math.stackexchange.com/questions/82588/is-there-a-formula-for-sums-of-consecutive-powers-where-the-powers-are-non-inte
 
-        BigDouble val = BigMath.SumGeometricSeries(levels, data.baseCost, data.costPower, state.level - 1);
+        PrestigeItemSO data        = StaticData.PrestigeItems.Get(relic);
+        UpgradeState state  = GameState.PrestigeItems.Get(relic);
 
-        return BigInteger.Parse(val.Ceiling().ToString("F0"));
+        return (data.costCoeff * SumNonIntegerPowerSeq(state.level, levels, data.costExpo)).ToBigInteger();
     }
 
-    public static int AffordRelicLevels(RelicID relic)
+    // === General ===
+
+    public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float s)
     {
-        UpgradeState state  = GameState.Relics.Get(relic);
-        RelicSO data        = StaticData.Relics.Get(relic);
+        BigDouble Predicate(int startValue)
+        {
+            BigDouble x = Mathf.Pow(startValue, s + 1) / (s + 1);
+            BigDouble y = Mathf.Pow(startValue, s) / 2;
+            BigDouble z = Mathf.Sqrt(Mathf.Pow(startValue, s - 1));
 
-        BigDouble bigAnswer = BigMath.AffordGeometricSeries(GameState.Player.prestigePoints.ToBigDouble(), data.baseCost, data.costPower, state.level - 1);
+            return x + y + z;
+        }
 
-        int maxLevels = int.Parse(bigAnswer.ToString());
-
-        return Mathf.Min(data.maxLevel - state.level, maxLevels);
+        return Predicate(level + levelsBuying) - Predicate(level);
     }
 }

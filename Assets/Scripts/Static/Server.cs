@@ -14,6 +14,11 @@ public static class Server
     // === Weapons ===
     public static void BuyWeapon(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("weapon/buy", callback, node));
 
+    // === Prestige Items === 
+    public static void BuyPrestigeItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("prestigeitems/buy", callback, node));
+    public static void UpgradePrestigeItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("prestigeitems/upgrade", callback, node));
+
+
     public static void Login(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
     {
         mono.StartCoroutine(Put("login", callback, node));
@@ -24,19 +29,9 @@ public static class Server
         mono.StartCoroutine(Put("prestige", callback, node));
     }
 
-    public static void BuyRelic(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
-    {
-        mono.StartCoroutine(Put("buyrelic", callback, node));
-    }
-
     public static void ResetRelics(MonoBehaviour mono, Action<long, string> callback)
     {
         mono.StartCoroutine(Put("resetrelics", callback, Utils.Json.GetDeviceNode()));
-    }
-
-    public static void UpgradeRelic(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
-    {
-        mono.StartCoroutine(Put("upgraderelic", callback, node));
     }
 
     public static void GetStaticData(MonoBehaviour mono, Action<long, string> callback)

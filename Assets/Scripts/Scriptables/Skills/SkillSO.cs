@@ -16,5 +16,15 @@ namespace SkillData
         public SkillID SkillID;
 
         public float Duration;
+
+        public double UnlockCost;
+
+        public int EnergyCost;
+
+        public int EnergyGainedOnUnlock;
+
+        [Header("Bonus")]
+        public BonusType bonusType;
+        public double bonusValue;
     }
 }

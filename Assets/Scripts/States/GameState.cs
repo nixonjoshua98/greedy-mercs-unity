@@ -16,7 +16,7 @@ public class GameState
         public PlayerState player;
         public SkillsState skills;
 
-        public RelicContainer relics;
+        public PrestigeItemsContainer relics;
         public WeaponContainer weapons;
         public BountyContainer bounties;
         public UpgradesContainer upgrades;
@@ -27,7 +27,7 @@ public class GameState
 
     public static StageState Stage { get { return Instance.stage; } }
     public static PlayerState Player { get { return Instance.player; } }
-    public static RelicContainer Relics { get { return Instance.relics; } }
+    public static PrestigeItemsContainer PrestigeItems { get { return Instance.relics; } }
     public static WeaponContainer Weapons { get { return Instance.weapons; } }
     public static BountyContainer Bounties { get { return Instance.bounties; } }
     public static UpgradesContainer Upgrades { get { return Instance.upgrades; } }
@@ -37,13 +37,13 @@ public class GameState
     {
         Instance = JsonUtility.FromJson<_GameState>(node.ToString());
 
-        Instance.relics = new RelicContainer(node);
+        Instance.relics = new PrestigeItemsContainer(node);
         Instance.weapons = new WeaponContainer(node);
         Instance.bounties = new BountyContainer(node);
         Instance.upgrades = new UpgradesContainer(node);
         Instance.characters = new CharacterContainer(node);
 
-        Instance.skills = new SkillsState();
+        Instance.skills = new SkillsState(node);
 
         Instance.player.OnRestore(node);
     }
@@ -62,7 +62,8 @@ public class GameState
 
         node["player"] = Instance.player.ToJson();
 
-        node.Add("relics", Relics.ToJson());
+        node.Add("skills", Skills.ToJson());
+        node.Add("relics", PrestigeItems.ToJson());
         node.Add("weapons", Weapons.ToJson());
         node.Add("upgrades", Upgrades.ToJson());
         node.Add("bounties", Bounties.ToJson());

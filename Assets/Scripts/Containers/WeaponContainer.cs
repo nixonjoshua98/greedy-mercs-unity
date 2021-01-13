@@ -57,7 +57,7 @@ public class WeaponContainer
         return node;
     }
 
-    public double CalculateDamageBonus(CharacterID character)
+    public double CalcBonuses(CharacterID character)
     {
         double bonus = 1.0f;
 
@@ -82,7 +82,7 @@ public class WeaponContainer
 
     public int Get(CharacterID chara, int index)
     {
-        return Get(chara).GetValueOrDefault(index, 0);
+        return Get(chara).GetOrVal(index, 0);
     }
 
     public int GetHighestTier(CharacterID chara)
@@ -104,6 +104,6 @@ public class WeaponContainer
 
     public void Add(CharacterID chara, int index, int amount)
     {
-        weapons[chara][index] = Get(chara).GetValueOrDefault(index, 0) + amount;
+        weapons[chara][index] = Get(chara).GetOrVal(index, 0) + amount;
     }
 }

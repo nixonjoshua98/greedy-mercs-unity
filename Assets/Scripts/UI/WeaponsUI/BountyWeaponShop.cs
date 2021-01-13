@@ -26,7 +26,7 @@ namespace WeaponsUI
 
                     GameObject inst = Utils.UI.Instantiate(CharacterButton, Vector3.zero);
 
-                    var component = inst.GetComponent<CharacterWeaponShopIcon>();
+                    var component = inst.GetComponent<CharacterIcon>();
 
                     component.SetCharacter(chara);
 

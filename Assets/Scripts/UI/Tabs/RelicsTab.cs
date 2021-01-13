@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 using SimpleJSON;
 
-using RelicData;
+using PrestigeItemsData;
 
 using Vector3 = UnityEngine.Vector3;
 
@@ -47,15 +47,15 @@ public class RelicsTab : MonoBehaviour
 
         rows = new List<RelicRow>();
 
-        foreach (var relic in GameState.Relics.Unlocked())
+        foreach (var relic in GameState.PrestigeItems.Unlocked())
         {
             AddRow(relic.Key);
         }
     }
 
-    void AddRow(RelicID relic)
+    void AddRow(PrestigeItemID item)
     {
-        RelicSO scriptable = StaticData.Relics.Get(relic);
+        PrestigeItemSO scriptable = StaticData.PrestigeItems.Get(item);
 
         GameObject inst = Utils.UI.Instantiate(RelicRowObject, rowParent.transform, Vector3.zero);
 
@@ -73,9 +73,9 @@ public class RelicsTab : MonoBehaviour
         PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+" 
             + Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage)) + "</color>)";
 
-        RelicCostText.text = GameState.Relics.Count < StaticData.Relics.Count ? Utils.Format.FormatNumber(Formulas.CalcNextRelicCost(GameState.Relics.Count)) : "MAX";
+        RelicCostText.text = GameState.PrestigeItems.Count < StaticData.PrestigeItems.Count ? Utils.Format.FormatNumber(Formulas.CalcNextPrestigeItemCost(GameState.PrestigeItems.Count)) : "MAX";
 
-        BuyRelicsButton.interactable = GameState.Relics.Count < StaticData.Relics.Count;
+        BuyRelicsButton.interactable = GameState.PrestigeItems.Count < StaticData.PrestigeItems.Count;
     }
 
     // === Button Callbacks ===
@@ -88,36 +88,36 @@ public class RelicsTab : MonoBehaviour
 
     public void OnBuyRelic()
     {
-        if (GameState.Player.prestigePoints < Formulas.CalcNextRelicCost(GameState.Relics.Count))
+        if (GameState.Player.prestigePoints < Formulas.CalcNextPrestigeItemCost(GameState.PrestigeItems.Count))
         {
-            Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new relic");
+            Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new item");
         }
         else
         {
             spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
 
-            Server.BuyRelic(this, OnBuyRelicCallback, Utils.Json.GetDeviceNode());
+            Server.BuyPrestigeItem(this, OnBuyCallback, Utils.Json.GetDeviceNode());
         }
     }
 
-    public void OnBuyRelicCallback(long code, string data)
+    public void OnBuyCallback(long code, string data)
     {
         if (code == 200)
         {
             JSONNode node = Utils.Json.Decompress(data);
 
-            RelicID relic = (RelicID)node["relicBought"].AsInt;
+            PrestigeItemID item = (PrestigeItemID)node["itemBought"].AsInt;
 
             GameState.Player.Update(node);
 
-            GameState.Relics.AddRelic(relic);
+            GameState.PrestigeItems.Add(item);
 
-            AddRow(relic);
+            AddRow(item);
         }
 
         else
         {
-            Utils.UI.ShowMessage("Buy Relic", "A connection to the server is required to buy a new relic");
+            Utils.UI.ShowMessage("Buy Item", "A connection to the server is required to buy a new item");
         }
 
         Destroy(spawnedBlankPanel);

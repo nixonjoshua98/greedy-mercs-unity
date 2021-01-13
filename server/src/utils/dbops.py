@@ -77,7 +77,7 @@ def get_player_data(mongo, uid):
 
 	return {
 		"weapons": items.get("weapons", dict()),
-		"relics": items.get("relics", dict()),
+		"prestigeItems": items.get("prestigeItems", dict()),
 
 		"bounties": bounties,
 

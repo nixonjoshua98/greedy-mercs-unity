@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ServerConnectionError : ErrorMessage
+public class ServerConnectionError : Message
 {
     public void OnReconnect()
     {

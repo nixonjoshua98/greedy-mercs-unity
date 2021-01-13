@@ -23,7 +23,7 @@ namespace BountyUI
 
         List<GameObject> icons;
 
-        int numRelicsDisplayed = 0;
+        int numBountiesDisplayed = 0;
 
         void Awake()
         {
@@ -44,7 +44,7 @@ namespace BountyUI
 
         void CheckNewBounty()
         {
-            if (GameState.Bounties.Unlocked().Count != numRelicsDisplayed)
+            if (GameState.Bounties.Unlocked().Count != numBountiesDisplayed)
             {
                 foreach (GameObject o in icons)
                     Destroy(o);
@@ -55,13 +55,13 @@ namespace BountyUI
 
         void CreateIcons()
         {
-            numRelicsDisplayed = 0;
+            numBountiesDisplayed = 0;
 
             icons = new List<GameObject>();
 
             foreach (var bounty in GameState.Bounties.Unlocked())
             {
-                numRelicsDisplayed++;
+                numBountiesDisplayed++;
 
                 GameObject inst = Utils.UI.Instantiate(BountyIconObject, bountyIconsParent, Vector3.one);
 

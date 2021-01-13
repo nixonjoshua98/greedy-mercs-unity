@@ -4,18 +4,19 @@ import datetime as dt
 
 from src.enums import BonusType
 
-
-def next_relic_cost(num_relics: int):
-	return math.floor(math.pow(1.5, num_relics))
+from flask import current_app as app
 
 
-def stage_prestige_points(stage, staticrelics, userrelics):
+def next_prestige_item_cost(numrelics: int):
+	return math.floor((numrelics + 1) * math.pow(1.5, numrelics))
+
+
+def stage_prestige_points(stage, userrelics):
 	"""
 	Calculate the prestige points at a given stage including bonuses from relics
 	====================
 
 	:param stage: Stage we are calculating prestige points for
-	:param staticrelics: Dict of Relic objects, which store the static data found in relics.json
 	:param userrelics: Dict of the users relics and levels
 
 	:return:
@@ -26,14 +27,14 @@ def stage_prestige_points(stage, staticrelics, userrelics):
 		bonus = 1
 
 		for key, level in userrelics.items():
-			relic = staticrelics[int(key)]
+			item = app.objects["prestigeItems"][int(key)]
 
-			if relic.bonus_type == BonusType.CASH_OUT_BONUS:
-				bonus *= relic.effect(level)
+			if item.bonus_type == BonusType.CASH_OUT_BONUS:
+				bonus *= item.effect(level)
 
 		return bonus
 
-	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.1) * prestige_bonus())
+	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus())
 
 
 def hourly_bounty_income(staticbounties: dict, bountylevels: dict, maxstage, lastclaim) -> int:
@@ -50,3 +51,15 @@ def hourly_bounty_income(staticbounties: dict, bountylevels: dict, maxstage, las
 
 def sum_geometric(startcost, levelsowned, levelsbuying, power):
 	return startcost * math.pow(power, levelsowned - 1) * (1 - math.pow(power, levelsbuying)) / (1 - power)
+
+
+def sum_non_int_power_seq(start: int, buying: int, s: float):
+
+	def pred(startval: int):
+		x = pow(startval, s + 1) / (s + 1)
+		y = pow(startval, s) / 2
+		z = math.sqrt(pow(startval, s - 1))
+
+		return x + y + z
+
+	return pred(start + buying) - pred(start)

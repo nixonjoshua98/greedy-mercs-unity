@@ -1024,8 +1024,7 @@ public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEq
         /// How much resource would it cost to buy (numItems) items if you already have currentOwned,
         /// the initial price is priceStart and it multiplies by priceRatio each purchase?
         /// </summary>
-        public static BigDouble SumGeometricSeries(BigDouble numItems, BigDouble priceStart, BigDouble priceRatio,
-            BigDouble currentOwned)
+        public static BigDouble SumGeometricSeries(BigDouble numItems, BigDouble priceStart, BigDouble priceRatio, BigDouble currentOwned)
         {
             var actualStart = priceStart * BigDouble.Pow(priceRatio, currentOwned);
 

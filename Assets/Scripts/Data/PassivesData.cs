@@ -10,8 +10,6 @@ namespace PassivesData
     {
         public BonusType bonusType;
 
-        public string name;
-
         public double value;
     }
 

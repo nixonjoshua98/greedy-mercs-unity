@@ -27,6 +27,8 @@ namespace SkillData
         public SkillID SkillID;
         public BonusType bonusType;
 
+        public new string name;
+
         public float Duration;
 
         public int EnergyGainedOnUnlock;

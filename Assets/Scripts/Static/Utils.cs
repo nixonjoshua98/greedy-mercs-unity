@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using SkillData;
 using SimpleJSON;
 
 using Vector2 = UnityEngine.Vector2;

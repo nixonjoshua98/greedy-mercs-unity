@@ -6,7 +6,7 @@ from src.enums import BonusType
 
 
 class PrestigeItem:
-	def __init__(self, bonustype, costexpo, costcoeff, baseeffect, leveleffect, maxlevel: int = 1000, **_):
+	def __init__(self, bonustype, costexpo, costcoeff, baseeffect, leveleffect, maxlevel: int = 100_000, **_):
 
 		self.bonus_type = bonustype if isinstance(bonustype, BonusType) else BonusType(bonustype)
 

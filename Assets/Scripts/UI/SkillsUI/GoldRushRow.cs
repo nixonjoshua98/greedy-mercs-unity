@@ -14,7 +14,7 @@ namespace Skills.UI
             string effect   = Utils.Format.FormatNumber(StatsCache.GoldRushBonus() * 100);
             double duration = StatsCache.SkillDuration(SkillID);
 
-            return string.Format("Lasts for <color=orange>{1}s</color>\nMultiply your <color=orange>All Gold</color> by <color=orange>{0}%</color>", effect, duration);
+            return string.Format("Lasts for <color=orange>{1}s</color>\nMultiply <color=orange>All Gold</color> by <color=orange>{0}%</color>", effect, duration);
         }
     }
 }

@@ -76,7 +76,7 @@ public class RelicsTab : MonoBehaviour
             RelicCostText.text = string.Format("Buy Relic\n{0}", Utils.Format.FormatNumber(Formulas.CalcNextPrestigeItemCost(GameState.PrestigeItems.Count)));
         }
         else
-            RelicCostText.text = "All Relics Obtained";
+            RelicCostText.text = "All Relics\nObtained";
     }
 
     // === Button Callbacks ===

@@ -1,61 +1,49 @@
 {
 	"0": {
-		"name": "Mercenary Damage Boost",
 		"bonusType": 0,
 		"value": 1.15
 	},
 	"1": {
-		"name": "Increased Mercenary Damage",
 		"bonusType": 0,
 		"value": 1.25
 	},
 	"2": {
-		"name": "Increased Enemy Gold",
 		"bonusType": 1,
 		"value": 1.1
 	},
 	"3": {
-		"name": "Increased Enemy Gold",
 		"bonusType": 1,
 		"value": 1.1
 	},
 	"4": {
-		"name": "Tap Damage Boost",
 		"bonusType": 2,
 		"value": 2.0
 	},
 	"5": {
-		"name": "Increased Boss Gold",
 		"bonusType": 3,
 		"value": 1.1
 	},
 	"6": {
-		"name": "Increased Boss Gold",
 		"bonusType": 3,
 		"value": 1.15
 	},
 	"7": {
-		"name": "Melee Damage Boost",
 		"bonusType": 5,
 		"value": 1.25
 	},
 	"8": {
-		"name": "Superior Tap Damage Boost",
 		"bonusType": 4,
 		"value": 0.001
 	},
 	"9": {
-		"name": "Ranged Damage Boost",
 		"bonusType": 7,
 		"value": 1.25
 	},
 	"10": {
-		"name": "Critical Hit Chance",
 		"bonusType": 8,
 		"value": 0.01
 	},
 	"11": {
-		"name": "Critical Hit Damage",
 		"bonusType": 10,
 		"value": 1.5
 	}

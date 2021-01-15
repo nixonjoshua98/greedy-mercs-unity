@@ -8,7 +8,7 @@ namespace LootData
 {
     public class PrestigeItemStaticData
     {
-        public int maxLevel = 1_000;
+        public int maxLevel = int.MaxValue;
 
         public BonusType bonusType;
         public ValueType valueType;

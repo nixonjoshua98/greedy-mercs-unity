@@ -10,7 +10,7 @@ public class DebugMenu : MonoBehaviour
 
     public void OnStageAdvance()
     {
-        GameState.Stage.stage += 1_000;
+        GameState.Stage.stage += 10_000;
     }
 
     public void OnResetRelics()

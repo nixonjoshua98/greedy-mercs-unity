@@ -32,9 +32,9 @@ RectTransform:
   m_Father: {fileID: 7491350030407174012}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -260, y: -35}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -260, y: 87.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &4632825659698681252
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -155,7 +155,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Multiply your <color=orange>All Gold</color> by <color=orange>150%</color>
+  m_Text: Multiply <color=orange>All Gold</color> by <color=orange>150%</color>
 --- !u!1 &7491350028991709763
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,7 +600,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 8, y: 0}
-  m_SizeDelta: {x: 1000, y: 225}
+  m_SizeDelta: {x: 1500, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7491350030407174014
 CanvasRenderer:
@@ -654,8 +654,9 @@ MonoBehaviour:
   SkillID: 0
   SkillButtonsParent: {fileID: 0}
   buyButton: {fileID: 7491350029914738842}
-  energyCostText: {fileID: 2807761327247898763}
+  nameText: {fileID: 7491350030691540564}
   buyButtonText: {fileID: 7491350028991709821}
+  energyCostText: {fileID: 2807761327247898763}
   descriptionText: {fileID: 2010553387850635108}
   SkillButtonObject: {fileID: 8847922440093605017, guid: 92ef4898cb882aa4d86ee9910bd254c5,
     type: 3}
@@ -768,7 +769,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 250, y: -35}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 990, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7491350030691540567
 CanvasRenderer:
@@ -799,12 +800,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: f493aed684a4f2248bb10d6b8fdbfa81, type: 3}
-    m_FontSize: 14
+    m_FontSize: 72
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 48
-    m_Alignment: 0
+    m_MinSize: 7
+    m_MaxSize: 72
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

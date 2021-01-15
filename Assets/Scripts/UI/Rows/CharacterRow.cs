@@ -9,8 +9,7 @@ public class CharacterRow : MonoBehaviour
     [SerializeField] Image Icon;
 
     [Header("Text")]
-    [SerializeField] Text NameText;
-    [SerializeField] Text LevelText;
+    [SerializeField] Text nameText;
     [SerializeField] Text DamageText;
     [SerializeField] Text UpgradeCost;
 
@@ -39,8 +38,8 @@ public class CharacterRow : MonoBehaviour
     {
         character = chara;
 
-        NameText.text   = chara.name;
-        Icon.sprite = chara.icon;
+        nameText.text   = chara.name;
+        Icon.sprite     = chara.icon;
 
         UpdateRow();
 
@@ -51,8 +50,7 @@ public class CharacterRow : MonoBehaviour
     {
         var state = GameState.Characters.Get(character.CharacterID);
 
-        DamageText.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
-        LevelText.text      = "Level " + state.level.ToString();
+        DamageText.text = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
 
         if (state.level < StaticData.MAX_CHAR_LEVEL)
         {
@@ -63,6 +61,8 @@ public class CharacterRow : MonoBehaviour
 
         else
             UpgradeCost.text = "MAX";
+
+        nameText.text = string.Format("(Lvl. {0}) {1}", state.level, character.name);
 
         UpgradeButton.interactable = state.level < StaticData.MAX_CHAR_LEVEL;
     }

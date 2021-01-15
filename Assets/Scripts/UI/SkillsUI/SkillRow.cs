@@ -20,8 +20,9 @@ namespace Skills.UI
         [SerializeField] Button buyButton;
 
         [Header("Text")]
-        [SerializeField] Text energyCostText;
+        [SerializeField] Text nameText;
         [SerializeField] Text buyButtonText;
+        [SerializeField] Text energyCostText;
         [SerializeField] Text descriptionText;
 
         [Header("Prefabs")]
@@ -60,9 +61,7 @@ namespace Skills.UI
             if (GameState.Player.gold >= skillLevel.UpgradeCost)
             {
                 if (!GameState.Skills.IsUnlocked(SkillID))
-                {
                     Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
-                }
 
                 GameState.Player.gold -= skillLevel.UpgradeCost;
 
@@ -93,6 +92,10 @@ namespace Skills.UI
                     SkillLevel nextLevel    = GameState.Skills.GetSkillLevel(SkillID, state.level + 1);
                     buyButtonText.text      = Utils.Format.FormatNumber(nextLevel.UpgradeCost);
                 }
+
+                SkillSO scriptable = StaticData.Skills.Get(SkillID);
+
+                nameText.text = string.Format("(Lvl. {0}) {1}", state.level, scriptable.name);
 
                 buyButton.interactable  = !state.IsMaxLevel;
             }

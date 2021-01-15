@@ -9,11 +9,10 @@ public class CharacterRow : MonoBehaviour
     [SerializeField] Image Icon;
 
     [Header("Text")]
-    [SerializeField] Text Name;
-    [SerializeField] Text Damage;
-    [SerializeField] Text UpgradeAmount;
-    [SerializeField] Text UpgradeCost;
+    [SerializeField] Text NameText;
     [SerializeField] Text LevelText;
+    [SerializeField] Text DamageText;
+    [SerializeField] Text UpgradeCost;
 
     [Header("Buttons")]
     [SerializeField] Button UpgradeButton;
@@ -40,7 +39,7 @@ public class CharacterRow : MonoBehaviour
     {
         character = chara;
 
-        Name.text   = chara.name;
+        NameText.text   = chara.name;
         Icon.sprite = chara.icon;
 
         UpdateRow();
@@ -52,10 +51,18 @@ public class CharacterRow : MonoBehaviour
     {
         var state = GameState.Characters.Get(character.CharacterID);
 
-        Damage.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
-        UpgradeCost.text    = state.level >= StaticData.MAX_CHAR_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.CharacterID, BuyAmount));
+        DamageText.text         = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
         LevelText.text      = "Level " + state.level.ToString();
-        UpgradeAmount.text  = state.level >= StaticData.MAX_CHAR_LEVEL ? "" : "x" + BuyAmount.ToString();
+
+        if (state.level < StaticData.MAX_CHAR_LEVEL)
+        {
+            string cost = Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.CharacterID, BuyAmount));
+
+            UpgradeCost.text = string.Format("x{0}\n{1}", BuyAmount, cost);
+        }
+
+        else
+            UpgradeCost.text = "MAX";
 
         UpgradeButton.interactable = state.level < StaticData.MAX_CHAR_LEVEL;
     }

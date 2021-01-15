@@ -4,11 +4,11 @@ using UnityEngine;
 
 using SimpleJSON;
 
-using PrestigeItemsData;
+using LootData;
 
 public class PrestigeItemsContainer
 {
-    Dictionary<PrestigeItemID, UpgradeState> items;
+    Dictionary<LootID, UpgradeState> items;
 
     public int Count { get { return items.Count; } }
 
@@ -21,11 +21,11 @@ public class PrestigeItemsContainer
     {
         if (node.HasKey("prestigeItems"))
         {
-            items = new Dictionary<PrestigeItemID, UpgradeState>();
+            items = new Dictionary<LootID, UpgradeState>();
 
             foreach (string itemId in node["prestigeItems"].Keys)
             {
-                items[(PrestigeItemID)int.Parse(itemId)] = new UpgradeState { level = node["prestigeItems"][itemId].AsInt };
+                items[(LootID)int.Parse(itemId)] = new UpgradeState { level = node["prestigeItems"][itemId].AsInt };
             }
         }
     }
@@ -48,16 +48,20 @@ public class PrestigeItemsContainer
 
         foreach (var relic in items)
         {
-            PrestigeItemSO data = StaticData.PrestigeItems.Get(relic.Key);
+            LootItemSO data = StaticData.PrestigeItems.Get(relic.Key);
 
-            switch (data.bonusType)
+            switch (data.valueType)
             {
-                case BonusType.CRIT_CHANCE:
+                case ValueType.MULTIPLY:
+                    bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * Formulas.CalcPrestigeItemEffect(relic.Key);
+                    break;
+
+                case ValueType.ADDITIVE_FLAT_VAL:
                     bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 0) + Formulas.CalcPrestigeItemEffect(relic.Key);
                     break;
 
-                default:
-                    bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * Formulas.CalcPrestigeItemEffect(relic.Key);
+                case ValueType.ADDITIVE_PERCENT:
+                    bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 0) + Formulas.CalcPrestigeItemEffect(relic.Key);
                     break;
             }
         }
@@ -67,17 +71,17 @@ public class PrestigeItemsContainer
 
     // === Helper Methods ===
 
-    public UpgradeState Get(PrestigeItemID relic)
+    public UpgradeState Get(LootID relic)
     {
         return items[relic];
     }
 
-    public void Add(PrestigeItemID relic)
+    public void Add(LootID relic)
     {
         items[relic] = new UpgradeState { level = 1 };
     }
 
-    public Dictionary<PrestigeItemID, UpgradeState> Unlocked()
+    public Dictionary<LootID, UpgradeState> Unlocked()
     {
         return items;
     }

@@ -36,8 +36,6 @@ namespace BountyData
 
                 BountyDict.Add(bounty.BountyID, bounty);
             }
-
-            Debug.Log("Restored Bounty Data");
         }
 
         // === Helper Methods ===

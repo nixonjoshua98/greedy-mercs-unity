@@ -76,13 +76,14 @@ def get_player_data(mongo, uid):
 	bounties = mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
 	return {
-		"weapons": items.get("weapons", dict()),
-		"prestigeItems": items.get("prestigeItems", dict()),
+		"player": {
+			"bountyPoints": 	items.get("bountyPoints", 0),
+			"maxPrestigeStage": stats.get("maxPrestigeStage", 0),
+			"prestigePoints": 	str(items.get("prestigePoints", 0)),
+			"username": 		stats.get("username", "Rogue Mercenary"),
+		},
 
 		"bounties": bounties,
-
-		"maxPrestigeStage": stats.get("maxPrestigeStage", 0),
-
-		"bountyPoints": items.get("bountyPoints", 0),
-		"prestigePoints": str(items.get("prestigePoints", 0))
+		"weapons": items.get("weapons", dict()),
+		"prestigeItems": items.get("prestigeItems", dict())
 	}

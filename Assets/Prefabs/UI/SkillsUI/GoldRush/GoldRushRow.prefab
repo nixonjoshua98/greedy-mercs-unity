@@ -1,5 +1,83 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &83788578898391978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3606141624545232181}
+  - component: {fileID: 4632825659698681252}
+  - component: {fileID: 2807761327247898763}
+  m_Layer: 5
+  m_Name: Energy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3606141624545232181
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83788578898391978}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7491350030407174012}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -260, y: -35}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 1, y: 1}
+--- !u!222 &4632825659698681252
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83788578898391978}
+  m_CullTransparentMesh: 0
+--- !u!114 &2807761327247898763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83788578898391978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: f493aed684a4f2248bb10d6b8fdbfa81, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 2
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 500 Energy
 --- !u!1 &6225265780302182632
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,9 +110,9 @@ RectTransform:
   m_Father: {fileID: 7491350030407174012}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -185}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 250, y: 40}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6385289589882139086
@@ -70,7 +148,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 38
+    m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -113,7 +191,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: -20}
+  m_SizeDelta: {x: -30, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7491350028991709820
 CanvasRenderer:
@@ -148,7 +226,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 48
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -188,7 +266,7 @@ RectTransform:
   - {fileID: 7491350029619037233}
   - {fileID: 7491350030619689125}
   m_Father: {fileID: 7491350030407174012}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -383,7 +461,7 @@ RectTransform:
   m_Children:
   - {fileID: 7491350028991709762}
   m_Father: {fileID: 7491350030407174012}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -470,7 +548,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3372768768936121217}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -490,9 +568,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7491350030407174012}
-  - component: {fileID: 3372768768936121217}
   - component: {fileID: 7491350030407174014}
   - component: {fileID: 7491350030407174015}
+  - component: {fileID: 2061981206653423802}
   m_Layer: 5
   m_Name: GoldRushRow
   m_TagString: Untagged
@@ -513,6 +591,7 @@ RectTransform:
   m_Children:
   - {fileID: 7491350030691540565}
   - {fileID: 5912443025383664898}
+  - {fileID: 3606141624545232181}
   - {fileID: 7491350029526934705}
   - {fileID: 7491350029914738843}
   m_Father: {fileID: 0}
@@ -523,24 +602,6 @@ RectTransform:
   m_AnchoredPosition: {x: 8, y: 0}
   m_SizeDelta: {x: 1000, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3372768768936121217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7491350030407174013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4372888a6c7521944b4d4aded04a1067, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillID: 0
-  SkillButtonsParent: {fileID: 0}
-  buyButton: {fileID: 7491350029914738842}
-  buyButtonText: {fileID: 7491350028991709821}
-  SkillButtonObject: {fileID: 8847922440093605017, guid: 92ef4898cb882aa4d86ee9910bd254c5,
-    type: 3}
 --- !u!222 &7491350030407174014
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -578,6 +639,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2061981206653423802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7491350030407174013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b60bd623fa6d6046995ddaa6e808a37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillID: 0
+  SkillButtonsParent: {fileID: 0}
+  buyButton: {fileID: 7491350029914738842}
+  energyCostText: {fileID: 2807761327247898763}
+  buyButtonText: {fileID: 7491350028991709821}
+  descriptionText: {fileID: 2010553387850635108}
+  SkillButtonObject: {fileID: 8847922440093605017, guid: 92ef4898cb882aa4d86ee9910bd254c5,
+    type: 3}
 --- !u!1 &7491350030619689130
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,7 +803,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 73
+    m_MaxSize: 48
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1

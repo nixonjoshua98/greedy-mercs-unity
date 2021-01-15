@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 using SimpleJSON;
 
-using PrestigeItemsData;
+using LootData;
 
 using Vector3 = UnityEngine.Vector3;
 
@@ -26,12 +26,10 @@ public class RelicsTab : MonoBehaviour
 
     [Header("Text Components")]
     [SerializeField] Text PrestigePointText;
-    [SerializeField] Text PrestigeButtonText;
     [SerializeField] Text RelicCostText;
 
     [Header("Prefabs")]
     [SerializeField] GameObject RelicRowObject;
-    [SerializeField] GameObject PrestigePanelObject;
 
     [SerializeField] GameObject BlankPanel;
 
@@ -53,9 +51,9 @@ public class RelicsTab : MonoBehaviour
         }
     }
 
-    void AddRow(PrestigeItemID item)
+    void AddRow(LootID item)
     {
-        PrestigeItemSO scriptable = StaticData.PrestigeItems.Get(item);
+        LootItemSO scriptable = StaticData.PrestigeItems.Get(item);
 
         GameObject inst = Utils.UI.Instantiate(RelicRowObject, rowParent.transform, Vector3.zero);
 
@@ -68,23 +66,20 @@ public class RelicsTab : MonoBehaviour
 
     void FixedUpdate()
     {
-        PrestigeButtonText.text = GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE ? "Cash Out" : "Locked Stage " + StageState.MIN_PRESTIGE_STAGE.ToString();
-
         PrestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+" 
             + Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage)) + "</color>)";
 
-        RelicCostText.text = GameState.PrestigeItems.Count < StaticData.PrestigeItems.Count ? Utils.Format.FormatNumber(Formulas.CalcNextPrestigeItemCost(GameState.PrestigeItems.Count)) : "MAX";
-
         BuyRelicsButton.interactable = GameState.PrestigeItems.Count < StaticData.PrestigeItems.Count;
+
+        if (GameState.PrestigeItems.Count < StaticData.PrestigeItems.Count)
+        {
+            RelicCostText.text = string.Format("Buy Relic\n{0}", Utils.Format.FormatNumber(Formulas.CalcNextPrestigeItemCost(GameState.PrestigeItems.Count)));
+        }
+        else
+            RelicCostText.text = "All Relics Obtained";
     }
 
     // === Button Callbacks ===
-
-    public void ShowPrestigePanel()
-    {
-        if (GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE)
-            Utils.UI.Instantiate(PrestigePanelObject, Vector3.zero);
-    }
 
     public void OnBuyRelic()
     {
@@ -92,7 +87,7 @@ public class RelicsTab : MonoBehaviour
         {
             Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new item");
         }
-        else
+        else if (GameState.PrestigeItems.Count < StaticData.PrestigeItems.Count)
         {
             spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
 
@@ -106,7 +101,7 @@ public class RelicsTab : MonoBehaviour
         {
             JSONNode node = Utils.Json.Decompress(data);
 
-            PrestigeItemID item = (PrestigeItemID)node["itemBought"].AsInt;
+            LootID item = (LootID)node["itemBought"].AsInt;
 
             GameState.Player.Update(node);
 

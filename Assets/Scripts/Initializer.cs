@@ -3,20 +3,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using PrestigeItemsData;
+using LootData;
 using SkillData;
 using BountyData;
 using CharacterData;
 
 public class Initializer : MonoBehaviour
 {
-    [SerializeField] GameObject ServerErrorMessage;
-
     [Header("Scriptables")]
     [SerializeField] PrestigeItemListSO RelicList;
     [SerializeField] SkillListSO SkillList;
     [SerializeField] BountyListSO BountyList;
     [SerializeField] CharacterListSO CharacterList;
+
     void Awake()
     {
         StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList);

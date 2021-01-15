@@ -79,7 +79,7 @@ public class PrestigePanel : MonoBehaviour
 
     IEnumerator PanelAnimation(float duration)
     {
-        StartCoroutine(Utils.Lerp.RectTransform(lootBagRect, lootBagRect.localScale, lootBagRect.localScale * 1.25f, duration));
+        StartCoroutine(Utils.Lerp.RectTransform(lootBagRect, lootBagRect.localScale, lootBagRect.localScale * 4, duration));
 
         BigInteger coins = StatsCache.GetPrestigePoints(GameState.Stage.stage);
 

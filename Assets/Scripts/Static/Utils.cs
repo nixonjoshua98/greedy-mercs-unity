@@ -8,8 +8,11 @@ using System.IO.Compression;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
+
 using SimpleJSON;
 
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public static class Extensions
@@ -43,17 +46,21 @@ namespace Utils
         {
             switch (skill)
             {
-                case BonusType.MERC_DAMAGE:             return "Merc Damage";
-                case BonusType.TAP_DAMAGE:              return "Tap Damage";
-                case BonusType.HERO_TAP_DAMAGE_ADD:     return "Merc Tap Damage Bonus";
-                case BonusType.ENEMY_GOLD:              return "Enemy Gold";
-                case BonusType.BOSS_GOLD:               return "Boss Gold";
-                case BonusType.MELEE_DAMAGE:            return "Melee Damage";
-                case BonusType.CRIT_CHANCE:             return "Critical Hit Chance";
-                case BonusType.RANGED_DAMAGE:           return "Ranged Damage";
-                case BonusType.ALL_GOLD:                return "All Gold";
-                case BonusType.CRIT_DAMAGE:             return "Critical Hit Damage";
-                case BonusType.CASH_OUT_BONUS:          return "Cash Out Bonus";
+                case BonusType.MERC_DAMAGE:         return "Merc Damage";
+                case BonusType.TAP_DAMAGE:          return "Tap Damage";
+                case BonusType.HERO_TAP_DAMAGE_ADD: return "Merc Tap Damage Bonus";
+                case BonusType.ENEMY_GOLD:          return "Enemy Gold";
+                case BonusType.BOSS_GOLD:           return "Boss Gold";
+                case BonusType.MELEE_DAMAGE:        return "Melee Damage";
+                case BonusType.CRIT_CHANCE:         return "Critical Hit Chance";
+                case BonusType.RANGED_DAMAGE:       return "Ranged Damage";
+                case BonusType.ALL_GOLD:            return "All Gold";
+                case BonusType.CRIT_DAMAGE:         return "Critical Hit Damage";
+                case BonusType.CASH_OUT_BONUS:      return "Cash Out Bonus";
+                case BonusType.ENERGY_INCOME:       return "Energy Income";
+                case BonusType.ENERGY_CAPACITY:     return "Energy Capacity";
+                case BonusType.GOLD_RUSH_BONUS:     return "Gold Rush Bonus";
+                case BonusType.GOLD_RUSH_DURATION:  return "Gold Rush Duration";
 
                 default:
                     return "<error>";
@@ -163,7 +170,7 @@ namespace Utils
 
             Message msg = Instantiate(o, Vector3.zero).GetComponent<Message>();
 
-            msg.Set(title, desc);
+            msg.Init(title, desc);
         }
 
         public static void ShowMessage(string name, string title, string desc)
@@ -172,7 +179,20 @@ namespace Utils
 
             Message msg = Instantiate(o, Vector3.zero).GetComponent<Message>();
 
-            msg.Set(title, desc);
+            msg.Init(title, desc);
+        }
+
+        public static void SetImageScaleW(Image img, Sprite spr, float w)
+        {
+            RectTransform rt = img.GetComponent<RectTransform>();
+
+            img.sprite = spr;
+
+            img.SetNativeSize();
+
+            float percentBigger = (float)(rt.rect.width / w);
+
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x / percentBigger, rt.sizeDelta.y / percentBigger);
         }
     }
     public class GZip

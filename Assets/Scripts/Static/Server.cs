@@ -18,6 +18,12 @@ public static class Server
     public static void BuyPrestigeItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("prestigeitems/buy", callback, node));
     public static void UpgradePrestigeItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("prestigeitems/upgrade", callback, node));
 
+    // === Player ===
+    public static void ChangeUsername(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("user/changeusername", callback, node));
+
+    // === Leaderboards ===
+    public static void GetPlayerLeaderboard(MonoBehaviour mono, Action<long, string> callback) => mono.StartCoroutine(Put("leaderboard/player", callback));
+
 
     public static void Login(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
     {

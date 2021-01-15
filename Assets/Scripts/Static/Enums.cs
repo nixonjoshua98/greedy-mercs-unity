@@ -13,7 +13,12 @@ public enum BonusType
     CRIT_CHANCE         = 8,
     ALL_GOLD            = 9,
     CRIT_DAMAGE         = 10,
-    CASH_OUT_BONUS      = 11
+    CASH_OUT_BONUS      = 11,
+    ENERGY_INCOME       = 12,
+    ENERGY_CAPACITY     = 13,
+
+    GOLD_RUSH_BONUS     = 14,
+    GOLD_RUSH_DURATION  = 15,
 }
 
 public enum UpgradeID

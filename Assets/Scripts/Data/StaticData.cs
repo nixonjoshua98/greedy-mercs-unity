@@ -4,7 +4,7 @@ using SimpleJSON;
 using Passives          = PassivesData.Passives;
 using Weapons           = WeaponData.Weapons;
 
-using PrestigeItemsData;
+using LootData;
 using SkillData;
 using BountyData;
 using CharacterData;

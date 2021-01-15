@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using SkillData;
 using CharacterData;
 
 class CacheValue
@@ -19,7 +20,7 @@ public class StatsCache : MonoBehaviour
 {
     static Dictionary<string, CacheValue> CachedValues = new Dictionary<string, CacheValue>();
 
-    static Dictionary<BonusType, double> CharacterBonus 
+    static Dictionary<BonusType, double> BonusFromCharacters 
     { 
         get 
         {
@@ -30,7 +31,7 @@ public class StatsCache : MonoBehaviour
         }
     }
 
-    static Dictionary<BonusType, double> PrestigeItemBonus
+    static Dictionary<BonusType, double> BonusFromLoot
     {
         get
         {
@@ -41,7 +42,7 @@ public class StatsCache : MonoBehaviour
         }
     }
 
-    static Dictionary<BonusType, double> SkillBonus { get { return GameState.Skills.CacBonuses(); } }
+    static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CacBonuses(); } }
 
     static BigDouble TotalCharacterDamage { 
         get 
@@ -60,14 +61,23 @@ public class StatsCache : MonoBehaviour
         CachedValues.Clear();
     }
 
-    public static float PlayerEnergyPerMinute()
+    // # === Energy === #
+    public static double PlayerEnergyPerMinute() => 1.0f + AddictiveBonuses(BonusType.ENERGY_INCOME);
+    public static double PlayerMaxEnergy() => 50.0f + AddictiveBonuses(BonusType.ENERGY_CAPACITY);
+    
+    // === Skills === #
+    public static double GoldRushBonus()
     {
-        return 1.0f;
+        SkillState state = GameState.Skills.Get(SkillData.SkillID.GOLD_RUSH);
+
+        return state.LevelData.BonusValue * MultiplyBonuses(BonusType.GOLD_RUSH_BONUS);
     }
 
-    public static float PlayerMaxEnergy()
+    public static double SkillDuration(SkillID skill)
     {
-        return 50.0f;
+        SkillSO state = StaticData.Skills.Get(skill);
+
+        return state.Duration + AddictiveBonuses(BonusType.GOLD_RUSH_DURATION);
     }
 
 
@@ -149,12 +159,13 @@ public class StatsCache : MonoBehaviour
 
 
     // === Helper Methods ===
+
     public static double MultiplyBonuses(params BonusType[] types)
     {
         double val = 1.0f;
 
         foreach (BonusType type in types)
-            val *= CharacterBonus.GetOrVal(type, 1) * PrestigeItemBonus.GetOrVal(type, 1) * SkillBonus.GetOrVal(type, 1);
+            val *= BonusFromCharacters.GetOrVal(type, 1) * BonusFromLoot.GetOrVal(type, 1) * BonusFromSkills.GetOrVal(type, 1);
 
         return val;
     }
@@ -164,7 +175,7 @@ public class StatsCache : MonoBehaviour
         double val = 0.0f;
 
         foreach (BonusType type in types)
-            val += CharacterBonus.GetOrVal(type, 0) + PrestigeItemBonus.GetOrVal(type, 0);
+            val += BonusFromCharacters.GetOrVal(type, 0) + BonusFromLoot.GetOrVal(type, 0);
 
         return val;
     }

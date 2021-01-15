@@ -4,7 +4,7 @@ using UnityEngine;
 
 using BountyID      = BountyData.BountyID;
 
-using PrestigeItemsData;
+using LootData;
 using CharacterData;
 
 
@@ -135,14 +135,14 @@ public static class Formulas
 
     public static BigInteger CalcNextPrestigeItemCost(int numRelics)
     {
-        return BigInteger.Parse(((numRelics + 1) * BigDouble.Pow(1.5, numRelics).Floor()).ToString("F0"));
+        return BigInteger.Parse((Mathf.Max(1, numRelics) * BigDouble.Pow(1.35, numRelics).Floor()).ToString("F0"));
     }
 
     // ===
 
-    public static double CalcPrestigeItemEffect(PrestigeItemID relic)
+    public static double CalcPrestigeItemEffect(LootID relic)
     {
-        PrestigeItemSO data        = StaticData.PrestigeItems.Get(relic);
+        LootItemSO data = StaticData.PrestigeItems.Get(relic);
         UpgradeState state  = GameState.PrestigeItems.Get(relic);
 
         return data.baseEffect + (data.levelEffect * (state.level - 1));
@@ -150,11 +150,11 @@ public static class Formulas
 
     // === Relics ===
 
-    public static BigInteger CalcPrestigeItemLevelUpCost(PrestigeItemID relic, int levels)
+    public static BigInteger CalcPrestigeItemLevelUpCost(LootID relic, int levels)
     {
         // https://math.stackexchange.com/questions/82588/is-there-a-formula-for-sums-of-consecutive-powers-where-the-powers-are-non-inte
 
-        PrestigeItemSO data        = StaticData.PrestigeItems.Get(relic);
+        LootItemSO data = StaticData.PrestigeItems.Get(relic);
         UpgradeState state  = GameState.PrestigeItems.Get(relic);
 
         return (data.costCoeff * SumNonIntegerPowerSeq(state.level, levels, data.costExpo)).ToBigInteger();

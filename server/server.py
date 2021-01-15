@@ -10,10 +10,13 @@ from src.views import (
 	Login,
 	StaticData,
 	Prestige,
-	BuyPrestigeItem, UpgradePrestigeItem,
+	BuyPrestigeItem,
+	UpgradePrestigeItem,
 	ResetAccount,
 	ClaimBounty,
-	BuyWeapon
+	BuyWeapon,
+	ChangeUsername,
+	PlayerLeaderboard
 )
 
 from src.staticobjects import PrestigeItem, Bounty, Weapon
@@ -23,7 +26,7 @@ app = Flask(__name__)
 app.mongo = PyMongo()
 
 app.staticdata = {
-	"prestigeItems": 		utils.read_data_file("prestigeitems.json"),
+	"prestigeItems": 		utils.read_data_file("loot.json"),
 	"bounties":				utils.read_data_file("bounties.json"),
 	"weapons":				utils.read_data_file("weapons.json"),
 	"characters": 			utils.read_data_file("characters.json"),
@@ -48,8 +51,14 @@ app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty
 app.add_url_rule("/api/weapon/buy", view_func=BuyWeapon.as_view("buyweapon"), methods=["PUT"])
 
 # === Prestige Items === #
-app.add_url_rule("/api/prestigeitems/buy", 		view_func=BuyPrestigeItem.as_view("buyrelic"), 			methods=["PUT"])
-app.add_url_rule("/api/prestigeitems/upgrade", 	view_func=UpgradePrestigeItem.as_view("upgraderelic"), 	methods=["PUT"])
+app.add_url_rule("/api/prestigeitems/buy", 		view_func=BuyPrestigeItem.as_view("buyitem"),			methods=["PUT"])
+app.add_url_rule("/api/prestigeitems/upgrade", 	view_func=UpgradePrestigeItem.as_view("upgradeitem"),	methods=["PUT"])
+
+# === Player === #
+app.add_url_rule("/api/user/changeusername", view_func=ChangeUsername.as_view("changeusername"), methods=["PUT"])
+
+# === Leaderboard === #
+app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["PUT"])
 
 
 app.add_url_rule("/api/login", 			view_func=Login.as_view("login"), 					methods=["PUT"])

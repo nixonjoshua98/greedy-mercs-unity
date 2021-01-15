@@ -9,7 +9,6 @@ public class TapDamageUpgrade : MonoBehaviour
     [Header("Components")]
     [SerializeField] Button buyButton;
     [Space]
-    [SerializeField] Text buyText;
     [SerializeField] Text costText;
     [SerializeField] Text levelText;
     [SerializeField] Text damageText;
@@ -37,9 +36,17 @@ public class TapDamageUpgrade : MonoBehaviour
         UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
 
         damageText.text = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
-        costText.text   = state.level >= StaticData.MAX_TAP_UPGRADE_LEVEL ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
         levelText.text  = "Level " + state.level.ToString();
-        buyText.text    = state.level >= StaticData.MAX_TAP_UPGRADE_LEVEL ? "" : "x" + BuyAmount.ToString();
+
+        if (state.level < StaticData.MAX_CHAR_LEVEL)
+        {
+            string cost = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
+
+            costText.text = string.Format("x{0}\n{1}", BuyAmount, cost);
+        }
+
+        else
+            costText.text = "MAX";
 
         buyButton.interactable = state.level < StaticData.MAX_TAP_UPGRADE_LEVEL;
     }

@@ -23,11 +23,11 @@ namespace Skills.UI
 
             if (!state.IsActive)
             {
-                SkillSO data = StaticData.Skills.Get(skill);
+                SkillLevel levelData = state.LevelData;
 
-                if (GameState.Player.currentEnergy >= data.EnergyCost)
+                if (GameState.Player.currentEnergy >= levelData.EnergyCost)
                 {
-                    GameState.Player.currentEnergy -= data.EnergyCost;
+                    GameState.Player.currentEnergy -= levelData.EnergyCost;
 
                     GameState.Skills.ActivateSkill(skill);
 
@@ -47,7 +47,7 @@ namespace Skills.UI
 
             ParticleSystem ps = Instantiate(CoinShowerPS).GetComponent<ParticleSystem>();
 
-            yield return new WaitWhile(() => { return GameState.Skills.Get(skill).IsActive; });
+            yield return new WaitWhile(() => { return GameState.Skills.IsUnlocked(skill) && GameState.Skills.Get(skill).IsActive; });
 
             ps.Stop();
 

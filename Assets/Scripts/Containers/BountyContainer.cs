@@ -79,7 +79,9 @@ namespace BountyData
 
             foreach (BountySO bounty in StaticData.Bounties.BountyList)
             {
-                if (GameState.Player.maxPrestigeStage > bounty.unlockStage && GameState.Stage.stage > bounty.unlockStage)
+                UpgradeState state = GameState.Bounties.GetState(bounty.BountyID);
+
+                if (GameState.Player.maxPrestigeStage > bounty.unlockStage && GameState.Stage.stage > bounty.unlockStage && bounty.maxLevel > state.level)
                     total++;
             }
 
@@ -122,7 +124,7 @@ namespace BountyData
 
         public int CurrentClaimAmount { get { return Mathf.FloorToInt((TimeSinceClaim / 3_600.0f) * HourlyIncome); } }
 
-        public int MaxClaimAmount { get { return HourlyIncome * 12; } }
+        public int MaxClaimAmount { get { return HourlyIncome * MAX_HOURS; } }
 
         public int HourlyIncome
         {

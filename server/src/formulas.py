@@ -8,7 +8,7 @@ from flask import current_app as app
 
 
 def next_prestige_item_cost(numrelics: int):
-	return math.floor((numrelics + 1) * math.pow(1.5, numrelics))
+	return math.floor(max(1, numrelics) * math.pow(1.35, numrelics))
 
 
 def stage_prestige_points(stage, userrelics):
@@ -44,7 +44,7 @@ def hourly_bounty_income(staticbounties: dict, bountylevels: dict, maxstage, las
 		if maxstage > bounty.unlock_stage:
 			hourly_points += bounty.bounty_points + (bountylevels.get(str(key), 1) - 1)
 
-	seconds_since_claim = (dt.datetime.utcnow() - lastclaim).total_seconds()
+	seconds_since_claim = min((dt.datetime.utcnow() - lastclaim).total_seconds(), 8 * 3_600)
 
 	return math.floor(hourly_points * (seconds_since_claim / 3_600))
 

@@ -27,7 +27,7 @@ namespace WeaponsUI
 
             WeaponSO weapon = character.weapons[weaponIndex];
 
-            icon.sprite = weapon.icon;
+            Utils.UI.SetImageScaleW(icon, weapon.icon, 150.0f);
 
             FixedUpdate();
         }

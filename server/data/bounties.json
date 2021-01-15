@@ -2,16 +2,16 @@
   "0": {
     "bountyPoints": 20,
     "unlockStage": 5,
-    "maxLevel": 30
+    "maxLevel": 31
   },
   "1": {
     "bountyPoints": 25,
     "unlockStage": 50,
-    "maxLevel": 25
+    "maxLevel": 26
   },
   "2": {
     "bountyPoints": 30,
     "unlockStage": 125,
-    "maxLevel": 20
+    "maxLevel": 21
   }
 }

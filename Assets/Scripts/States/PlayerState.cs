@@ -8,12 +8,14 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerState
 {
+    public string username = "Rogue Mercenary";
+
     public BigDouble gold = 0;
 
     public BigInteger bountyPoints      = 0;
     public BigInteger prestigePoints    = 0;
 
-    public float currentEnergy = 0;
+    public double currentEnergy = 0;
 
     public int maxPrestigeStage = 0;
 

@@ -5,18 +5,19 @@ using UnityEngine.UI;
 
 using SimpleJSON;
 
-using PrestigeItemsData;
+using LootData;
+
+using Vector2 = UnityEngine.Vector2;
 
 public class RelicRow : MonoBehaviour
 {
-    PrestigeItemID relic;
+    LootID relic;
 
     [Header("Components")]
     [SerializeField] Image icon;
     [Space]
     [SerializeField] Button buyButton;
     [Space]
-    [SerializeField] Text buyText;
     [SerializeField] Text costText;
     [SerializeField] Text levelText;
     [SerializeField] Text nameText;
@@ -31,20 +32,21 @@ public class RelicRow : MonoBehaviour
     int BuyAmount {
         get 
         {
-            PrestigeItemSO data        = StaticData.PrestigeItems.Get(relic);
-            UpgradeState state  = GameState.PrestigeItems.Get(relic);
+            LootItemSO data     = StaticData.PrestigeItems.Get(relic);
+            UpgradeState state      = GameState.PrestigeItems.Get(relic);
 
             return Mathf.Min(RelicsTab.BuyAmount, data.maxLevel - state.level);
         }
     }
 
-    public void Init(PrestigeItemSO data)
+    public void Init(LootItemSO data)
     {
         descText.text   = data.description;
         nameText.text   = data.name;
-        icon.sprite     = data.icon;
 
         relic = data.ItemID;
+
+        Utils.UI.SetImageScaleW(icon, data.icon, 150.0f);
 
         UpdateRow();
 
@@ -53,15 +55,49 @@ public class RelicRow : MonoBehaviour
 
     void UpdateRow()
     {
-        PrestigeItemSO scriptable  = StaticData.PrestigeItems.Get(relic);
-        UpgradeState state  = GameState.PrestigeItems.Get(relic);
+        LootItemSO scriptable   = StaticData.PrestigeItems.Get(relic);
+        UpgradeState state          = GameState.PrestigeItems.Get(relic);
 
-        effectText.text = Utils.Format.FormatNumber(Formulas.CalcPrestigeItemEffect(relic) * 100) + "% " + Utils.Generic.BonusToString(scriptable.bonusType);
-        costText.text   = state.level >= scriptable.maxLevel ? "MAX" : Utils.Format.FormatNumber(Formulas.CalcPrestigeItemLevelUpCost(relic, BuyAmount));
+        UpdateEffectText();
+
         levelText.text  = "Level " + state.level.ToString();
-        buyText.text    = state.level >= scriptable.maxLevel ? "" : "x" + BuyAmount.ToString();
+
+        if (state.level < scriptable.maxLevel)
+        {
+            string cost = Utils.Format.FormatNumber(Formulas.CalcPrestigeItemLevelUpCost(relic, BuyAmount));
+
+            costText.text = string.Format("x{0}\n{1}", BuyAmount, cost);
+        }
+
+        else
+            costText.text = "MAX";
+
 
         buyButton.interactable = state.level < scriptable.maxLevel;
+    }
+
+    void UpdateEffectText()
+    {
+        LootItemSO scriptable = StaticData.PrestigeItems.Get(relic);
+
+        double effect = Formulas.CalcPrestigeItemEffect(relic);
+
+        switch (scriptable.valueType)
+        {
+            case ValueType.MULTIPLY:
+                effectText.text = Utils.Format.FormatNumber(effect * 100) + "%";
+                break;
+
+            case ValueType.ADDITIVE_PERCENT:
+                effectText.text = "+ " + Utils.Format.FormatNumber(effect * 100) + "%";
+                break;
+
+            case ValueType.ADDITIVE_FLAT_VAL:
+                effectText.text = "+ " + Utils.Format.FormatNumber(effect);
+                break;
+        }
+
+        effectText.text += " " + Utils.Generic.BonusToString(scriptable.bonusType);
     }
 
     // === Button Callbacks
@@ -70,8 +106,8 @@ public class RelicRow : MonoBehaviour
     {
         int levelsBuying = BuyAmount;
 
-        PrestigeItemSO data            = StaticData.PrestigeItems.Get(relic);
-        UpgradeState state      = GameState.PrestigeItems.Get(relic);
+        LootItemSO data = StaticData.PrestigeItems.Get(relic);
+        UpgradeState state  = GameState.PrestigeItems.Get(relic);
 
         BigInteger cost = Formulas.CalcPrestigeItemLevelUpCost(relic, levelsBuying);
 
@@ -92,19 +128,12 @@ public class RelicRow : MonoBehaviour
     {
         if (code == 200)
         {
-            JSONNode node = Utils.Json.Decompress(compressed);
-            UpgradeState state = GameState.PrestigeItems.Get(relic);
+            JSONNode node       = Utils.Json.Decompress(compressed);
+            UpgradeState state  = GameState.PrestigeItems.Get(relic);
 
             state.level = node["itemLevel"].AsInt;
 
             GameState.Player.prestigePoints = BigInteger.Parse(node["prestigePoints"].Value);
-        }
-
-        else if (code == 400 || code == 500)
-        {
-            JSONNode node = Utils.Json.Decompress(compressed);
-
-            Utils.UI.ShowMessage("Item Upgrade Error", node["message"].Value.ToString());
         }
 
         else

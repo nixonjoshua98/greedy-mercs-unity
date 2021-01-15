@@ -12,21 +12,22 @@ public class SkillState
 {
     SkillID SkillID;
 
+    public int level;
+
     public DateTime skillActivated;
+
+    public SkillLevel LevelData { get { return StaticData.Skills.Get(SkillID).GetLevel(level); } }
+
+    public bool IsMaxLevel {  get { return StaticData.Skills.Get(SkillID).MaxLevel == level; } }
 
     public SkillState(SkillID skill)
     {
+        level = 1;
+
         SkillID = skill;
     }
 
-    public bool IsActive { 
-        get 
-        {
-            SkillSO scriptable = StaticData.Skills.Get(SkillID);
-
-            return TimeSinceActivated <= scriptable.Duration; 
-        }
-    }
+    public bool IsActive { get { return TimeSinceActivated <= StatsCache.SkillDuration(SkillID); } }
 
     public double TimeSinceActivated { get { return (DateTime.UtcNow - skillActivated).TotalSeconds; } }
 
@@ -52,9 +53,9 @@ public class SkillsState
         {
             SkillID skill = (SkillID)int.Parse(key);
 
-            SkillState state = new SkillState(skill);
+            SkillState restoredState = JsonUtility.FromJson<SkillState>(node[key].ToString());
 
-            skills.Add(skill, state);
+            skills.Add(skill, new SkillState(skill) { level = restoredState.level });
         }
     }
 
@@ -64,9 +65,7 @@ public class SkillsState
 
         foreach (var entry in skills)
         {
-            JSONNode skillNode = new JSONObject();
-
-            node.Add(((int)entry.Key).ToString(), skillNode);
+            node.Add(((int)entry.Key).ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
         }
 
         return node;
@@ -82,7 +81,7 @@ public class SkillsState
             {
                 SkillSO data = StaticData.Skills.Get(entry.Key);
 
-                bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * data.bonusValue;
+                bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * entry.Value.LevelData.BonusValue;
             }
         }
 
@@ -90,12 +89,18 @@ public class SkillsState
     }
 
 
-    public void UnlockSkill(SkillID skill)
+    public void UpgradeSkill(SkillID skill)
     {
-        skills.Add(skill, new SkillState(skill));
+        if (skills.ContainsKey(skill))
+            skills[skill].level++;
+
+        else
+            skills.Add(skill, new SkillState(skill));
     }
 
     public bool IsUnlocked(SkillID skill) => skills.ContainsKey(skill);
+
+    public SkillLevel GetSkillLevel(SkillID skill, int level) => StaticData.Skills.Get(skill).GetLevel(level);
 
     public SkillState Get(SkillID skill) => skills[skill];
 

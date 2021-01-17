@@ -6,7 +6,7 @@ from flask.views import View
 from src import utils, checks, formulas
 
 
-class BuyPrestigeItem(View):
+class BuyLoot(View):
 
 	@checks.login_check
 	def dispatch_request(self, *, userid):
@@ -16,27 +16,27 @@ class BuyPrestigeItem(View):
 
 		prestige_points = int(items.get("prestigePoints", 0))
 
-		prestige_items = items.get("prestigeItems", dict())
+		loot_items = items.get("loot", dict())
 
 		# - No item available
-		if len(prestige_items) == len(app.objects["prestigeItems"]):
+		if len(loot_items) == len(app.objects["loot"]):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		# - User cannot afford the next item
-		if prestige_points < (cost := formulas.next_prestige_item_cost(len(prestige_items))):
+		if prestige_points < (cost := formulas.next_prestige_item_cost(len(loot_items))):
 			return Response(utils.compress({"message": ""}), status=400)
 
-		new_item_id = self.get_random_item(prestige_items)
+		new_item_id = self.get_random_item(loot_items)
 
 		remainPrestigePoints = prestige_points - cost
 
 		app.mongo.db.userItems.update_one(
 			{"userId": userid},
-			{"$set": {"prestigePoints": str(remainPrestigePoints), f"prestigeItems.{new_item_id}": 1}},
+			{"$set": {"prestigePoints": str(remainPrestigePoints), f"loot.{new_item_id}": 1}},
 			upsert=True
 		)
 
-		return_data = {"itemBought": new_item_id, "prestigePoints": str(remainPrestigePoints)}
+		return_data = {"newLootId": new_item_id, "prestigePoints": str(remainPrestigePoints)}
 
 		return Response(utils.compress(return_data), status=200)
 
@@ -44,14 +44,14 @@ class BuyPrestigeItem(View):
 
 		owned = [int(k) for k in items.keys()]
 
-		all_items = [int(k) for k, v in app.objects["prestigeItems"].items()]
+		all_items = [int(k) for k, v in app.objects["loot"].items()]
 
 		available = list(set(all_items) - set(owned))
 
 		return random.choice(available)
 
 
-class UpgradePrestigeItem(View):
+class UpgradeLoot(View):
 
 	@checks.login_check
 	def dispatch_request(self, *, userid):
@@ -63,14 +63,14 @@ class UpgradePrestigeItem(View):
 		# - Load user data from the database
 		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
-		user_prestige_items = {int(k): v for k, v in items.get("prestigeItems", dict()).items()}
+		loot_items = {int(k): v for k, v in items.get("loot", dict()).items()}
 
 		prestige_points = int(items.get("prestigePoints", 0))  # prestigePoints are stored as a string
 
-		static_item = app.objects["prestigeItems"][data["itemId"]]
+		static_item = app.objects["loot"][data["itemId"]]
 
 		# - User is trying to upgrade an invalid item or one they do not currently own
-		if (item_level := user_prestige_items.get(data["itemId"])) is None:
+		if (item_level := loot_items.get(data["itemId"])) is None:
 			return Response(utils.compress({"message": "You do not own this item"}), status=400)
 
 		elif (item_level + levels_buying) > static_item.max_level:
@@ -89,7 +89,7 @@ class UpgradePrestigeItem(View):
 
 			{
 				"$set": {"prestigePoints": str(remain_prestige_points)},
-				"$inc": {f"prestigeItems.{data['itemId']}": data["buyLevels"]}
+				"$inc": {f"loot.{data['itemId']}": data["buyLevels"]}
 			},
 
 			upsert=True

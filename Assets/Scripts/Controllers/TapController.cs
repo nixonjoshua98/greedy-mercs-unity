@@ -9,10 +9,20 @@ public class TapController : MonoBehaviour, IPointerDownHandler
     [SerializeField] ParticleSystem ps;
 
     float lastClickTime = 0;
+    float lastAutoTapTime = 0;
 
     public void Awake()
     {
-        //InvokeRepeating("DoClick", 0.1f, 0.1f);
+        lastAutoTapTime = Time.time;
+
+        InvokeRepeating("AutoTap", 0.75f, 0.75f);
+    }
+
+    void AutoTap()
+    {
+        float secsSinceAuto = Time.time - lastAutoTapTime;
+
+        GameManager.TryDealDamageToEnemy(StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto));
     }
 
     public void OnPointerDown(PointerEventData eventData)

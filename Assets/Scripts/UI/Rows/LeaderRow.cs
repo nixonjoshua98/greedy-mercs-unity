@@ -1,19 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LeaderRow : MonoBehaviour
+namespace UI.Leaders
 {
-    [SerializeField] Text RankText;
-    [SerializeField] Text UsernameText;
-    [SerializeField] Text ValueText;
-
-    public void Init(int rank, string username, string value)
+    public class LeaderRow : MonoBehaviour
     {
-        RankText.text       = string.Format("#{0}", rank);
-        UsernameText.text   = username;
-        ValueText.text      = value;
+        [Header("Components")]
+        [SerializeField] Text rankText;
+        [SerializeField] Text valueText;
+        [SerializeField] Text usernameText;
+
+        public void Init(int rank, string username, string value)
+        {
+            rankText.text = string.Format("#{0}", rank);
+            usernameText.text = username;
+            valueText.text = value;
+        }
     }
 }

@@ -16,9 +16,9 @@ class Prestige(View):
 
 		userItems = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
-		prestige_points, prestige_items = userItems.get("prestigePoints", 0), userItems.get("prestigeItems", dict())
+		prestige_points, loot_items = userItems.get("prestigePoints", 0), userItems.get("loot", dict())
 
-		points_earned = formulas.stage_prestige_points(stage, prestige_items)
+		points_earned = formulas.calc_stage_prestige_points(stage, loot_items)
 
 		pp = int(userItems.get("prestigePoints", 0)) + points_earned
 

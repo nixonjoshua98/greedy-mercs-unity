@@ -1,5 +1,5 @@
 
-from .prestigeitems import UpgradePrestigeItem, BuyPrestigeItem
+from .loot import UpgradeLoot, BuyLoot
 
 from .leaderboard import PlayerLeaderboard
 from .player import ChangeUsername

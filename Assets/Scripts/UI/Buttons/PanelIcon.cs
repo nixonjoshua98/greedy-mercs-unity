@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace UI
+namespace UI.Icons
 {
     public class PanelIcon : MonoBehaviour
     {

@@ -1,19 +1,22 @@
 ﻿
 using UnityEngine;
 
-using CharacterID = CharacterData.CharacterID;
-
-public class CharacterPanel : MonoBehaviour
+namespace UI.Characters
 {
-    [SerializeField] CharacterPassivesPanel skillsPanel;
+    using CharacterData;
 
-    public void SetHero(CharacterID hero)
+    public class CharacterPanel : MonoBehaviour
     {
-        skillsPanel.SetHero(hero);
-    }
+        [SerializeField] CharacterPassivesPanel skillsPanel;
 
-    public void OnClose()
-    {
-        Destroy(gameObject);
+        public void SetHero(CharacterID hero)
+        {
+            skillsPanel.SetHero(hero);
+        }
+
+        public void OnClose()
+        {
+            Destroy(gameObject);
+        }
     }
 }

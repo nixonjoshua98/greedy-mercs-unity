@@ -29,7 +29,7 @@ namespace BountyUI
 
         void FixedUpdate()
         {
-            BountySO staticData = StaticData.Bounties.Get(bounty);
+            BountySO staticData = StaticData.BountyList.Get(bounty);
             UpgradeState state  = GameState.Bounties.GetState(bounty);
             
             levelText.text = "Level " + (staticData.maxLevel == state.level ? "MAX" : state.level.ToString());

@@ -1,5 +1,5 @@
-﻿using System.Numerics;
-
+﻿using System.Linq;
+using System.Numerics;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -36,7 +36,7 @@ public class StatsCache : MonoBehaviour
         get
         {
             if (IsCacheOutdated("PRESTIGE_ITEMS"))
-                CachedValues["PRESTIGE_ITEMS"].Dict = GameState.PrestigeItems.CalcBonuses();
+                CachedValues["PRESTIGE_ITEMS"].Dict = GameState.Loot.CalcBonuses();
 
             return CachedValues["PRESTIGE_ITEMS"].Dict;
         }
@@ -44,13 +44,18 @@ public class StatsCache : MonoBehaviour
 
     static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CacBonuses(); } }
 
-    static BigDouble TotalCharacterDamage { 
+    public static BigDouble TotalCharacterDamage { 
         get 
         { 
             BigDouble total = 0; 
-            
-            foreach (CacheValue entry in CachedValues.Values)
-                total += entry.Value; 
+
+            foreach (KeyValuePair<string, CacheValue> entry in CachedValues)
+            {
+                if (entry.Key.StartsWith("CHARACTER_DMG_"))
+                {
+                    total += entry.Value.Value;
+                }
+            }
 
             return total; 
         } 
@@ -61,9 +66,19 @@ public class StatsCache : MonoBehaviour
         CachedValues.Clear();
     }
 
+    public static class GoldUpgrades
+    {
+        public static BigDouble AutoTapDamage() => Formulas.GoldUpgrades.CalcAutoTaps() * StatsCache.GetTapDamage();
+    }
+
     // # === Energy === #
     public static double PlayerEnergyPerMinute() => 1.0f + AddictiveBonuses(BonusType.ENERGY_INCOME);
-    public static double PlayerMaxEnergy() => 50.0f + AddictiveBonuses(BonusType.ENERGY_CAPACITY);
+    public static double PlayerMaxEnergy()
+    {
+        int skillEnergy = GameState.Skills.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
+
+        return 50.0f + skillEnergy + AddictiveBonuses(BonusType.ENERGY_CAPACITY);
+    }
     
     // === Skills === #
     public static double GoldRushBonus()
@@ -75,7 +90,7 @@ public class StatsCache : MonoBehaviour
 
     public static double SkillDuration(SkillID skill)
     {
-        SkillSO state = StaticData.Skills.Get(skill);
+        SkillSO state = StaticData.SkillList.Get(skill);
 
         return state.Duration + AddictiveBonuses(BonusType.GOLD_RUSH_DURATION);
     }
@@ -118,7 +133,7 @@ public class StatsCache : MonoBehaviour
 
         if (IsCacheOutdated(key))
         {
-            CharacterSO data = StaticData.Chars.Get(chara);
+            CharacterSO data = StaticData.CharacterList.Get(chara);
 
             CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType) * GameState.Weapons.CalcBonuses(chara);
         }

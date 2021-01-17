@@ -8,16 +8,16 @@ from flask import current_app as app
 
 
 def next_prestige_item_cost(numrelics: int):
-	return math.floor(max(1, numrelics) * math.pow(1.35, numrelics))
+	return math.floor(max(1, numrelics - 1) * math.pow(1.35, numrelics))
 
 
-def stage_prestige_points(stage, userrelics):
+def calc_stage_prestige_points(stage, userloot):
 	"""
 	Calculate the prestige points at a given stage including bonuses from relics
 	====================
 
 	:param stage: Stage we are calculating prestige points for
-	:param userrelics: Dict of the users relics and levels
+	:param userloot: Dict of the users loot and levels
 
 	:return:
 		Returns the prestige points calculated as an int
@@ -26,8 +26,8 @@ def stage_prestige_points(stage, userrelics):
 	def prestige_bonus():
 		bonus = 1
 
-		for key, level in userrelics.items():
-			item = app.objects["prestigeItems"][int(key)]
+		for key, level in userloot.items():
+			item = app.objects["loot"][int(key)]
 
 			if item.bonus_type == BonusType.CASH_OUT_BONUS:
 				bonus *= item.effect(level)

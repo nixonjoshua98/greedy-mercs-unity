@@ -30,7 +30,7 @@ namespace WeaponsUI
         {
             weaponSlots = new List<WeaponSlot>();
 
-            SetCharacter(StaticData.Chars.CharacterList[0]);
+            SetCharacter(StaticData.CharacterList.CharacterList[0]);
         }
 
         public void SetCharacter(CharacterSO chara)

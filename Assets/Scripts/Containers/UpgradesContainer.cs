@@ -7,16 +7,14 @@ using SimpleJSON;
 
 public class UpgradesContainer
 {
-    Dictionary<UpgradeID, UpgradeState> upgrades;
+    Dictionary<GoldUpgradeID, UpgradeState> upgrades;
 
     public UpgradesContainer(JSONNode node)
     {
-        upgrades = new Dictionary<UpgradeID, UpgradeState>();
+        upgrades = new Dictionary<GoldUpgradeID, UpgradeState>();
 
         foreach (JSONNode upgrade in node["upgrades"].AsArray)
-            upgrades[(UpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
-
-        if (!upgrades.ContainsKey(UpgradeID.CLICK_DAMAGE))    AddUpgrade(UpgradeID.CLICK_DAMAGE, 1);
+            upgrades[(GoldUpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
     }
 
     public JSONNode ToJson()
@@ -26,12 +24,17 @@ public class UpgradesContainer
 
     // === Helper Methods ===
 
-    public UpgradeState GetUpgrade(UpgradeID playerUpgrade)
+    public UpgradeState GetUpgrade(GoldUpgradeID upgrade)
     {
-        return upgrades[playerUpgrade];
+        if (!upgrades.ContainsKey(upgrade))
+        {
+            AddUpgrade(upgrade, 1);
+        }
+
+        return upgrades[upgrade];
     }
 
-    public void AddUpgrade(UpgradeID playerUpgrade, int level = 1)
+    public void AddUpgrade(GoldUpgradeID playerUpgrade, int level = 1)
     {
         upgrades[playerUpgrade] = new UpgradeState { level = level };
     }

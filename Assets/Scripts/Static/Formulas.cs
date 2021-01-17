@@ -10,17 +10,37 @@ using CharacterData;
 
 public static class Formulas
 {
-    /*
-     * ===
-     * This classs stores all the game formulas *BUT* they should only be called from their respective cache/manager class
-     * ===
-     */
+    public static class GoldUpgrades
+    {
+        // # === Auto Tap Damage === #
+        public static double CalcAutoTaps()
+        {
+            UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
 
-    // === Bounties ===
+            return (state.level - 1) * Mathf.Pow(1.25f, (state.level - 1) / 65.0f);
+        }
+
+        public static BigDouble CalcAutoTapsLevelUpCost(int levels)
+        {
+            UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
+
+            return BigMath.SumGeometricSeries(levels, 10_000_000, 1.1f, (state.level - 1));
+        }
+
+        public static int AffordTapDamageLevels()
+        {
+            UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
+
+            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10_000_000, 1.1f, state.level - 1).ToString());
+
+            return Mathf.Min(StaticData.MAX_AUTO_TAP_LEVEL - state.level, maxLevels);
+        }
+    }
+
 
     public static int CalcBountyHourlyIncome(BountyID bounty)
     {
-        var scriptable = StaticData.Bounties.Get(bounty);
+        var scriptable = StaticData.BountyList.Get(bounty);
 
         var state = GameState.Bounties.GetState(bounty);
 
@@ -64,7 +84,7 @@ public static class Formulas
     public static BigDouble CalcCharacterDamage(CharacterID chara)
     {
         var state           = GameState.Characters.Get(chara);
-        CharacterSO data    = StaticData.Chars.Get(chara);
+        CharacterSO data    = StaticData.CharacterList.Get(chara);
 
         return (data.purchaseCost / (10.0f + data.unlockOrder)) * state.level * BigDouble.Pow(2.0f, (state.level - 1) / 100.0f) * (1 - (0.03f * data.unlockOrder));
     }
@@ -74,7 +94,7 @@ public static class Formulas
     public static BigDouble CalcCharacterLevelUpCost(CharacterID chara, int levels)
     {
         var state           = GameState.Characters.Get(chara);
-        CharacterSO data    = StaticData.Chars.Get(chara);
+        CharacterSO data    = StaticData.CharacterList.Get(chara);
 
         return BigMath.SumGeometricSeries(levels, data.purchaseCost, 1.075, state.level);
     }
@@ -82,7 +102,7 @@ public static class Formulas
     public static int AffordCharacterLevels(CharacterID chara)
     {
         UpgradeState state  = GameState.Characters.Get(chara);
-        CharacterSO data    = StaticData.Chars.Get(chara);
+        CharacterSO data    = StaticData.CharacterList.Get(chara);
 
         BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.purchaseCost, 1.075, state.level);
 
@@ -92,27 +112,24 @@ public static class Formulas
     }
 
 
-    // ===
-
+    // # === Tap Damage === #
     public static BigDouble CalcTapDamage()
     {
-        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.CLICK_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
 
         return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 50.0f);
     }
 
-    // === Tap Damage Player Upgrade ===
-
     public static BigDouble CalcTapDamageLevelUpCost(int levels)
     {
-        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.CLICK_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
 
         return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, (state.level - 1));
     }
 
     public static int AffordTapDamageLevels()
     {
-        UpgradeState state = GameState.Upgrades.GetUpgrade(UpgradeID.CLICK_DAMAGE);
+        UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
 
         int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
 
@@ -133,29 +150,27 @@ public static class Formulas
 
     // ===
 
-    public static BigInteger CalcNextPrestigeItemCost(int numRelics)
+    public static BigInteger CalcNextLootCost(int numRelics)
     {
-        return BigInteger.Parse((Mathf.Max(1, numRelics) * BigDouble.Pow(1.35, numRelics).Floor()).ToString("F0"));
+        return BigInteger.Parse((Mathf.Max(1, numRelics - 2) * BigDouble.Pow(1.35, numRelics).Floor()).ToString("F0"));
     }
 
     // ===
 
-    public static double CalcPrestigeItemEffect(LootID relic)
+    public static double CalcLootItemEffect(LootID relic)
     {
-        LootItemSO data = StaticData.PrestigeItems.Get(relic);
-        UpgradeState state  = GameState.PrestigeItems.Get(relic);
+        LootItemSO data = StaticData.LootList.Get(relic);
+        UpgradeState state  = GameState.Loot.Get(relic);
 
         return data.baseEffect + (data.levelEffect * (state.level - 1));
     }
 
     // === Relics ===
 
-    public static BigInteger CalcPrestigeItemLevelUpCost(LootID relic, int levels)
+    public static BigInteger CalcLootItemLevelUpCost(LootID relic, int levels)
     {
-        // https://math.stackexchange.com/questions/82588/is-there-a-formula-for-sums-of-consecutive-powers-where-the-powers-are-non-inte
-
-        LootItemSO data = StaticData.PrestigeItems.Get(relic);
-        UpgradeState state  = GameState.PrestigeItems.Get(relic);
+        LootItemSO data     = StaticData.LootList.Get(relic);
+        UpgradeState state  = GameState.Loot.Get(relic);
 
         return (data.costCoeff * SumNonIntegerPowerSeq(state.level, levels, data.costExpo)).ToBigInteger();
     }
@@ -164,6 +179,9 @@ public static class Formulas
 
     public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float s)
     {
+        // https://math.stackexchange.com/questions/82588/is-there-a-formula-for-sums-of-consecutive-powers-where-the-powers-are-non-inte
+
+
         BigDouble Predicate(int startValue)
         {
             BigDouble x = Mathf.Pow(startValue, s + 1) / (s + 1);

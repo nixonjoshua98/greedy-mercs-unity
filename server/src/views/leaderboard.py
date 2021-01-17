@@ -9,29 +9,15 @@ class PlayerLeaderboard(View):
 
 	def dispatch_request(self):
 
-		pipeline = [
+		results = app.mongo.db.userStats.find(
 			{
-				"$group": {
-					"_id": "$userId",
-
-					"doc": {"$first": "$$ROOT"}
-				}
+				"maxPrestigeStage": {"$exists": True}
 			},
 			{
-				"$sort": {"doc.maxPrestigeStage": -1}
-			},
-			{
-				"$limit": 10
-			},
-			{
-				"$project": {
-					"_id": 0,
-					"username": {"$ifNull": ["$doc.username", "Rogue Mercenary"]},
-					"maxPrestigeStage": "$doc.maxPrestigeStage",
-				}
+				"_id": 0,
+				"userId": 0
 			}
-		]
 
-		results = list(app.mongo.db.userStats.aggregate(pipeline))
+		).sort("maxPrestigeStage", -1).limit(20)
 
-		return Response(utils.compress({"players": results}), status=200)
+		return Response(utils.compress({"players": list(results)}), status=200)

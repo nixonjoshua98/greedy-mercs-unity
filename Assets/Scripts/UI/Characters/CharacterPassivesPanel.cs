@@ -3,39 +3,42 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using HeroPassiveUnlock = CharacterData.HeroPassiveUnlock;
-using PassiveSkill      = PassivesData.PassiveSkill;
-using CharacterID       = CharacterData.CharacterID;
 
-public class CharacterPassivesPanel : MonoBehaviour
+namespace UI.Characters
 {
-    CharacterID showingHero;
+    using CharacterData;
+    using PassivesData;
 
-    [SerializeField] GameObject SkillRow;
-    [Space]
-    [SerializeField] GameObject ScrollContent;
-
-
-    public void SetHero(CharacterID hero)
+    public class CharacterPassivesPanel : MonoBehaviour
     {
-        showingHero = hero;
-    }
+        CharacterID showingHero;
 
-    IEnumerator Start()
-    {
-        List<HeroPassiveUnlock> unlocks = StaticData.Characters.GetPassives(showingHero);
+        [SerializeField] GameObject SkillRow;
+        [Space]
+        [SerializeField] GameObject ScrollContent;
 
-        UpgradeState heroState = GameState.Characters.Get(showingHero);
 
-        foreach (HeroPassiveUnlock unlock in unlocks)
+        public void SetHero(CharacterID hero)
         {
-            PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
+            showingHero = hero;
+        }
 
-            GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
+        IEnumerator Start()
+        {
+            List<HeroPassiveUnlock> unlocks = StaticData.Characters.GetPassives(showingHero);
 
-            skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(heroState, unlock, skill);
+            UpgradeState heroState = GameState.Characters.Get(showingHero);
 
-            yield return new WaitForFixedUpdate();
+            foreach (HeroPassiveUnlock unlock in unlocks)
+            {
+                PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
+
+                GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
+
+                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(heroState, unlock, skill);
+
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
 }

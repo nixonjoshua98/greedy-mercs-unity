@@ -10,8 +10,8 @@ from src.views import (
 	Login,
 	StaticData,
 	Prestige,
-	BuyPrestigeItem,
-	UpgradePrestigeItem,
+	BuyLoot,
+	UpgradeLoot,
 	ResetAccount,
 	ClaimBounty,
 	BuyWeapon,
@@ -19,14 +19,14 @@ from src.views import (
 	PlayerLeaderboard
 )
 
-from src.staticobjects import PrestigeItem, Bounty, Weapon
+from src.staticobjects import Loot, Bounty, Weapon
 
 app = Flask(__name__)
 
 app.mongo = PyMongo()
 
 app.staticdata = {
-	"prestigeItems": 		utils.read_data_file("loot.json"),
+	"loot": 				utils.read_data_file("loot.json"),
 	"bounties":				utils.read_data_file("bounties.json"),
 	"weapons":				utils.read_data_file("weapons.json"),
 	"characters": 			utils.read_data_file("characters.json"),
@@ -34,7 +34,7 @@ app.staticdata = {
 	}
 
 app.objects = {
-	"prestigeItems": 	{int(k): PrestigeItem.from_dict(r) for k, r in app.staticdata["prestigeItems"].items()},
+	"loot": 			{int(k): Loot.from_dict(r) for k, r in app.staticdata["loot"].items()},
 	"bounties": 		{int(k): Bounty.from_dict(r) for k, r in app.staticdata["bounties"].items()},
 	"weapons": 			{int(k): Weapon.from_dict(r) for k, r in app.staticdata["weapons"].items()}
 }
@@ -51,8 +51,8 @@ app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty
 app.add_url_rule("/api/weapon/buy", view_func=BuyWeapon.as_view("buyweapon"), methods=["PUT"])
 
 # === Prestige Items === #
-app.add_url_rule("/api/prestigeitems/buy", 		view_func=BuyPrestigeItem.as_view("buyitem"),			methods=["PUT"])
-app.add_url_rule("/api/prestigeitems/upgrade", 	view_func=UpgradePrestigeItem.as_view("upgradeitem"),	methods=["PUT"])
+app.add_url_rule("/api/loot/buy", view_func=BuyLoot.as_view("buyitem"), methods=["PUT"])
+app.add_url_rule("/api/loot/upgrade", view_func=UpgradeLoot.as_view("upgradeitem"), methods=["PUT"])
 
 # === Player === #
 app.add_url_rule("/api/user/changeusername", view_func=ChangeUsername.as_view("changeusername"), methods=["PUT"])

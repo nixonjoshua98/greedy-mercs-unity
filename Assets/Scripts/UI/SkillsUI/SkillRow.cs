@@ -49,7 +49,7 @@ namespace Skills.UI
         {
             SkillLevel skillLevel;
 
-            SkillSO scriptable = StaticData.Skills.Get(SkillID);
+            SkillSO scriptable = StaticData.SkillList.Get(SkillID);
 
             if (GameState.Skills.IsUnlocked(SkillID))
                 skillLevel = GameState.Skills.GetSkillLevel(SkillID, GameState.Skills.Get(SkillID).level + 1);
@@ -63,11 +63,11 @@ namespace Skills.UI
                 if (!GameState.Skills.IsUnlocked(SkillID))
                     Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
 
+                GameState.Skills.UpgradeSkill(SkillID);
+
                 GameState.Player.gold -= skillLevel.UpgradeCost;
 
                 GameState.Player.currentEnergy = Math.Min(StatsCache.PlayerMaxEnergy(), GameState.Player.currentEnergy + scriptable.EnergyGainedOnUnlock);
-
-                GameState.Skills.UpgradeSkill(SkillID);
             }
 
             UpdateUI();
@@ -93,7 +93,7 @@ namespace Skills.UI
                     buyButtonText.text      = Utils.Format.FormatNumber(nextLevel.UpgradeCost);
                 }
 
-                SkillSO scriptable = StaticData.Skills.Get(SkillID);
+                SkillSO scriptable = StaticData.SkillList.Get(SkillID);
 
                 nameText.text = string.Format("(Lvl. {0}) {1}", state.level, scriptable.name);
 

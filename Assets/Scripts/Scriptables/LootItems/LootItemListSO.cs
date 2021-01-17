@@ -6,7 +6,7 @@ using SimpleJSON;
 
 namespace LootData
 {
-    public class PrestigeItemStaticData
+    public class LootItemStaticData
     {
         public int maxLevel = int.MaxValue;
 
@@ -21,8 +21,8 @@ namespace LootData
     }
 
     [PreferBinarySerialization]
-    [CreateAssetMenu(menuName = "Scriptables/Container/PrestigeItemsList")]
-    public class PrestigeItemListSO : ScriptableObject
+    [CreateAssetMenu(menuName = "Scriptables/Container/LootList")]
+    public class LootItemListSO : ScriptableObject
     {
         public List<LootItemSO> ItemList;
 
@@ -36,7 +36,7 @@ namespace LootData
 
             foreach (LootItemSO scriptable in ItemList)
             {
-                PrestigeItemStaticData data = JsonUtility.FromJson<PrestigeItemStaticData>(node[((int)scriptable.ItemID).ToString()].ToString());
+                LootItemStaticData data = JsonUtility.FromJson<LootItemStaticData>(node[((int)scriptable.ItemID).ToString()].ToString());
 
                 scriptable.Init(data);
 

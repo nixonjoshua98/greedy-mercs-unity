@@ -33,7 +33,7 @@ public abstract class CharacterAttack : MonoBehaviour
 
         attackTimer = delayBetweenAttacks;
 
-        CharacterSO chara = StaticData.Chars.Get(character.CharacterID);
+        CharacterSO chara = StaticData.CharacterList.Get(character.CharacterID);
 
         if (chara.weapons.Length > 1)
         {

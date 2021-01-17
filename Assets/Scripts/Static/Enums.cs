@@ -21,7 +21,8 @@ public enum BonusType
     GOLD_RUSH_DURATION  = 15,
 }
 
-public enum UpgradeID
+public enum GoldUpgradeID
 {
-    CLICK_DAMAGE = 0
+    TAP_DAMAGE = 0,
+    AUTO_TAP_DMG = 1,
 }

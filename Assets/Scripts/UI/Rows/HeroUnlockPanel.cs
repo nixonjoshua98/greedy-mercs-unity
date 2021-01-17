@@ -15,7 +15,7 @@ public class HeroUnlockPanel : MonoBehaviour
 
     void UpdatePanel()
     {
-        if (StaticData.Chars.GetNextHero(out CharacterSO chara))
+        if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
         {
             TitleText.text = chara.name;
 
@@ -30,7 +30,7 @@ public class HeroUnlockPanel : MonoBehaviour
 
     public void OnUnlockButton()
     {
-        if (StaticData.Chars.GetNextHero(out CharacterSO chara))
+        if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
         {
             if (GameState.Player.gold >= chara.purchaseCost)
             {

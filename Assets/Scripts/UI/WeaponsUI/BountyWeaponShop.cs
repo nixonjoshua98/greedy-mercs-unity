@@ -18,7 +18,7 @@ namespace WeaponsUI
 
         void Start()
         {
-            foreach (CharacterSO chara in StaticData.Chars.CharacterList)
+            foreach (CharacterSO chara in StaticData.CharacterList.CharacterList)
             {
                 if (chara.weapons.Length > 0)
                 {

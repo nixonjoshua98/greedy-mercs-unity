@@ -2,7 +2,7 @@
   "0": {
     "bonusType": 2,
     "costCoeff": 0.7,
-    "costExpo": 1.1,
+    "costExpo": 1.2,
     "baseEffect": 2.0,
     "levelEffect": 1.0
   },
@@ -37,7 +37,7 @@
   "5": {
     "bonusType": 2,
     "costCoeff": 0.4,
-    "costExpo": 1.1,
+    "costExpo": 1.2,
     "baseEffect": 2.0,
     "levelEffect": 1.0
   },

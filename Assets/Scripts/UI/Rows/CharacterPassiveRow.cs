@@ -2,36 +2,39 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using HeroPassiveUnlock = CharacterData.HeroPassiveUnlock;
-using PassiveSkill      = PassivesData.PassiveSkill;
-
-public class CharacterPassiveRow : MonoBehaviour
+namespace UI.Characters
 {
-    public Text UnlockText;
-    public Text DescriptionText;
+    using HeroPassiveUnlock = CharacterData.HeroPassiveUnlock;
+    using PassiveSkill = PassivesData.PassiveSkill;
 
-    public Image PanelImage;
-
-    public void UpdatePanel(UpgradeState heroState, HeroPassiveUnlock unlock, PassiveSkill skill)
+    public class CharacterPassiveRow : MonoBehaviour
     {
-        UnlockText.text = unlock.unlockLevel.ToString();
+        public Text UnlockText;
+        public Text DescriptionText;
 
-        // Description
-        DescriptionText.text = (skill.value * 100).ToString() + "% " + Utils.Generic.BonusToString(skill.bonusType);
+        public Image PanelImage;
 
-        if (heroState.level < unlock.unlockLevel)
+        public void UpdatePanel(UpgradeState heroState, HeroPassiveUnlock unlock, PassiveSkill skill)
         {
-            UnlockText.color        = MultiplyColorAlpha(UnlockText.color, 0.25f);
-            DescriptionText.color   = MultiplyColorAlpha(DescriptionText.color, 0.25f);
+            UnlockText.text = unlock.unlockLevel.ToString();
 
-            PanelImage.color        = MultiplyColorAlpha(PanelImage.color, 0.25f);
+            // Description
+            DescriptionText.text = (skill.value * 100).ToString() + "% " + Utils.Generic.BonusToString(skill.bonusType);
+
+            if (heroState.level < unlock.unlockLevel)
+            {
+                UnlockText.color = MultiplyColorAlpha(UnlockText.color, 0.25f);
+                DescriptionText.color = MultiplyColorAlpha(DescriptionText.color, 0.25f);
+
+                PanelImage.color = MultiplyColorAlpha(PanelImage.color, 0.25f);
+            }
         }
-    }
 
-    static Color MultiplyColorAlpha(Color color, float val)
-    {
-        color.a *= val;
+        static Color MultiplyColorAlpha(Color color, float val)
+        {
+            color.a *= val;
 
-        return color;
+            return color;
+        }
     }
 }

@@ -61,7 +61,7 @@ namespace LootData
         [HideInInspector] public float baseEffect;
         [HideInInspector] public float levelEffect;
 
-        public void Init(PrestigeItemStaticData data)
+        public void Init(LootItemStaticData data)
         {
             bonusType = data.bonusType;
             valueType = data.valueType;

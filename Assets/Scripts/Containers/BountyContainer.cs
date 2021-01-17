@@ -64,7 +64,7 @@ namespace BountyData
 
             Dictionary<BountyID, BountySO> unlocked = new Dictionary<BountyID, BountySO>();
 
-            foreach (BountySO bounty in StaticData.Bounties.BountyList)
+            foreach (BountySO bounty in StaticData.BountyList.BountyList)
             {
                 if (stage > bounty.unlockStage)
                     unlocked.Add(bounty.BountyID, bounty);
@@ -77,7 +77,7 @@ namespace BountyData
         {
             int total = 0;
 
-            foreach (BountySO bounty in StaticData.Bounties.BountyList)
+            foreach (BountySO bounty in StaticData.BountyList.BountyList)
             {
                 UpgradeState state = GameState.Bounties.GetState(bounty.BountyID);
 

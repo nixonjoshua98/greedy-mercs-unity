@@ -5,7 +5,7 @@ from src import formulas
 from src.enums import BonusType
 
 
-class PrestigeItem:
+class Loot:
 	def __init__(self, bonustype, costexpo, costcoeff, baseeffect, leveleffect, maxlevel: int = 100_000, **_):
 
 		self.bonus_type = bonustype if isinstance(bonustype, BonusType) else BonusType(bonustype)

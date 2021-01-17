@@ -19,7 +19,13 @@ def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int):
 	"""
 
 	return mongo.db.userStats.update_one(
-		{"userId": userid, "maxPrestigeStage": {"$lt": stage}},
+		{
+			"userId": userid,
+			"$or": [
+				{"maxPrestigeStage": {"$lt": stage}},
+				{"maxPrestigeStage": {"$exists": False}}
+			]
+		},
 		{"$set": {"maxPrestigeStage": stage}},
 		upsert=True
 	)
@@ -84,6 +90,6 @@ def get_player_data(mongo, uid):
 		},
 
 		"bounties": bounties,
-		"weapons": items.get("weapons", dict()),
-		"prestigeItems": items.get("prestigeItems", dict())
+		"weapons": 	items.get("weapons", dict()),
+		"loot": 	items.get("loot", dict())
 	}

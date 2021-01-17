@@ -16,9 +16,9 @@ public class SkillState
 
     public DateTime skillActivated;
 
-    public SkillLevel LevelData { get { return StaticData.Skills.Get(SkillID).GetLevel(level); } }
+    public SkillLevel LevelData { get { return StaticData.SkillList.Get(SkillID).GetLevel(level); } }
 
-    public bool IsMaxLevel {  get { return StaticData.Skills.Get(SkillID).MaxLevel == level; } }
+    public bool IsMaxLevel {  get { return StaticData.SkillList.Get(SkillID).MaxLevel == level; } }
 
     public SkillState(SkillID skill)
     {
@@ -79,7 +79,7 @@ public class SkillsState
         {
             if (entry.Value.IsActive)
             {
-                SkillSO data = StaticData.Skills.Get(entry.Key);
+                SkillSO data = StaticData.SkillList.Get(entry.Key);
 
                 bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * entry.Value.LevelData.BonusValue;
             }
@@ -100,7 +100,7 @@ public class SkillsState
 
     public bool IsUnlocked(SkillID skill) => skills.ContainsKey(skill);
 
-    public SkillLevel GetSkillLevel(SkillID skill, int level) => StaticData.Skills.Get(skill).GetLevel(level);
+    public SkillLevel GetSkillLevel(SkillID skill, int level) => StaticData.SkillList.Get(skill).GetLevel(level);
 
     public SkillState Get(SkillID skill) => skills[skill];
 
@@ -109,5 +109,20 @@ public class SkillsState
         SkillState state = Get(skill);
 
         state.Activate();
+    }
+
+    public List<SkillSO> Unlocked()
+    {
+        List<SkillSO> unlocked = new List<SkillSO>();
+
+        foreach (SkillSO skill in StaticData.SkillList.SkillList)
+        {
+            if (IsUnlocked(skill.SkillID))
+            {
+                unlocked.Add(skill);
+            }
+        }
+
+        return unlocked;
     }
 }

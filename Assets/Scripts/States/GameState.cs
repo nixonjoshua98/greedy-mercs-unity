@@ -2,6 +2,7 @@
 
 using SimpleJSON;
 
+using LootData;
 using BountyData;
 
 
@@ -12,11 +13,11 @@ public class GameState
 
     class _GameState
     {
+        public LootState loot;
         public StageState stage;
         public PlayerState player;
         public SkillsState skills;
 
-        public PrestigeItemsContainer relics;
         public WeaponContainer weapons;
         public BountyContainer bounties;
         public UpgradesContainer upgrades;
@@ -27,7 +28,7 @@ public class GameState
 
     public static StageState Stage { get { return Instance.stage; } }
     public static PlayerState Player { get { return Instance.player; } }
-    public static PrestigeItemsContainer PrestigeItems { get { return Instance.relics; } }
+    public static LootState Loot { get { return Instance.loot; } }
     public static WeaponContainer Weapons { get { return Instance.weapons; } }
     public static BountyContainer Bounties { get { return Instance.bounties; } }
     public static UpgradesContainer Upgrades { get { return Instance.upgrades; } }
@@ -37,10 +38,10 @@ public class GameState
     {
         Instance = JsonUtility.FromJson<_GameState>(node.ToString());
 
-        Instance.relics = new PrestigeItemsContainer(node);
-        Instance.weapons = new WeaponContainer(node);
-        Instance.bounties = new BountyContainer(node);
-        Instance.upgrades = new UpgradesContainer(node);
+        Instance.loot       = new LootState(node);
+        Instance.weapons    = new WeaponContainer(node);
+        Instance.bounties   = new BountyContainer(node);
+        Instance.upgrades   = new UpgradesContainer(node);
         Instance.characters = new CharacterContainer(node);
 
         Instance.skills = new SkillsState(node);
@@ -52,7 +53,7 @@ public class GameState
     {
         Instance.player.Update(node);
         Instance.weapons.Update(node);
-        Instance.relics.Update(node);
+        Instance.loot.Update(node);
         Instance.bounties.Update(node);
     }
 
@@ -63,7 +64,7 @@ public class GameState
         node["player"] = Instance.player.ToJson();
 
         node.Add("skills", Skills.ToJson());
-        node.Add("relics", PrestigeItems.ToJson());
+        node.Add("loot", Loot.ToJson());
         node.Add("weapons", Weapons.ToJson());
         node.Add("upgrades", Upgrades.ToJson());
         node.Add("bounties", Bounties.ToJson());

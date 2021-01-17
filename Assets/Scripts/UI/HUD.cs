@@ -4,39 +4,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HUD : MonoBehaviour
+namespace UI.StageGameMode
 {
-    [SerializeField] Text StageText;
-    [SerializeField] Text GoldText;
-    [SerializeField] Text DiamondsText;
 
-    void Awake()
+
+    public class HUD : MonoBehaviour
     {
-        Events.OnStageUpdate.AddListener(OnStageUpdate);
-        Events.OnBossSpawned.AddListener(OnBossSpawned);
+        [SerializeField] Text StageText;
+        [SerializeField] Text GoldText;
+        [SerializeField] Text mercDpsText;
+        [SerializeField] Text DiamondsText;
 
-        UpdateInterface();
-    }
+        void Awake()
+        {
+            Events.OnStageUpdate.AddListener(OnStageUpdate);
+            Events.OnBossSpawned.AddListener(OnBossSpawned);
 
-    void FixedUpdate()
-    {
-        GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
+            UpdateInterface();
 
-        DiamondsText.text = "None";
-    }
+            InvokeRepeating("RegularUpdate", 0.0f, 0.5f);
+        }
 
-    void UpdateInterface()
-    {
-        StageText.text = GameState.Stage.stage.ToString() + " | " + GameState.Stage.enemy.ToString();
-    }
+        void FixedUpdate()
+        {
+            GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
 
-    void OnStageUpdate()
-    {
-        UpdateInterface();
-    }
+            DiamondsText.text = "None";
+        }
 
-    void OnBossSpawned(GameObject _)
-    {
-        StageText.text = "BOSS";
+        void RegularUpdate()
+        {
+            mercDpsText.text = Utils.Format.FormatNumber(StatsCache.TotalCharacterDamage);
+        }
+
+        void UpdateInterface()
+        {
+            StageText.text = GameState.Stage.stage.ToString() + " | " + GameState.Stage.enemy.ToString();
+        }
+
+        void OnStageUpdate()
+        {
+            UpdateInterface();
+        }
+
+        void OnBossSpawned(GameObject _)
+        {
+            StageText.text = "BOSS";
+        }
     }
 }

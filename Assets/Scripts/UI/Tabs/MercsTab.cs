@@ -3,54 +3,58 @@ using System.Collections;
 
 using UnityEngine;
 
-using CharacterData;
 
-public class MercsTab : MonoBehaviour
+namespace UI.Characters
 {
-    static MercsTab Instance = null;
+    using CharacterData;
 
-    [Header("Transforms")]
-    [SerializeField] Transform scrollContent;
-
-    [Header("Controllers")]
-    [SerializeField] BuyAmountController buyAmount;
-
-    [Header("Prefabs")]
-    [SerializeField] GameObject characterRowObject;
-
-    public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
-
-    void Awake()
+    public class MercsTab : MonoBehaviour
     {
-        Instance = this;
+        static MercsTab Instance = null;
 
-        Events.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
-    }
+        [Header("Transforms")]
+        [SerializeField] Transform scrollContent;
 
-    IEnumerator Start()
-    {
-        foreach (var chara in StaticData.Chars.CharacterList)
+        [Header("Controllers")]
+        [SerializeField] BuyAmountController buyAmount;
+
+        [Header("Prefabs")]
+        [SerializeField] GameObject characterRowObject;
+
+        public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
+
+        void Awake()
         {
-            if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
-                AddRow(chara);
+            Instance = this;
 
-            yield return new WaitForFixedUpdate();
+            Events.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
         }
-    }
 
-    void AddRow(CharacterSO chara)
-    {
-        GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
+        IEnumerator Start()
+        {
+            foreach (var chara in StaticData.CharacterList.CharacterList)
+            {
+                if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
+                    AddRow(chara);
 
-        spawnedRow.transform.SetSiblingIndex(scrollContent.childCount);
+                yield return new WaitForFixedUpdate();
+            }
+        }
 
-        CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
+        void AddRow(CharacterSO chara)
+        {
+            GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
-        row.SetCharacter(chara);
-    }
+            spawnedRow.transform.SetSiblingIndex(scrollContent.childCount);
 
-    void OnHeroUnlocked(CharacterData.CharacterID chara)
-    {
-        AddRow(StaticData.Chars.Get(chara));
+            CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
+
+            row.SetCharacter(chara);
+        }
+
+        void OnHeroUnlocked(CharacterID chara)
+        {
+            AddRow(StaticData.CharacterList.Get(chara));
+        }
     }
 }

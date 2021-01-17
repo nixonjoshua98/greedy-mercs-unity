@@ -32,7 +32,7 @@ public class SquadManager : MonoBehaviour
 
     IEnumerator Start()
     {
-        foreach (CharacterSO chara in StaticData.Chars.CharacterList)
+        foreach (CharacterSO chara in StaticData.CharacterList.CharacterList)
         {
             if (GameState.Characters.Contains(chara.CharacterID))
             {
@@ -71,7 +71,7 @@ public class SquadManager : MonoBehaviour
 
     void OnHeroUnlocked(CharacterID chara)
     {
-        AddCharacter(StaticData.Chars.Get(chara));
+        AddCharacter(StaticData.CharacterList.Get(chara));
     }
 
     IEnumerator MoveInCharacter(CharacterAttack atk, Vector3 start, Vector3 end, float duration)

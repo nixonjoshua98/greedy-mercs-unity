@@ -11,7 +11,7 @@ using CharacterData;
 public class Initializer : MonoBehaviour
 {
     [Header("Scriptables")]
-    [SerializeField] PrestigeItemListSO RelicList;
+    [SerializeField] LootItemListSO RelicList;
     [SerializeField] SkillListSO SkillList;
     [SerializeField] BountyListSO BountyList;
     [SerializeField] CharacterListSO CharacterList;

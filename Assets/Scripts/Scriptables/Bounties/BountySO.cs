@@ -26,10 +26,9 @@ namespace BountyData
 
         public GameObject prefab;
 
-        [Header("Runtime")]
-        public int bountyPoints;
-        public int unlockStage;
-        public int maxLevel;
+        [HideInInspector] public int bountyPoints;
+        [HideInInspector] public int unlockStage;
+        [HideInInspector] public int maxLevel;
 
         public void Init(BountyStaticData data)
         {

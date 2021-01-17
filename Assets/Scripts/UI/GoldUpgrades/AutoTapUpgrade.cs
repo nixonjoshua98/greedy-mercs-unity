@@ -37,7 +37,7 @@ namespace UI.GoldUpgrades
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
 
-            damageText.text = Utils.Format.FormatNumber(StatsCache.GoldUpgrades.AutoTapDamage()) + " DPS";
+            damageText.text = Utils.Format.FormatNumber(StatsCache.GoldUpgrades.AutoTaps()) + " CPS";
 
             if (state.level < StaticData.MAX_AUTO_TAP_LEVEL)
             {

@@ -17,26 +17,25 @@ public static class Formulas
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
 
-            return (state.level - 1) * Mathf.Pow(1.25f, (state.level - 1) / 65.0f);
+            return (state.level - 1) / 1.5f;
         }
 
         public static BigDouble CalcAutoTapsLevelUpCost(int levels)
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
 
-            return BigMath.SumGeometricSeries(levels, 10_000_000, 1.1f, (state.level - 1));
+            return BigMath.SumGeometricSeries(levels, 10_000_000, 1.13f, (state.level - 1));
         }
 
         public static int AffordTapDamageLevels()
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
 
-            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10_000_000, 1.1f, state.level - 1).ToString());
+            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10_000_000, 1.13f, state.level - 1).ToString());
 
             return Mathf.Min(StaticData.MAX_AUTO_TAP_LEVEL - state.level, maxLevels);
         }
     }
-
 
     public static int CalcBountyHourlyIncome(BountyID bounty)
     {

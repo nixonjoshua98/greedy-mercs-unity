@@ -30,8 +30,6 @@ namespace UI.GoldUpgrades
 
             BigDouble cost = Formulas.GoldUpgrades.CalcAutoTapsLevelUpCost(levelsBuying);
 
-            UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
-
             BuyUpgrade(cost, levelsBuying);
         }
 
@@ -39,7 +37,7 @@ namespace UI.GoldUpgrades
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
 
-            damageText.text = Utils.Format.FormatNumber(Formulas.GoldUpgrades.CalcAutoTaps()) + " CPS";
+            damageText.text = Utils.Format.FormatNumber(StatsCache.GoldUpgrades.AutoTapDamage()) + " DPS";
 
             if (state.level < StaticData.MAX_AUTO_TAP_LEVEL)
             {

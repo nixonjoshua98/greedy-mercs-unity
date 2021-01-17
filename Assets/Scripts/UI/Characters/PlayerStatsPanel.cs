@@ -26,7 +26,7 @@ public class PlayerStatsPanel : MonoBehaviour
                     val = StatsCache.GetCritDamage();
                     break;
 
-                case BonusType.HERO_TAP_DAMAGE_ADD:
+                case BonusType.CHAR_TAP_DAMAGE_ADD:
                     continue;
 
                 default:

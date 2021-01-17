@@ -15,14 +15,21 @@ public class TapController : MonoBehaviour, IPointerDownHandler
     {
         lastAutoTapTime = Time.time;
 
-        InvokeRepeating("AutoTap", 0.75f, 0.75f);
+        InvokeRepeating("AutoTap", 1.0f, 1.0f);
     }
 
     void AutoTap()
     {
         float secsSinceAuto = Time.time - lastAutoTapTime;
 
-        GameManager.TryDealDamageToEnemy(StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto));
+        BigDouble dmg = StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto);
+
+        if (dmg > 1)
+        {
+            GameManager.TryDealDamageToEnemy(StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto));
+
+            lastAutoTapTime = Time.time;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)

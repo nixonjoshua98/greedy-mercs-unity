@@ -160,5 +160,14 @@
     "costExpo": 1.5,
     "baseEffect": 1.5,
     "levelEffect": 0.5
+  },
+  "22": {
+    "bonusType": 16,
+    "valueType": 2,
+    "maxLevel": 100,
+    "costCoeff": 1.0,
+    "costExpo": 2.5,
+    "baseEffect": 1.0,
+    "levelEffect": 1.0
   }
 }

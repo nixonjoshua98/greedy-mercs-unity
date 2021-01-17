@@ -5,7 +5,7 @@ public enum BonusType
     ENEMY_GOLD          = 1,
     TAP_DAMAGE          = 2,
     BOSS_GOLD           = 3,
-    HERO_TAP_DAMAGE_ADD = 4,
+    CHAR_TAP_DAMAGE_ADD = 4,
 
     MELEE_DAMAGE        = 5,
     RANGED_DAMAGE       = 7,
@@ -19,6 +19,8 @@ public enum BonusType
 
     GOLD_RUSH_BONUS     = 14,
     GOLD_RUSH_DURATION  = 15,
+
+    AUTO_TAPS      = 16,
 }
 
 public enum GoldUpgradeID

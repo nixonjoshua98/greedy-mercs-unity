@@ -66,10 +66,8 @@ namespace UI.Loot
 
         void FixedUpdate()
         {
-            prestigePointText.text = Utils.Format.FormatNumber(GameState.Player.prestigePoints) + " (<color=orange>+"
-                + Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage)) + "</color>)";
-
-            buyLootButton.interactable = GameState.Loot.Count < StaticData.LootList.Count;
+            prestigePointText.text      = Utils.Format.FormatNumber(GameState.Player.prestigePoints);
+            buyLootButton.interactable  = GameState.Loot.Count < StaticData.LootList.Count;
 
             if (GameState.Loot.Count < StaticData.LootList.Count)
             {

@@ -49,7 +49,7 @@ namespace Utils
             {
                 case BonusType.MERC_DAMAGE:         return "Merc Damage";
                 case BonusType.TAP_DAMAGE:          return "Tap Damage";
-                case BonusType.HERO_TAP_DAMAGE_ADD: return "Merc Tap Damage Bonus";
+                case BonusType.CHAR_TAP_DAMAGE_ADD: return "Bonus to Tap Damage";
                 case BonusType.ENEMY_GOLD:          return "Enemy Gold";
                 case BonusType.BOSS_GOLD:           return "Boss Gold";
                 case BonusType.MELEE_DAMAGE:        return "Melee Damage";
@@ -62,9 +62,10 @@ namespace Utils
                 case BonusType.ENERGY_CAPACITY:     return "Energy Capacity";
                 case BonusType.GOLD_RUSH_BONUS:     return "Gold Rush Bonus";
                 case BonusType.GOLD_RUSH_DURATION:  return "Gold Rush Duration";
+                case BonusType.AUTO_TAPS:           return "Auto Taps";
 
                 default:
-                    return "<error>";
+                    return "<missing name>";
             }
         }
     }

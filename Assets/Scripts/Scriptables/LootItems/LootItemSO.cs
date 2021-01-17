@@ -28,7 +28,8 @@ namespace LootData
         COOKED_MEAT     = 18,
         EXPLOSIVE_ARROW = 19,
         GOLD_ORE        = 20,
-        GOLD_COINS      = 21
+        GOLD_COINS      = 21,
+        MIGHTY_FORK     = 22,
     }
 
     public enum ValueType

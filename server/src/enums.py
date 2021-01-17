@@ -21,6 +21,8 @@ class BonusType(enum.IntEnum):
     GOLD_RUSH_BONUS     = 14,
     GOLD_RUSH_DURATION  = 15,
 
+    AUTO_TAP_BONUS      = 16,
+
 
 class ValueType(enum.IntEnum):
     MULTIPLY            = 0,

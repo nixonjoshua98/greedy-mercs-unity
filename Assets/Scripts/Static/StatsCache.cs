@@ -35,10 +35,10 @@ public class StatsCache : MonoBehaviour
     {
         get
         {
-            if (IsCacheOutdated("PRESTIGE_ITEMS"))
-                CachedValues["PRESTIGE_ITEMS"].Dict = GameState.Loot.CalcBonuses();
+            if (IsCacheOutdated("LOOT"))
+                CachedValues["LOOT"].Dict = GameState.Loot.CalcBonuses();
 
-            return CachedValues["PRESTIGE_ITEMS"].Dict;
+            return CachedValues["LOOT"].Dict;
         }
     }
 
@@ -68,7 +68,7 @@ public class StatsCache : MonoBehaviour
 
     public static class GoldUpgrades
     {
-        public static BigDouble AutoTapDamage() => Formulas.GoldUpgrades.CalcAutoTaps() * StatsCache.GetTapDamage();
+        public static BigDouble AutoTapDamage() => (Formulas.GoldUpgrades.CalcAutoTaps() + AddictiveBonuses(BonusType.AUTO_TAPS)) * StatsCache.GetTapDamage();
     }
 
     // # === Energy === #
@@ -154,7 +154,9 @@ public class StatsCache : MonoBehaviour
     public static BigDouble GetTapDamage()
     {
         if (IsCacheOutdated("TAP_DAMAGE"))
-            CachedValues["TAP_DAMAGE"].Value = Formulas.CalcTapDamage() * MultiplyBonuses(BonusType.TAP_DAMAGE) + (TotalCharacterDamage * AddictiveBonuses(BonusType.HERO_TAP_DAMAGE_ADD));
+        {
+            CachedValues["TAP_DAMAGE"].Value = (Formulas.CalcTapDamage() * MultiplyBonuses(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
+        }
 
         return CachedValues["TAP_DAMAGE"].Value;
     }

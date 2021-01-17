@@ -74,4 +74,30 @@ public class CharacterContainer
 
         return bonuses;
     }
+
+    public BigDouble CalcTapDamageBonus()
+    {
+        BigDouble val = 0;
+
+        foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
+        {
+            if (GameState.Characters.TryGetState(hero, out var state))
+            {
+                foreach (HeroPassiveUnlock unlock in StaticData.Characters.GetPassives(hero))
+                {
+                    if (state.level >= unlock.unlockLevel)
+                    {
+                        PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
+
+                        if (skill.bonusType == BonusType.CHAR_TAP_DAMAGE_ADD)
+                        {
+                            val += skill.value * StatsCache.GetCharacterDamage(hero);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return val;
+    }
 }

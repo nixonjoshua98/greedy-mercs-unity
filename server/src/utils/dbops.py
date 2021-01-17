@@ -5,7 +5,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 
 
-def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int):
+def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int) -> None:
 	"""
 	Updates a users max prestge stage
 	====================
@@ -13,22 +13,12 @@ def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int):
 	:param mongo: The Mongo object, attached to the Flask application
 	:param userid: The internal ID for the user we are updating
 	:param stage: The stage at which the user prestiged at
-
-	:return:
-		Returns the result of the query
 	"""
 
-	return mongo.db.userStats.update_one(
-		{
-			"userId": userid,
-			"$or": [
-				{"maxPrestigeStage": {"$lt": stage}},
-				{"maxPrestigeStage": {"$exists": False}}
-			]
-		},
-		{"$set": {"maxPrestigeStage": stage}},
-		upsert=True
-	)
+	result = mongo.db.userStats.find_one({"userId": userid})
+
+	if result is None or result.get("maxPrestigeStage", 0) < stage:
+		mongo.db.userStats.update_one({"userId": userid}, {"maxPrestigeStage": stage}, upsert=True)
 
 
 def add_bounty_prestige_levels(userid, stage):

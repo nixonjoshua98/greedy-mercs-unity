@@ -68,8 +68,10 @@ public class StatsCache : MonoBehaviour
 
     public static class GoldUpgrades
     {
+        #region Auto Tap Upgrade
         public static BigDouble AutoTapDamage() => AutoTaps() * StatsCache.GetTapDamage();
         public static double AutoTaps() => Formulas.GoldUpgrades.CalcAutoTaps() + AddictiveBonuses(BonusType.AUTO_TAPS);
+        #endregion
     }
 
     // # === Energy === #

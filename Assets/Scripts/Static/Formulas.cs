@@ -2,22 +2,21 @@
 
 using UnityEngine;
 
-using BountyID      = BountyData.BountyID;
-
 using LootData;
-using CharacterData;
+using BountyData;
 
+using CharacterData;
 
 public static class Formulas
 {
     public static class GoldUpgrades
     {
-        // # === Auto Tap Damage === #
+        #region Auto Tap Upgrade
         public static double CalcAutoTaps()
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
 
-            return (state.level - 1) / 1.5f;
+            return (state.level - 1) / 2.0f;
         }
 
         public static BigDouble CalcAutoTapsLevelUpCost(int levels)
@@ -35,6 +34,7 @@ public static class Formulas
 
             return Mathf.Min(StaticData.MAX_AUTO_TAP_LEVEL - state.level, maxLevels);
         }
+        #endregion
     }
 
     public static int CalcBountyHourlyIncome(BountyID bounty)

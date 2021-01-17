@@ -24,7 +24,7 @@ public class TapController : MonoBehaviour, IPointerDownHandler
 
         BigDouble dmg = StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto);
 
-        if (dmg > 1)
+        if (dmg > 0)
         {
             GameManager.TryDealDamageToEnemy(StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto));
 

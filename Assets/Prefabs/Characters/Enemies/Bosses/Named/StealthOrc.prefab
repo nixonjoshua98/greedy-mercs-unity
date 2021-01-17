@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3944561886799233856
 Transform:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 0f764edfc0145a64c97d6f9cfb6d73d6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.0627451}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -206,7 +206,7 @@ PrefabInstance:
     - target: {fileID: 212042502543041960, guid: 09586fe188718df4f94dd29a764fab9b,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.0627451
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 212282117384969786, guid: 09586fe188718df4f94dd29a764fab9b,
         type: 3}

@@ -7,9 +7,10 @@ from src.views import (
 	ResetAccount, ClaimBounty, BuyWeapon, ChangeUsername, PlayerLeaderboard
 )
 
-app = src.create_app(debug=True)
+DEBUG = False
 
-DEBUG = True
+app = src.create_app(debug=DEBUG)
+
 
 # === Temp === #
 app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics"), methods=["PUT"])
@@ -37,3 +38,6 @@ app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), 			m
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", debug=DEBUG, port=2122)
+
+else:
+	print("Starting")

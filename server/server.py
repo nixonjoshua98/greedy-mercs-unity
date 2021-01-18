@@ -38,6 +38,3 @@ app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), 			m
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", debug=DEBUG, port=2122)
-
-else:
-	print("Starting")

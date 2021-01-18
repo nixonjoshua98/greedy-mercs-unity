@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WeaponsUI
+namespace UI.Weapons
 {
     public class WeaponRecipeRow : MonoBehaviour
     {

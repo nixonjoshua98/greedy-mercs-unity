@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-using CharacterData;
-
 namespace UI.Characters
 {
+    using Data.Characters;
+
     public class CharacterRow : MonoBehaviour
     {
         [Header("Images")]

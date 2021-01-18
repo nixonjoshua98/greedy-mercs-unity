@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SkillData;
-using CharacterData;
+
+using Data.Characters;
 
 class CacheValue
 {

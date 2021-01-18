@@ -4,22 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using CharacterData;
-
-public class CharacterIcon : MonoBehaviour
+namespace UI.Characters
 {
-    [Header("Components")]
-    [SerializeField] Image icon;
+    using Data.Characters;
 
-    public Button button;
-
-    // ===
-    CharacterSO character;
-
-    public void SetCharacter(CharacterSO _character)
+    public class CharacterIcon : MonoBehaviour
     {
-        character = _character;
+        [Header("Components")]
+        [SerializeField] Image icon;
 
-        icon.sprite = character.icon;
+        public Button button;
+
+        CharacterSO character;
+
+        public void SetCharacter(CharacterSO _character)
+        {
+            character = _character;
+
+            icon.sprite = character.icon;
+        }
     }
 }

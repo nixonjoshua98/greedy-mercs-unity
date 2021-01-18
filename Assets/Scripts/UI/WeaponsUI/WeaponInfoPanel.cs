@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace WeaponsUI
+namespace UI.Weapons
 {
-    using CharacterData;
-    using WeaponData;
+    using Data.Characters;
+    using Data.Weapons;
 
     public class WeaponInfoPanel : MonoBehaviour
     {

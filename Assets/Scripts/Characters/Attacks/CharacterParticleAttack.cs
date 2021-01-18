@@ -1,32 +1,35 @@
 ﻿
 using UnityEngine;
 
-public class CharacterParticleAttack : CharacterAttack
+namespace GreedyMercs.StageGM.Characters
 {
-    [Header("Components")]
-    [SerializeField] ParticleSystem ps;
-
-    [Header("References")]
-    [SerializeField] GameObject AttackSlot;
-
-    public override void OnAttackEvent()
+    public class CharacterParticleAttack : CharacterAttack
     {
-        ps.Play();
-    }
+        [Header("Components")]
+        [SerializeField] ParticleSystem ps;
 
-    public void OnParticleDone()
-    {
-        DealDamage();
-    }
+        [Header("References")]
+        [SerializeField] GameObject AttackSlot;
 
-    protected override void OnChangeWeapon(WeaponSO weapon)
-    {
-        GameObject newAttack = Instantiate(weapon.prefab, AttackSlot.transform);
+        public override void OnAttackEvent()
+        {
+            ps.Play();
+        }
 
-        ParticleSystem newParticleSystem = newAttack.GetComponent<ParticleSystem>();
+        public void OnParticleDone()
+        {
+            DealDamage();
+        }
 
-        Destroy(ps.gameObject);
+        protected override void OnChangeWeapon(WeaponSO weapon)
+        {
+            GameObject newAttack = Instantiate(weapon.prefab, AttackSlot.transform);
 
-        ps = newParticleSystem;
+            ParticleSystem newParticleSystem = newAttack.GetComponent<ParticleSystem>();
+
+            Destroy(ps.gameObject);
+
+            ps = newParticleSystem;
+        }
     }
 }

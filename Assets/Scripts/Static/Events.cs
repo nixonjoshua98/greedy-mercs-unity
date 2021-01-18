@@ -2,14 +2,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-using CharacterID = CharacterData.CharacterID;
-
 using CustomEvents;
-
-using CharacterData;
 
 namespace CustomEvents
 {
+    using Data.Characters;
+
     public class GameObjectEvent : UnityEvent<GameObject> { }
 
     public class HealthEvent : UnityEvent<Health> { }

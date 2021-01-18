@@ -3,146 +3,148 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-
-public class GameManager : MonoBehaviour
+namespace GreedyMercs.StageGM
 {
-    static GameManager Instance = null;
-
-    [SerializeField] Transform SpawnPoint;
-    [Space]
-    [SerializeField] GameObject[] EnemyObjects;
-    [Space]
-    [SerializeField] DamageNumbers damageNumbers;
-
-    GameObject CurrentEnemy;
-
-    // === Internal ===
-    Health _enemyHealth;
-
-    // === Public ===
-    public static Health CurrentEnemyHealth { get { return Instance._enemyHealth; } }
-
-    public static bool IsEnemyAvailable {  get { return Instance.CurrentEnemy != null; } }
-
-    void Awake()
+    public class GameManager : MonoBehaviour
     {
-        Instance = this;
+        static GameManager Instance = null;
 
-        StatsCache.Clear();
+        [SerializeField] Transform SpawnPoint;
+        [Space]
+        [SerializeField] GameObject[] EnemyObjects;
+        [Space]
+        [SerializeField] DamageNumbers damageNumbers;
 
-        Events.OnBossSpawned.AddListener(OnBossSpawned);
-        Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
-    }
+        GameObject CurrentEnemy;
 
-    void Start()
-    {
-        SpawnNextEnemy();
-    }
+        // === Internal ===
+        Health _enemyHealth;
 
-    // This is the only method which should be dealing damage to the enemy
-    public static void TryDealDamageToEnemy(BigDouble amount)
-    {
-        if (Instance.CurrentEnemy != null)
+        // === Public ===
+        public static Health CurrentEnemyHealth { get { return Instance._enemyHealth; } }
+
+        public static bool IsEnemyAvailable { get { return Instance.CurrentEnemy != null; } }
+
+        void Awake()
         {
-            if (!CurrentEnemyHealth.IsDead)
+            Instance = this;
+
+            StatsCache.Clear();
+
+            Events.OnBossSpawned.AddListener(OnBossSpawned);
+            Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+        }
+
+        void Start()
+        {
+            SpawnNextEnemy();
+        }
+
+        // This is the only method which should be dealing damage to the enemy
+        public static void TryDealDamageToEnemy(BigDouble amount)
+        {
+            if (Instance.CurrentEnemy != null)
             {
-                Color col = StatsCache.ApplyCritHit(ref amount) ? Color.red : Color.white;
-
-                Instance.damageNumbers.Add(amount, col);
-
-                CurrentEnemyHealth.TakeDamage(amount);
-
-                Events.OnEnemyHurt.Invoke(CurrentEnemyHealth);
-
-                if (CurrentEnemyHealth.IsDead)
+                if (!CurrentEnemyHealth.IsDead)
                 {
-                    Instance.OnEnemyDeath();
+                    Color col = StatsCache.ApplyCritHit(ref amount) ? Color.red : Color.white;
 
-                    Destroy(Instance.CurrentEnemy);
+                    Instance.damageNumbers.Add(amount, col);
+
+                    CurrentEnemyHealth.TakeDamage(amount);
+
+                    Events.OnEnemyHurt.Invoke(CurrentEnemyHealth);
+
+                    if (CurrentEnemyHealth.IsDead)
+                    {
+                        Instance.OnEnemyDeath();
+
+                        Destroy(Instance.CurrentEnemy);
+                    }
                 }
             }
         }
-    }
 
-    // Called from BossBattleManager
-    public static void TrySkipToBoss()
-    {
-        if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
+        // Called from BossBattleManager
+        public static void TrySkipToBoss()
         {
-            BossBattleManager.StartBossBattle();
-        }
-    }
-
-    // UnityEvent Listener
-    public void OnFailedToKillBoss()
-    {
-        SpawnNextEnemy();
-    }
-
-    // UnityEvent Listener
-    void OnBossSpawned(GameObject boss)
-    {
-        if (Instance.CurrentEnemy != null)
-        {
-            Destroy(Instance.CurrentEnemy);
+            if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
+            {
+                BossBattleManager.StartBossBattle();
+            }
         }
 
-        CurrentEnemy = boss;
-
-        _enemyHealth = CurrentEnemy.GetComponent<Health>();
-    }
-
-    void OnEnemyDeath()
-    {
-        if (Instance.CurrentEnemy.TryGetComponent(out LootDrop loot))
-            loot.Process();
-
-        // ===
-
-        if (CurrentEnemy.CompareTag("Enemy"))
+        // UnityEvent Listener
+        public void OnFailedToKillBoss()
         {
-            GameState.Stage.AddKill();
-
-            Events.OnKillEnemy.Invoke();
+            SpawnNextEnemy();
         }
 
-        else if (CurrentEnemy.CompareTag("BossEnemy"))
+        // UnityEvent Listener
+        void OnBossSpawned(GameObject boss)
         {
-            GameState.Stage.AdvanceStage();
+            if (Instance.CurrentEnemy != null)
+            {
+                Destroy(Instance.CurrentEnemy);
+            }
 
-            Events.OnNewStageStarted.Invoke();
+            CurrentEnemy = boss;
+
+            _enemyHealth = CurrentEnemy.GetComponent<Health>();
         }
 
-        SpawnNextEnemy();
-    }
-
-    void SpawnNextEnemy()
-    {
-        StartCoroutine(ISpawnNextEnemy());
-    }
-
-    IEnumerator ISpawnNextEnemy()
-    {
-        yield return new WaitForSeconds(0.25f);
-
-        if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
+        void OnEnemyDeath()
         {
-            BossBattleManager.StartBossBattle();
+            if (Instance.CurrentEnemy.TryGetComponent(out LootDrop loot))
+                loot.Process();
+
+            // ===
+
+            if (CurrentEnemy.CompareTag("Enemy"))
+            {
+                GameState.Stage.AddKill();
+
+                Events.OnKillEnemy.Invoke();
+            }
+
+            else if (CurrentEnemy.CompareTag("BossEnemy"))
+            {
+                GameState.Stage.AdvanceStage();
+
+                Events.OnNewStageStarted.Invoke();
+            }
+
+            SpawnNextEnemy();
         }
-        else
+
+        void SpawnNextEnemy()
         {
-            Events.OnStageUpdate.Invoke();
-
-            SpawnEnemy();
+            StartCoroutine(ISpawnNextEnemy());
         }
-    }
 
-    void SpawnEnemy()
-    {
-        CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
+        IEnumerator ISpawnNextEnemy()
+        {
+            yield return new WaitForSeconds(0.25f);
 
-        _enemyHealth = CurrentEnemy.GetComponent<Health>();
+            if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
+            {
+                BossBattleManager.StartBossBattle();
+            }
+            else
+            {
+                Events.OnStageUpdate.Invoke();
 
-        Events.OnEnemySpawned.Invoke();
+                SpawnEnemy();
+            }
+        }
+
+        void SpawnEnemy()
+        {
+            CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
+
+            _enemyHealth = CurrentEnemy.GetComponent<Health>();
+
+            Events.OnEnemySpawned.Invoke();
+        }
     }
 }

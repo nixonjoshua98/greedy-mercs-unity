@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WeaponsUI
+namespace UI.Weapons
 {
-    using WeaponData;
-    using CharacterData;
+    using Data.Weapons;
+    using Data.Characters;
 
     public class WeaponSelection : MonoBehaviour
     {

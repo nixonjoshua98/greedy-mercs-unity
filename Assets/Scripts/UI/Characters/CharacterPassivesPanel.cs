@@ -6,36 +6,31 @@ using UnityEngine;
 
 namespace UI.Characters
 {
-    using CharacterData;
-    using PassivesData;
+    using Data.Characters;
 
     public class CharacterPassivesPanel : MonoBehaviour
     {
-        CharacterID showingHero;
-
         [SerializeField] GameObject SkillRow;
         [Space]
         [SerializeField] GameObject ScrollContent;
 
 
-        public void SetHero(CharacterID hero)
+        public void SetHero(CharacterID chara)
         {
-            showingHero = hero;
+            StartCoroutine(Create(chara));
         }
 
-        IEnumerator Start()
+        IEnumerator Create(CharacterID chara)
         {
-            List<HeroPassiveUnlock> unlocks = StaticData.Characters.GetPassives(showingHero);
+            List<CharacterPassive> passives = StaticData.CharacterList.Get(chara).passives;
 
-            UpgradeState heroState = GameState.Characters.Get(showingHero);
+            UpgradeState heroState = GameState.Characters.Get(chara);
 
-            foreach (HeroPassiveUnlock unlock in unlocks)
+            foreach (CharacterPassive passive in passives)
             {
-                PassiveSkill skill = StaticData.Passives.Get(unlock.skill);
-
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 
-                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(heroState, unlock, skill);
+                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(heroState, passive);
 
                 yield return new WaitForFixedUpdate();
             }

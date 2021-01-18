@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace UI.Characters
 {
-    using CharacterData;
+    using Data.Characters;
 
     public class MercsTab : MonoBehaviour
     {

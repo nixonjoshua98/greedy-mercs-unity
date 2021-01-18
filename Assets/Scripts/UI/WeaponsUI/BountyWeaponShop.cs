@@ -2,9 +2,11 @@
 
 using UnityEngine;
 
-namespace WeaponsUI
+namespace UI.Weapons
 {
-    using CharacterData;
+    using UI.Characters;
+
+    using Data.Characters;
 
     public class BountyWeaponShop : MonoBehaviour
     {

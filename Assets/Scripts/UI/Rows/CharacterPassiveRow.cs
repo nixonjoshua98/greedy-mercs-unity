@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 namespace UI.Characters
 {
-    using HeroPassiveUnlock = CharacterData.HeroPassiveUnlock;
-    using PassiveSkill = PassivesData.PassiveSkill;
+    using Data.Characters;
 
     public class CharacterPassiveRow : MonoBehaviour
     {
@@ -14,14 +13,13 @@ namespace UI.Characters
 
         public Image PanelImage;
 
-        public void UpdatePanel(UpgradeState heroState, HeroPassiveUnlock unlock, PassiveSkill skill)
+        public void UpdatePanel(UpgradeState heroState, CharacterPassive passive)
         {
-            UnlockText.text = unlock.unlockLevel.ToString();
+            UnlockText.text = passive.unlockLevel.ToString();
 
-            // Description
-            DescriptionText.text = (skill.value * 100).ToString() + "% " + Utils.Generic.BonusToString(skill.bonusType);
+            DescriptionText.text = (passive.value * 100).ToString() + "% " + Utils.Generic.BonusToString(passive.bonusType);
 
-            if (heroState.level < unlock.unlockLevel)
+            if (heroState.level < passive.unlockLevel)
             {
                 UnlockText.color = MultiplyColorAlpha(UnlockText.color, 0.25f);
                 DescriptionText.color = MultiplyColorAlpha(DescriptionText.color, 0.25f);

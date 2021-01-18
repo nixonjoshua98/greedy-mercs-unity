@@ -5,7 +5,8 @@ using UnityEngine;
 using LootData;
 using BountyData;
 
-using CharacterData;
+using Data.Characters;
+using Data.Weapons;
 
 public static class Formulas
 {

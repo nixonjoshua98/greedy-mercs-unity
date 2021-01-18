@@ -5,105 +5,107 @@ using UnityEngine;
 
 using SimpleJSON;
 
-using WeaponData;
-
-using CharacterID = CharacterData.CharacterID;
-
-public class WeaponContainer
+namespace Data.Weapons
 {
-    Dictionary<CharacterID, Dictionary<int, int>> weapons;
+    using Data.Characters;
 
-    public WeaponContainer(JSONNode node)
-    {
-        Update(node);
-    }
 
-    public void Update(JSONNode node)
+    public class WeaponContainer
     {
-        if (node.HasKey("weapons"))
+        Dictionary<CharacterID, Dictionary<int, int>> weapons;
+
+        public WeaponContainer(JSONNode node)
         {
-            weapons = new Dictionary<CharacterID, Dictionary<int, int>>();
+            Update(node);
+        }
 
-            foreach (string stringKey in node["weapons"].Keys)
+        public void Update(JSONNode node)
+        {
+            if (node.HasKey("weapons"))
             {
-                CharacterID key = (CharacterID)int.Parse(stringKey);
+                weapons = new Dictionary<CharacterID, Dictionary<int, int>>();
 
-                weapons[key] = new Dictionary<int, int>();
-
-                foreach (string weaponString in node["weapons"][stringKey].Keys)
+                foreach (string stringKey in node["weapons"].Keys)
                 {
-                    weapons[key][int.Parse(weaponString)] = node["weapons"][stringKey][weaponString].AsInt;
+                    CharacterID key = (CharacterID)int.Parse(stringKey);
+
+                    weapons[key] = new Dictionary<int, int>();
+
+                    foreach (string weaponString in node["weapons"][stringKey].Keys)
+                    {
+                        weapons[key][int.Parse(weaponString)] = node["weapons"][stringKey][weaponString].AsInt;
+                    }
                 }
             }
         }
-    }
 
-    public JSONNode ToJson()
-    {
-        JSONNode node = new JSONObject();
-
-        foreach (var entry in weapons)
+        public JSONNode ToJson()
         {
-            JSONNode weaponNode = new JSONObject();
+            JSONNode node = new JSONObject();
 
-            foreach (var weapon in entry.Value)
+            foreach (var entry in weapons)
             {
-                weaponNode.Add(weapon.Key.ToString(), weapon.Value);
+                JSONNode weaponNode = new JSONObject();
+
+                foreach (var weapon in entry.Value)
+                {
+                    weaponNode.Add(weapon.Key.ToString(), weapon.Value);
+                }
+
+                node.Add(((int)entry.Key).ToString(), weaponNode);
             }
 
-            node.Add(((int)entry.Key).ToString(), weaponNode);
+            return node;
         }
 
-        return node;
-    }
-
-    public double CalcBonuses(CharacterID character)
-    {
-        double bonus = 1.0f;
-
-        foreach (KeyValuePair<int, int> weapon in Get(character))
+        public double CalcBonuses(CharacterID character)
         {
-            if (weapon.Value > 0)
-                bonus *= Formulas.CalcWeaponDamageMultiplier(weapon.Key, weapon.Value);
+            double bonus = 1.0f;
+
+            foreach (KeyValuePair<int, int> weapon in Get(character))
+            {
+                if (weapon.Value > 0)
+                    bonus *= Formulas.CalcWeaponDamageMultiplier(weapon.Key, weapon.Value);
+            }
+
+            return bonus;
         }
 
-        return bonus;
-    }
 
-
-    // === Helper Methods ===
-    public Dictionary<int, int> Get(CharacterID chara)
-    {
-        if (!weapons.ContainsKey(chara))
-            weapons[chara] = new Dictionary<int, int>();
-
-        return weapons[chara];
-    }
-
-    public int Get(CharacterID chara, int index)
-    {
-        return Get(chara).GetOrVal(index, 0);
-    }
-
-    public int GetHighestTier(CharacterID chara)
-    {
-        var characterWeapons = Get(chara);
-
-        var keys = characterWeapons.Keys.ToList();
-
-        keys.Sort((a, b) => b.CompareTo(a));
-
-        foreach (int key in keys)
+        // === Helper Methods ===
+        public Dictionary<int, int> Get(CharacterID chara)
         {
-            if (characterWeapons[key] > 0)
-                return key;
+            if (!weapons.ContainsKey(chara))
+                weapons[chara] = new Dictionary<int, int>();
+
+            return weapons[chara];
         }
 
-        return 0;
-    }
+        public int Get(CharacterID chara, int index)
+        {
+            return Get(chara).GetOrVal(index, 0);
+        }
 
-    public void Add(CharacterID chara, int index, int amount)
-    {
-        weapons[chara][index] = Get(chara).GetOrVal(index, 0) + amount;
+        public int GetHighestTier(CharacterID chara)
+        {
+            var characterWeapons = Get(chara);
+
+            var keys = characterWeapons.Keys.ToList();
+
+            keys.Sort((a, b) => b.CompareTo(a));
+
+            foreach (int key in keys)
+            {
+                if (characterWeapons[key] > 0)
+                    return key;
+            }
+
+            return 0;
+        }
+
+        public void Add(CharacterID chara, int index, int amount)
+        {
+            weapons[chara][index] = Get(chara).GetOrVal(index, 0) + amount;
+        }
     }
 }

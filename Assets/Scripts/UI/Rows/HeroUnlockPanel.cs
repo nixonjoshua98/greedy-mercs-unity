@@ -1,47 +1,50 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-using CharacterData;
-
-public class HeroUnlockPanel : MonoBehaviour
+namespace UI.Characters
 {
-    [SerializeField] Text TitleText;
-    [SerializeField] Text CostText;
+    using Data.Characters;
 
-    void Start()
+    public class HeroUnlockPanel : MonoBehaviour
     {
-        UpdatePanel();
-    }
+        [SerializeField] Text TitleText;
+        [SerializeField] Text CostText;
 
-    void UpdatePanel()
-    {
-        if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
+        void Start()
         {
-            TitleText.text = chara.name;
-
-            CostText.text = Utils.Format.FormatNumber(chara.purchaseCost);
+            UpdatePanel();
         }
 
-        else
-            Destroy(gameObject);
-    }
-
-    // === Button Callbacks ===
-
-    public void OnUnlockButton()
-    {
-        if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
+        void UpdatePanel()
         {
-            if (GameState.Player.gold >= chara.purchaseCost)
+            if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
             {
-                GameState.Player.gold -= chara.purchaseCost;
+                TitleText.text = chara.name;
 
-                GameState.Characters.Add(chara.CharacterID);
-
-                Events.OnCharacterUnlocked.Invoke(chara.CharacterID);
+                CostText.text = Utils.Format.FormatNumber(chara.purchaseCost);
             }
 
-            UpdatePanel();
+            else
+                Destroy(gameObject);
+        }
+
+        // === Button Callbacks ===
+
+        public void OnUnlockButton()
+        {
+            if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
+            {
+                if (GameState.Player.gold >= chara.purchaseCost)
+                {
+                    GameState.Player.gold -= chara.purchaseCost;
+
+                    GameState.Characters.Add(chara.CharacterID);
+
+                    Events.OnCharacterUnlocked.Invoke(chara.CharacterID);
+                }
+
+                UpdatePanel();
+            }
         }
     }
 }

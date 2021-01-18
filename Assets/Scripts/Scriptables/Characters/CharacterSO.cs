@@ -2,14 +2,17 @@
 
 using UnityEngine;
 
-namespace CharacterData
-{
-    [System.Serializable]
-    public class HeroPassiveUnlock
+namespace Data.Characters
+{    
+    public enum CharacterID
     {
-        public int skill;
-
-        public int unlockLevel;
+        WRAITH      = 0,
+        GOLEM       = 1,
+        SATYR       = 2,
+        ANGEL       = 3,
+        MINOTAUR    = 4,
+        REAPER      = 5,
+        FIRE_GOLEM  = 6
     }
 
     [PreferBinarySerialization]
@@ -33,17 +36,14 @@ namespace CharacterData
         // - Runtime
         [HideInInspector] public int unlockOrder;
         [HideInInspector] public BigDouble purchaseCost;
-        [HideInInspector] public List<HeroPassiveUnlock> Passives;
+        [HideInInspector] public List<CharacterPassive> passives;
 
-        public void OnAwake()
+        public void Init(int _unlockOrder, List<CharacterPassive> _passives)
         {
             purchaseCost = BigDouble.Parse(purchaseCostString);
-        }
 
-        public void Init(int _unlockOrder, List<HeroPassiveUnlock> passives)
-        {
-            unlockOrder     = _unlockOrder;
-            Passives        = passives;
+            unlockOrder = _unlockOrder;
+            passives    = _passives;
         }
     }
 }

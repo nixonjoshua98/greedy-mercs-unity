@@ -3,21 +3,24 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public abstract class CharacterProjectileAttack : CharacterAttack
+namespace GreedyMercs.StageGM.Characters
 {
-    [SerializeField] protected GameObject ProjectileObject;
-
-    [SerializeField] protected Transform startPosition;
-
-    public override void OnAttackEvent()
+    public abstract class CharacterProjectileAttack : CharacterAttack
     {
-        CreateProjectile();
-    }
+        [SerializeField] protected GameObject ProjectileObject;
 
-    public abstract void CreateProjectile();
+        [SerializeField] protected Transform startPosition;
 
-    public virtual void OnProjectileHit()
-    {
-        DealDamage();
+        public override void OnAttackEvent()
+        {
+            CreateProjectile();
+        }
+
+        public abstract void CreateProjectile();
+
+        public virtual void OnProjectileHit()
+        {
+            DealDamage();
+        }
     }
 }

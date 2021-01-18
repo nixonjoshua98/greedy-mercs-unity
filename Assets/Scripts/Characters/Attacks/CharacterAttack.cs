@@ -3,106 +3,109 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using CharacterData;
+using Data.Characters;
 
-[RequireComponent(typeof(Character))]
-public abstract class CharacterAttack : MonoBehaviour
+namespace GreedyMercs.StageGM.Characters
 {
-    [Header("Scripts")]
-    [SerializeField] Character character;
-
-    [Header("Components")]
-    [SerializeField] protected Animator anim;
-
-    public Animator Anim { get { return anim; } }
-
-    [Header("Properties")]
-    [SerializeField, Range(0, 2.5f)] float delayBetweenAttacks = 0.25f;
-
-    float attackTimer;
-
-    float lastAttackTime;
-
-    bool isAttacksToggled;
-    
-    protected bool CanAttack { get { return isAttacksToggled && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"); } }
-
-    void Awake()
+    [RequireComponent(typeof(Character))]
+    public abstract class CharacterAttack : MonoBehaviour
     {
-        ToggleAttacking(true);
+        [Header("Scripts")]
+        [SerializeField] Character character;
 
-        attackTimer = delayBetweenAttacks;
+        [Header("Components")]
+        [SerializeField] protected Animator anim;
 
-        CharacterSO chara = StaticData.CharacterList.Get(character.CharacterID);
+        public Animator Anim { get { return anim; } }
 
-        if (chara.weapons.Length > 1)
+        [Header("Properties")]
+        [SerializeField, Range(0, 2.5f)] float delayBetweenAttacks = 0.25f;
+
+        float attackTimer;
+
+        float lastAttackTime;
+
+        bool isAttacksToggled;
+
+        protected bool CanAttack { get { return isAttacksToggled && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"); } }
+
+        void Awake()
         {
-            int highestWeapon = GameState.Weapons.GetHighestTier(character.CharacterID);
+            ToggleAttacking(true);
 
-            OnChangeWeapon(chara.weapons[highestWeapon]);
+            attackTimer = delayBetweenAttacks;
+
+            CharacterSO chara = StaticData.CharacterList.Get(character.CharacterID);
+
+            if (chara.weapons.Length > 1)
+            {
+                int highestWeapon = GameState.Weapons.GetHighestTier(character.CharacterID);
+
+                OnChangeWeapon(chara.weapons[highestWeapon]);
+            }
+
+            Events.OnWeaponBought.AddListener(OnWeaponBought);
         }
 
-        Events.OnWeaponBought.AddListener(OnWeaponBought);
-    }
-
-    void Start()
-    {
-        lastAttackTime = Time.realtimeSinceStartup;
-
-        attackTimer = delayBetweenAttacks;
-    }
-
-    void FixedUpdate()
-    {
-        if (CanAttack)
+        void Start()
         {
-            attackTimer -= Time.fixedDeltaTime;
+            lastAttackTime = Time.realtimeSinceStartup;
 
-            if (attackTimer <= 0.0f)
+            attackTimer = delayBetweenAttacks;
+        }
+
+        void FixedUpdate()
+        {
+            if (CanAttack)
             {
-                attackTimer = delayBetweenAttacks;
+                attackTimer -= Time.fixedDeltaTime;
 
-                if (GameManager.IsEnemyAvailable)
+                if (attackTimer <= 0.0f)
                 {
-                    StartAttack();
+                    attackTimer = delayBetweenAttacks;
+
+                    if (GameManager.IsEnemyAvailable)
+                    {
+                        StartAttack();
+                    }
                 }
             }
         }
-    }
 
-    public abstract void OnAttackEvent();
+        public abstract void OnAttackEvent();
 
-    void OnWeaponBought(CharacterSO chara, int weaponIndex)
-    {
-        if (chara.CharacterID == character.CharacterID)
+        void OnWeaponBought(CharacterSO chara, int weaponIndex)
         {
-            WeaponSO weapon = chara.weapons[weaponIndex];
+            if (chara.CharacterID == character.CharacterID)
+            {
+                WeaponSO weapon = chara.weapons[weaponIndex];
 
-            int highestWeapon = GameState.Weapons.GetHighestTier(chara.CharacterID);
+                int highestWeapon = GameState.Weapons.GetHighestTier(chara.CharacterID);
 
-            if (weaponIndex > highestWeapon)
-                OnChangeWeapon(weapon);
+                if (weaponIndex > highestWeapon)
+                    OnChangeWeapon(weapon);
+            }
         }
-    }
 
-    protected abstract void OnChangeWeapon(WeaponSO weapon);
+        protected abstract void OnChangeWeapon(WeaponSO weapon);
 
-    void StartAttack()
-    {
-        anim.Play("Attack");
-    }
+        void StartAttack()
+        {
+            anim.Play("Attack");
+        }
 
-    protected void DealDamage()
-    {
-        float timeSinceAttack = Time.realtimeSinceStartup - lastAttackTime;
+        protected void DealDamage()
+        {
+            float timeSinceAttack = Time.realtimeSinceStartup - lastAttackTime;
 
-        GameManager.TryDealDamageToEnemy(StatsCache.GetCharacterDamage(character.CharacterID) * (timeSinceAttack * Time.timeScale));
+            GameManager.TryDealDamageToEnemy(StatsCache.GetCharacterDamage(character.CharacterID) * (timeSinceAttack * Time.timeScale));
 
-        lastAttackTime = Time.realtimeSinceStartup;
-    }
+            lastAttackTime = Time.realtimeSinceStartup;
+        }
 
-    public void ToggleAttacking(bool val)
-    {
-        isAttacksToggled = val;
+        public void ToggleAttacking(bool val)
+        {
+            isAttacksToggled = val;
+        }
     }
 }

@@ -2,17 +2,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeScale : MonoBehaviour
+namespace GreedyMercs.Debug
 {
-    Slider slider;
-
-    void Awake()
+    public class TimeScale : MonoBehaviour
     {
-        slider = GetComponent<Slider>();
-    }
+        Slider slider;
 
-    public void OnSliderValueChanged()
-    {
-        Time.timeScale = slider.value;
+        void Awake()
+        {
+            slider = GetComponent<Slider>();
+        }
+
+        public void OnSliderValueChanged()
+        {
+            Time.timeScale = slider.value;
+        }
     }
 }

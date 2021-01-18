@@ -3,18 +3,21 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class CharacterMeleeAttack : CharacterAttack
+namespace GreedyMercs.StageGM.Characters
 {
-    [Header("Character Slots")]
-    [SerializeField] GameObject weaponSlot;
-
-    public override void OnAttackEvent()
+    public class CharacterMeleeAttack : CharacterAttack
     {
-        DealDamage();
-    }
+        [Header("Character Slots")]
+        [SerializeField] GameObject weaponSlot;
 
-    protected override void OnChangeWeapon(WeaponSO weapon)
-    {
-        weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
+        public override void OnAttackEvent()
+        {
+            DealDamage();
+        }
+
+        protected override void OnChangeWeapon(WeaponSO weapon)
+        {
+            weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
+        }
     }
 }

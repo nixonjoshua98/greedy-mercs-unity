@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace UI.Characters
 {
-    using CharacterData;
+    using Data.Characters;
 
     public class CharacterPanel : MonoBehaviour
     {
         [SerializeField] CharacterPassivesPanel skillsPanel;
 
-        public void SetHero(CharacterID hero)
+        public void SetHero(CharacterID chara)
         {
-            skillsPanel.SetHero(hero);
+            skillsPanel.SetHero(chara);
         }
 
         public void OnClose()

@@ -2,23 +2,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealthbar : MonoBehaviour
+namespace GreedyMercs.StageGM.UI
 {
-    [SerializeField] Slider healthbar;
-    [SerializeField] Text healthText;
-
-    void FixedUpdate()
+    public class EnemyHealthbar : MonoBehaviour
     {
-        Health hp = GameManager.CurrentEnemyHealth;
+        [SerializeField] Slider healthbar;
+        [SerializeField] Text healthText;
 
-        healthText.text = "";
-        healthbar.value = 0.0f;
-
-        if (hp != null && hp.CurrentHealth > 0)
+        void FixedUpdate()
         {
-            healthText.text = Utils.Format.FormatNumber(hp.CurrentHealth);
+            Health hp = GameManager.CurrentEnemyHealth;
 
-            healthbar.value = float.Parse((hp.CurrentHealth / hp.MaxHealth).ToString());
+            healthText.text = "";
+            healthbar.value = 0.0f;
+
+            if (hp != null && hp.CurrentHealth > 0)
+            {
+                healthText.text = Utils.Format.FormatNumber(hp.CurrentHealth);
+
+                healthbar.value = float.Parse((hp.CurrentHealth / hp.MaxHealth).ToString());
+            }
         }
     }
 }

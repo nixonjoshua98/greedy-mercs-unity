@@ -8,6 +8,8 @@ using SimpleJSON;
 
 public static class Server
 {
+    const string IP = "18.224.19.50"; // 31.53.80.1
+
     // === Bounties ===
     public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));
 
@@ -49,14 +51,14 @@ public static class Server
 
     static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
     {
-        UnityWebRequest www = UnityWebRequest.Put("http://18.224.19.50:2122/api/" + endpoint, Utils.Json.Compress(json));
+        UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(json));
 
         yield return SendRequest(www, callback);
     }
 
     static IEnumerator Put(string endpoint, Action<long, string> callback)
     {
-        UnityWebRequest www = UnityWebRequest.Put("http://18.224.19.50:2122/api/" + endpoint, Utils.Json.Compress(JSON.Parse("{}")));
+        UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(JSON.Parse("{}")));
 
         yield return SendRequest(www, callback);
     }

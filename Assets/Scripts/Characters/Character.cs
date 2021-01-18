@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using CharacterData;
+
+using Data.Characters;
 
 public class Character : MonoBehaviour
 {

@@ -3,10 +3,10 @@ using SimpleJSON;
 
 using LootData;
 using SkillData;
-using WeaponData;
 using BountyData;
-using PassivesData;
-using CharacterData;
+
+using Data.Characters;
+using Data.Weapons;
 
 public class StaticData
 {
@@ -17,8 +17,6 @@ public class StaticData
     public const float BASE_CRIT_CHANCE     = 0.01f;
     public const float BASE_CRIT_MULTIPLIER = 3.0f;
 
-    public static Characters Characters;
-    public static Passives Passives;
     public static Weapons Weapons;
 
     public static SkillListSO SkillList;
@@ -29,13 +27,13 @@ public class StaticData
     public static void Restore(JSONNode node)
     {
         Weapons     = new Weapons(node["weapons"]);
-        Passives    = new Passives(node["characterPassives"]);
-        Characters  = new Characters(node["characters"]);
 
         SkillList.Init();
 
+        CharacterList.Restore(node["characters"], node["characterPassives"]);
+
+
         LootList.Restore(node["loot"]);
-        CharacterList.Restore(node["characters"]);
         BountyList.Restore(node["bounties"]);
     }
 

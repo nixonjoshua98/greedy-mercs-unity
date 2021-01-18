@@ -6,7 +6,14 @@ using UnityEngine.SceneManagement;
 using LootData;
 using SkillData;
 using BountyData;
-using CharacterData;
+
+using Data.Characters;
+
+[System.Serializable]
+public class UpgradeState
+{
+    public int level = 1;
+}
 
 public class Initializer : MonoBehaviour
 {

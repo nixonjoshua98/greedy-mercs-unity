@@ -5,6 +5,9 @@ using SimpleJSON;
 using LootData;
 using BountyData;
 
+using Data.Characters;
+using Data.Weapons;
+
 
 [System.Serializable]
 public class GameState

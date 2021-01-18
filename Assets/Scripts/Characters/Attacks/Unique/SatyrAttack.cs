@@ -3,22 +3,25 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class SatyrAttack : CharacterProjectileAttack
+namespace GreedyMercs.StageGM.Characters
 {
-    [Header("Character Slots")]
-    [SerializeField] protected GameObject weaponSlot;
-
-    public override void CreateProjectile()
+    public class SatyrAttack : CharacterProjectileAttack
     {
-        GameObject projectile = Instantiate(ProjectileObject, startPosition.position, Quaternion.identity);
+        [Header("Character Slots")]
+        [SerializeField] protected GameObject weaponSlot;
 
-        projectile.GetComponent<Projectile>().Init(OnProjectileHit, 4.0f);
-    }
+        public override void CreateProjectile()
+        {
+            GameObject projectile = Instantiate(ProjectileObject, startPosition.position, Quaternion.identity);
 
-    protected override void OnChangeWeapon(WeaponSO weapon)
-    {
-        weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
-        
-        ProjectileObject = weapon.prefab;
+            projectile.GetComponent<Projectile>().Init(OnProjectileHit, 4.0f);
+        }
+
+        protected override void OnChangeWeapon(WeaponSO weapon)
+        {
+            weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
+
+            ProjectileObject = weapon.prefab;
+        }
     }
 }

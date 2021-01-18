@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 
 
-namespace WeaponsUI
+namespace UI.Weapons
 {
-    using WeaponData;
-    using CharacterData;
+    using Data.Weapons;
+    using Data.Characters;
 
     public class WeaponSlot : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace WeaponsUI
 
         int weaponIndex;
 
-        public void Init(CharacterSO _character, int _weaponIndex /* Position in ScriptableCharacter.weapons (WeaponTier - 1)*/)
+        public void Init(CharacterSO _character, int _weaponIndex)
         {
             character   = _character;
             weaponIndex = _weaponIndex;

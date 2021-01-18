@@ -2,56 +2,59 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TapController : MonoBehaviour, IPointerDownHandler
+namespace GreedyMercs.StageGM
 {
-    const float CLICK_DELAY = 1.0f / 20.0f;
-
-    [SerializeField] ParticleSystem ps;
-
-    float lastClickTime = 0;
-    float lastAutoTapTime = 0;
-
-    public void Awake()
+    public class TapController : MonoBehaviour, IPointerDownHandler
     {
-        lastAutoTapTime = Time.time;
+        const float CLICK_DELAY = 1.0f / 20.0f;
 
-        InvokeRepeating("AutoTap", 1.0f, 1.0f);
-    }
+        [SerializeField] ParticleSystem ps;
 
-    void AutoTap()
-    {
-        float secsSinceAuto = Time.time - lastAutoTapTime;
+        float lastClickTime = 0;
+        float lastAutoTapTime = 0;
 
-        BigDouble dmg = StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto);
-
-        if (dmg > 0)
+        public void Awake()
         {
-            GameManager.TryDealDamageToEnemy(StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto));
-
             lastAutoTapTime = Time.time;
+
+            InvokeRepeating("AutoTap", 1.0f, 1.0f);
         }
-    }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        float clickTimeNow = Time.time;
-
-        if (clickTimeNow - lastClickTime >= CLICK_DELAY)
+        void AutoTap()
         {
-            lastClickTime = clickTimeNow;
+            float secsSinceAuto = Time.time - lastAutoTapTime;
 
-            ps.gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 1.0f));
+            BigDouble dmg = StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto);
 
-            ps.Play();
+            if (dmg >= 1)
+            {
+                GameManager.TryDealDamageToEnemy(StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto));
 
-            DoClick();
+                lastAutoTapTime = Time.time;
+            }
         }
-    }
 
-    void DoClick()
-    {
-        GameManager.TryDealDamageToEnemy(StatsCache.GetTapDamage());
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            float clickTimeNow = Time.time;
 
-        Events.OnPlayerTap.Invoke();
+            if (clickTimeNow - lastClickTime >= CLICK_DELAY)
+            {
+                lastClickTime = clickTimeNow;
+
+                ps.gameObject.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 1.0f));
+
+                ps.Play();
+
+                DoClick();
+            }
+        }
+
+        void DoClick()
+        {
+            GameManager.TryDealDamageToEnemy(StatsCache.GetTapDamage());
+
+            Events.OnPlayerTap.Invoke();
+        }
     }
 }

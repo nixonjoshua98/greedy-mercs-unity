@@ -8,7 +8,7 @@ from flask import current_app as app
 
 
 def next_prestige_item_cost(numrelics: int):
-	return math.floor(max(1, numrelics - 1) * math.pow(1.35, numrelics))
+	return math.floor(max(1, numrelics - 2) * math.pow(1.35, numrelics))
 
 
 def calc_stage_prestige_points(stage, userloot):

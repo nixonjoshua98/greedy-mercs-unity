@@ -54,7 +54,7 @@ public class SquadManager : MonoBehaviour
         GameObject character = Instantiate(chara.prefab, transform);
 
         Vector3 endPos      = characterSpots[0].position;
-        Vector3 startPos    = endPos - new Vector3(7, 0, 0);
+        Vector3 startPos    = new Vector3(endPos.x - 7.0f, endPos.y, endPos.y);
 
         character.transform.position = startPos;
 

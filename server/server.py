@@ -6,6 +6,8 @@ from flask_pymongo import PyMongo
 
 from src import utils
 
+from configparser import ConfigParser
+
 from src.views import (
 	Login,
 	StaticData,
@@ -25,6 +27,10 @@ app = Flask(__name__)
 
 app.mongo = PyMongo()
 
+config = ConfigParser()
+
+config.read("config.ini")
+
 app.staticdata = {
 	"loot": 				utils.read_data_file("loot.json"),
 	"bounties":				utils.read_data_file("bounties.json"),
@@ -39,7 +45,7 @@ app.objects = {
 	"weapons": 			{int(k): Weapon.from_dict(r) for k, r in app.staticdata["weapons"].items()}
 }
 
-app.mongo.init_app(app, uri="mongodb://localhost:27017/temp")
+app.mongo.init_app(app, uri=config.get("server", "MONGO_URI"))
 
 # === Temp === #
 app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics"), methods=["PUT"])

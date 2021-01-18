@@ -18,7 +18,7 @@ def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int) 
 	result = mongo.db.userStats.find_one({"userId": userid})
 
 	if result is None or result.get("maxPrestigeStage", 0) < stage:
-		mongo.db.userStats.update_one({"userId": userid}, {"maxPrestigeStage": stage}, upsert=True)
+		mongo.db.userStats.update_one({"userId": userid}, {"$set": {"maxPrestigeStage": stage}}, upsert=True)
 
 
 def add_bounty_prestige_levels(userid, stage):

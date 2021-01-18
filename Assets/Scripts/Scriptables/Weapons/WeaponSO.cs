@@ -1,12 +1,15 @@
 ﻿
 using UnityEngine;
 
-[PreferBinarySerialization]
-[CreateAssetMenu(menuName = "Scriptables/Weapon")]
-public class WeaponSO : ScriptableObject
+namespace GreedyMercs
 {
-    public Sprite icon;
+    [PreferBinarySerialization]
+    [CreateAssetMenu(menuName = "Scriptables/Weapon")]
+    public class WeaponSO : ScriptableObject
+    {
+        public Sprite icon;
 
-    [Header("Optional")]
-    public GameObject prefab;
+        [Header("Optional")]
+        public GameObject prefab;
+    }
 }

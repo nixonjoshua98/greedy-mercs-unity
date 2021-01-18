@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Characters
+namespace GreedyMercs
 {
-    using Data.Characters;
-
     public class CharacterRow : MonoBehaviour
     {
         [Header("Images")]

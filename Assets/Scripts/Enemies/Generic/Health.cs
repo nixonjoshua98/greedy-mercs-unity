@@ -4,35 +4,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Health : MonoBehaviour
+namespace GreedyMercs
 {
-    [SerializeField] Animator anim;
-
-    BigDouble maxHealth;
-    BigDouble currentHealth;
-    public BigDouble MaxHealth { get { return maxHealth; } }
-    public BigDouble CurrentHealth {  get { return currentHealth; } }
-
-    public bool IsDead { get { return currentHealth <= 0.0f; } }
-
-    void Awake()
+    public abstract class Health : MonoBehaviour
     {
-        maxHealth = currentHealth = GetIntialHealth();
-    }
+        [SerializeField] Animator anim;
 
-    public abstract BigDouble GetIntialHealth();
+        BigDouble maxHealth;
+        BigDouble currentHealth;
+        public BigDouble MaxHealth { get { return maxHealth; } }
+        public BigDouble CurrentHealth { get { return currentHealth; } }
 
-    public virtual void TakeDamage(BigDouble amount)
-    {
-        if (currentHealth > 0.0f)
+        public bool IsDead { get { return currentHealth <= 0.0f; } }
+
+        void Awake()
         {
-            currentHealth -= amount;
+            maxHealth = currentHealth = GetIntialHealth();
+        }
+
+        public abstract BigDouble GetIntialHealth();
+
+        public virtual void TakeDamage(BigDouble amount)
+        {
+            if (currentHealth > 0.0f)
+            {
+                currentHealth -= amount;
+
+                anim.Play("Hurt");
+            }
+
+            currentHealth = currentHealth < 0 ? 0 : currentHealth;
 
             anim.Play("Hurt");
         }
-
-        currentHealth = currentHealth < 0 ? 0 : currentHealth;
-
-        anim.Play("Hurt");
     }
 }

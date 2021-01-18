@@ -1,46 +1,50 @@
 ﻿
-[System.Serializable]
-public class StageState
+namespace GreedyMercs
 {
-    public const int MIN_PRESTIGE_STAGE = 80;
 
-    const int ENEMIES_PER_STAGE = 6;
-
-    public int stage;
-    public int enemy;
-
-    public bool isStageCompleted;
-
-    public StageState()
+    [System.Serializable]
+    public class StageState
     {
-        Reset();
-    }
+        public const int MIN_PRESTIGE_STAGE = 80;
 
-    public void Reset()
-    {
-        stage = enemy = 1;
+        const int ENEMIES_PER_STAGE = 6;
 
-        isStageCompleted = false;
-    }
+        public int stage;
+        public int enemy;
 
-    public void AddKill()
-    {
-        if (enemy + 1 > ENEMIES_PER_STAGE)
+        public bool isStageCompleted;
+
+        public StageState()
         {
-            isStageCompleted = true;
+            Reset();
         }
-        else
+
+        public void Reset()
         {
-            enemy++;
+            stage = enemy = 1;
+
+            isStageCompleted = false;
         }
-    }
 
-    public void AdvanceStage()
-    {
-        enemy = 1;
+        public void AddKill()
+        {
+            if (enemy + 1 > ENEMIES_PER_STAGE)
+            {
+                isStageCompleted = true;
+            }
+            else
+            {
+                enemy++;
+            }
+        }
 
-        stage++;
+        public void AdvanceStage()
+        {
+            enemy = 1;
 
-        isStageCompleted = false;
+            stage++;
+
+            isStageCompleted = false;
+        }
     }
 }

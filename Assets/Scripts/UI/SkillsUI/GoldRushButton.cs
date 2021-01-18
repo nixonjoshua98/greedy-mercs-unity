@@ -3,9 +3,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using SkillData;
-
-namespace Skills.UI
+namespace GreedyMercs
 {
     public class GoldRushButton : MonoBehaviour
     {

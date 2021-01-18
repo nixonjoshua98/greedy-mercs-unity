@@ -5,7 +5,7 @@ using SimpleJSON;
 
 using UnityEngine;
 
-namespace Data.Characters
+namespace GreedyMercs
 {
     public class CharacterContainer
     {

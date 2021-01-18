@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLoot : LootDrop
-{
-    protected int stageSpawned;
-
-    void Awake()
+namespace GreedyMercs
+{    
+    public class EnemyLoot : LootDrop
     {
-        stageSpawned = GameState.Stage.stage;
-    }
+        protected int stageSpawned;
 
-    public override void Process()
-    {
-        GameState.Player.gold += StatsCache.GetEnemyGold(stageSpawned);
+        void Awake()
+        {
+            stageSpawned = GameState.Stage.stage;
+        }
+
+        public override void Process()
+        {
+            GameState.Player.gold += StatsCache.GetEnemyGold(stageSpawned);
+        }
     }
 }

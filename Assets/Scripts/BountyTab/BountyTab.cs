@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BountyUI
+namespace GreedyMercs
 {
     public class BountyTab : MonoBehaviour
     {

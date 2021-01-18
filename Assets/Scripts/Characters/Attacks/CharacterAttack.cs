@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Data.Characters;
-
-namespace GreedyMercs.StageGM.Characters
+namespace GreedyMercs
 {
     [RequireComponent(typeof(Character))]
     public abstract class CharacterAttack : MonoBehaviour

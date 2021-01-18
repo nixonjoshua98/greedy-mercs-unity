@@ -7,10 +7,8 @@ using UnityEngine.SceneManagement;
 
 using SimpleJSON;
 
-namespace GreedyMercs.UI.Panels
+namespace GreedyMercs
 {
-    using StageGM;
-
     public class PrestigePanel : MonoBehaviour
     {
         [SerializeField] Text prestigePointText;

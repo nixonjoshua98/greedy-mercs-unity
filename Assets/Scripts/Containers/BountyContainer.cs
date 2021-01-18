@@ -6,7 +6,7 @@ using SimpleJSON;
 
 using UnityEngine;
 
-namespace BountyData
+namespace GreedyMercs
 {
     public class BountyContainer
     {

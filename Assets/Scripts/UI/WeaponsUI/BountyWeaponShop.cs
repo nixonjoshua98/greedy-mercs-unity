@@ -2,12 +2,8 @@
 
 using UnityEngine;
 
-namespace UI.Weapons
+namespace GreedyMercs
 {
-    using UI.Characters;
-
-    using Data.Characters;
-
     public class BountyWeaponShop : MonoBehaviour
     {
         [SerializeField] Transform scrollContent;

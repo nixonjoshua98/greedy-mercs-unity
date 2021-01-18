@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs.StageGM
+namespace GreedyMercs
 {
     public class GameManager : MonoBehaviour
     {

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossLoot : EnemyLoot
-{
-    public override void Process()
+namespace GreedyMercs
+{    
+    public class BossLoot : EnemyLoot
     {
-        GameState.Player.gold += StatsCache.GetBossGold(stageSpawned);
+        public override void Process()
+        {
+            GameState.Player.gold += StatsCache.GetBossGold(stageSpawned);
+        }
     }
+
 }

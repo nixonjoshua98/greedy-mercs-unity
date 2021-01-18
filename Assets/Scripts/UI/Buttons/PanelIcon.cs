@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace UI.Icons
+namespace GreedyMercs
 {
     public class PanelIcon : MonoBehaviour
     {

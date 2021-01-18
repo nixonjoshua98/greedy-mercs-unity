@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ServerConnectionError : Message
+namespace GreedyMercs
 {
-    public void OnReconnect()
+    public class ServerConnectionError : Message
     {
-        SceneManager.LoadSceneAsync(0);
+        public void OnReconnect()
+        {
+            SceneManager.LoadSceneAsync(0);
+        }
     }
 }

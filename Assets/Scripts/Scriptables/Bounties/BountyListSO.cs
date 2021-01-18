@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace BountyData
+namespace GreedyMercs
 {
     public struct BountyStaticData
     {

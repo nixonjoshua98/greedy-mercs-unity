@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ParticleSystemCallback : MonoBehaviour
+namespace GreedyMercs
 {
-    [SerializeField] public UnityEvent OnParticleSystemStoppedCallback;
-
-    public void OnParticleSystemStopped()
+    public class ParticleSystemCallback : MonoBehaviour
     {
-        OnParticleSystemStoppedCallback.Invoke();
+        [SerializeField] public UnityEvent OnParticleSystemStoppedCallback;
+
+        public void OnParticleSystemStopped()
+        {
+            OnParticleSystemStoppedCallback.Invoke();
+        }
     }
 }

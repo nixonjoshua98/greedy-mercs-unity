@@ -4,60 +4,61 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-using Data.Characters;
-
-public class Character : MonoBehaviour
+namespace GreedyMercs
 {
-    [SerializeField] CharacterID character;
-
-    // === Components ===
-    [Header("Components")]
-    [SerializeField] ParticleSystem levelupParticles;
-
-    // === Public Accessors ===
-    public CharacterID CharacterID { get { return character; } }
-
-    // === Private Attributes ===
-    SpriteRenderer[] renderers;
-
-    void Awake()
+    public class Character : MonoBehaviour
     {
-        Events.OnCharacterLevelUp.AddListener((CharacterID chara) => { if (chara == character) OnLevelup(); });
-    }
+        [SerializeField] CharacterID character;
 
-    IEnumerator Start()
-    {
-        renderers = transform.GetComponentsInChildren<SpriteRenderer>();
+        // === Components ===
+        [Header("Components")]
+        [SerializeField] ParticleSystem levelupParticles;
 
-        int maxSortingLayer = 0;
+        // === Public Accessors ===
+        public CharacterID CharacterID { get { return character; } }
 
-        foreach (SpriteRenderer sr in renderers)
+        // === Private Attributes ===
+        SpriteRenderer[] renderers;
+
+        void Awake()
         {
-            sr.sortingOrder = 100 - (int)transform.position.y;
-
-            maxSortingLayer = Mathf.Max(sr.sortingOrder, maxSortingLayer);
-
-            yield return new WaitForEndOfFrame();
+            Events.OnCharacterLevelUp.AddListener((CharacterID chara) => { if (chara == character) OnLevelup(); });
         }
 
-        levelupParticles.GetComponent<ParticleSystemRenderer>().sortingOrder = maxSortingLayer + 1;
-    }
+        IEnumerator Start()
+        {
+            renderers = transform.GetComponentsInChildren<SpriteRenderer>();
 
-    // === Event Callbacks ===
+            int maxSortingLayer = 0;
 
-    void OnLevelup()
-    {
-        levelupParticles.Play();
-    }
+            foreach (SpriteRenderer sr in renderers)
+            {
+                sr.sortingOrder = 100 - (int)transform.position.y;
 
-    // === Helper Methods ===
+                maxSortingLayer = Mathf.Max(sr.sortingOrder, maxSortingLayer);
 
-    public void Flip()
-    {
-        Vector3 scale = transform.localScale;
+                yield return new WaitForEndOfFrame();
+            }
 
-        scale.x *= -1.0f;
+            levelupParticles.GetComponent<ParticleSystemRenderer>().sortingOrder = maxSortingLayer + 1;
+        }
 
-        transform.localScale = scale;
+        // === Event Callbacks ===
+
+        void OnLevelup()
+        {
+            levelupParticles.Play();
+        }
+
+        // === Helper Methods ===
+
+        public void Flip()
+        {
+            Vector3 scale = transform.localScale;
+
+            scale.x *= -1.0f;
+
+            transform.localScale = scale;
+        }
     }
 }

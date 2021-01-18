@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Data.Characters
+namespace GreedyMercs
 {    
     public enum CharacterID
     {

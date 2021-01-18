@@ -4,10 +4,8 @@ using System.Collections;
 using UnityEngine;
 
 
-namespace UI.Characters
+namespace GreedyMercs
 {
-    using Data.Characters;
-
     public class MercsTab : MonoBehaviour
     {
         static MercsTab Instance = null;

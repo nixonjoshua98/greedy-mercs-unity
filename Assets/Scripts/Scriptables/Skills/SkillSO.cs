@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace SkillData
+namespace GreedyMercs
 {    
     public enum SkillID
     {

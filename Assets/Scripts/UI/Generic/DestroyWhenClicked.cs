@@ -3,29 +3,32 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
+namespace GreedyMercs
 {
-    [SerializeField] bool Enabled = true;
-
-    public void OnPointerDown(PointerEventData eventData)
+    public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
     {
-        if (!Enabled)
-            return;
+        [SerializeField] bool Enabled = true;
 
-        GraphicRaycaster raycaster = transform.parent.GetComponent<GraphicRaycaster>();
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (!Enabled)
+                return;
 
-        List<RaycastResult> results = new List<RaycastResult>();
+            GraphicRaycaster raycaster = transform.parent.GetComponent<GraphicRaycaster>();
 
-        raycaster.Raycast(eventData, results);
+            List<RaycastResult> results = new List<RaycastResult>();
 
-        if (results.Count >= 1 && results[0].gameObject == gameObject)
+            raycaster.Raycast(eventData, results);
+
+            if (results.Count >= 1 && results[0].gameObject == gameObject)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        public void DestroyNow()
         {
             Destroy(gameObject);
         }
-    }
-
-    public void DestroyNow()
-    {
-        Destroy(gameObject);
     }
 }

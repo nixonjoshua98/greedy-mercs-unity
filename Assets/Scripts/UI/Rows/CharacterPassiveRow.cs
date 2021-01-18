@@ -2,10 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Characters
+namespace GreedyMercs
 {
-    using Data.Characters;
-
     public class CharacterPassiveRow : MonoBehaviour
     {
         public Text UnlockText;

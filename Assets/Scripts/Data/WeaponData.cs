@@ -5,7 +5,7 @@ using SimpleJSON;
 using UnityEngine;
 
 
-namespace Data.Weapons
+namespace GreedyMercs
 {
     [System.Serializable]
     public class WeaponStaticData

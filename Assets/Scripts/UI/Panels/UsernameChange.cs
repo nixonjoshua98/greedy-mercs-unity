@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Settings
+namespace GreedyMercs
 {
     public class UsernameChange : MonoBehaviour
     {
@@ -31,7 +31,7 @@ namespace UI.Settings
                 return s.Length >= 3;
             }
 
-            spawnedTextInput = Utils.UI.Instantiate(TextInputObject, Vector3.zero).GetComponent<UI.TextInputMessage>();
+            spawnedTextInput = Utils.UI.Instantiate(TextInputObject, Vector3.zero).GetComponent<TextInputMessage>();
 
             spawnedTextInput.Init("Change Username", "Enter your new username!", Verify, OnUsernameChange);
         }

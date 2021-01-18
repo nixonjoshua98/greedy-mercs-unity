@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Weapons
+namespace GreedyMercs
 {
     public class WeaponRecipeRow : MonoBehaviour
     {

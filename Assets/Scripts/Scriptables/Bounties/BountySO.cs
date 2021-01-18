@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace BountyData
+namespace GreedyMercs
 {
     public enum BountyID
     {

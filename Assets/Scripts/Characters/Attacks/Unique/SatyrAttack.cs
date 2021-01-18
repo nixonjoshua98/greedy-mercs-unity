@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs.StageGM.Characters
+namespace GreedyMercs
 {
     public class SatyrAttack : CharacterProjectileAttack
     {
@@ -14,7 +14,7 @@ namespace GreedyMercs.StageGM.Characters
         {
             GameObject projectile = Instantiate(ProjectileObject, startPosition.position, Quaternion.identity);
 
-            projectile.GetComponent<Projectile>().Init(OnProjectileHit, 4.0f);
+            projectile.GetComponent<StraightProjectile>().Init(OnProjectileHit, 4.0f);
         }
 
         protected override void OnChangeWeapon(WeaponSO weapon)

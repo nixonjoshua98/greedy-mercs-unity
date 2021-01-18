@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs.StageGM.Characters
+namespace GreedyMercs
 {
     public abstract class CharacterProjectileAttack : CharacterAttack
     {

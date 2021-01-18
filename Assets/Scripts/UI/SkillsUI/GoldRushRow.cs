@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Skills.UI
+namespace GreedyMercs
 {
     public class GoldRushRow : SkillRow
     {

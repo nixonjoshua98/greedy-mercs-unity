@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class LootDrop : MonoBehaviour
+namespace GreedyMercs
 {
-    public abstract void Process();
+    public abstract class LootDrop : MonoBehaviour
+    {
+        public abstract void Process();
+    }
 }

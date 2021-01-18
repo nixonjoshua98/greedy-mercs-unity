@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Skills.UI
+namespace GreedyMercs
 {
-    using SkillData;
-
     public abstract class SkillRow : MonoBehaviour
     {
         [SerializeField] protected SkillID SkillID;

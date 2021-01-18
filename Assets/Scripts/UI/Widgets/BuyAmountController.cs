@@ -4,41 +4,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuyAmountController : MonoBehaviour
+namespace GreedyMercs
 {
-    [SerializeField] Button[] Buttons;
-
-    [SerializeField] int[] amounts;
-
-    Image[] Images;
-
-    [HideInInspector] public int BuyAmount;
-
-    void Awake()
+    public class BuyAmountController : MonoBehaviour
     {
-        BuyAmount = 1;
+        [SerializeField] Button[] Buttons;
 
-        Images = new Image[Buttons.Length];
+        [SerializeField] int[] amounts;
 
-        for (int i = 0; i < Buttons.Length; ++i)
+        Image[] Images;
+
+        [HideInInspector] public int BuyAmount;
+
+        void Awake()
         {
-            int temp = i;
+            BuyAmount = 1;
 
-            Button current = Buttons[i];
+            Images = new Image[Buttons.Length];
 
-            current.onClick.AddListener(delegate { OnChange(temp); });
+            for (int i = 0; i < Buttons.Length; ++i)
+            {
+                int temp = i;
 
-            Images[i] = current.GetComponent<Image>();
+                Button current = Buttons[i];
+
+                current.onClick.AddListener(delegate { OnChange(temp); });
+
+                Images[i] = current.GetComponent<Image>();
+            }
         }
-    }
 
-    public void OnChange(int index)
-    {
-        BuyAmount = amounts[index];
-
-        for (int i = 0; i < Buttons.Length; ++i)
+        public void OnChange(int index)
         {
-            Images[i].color = (i == index) ? new Color(0, 1, 0, 190.0f / 255) : new Color(1, 1, 1, 190.0f / 255);
+            BuyAmount = amounts[index];
+
+            for (int i = 0; i < Buttons.Length; ++i)
+            {
+                Images[i].color = (i == index) ? new Color(0, 1, 0, 190.0f / 255) : new Color(1, 1, 1, 190.0f / 255);
+            }
         }
     }
 }

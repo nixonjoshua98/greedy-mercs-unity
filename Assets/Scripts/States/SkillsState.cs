@@ -5,124 +5,126 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using SkillData;
 using SimpleJSON;
 
-public class SkillState
+namespace GreedyMercs
 {
-    SkillID SkillID;
-
-    public int level;
-
-    public DateTime skillActivated;
-
-    public SkillLevel LevelData { get { return StaticData.SkillList.Get(SkillID).GetLevel(level); } }
-
-    public bool IsMaxLevel {  get { return StaticData.SkillList.Get(SkillID).MaxLevel == level; } }
-
-    public SkillState(SkillID skill)
+    public class SkillState
     {
-        level = 1;
+        SkillID SkillID;
 
-        SkillID = skill;
-    }
+        public int level;
 
-    public bool IsActive { get { return TimeSinceActivated <= StatsCache.SkillDuration(SkillID); } }
+        public DateTime skillActivated;
 
-    public double TimeSinceActivated { get { return (DateTime.UtcNow - skillActivated).TotalSeconds; } }
+        public SkillLevel LevelData { get { return StaticData.SkillList.Get(SkillID).GetLevel(level); } }
 
-    public void Activate()
-    {
-        skillActivated = DateTime.UtcNow;
-    }
-}
+        public bool IsMaxLevel { get { return StaticData.SkillList.Get(SkillID).MaxLevel == level; } }
 
-
-
-public class SkillsState
-{
-    Dictionary<SkillID, SkillState> skills;
-
-    public SkillsState(JSONNode node)
-    {
-        skills = new Dictionary<SkillID, SkillState>();
-
-        node = node["skills"];
-
-        foreach (string key in node.Keys)
+        public SkillState(SkillID skill)
         {
-            SkillID skill = (SkillID)int.Parse(key);
+            level = 1;
 
-            SkillState restoredState = JsonUtility.FromJson<SkillState>(node[key].ToString());
+            SkillID = skill;
+        }
 
-            skills.Add(skill, new SkillState(skill) { level = restoredState.level });
+        public bool IsActive { get { return TimeSinceActivated <= StatsCache.SkillDuration(SkillID); } }
+
+        public double TimeSinceActivated { get { return (DateTime.UtcNow - skillActivated).TotalSeconds; } }
+
+        public void Activate()
+        {
+            skillActivated = DateTime.UtcNow;
         }
     }
 
-    public JSONNode ToJson()
+
+
+    public class SkillsState
     {
-        JSONNode node = new JSONObject();
+        Dictionary<SkillID, SkillState> skills;
 
-        foreach (var entry in skills)
+        public SkillsState(JSONNode node)
         {
-            node.Add(((int)entry.Key).ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
-        }
+            skills = new Dictionary<SkillID, SkillState>();
 
-        return node;
-    }
+            node = node["skills"];
 
-    public Dictionary<BonusType, double> CacBonuses()
-    {
-        Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
-        
-        foreach (var entry in skills)
-        {
-            if (entry.Value.IsActive)
+            foreach (string key in node.Keys)
             {
-                SkillSO data = StaticData.SkillList.Get(entry.Key);
+                SkillID skill = (SkillID)int.Parse(key);
 
-                bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * entry.Value.LevelData.BonusValue;
+                SkillState restoredState = JsonUtility.FromJson<SkillState>(node[key].ToString());
+
+                skills.Add(skill, new SkillState(skill) { level = restoredState.level });
             }
         }
 
-        return bonuses;
-    }
-
-
-    public void UpgradeSkill(SkillID skill)
-    {
-        if (skills.ContainsKey(skill))
-            skills[skill].level++;
-
-        else
-            skills.Add(skill, new SkillState(skill));
-    }
-
-    public bool IsUnlocked(SkillID skill) => skills.ContainsKey(skill);
-
-    public SkillLevel GetSkillLevel(SkillID skill, int level) => StaticData.SkillList.Get(skill).GetLevel(level);
-
-    public SkillState Get(SkillID skill) => skills[skill];
-
-    public void ActivateSkill(SkillID skill)
-    {
-        SkillState state = Get(skill);
-
-        state.Activate();
-    }
-
-    public List<SkillSO> Unlocked()
-    {
-        List<SkillSO> unlocked = new List<SkillSO>();
-
-        foreach (SkillSO skill in StaticData.SkillList.SkillList)
+        public JSONNode ToJson()
         {
-            if (IsUnlocked(skill.SkillID))
+            JSONNode node = new JSONObject();
+
+            foreach (var entry in skills)
             {
-                unlocked.Add(skill);
+                node.Add(((int)entry.Key).ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
             }
+
+            return node;
         }
 
-        return unlocked;
+        public Dictionary<BonusType, double> CacBonuses()
+        {
+            Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
+
+            foreach (var entry in skills)
+            {
+                if (entry.Value.IsActive)
+                {
+                    SkillSO data = StaticData.SkillList.Get(entry.Key);
+
+                    bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * entry.Value.LevelData.BonusValue;
+                }
+            }
+
+            return bonuses;
+        }
+
+
+        public void UpgradeSkill(SkillID skill)
+        {
+            if (skills.ContainsKey(skill))
+                skills[skill].level++;
+
+            else
+                skills.Add(skill, new SkillState(skill));
+        }
+
+        public bool IsUnlocked(SkillID skill) => skills.ContainsKey(skill);
+
+        public SkillLevel GetSkillLevel(SkillID skill, int level) => StaticData.SkillList.Get(skill).GetLevel(level);
+
+        public SkillState Get(SkillID skill) => skills[skill];
+
+        public void ActivateSkill(SkillID skill)
+        {
+            SkillState state = Get(skill);
+
+            state.Activate();
+        }
+
+        public List<SkillSO> Unlocked()
+        {
+            List<SkillSO> unlocked = new List<SkillSO>();
+
+            foreach (SkillSO skill in StaticData.SkillList.SkillList)
+            {
+                if (IsUnlocked(skill.SkillID))
+                {
+                    unlocked.Add(skill);
+                }
+            }
+
+            return unlocked;
+        }
     }
 }

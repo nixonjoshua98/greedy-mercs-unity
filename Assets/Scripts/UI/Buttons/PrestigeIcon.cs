@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace UI.Icons
+namespace GreedyMercs
 {
     public class PrestigeIcon : PanelIcon
     {

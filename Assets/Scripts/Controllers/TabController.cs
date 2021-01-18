@@ -3,21 +3,24 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class TabController : MonoBehaviour
+namespace GreedyMercs
 {
-    [SerializeField] List<GameObject> tabs;
-
-    [SerializeField] bool AllowHidding = true;
-
-    public void ToggleActive(int index)
+    public class TabController : MonoBehaviour
     {
-        for (int i = 0; i < tabs.Count; ++i)
-        {
-            if (AllowHidding && tabs[i].activeInHierarchy && index == i)
-                tabs[i].SetActive(false);
+        [SerializeField] List<GameObject> tabs;
 
-            else
-                tabs[i].SetActive(i == index);
+        [SerializeField] bool AllowHidding = true;
+
+        public void ToggleActive(int index)
+        {
+            for (int i = 0; i < tabs.Count; ++i)
+            {
+                if (AllowHidding && tabs[i].activeInHierarchy && index == i)
+                    tabs[i].SetActive(false);
+
+                else
+                    tabs[i].SetActive(i == index);
+            }
         }
     }
 }

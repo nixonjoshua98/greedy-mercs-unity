@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace UI.GoldUpgrades
+namespace GreedyMercs
 {
     public class AutoTapUpgrade : GoldUpgradeRow
     {

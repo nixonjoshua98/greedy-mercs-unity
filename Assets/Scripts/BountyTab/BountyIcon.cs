@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace BountyUI
+namespace GreedyMercs
 {
-    using BountyData;
-
     public class BountyIcon : MonoBehaviour
     {
         BountyID bounty;

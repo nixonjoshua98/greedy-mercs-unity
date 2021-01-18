@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.StageGM
+namespace GreedyMercs
 {
     public class BossBattleManager : MonoBehaviour
     {

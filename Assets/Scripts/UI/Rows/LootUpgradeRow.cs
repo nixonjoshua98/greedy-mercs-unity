@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 using SimpleJSON;
 
-namespace UI.Loot
+namespace GreedyMercs
 {
-    using LootData;
-
     public class LootUpgradeRow : MonoBehaviour
     {
         LootID lootId;

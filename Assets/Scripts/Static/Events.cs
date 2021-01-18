@@ -2,12 +2,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-using CustomEvents;
-
-namespace CustomEvents
+namespace GreedyMercs.CustomEvents
 {
-    using Data.Characters;
-
     public class GameObjectEvent : UnityEvent<GameObject> { }
 
     public class HealthEvent : UnityEvent<Health> { }
@@ -17,32 +13,36 @@ namespace CustomEvents
     public class ScriptableCharacterEvent : UnityEvent<CharacterSO, int> { }
 }
 
-
-public class Events : MonoBehaviour
+namespace GreedyMercs
 {
-    public static GameObjectEvent               OnBossSpawned       = new GameObjectEvent();
+    using CustomEvents;
 
-    public static HealthEvent                   OnEnemyHurt         = new HealthEvent();
+    public class Events : MonoBehaviour
+    {
+        public static GameObjectEvent OnBossSpawned = new GameObjectEvent();
 
-    public static CharacterEvent                OnCharacterUnlocked = new CharacterEvent();
+        public static HealthEvent OnEnemyHurt = new HealthEvent();
 
-    public static ScriptableCharacterEvent      OnWeaponBought      = new ScriptableCharacterEvent();
+        public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
 
-    public static CharacterEvent                OnCharacterLevelUp  = new CharacterEvent();
+        public static ScriptableCharacterEvent OnWeaponBought = new ScriptableCharacterEvent();
 
-    // === Standard Events ===
+        public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();
 
-    public static UnityEvent                    OnPlayerTap             = new UnityEvent();
+        // === Standard Events ===
 
-    public static UnityEvent                    OnStageUpdate           = new UnityEvent();
+        public static UnityEvent OnPlayerTap = new UnityEvent();
 
-    public static UnityEvent                    OnNewStageStarted       = new UnityEvent();
+        public static UnityEvent OnStageUpdate = new UnityEvent();
 
-    public static UnityEvent                    OnFailedToKillBoss      = new UnityEvent();
+        public static UnityEvent OnNewStageStarted = new UnityEvent();
 
-    public static UnityEvent                    OnEnemySpawned          = new UnityEvent();
+        public static UnityEvent OnFailedToKillBoss = new UnityEvent();
 
-    public static UnityEvent                    OnKilledBoss            = new UnityEvent();
+        public static UnityEvent OnEnemySpawned = new UnityEvent();
 
-    public static UnityEvent                    OnKillEnemy             = new UnityEvent();
+        public static UnityEvent OnKilledBoss = new UnityEvent();
+
+        public static UnityEvent OnKillEnemy = new UnityEvent();
+    }
 }

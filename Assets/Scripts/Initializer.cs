@@ -3,95 +3,92 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using LootData;
-using SkillData;
-using BountyData;
-
-using Data.Characters;
-
-[System.Serializable]
-public class UpgradeState
+namespace GreedyMercs
 {
-    public int level = 1;
-}
-
-public class Initializer : MonoBehaviour
-{
-    [Header("Scriptables")]
-    [SerializeField] LootItemListSO RelicList;
-    [SerializeField] SkillListSO SkillList;
-    [SerializeField] BountyListSO BountyList;
-    [SerializeField] CharacterListSO CharacterList;
-
-    void Awake()
+    [System.Serializable]
+    public class UpgradeState
     {
-        StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList);
+        public int level = 1;
     }
 
-    void Start()
+    public class Initializer : MonoBehaviour
     {
-        Debug.Log(Application.persistentDataPath);
+        [Header("Scriptables")]
+        [SerializeField] LootItemListSO RelicList;
+        [SerializeField] SkillListSO SkillList;
+        [SerializeField] BountyListSO BountyList;
+        [SerializeField] CharacterListSO CharacterList;
 
-        Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
-    }
-
-    void ServerLoginCallback(long code, string compressed)
-    {
-        bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
-
-        GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
-
-        if (code == 200)
+        void Awake()
         {
-            JSONNode node = Utils.Json.Decompress(compressed);
-
-            GameState.Update(node);
+            StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList);
         }
 
-        else
+        void Start()
         {
-            if (!isLocalSave)
+            Debug.Log(Application.persistentDataPath);
+
+            Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
+        }
+
+        void ServerLoginCallback(long code, string compressed)
+        {
+            bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
+
+            GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
+
+            if (code == 200)
             {
-                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required");
+                JSONNode node = Utils.Json.Decompress(compressed);
 
-                return;
-            }
-        }
-
-        Server.GetStaticData(this, ServerStaticDataCallback);
-    }
-
-    void ServerStaticDataCallback(long code, string compressedJson)
-    {
-        if (code == 200)
-        {
-            JSONNode node = Utils.Json.Decompress(compressedJson);
-
-            RestoreStaticData(node);
-
-            Utils.File.WriteJson(DataManager.LOCAL_STATIC_FILENAME, node);
-        }
-
-        else
-        {
-            if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
-            {
-                RestoreStaticData(JSON.Parse(localSaveJson));
+                GameState.Update(node);
             }
 
             else
             {
-                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
+                if (!isLocalSave)
+                {
+                    Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required");
 
-                return;
+                    return;
+                }
             }
+
+            Server.GetStaticData(this, ServerStaticDataCallback);
         }
 
-        SceneManager.LoadSceneAsync("GameScene");
-    }
+        void ServerStaticDataCallback(long code, string compressedJson)
+        {
+            if (code == 200)
+            {
+                JSONNode node = Utils.Json.Decompress(compressedJson);
 
-    void RestoreStaticData(JSONNode node)
-    {
-        StaticData.Restore(node);
+                RestoreStaticData(node);
+
+                Utils.File.WriteJson(DataManager.LOCAL_STATIC_FILENAME, node);
+            }
+
+            else
+            {
+                if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
+                {
+                    RestoreStaticData(JSON.Parse(localSaveJson));
+                }
+
+                else
+                {
+                    Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
+
+                    return;
+                }
+            }
+
+            SceneManager.LoadSceneAsync("GameScene");
+        }
+
+        void RestoreStaticData(JSONNode node)
+        {
+            StaticData.Restore(node);
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace GreedyMercs.StageGM.Characters
+namespace GreedyMercs
 {
     public class CharacterParticleAttack : CharacterAttack
     {

@@ -7,10 +7,8 @@ using SimpleJSON;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace UI.Loot
+namespace GreedyMercs
 {
-    using LootData;
-
     public class LootTab : MonoBehaviour
     {
         static LootTab Instance = null;

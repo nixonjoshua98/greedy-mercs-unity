@@ -2,14 +2,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Message : MonoBehaviour
+namespace GreedyMercs
 {
-    [SerializeField] Text Title;
-    [SerializeField] Text Description;
-
-    public virtual void Init(string t, string d)
+    public class Message : MonoBehaviour
     {
-        Title.text = t;
-        Description.text = d;
+        [SerializeField] Text Title;
+        [SerializeField] Text Description;
+
+        public virtual void Init(string t, string d)
+        {
+            Title.text = t;
+            Description.text = d;
+        }
     }
 }

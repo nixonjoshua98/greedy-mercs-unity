@@ -7,11 +7,8 @@ using UnityEngine.UI;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace UI.Weapons
+namespace GreedyMercs
 {
-    using Data.Characters;
-    using Data.Weapons;
-
     public class WeaponInfoPanel : MonoBehaviour
     {
         [Header("Components")]

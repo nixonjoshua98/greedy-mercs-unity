@@ -6,75 +6,78 @@ using UnityEngine.Networking;
 
 using SimpleJSON;
 
-public static class Server
+namespace GreedyMercs
 {
-    const string IP = "18.224.19.50"; // 31.53.80.1
-
-    // === Bounties ===
-    public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));
-
-    // === Weapons ===
-    public static void BuyWeapon(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("weapon/buy", callback, node));
-
-    // === Prestige Items === 
-    public static void BuyLootItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("loot/buy", callback, node));
-    public static void UpgradeLootItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("loot/upgrade", callback, node));
-
-    // === Player ===
-    public static void ChangeUsername(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("user/changeusername", callback, node));
-
-    // === Leaderboards ===
-    public static void GetPlayerLeaderboard(MonoBehaviour mono, Action<long, string> callback) => mono.StartCoroutine(Put("leaderboard/player", callback));
-
-
-    public static void Login(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
+    public static class Server
     {
-        mono.StartCoroutine(Put("login", callback, node));
-    }
+        const string IP = "18.224.19.50"; // 31.53.80.1
 
-    public static void Prestige(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
-    {
-        mono.StartCoroutine(Put("prestige", callback, node));
-    }
+        // === Bounties ===
+        public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));
 
-    public static void ResetRelics(MonoBehaviour mono, Action<long, string> callback)
-    {
-        mono.StartCoroutine(Put("resetrelics", callback, Utils.Json.GetDeviceNode()));
-    }
+        // === Weapons ===
+        public static void BuyWeapon(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("weapon/buy", callback, node));
 
-    public static void GetStaticData(MonoBehaviour mono, Action<long, string> callback)
-    {
-        mono.StartCoroutine(Put("staticdata", callback));
-    }
+        // === Prestige Items === 
+        public static void BuyLootItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("loot/buy", callback, node));
+        public static void UpgradeLootItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("loot/upgrade", callback, node));
 
-    // ===
+        // === Player ===
+        public static void ChangeUsername(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("user/changeusername", callback, node));
 
-    static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
-    {
-        UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(json));
+        // === Leaderboards ===
+        public static void GetPlayerLeaderboard(MonoBehaviour mono, Action<long, string> callback) => mono.StartCoroutine(Put("leaderboard/player", callback));
 
-        yield return SendRequest(www, callback);
-    }
 
-    static IEnumerator Put(string endpoint, Action<long, string> callback)
-    {
-        UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(JSON.Parse("{}")));
+        public static void Login(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
+        {
+            mono.StartCoroutine(Put("login", callback, node));
+        }
 
-        yield return SendRequest(www, callback);
-    }
+        public static void Prestige(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
+        {
+            mono.StartCoroutine(Put("prestige", callback, node));
+        }
 
-    static IEnumerator SendRequest(UnityWebRequest www, Action<long, string> callback)
-    {
-        www.SetRequestHeader("Accept", "application/json");
-        www.SetRequestHeader("Content-Type", "application/json");
+        public static void ResetRelics(MonoBehaviour mono, Action<long, string> callback)
+        {
+            mono.StartCoroutine(Put("resetrelics", callback, Utils.Json.GetDeviceNode()));
+        }
 
-        www.timeout = 3;
+        public static void GetStaticData(MonoBehaviour mono, Action<long, string> callback)
+        {
+            mono.StartCoroutine(Put("staticdata", callback));
+        }
 
-        yield return www.SendWebRequest();
+        // ===
 
-        if (www.isNetworkError || www.isHttpError)
-            Debug.Log(www.error);
+        static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
+        {
+            UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(json));
 
-        callback.Invoke(www.responseCode, www.downloadHandler.text);
+            yield return SendRequest(www, callback);
+        }
+
+        static IEnumerator Put(string endpoint, Action<long, string> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(JSON.Parse("{}")));
+
+            yield return SendRequest(www, callback);
+        }
+
+        static IEnumerator SendRequest(UnityWebRequest www, Action<long, string> callback)
+        {
+            www.SetRequestHeader("Accept", "application/json");
+            www.SetRequestHeader("Content-Type", "application/json");
+
+            www.timeout = 3;
+
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+                Debug.Log(www.error);
+
+            callback.Invoke(www.responseCode, www.downloadHandler.text);
+        }
     }
 }

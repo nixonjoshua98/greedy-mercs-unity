@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossHealth : Health
+namespace GreedyMercs
 {
-    public override BigDouble GetIntialHealth()
+    public class BossHealth : Health
     {
-        return Formulas.CalcBossHealth(GameState.Stage.stage);
+        public override BigDouble GetIntialHealth()
+        {
+            return Formulas.CalcBossHealth(GameState.Stage.stage);
+        }
     }
 }

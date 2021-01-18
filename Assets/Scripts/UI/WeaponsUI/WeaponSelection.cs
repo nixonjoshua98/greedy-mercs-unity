@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Weapons
+namespace GreedyMercs
 {
-    using Data.Weapons;
-    using Data.Characters;
-
     public class WeaponSelection : MonoBehaviour
     {
         CharacterSO character;

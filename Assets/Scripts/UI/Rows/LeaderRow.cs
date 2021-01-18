@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Leaders
+namespace GreedyMercs
 {
     public class LeaderRow : MonoBehaviour
     {

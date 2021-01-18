@@ -1,46 +1,48 @@
 ﻿
 using UnityEngine;
 
-
-public class DataManager : MonoBehaviour
+namespace GreedyMercs
 {
-    public static string LOCAL_FILENAME = "localsave_06";
-
-    public static string LOCAL_STATIC_FILENAME = "localstatic";
-
-    // ===
-    public static bool IsPaused;
-
-    void Awake()
+    public class DataManager : MonoBehaviour
     {
-        IsPaused = false;
-    }
+        public static string LOCAL_FILENAME = "localsave_06";
 
-    void Start()
-    {
-        if (GameState.IsRestored())
+        public static string LOCAL_STATIC_FILENAME = "localstatic";
+
+        // ===
+        public static bool IsPaused;
+
+        void Awake()
         {
+            IsPaused = false;
+        }
+
+        void Start()
+        {
+            if (GameState.IsRestored())
+            {
+                Invoke("WriteStateToFile", 1.0f);
+            }
+
+            else
+            {
+                Debug.LogWarning("Game state was no restored properly (most likely started the wrong scene)");
+
+                Debug.Break();
+            }
+        }
+
+        void WriteStateToFile()
+        {
+            if (!IsPaused)
+                Save();
+
             Invoke("WriteStateToFile", 1.0f);
         }
 
-        else
+        public static void Save()
         {
-            Debug.LogWarning("Game state was no restored properly (most likely started the wrong scene)");
-
-            Debug.Break();
+            Utils.File.WriteJson(LOCAL_FILENAME, GameState.ToJson());
         }
-    }
-
-    void WriteStateToFile()
-    {
-        if (!IsPaused)
-            Save();
-
-        Invoke("WriteStateToFile", 1.0f);
-    }
-
-    public static void Save()
-    {
-        Utils.File.WriteJson(LOCAL_FILENAME, GameState.ToJson());
     }
 }

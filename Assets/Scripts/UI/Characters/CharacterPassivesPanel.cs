@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace UI.Characters
+namespace GreedyMercs
 {
-    using Data.Characters;
-
     public class CharacterPassivesPanel : MonoBehaviour
     {
         [SerializeField] GameObject SkillRow;

@@ -4,52 +4,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public struct SpriteColourPair
+namespace GreedyMercs
 {
-    public Sprite Background;
-    public Color Color;
-}
-
-
-public class Background : MonoBehaviour
-{
-    /* ===
-     * This class handles the background transitions for the game, transitions occur every 25 stages
-     * 
-     * Note
-     *      Feedback told me that it looks better without the transition
-     * ===
-     */
-
-    [SerializeField] SpriteColourPair[] backgrounds;
-
-    void Awake()
+    [System.Serializable]
+    public struct SpriteColourPair
     {
-        Events.OnNewStageStarted.AddListener(OnNewStageStarted);
+        public Sprite Background;
+        public Color Color;
     }
 
-    void Start()
-    {
-        ChangeBackground();
-    }
 
-    void OnNewStageStarted()
+    public class Background : MonoBehaviour
     {
-        if (GameState.Stage.stage % 25 == 0)
+        /* ===
+         * This class handles the background transitions for the game, transitions occur every 25 stages
+         * 
+         * Note
+         *      Feedback told me that it looks better without the transition
+         * ===
+         */
+
+        [SerializeField] SpriteColourPair[] backgrounds;
+
+        void Awake()
+        {
+            Events.OnNewStageStarted.AddListener(OnNewStageStarted);
+        }
+
+        void Start()
         {
             ChangeBackground();
         }
-    }
 
-    void ChangeBackground()
-    {
-        SpriteColourPair pair = backgrounds[Mathf.FloorToInt(GameState.Stage.stage / 25) % backgrounds.Length];
+        void OnNewStageStarted()
+        {
+            if (GameState.Stage.stage % 25 == 0)
+            {
+                ChangeBackground();
+            }
+        }
 
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        void ChangeBackground()
+        {
+            SpriteColourPair pair = backgrounds[Mathf.FloorToInt(GameState.Stage.stage / 25) % backgrounds.Length];
 
-        Camera.main.backgroundColor = pair.Color;
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        sr.sprite = pair.Background;
+            Camera.main.backgroundColor = pair.Color;
+
+            sr.sprite = pair.Background;
+        }
     }
 }

@@ -5,12 +5,8 @@ using System.Collections;
 
 using UnityEngine;
 
-using Data.Characters;
-
-namespace GreedyMercs.StageGM
+namespace GreedyMercs
 {
-    using GreedyMercs.StageGM.Characters;
-
     public class SquadManager : MonoBehaviour
     {
         static SquadManager Instance = null;

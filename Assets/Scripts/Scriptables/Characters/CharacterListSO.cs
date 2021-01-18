@@ -3,7 +3,7 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace Data.Characters
+namespace GreedyMercs
 {
     public struct CharacterPassive
     {

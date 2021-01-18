@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LootData
+namespace GreedyMercs
 {    
     public enum LootID
     {
@@ -62,7 +62,7 @@ namespace LootData
         [HideInInspector] public float baseEffect;
         [HideInInspector] public float levelEffect;
 
-        public void Init(LootItemStaticData data)
+        public void Init(LootStaticData data)
         {
             bonusType = data.bonusType;
             valueType = data.valueType;

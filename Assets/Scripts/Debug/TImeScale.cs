@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.Debug
+namespace GreedyMercs
 {
     public class TimeScale : MonoBehaviour
     {

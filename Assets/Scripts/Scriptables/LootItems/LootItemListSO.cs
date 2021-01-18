@@ -4,9 +4,9 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace LootData
+namespace GreedyMercs
 {
-    public class LootItemStaticData
+    public class LootStaticData
     {
         public int maxLevel = int.MaxValue;
 
@@ -36,7 +36,7 @@ namespace LootData
 
             foreach (LootItemSO scriptable in ItemList)
             {
-                LootItemStaticData data = JsonUtility.FromJson<LootItemStaticData>(node[((int)scriptable.ItemID).ToString()].ToString());
+                LootStaticData data = JsonUtility.FromJson<LootStaticData>(node[((int)scriptable.ItemID).ToString()].ToString());
 
                 scriptable.Init(data);
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.GoldUpgrades
+namespace GreedyMercs
 {
     public abstract class GoldUpgradeRow : MonoBehaviour
     {

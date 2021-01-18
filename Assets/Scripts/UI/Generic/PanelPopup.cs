@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace UI
+namespace GreedyMercs
 {
     [RequireComponent(typeof(RectTransform))]
     public class PanelPopup : MonoBehaviour

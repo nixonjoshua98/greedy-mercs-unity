@@ -2,11 +2,8 @@
 using UnityEngine.UI;
 
 
-namespace UI.Weapons
+namespace GreedyMercs
 {
-    using Data.Weapons;
-    using Data.Characters;
-
     public class WeaponSlot : MonoBehaviour
     {
         public Text ownedText;

@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DebugMenu : MonoBehaviour
+namespace GreedyMercs
 {
-    public void OnGoldButton()
+    public class DebugMenu : MonoBehaviour
     {
-        GameState.Player.gold = BigDouble.Parse("1.0e5000");
-    }
+        public void OnGoldButton()
+        {
+            GameState.Player.gold = BigDouble.Parse("1.0e5000");
+        }
 
-    public void OnStageAdvance()
-    {
-        GameState.Stage.stage += 100;
-    }
+        public void OnStageAdvance()
+        {
+            GameState.Stage.stage += 100;
+        }
 
-    public void OnResetRelics()
-    {
-        Server.ResetRelics(this, ResetRelicsCallback);
-    }
+        public void OnResetRelics()
+        {
+            Server.ResetRelics(this, ResetRelicsCallback);
+        }
 
-    void ResetRelicsCallback(long code, string _)
-    {
-        SceneManager.LoadSceneAsync("LoginScene");
+        void ResetRelicsCallback(long code, string _)
+        {
+            SceneManager.LoadSceneAsync("LoginScene");
+        }
     }
 }

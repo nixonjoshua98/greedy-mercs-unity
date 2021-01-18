@@ -5,37 +5,40 @@ using UnityEngine;
 
 using SimpleJSON;
 
-public class UpgradesContainer
+namespace GreedyMercs
 {
-    Dictionary<GoldUpgradeID, UpgradeState> upgrades;
-
-    public UpgradesContainer(JSONNode node)
+    public class UpgradesContainer
     {
-        upgrades = new Dictionary<GoldUpgradeID, UpgradeState>();
+        Dictionary<GoldUpgradeID, UpgradeState> upgrades;
 
-        foreach (JSONNode upgrade in node["upgrades"].AsArray)
-            upgrades[(GoldUpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
-    }
-
-    public JSONNode ToJson()
-    {
-        return Utils.Json.CreateJSONArray("upgradeId", upgrades);
-    }
-
-    // === Helper Methods ===
-
-    public UpgradeState GetUpgrade(GoldUpgradeID upgrade)
-    {
-        if (!upgrades.ContainsKey(upgrade))
+        public UpgradesContainer(JSONNode node)
         {
-            AddUpgrade(upgrade, 1);
+            upgrades = new Dictionary<GoldUpgradeID, UpgradeState>();
+
+            foreach (JSONNode upgrade in node["upgrades"].AsArray)
+                upgrades[(GoldUpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
         }
 
-        return upgrades[upgrade];
-    }
+        public JSONNode ToJson()
+        {
+            return Utils.Json.CreateJSONArray("upgradeId", upgrades);
+        }
 
-    public void AddUpgrade(GoldUpgradeID playerUpgrade, int level = 1)
-    {
-        upgrades[playerUpgrade] = new UpgradeState { level = level };
+        // === Helper Methods ===
+
+        public UpgradeState GetUpgrade(GoldUpgradeID upgrade)
+        {
+            if (!upgrades.ContainsKey(upgrade))
+            {
+                AddUpgrade(upgrade, 1);
+            }
+
+            return upgrades[upgrade];
+        }
+
+        public void AddUpgrade(GoldUpgradeID playerUpgrade, int level = 1)
+        {
+            upgrades[playerUpgrade] = new UpgradeState { level = level };
+        }
     }
 }

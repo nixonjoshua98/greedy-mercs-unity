@@ -5,10 +5,8 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace Data.Weapons
+namespace GreedyMercs
 {
-    using Data.Characters;
-
 
     public class WeaponContainer
     {

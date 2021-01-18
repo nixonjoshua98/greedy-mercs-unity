@@ -1,10 +1,8 @@
 ﻿
 using UnityEngine;
 
-namespace UI.Characters
+namespace GreedyMercs
 {
-    using Data.Characters;
-
     public class CharacterPanel : MonoBehaviour
     {
         [SerializeField] CharacterPassivesPanel skillsPanel;

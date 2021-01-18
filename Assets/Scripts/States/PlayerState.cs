@@ -5,47 +5,50 @@ using SimpleJSON;
 using UnityEngine;
 
 
-[System.Serializable]
-public class PlayerState
+namespace GreedyMercs
 {
-    public string username = "Rogue Mercenary";
-
-    public BigDouble gold = 0;
-
-    public BigInteger bountyPoints      = 0;
-    public BigInteger prestigePoints    = 0;
-
-    public double currentEnergy = 0;
-
-    public int maxPrestigeStage = 0;
-
-    public void OnRestore(JSONNode node)
+    [System.Serializable]
+    public class PlayerState
     {
-        Update(node);
-    }
+        public string username = "Rogue Mercenary";
 
-    public void Update(JSONNode node)
-    {
-        if (node.HasKey("player"))
-            node = node["player"];
+        public BigDouble gold = 0;
 
-        gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
+        public BigInteger bountyPoints = 0;
+        public BigInteger prestigePoints = 0;
 
-        maxPrestigeStage    = node.HasKey("maxPrestigeStage")   ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
-        currentEnergy       = node.HasKey("currentEnergy")      ? node["currentEnergy"].AsFloat : currentEnergy;
+        public double currentEnergy = 0;
 
-        bountyPoints    = node.HasKey("bountyPoints")   ? BigInteger.Parse(node["bountyPoints"].Value, System.Globalization.NumberStyles.Any)   : bountyPoints;
-        prestigePoints  = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
-    }
+        public int maxPrestigeStage = 0;
 
-    public JSONNode ToJson()
-    {
-        JSONNode node = JSON.Parse(JsonUtility.ToJson(this));
+        public void OnRestore(JSONNode node)
+        {
+            Update(node);
+        }
 
-        node.Add("gold", gold.ToString().Replace("E", "e"));
-        node.Add("bountyPoints", bountyPoints.ToString());
-        node.Add("prestigePoints", prestigePoints.ToString());
+        public void Update(JSONNode node)
+        {
+            if (node.HasKey("player"))
+                node = node["player"];
 
-        return node;
+            gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
+
+            maxPrestigeStage = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
+            currentEnergy = node.HasKey("currentEnergy") ? node["currentEnergy"].AsFloat : currentEnergy;
+
+            bountyPoints = node.HasKey("bountyPoints") ? BigInteger.Parse(node["bountyPoints"].Value, System.Globalization.NumberStyles.Any) : bountyPoints;
+            prestigePoints = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
+        }
+
+        public JSONNode ToJson()
+        {
+            JSONNode node = JSON.Parse(JsonUtility.ToJson(this));
+
+            node.Add("gold", gold.ToString().Replace("E", "e"));
+            node.Add("bountyPoints", bountyPoints.ToString());
+            node.Add("prestigePoints", prestigePoints.ToString());
+
+            return node;
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 using SimpleJSON;
 
-namespace LootData
+namespace GreedyMercs
 {
     public class LootState
     {

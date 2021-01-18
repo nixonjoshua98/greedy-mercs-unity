@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.StageGM.UI
+namespace GreedyMercs
 {
     public class EnemyHealthbar : MonoBehaviour
     {

@@ -37,10 +37,10 @@ def calc_stage_prestige_points(stage, userloot):
 	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus())
 
 
-def hourly_bounty_income(staticbounties: dict, bountylevels: dict, maxstage, lastclaim) -> int:
+def hourly_bounty_income(bountylevels: dict, maxstage, lastclaim) -> int:
 	hourly_points = 0
 
-	for key, bounty in staticbounties.items():
+	for key, bounty in app.objects["bounties"].items():
 		if maxstage > bounty.unlock_stage:
 			hourly_points += bounty.bounty_points + (bountylevels.get(str(key), 1) - 1)
 

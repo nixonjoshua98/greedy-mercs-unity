@@ -16,11 +16,7 @@ class ClaimBounty(View):
 
 		data = utils.decompress(request.data)
 
-		n = time.time()
-
 		bounties = app.mongo.db.userBounties.find_one({"userId": userid})
-
-		print(time.time() - n)
 
 		if bounties is None:
 			bounties = {"lastClaimTime": dt.datetime.utcfromtimestamp(data["lastClaimTime"] / 1000.0)}
@@ -30,10 +26,9 @@ class ClaimBounty(View):
 		max_stage = max(stats.get("maxPrestigeStage", 0), data.get("currentStage", 0))
 
 		earned_points = formulas.hourly_bounty_income(
-			staticbounties=app.objects["bounties"],
-			bountylevels=bounties.get("bountyLevels", dict()),
-			maxstage=max_stage,
-			lastclaim=bounties["lastClaimTime"]
+			bounties.get("bountyLevels", dict()),
+			max_stage,
+			bounties["lastClaimTime"]
 		)
 
 		if earned_points == 0:

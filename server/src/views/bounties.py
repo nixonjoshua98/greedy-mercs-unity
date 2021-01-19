@@ -1,3 +1,4 @@
+import time
 import datetime as dt
 
 from flask import Response, request, current_app as app
@@ -11,12 +12,15 @@ class ClaimBounty(View):
 
 	@checks.login_check
 	def dispatch_request(self, *, userid):
-
 		now = dt.datetime.utcnow()
 
 		data = utils.decompress(request.data)
 
+		n = time.time()
+
 		bounties = app.mongo.db.userBounties.find_one({"userId": userid})
+
+		print(time.time() - n)
 
 		if bounties is None:
 			bounties = {"lastClaimTime": dt.datetime.utcfromtimestamp(data["lastClaimTime"] / 1000.0)}

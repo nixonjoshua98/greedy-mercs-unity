@@ -7,9 +7,7 @@ from src.views import (
 	ResetAccount, ClaimBounty, BuyWeapon, ChangeUsername, PlayerLeaderboard
 )
 
-DEBUG = False
-
-app = src.create_app(debug=DEBUG)
+app = src.create_app()
 
 
 # === Temp === #
@@ -37,4 +35,4 @@ app.add_url_rule("/api/staticdata", 	view_func=StaticData.as_view("staticdata"),
 app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), 			methods=["PUT"])
 
 if __name__ == "__main__":
-	app.run(host="0.0.0.0", debug=DEBUG, port=2122, threaded=False)
+	app.run(host="0.0.0.0", port=2122, threaded=False)

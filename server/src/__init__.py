@@ -1,3 +1,4 @@
+import os
 import time
 
 from flask import Flask
@@ -59,7 +60,7 @@ class FlaskApplication(Flask):
 		}
 
 
-def create_app(*, debug: bool):
+def create_app():
 	config = ConfigParser()
 
 	config.read("config.ini")
@@ -68,6 +69,6 @@ def create_app(*, debug: bool):
 
 	app.mongo = PyMongo()
 
-	app.mongo.init_app(app, uri=config.get("debug" if debug else "server", "MONGO_URI"))
+	app.mongo.init_app(app, uri=config.get("debug" if os.getenv("DEBUG", 0) == 1 else "server", "MONGO_URI"))
 
 	return app

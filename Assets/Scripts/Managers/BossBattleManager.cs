@@ -122,7 +122,7 @@ namespace GreedyMercs
 
         IEnumerator ITimer()
         {
-            float timer = 15.0f;
+            float timer = StatsCache.StageBoss.Timer;
 
             BossSlider.value = timer;
 

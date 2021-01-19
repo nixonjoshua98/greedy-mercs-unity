@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using SimpleJSON;
@@ -32,6 +33,8 @@ namespace GreedyMercs
         {
             return characters[chara];
         }
+
+        public List<CharacterID> Unlocked() => characters.Keys.ToList();
 
         public bool Contains(CharacterID chara) => characters.ContainsKey(chara);
 

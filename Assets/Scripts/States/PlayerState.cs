@@ -21,7 +21,7 @@ namespace GreedyMercs
 
         public int maxPrestigeStage = 0;
 
-        public void OnRestore(JSONNode node)
+        public PlayerState(JSONNode node)
         {
             Update(node);
         }

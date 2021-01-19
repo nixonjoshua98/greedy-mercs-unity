@@ -9,15 +9,24 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using GreedyMercs.StageDM.Prestige;
+
     public class PrestigePanel : MonoBehaviour
     {
+        [Header("Prefabs")]
+        [SerializeField] GameObject PrestigeControllerObject;
+
         [SerializeField] Text prestigePointText;
         [SerializeField] Text bountyLevelsText;
 
         [SerializeField] RectTransform lootBagRect;
 
+        bool currentlyPrestiging;
+
         void Awake()
         {
+            currentlyPrestiging = false;
+
             UpdatePanel();
 
             InvokeRepeating("UpdatePanel", 0.1f, 0.1f);
@@ -33,50 +42,25 @@ namespace GreedyMercs
 
         public void Prestige()
         {
-            if (GameState.Stage.stage < StageState.MIN_PRESTIGE_STAGE)
+            if (currentlyPrestiging || GameState.Stage.stage < StageState.MIN_PRESTIGE_STAGE)
                 return;
 
-            JSONNode node = Utils.Json.GetDeviceNode();
+            currentlyPrestiging = true;
 
-            node.Add("prestigeStage", GameState.Stage.stage);
+            GameObject o = Instantiate(PrestigeControllerObject);
 
-            SquadManager.ToggleAttacking(false);
-
-            Server.Prestige(this, OnPrestigeCallback, node);
-        }
-
-        void OnPrestigeCallback(long code, string compressed)
-        {
-            if (code == 200)
+            if (o.TryGetComponent(out PrestigeController controller))
             {
-                DataManager.IsPaused = true;
-
-                Utils.File.WriteJson(DataManager.LOCAL_FILENAME, Utils.Json.Decompress(compressed));
-
-                StartCoroutine(RunPrestigeAnimation());
-            }
-
-            else
-            {
-                Utils.UI.ShowMessage("Server Connection", "Failed to contact the server :(");
-
-                SquadManager.ToggleAttacking(true);
+                controller.Prestige(OnPrestige);
             }
         }
 
-        IEnumerator RunPrestigeAnimation()
+        void OnPrestige(bool success)
         {
-            CancelInvoke("UpdatePanel");
-
-            StartCoroutine(PanelAnimation(0.9f));
-
-            yield return SquadManager.MoveOut(1.0f);
-
-            bool _ = Utils.File.ReadJson(DataManager.LOCAL_FILENAME, out JSONNode node);
-
-            GameState.Restore(node);
-
-            SceneManager.LoadSceneAsync("GameScene");
+            if (success)
+            {
+                StartCoroutine(PanelAnimation(1.0f));
+            }
         }
 
         IEnumerator PanelAnimation(float duration)

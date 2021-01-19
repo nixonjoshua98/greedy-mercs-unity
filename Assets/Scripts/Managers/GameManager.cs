@@ -124,7 +124,7 @@ namespace GreedyMercs
 
         IEnumerator ISpawnNextEnemy()
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(Formulas.EnemySpawnCooldown);
 
             if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
             {

@@ -32,7 +32,7 @@ namespace GreedyMercs
 
         void RegularUpdate()
         {
-            mercDpsText.text = Utils.Format.FormatNumber(StatsCache.TotalCharacterDamage);
+            mercDpsText.text = Utils.Format.FormatNumber(StatsCache.TotalCharacterDPS);
         }
 
         void UpdateInterface()

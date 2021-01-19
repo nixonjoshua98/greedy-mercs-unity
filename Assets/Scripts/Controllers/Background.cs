@@ -38,7 +38,7 @@ namespace GreedyMercs
 
         void OnNewStageStarted()
         {
-            if (GameState.Stage.stage % 25 == 0)
+            if ((GameState.Stage.stage - 1) % 25 == 0)
             {
                 ChangeBackground();
             }

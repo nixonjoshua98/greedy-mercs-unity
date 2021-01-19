@@ -34,6 +34,9 @@ namespace GreedyMercs
             #endregion
         }
 
+        public static float EnemySpawnCooldown { get { return 0.25f; } }
+
+
         public static int CalcBountyHourlyIncome(BountyID bounty)
         {
             var scriptable = StaticData.BountyList.Get(bounty);

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace GreedyMercs
@@ -30,6 +31,7 @@ namespace GreedyMercs
         GOLD_ORE        = 20,
         GOLD_COINS      = 21,
         MIGHTY_FORK     = 22,
+        EXTENSION_BELL  = 23,
     }
 
     public enum ValueType

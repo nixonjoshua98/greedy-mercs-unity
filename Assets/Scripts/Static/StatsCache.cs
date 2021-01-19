@@ -43,17 +43,23 @@ namespace GreedyMercs
 
         static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CacBonuses(); } }
 
-        public static BigDouble TotalCharacterDamage
+        public static BigDouble TotalCharacterDPS
         {
             get
             {
                 BigDouble total = 0;
 
-                foreach (KeyValuePair<string, CacheValue> entry in CachedValues)
+                foreach (CharacterID chara in GameState.Characters.Unlocked())
                 {
-                    if (entry.Key.StartsWith("CHARACTER_DMG_"))
+                    UpgradeState state = GameState.Characters.Get(chara);
+
+                    if (CachedValues.TryGetValue(string.Format("CHARACTER_DMG_{0}", chara.ToString()), out CacheValue val))
                     {
-                        total += entry.Value.Value;
+                        total += val.Value;
+                    }
+                    else
+                    {
+                        total += GetCharacterDamage(chara);
                     }
                 }
 
@@ -72,6 +78,11 @@ namespace GreedyMercs
             public static BigDouble AutoTapDamage() => AutoTaps() * StatsCache.GetTapDamage();
             public static double AutoTaps() => Formulas.GoldUpgrades.CalcAutoTaps() + AddictiveBonuses(BonusType.AUTO_TAPS);
             #endregion
+        }
+
+        public static class StageBoss
+        {
+            public static float Timer => 15.0f + (float)BonusFromLoot.GetOrVal(BonusType.BOSS_TIMER_DUR, 0);
         }
 
         // # === Energy === #

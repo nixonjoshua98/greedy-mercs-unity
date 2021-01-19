@@ -19,17 +19,7 @@ namespace GreedyMercs
 
         void Start()
         {
-            if (GameState.IsRestored())
-            {
-                Invoke("WriteStateToFile", 1.0f);
-            }
-
-            else
-            {
-                Debug.LogWarning("Game state was no restored properly (most likely started the wrong scene)");
-
-                Debug.Break();
-            }
+            Invoke("WriteStateToFile", 1.0f);
         }
 
         void WriteStateToFile()

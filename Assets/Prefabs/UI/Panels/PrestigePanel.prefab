@@ -335,6 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb3eef8be6bba7498a9165bce84a989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrestigeControllerObject: {fileID: 8701339825499139847, guid: 8380affbe00cc164d9d17a6700ddf954,
+    type: 3}
   prestigePointText: {fileID: 8987427646916486768}
   bountyLevelsText: {fileID: 8987427645669869254}
   lootBagRect: {fileID: 8987427647328502726}

@@ -1,8 +1,9 @@
 ﻿
+using SimpleJSON;
+
 namespace GreedyMercs
 {
 
-    [System.Serializable]
     public class StageState
     {
         public const int MIN_PRESTIGE_STAGE = 80;
@@ -14,9 +15,32 @@ namespace GreedyMercs
 
         public bool isStageCompleted;
 
-        public StageState()
+        public StageState(JSONNode node)
         {
-            Reset();
+            if (node.HasKey("stage"))
+            {
+                node = node["stage"];
+
+                stage               = node["stage"].AsInt;
+                enemy               = node["enemy"].AsInt;
+                isStageCompleted    = node["isStageCompleted"].AsBool;
+            }
+
+            else
+            {
+                Reset();
+            }
+        }
+
+        public JSONNode ToJson()
+        {
+            JSONNode node = new JSONObject();
+
+            node.Add("stage", stage);
+            node.Add("enemy", enemy);
+            node.Add("isStageCompleted", isStageCompleted);
+
+            return node;
         }
 
         public void Reset()

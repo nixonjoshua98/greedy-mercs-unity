@@ -9,5 +9,4 @@ from .weapons import BuyWeapon
 from .prestige import Prestige
 from .login import Login
 
-
 from .debug import ResetAccount

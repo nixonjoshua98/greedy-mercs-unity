@@ -7,7 +7,7 @@ from src.views import (
 	ResetAccount, ClaimBounty, BuyWeapon, ChangeUsername, PlayerLeaderboard
 )
 
-DEBUG = True
+DEBUG = False
 
 app = src.create_app(debug=DEBUG)
 

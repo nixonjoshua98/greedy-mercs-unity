@@ -69,6 +69,6 @@ def create_app():
 
 	app.mongo = PyMongo()
 
-	app.mongo.init_app(app, uri=config.get("production" if os.getenv("DEBUG") == 1 else "debug", "MONGO_URI"))
+	app.mongo.init_app(app, uri=config.get("debug" if os.getenv("DEBUG") == 1 else "production", "MONGO_URI"))
 
 	return app

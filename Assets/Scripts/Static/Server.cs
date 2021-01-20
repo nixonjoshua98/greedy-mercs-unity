@@ -17,6 +17,7 @@ namespace GreedyMercs
 
         // === Bounty Shop ===
         public static void RefreshBountyShop(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bountyshop/refresh", callback, node));
+        public static void BuyBountyShopItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bountyshop/buy", callback, node));
 
         // === Weapons ===
         public static void BuyWeapon(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("weapon/buy", callback, node));

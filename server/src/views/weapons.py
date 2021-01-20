@@ -26,7 +26,7 @@ class BuyWeapon(View):
 			if weapons.get(index, 0) < (amount * buying):
 				return Response(utils.compress({"message": "Cannot fulfill merge recipe"}), status=400)
 
-		bp = int(items.get("bountyPoints", 0))
+		bp = items.get("bountyPoints", 0)
 
 		if weapon_data.buy_cost > 0 and bp < weapon_data.buy_cost * buying:
 			return Response(utils.compress({"message": "Cannot afford the BP"}), status=400)
@@ -39,9 +39,12 @@ class BuyWeapon(View):
 		for index, amount in weapon_data.merge_recipe.items():
 			query["$inc"].update({f"weapons.{chara_id}.{index}": -(amount * buying)})
 
-		query.update({"$set": {"bountyPoints": str(bp - (weapon_data.buy_cost * buying))}})
-
-		query["$inc"].update({f"weapons.{chara_id}.{weapon_id}": buying})
+		query["$inc"].update(
+			{
+				"bountyPoints": -(weapon_data.buy_cost * buying),
+				f"weapons.{chara_id}.{weapon_id}": buying
+			}
+		)
 
 		items = app.mongo.db.userItems.find_one_and_update(
 			{"userId": userid},
@@ -50,6 +53,6 @@ class BuyWeapon(View):
 			return_document=ReturnDocument.AFTER
 		)
 
-		return_data = {"weapons": items["weapons"], "bountyPoints": str(items["bountyPoints"])}
+		return_data = {"weapons": items["weapons"], "bountyPoints": items["bountyPoints"]}
 
 		return Response(utils.compress(return_data), status=200)

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs.Data.BountyShop
+namespace GreedyMercs.BountyShop.Data
 {
     public enum BountyShopItemID
     {
@@ -20,10 +20,12 @@ namespace GreedyMercs.Data.BountyShop
 
         [Header("Static Data")]
         public int maxResetBuy;
+        public int purchaseCost;
 
         public void Init(JSONNode node)
         {
             maxResetBuy = node["maxResetBuy"].AsInt;
+            purchaseCost = node["purchaseCost"].AsInt;
         }
     }
 }

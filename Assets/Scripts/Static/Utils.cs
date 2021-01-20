@@ -338,6 +338,21 @@ namespace GreedyMercs.Utils
             return val.ToString("E2").Replace("+", "").Replace("E", "e");
         }
 
+        public static string FormatNumber(long val)
+        {
+            if (val <= 1_000)
+                return val.ToString();
+
+            int n = (int)Mathf.Log(val, 1000);
+
+            double m = val / Mathf.Pow(1000, n);
+
+            if (n < unitsTable.Count)
+                return m.ToString("F2") + unitsTable[n];
+
+            return val.ToString("E2").Replace("+", "").Replace("E", "e");
+        }
+
         public static string FormatNumber(BigDouble val)
         {
             if (val < 1d)

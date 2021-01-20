@@ -6,7 +6,7 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
-    using GreedyMercs.Data.BountyShop;
+    using GreedyMercs.BountyShop.Data;
 
     public static class GameState
     {
@@ -31,7 +31,7 @@ namespace GreedyMercs
             BountyShop = new PlayerBountyShopData(node["userBountyShop"]);
 
             Loot        = new LootState(node);
-            Weapons     = new WeaponContainer(node);
+            Weapons     = new WeaponContainer(node["weapons"]);
             Bounties    = new BountyContainer(node);
 
             Upgrades    = new UpgradesContainer(node);
@@ -41,16 +41,6 @@ namespace GreedyMercs
             Player = new PlayerState(node);
 
             LastLoginDate = node.HasKey("lastLoginDate") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastLoginDate"].AsLong).DateTime : DateTime.UtcNow;
-        }
-
-        public static void Update(JSONNode node)
-        {
-            BountyShop.Update(node);
-
-            Player.Update(node);
-            Weapons.Update(node);
-            Loot.Update(node);
-            Bounties.Update(node);
         }
 
         public static JSONNode ToJson()

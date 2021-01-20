@@ -43,13 +43,17 @@ namespace GreedyMercs
                 {
                     DateTime now = DateTime.UtcNow;
 
-                    DateTime resetTime = new DateTime(now.Year, now.Month, now.Day, 13, 0, 0, 0);
+                    DateTime resetTime = new DateTime(now.Year, now.Month, now.Day, 20, 0, 0, 0);
 
                     return now <= resetTime ? resetTime : resetTime.AddDays(1);
                 }
             }
 
+            public static DateTime PrevDailyResetDate { get { return NextDailyReset.AddDays(-1); } }
+
             public static int SecondsUntilDailyReset { get { return Mathf.CeilToInt((float)(NextDailyReset - DateTime.UtcNow).TotalSeconds); } }
+
+            public static bool BountyShopNeedsRefresh { get { return GameState.BountyShop.lastPurchaseReset != PrevDailyResetDate; } }
 
         }
 

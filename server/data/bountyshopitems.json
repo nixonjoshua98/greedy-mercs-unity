@@ -1,6 +1,7 @@
 
 {
   "0": {
+    "purchaseCost": 50,
     "maxResetBuy": 5
   }
 }

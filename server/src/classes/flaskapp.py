@@ -1,6 +1,6 @@
 import time
 
-from flask import Flask
+from flask import Flask, request
 
 from src import utils
 
@@ -16,30 +16,29 @@ class FlaskApplication(Flask):
 		self.staticdata = self.load_static()
 		self.objects = self.create_objects()
 
+		self.before_request(self.on_before_request)
+
 	@property
 	def next_daily_reset(self):
-		reset_time = (now := dt.datetime.utcnow()).replace(hour=13, minute=0, second=0, microsecond=0)
-
+		reset_time = (now := dt.datetime.utcnow()).replace(hour=20, minute=0, second=0, microsecond=0)
 		return reset_time if now <= reset_time else reset_time + dt.timedelta(days=1)
 
 	@property
 	def last_daily_reset(self) -> dt.datetime:
 		return self.next_daily_reset - dt.timedelta(days=1)
 
-	# noinspection PyCallingNonCallable
 	def add_url_rule(self, rule, endpoint=None, view_func=None, provide_automatic_options=None, **options):
 		super(FlaskApplication, self).add_url_rule(rule, endpoint, view_func, provide_automatic_options, **options)
 
-		if (view := self.view_functions.get(endpoint)) is not None:
-			if hasattr(view, "view_class") and hasattr(view.view_class, "on_startup"):
-				view.view_class.on_startup()
+	def on_before_request(self):
+		print(request.endpoint, end=" ")
 
 	def full_dispatch_request(self):
 		now = time.time()
 
 		val = super(FlaskApplication, self).full_dispatch_request()
 
-		print("Dispatched request in ", time.time() - now, "s", sep="")
+		print(time.time() - now, "s", sep="")
 
 		return val
 

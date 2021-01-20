@@ -59,9 +59,7 @@ namespace GreedyMercs
                     maxMergeBuy = Mathf.Min(maxMergeBuy, prevWeaponOwned / entry.Value);
                 }
 
-                int maxBuy = (int)BigInteger.Min(maxMergeBuy, weaponStaticData.buyCost > 0 ? GameState.Player.bountyPoints / weaponStaticData.buyCost : weaponStaticData.maxOwned);
-
-                return Mathf.Min(maxBuy, weaponsLeft);
+                return (int)Mathf.Min(weaponsLeft, maxMergeBuy, weaponStaticData.buyCost > 0 ? (GameState.Player.bountyPoints / weaponStaticData.buyCost) : weaponStaticData.maxOwned);
             }
         }
 

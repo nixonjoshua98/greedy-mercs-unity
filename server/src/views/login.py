@@ -19,6 +19,4 @@ class Login(View):
 		else:
 			uid = row["_id"]
 
-		print(uid)
-
 		return Response(utils.compress(utils.dbops.get_player_data(uid)), status=200)

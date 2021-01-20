@@ -104,10 +104,12 @@ namespace GreedyMercs
             if (code == 200)
             {
                 var node = Utils.Json.Decompress(compressed);
-              
+            
                 Events.OnWeaponBought.Invoke(character, weaponIndex);
 
-                GameState.Update(node);
+                GameState.Weapons.Update(node["weapons"]);
+
+                GameState.Player.bountyPoints = node["bountyPoints"].AsLong;
             }
 
             callback();

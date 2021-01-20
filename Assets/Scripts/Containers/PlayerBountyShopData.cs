@@ -1,20 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 
 using SimpleJSON;
 
-namespace GreedyMercs.Data.BountyShop
+namespace GreedyMercs.BountyShop.Data
 {
-    public struct PlayerBountyShopItem
+    public class PlayerBountyItem
     {
         public int totalBought;
     }
 
     public class PlayerBountyShopData
     {
-        Dictionary<BountyShopItemID, PlayerBountyShopItem> items;
+        Dictionary<BountyShopItemID, PlayerBountyItem> items;
+
+        public DateTime lastPurchaseReset;
 
         public PlayerBountyShopData(JSONNode node)
         {
@@ -26,16 +29,18 @@ namespace GreedyMercs.Data.BountyShop
             if (node.HasKey("userBountyShop"))
                 node = node["userBountyShop"];
 
-            items = new Dictionary<BountyShopItemID, PlayerBountyShopItem>();
+            items = new Dictionary<BountyShopItemID, PlayerBountyItem>();
 
             foreach (string key in node["itemsBought"].Keys)
             {
                 BountyShopItemID itemId = (BountyShopItemID)int.Parse(key);
 
-                items[itemId] = new PlayerBountyShopItem { totalBought = node["itemsBought"][key].AsInt };
+                items[itemId] = new PlayerBountyItem { totalBought = node["itemsBought"][key].AsInt };
             }
+
+            lastPurchaseReset = DateTimeOffset.FromUnixTimeMilliseconds(node["lastPurchaseReset"].AsLong).DateTime;
         }
 
-        public PlayerBountyShopItem GetItem(BountyShopItemID key) => items[key];
+        public PlayerBountyItem GetItem(BountyShopItemID key) => items[key];
     }
 }

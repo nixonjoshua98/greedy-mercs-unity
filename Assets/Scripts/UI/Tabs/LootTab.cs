@@ -29,11 +29,7 @@ namespace GreedyMercs
         [Header("Prefabs")]
         [SerializeField] GameObject LootRowObject;
 
-        [SerializeField] GameObject BlankPanel;
-
         public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
-
-        GameObject spawnedBlankPanel;
 
         List<LootUpgradeRow> rows;
 
@@ -47,6 +43,8 @@ namespace GreedyMercs
             {
                 AddRow(relic.Key);
             }
+
+            InvokeRepeating("UpdateUI", 0.0f, 0.1f);
         }
 
         void AddRow(LootID item)
@@ -62,7 +60,7 @@ namespace GreedyMercs
             rows.Add(row);
         }
 
-        void FixedUpdate()
+        void UpdateUI()
         {
             prestigePointText.text      = Utils.Format.FormatNumber(GameState.Player.prestigePoints);
             buyLootButton.interactable  = GameState.Loot.Count < StaticData.LootList.Count;
@@ -87,8 +85,6 @@ namespace GreedyMercs
 
             else if (GameState.Loot.Count < StaticData.LootList.Count)
             {
-                spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, Vector3.zero);
-
                 Server.BuyLootItem(this, OnBuyCallback, Utils.Json.GetDeviceNode());
             }
         }
@@ -113,7 +109,7 @@ namespace GreedyMercs
                 Utils.UI.ShowMessage("Buy Loot Item", "Failed to buy item :(");
             }
 
-            Destroy(spawnedBlankPanel);
+            UpdateUI();
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace GreedyMercs
 {
-    using GreedyMercs.Data.BountyShop;
+    using GreedyMercs.BountyShop.Data;
 
     [System.Serializable]
     public class UpgradeState
@@ -43,9 +43,14 @@ namespace GreedyMercs
 
             if (code == 200)
             {
+                // Update the local data with the data from the server
                 JSONNode node = Utils.Json.Decompress(compressed);
 
-                GameState.Update(node);
+                GameState.Loot.Update(node["loot"]);
+                GameState.Player.Update(node["player"]);
+                GameState.Weapons.Update(node["weapons"]);
+                GameState.Bounties.Update(node["bounties"]);
+                GameState.BountyShop.Update(node["userBountyShop"]);
             }
 
             else

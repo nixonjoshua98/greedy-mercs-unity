@@ -19,20 +19,17 @@ namespace GreedyMercs
 
         public void Update(JSONNode node)
         {
-            if (node.HasKey("weapons"))
+            weapons = new Dictionary<CharacterID, Dictionary<int, int>>();
+
+            foreach (string stringKey in node.Keys)
             {
-                weapons = new Dictionary<CharacterID, Dictionary<int, int>>();
+                CharacterID key = (CharacterID)int.Parse(stringKey);
 
-                foreach (string stringKey in node["weapons"].Keys)
+                weapons[key] = new Dictionary<int, int>();
+
+                foreach (string weaponString in node[stringKey].Keys)
                 {
-                    CharacterID key = (CharacterID)int.Parse(stringKey);
-
-                    weapons[key] = new Dictionary<int, int>();
-
-                    foreach (string weaponString in node["weapons"][stringKey].Keys)
-                    {
-                        weapons[key][int.Parse(weaponString)] = node["weapons"][stringKey][weaponString].AsInt;
-                    }
+                    weapons[key][int.Parse(weaponString)] = node[stringKey][weaponString].AsInt;
                 }
             }
         }

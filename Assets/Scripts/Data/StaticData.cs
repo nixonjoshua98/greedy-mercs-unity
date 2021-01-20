@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
-    using GreedyMercs.Data.BountyShop;
+    using GreedyMercs.BountyShop.Data;
 
     public class StaticData
     {

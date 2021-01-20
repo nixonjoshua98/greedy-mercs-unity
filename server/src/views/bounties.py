@@ -35,10 +35,9 @@ class ClaimBounty(View):
 
 		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
-		bp = int(items.get("bountyPoints", 0)) + earned_points
-
-		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"bountyPoints": str(bp)}}, upsert=True)
-
+		app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": {"bountyPoints": earned_points}}, upsert=True)
 		app.mongo.db.userBounties.update_one({"userId": userid}, {"$set": {"lastClaimTime": now}}, upsert=True)
 
-		return Response(utils.compress({"bountyPoints": str(bp), "lastClaimTime": now}), status=200)
+		return_data = {"bountyPoints": items.get("bountyPoints", 0) + earned_points, "lastClaimTime": now}
+
+		return Response(utils.compress(return_data), status=200)

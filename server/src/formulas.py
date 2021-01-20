@@ -7,6 +7,18 @@ from src.enums import BonusType
 from flask import current_app as app
 
 
+def prestige_bonus(loot):
+	bonus = 1
+
+	for key, level in loot.items():
+		item = app.objects["loot"][int(key)]
+
+		if item.bonus_type == BonusType.CASH_OUT_BONUS:
+			bonus *= item.effect(level)
+
+	return bonus
+
+
 def next_prestige_item_cost(numrelics: int):
 	return math.floor(max(1, numrelics - 2) * math.pow(1.35, numrelics))
 
@@ -23,18 +35,7 @@ def calc_stage_prestige_points(stage, userloot):
 		Returns the prestige points calculated as an int
 	"""
 
-	def prestige_bonus():
-		bonus = 1
-
-		for key, level in userloot.items():
-			item = app.objects["loot"][int(key)]
-
-			if item.bonus_type == BonusType.CASH_OUT_BONUS:
-				bonus *= item.effect(level)
-
-		return bonus
-
-	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus())
+	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus(userloot))
 
 
 def hourly_bounty_income(bountylevels: dict, maxstage, lastclaim) -> int:

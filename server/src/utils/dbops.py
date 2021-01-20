@@ -1,8 +1,20 @@
-from pymongo import MongoClient, ReturnDocument
+from pymongo import ReturnDocument
 
 from flask import current_app as app
 
 from bson import ObjectId
+
+from src import formulas
+
+
+def add_prestige_points(userid, stage: int):
+	items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
+
+	points = formulas.calc_stage_prestige_points(stage, items.get("loot", dict()))
+
+	pp = int(items.get("prestigePoints", 0)) + points
+
+	app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
 
 def get_bounty_shop_and_update(userid):
@@ -17,7 +29,7 @@ def get_bounty_shop_and_update(userid):
 	"""
 	shop = app.mongo.db.userBountyShop.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
 
-	shop_needs_updating = (last_reset := shop.get("lastReset")) is not None and app.last_daily_reset > last_reset
+	shop_needs_updating = (last_reset := shop.get("lastPurchaseReset")) is not None and app.last_daily_reset > last_reset
 
 	if last_reset is None or shop_needs_updating:
 		shop = app.mongo.db.userBountyShop.find_one_and_update(
@@ -27,7 +39,7 @@ def get_bounty_shop_and_update(userid):
 
 			{
 				"$set": {
-					"lastReset": app.last_daily_reset,
+					"lastPurchaseReset": app.last_daily_reset,
 					"itemsBought": {"0": 0}
 				}
 			},
@@ -40,20 +52,19 @@ def get_bounty_shop_and_update(userid):
 	return shop
 
 
-def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int) -> None:
+def update_max_prestige_stage(userid: ObjectId, stage: int) -> None:
 	"""
 	Updates a users max prestge stage
 	====================
 
-	:param mongo: The Mongo object, attached to the Flask application
 	:param userid: The internal ID for the user we are updating
 	:param stage: The stage at which the user prestiged at
 	"""
 
-	result = mongo.db.userStats.find_one({"userId": userid})
+	result = app.mongo.db.userStats.find_one({"userId": userid})
 
 	if result is None or result.get("maxPrestigeStage", 0) < stage:
-		mongo.db.userStats.update_one({"userId": userid}, {"$set": {"maxPrestigeStage": stage}}, upsert=True)
+		app.mongo.db.userStats.update_one({"userId": userid}, {"$set": {"maxPrestigeStage": stage}}, upsert=True)
 
 
 def add_bounty_prestige_levels(userid, stage):
@@ -83,7 +94,7 @@ def add_bounty_prestige_levels(userid, stage):
 
 	bounty_levels = prestige_bounty_levels_earned()
 
-	return app.mongo.db.userBounties.update_one(
+	app.mongo.db.userBounties.update_one(
 		{"userId": userid},
 		{"$inc": {f"bountyLevels.{key}": level for key, level in bounty_levels.items()}}
 	)

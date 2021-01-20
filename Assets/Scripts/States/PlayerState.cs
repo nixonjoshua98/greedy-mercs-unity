@@ -14,7 +14,8 @@ namespace GreedyMercs
 
         public BigDouble gold = 0;
 
-        public BigInteger bountyPoints = 0;
+        public long bountyPoints = 0;
+
         public BigInteger prestigePoints = 0;
 
         public double currentEnergy = 0;
@@ -33,11 +34,11 @@ namespace GreedyMercs
 
             gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
 
-            maxPrestigeStage = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
-            currentEnergy = node.HasKey("currentEnergy") ? node["currentEnergy"].AsFloat : currentEnergy;
+            maxPrestigeStage    = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
+            currentEnergy       = node.HasKey("currentEnergy") ? node["currentEnergy"].AsFloat : currentEnergy;
 
-            bountyPoints = node.HasKey("bountyPoints") ? BigInteger.Parse(node["bountyPoints"].Value, System.Globalization.NumberStyles.Any) : bountyPoints;
-            prestigePoints = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
+            bountyPoints    = node.HasKey("bountyPoints") ? node["bountyPoints"].AsLong : bountyPoints;
+            prestigePoints  = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
         }
 
         public JSONNode ToJson()

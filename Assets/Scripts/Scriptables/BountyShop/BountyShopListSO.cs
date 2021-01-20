@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine;
 
-namespace GreedyMercs.Data.BountyShop
+namespace GreedyMercs.BountyShop.Data
 {
     [PreferBinarySerialization]
     [CreateAssetMenu(menuName = "Scriptables/Containers/BountyShopList")]

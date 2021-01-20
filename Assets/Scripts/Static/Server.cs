@@ -10,10 +10,13 @@ namespace GreedyMercs
 {
     public static class Server
     {
-        const string IP = "18.215.151.64"; // "31.53.80.1"; // "18.224.19.50";
+        const string IP = "31.53.80.1"; // "18.215.151.64"; // "18.224.19.50";
 
         // === Bounties ===
         public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));
+
+        // === Bounty Shop ===
+        public static void RefreshBountyShop(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bountyshop/refresh", callback, node));
 
         // === Weapons ===
         public static void BuyWeapon(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("weapon/buy", callback, node));

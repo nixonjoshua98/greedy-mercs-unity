@@ -1,8 +1,43 @@
+from pymongo import MongoClient, ReturnDocument
+
 from flask import current_app as app
 
-from pymongo import MongoClient
-
 from bson import ObjectId
+
+
+def get_bounty_shop_and_update(userid):
+	"""
+	Gets a users bounty shop entry, and updates it if it is out of date (from a previous reset)
+	====================
+
+	:param userid: The internal ID for the user we are updating
+
+	:return:
+		Return a the document (dict) from the database
+	"""
+	shop = app.mongo.db.userBountyShop.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
+
+	shop_needs_updating = (last_reset := shop.get("lastReset")) is not None and app.last_daily_reset > last_reset
+
+	if last_reset is None or shop_needs_updating:
+		shop = app.mongo.db.userBountyShop.find_one_and_update(
+			{
+				"userId": userid
+			},
+
+			{
+				"$set": {
+					"lastReset": app.last_daily_reset,
+					"itemsBought": {"0": 0}
+				}
+			},
+
+			projection={'_id': False, 'userId': False},
+			upsert=True,
+			return_document=ReturnDocument.AFTER
+		)
+
+	return shop
 
 
 def update_max_prestige_stage(mongo: MongoClient, userid: ObjectId, stage: int) -> None:
@@ -54,22 +89,23 @@ def add_bounty_prestige_levels(userid, stage):
 	)
 
 
-def get_player_data(mongo, uid):
+def get_player_data(userid):
 	"""
 	Gets a users account data
 	====================
 
-	:param mongo: The Mongo object, attached to the Flask application
-	:param uid: The internal ID for the user we are updating
+	:param userid: The internal ID for the user we are updating
 
 	:return:
 		Returns the users data as a dict
 	"""
 
-	items = mongo.db.userItems.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
-	stats = mongo.db.userStats.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
+	bounty_shop = get_bounty_shop_and_update(userid)
 
-	bounties = mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
+	items = app.mongo.db.userItems.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
+	stats = app.mongo.db.userStats.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
+
+	bounties = app.mongo.db.userBounties.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
 
 	return {
 		"player": {
@@ -78,6 +114,8 @@ def get_player_data(mongo, uid):
 			"prestigePoints": 	str(items.get("prestigePoints", 0)),
 			"username": 		stats.get("username", "Rogue Mercenary"),
 		},
+
+		"userBountyShop": bounty_shop,
 
 		"bounties": bounties,
 		"weapons": 	items.get("weapons", dict()),

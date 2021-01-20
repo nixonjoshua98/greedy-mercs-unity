@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 using UnityEngine;
 
@@ -33,6 +34,25 @@ namespace GreedyMercs
             }
             #endregion
         }
+
+        public static class Server
+        {
+            public static DateTime NextDailyReset
+            {
+                get
+                {
+                    DateTime now = DateTime.UtcNow;
+
+                    DateTime resetTime = new DateTime(now.Year, now.Month, now.Day, 13, 0, 0, 0);
+
+                    return now <= resetTime ? resetTime : resetTime.AddDays(1);
+                }
+            }
+
+            public static int SecondsUntilDailyReset { get { return Mathf.CeilToInt((float)(NextDailyReset - DateTime.UtcNow).TotalSeconds); } }
+
+        }
+
 
         public static float EnemySpawnCooldown { get { return 0.25f; } }
 

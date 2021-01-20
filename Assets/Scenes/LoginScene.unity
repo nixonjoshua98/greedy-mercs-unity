@@ -398,6 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a7b5d846ba8634eaa5688098d222bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BountyShop: {fileID: 11400000, guid: c2c98df88917c5140bb4b6bc871269a5, type: 2}
   RelicList: {fileID: 11400000, guid: 451cc5e88d92a4d4c8ae77b3f0e37181, type: 2}
   SkillList: {fileID: 11400000, guid: a358a2c4699477142a6572e08d3113a4, type: 2}
   BountyList: {fileID: 11400000, guid: a4189d8736398f243bc8283ca9c72c93, type: 2}

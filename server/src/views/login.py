@@ -21,4 +21,4 @@ class Login(View):
 
 		print(uid)
 
-		return Response(utils.compress(utils.dbops.get_player_data(app.mongo, uid)), status=200)
+		return Response(utils.compress(utils.dbops.get_player_data(uid)), status=200)

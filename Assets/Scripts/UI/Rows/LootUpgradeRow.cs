@@ -21,11 +21,6 @@ namespace GreedyMercs
         [SerializeField] Text effectText;
         [SerializeField] Text descText;
 
-        [Header("Prefabs")]
-        [SerializeField] GameObject BlankPanel;
-
-        GameObject spawnedBlankPanel;
-
         int BuyAmount
         {
             get
@@ -109,39 +104,44 @@ namespace GreedyMercs
 
             BigInteger cost = Formulas.CalcLootItemLevelUpCost(lootId, levelsBuying);
 
+            void ServerCallback(long code, string compressed)
+            {
+                OnUpgradeCallback(cost, levelsBuying, code, compressed);
+            }
+
             if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.maxLevel)
             {
-                spawnedBlankPanel = Utils.UI.Instantiate(BlankPanel, UnityEngine.Vector3.zero);
+                // Increment the loot level, and deduct the cost
+                // We will undo this if the request fails
+                state.level += levelsBuying;
+                GameState.Player.prestigePoints -= cost;
 
                 JSONNode node = Utils.Json.GetDeviceNode();
 
                 node.Add("itemId", (int)lootId);
                 node.Add("buyLevels", BuyAmount);
 
-                Server.UpgradeLootItem(this, OnUpgradeCallback, node);
+                Server.UpgradeLootItem(this, ServerCallback, node);
             }
         }
 
-        void OnUpgradeCallback(long code, string compressed)
+        void OnUpgradeCallback(BigInteger cost, int levelsBuying, long code, string compressed)
         {
             if (code == 200)
             {
-                JSONNode node       = Utils.Json.Decompress(compressed);
-                UpgradeState state  = GameState.Loot.Get(lootId);
 
-                state.level = node["itemLevel"].AsInt;
-
-                GameState.Player.prestigePoints = BigInteger.Parse(node["prestigePoints"].Value);
             }
 
             else
             {
-                Utils.UI.ShowMessage("Server Error ", "Failed to upgrade item :(");
+                UpgradeState state = GameState.Loot.Get(lootId);
+
+                state.level -= levelsBuying;
+
+                GameState.Player.prestigePoints += cost;
             }
 
             UpdateRow();
-
-            Destroy(spawnedBlankPanel);
         }
     }
 }

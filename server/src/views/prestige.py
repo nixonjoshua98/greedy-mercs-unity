@@ -27,4 +27,4 @@ class Prestige(View):
 
 		app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
-		return Response(utils.compress(utils.dbops.get_player_data(app.mongo, userid)), status=200)
+		return Response(utils.compress(utils.dbops.get_player_data(userid)), status=200)

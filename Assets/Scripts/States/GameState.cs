@@ -6,8 +6,12 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using GreedyMercs.Data.BountyShop;
+
     public static class GameState
     {
+        public static PlayerBountyShopData BountyShop;
+
         public static LootState Loot;
         public static StageState Stage;
         public static PlayerState Player;
@@ -24,6 +28,8 @@ namespace GreedyMercs
         {
             Stage = new StageState(node);
 
+            BountyShop = new PlayerBountyShopData(node["userBountyShop"]);
+
             Loot        = new LootState(node);
             Weapons     = new WeaponContainer(node);
             Bounties    = new BountyContainer(node);
@@ -39,6 +45,8 @@ namespace GreedyMercs
 
         public static void Update(JSONNode node)
         {
+            BountyShop.Update(node);
+
             Player.Update(node);
             Weapons.Update(node);
             Loot.Update(node);

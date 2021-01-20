@@ -13,7 +13,7 @@ namespace GreedyMercs
     }
 
     [PreferBinarySerialization]
-    [CreateAssetMenu(menuName = "Scriptables/Container/BountyList")]
+    [CreateAssetMenu(menuName = "Scriptables/Containers/BountyList")]
     public class BountyListSO : ScriptableObject
     {
         public List<BountySO> BountyList;

@@ -7,6 +7,8 @@ from src.views import (
 	ResetAccount, ClaimBounty, BuyWeapon, ChangeUsername, PlayerLeaderboard
 )
 
+from src.views import bountyshop
+
 app = src.create_app()
 
 
@@ -15,6 +17,9 @@ app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics
 
 # === Bounties === #
 app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty"), methods=["PUT"])
+
+# === Bounty Shop === #
+app.add_url_rule("/api/bountyshop/refresh", view_func=bountyshop.refresh_bounty_shop, methods=["PUT"])
 
 # === Weapons === #
 app.add_url_rule("/api/weapon/buy", view_func=BuyWeapon.as_view("buyweapon"), methods=["PUT"])

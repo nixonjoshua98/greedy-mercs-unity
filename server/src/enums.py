@@ -29,3 +29,8 @@ class ValueType(enum.IntEnum):
     MULTIPLY            = 0,
     ADDITIVE_PERCENT    = 1,
     ADDITIVE_FLAT_VAL   = 2
+
+
+class BountyShopItem(enum.IntEnum):
+
+    PRESTIGE_90 = 0

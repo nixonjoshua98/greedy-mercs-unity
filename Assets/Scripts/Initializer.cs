@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 namespace GreedyMercs
 {
+    using GreedyMercs.Data.BountyShop;
+
     [System.Serializable]
     public class UpgradeState
     {
@@ -14,6 +16,8 @@ namespace GreedyMercs
     public class Initializer : MonoBehaviour
     {
         [Header("Scriptables")]
+        [SerializeField] BountyShopListSO BountyShop;
+
         [SerializeField] LootItemListSO RelicList;
         [SerializeField] SkillListSO SkillList;
         [SerializeField] BountyListSO BountyList;
@@ -21,7 +25,7 @@ namespace GreedyMercs
 
         void Awake()
         {
-            StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList);
+            StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList, BountyShop);
         }
 
         void Start()

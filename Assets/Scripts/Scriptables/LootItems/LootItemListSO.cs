@@ -21,7 +21,7 @@ namespace GreedyMercs
     }
 
     [PreferBinarySerialization]
-    [CreateAssetMenu(menuName = "Scriptables/Container/LootList")]
+    [CreateAssetMenu(menuName = "Scriptables/Containers/LootList")]
     public class LootItemListSO : ScriptableObject
     {
         public List<LootItemSO> ItemList;

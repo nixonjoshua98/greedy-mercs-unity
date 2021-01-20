@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GreedyMercs.Data.BountyShop;
+
     public class StaticData
     {
         public const int MAX_CHAR_LEVEL = 1_000;
@@ -21,11 +23,15 @@ namespace GreedyMercs
         public static LootItemListSO LootList;
         public static CharacterListSO CharacterList;
 
+        public static BountyShopListSO BountyShop;
+
         public static void Restore(JSONNode node)
         {
             Weapons = new Weapons(node["weapons"]);
 
             SkillList.Init();
+
+            BountyShop.Init(node["bountyShopItems"]);
 
             CharacterList.Restore(node["characters"], node["characterPassives"]);
 
@@ -33,8 +39,10 @@ namespace GreedyMercs
             BountyList.Restore(node["bounties"]);
         }
 
-        public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot)
+        public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, BountyShopListSO bountyShop)
         {
+            BountyShop = bountyShop;
+
             CharacterList = chars;
             LootList = loot;
             SkillList = skills;

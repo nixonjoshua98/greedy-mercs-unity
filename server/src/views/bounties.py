@@ -1,4 +1,3 @@
-import time
 import datetime as dt
 
 from flask import Response, request, current_app as app

@@ -17,8 +17,6 @@ def create_app():
 	if (uri := os.getenv("MONGO_URI")) is None:
 		uri = "mongodb://localhost:27017/greedymercs"
 
-	print(uri)
-
 	app.mongo.init_app(app, uri=uri)
 
 	return app

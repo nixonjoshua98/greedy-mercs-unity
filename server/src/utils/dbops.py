@@ -6,6 +6,8 @@ from bson import ObjectId
 
 from src import formulas
 
+import time
+
 
 def add_prestige_points(userid, stage: int):
 	items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
@@ -111,12 +113,16 @@ def get_player_data(userid):
 		Returns the users data as a dict
 	"""
 
+	now = time.time()
+
 	bounty_shop = get_bounty_shop_and_update(userid)
 
 	items = app.mongo.db.userItems.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
 	stats = app.mongo.db.userStats.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
 
 	bounties = app.mongo.db.userBounties.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
+
+	print("Get Data", time.time() - now)
 
 	return {
 		"player": {

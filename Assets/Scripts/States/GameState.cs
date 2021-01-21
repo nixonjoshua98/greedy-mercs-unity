@@ -26,7 +26,7 @@ namespace GreedyMercs
 
         public static void Restore(JSONNode node)
         {
-            Loot    = new LootState(node);
+            Loot    = new LootState(node["loot"]);
             Stage   = new StageState(node);
             Skills  = new SkillsState(node);
             Player  = new PlayerState(node);

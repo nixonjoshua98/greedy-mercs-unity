@@ -9,7 +9,7 @@ namespace GreedyMercs.BountyShop.Data
 {
     public enum BountyShopItemID
     {
-        PRESTIGE_90 = 0
+        PRESTIGE_POINTS_PERCENT = 0
     }
 
     [PreferBinarySerialization]
@@ -22,10 +22,27 @@ namespace GreedyMercs.BountyShop.Data
         public int maxResetBuy;
         public int purchaseCost;
 
-        public void Init(JSONNode node)
+        JSONNode node;
+
+        public void Init(JSONNode _node)
         {
+            node = _node;
+
             maxResetBuy = node["maxResetBuy"].AsInt;
             purchaseCost = node["purchaseCost"].AsInt;
+        }
+
+        JSONNode Get(string key)
+        {
+            if (!node.HasKey(key))
+                Debug.Log("Bounty item is missing key " + key);
+
+            return node[key];
+        }
+
+        public float GetFloat(string key)
+        {
+            return Get(key).AsFloat;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using UnityEngine;
 using SimpleJSON;
 
 namespace GreedyMercs
@@ -17,14 +18,11 @@ namespace GreedyMercs
 
         public void Update(JSONNode node)
         {
-            if (node.HasKey("loot"))
-            {
-                items = new Dictionary<LootID, UpgradeState>();
+            items = new Dictionary<LootID, UpgradeState>();
 
-                foreach (string itemId in node["loot"].Keys)
-                {
-                    items[(LootID)int.Parse(itemId)] = new UpgradeState { level = node["loot"][itemId].AsInt };
-                }
+            foreach (string itemId in node.Keys)
+            {
+                items[(LootID)int.Parse(itemId)] = new UpgradeState { level = node[itemId].AsInt };
             }
         }
 

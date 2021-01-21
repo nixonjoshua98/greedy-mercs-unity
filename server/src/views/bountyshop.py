@@ -36,8 +36,10 @@ class BountyShop:
 		bounty_points 	= items.get("bountyPoints", 0)
 		num_bought 		= shop["itemsBought"][str(item)]
 
-		max_reset_bought 	= app.staticdata["bountyShopItems"][str(item)]["maxResetBuy"]
-		purchase_cost 		= app.staticdata["bountyShopItems"][str(item)]["purchaseCost"]
+		item_data = app.staticdata["bountyShopItems"][str(item)]
+
+		max_reset_bought 	= item_data["maxResetBuy"]
+		purchase_cost 		= item_data["purchaseCost"]
 
 		if num_bought >= max_reset_bought or bounty_points < purchase_cost:
 			return Response(utils.compress({"message": "Bought max amount"}), status=400)
@@ -47,14 +49,14 @@ class BountyShop:
 		app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": {"bountyPoints": -purchase_cost}})
 
 		results = {
-			BountyShopItem.PRESTIGE_90: lambda u: add_prestige_points(u, max_stage_percent=0.9)
+			BountyShopItem.PRESTIGE_POINTS_PERCENT: lambda u: add_prestige_points(u, item_data["maxStagePercent"])
 
 		}.get(item)(userid)
 
 		return Response(utils.compress(results), status=200)
 
 
-def add_prestige_points(userid, *, max_stage_percent) -> int:
+def add_prestige_points(userid, max_stage_percent) -> int:
 	items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 	stats = app.mongo.db.userStats.find_one({"userId": userid}) or dict()
 

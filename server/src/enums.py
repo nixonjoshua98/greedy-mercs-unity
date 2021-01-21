@@ -33,4 +33,4 @@ class ValueType(enum.IntEnum):
 
 class BountyShopItem(enum.IntEnum):
 
-    PRESTIGE_90 = 0
+    PRESTIGE_POINTS_PERCENT = 0

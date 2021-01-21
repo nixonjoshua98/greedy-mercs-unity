@@ -38,8 +38,9 @@ namespace GreedyMercs.BountyShop.UI
         {
             BountyShopItemSO data = StaticData.BountyShop.GetItem(itemId);
 
-            descriptionText.text    = GetDescription();
             purchaseCostText.text   = string.Format("Purchase\n{0} Points", data.purchaseCost);
+
+            UpdateUI();
         }
 
         void UpdateUI()
@@ -47,7 +48,8 @@ namespace GreedyMercs.BountyShop.UI
             PlayerBountyItem stateItem = GameState.BountyShop.GetItem(itemId);
             BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(itemId);
 
-            stockText.text = string.Format("{0} Left in Stock", dataItem.maxResetBuy - stateItem.totalBought);
+            stockText.text          = string.Format("{0} Left in Stock", dataItem.maxResetBuy - stateItem.totalBought);
+            descriptionText.text    = GetDescription();
 
             if (Formulas.Server.BountyShopNeedsRefresh || stateItem.totalBought >= dataItem.maxResetBuy)
             {
@@ -115,7 +117,7 @@ namespace GreedyMercs.BountyShop.UI
         {
             switch (itemId)
             {
-                case BountyShopItemID.PRESTIGE_90:
+                case BountyShopItemID.PRESTIGE_POINTS_PERCENT:
                     GameState.Player.prestigePoints += BigInteger.Parse(node["receivedPrestigePoints"].Value);
                     break;
             }
@@ -123,10 +125,14 @@ namespace GreedyMercs.BountyShop.UI
 
         string GetDescription()
         {
+            BountyShopItemSO data = StaticData.BountyShop.GetItem(itemId);
+
             switch (itemId)
             {
-                case BountyShopItemID.PRESTIGE_90:
-                    return string.Format("{0} Combat Experience", Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(Mathf.CeilToInt(GameState.Player.maxPrestigeStage * 0.9f))));
+                case BountyShopItemID.PRESTIGE_POINTS_PERCENT:
+                    int points = Mathf.CeilToInt(Mathf.Max(100, GameState.Player.maxPrestigeStage) * data.GetFloat("maxStagePercent"));
+
+                    return string.Format("{0} Combat Experience", Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(points)));
             }
 
             return "<missing>";

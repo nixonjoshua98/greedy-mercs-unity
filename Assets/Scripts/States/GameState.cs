@@ -26,19 +26,18 @@ namespace GreedyMercs
 
         public static void Restore(JSONNode node)
         {
-            Stage = new StageState(node);
+            Loot    = new LootState(node);
+            Stage   = new StageState(node);
+            Skills  = new SkillsState(node);
+            Player  = new PlayerState(node);
 
             BountyShop = new PlayerBountyShopData(node["userBountyShop"]);
 
-            Loot        = new LootState(node);
             Weapons     = new WeaponContainer(node["weapons"]);
             Bounties    = new BountyContainer(node);
 
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);
-
-            Skills = new SkillsState(node);
-            Player = new PlayerState(node);
 
             LastLoginDate = node.HasKey("lastLoginDate") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastLoginDate"].AsLong).DateTime : DateTime.UtcNow;
         }

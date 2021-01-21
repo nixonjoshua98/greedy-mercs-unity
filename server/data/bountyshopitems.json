@@ -1,7 +1,8 @@
 
 {
   "0": {
-    "purchaseCost": 50,
+    "maxStagePercent": 0.75,
+    "purchaseCost": 100,
     "maxResetBuy": 5
   }
 }

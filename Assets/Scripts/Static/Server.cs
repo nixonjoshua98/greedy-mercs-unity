@@ -10,7 +10,11 @@ namespace GreedyMercs
 {
     public static class Server
     {
-        const string IP = "31.53.80.1"; // "18.215.151.64"; // "18.224.19.50";
+        const string LOCAL_IP = "31.53.80.1";
+        const string AWS_IP = "18.215.151.64";
+        const string DO_IP = "174.138.50.232";
+
+        const string IP = DO_IP;
 
         // === Bounties ===
         public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));

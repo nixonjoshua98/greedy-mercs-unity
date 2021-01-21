@@ -4954,7 +4954,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 456 left in stock
+  m_Text: 0 left in stock
 --- !u!222 &730020285
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6705,7 +6705,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1.6e15 Combat Experience
+  m_Text: 0 Combat Experience
 --- !u!222 &1032161020
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6770,7 +6770,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b02acfcecccd0654699906ed57786a47, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1b8a7ef7eaf0dc2498488e59aefb27e0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -4,10 +4,14 @@ from flask.views import View
 
 from src import utils
 
+import time
 
 class Login(View):
 
 	def dispatch_request(self):
+
+		now = time.time()
+
 		data = utils.decompress(request.data)
 
 		# - New login detected
@@ -18,5 +22,7 @@ class Login(View):
 
 		else:
 			uid = row["_id"]
+
+		print("login", time.time() - now)
 
 		return Response(utils.compress(utils.dbops.get_player_data(uid)), status=200)

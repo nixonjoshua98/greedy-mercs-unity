@@ -47,8 +47,9 @@ class BountyShop:
 		app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": {"bountyPoints": -purchase_cost}})
 
 		results = {
-			BountyShopItem.PRESTIGE_POINTS_PERCENT: lambda u: add_prestige_points(u, item_data["maxStagePercent"]),
-			BountyShopItem.SMALL_GEM_PACK: lambda u: add_gems(u, item_data["gemsGiven"])
+			BountyShopItem.PRESTIGE_POINTS: lambda u: add_prestige_points(u, item_data["maxStagePercent"]),
+			BountyShopItem.GEMS: lambda u: add_items(u, gems=item_data["gemsGiven"]),
+			BountyShopItem.WEAPON_POINTS: lambda u: add_items(u, weaponPoints=item_data["weaponPoints"])
 
 		}.get(item)(userid)
 
@@ -67,11 +68,11 @@ def add_prestige_points(userid, max_stage_percent):
 
 	app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
-	return {"receivedPrestigePoints": str(points)}
+	return {"prestigePointsReceived": str(points)}
 
 
-def add_gems(userid, amount):
+def add_items(userid, **kwargs):
 
-	app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": {"gems": amount}}, upsert=True)
+	app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": kwargs}, upsert=True)
 
-	return {"receivedGems": amount}
+	return {f"{k}Received": v for k, v in kwargs.items()}

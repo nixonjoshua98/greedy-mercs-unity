@@ -6,6 +6,7 @@ using UnityEngine;
 namespace GreedyMercs
 {
     using GreedyMercs.BountyShop.Data;
+    using GreedyMercs.Armoury.Data;
 
     public class StaticData
     {
@@ -25,6 +26,8 @@ namespace GreedyMercs
 
         public static BountyShopListSO BountyShop;
 
+        public static ArmourySO Armoury;
+
         public static void Restore(JSONNode node)
         {
             Weapons = new Weapons(node["weapons"]);
@@ -39,9 +42,10 @@ namespace GreedyMercs
             BountyList.Restore(node["bounties"]);
         }
 
-        public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, BountyShopListSO bountyShop)
+        public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, BountyShopListSO bountyShop, ArmourySO armoury)
         {
             BountyShop = bountyShop;
+            Armoury = armoury;
 
             CharacterList = chars;
             LootList = loot;

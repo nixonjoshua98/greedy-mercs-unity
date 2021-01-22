@@ -10,7 +10,8 @@ namespace GreedyMercs.BountyShop.Data
     public enum BountyShopItemID
     {
         PRESTIGE_POINTS = 0,
-        GEMS          = 1,
+        GEMS            = 1,
+        WEAPON_POINTS   = 2
     }
 
     [PreferBinarySerialization]

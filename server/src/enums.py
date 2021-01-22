@@ -33,5 +33,6 @@ class ValueType(enum.IntEnum):
 
 class BountyShopItem(enum.IntEnum):
 
-    PRESTIGE_POINTS_PERCENT = 0,
-    SMALL_GEM_PACK = 1
+    PRESTIGE_POINTS = 0,
+    GEMS = 1,
+    WEAPON_POINTS = 2

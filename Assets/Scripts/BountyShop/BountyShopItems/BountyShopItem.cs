@@ -25,6 +25,8 @@ namespace GreedyMercs.BountyShop.UI
 
         bool currentlyBuyingItem;
 
+        protected abstract void Awake();
+
         void Start()
         {
             currentlyBuyingItem = false;
@@ -96,6 +98,8 @@ namespace GreedyMercs.BountyShop.UI
 
                 Server.BuyBountyShopItem(this, ServerCallback, node);
             }
+
+            UpdateUI();
         }
 
         void ServerCallback(long code, string compressed)

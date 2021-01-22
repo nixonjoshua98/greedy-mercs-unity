@@ -1,29 +1,29 @@
-﻿using System.Collections;
+﻿using SimpleJSON;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace GreedyMercs.BountyShop.UI
 {
     using GreedyMercs.BountyShop.Data;
-    using SimpleJSON;
 
-    public class BSI_Gems : BountyShopItem
+    public class BSI_WeaponPoints : BountyShopItem
     {
         protected override void Awake()
         {
-            item = BountyShopItemID.GEMS;
+            item = BountyShopItemID.WEAPON_POINTS;
         }
 
         protected override void ProcessBoughtItem(JSONNode node)
         {
-            GameState.Player.gems += node["receivedGems"].AsLong;
+            GameState.Player.weaponPoints += node["weaponPointsReceived"].AsLong;
         }
 
         protected override string GetDescription()
         {
             BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            return string.Format("{0} Gems", data.GetLong("gemsGiven"));
+            return string.Format("{0} Weapon Points", data.GetLong("weaponPoints"));
         }
     }
 }

@@ -10,14 +10,14 @@ namespace GreedyMercs.BountyShop.UI
 
     public class BSI_PrestigePoints : BountyShopItem
     {
-        void Awake()
+        protected override void Awake()
         {
             item = BountyShopItemID.PRESTIGE_POINTS;
         }
 
         protected override void ProcessBoughtItem(JSONNode node)
         {
-            GameState.Player.prestigePoints += BigInteger.Parse(node["receivedPrestigePoints"].Value);
+            GameState.Player.prestigePoints += BigInteger.Parse(node["PrestigePointsReceived"].Value);
         }
 
         protected override string GetDescription()

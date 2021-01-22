@@ -12,10 +12,13 @@ namespace GreedyMercs
     {
         public string username = "Rogue Mercenary";
 
-        public BigInteger prestigePoints = 0;
         public double currentEnergy = 0;
         public int maxPrestigeStage = 0;
+
+        // Currencies
+        public BigInteger prestigePoints = 0;
         public long bountyPoints = 0;
+        public long weaponPoints = 0;
         public BigDouble gold = 0;
         public long gems = 0;
 
@@ -35,7 +38,9 @@ namespace GreedyMercs
             maxPrestigeStage    = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
             currentEnergy       = node.HasKey("currentEnergy") ? node["currentEnergy"].AsFloat : currentEnergy;
 
-            bountyPoints    = node.HasKey("bountyPoints") ? node["bountyPoints"].AsLong : bountyPoints;
+            bountyPoints = node.HasKey("bountyPoints") ? node["bountyPoints"].AsLong : bountyPoints;
+            weaponPoints = node.HasKey("weaponPoints") ? node["weaponPoints"].AsLong : weaponPoints;
+
             prestigePoints  = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"].Value, System.Globalization.NumberStyles.Any) : prestigePoints;
         }
 

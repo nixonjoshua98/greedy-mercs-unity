@@ -8,5 +8,10 @@
     "gemsGiven": 3,
     "purchaseData": {"baseCost": 125, "levelIncrease": 5},
     "maxResetBuy": 10
+  },
+  "2": {
+    "weaponPoints": 1,
+    "purchaseData": {"baseCost": 10, "levelIncrease": 5},
+    "maxResetBuy": 100
   }
 }

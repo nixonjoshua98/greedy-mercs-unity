@@ -61,9 +61,9 @@ def add_prestige_points(userid, max_stage_percent):
 	items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 	stats = app.mongo.db.userStats.find_one({"userId": userid}) or dict()
 
-	stage = math.ceil(max(100, stats.get("maxPrestigeStage", 0)) * max_stage_percent)
+	stage = stats.get("maxPrestigeStage", 0) * max_stage_percent
 
-	points = formulas.calc_stage_prestige_points(stage, items.get("loot", dict()))
+	points = max(100, formulas.calc_stage_prestige_points(stage, items.get("loot", dict())))
 
 	pp = int(items.get("prestigePoints", 0)) + points
 

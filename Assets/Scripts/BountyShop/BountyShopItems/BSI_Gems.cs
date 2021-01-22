@@ -7,7 +7,7 @@ namespace GreedyMercs.BountyShop.UI
     using GreedyMercs.BountyShop.Data;
     using SimpleJSON;
 
-    public class BSP_Gems : BountyShopItem
+    public class BSI_Gems : BountyShopItem
     {
         void Awake()
         {

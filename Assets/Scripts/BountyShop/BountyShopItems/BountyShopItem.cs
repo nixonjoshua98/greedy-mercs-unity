@@ -29,10 +29,6 @@ namespace GreedyMercs.BountyShop.UI
         {
             currentlyBuyingItem = false;
 
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
-
-            purchaseCostText.text = string.Format("Purchase\n{0} Points", data.purchaseCost);
-
             UpdateUI();
         }
 
@@ -50,13 +46,14 @@ namespace GreedyMercs.BountyShop.UI
 
         void UpdateUI()
         {
-            PlayerBountyItem stateItem = GameState.BountyShop.GetItem(item);
-            BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(item);
+            BountyItemState state = GameState.BountyShop.GetItem(item);
+            BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            stockText.text          = string.Format("{0} Left in Stock", dataItem.maxResetBuy - stateItem.totalBought);
+            stockText.text          = string.Format("{0} Left in Stock", data.maxResetBuy - state.totalBought);
+            purchaseCostText.text   = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.totalBought));
             descriptionText.text    = GetDescription();
 
-            if (Formulas.Server.BountyShopNeedsRefresh || stateItem.totalBought >= dataItem.maxResetBuy)
+            if (Formulas.Server.BountyShopNeedsRefresh || state.totalBought >= data.maxResetBuy)
             {
                 stockAlert = Utils.UI.Instantiate(StockAlertObject, transform, Vector3.zero);
 
@@ -68,10 +65,10 @@ namespace GreedyMercs.BountyShop.UI
 
         void CheckForNextRefresh()
         {
-            PlayerBountyItem stateItem  = GameState.BountyShop.GetItem(item);
-            BountyShopItemSO dataItem   = StaticData.BountyShop.GetItem(item);
+            BountyItemState state   = GameState.BountyShop.GetItem(item);
+            BountyShopItemSO data   = StaticData.BountyShop.GetItem(item);
 
-            if (!Formulas.Server.BountyShopNeedsRefresh && stateItem.totalBought < dataItem.maxResetBuy)
+            if (!Formulas.Server.BountyShopNeedsRefresh && state.totalBought < data.maxResetBuy)
             {
                 CancelInvoke("CheckForNextStock");
 
@@ -84,7 +81,7 @@ namespace GreedyMercs.BountyShop.UI
 
         public void OnClick()
         {
-            PlayerBountyItem stateItem = GameState.BountyShop.GetItem(item);
+            BountyItemState stateItem = GameState.BountyShop.GetItem(item);
             BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(item);
 
             bool inStock = dataItem.maxResetBuy > stateItem.totalBought;
@@ -107,7 +104,7 @@ namespace GreedyMercs.BountyShop.UI
 
             if (code == 200)
             {
-                PlayerBountyItem state  = GameState.BountyShop.GetItem(item);
+                BountyItemState state  = GameState.BountyShop.GetItem(item);
                 BountyShopItemSO data   = StaticData.BountyShop.GetItem(item);
 
                 state.totalBought++;

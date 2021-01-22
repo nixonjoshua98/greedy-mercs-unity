@@ -8,9 +8,6 @@ namespace GreedyMercs
         [Header("Components")]
         [SerializeField] ParticleSystem ps;
 
-        [Header("References")]
-        [SerializeField] GameObject AttackSlot;
-
         public override void OnAttackEvent()
         {
             ps.Play();
@@ -19,11 +16,6 @@ namespace GreedyMercs
         public void OnParticleDone()
         {
             DealDamage();
-        }
-
-        protected override void OnChangeWeapon(WeaponSO weapon)
-        {
-
         }
     }
 }

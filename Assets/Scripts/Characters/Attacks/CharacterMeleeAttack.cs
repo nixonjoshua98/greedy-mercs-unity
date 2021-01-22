@@ -14,10 +14,5 @@ namespace GreedyMercs
         {
             DealDamage();
         }
-
-        protected override void OnChangeWeapon(WeaponSO weapon)
-        {
-            weaponSlot.GetComponent<SpriteRenderer>().sprite = weapon.icon;
-        }
     }
 }

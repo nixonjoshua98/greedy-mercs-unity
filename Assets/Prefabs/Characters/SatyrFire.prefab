@@ -179,7 +179,6 @@ MonoBehaviour:
   ProjectileObject: {fileID: 892358329798779585, guid: cb280996a128c434a9838ee89aee0817,
     type: 3}
   startPosition: {fileID: 7637163329336135085}
-  weaponSlot: {fileID: 874984638601253130}
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -255,6 +254,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: SatyrAvatar
       objectReference: {fileID: 0}
+    - target: {fileID: 4262502558772920411, guid: 7c23600df3afacc45a70aca48c01c25a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a0b89c37c10effb438a02d6b30dc0bca,
+        type: 3}
+    - target: {fileID: 4262502558772920411, guid: 7c23600df3afacc45a70aca48c01c25a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
 --- !u!4 &4152767962883369001 stripped
@@ -266,12 +276,6 @@ Transform:
 --- !u!95 &2828557145166165476 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2104970784809328905, guid: 7c23600df3afacc45a70aca48c01c25a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4212931058609886445}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &874984638601253130 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3914691985157866983, guid: 7c23600df3afacc45a70aca48c01c25a,
     type: 3}
   m_PrefabInstance: {fileID: 4212931058609886445}
   m_PrefabAsset: {fileID: 0}

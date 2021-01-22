@@ -1,5 +1,3 @@
-import math
-
 from flask import request, Response, current_app as app
 
 from src import utils, checks, formulas
@@ -38,8 +36,8 @@ class BountyShop:
 
 		item_data = app.staticdata["bountyShopItems"][str(item)]
 
-		max_reset_bought 	= item_data["maxResetBuy"]
-		purchase_cost 		= item_data["purchaseCost"]
+		max_reset_bought = item_data["maxResetBuy"]
+		purchase_cost = (cost_data := item_data["purchaseData"])["baseCost"] + (num_bought * cost_data["levelIncrease"])
 
 		if num_bought >= max_reset_bought or bounty_points < purchase_cost:
 			return Response(utils.compress({"message": "Bought max amount"}), status=400)

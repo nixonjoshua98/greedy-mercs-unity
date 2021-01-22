@@ -45,7 +45,7 @@ def hourly_bounty_income(bountylevels: dict, maxstage, lastclaim) -> int:
 		if maxstage > bounty.unlock_stage:
 			hourly_points += bounty.bounty_points + (bountylevels.get(str(key), 1) - 1)
 
-	seconds_since_claim = min((dt.datetime.utcnow() - lastclaim).total_seconds(), 8 * 3_600)
+	seconds_since_claim = min((dt.datetime.utcnow() - lastclaim).total_seconds(), 6 * 3_600)
 
 	return math.floor(hourly_points * (seconds_since_claim / 3_600))
 

@@ -30,17 +30,6 @@ namespace GreedyMercs
         void Awake()
         {
             attackTimer = delayBetweenAttacks;
-
-            CharacterSO chara = StaticData.CharacterList.Get(character.CharacterID);
-
-            if (chara.weapons.Length > 1)
-            {
-                int highestWeapon = GameState.Weapons.GetHighestTier(character.CharacterID);
-
-                OnChangeWeapon(chara.weapons[highestWeapon]);
-            }
-
-            Events.OnWeaponBought.AddListener(OnWeaponBought);
         }
 
         void Start()
@@ -69,21 +58,6 @@ namespace GreedyMercs
         }
 
         public abstract void OnAttackEvent();
-
-        void OnWeaponBought(CharacterSO chara, int weaponIndex)
-        {
-            if (chara.CharacterID == character.CharacterID)
-            {
-                WeaponSO weapon = chara.weapons[weaponIndex];
-
-                int highestWeapon = GameState.Weapons.GetHighestTier(chara.CharacterID);
-
-                if (weaponIndex > highestWeapon)
-                    OnChangeWeapon(weapon);
-            }
-        }
-
-        protected abstract void OnChangeWeapon(WeaponSO weapon);
 
         void StartAttack()
         {

@@ -111,11 +111,6 @@ namespace GreedyMercs
 
             if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.maxLevel)
             {
-                // Increment the loot level, and deduct the cost
-                // We will undo this if the request fails
-                state.level += levelsBuying;
-                GameState.Player.prestigePoints -= cost;
-
                 JSONNode node = Utils.Json.GetDeviceNode();
 
                 node.Add("itemId", (int)lootId);
@@ -129,16 +124,10 @@ namespace GreedyMercs
         {
             if (code == 200)
             {
-
-            }
-
-            else
-            {
                 UpgradeState state = GameState.Loot.Get(lootId);
 
-                state.level -= levelsBuying;
-
-                GameState.Player.prestigePoints += cost;
+                state.level += levelsBuying;
+                GameState.Player.prestigePoints -= cost;
             }
 
             UpdateRow();

@@ -25,8 +25,6 @@ namespace GreedyMercs
 
         public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
 
-        public static ScriptableCharacterEvent OnWeaponBought = new ScriptableCharacterEvent();
-
         public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();
 
         // === Standard Events ===

@@ -41,6 +41,13 @@ namespace GreedyMercs.BountyShop.Data
             return node[key];
         }
 
+        public int PurchaseCost(int owned)
+        {
+            JSONNode purchaseData = node["purchaseData"];
+
+            return purchaseData["baseCost"] + (purchaseData["levelIncrease"] * owned);
+        }
+
         public float GetFloat(string key) => Get(key).AsFloat;
         public long GetLong(string key) => Get(key).AsLong;
     }

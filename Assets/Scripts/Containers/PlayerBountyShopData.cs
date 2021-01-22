@@ -8,14 +8,14 @@ using SimpleJSON;
 
 namespace GreedyMercs.BountyShop.Data
 {
-    public class PlayerBountyItem
+    public class BountyItemState
     {
         public int totalBought;
     }
 
     public class PlayerBountyShopData
     {
-        Dictionary<BountyShopItemID, PlayerBountyItem> items;
+        Dictionary<BountyShopItemID, BountyItemState> items;
 
         public DateTime lastPurchaseReset;
 
@@ -26,13 +26,13 @@ namespace GreedyMercs.BountyShop.Data
 
         public void Update(JSONNode node)
         {
-            items = new Dictionary<BountyShopItemID, PlayerBountyItem>();
+            items = new Dictionary<BountyShopItemID, BountyItemState>();
 
             foreach (string key in node["itemsBought"].Keys)
             {
                 BountyShopItemID itemId = (BountyShopItemID)int.Parse(key);
 
-                items[itemId] = new PlayerBountyItem { totalBought = node["itemsBought"][key].AsInt };
+                items[itemId] = new BountyItemState { totalBought = node["itemsBought"][key].AsInt };
             }
 
             lastPurchaseReset = node.HasKey("lastPurchaseReset") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastPurchaseReset"].AsLong).DateTime : lastPurchaseReset;
@@ -56,12 +56,12 @@ namespace GreedyMercs.BountyShop.Data
         }
 
 
-        public PlayerBountyItem GetItem(BountyShopItemID key)
+        public BountyItemState GetItem(BountyShopItemID key)
         {
-            if (items.TryGetValue(key, out PlayerBountyItem item))
+            if (items.TryGetValue(key, out BountyItemState item))
                 return item;
 
-            items[key] = new PlayerBountyItem { totalBought = 0 };
+            items[key] = new BountyItemState { totalBought = 0 };
 
             return GetItem(key);
         }

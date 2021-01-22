@@ -10,7 +10,7 @@ namespace GreedyMercs
 {
     public class BountyContainer
     {
-        const int MAX_HOURS = 8;
+        const int MAX_HOURS = 6;
 
         DateTime lastClaimTime;
 

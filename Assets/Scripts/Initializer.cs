@@ -32,7 +32,7 @@ namespace GreedyMercs
         {
             Debug.Log(Application.persistentDataPath);
 
-            Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
+            Server.GetStaticData(this, ServerStaticDataCallback);
         }
 
         void ServerLoginCallback(long code, string compressed)
@@ -51,19 +51,18 @@ namespace GreedyMercs
                 GameState.Weapons.Update(node["weapons"]);
                 GameState.Bounties.Update(node["bounties"]);
                 GameState.BountyShop.Update(node["userBountyShop"]);
+
+                SceneManager.LoadScene(isLocalSave ? "GameScene" : "IntroScene");
             }
 
-            else
+            else if (!isLocalSave)
             {
-                if (!isLocalSave)
-                {
-                    Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required");
+                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required");
 
-                    return;
-                }
+                return;
             }
 
-            Server.GetStaticData(this, ServerStaticDataCallback);
+            SceneManager.LoadScene(isLocalSave ? "GameScene" : "IntroScene");
         }
 
         void ServerStaticDataCallback(long code, string compressedJson)
@@ -72,7 +71,7 @@ namespace GreedyMercs
             {
                 JSONNode node = Utils.Json.Decompress(compressedJson);
 
-                RestoreStaticData(node);
+                StaticData.Restore(node);
 
                 Utils.File.WriteJson(DataManager.LOCAL_STATIC_FILENAME, node);
             }
@@ -81,7 +80,7 @@ namespace GreedyMercs
             {
                 if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
                 {
-                    RestoreStaticData(JSON.Parse(localSaveJson));
+                    StaticData.Restore(JSON.Parse(localSaveJson));
                 }
 
                 else
@@ -92,12 +91,7 @@ namespace GreedyMercs
                 }
             }
 
-            SceneManager.LoadSceneAsync("GameScene");
-        }
-
-        void RestoreStaticData(JSONNode node)
-        {
-            StaticData.Restore(node);
+            Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
         }
     }
 }

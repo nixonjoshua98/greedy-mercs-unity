@@ -13,7 +13,12 @@ namespace GreedyMercs
         const string LOCAL_IP = "31.53.80.1";
         const string AWS_IP = "18.232.147.109";
 
+#if UNITY_EDITOR
+        const string IP = LOCAL_IP;
+#else
         const string IP = AWS_IP;
+
+#endif
 
         // === Bounties ===
         public static void ClaimBounty(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("bounty/claim", callback, node));

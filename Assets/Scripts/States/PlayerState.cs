@@ -12,15 +12,12 @@ namespace GreedyMercs
     {
         public string username = "Rogue Mercenary";
 
-        public BigDouble gold = 0;
-
-        public long bountyPoints = 0;
-
         public BigInteger prestigePoints = 0;
-
         public double currentEnergy = 0;
-
         public int maxPrestigeStage = 0;
+        public long bountyPoints = 0;
+        public BigDouble gold = 0;
+        public long gems = 0;
 
         public PlayerState(JSONNode node)
         {
@@ -33,6 +30,7 @@ namespace GreedyMercs
                 node = node["player"];
 
             gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
+            gems = node.HasKey("gems") ? node["gems"].AsLong : gems;
 
             maxPrestigeStage    = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
             currentEnergy       = node.HasKey("currentEnergy") ? node["currentEnergy"].AsFloat : currentEnergy;

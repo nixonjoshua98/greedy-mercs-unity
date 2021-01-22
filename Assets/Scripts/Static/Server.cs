@@ -11,7 +11,7 @@ namespace GreedyMercs
     public static class Server
     {
         const string LOCAL_IP = "31.53.80.1";
-        const string DO_IP = "104.131.125.250";
+        const string AWS_IP = "18.232.147.109";
 
         const string IP = LOCAL_IP;
 

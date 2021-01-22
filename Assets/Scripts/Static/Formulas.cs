@@ -49,12 +49,11 @@ namespace GreedyMercs
                 }
             }
 
-            public static DateTime PrevDailyResetDate { get { return NextDailyReset.AddDays(-1); } }
+            public static DateTime PrevDailyReset { get { return NextDailyReset.AddDays(-1); } }
 
             public static int SecondsUntilDailyReset { get { return Mathf.CeilToInt((float)(NextDailyReset - DateTime.UtcNow).TotalSeconds); } }
 
-            public static bool BountyShopNeedsRefresh { get { return GameState.BountyShop.lastPurchaseReset != PrevDailyResetDate; } }
-
+            public static bool BountyShopNeedsRefresh { get { return GameState.BountyShop.lastPurchaseReset < PrevDailyReset; } }
         }
 
 

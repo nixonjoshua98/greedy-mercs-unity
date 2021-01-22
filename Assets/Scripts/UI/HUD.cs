@@ -18,16 +18,15 @@ namespace GreedyMercs
             Events.OnStageUpdate.AddListener(OnStageUpdate);
             Events.OnBossSpawned.AddListener(OnBossSpawned);
 
-            UpdateInterface();
+            UpdateStageText();
 
-            InvokeRepeating("RegularUpdate", 0.0f, 0.5f);
+            InvokeRepeating("RegularUpdate", 0.0f, 0.25f);
         }
 
         void FixedUpdate()
         {
-            GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
-
-            DiamondsText.text = "None";
+            GoldText.text       = Utils.Format.FormatNumber(GameState.Player.gold);
+            DiamondsText.text   = GameState.Player.gems.ToString();
         }
 
         void RegularUpdate()
@@ -35,14 +34,14 @@ namespace GreedyMercs
             mercDpsText.text = Utils.Format.FormatNumber(StatsCache.TotalCharacterDPS);
         }
 
-        void UpdateInterface()
+        void UpdateStageText()
         {
             StageText.text = GameState.Stage.stage.ToString() + " | " + GameState.Stage.enemy.ToString();
         }
 
         void OnStageUpdate()
         {
-            UpdateInterface();
+            UpdateStageText();
         }
 
         void OnBossSpawned(GameObject _)

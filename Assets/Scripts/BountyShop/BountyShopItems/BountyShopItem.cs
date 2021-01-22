@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-using SimpleJSON;
+﻿using SimpleJSON;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,9 +9,9 @@ namespace GreedyMercs.BountyShop.UI
 
     using Vector3 = UnityEngine.Vector3;
 
-    public class BountyItemRow : MonoBehaviour
+    public abstract class BountyShopItem : MonoBehaviour
     {
-        [SerializeField] BountyShopItemID itemId;
+        protected BountyShopItemID item;
 
         [Header("Components")]
         [SerializeField] Text stockText;
@@ -27,26 +25,33 @@ namespace GreedyMercs.BountyShop.UI
 
         bool currentlyBuyingItem;
 
-        void Awake()
+        void Start()
         {
             currentlyBuyingItem = false;
 
-            InvokeRepeating("UpdateUI", 0.0f, 0.1f);
-        }
+            BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-        void Start()
-        {
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(itemId);
-
-            purchaseCostText.text   = string.Format("Purchase\n{0} Points", data.purchaseCost);
+            purchaseCostText.text = string.Format("Purchase\n{0} Points", data.purchaseCost);
 
             UpdateUI();
         }
 
+        void OnEnable()
+        {
+            InvokeRepeating("UpdateUI", 0.0f, 0.1f);
+        }
+
+        void OnDisable()
+        {
+            CancelInvoke("UpdateUI");
+
+            CancelInvoke("CheckForNextRefresh");
+        }
+
         void UpdateUI()
         {
-            PlayerBountyItem stateItem = GameState.BountyShop.GetItem(itemId);
-            BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(itemId);
+            PlayerBountyItem stateItem = GameState.BountyShop.GetItem(item);
+            BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(item);
 
             stockText.text          = string.Format("{0} Left in Stock", dataItem.maxResetBuy - stateItem.totalBought);
             descriptionText.text    = GetDescription();
@@ -63,8 +68,8 @@ namespace GreedyMercs.BountyShop.UI
 
         void CheckForNextRefresh()
         {
-            PlayerBountyItem stateItem = GameState.BountyShop.GetItem(itemId);
-            BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(itemId);
+            PlayerBountyItem stateItem  = GameState.BountyShop.GetItem(item);
+            BountyShopItemSO dataItem   = StaticData.BountyShop.GetItem(item);
 
             if (!Formulas.Server.BountyShopNeedsRefresh && stateItem.totalBought < dataItem.maxResetBuy)
             {
@@ -79,8 +84,8 @@ namespace GreedyMercs.BountyShop.UI
 
         public void OnClick()
         {
-            PlayerBountyItem stateItem = GameState.BountyShop.GetItem(itemId);
-            BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(itemId);
+            PlayerBountyItem stateItem = GameState.BountyShop.GetItem(item);
+            BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(item);
 
             bool inStock = dataItem.maxResetBuy > stateItem.totalBought;
 
@@ -90,7 +95,7 @@ namespace GreedyMercs.BountyShop.UI
 
                 JSONNode node = Utils.Json.GetDeviceNode();
 
-                node.Add("itemId", (int)itemId);
+                node.Add("itemId", (int)item);
 
                 Server.BuyBountyShopItem(this, ServerCallback, node);
             }
@@ -102,8 +107,8 @@ namespace GreedyMercs.BountyShop.UI
 
             if (code == 200)
             {
-                PlayerBountyItem state  = GameState.BountyShop.GetItem(itemId);
-                BountyShopItemSO data   = StaticData.BountyShop.GetItem(itemId);
+                PlayerBountyItem state  = GameState.BountyShop.GetItem(item);
+                BountyShopItemSO data   = StaticData.BountyShop.GetItem(item);
 
                 state.totalBought++;
 
@@ -113,29 +118,8 @@ namespace GreedyMercs.BountyShop.UI
             }
         }
 
-        void ProcessBoughtItem(JSONNode node)
-        {
-            switch (itemId)
-            {
-                case BountyShopItemID.PRESTIGE_POINTS_PERCENT:
-                    GameState.Player.prestigePoints += BigInteger.Parse(node["receivedPrestigePoints"].Value);
-                    break;
-            }
-        }
+        protected abstract void ProcessBoughtItem(JSONNode node);
 
-        string GetDescription()
-        {
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(itemId);
-
-            switch (itemId)
-            {
-                case BountyShopItemID.PRESTIGE_POINTS_PERCENT:
-                    int points = Mathf.CeilToInt(Mathf.Max(100, GameState.Player.maxPrestigeStage) * data.GetFloat("maxStagePercent"));
-
-                    return string.Format("{0} Combat Experience", Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(points)));
-            }
-
-            return "<missing>";
-        }
+        protected abstract string GetDescription();
     }
 }

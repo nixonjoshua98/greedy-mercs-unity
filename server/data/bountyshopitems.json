@@ -1,8 +1,12 @@
-
 {
   "0": {
     "maxStagePercent": 0.75,
     "purchaseCost": 100,
     "maxResetBuy": 5
+  },
+  "1": {
+    "gemsGiven": 3,
+    "purchaseCost": 75,
+    "maxResetBuy": 10
   }
 }

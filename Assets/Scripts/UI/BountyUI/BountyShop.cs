@@ -23,8 +23,16 @@ namespace GreedyMercs.UI.Bounties
             isRefreshing = false;
 
             EnableShopUI();
+        }
 
+        void OnEnable()
+        {
             InvokeRepeating("UpdateResetTime", 0.0f, 0.5f);
+        }
+
+        void OnDisable()
+        {
+            CancelInvoke("UpdateResetTime");
         }
 
         void FixedUpdate()

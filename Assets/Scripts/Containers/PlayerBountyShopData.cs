@@ -26,9 +26,6 @@ namespace GreedyMercs.BountyShop.Data
 
         public void Update(JSONNode node)
         {
-            if (node.HasKey("userBountyShop"))
-                node = node["userBountyShop"];
-
             items = new Dictionary<BountyShopItemID, PlayerBountyItem>();
 
             foreach (string key in node["itemsBought"].Keys)
@@ -38,9 +35,35 @@ namespace GreedyMercs.BountyShop.Data
                 items[itemId] = new PlayerBountyItem { totalBought = node["itemsBought"][key].AsInt };
             }
 
-            lastPurchaseReset = DateTimeOffset.FromUnixTimeMilliseconds(node["lastPurchaseReset"].AsLong).DateTime;
+            lastPurchaseReset = node.HasKey("lastPurchaseReset") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastPurchaseReset"].AsLong).DateTime : lastPurchaseReset;
         }
 
-        public PlayerBountyItem GetItem(BountyShopItemID key) => items[key];
+        public JSONNode ToJson()
+        {
+            JSONNode node           = new JSONObject();
+            JSONNode itemsBought    = new JSONObject();
+
+            node.Add("lastPurchaseReset", lastPurchaseReset.ToUnixMilliseconds());
+
+            foreach (var entry in items)
+            { 
+                itemsBought[((int)entry.Key).ToString()] = entry.Value.totalBought.ToString();
+            }
+
+            node.Add("itemsBought", itemsBought);
+
+            return node;
+        }
+
+
+        public PlayerBountyItem GetItem(BountyShopItemID key)
+        {
+            if (items.TryGetValue(key, out PlayerBountyItem item))
+                return item;
+
+            items[key] = new PlayerBountyItem { totalBought = 0 };
+
+            return GetItem(key);
+        }
     }
 }

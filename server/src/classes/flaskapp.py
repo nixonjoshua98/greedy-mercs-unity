@@ -27,9 +27,6 @@ class FlaskApplication(Flask):
 	def last_daily_reset(self) -> dt.datetime:
 		return self.next_daily_reset - dt.timedelta(days=1)
 
-	def add_url_rule(self, rule, endpoint=None, view_func=None, provide_automatic_options=None, **options):
-		super(FlaskApplication, self).add_url_rule(rule, endpoint, view_func, provide_automatic_options, **options)
-
 	def on_before_request(self):
 		print(request.endpoint, end=" ")
 

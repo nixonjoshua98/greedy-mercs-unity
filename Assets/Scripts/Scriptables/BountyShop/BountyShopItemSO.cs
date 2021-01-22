@@ -9,7 +9,8 @@ namespace GreedyMercs.BountyShop.Data
 {
     public enum BountyShopItemID
     {
-        PRESTIGE_POINTS_PERCENT = 0
+        PRESTIGE_POINTS = 0,
+        GEMS          = 1,
     }
 
     [PreferBinarySerialization]
@@ -40,9 +41,7 @@ namespace GreedyMercs.BountyShop.Data
             return node[key];
         }
 
-        public float GetFloat(string key)
-        {
-            return Get(key).AsFloat;
-        }
+        public float GetFloat(string key) => Get(key).AsFloat;
+        public long GetLong(string key) => Get(key).AsLong;
     }
 }

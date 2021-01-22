@@ -40,10 +40,8 @@ def get_bounty_shop_and_update(userid):
 			},
 
 			{
-				"$set": {
-					"lastPurchaseReset": app.last_daily_reset,
-					"itemsBought": {"0": 0}
-				}
+				"$set": {"lastPurchaseReset": app.last_daily_reset},
+				"$unset": {"itemsBought": None}
 			},
 
 			projection={'_id': False, 'userId': False},
@@ -121,8 +119,6 @@ def get_player_data(userid):
 	stats = app.mongo.db.userStats.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
 
 	bounties = app.mongo.db.userBounties.find_one({"userId": userid}, {"_id": 0, "userId": 0}) or dict()
-
-	print("Get Data", time.time() - now)
 
 	return {
 		"player": {

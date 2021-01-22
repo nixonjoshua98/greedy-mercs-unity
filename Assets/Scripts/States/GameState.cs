@@ -46,14 +46,15 @@ namespace GreedyMercs
         {
             JSONNode node = new JSONObject();
 
-            node.Add("loot",        Loot.ToJson());
-            node.Add("stage",       Stage.ToJson());
-            node.Add("player",      Player.ToJson());
-            node.Add("skills",      Skills.ToJson());
-            node.Add("weapons",     Weapons.ToJson());
-            node.Add("upgrades",    Upgrades.ToJson());
-            node.Add("bounties",    Bounties.ToJson());
-            node.Add("characters",  Characters.ToJson());
+            node.Add("loot",            Loot.ToJson());
+            node.Add("stage",           Stage.ToJson());
+            node.Add("player",          Player.ToJson());
+            node.Add("skills",          Skills.ToJson());
+            node.Add("weapons",         Weapons.ToJson());
+            node.Add("upgrades",        Upgrades.ToJson());
+            node.Add("bounties",        Bounties.ToJson());
+            node.Add("characters",      Characters.ToJson());
+            node.Add("userBountyShop",  BountyShop.ToJson());
 
             node.Add("lastLoginDate", DateTime.UtcNow.ToUnixMilliseconds());
 

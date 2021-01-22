@@ -34,7 +34,7 @@ class BountyShop:
 		item = data["itemId"]
 
 		bounty_points 	= items.get("bountyPoints", 0)
-		num_bought 		= shop["itemsBought"][str(item)]
+		num_bought 		= shop["itemsBought"].get(str(item), 0)
 
 		item_data = app.staticdata["bountyShopItems"][str(item)]
 
@@ -49,14 +49,15 @@ class BountyShop:
 		app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": {"bountyPoints": -purchase_cost}})
 
 		results = {
-			BountyShopItem.PRESTIGE_POINTS_PERCENT: lambda u: add_prestige_points(u, item_data["maxStagePercent"])
+			BountyShopItem.PRESTIGE_POINTS_PERCENT: lambda u: add_prestige_points(u, item_data["maxStagePercent"]),
+			BountyShopItem.SMALL_GEM_PACK: lambda u: add_gems(u, item_data["gemsGiven"])
 
 		}.get(item)(userid)
 
 		return Response(utils.compress(results), status=200)
 
 
-def add_prestige_points(userid, max_stage_percent) -> int:
+def add_prestige_points(userid, max_stage_percent):
 	items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 	stats = app.mongo.db.userStats.find_one({"userId": userid}) or dict()
 
@@ -69,3 +70,10 @@ def add_prestige_points(userid, max_stage_percent) -> int:
 	app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
 	return {"receivedPrestigePoints": str(points)}
+
+
+def add_gems(userid, amount):
+
+	app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": {"gems": amount}}, upsert=True)
+
+	return {"receivedGems": amount}

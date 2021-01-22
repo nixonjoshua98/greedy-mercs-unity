@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 440450817}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -2735,7 +2735,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 440450815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c784232795092843be3024cda515df0, type: 3}
+  m_Script: {fileID: 11500000, guid: c98d0f3c6f8e74640a91625354677b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stockText: {fileID: 730020284}
@@ -12571,7 +12571,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1844074855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b769f28d75ffc54f9f4fc56da255feb, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fb169807f9541d41a5498ed9a7e0b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stockText: {fileID: 2092552974}

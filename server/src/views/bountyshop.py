@@ -34,7 +34,7 @@ class BountyShop:
 		item = data["itemId"]
 
 		bounty_points 	= items.get("bountyPoints", 0)
-		num_bought 		= shop["itemsBought"].get(str(item), 0)
+		num_bought 		= shop.get("itemsBought", dict()).get(str(item), 0)
 
 		item_data = app.staticdata["bountyShopItems"][str(item)]
 

@@ -23,13 +23,7 @@ namespace GreedyMercs
 
         protected override void OnChangeWeapon(WeaponSO weapon)
         {
-            GameObject newAttack = Instantiate(weapon.prefab, AttackSlot.transform);
 
-            ParticleSystem newParticleSystem = newAttack.GetComponent<ParticleSystem>();
-
-            Destroy(ps.gameObject);
-
-            ps = newParticleSystem;
         }
     }
 }

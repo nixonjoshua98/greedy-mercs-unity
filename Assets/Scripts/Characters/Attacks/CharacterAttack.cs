@@ -29,8 +29,6 @@ namespace GreedyMercs
 
         void Awake()
         {
-            ToggleAttacking(true);
-
             attackTimer = delayBetweenAttacks;
 
             CharacterSO chara = StaticData.CharacterList.Get(character.CharacterID);
@@ -103,6 +101,8 @@ namespace GreedyMercs
 
         public void ToggleAttacking(bool val)
         {
+            attackTimer = delayBetweenAttacks;
+
             isAttacksToggled = val;
         }
     }

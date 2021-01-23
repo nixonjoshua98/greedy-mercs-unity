@@ -12,9 +12,10 @@ namespace GreedyMercs
     {
         const string LOCAL_IP = "109.151.46.45";
         const string AWS_IP = "18.232.147.109";
+        const string DO_IP = "142.93.14.212";
 
 #if UNITY_EDITOR
-        const string IP = LOCAL_IP;
+        const string IP = DO_IP;
 #else
         const string IP = AWS_IP;
 

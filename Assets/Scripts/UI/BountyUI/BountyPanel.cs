@@ -84,8 +84,6 @@ namespace GreedyMercs.UI.Bounties
 
         void FixedUpdate()
         {
-            Debug.Log(GameState.Player.bountyPoints);
-
             bountyPointsText.text = Utils.Format.FormatNumber(GameState.Player.bountyPoints);
 
             claimButton.interactable = !claimingBounties && GameState.Bounties.CurrentClaimAmount > 0;

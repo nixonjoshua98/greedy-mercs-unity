@@ -5,7 +5,7 @@ from src import utils
 
 def login_endpoint():
 
-	data = request.get_json()
+	data = utils.decompress(request.data)
 
 	# - New login detected
 	if (row := app.mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:

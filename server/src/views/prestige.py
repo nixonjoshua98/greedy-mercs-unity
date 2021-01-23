@@ -10,7 +10,7 @@ class Prestige(View):
 	@checks.login_check
 	def dispatch_request(self, *, userid):
 
-		data = request.get_json()
+		data = utils.decompress(request.data)
 
 		stage = data["prestigeStage"]
 

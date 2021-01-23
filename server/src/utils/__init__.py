@@ -1,7 +1,6 @@
 import os
 import json
 import gzip
-import time
 import base64
 
 import datetime as dt
@@ -23,17 +22,11 @@ def compress(data: dict) -> str:
 
 		return o
 
-	now = time.time()
-
 	data_bytes = json.dumps(data, default=default).encode("utf-8")
 
 	compressed = gzip.compress(data_bytes)
 
-	v = base64.b64encode(compressed).decode("utf-8")
-
-	print("compress", time.time() - now)
-
-	return v
+	return base64.b64encode(compressed).decode("utf-8")
 
 
 def decompress(data: str) -> dict:
@@ -44,17 +37,11 @@ def decompress(data: str) -> dict:
 		Returns a decompressed dictionary
 	"""
 
-	now = time.time()
-
 	decoded = base64.b64decode(data)
 
 	decompressed = gzip.decompress(decoded)
 
-	v = json.loads(decompressed.decode("utf-8"))
-
-	print("decompress", time.time() - now)
-
-	return v
+	return json.loads(decompressed.decode("utf-8"))
 
 
 def read_data_file(name) -> dict:

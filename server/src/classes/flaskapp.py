@@ -16,8 +16,6 @@ class FlaskApplication(Flask):
 		self.staticdata = self.load_static()
 		self.objects = self.create_objects()
 
-		self.before_request(self.on_before_request)
-
 	@property
 	def next_daily_reset(self):
 		reset_time = (now := dt.datetime.utcnow()).replace(hour=20, minute=0, second=0, microsecond=0)
@@ -27,15 +25,12 @@ class FlaskApplication(Flask):
 	def last_daily_reset(self) -> dt.datetime:
 		return self.next_daily_reset - dt.timedelta(days=1)
 
-	def on_before_request(self):
-		print(request.endpoint, end=" ")
-
 	def full_dispatch_request(self):
 		now = time.time()
 
 		val = super(FlaskApplication, self).full_dispatch_request()
 
-		print(time.time() - now, "s", sep="")
+		print(f"Request: {request.endpoint} {time.time() - now}s")
 
 		return val
 

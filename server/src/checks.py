@@ -11,14 +11,14 @@ def login_check(f):
 
 		data = utils.decompress(request.data)
 
-		print("utils.decompress(re.data)", time.time() - now)
+		print("<", "utils.decompress(request.data)", time.time() - now, ">")
 
 		now = time.time()
 
 		if (row := app.mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
 			return Response(utils.compress({"message": ""}), status=400)
 
-		print("userLogins.find_one", time.time() - now)
+		print("<", "app.mongo.db.userLogins.find_one(...)", time.time() - now, ">")
 
 		return f(*args, **kwargs, userid=row["_id"])
 

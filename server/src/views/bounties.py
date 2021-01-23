@@ -13,7 +13,7 @@ class ClaimBounty(View):
 	def dispatch_request(self, *, userid):
 		now = dt.datetime.utcnow()
 
-		data = utils.decompress(request.data)
+		data = request.get_json()
 
 		bounties = app.mongo.db.userBounties.find_one({"userId": userid})
 

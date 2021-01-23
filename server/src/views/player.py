@@ -10,7 +10,7 @@ class ChangeUsername(View):
 	@checks.login_check
 	def dispatch_request(self, userid):
 
-		data = utils.decompress(request.data)
+		data = request.get_json()
 
 		username = data["newUsername"]
 

@@ -15,7 +15,7 @@ namespace GreedyMercs
         const string DO_IP = "142.93.14.212";
 
 #if UNITY_EDITOR
-        const string IP = DO_IP;
+        const string IP = LOCAL_IP;
 #else
         const string IP = DO_IP;
 
@@ -66,14 +66,14 @@ namespace GreedyMercs
 
         static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
         {
-            UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(json));
+            UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), json.ToString());
 
             yield return SendRequest(www, callback);
         }
 
         static IEnumerator Put(string endpoint, Action<long, string> callback)
         {
-            UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), Utils.Json.Compress(JSON.Parse("{}")));
+            UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:2122/api/{1}", IP, endpoint), "{}");
 
             yield return SendRequest(www, callback);
         }

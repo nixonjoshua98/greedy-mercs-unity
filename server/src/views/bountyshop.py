@@ -26,7 +26,7 @@ class BountyShop:
 	@checks.login_check
 	def buy_item(cls, *, userid):
 
-		data = utils.decompress(request.data)
+		data = request.get_json()
 
 		shop = utils.dbops.get_bounty_shop_and_update(userid)
 

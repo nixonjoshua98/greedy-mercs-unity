@@ -9,7 +9,11 @@ def login_check(f):
 	def decorator(*args, **kwargs):
 		now = time.time()
 
-		data = utils.decompress(request.data)
+		d = request.data
+
+		print("<", "d = request.data", time.time() - now, ">")
+
+		data = utils.decompress(d)
 
 		print("<", "utils.decompress(request.data)", time.time() - now, ">")
 

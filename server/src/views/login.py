@@ -4,6 +4,7 @@ from src import utils
 
 
 def login_endpoint():
+
 	data = utils.decompress(request.data)
 
 	# - New login detected

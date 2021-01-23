@@ -25,9 +25,9 @@ def compress(data: dict) -> str:
 
 	now = time.time()
 
-	data_bytes = json.dumps(data, default=default).encode("utf-8")
-
 	print("compress", time.time() - now)
+
+	data_bytes = json.dumps(data, default=default).encode("utf-8")
 
 	compressed = gzip.compress(data_bytes)
 
@@ -42,16 +42,15 @@ def decompress(data: str) -> dict:
 		Returns a decompressed dictionary
 	"""
 
+	now = time.time()
+
 	decoded = base64.b64decode(data)
 
 	decompressed = gzip.decompress(decoded)
 
-	now = time.time()
-
 	v = json.loads(decompressed.decode("utf-8"))
 
 	print("decompress", time.time() - now)
-
 
 	return v
 

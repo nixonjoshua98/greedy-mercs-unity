@@ -15,4 +15,6 @@ def create_app():
 
 	app.mongo = MongoClient(uri)
 
+	app.mongo.db = app.mongo.greedymercs
+
 	return app

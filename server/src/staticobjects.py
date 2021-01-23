@@ -39,16 +39,3 @@ class Bounty:
 
 	@classmethod
 	def from_dict(cls, data: dict): return cls(**{k.lower(): v for k, v in data.items()})
-
-
-class Weapon:
-	def __init__(self, damagebonus, maxowned, mergerecipe: dict = None, buycost: int = 0, **_):
-
-		self.damage_bonus = damagebonus
-		self.max_owned = maxowned
-		self.buy_cost = buycost
-
-		self.merge_recipe = {int(k): v for k, v in mergerecipe.items()} if mergerecipe is not None else dict()
-
-	@classmethod
-	def from_dict(cls, data: dict): return cls(**{k.lower(): v for k, v in data.items()})

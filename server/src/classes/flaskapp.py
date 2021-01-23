@@ -4,7 +4,7 @@ from flask import Flask, request
 
 from src import utils
 
-from src.staticobjects import Loot, Bounty, Weapon
+from src.staticobjects import Loot, Bounty
 
 import datetime as dt
 

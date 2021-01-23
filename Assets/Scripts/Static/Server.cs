@@ -15,9 +15,9 @@ namespace GreedyMercs
         const string DO_IP = "142.93.14.212";
 
 #if UNITY_EDITOR
-        const string IP = DO_IP;
+        const string IP = LOCAL_IP;
 #else
-        const string IP = AWS_IP;
+        const string IP = DO_IP;
 
 #endif
 

@@ -3,16 +3,13 @@
 import src
 
 from src.views import (
-	Login, StaticData, Prestige, BuyLoot, UpgradeLoot,
+	StaticData, Prestige, BuyLoot, UpgradeLoot,
 	ResetAccount, ClaimBounty, ChangeUsername, PlayerLeaderboard
 )
 
-from src.views import BountyShop
+from src.views import BountyShop, login
 
 app = src.create_app()
-
-BountyShop.add_routes(app)
-
 
 # === Temp === #
 app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics"), methods=["PUT"])
@@ -20,7 +17,8 @@ app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics
 # === Bounties === #
 app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty"), methods=["PUT"])
 
-# === Weapons === #
+# === Bounty Shop === #
+BountyShop.add_routes(app)
 
 # === Loot Items === #
 app.add_url_rule("/api/loot/buy", 		view_func=BuyLoot.as_view("buyitem"), 			methods=["PUT"])
@@ -32,7 +30,7 @@ app.add_url_rule("/api/user/changeusername", view_func=ChangeUsername.as_view("c
 # === Leaderboard === #
 app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["PUT"])
 
-app.add_url_rule("/api/login", view_func=Login.as_view("login"), methods=["PUT"])
+app.add_url_rule("/api/login", 			"login", view_func=login.login_endpoint, methods=["PUT"])
 app.add_url_rule("/api/staticdata", 	view_func=StaticData.as_view("staticdata"), 		methods=["PUT"])
 app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), 			methods=["PUT"])
 

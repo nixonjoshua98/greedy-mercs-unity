@@ -1,23 +1,18 @@
 from flask import Response, request, current_app as app
 
-from flask.views import View
-
 from src import utils
 
 
-class Login(View):
+def login_endpoint():
+	data = utils.decompress(request.data)
 
-	def dispatch_request(self):
+	# - New login detected
+	if (row := app.mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
+		result = app.mongo.db.userLogins.insert_one({"deviceId": data["deviceId"]})
 
-		data = utils.decompress(request.data)
+		uid = result.inserted_id
 
-		# - New login detected
-		if (row := app.mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
-			result = app.mongo.db.userLogins.insert_one({"deviceId": data["deviceId"]})
+	else:
+		uid = row["_id"]
 
-			uid = result.inserted_id
-
-		else:
-			uid = row["_id"]
-
-		return Response(utils.compress(utils.dbops.get_player_data(uid)), status=200)
+	return Response(utils.compress(utils.dbops.get_player_data(uid)), status=200)

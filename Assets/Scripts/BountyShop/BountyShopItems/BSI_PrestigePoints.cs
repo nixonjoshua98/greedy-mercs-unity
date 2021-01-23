@@ -17,7 +17,7 @@ namespace GreedyMercs.BountyShop.UI
 
         protected override void ProcessBoughtItem(JSONNode node)
         {
-            GameState.Player.prestigePoints += BigInteger.Parse(node["PrestigePointsReceived"].Value);
+            GameState.Player.prestigePoints += BigInteger.Parse(node["prestigePointsReceived"].Value);
         }
 
         protected override string GetDescription()

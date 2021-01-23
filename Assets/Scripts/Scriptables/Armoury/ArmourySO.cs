@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
-
+using SimpleJSON;
 
 namespace GreedyMercs.Armoury.Data
 {
@@ -12,17 +12,22 @@ namespace GreedyMercs.Armoury.Data
     [CreateAssetMenu(menuName = "Scriptables/Armoury")]
     public class ArmourySO : ScriptableObject
     {
-        [SerializeField] ArmouryWeaponSO[] WeaponArray;
+        [SerializeField] ArmouryItemSO[] WeaponArray;
 
-        public ArmouryWeaponSO GetAtIndex(int index)
+        public void Init(JSONNode node)
         {
-            if (index > WeaponArray.Length)
-                Debug.Log("Erorr: Attempting to index weapon " + index + " which does not exist in the array");
-
-            return WeaponArray[index];                
+            for (int i = 0; i < WeaponArray.Length; ++i)
+            {
+                WeaponArray[i].Init(i, node[i.ToString()]);
+            }
         }
 
-        public List<ArmouryWeaponSO> GetWeapons(WeaponType type)
+        public ArmouryItemSO GetWeapon(int index)
+        {
+            return WeaponArray[index];
+        }
+
+        public List<ArmouryItemSO> GetWeapons(WeaponType type)
         {
             return WeaponArray.Where(w => w.Type == type).ToList();
         }

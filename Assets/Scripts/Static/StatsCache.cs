@@ -149,7 +149,7 @@ namespace GreedyMercs
             {
                 CharacterSO data = StaticData.CharacterList.Get(chara);
 
-                CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType) * GameState.Weapons.CalcBonuses(chara);
+                CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType);
             }
 
             return CachedValues[key].Value;

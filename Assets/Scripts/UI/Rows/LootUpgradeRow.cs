@@ -39,7 +39,7 @@ namespace GreedyMercs
 
             lootId = data.ItemID;
 
-            Utils.UI.SetImageScaleW(icon, data.icon, 150.0f);
+            Utils.UI.ScaleImageW(icon, data.icon, 150.0f);
 
             UpdateRow();
 

@@ -4,7 +4,7 @@ import src
 
 from src.views import (
 	Login, StaticData, Prestige, BuyLoot, UpgradeLoot,
-	ResetAccount, ClaimBounty, BuyWeapon, ChangeUsername, PlayerLeaderboard
+	ResetAccount, ClaimBounty, ChangeUsername, PlayerLeaderboard
 )
 
 from src.views import BountyShop
@@ -21,7 +21,6 @@ app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics
 app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty"), methods=["PUT"])
 
 # === Weapons === #
-app.add_url_rule("/api/weapon/buy", view_func=BuyWeapon.as_view("buyweapon"), methods=["PUT"])
 
 # === Loot Items === #
 app.add_url_rule("/api/loot/buy", 		view_func=BuyLoot.as_view("buyitem"), 			methods=["PUT"])

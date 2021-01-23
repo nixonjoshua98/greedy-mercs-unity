@@ -17,8 +17,6 @@ namespace GreedyMercs
         public const float BASE_CRIT_CHANCE = 0.01f;
         public const float BASE_CRIT_MULTIPLIER = 3.0f;
 
-        public static Weapons Weapons;
-
         public static SkillListSO SkillList;
         public static BountyListSO BountyList;
         public static LootItemListSO LootList;
@@ -30,9 +28,9 @@ namespace GreedyMercs
 
         public static void Restore(JSONNode node)
         {
-            Weapons = new Weapons(node["weapons"]);
-
             SkillList.Init();
+
+            Armoury.Init(node["weapons"]);
 
             BountyShop.Init(node["bountyShopItems"]);
 
@@ -44,8 +42,8 @@ namespace GreedyMercs
 
         public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, BountyShopListSO bountyShop, ArmourySO armoury)
         {
-            BountyShop = bountyShop;
-            Armoury = armoury;
+            BountyShop  = bountyShop;
+            Armoury     = armoury;
 
             CharacterList = chars;
             LootList = loot;

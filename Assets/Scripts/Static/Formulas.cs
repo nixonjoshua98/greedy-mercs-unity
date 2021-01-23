@@ -69,13 +69,6 @@ namespace GreedyMercs
             return scriptable.bountyPoints + (state.level - 1);
         }
 
-        public static double CalcWeaponDamageMultiplier(int weaponIndex, int owned)
-        {
-            var staticData = StaticData.Weapons.GetWeaponAtIndex(weaponIndex);
-
-            return 1 + ((staticData.damageBonus - 1) * owned);
-        }
-
         public static BigDouble CalcEnemyHealth(int stage)
         {
             BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));

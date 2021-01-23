@@ -10,7 +10,7 @@ namespace GreedyMercs
 {
     public static class Server
     {
-        const string LOCAL_IP = "31.53.80.1";
+        const string LOCAL_IP = "109.151.46.45";
         const string AWS_IP = "18.232.147.109";
 
 #if UNITY_EDITOR

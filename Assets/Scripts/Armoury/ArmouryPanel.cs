@@ -10,26 +10,65 @@ namespace GreedyMercs.Armoury.UI
 
     public class ArmouryPanel : MonoBehaviour
     {
+        [Header("Compoents")]
+        [SerializeField] Text damageBonusText;
         [SerializeField] Text weaponPointText;
 
         [Header("Weapon Parents")]
         [SerializeField] Transform swordParent;
+        [SerializeField] Transform staffParent;
 
-        IEnumerator Start()
+        [Header("Prefabs")]
+        [SerializeField] GameObject ArmouryWeaponObject;
+
+        // ===
+        Dictionary<int, ArmouryWeaponSlot> slots;
+
+        void Awake()
         {
-            List<ArmouryWeaponSO> swords = StaticData.Armoury.GetWeapons(WeaponType.SWORD);
-
-            yield return Populate(swordParent, swords);
+            slots = new Dictionary<int, ArmouryWeaponSlot>();
         }
 
-        IEnumerator Populate(Transform parent, List<ArmouryWeaponSO> weapons)
+        void Start()
         {
-            yield return new WaitForEndOfFrame();
+            Populate(swordParent, StaticData.Armoury.GetWeapons(WeaponType.SWORD));
+            Populate(staffParent, StaticData.Armoury.GetWeapons(WeaponType.STAFF));
+
+            UpdateUI();
+        }
+
+        void OnEnable()
+        {
+            UpdateUI();
+        }
+
+        void UpdateUI()
+        {
+            foreach (var entry in slots)
+            {
+                ArmouryWeaponState state = GameState.Armoury.GetWeapon(entry.Key);
+
+                entry.Value.levelText.text = state.level.ToString();
+            }
+
+            damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(GameState.Armoury.DamageBonus() * 100));
         }
 
         void FixedUpdate()
         {
             weaponPointText.text = GameState.Player.weaponPoints.ToString();
+        }
+
+        void Populate(Transform parent, List<ArmouryItemSO> weapons)
+        {
+            foreach (ArmouryItemSO w in weapons)
+            {
+                ArmouryWeaponSlot slot = Utils.UI.Instantiate(ArmouryWeaponObject, parent, Vector3.zero).GetComponent<ArmouryWeaponSlot>();
+
+                slots.Add(w.Index, slot);
+
+                Utils.UI.ScaleImageW(slot.iconImage, w.icon, 150.0f);
+            }
         }
     }
 }

@@ -111,9 +111,9 @@ namespace GreedyMercs.BountyShop.UI
                 BountyItemState state  = GameState.BountyShop.GetItem(item);
                 BountyShopItemSO data   = StaticData.BountyShop.GetItem(item);
 
-                state.totalBought++;
+                GameState.Player.bountyPoints -= data.PurchaseCost(state.totalBought);
 
-                GameState.Player.bountyPoints -= data.purchaseCost;
+                state.totalBought++;
 
                 ProcessBoughtItem(Utils.Json.Decompress(compressed));
             }

@@ -51,7 +51,7 @@ namespace GreedyMercs
 
                 GameState.Loot.Update(node["loot"]);
                 GameState.Player.Update(node["player"]);
-                GameState.Weapons.Update(node["weapons"]);
+                GameState.Armoury.Update(node["weapons"]);
                 GameState.Bounties.Update(node["bounties"]);
                 GameState.BountyShop.Update(node["userBountyShop"]);
 

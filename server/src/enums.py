@@ -35,4 +35,5 @@ class BountyShopItem(enum.IntEnum):
 
     PRESTIGE_POINTS = 0,
     GEMS = 1,
-    WEAPON_POINTS = 2
+    WEAPON_POINTS = 2,
+    WEAPON = 3

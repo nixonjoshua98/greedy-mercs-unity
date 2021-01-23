@@ -1,3 +1,5 @@
+import random
+
 from flask import request, Response, current_app as app
 
 from src import utils, checks, formulas
@@ -48,8 +50,9 @@ class BountyShop:
 
 		results = {
 			BountyShopItem.PRESTIGE_POINTS: lambda u: add_prestige_points(u, item_data["maxStagePercent"]),
-			BountyShopItem.GEMS: lambda u: add_items(u, gems=item_data["gemsGiven"]),
-			BountyShopItem.WEAPON_POINTS: lambda u: add_items(u, weaponPoints=item_data["weaponPoints"])
+			BountyShopItem.GEMS: lambda u: add_items(u, gems=item_data["gems"]),
+			BountyShopItem.WEAPON_POINTS: lambda u: add_items(u, weaponPoints=item_data["weaponPoints"]),
+			BountyShopItem.WEAPON: lambda u: add_random_weapon(u)
 
 		}.get(item)(userid)
 
@@ -69,6 +72,15 @@ def add_prestige_points(userid, max_stage_percent):
 	app.mongo.db.userItems.update_one({"userId": userid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
 	return {"prestigePointsReceived": str(points)}
+
+
+def add_random_weapon(userid):
+
+	weapon = int(random.choice(tuple(app.staticdata["weapons"].keys())))
+
+	app.mongo.db.userItems.update_one({"userId": userid}, {"$inc": {f"weapons.{weapon}": 1}}, upsert=True)
+
+	return {"weaponReceived": weapon}
 
 
 def add_items(userid, **kwargs):

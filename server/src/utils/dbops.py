@@ -126,6 +126,7 @@ def get_player_data(userid):
 			"maxPrestigeStage": stats.get("maxPrestigeStage", 0),
 			"prestigePoints": 	str(items.get("prestigePoints", 0)),
 			"username": 		stats.get("username", "Rogue Mercenary"),
+			"gems": 			items.get("gems", 0)
 		},
 
 		"userBountyShop": bounty_shop,

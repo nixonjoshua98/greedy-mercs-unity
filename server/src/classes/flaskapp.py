@@ -52,6 +52,5 @@ class FlaskApplication(Flask):
 	def create_objects(self):
 		return {
 			"loot": {int(k): Loot.from_dict(r) for k, r in self.staticdata["loot"].items()},
-			"bounties": {int(k): Bounty.from_dict(r) for k, r in self.staticdata["bounties"].items()},
-			"weapons": {int(k): Weapon.from_dict(r) for k, r in self.staticdata["weapons"].items()}
+			"bounties": {int(k): Bounty.from_dict(r) for k, r in self.staticdata["bounties"].items()}
 		}

@@ -5,13 +5,17 @@
     "maxResetBuy": 5
   },
   "1": {
-    "gemsGiven": 3,
-    "purchaseData": {"baseCost": 125, "levelIncrease": 5},
+    "gems": 3,
+    "purchaseData": {"baseCost": 100, "levelIncrease": 5},
     "maxResetBuy": 10
   },
   "2": {
     "weaponPoints": 1,
-    "purchaseData": {"baseCost": 10, "levelIncrease": 5},
-    "maxResetBuy": 100
+    "purchaseData": {"baseCost": 10, "levelIncrease": 1},
+    "maxResetBuy": 25
+  },
+  "3": {
+    "purchaseData": {"baseCost": 125, "levelIncrease": 25},
+    "maxResetBuy": 3
   }
 }

@@ -184,7 +184,7 @@ namespace GreedyMercs.Utils
             msg.Init(title, desc);
         }
 
-        public static void SetImageScaleW(Image img, Sprite spr, float w)
+        public static void ScaleImageW(Image img, Sprite spr, float w)
         {
             RectTransform rt = img.GetComponent<RectTransform>();
 

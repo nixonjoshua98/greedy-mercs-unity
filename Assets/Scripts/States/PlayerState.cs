@@ -29,9 +29,6 @@ namespace GreedyMercs
 
         public void Update(JSONNode node)
         {
-            if (node.HasKey("player"))
-                node = node["player"];
-
             gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
             gems = node.HasKey("gems") ? node["gems"].AsLong : gems;
 

@@ -11,7 +11,8 @@ namespace GreedyMercs.BountyShop.Data
     {
         PRESTIGE_POINTS = 0,
         GEMS            = 1,
-        WEAPON_POINTS   = 2
+        WEAPON_POINTS   = 2,
+        WEAPON          = 3
     }
 
     [PreferBinarySerialization]
@@ -22,7 +23,6 @@ namespace GreedyMercs.BountyShop.Data
 
         [Header("Static Data")]
         public int maxResetBuy;
-        public int purchaseCost;
 
         JSONNode node;
 
@@ -31,7 +31,6 @@ namespace GreedyMercs.BountyShop.Data
             node = _node;
 
             maxResetBuy = node["maxResetBuy"].AsInt;
-            purchaseCost = node["purchaseCost"].AsInt;
         }
 
         JSONNode Get(string key)

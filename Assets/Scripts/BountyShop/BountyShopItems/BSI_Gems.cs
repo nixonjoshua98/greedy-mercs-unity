@@ -16,14 +16,14 @@ namespace GreedyMercs.BountyShop.UI
 
         protected override void ProcessBoughtItem(JSONNode node)
         {
-            GameState.Player.gems += node["receivedGems"].AsLong;
+            GameState.Player.gems += node["gemsReceived"].AsLong;
         }
 
         protected override string GetDescription()
         {
             BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            return string.Format("{0} Gems", data.GetLong("gemsGiven"));
+            return string.Format("{0} Gems", data.GetLong("gems"));
         }
     }
 }

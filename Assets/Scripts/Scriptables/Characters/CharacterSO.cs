@@ -31,8 +31,6 @@ namespace GreedyMercs
 
         public Sprite icon;
 
-        public WeaponSO[] weapons;
-
         // - Runtime
         [HideInInspector] public int unlockOrder;
         [HideInInspector] public BigDouble purchaseCost;

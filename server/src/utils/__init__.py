@@ -22,6 +22,8 @@ def compress(data: dict) -> str:
 
 		return o
 
+	return json.dumps(data, default=default)
+
 	data_bytes = json.dumps(data, default=default).encode("utf-8")
 
 	compressed = gzip.compress(data_bytes)
@@ -36,6 +38,8 @@ def decompress(data: str) -> dict:
 	:return:
 		Returns a decompressed dictionary
 	"""
+
+	return json.loads(data)
 
 	decoded = base64.b64decode(data)
 

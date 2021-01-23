@@ -126,11 +126,15 @@ namespace GreedyMercs.Utils
 
         public static JSONNode Decompress(string data)
         {
+            return JSON.Parse(data);
+
             return JSON.Parse(GZip.Unzip(Convert.FromBase64String(data)));
         }
 
         public static string Compress(JSONNode node)
         {
+            return node.ToString();
+
             return Convert.ToBase64String(GZip.Zip(node.ToString()));
         }
 

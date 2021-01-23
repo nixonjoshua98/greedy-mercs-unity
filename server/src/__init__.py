@@ -17,6 +17,4 @@ def create_app():
 
 	app.mongo.init_app(app, uri=uri)
 
-	app.mongo.db.userLogins.create_index("userId")
-
 	return app

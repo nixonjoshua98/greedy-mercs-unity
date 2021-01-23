@@ -8,31 +8,40 @@ namespace GreedyMercs.IntroScene
 {
     public class IntroSceneController : MonoBehaviour
     {
-        [SerializeField] string finalTextString;
-
         [Header("Components")]
-        [SerializeField] Text text;
+        [SerializeField] Text[] introText;
         [SerializeField] Button continueButton;
 
         void Awake()
         {
+            foreach (Text t in introText)
+                t.color = new Color(t.color.r, t.color.g, t.color.b, 0.0f);
+
             continueButton.gameObject.SetActive(false);
         }
 
         IEnumerator Start()
         {
+            foreach (Text t in introText)
+            {
+                yield return FadeInText(t, 3.0f);
+            }
+
+            continueButton.gameObject.SetActive(true);
+        }
+
+        IEnumerator FadeInText(Text t, float duration)
+        {
             float progress = 0;
 
             while (progress < 1.0f)
             {
-                text.text = finalTextString.Substring(0, Mathf.CeilToInt(finalTextString.Length * progress));
+                t.color = new Color(t.color.r, t.color.g, t.color.b, progress);
 
-                progress += (Time.deltaTime / 10.0f);
+                progress += (Time.deltaTime / duration);
 
                 yield return new WaitForEndOfFrame();
             }
-
-            continueButton.gameObject.SetActive(true);
         }
 
         public void StartGameScene()

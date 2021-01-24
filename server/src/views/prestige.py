@@ -14,7 +14,7 @@ class Prestige(View):
 
 		stage = data["prestigeStage"]
 
-		utils.dbops.add_prestige_points(userid, stage)
+		utils.dbops.add_prestige_points(userid, stage=stage)
 
 		utils.dbops.add_bounty_prestige_levels(userid, stage)
 

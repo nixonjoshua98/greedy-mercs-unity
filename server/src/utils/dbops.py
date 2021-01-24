@@ -6,10 +6,8 @@ from bson import ObjectId
 
 from src import formulas
 
-import time
 
-
-def add_prestige_points(userid, stage: int):
+def add_prestige_points(userid, *, stage: int):
 	items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
 
 	points = formulas.calc_stage_prestige_points(stage, items.get("loot", dict()))
@@ -92,12 +90,10 @@ def add_bounty_prestige_levels(userid, stage):
 
 		return new_levels
 
-	bounty_levels = prestige_bounty_levels_earned()
+	query = {f"bountyLevels.{key}": level for key, level in prestige_bounty_levels_earned().items()}
 
-	app.mongo.db.userBounties.update_one(
-		{"userId": userid},
-		{"$inc": {f"bountyLevels.{key}": level for key, level in bounty_levels.items()}}
-	)
+	if query:
+		app.mongo.db.userBounties.update_one({"userId": userid}, {"$inc": query})
 
 
 def get_player_data(userid):
@@ -110,8 +106,6 @@ def get_player_data(userid):
 	:return:
 		Returns the users data as a dict
 	"""
-
-	now = time.time()
 
 	bounty_shop = get_bounty_shop_and_update(userid)
 

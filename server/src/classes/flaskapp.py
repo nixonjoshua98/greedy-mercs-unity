@@ -1,6 +1,4 @@
-import time
-
-from flask import Flask, request
+from flask import Flask
 
 from src import utils
 
@@ -19,20 +17,12 @@ class FlaskApplication(Flask):
 	@property
 	def next_daily_reset(self):
 		reset_time = (now := dt.datetime.utcnow()).replace(hour=20, minute=0, second=0, microsecond=0)
+
 		return reset_time if now <= reset_time else reset_time + dt.timedelta(days=1)
 
 	@property
 	def last_daily_reset(self) -> dt.datetime:
 		return self.next_daily_reset - dt.timedelta(days=1)
-
-	def full_dispatch_request(self):
-		now = time.time()
-
-		val = super(FlaskApplication, self).full_dispatch_request()
-
-		print(f"Request: {request.endpoint} {time.time() - now}s")
-
-		return val
 
 	def load_static(self) -> dict:
 		return {

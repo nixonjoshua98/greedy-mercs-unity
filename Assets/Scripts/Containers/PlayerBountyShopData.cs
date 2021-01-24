@@ -17,7 +17,10 @@ namespace GreedyMercs.BountyShop.Data
     {
         Dictionary<BountyShopItemID, BountyItemState> items;
 
-        public DateTime lastPurchaseReset;
+        public DateTime LastPurchaseReset;
+
+        public bool IsShopValid { get { return (DateTime.UtcNow - LastPurchaseReset).TotalDays < 1; } }
+        public int SecondsUntilInvalid { get { return (int)(LastPurchaseReset.AddDays(1) - DateTime.UtcNow).TotalSeconds; } }
 
         public PlayerBountyShopData(JSONNode node)
         {
@@ -35,7 +38,7 @@ namespace GreedyMercs.BountyShop.Data
                 items[itemId] = new BountyItemState { totalBought = node["itemsBought"][key].AsInt };
             }
 
-            lastPurchaseReset = node.HasKey("lastPurchaseReset") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastPurchaseReset"].AsLong).DateTime : lastPurchaseReset;
+            LastPurchaseReset = node.HasKey("lastPurchaseReset") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastPurchaseReset"].AsLong).DateTime : LastPurchaseReset;
         }
 
         public JSONNode ToJson()
@@ -43,7 +46,7 @@ namespace GreedyMercs.BountyShop.Data
             JSONNode node           = new JSONObject();
             JSONNode itemsBought    = new JSONObject();
 
-            node.Add("lastPurchaseReset", lastPurchaseReset.ToUnixMilliseconds());
+            node.Add("lastPurchaseReset", LastPurchaseReset.ToUnixMilliseconds());
 
             foreach (var entry in items)
             { 
@@ -64,6 +67,26 @@ namespace GreedyMercs.BountyShop.Data
             items[key] = new BountyItemState { totalBought = 0 };
 
             return GetItem(key);
+        }
+
+        // # ===Helper Methods === #
+
+        public bool IsItemMaxBought(BountyShopItemID key)
+        {
+            BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
+
+            return GetItem(key).totalBought >= data.maxResetBuy;
+        }
+
+        public void ProcessPurchase(BountyShopItemID key)
+        {
+            BountyItemState state = GetItem(key);
+
+            BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
+
+            GameState.Player.bountyPoints -= data.PurchaseCost(state.totalBought);
+
+            state.totalBought++;
         }
     }
 }

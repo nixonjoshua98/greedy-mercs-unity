@@ -12,11 +12,9 @@ namespace GreedyMercs
     {
         const int MAX_HOURS = 6;
 
-        DateTime lastClaimTime;
+        public DateTime lastClaimTime;
 
         Dictionary<BountyID, UpgradeState> bountyStates;
-
-        public DateTime LastClaimTime { get { return lastClaimTime; } }
 
         public BountyContainer(JSONNode node)
         {

@@ -3,35 +3,31 @@
 import src
 
 from src.views import (
-	StaticData, Prestige, BuyLoot, UpgradeLoot,
-	ResetAccount, ClaimBounty, ChangeUsername, PlayerLeaderboard
+	GameData, Prestige, BuyLoot, UpgradeLoot,
+	ClaimBounty, ChangeUsername, PlayerLeaderboard, BountyShopRefresh, BountyShop, PlayerLogin
 )
 
-from src.views import BountyShop, login
-
 app = src.create_app()
-
-# === Temp === #
-app.add_url_rule("/api/resetrelics", view_func=ResetAccount.as_view("resetrelics"), methods=["PUT"])
 
 # === Bounties === #
 app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty"), methods=["PUT"])
 
 # === Bounty Shop === #
-BountyShop.add_routes(app)
+app.add_url_rule("/api/bountyshop/refresh", view_func=BountyShopRefresh.as_view("bountyshop.refresh"), 	methods=["PUT"])
+app.add_url_rule("/api/bountyshop/buy", 	view_func=BountyShop.as_view("bountyshop.buy"), 			methods=["PUT"])
 
 # === Loot Items === #
 app.add_url_rule("/api/loot/buy", 		view_func=BuyLoot.as_view("buyitem"), 			methods=["PUT"])
 app.add_url_rule("/api/loot/upgrade", 	view_func=UpgradeLoot.as_view("upgradeitem"), 	methods=["PUT"])
 
-# === Player === #
-app.add_url_rule("/api/user/changeusername", view_func=ChangeUsername.as_view("changeusername"), methods=["PUT"])
+# === Player (User) === #
+app.add_url_rule("/api/user/login", 			view_func=PlayerLogin.as_view("playerlogin"), 		methods=["PUT"])
+app.add_url_rule("/api/user/changeusername", 	view_func=ChangeUsername.as_view("changeusername"), methods=["PUT"])
 
 # === Leaderboard === #
-app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["PUT"])
+app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["GET"])
 
-app.add_url_rule("/api/login", 			"login", view_func=login.login_endpoint, methods=["PUT"])
-app.add_url_rule("/api/staticdata", 	view_func=StaticData.as_view("staticdata"), 		methods=["PUT"])
+app.add_url_rule("/api/gamedata", 		view_func=GameData.as_view("gamedata"), methods=["GET"])
 app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), 			methods=["PUT"])
 
 if __name__ == "__main__":

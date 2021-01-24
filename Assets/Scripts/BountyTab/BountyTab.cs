@@ -98,7 +98,7 @@ namespace GreedyMercs
             var node = Utils.Json.GetDeviceNode();
 
             node.Add("currentStage", GameState.Stage.stage);
-            node.Add("lastClaimTime", GameState.Bounties.LastClaimTime.ToUnixMilliseconds());
+            node.Add("lastClaimTime", GameState.Bounties.lastClaimTime.ToUnixMilliseconds());
 
             Server.ClaimBounty(this, OnBountyClaim, node);
         }

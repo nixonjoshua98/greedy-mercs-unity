@@ -2,53 +2,68 @@ import math
 
 import datetime as dt
 
+from src import utils
 from src.enums import BonusType
 
-from flask import current_app as app
+
+# === Loot Formulas === #
+def loot_levelup_cost(item, start, buying):
+	return math.ceil(item["costCoeff"] * sum_non_int_power_seq(start, buying, item["costExpo"]))
+
+
+def next_loot_item_cost(numrelics: int):
+	return math.floor(max(1, numrelics - 2) * math.pow(1.35, numrelics))
+
+
+def loot_effect(item, level):
+	return item["baseEffect"] + (item["levelEffect"] * (level - 1))
+
+
+# === Prestige Formulas === #
+def stage_prestige_points(stage, userloot):
+	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus(userloot))
+
+
+def stage_bounty_levels(stage: int, bountylevels: dict):
+	new_levels = dict()
+
+	for key, bounty in utils.get_static_file("bounties").items():
+		level = bountylevels.get(key, 0)
+
+		if stage > bounty["unlockStage"] and level + 1 <= bounty["maxLevel"]:
+			new_levels[key] = 1
+
+	return new_levels
 
 
 def prestige_bonus(loot):
 	bonus = 1
 
-	for key, level in loot.items():
-		item = app.objects["loot"][int(key)]
+	staticdata = utils.get_static_file("loot")
 
-		if item.bonus_type == BonusType.CASH_OUT_BONUS:
-			bonus *= item.effect(level)
+	for key, level in loot.items():
+		item = staticdata[key]
+
+		if item["bonusType"] == BonusType.CASH_OUT_BONUS:
+			bonus *= loot_effect(item, level)
 
 	return bonus
 
 
-def next_prestige_item_cost(numrelics: int):
-	return math.floor(max(1, numrelics - 2) * math.pow(1.35, numrelics))
-
-
-def calc_stage_prestige_points(stage, userloot):
-	"""
-	Calculate the prestige points at a given stage including bonuses from relics
-	====================
-
-	:param stage: Stage we are calculating prestige points for
-	:param userloot: Dict of the users loot and levels
-
-	:return:
-		Returns the prestige points calculated as an int
-	"""
-
-	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus(userloot))
-
-
-def hourly_bounty_income(bountylevels: dict, maxstage, lastclaim) -> int:
+# === Bounties === #
+def bounty_hourly_income(bountylevels: dict, maxstage, lastclaim) -> int:
 	hourly_points = 0
 
-	for key, bounty in app.objects["bounties"].items():
-		if maxstage > bounty.unlock_stage:
-			hourly_points += bounty.bounty_points + (bountylevels.get(str(key), 1) - 1)
+	for key, bounty in utils.get_static_file("bounties").items():
+		if maxstage > bounty["unlockStage"]:
+			hourly_points += bounty["bountyPoints"] + (bountylevels.get(key, 1) - 1)
 
 	seconds_since_claim = min((dt.datetime.utcnow() - lastclaim).total_seconds(), 6 * 3_600)
 
 	return math.floor(hourly_points * (seconds_since_claim / 3_600))
 
+
+# === Generic Formulas === #
 
 def sum_geometric(startcost, levelsowned, levelsbuying, power):
 	return startcost * math.pow(power, levelsowned - 1) * (1 - math.pow(power, levelsbuying)) / (1 - power)

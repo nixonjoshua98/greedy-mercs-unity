@@ -6,7 +6,7 @@ from flask.views import View
 from src import utils
 
 
-class StaticData(View):
+class GameData(View):
 
 	def dispatch_request(self):
 		return Response(utils.compress(app.staticdata), status=200)

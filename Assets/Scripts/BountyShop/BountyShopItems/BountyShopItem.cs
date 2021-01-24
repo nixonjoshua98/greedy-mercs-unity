@@ -17,21 +17,22 @@ namespace GreedyMercs.BountyShop.UI
         [SerializeField] Text stockText;
         [SerializeField] Text descriptionText;
         [SerializeField] Text purchaseCostText;
+        [Space]
+        [SerializeField] Button purchaseButton;
 
         [Header("Prefabs")]
         [SerializeField] GameObject StockAlertObject;
 
         GameObject stockAlert;
 
-        bool currentlyBuyingItem;
-
         protected abstract void Awake();
 
         void Start()
         {
-            currentlyBuyingItem = false;
-
-            UpdateUI();
+            if (GameState.BountyShop.IsItemMaxBought(item))
+            {
+                stockAlert = Utils.UI.Instantiate(StockAlertObject, transform, Vector3.zero);
+            }
         }
 
         void OnEnable()
@@ -42,8 +43,6 @@ namespace GreedyMercs.BountyShop.UI
         void OnDisable()
         {
             CancelInvoke("UpdateUI");
-
-            CancelInvoke("CheckForNextRefresh");
         }
 
         void UpdateUI()
@@ -55,68 +54,45 @@ namespace GreedyMercs.BountyShop.UI
             purchaseCostText.text   = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.totalBought));
             descriptionText.text    = GetDescription();
 
-            if (Formulas.Server.BountyShopNeedsRefresh || state.totalBought >= data.maxResetBuy)
-            {
-                stockAlert = Utils.UI.Instantiate(StockAlertObject, transform, Vector3.zero);
+            purchaseButton.interactable = GameState.BountyShop.IsShopValid && data.maxResetBuy > state.totalBought;
 
-                CancelInvoke("UpdateUI");
-
-                InvokeRepeating("CheckForNextRefresh", 0.0f, 0.1f);
-            }
-        }
-
-        void CheckForNextRefresh()
-        {
-            BountyItemState state   = GameState.BountyShop.GetItem(item);
-            BountyShopItemSO data   = StaticData.BountyShop.GetItem(item);
-
-            if (!Formulas.Server.BountyShopNeedsRefresh && state.totalBought < data.maxResetBuy)
-            {
-                CancelInvoke("CheckForNextStock");
-
-                InvokeRepeating("UpdateUI", 0.0f, 0.1f);
-
+            if (stockAlert != null && GameState.BountyShop.IsShopValid && !GameState.BountyShop.IsItemMaxBought(item))
                 Destroy(stockAlert);
-            }
         }
 
 
         public void OnClick()
         {
-            BountyItemState stateItem = GameState.BountyShop.GetItem(item);
-            BountyShopItemSO dataItem = StaticData.BountyShop.GetItem(item);
+            BountyItemState state = GameState.BountyShop.GetItem(item);
+            BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            bool inStock = dataItem.maxResetBuy > stateItem.totalBought;
+            bool inStock = data.maxResetBuy > state.totalBought;
 
-            if (!currentlyBuyingItem && inStock)
+            if (GameState.BountyShop.IsShopValid && inStock)
             {
-                currentlyBuyingItem = true;
-
                 JSONNode node = Utils.Json.GetDeviceNode();
 
                 node.Add("itemId", (int)item);
 
                 Server.BuyBountyShopItem(this, ServerCallback, node);
             }
-
-            UpdateUI();
         }
 
         void ServerCallback(long code, string compressed)
         {
-            currentlyBuyingItem = false;
-
             if (code == 200)
             {
-                BountyItemState state  = GameState.BountyShop.GetItem(item);
-                BountyShopItemSO data   = StaticData.BountyShop.GetItem(item);
+                GameState.BountyShop.ProcessPurchase(item);
 
-                GameState.Player.bountyPoints -= data.PurchaseCost(state.totalBought);
-
-                state.totalBought++;
+                if (GameState.BountyShop.IsItemMaxBought(item))
+                {
+                    stockAlert = Utils.UI.Instantiate(StockAlertObject, transform, Vector3.zero);
+                }
 
                 ProcessBoughtItem(Utils.Json.Decompress(compressed));
             }
+
+            UpdateUI();
         }
 
         protected abstract void ProcessBoughtItem(JSONNode node);

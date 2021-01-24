@@ -16,23 +16,16 @@ namespace GreedyMercs.UI.Bounties
         [Space]
         [SerializeField] Button refreshButton;
 
-        bool isRefreshing;
-
-        void Awake()
-        {
-            isRefreshing = false;
-
-            EnableShopUI();
-        }
+        bool isRefreshing = false;
 
         void OnEnable()
         {
-            InvokeRepeating("UpdateResetTime", 0.0f, 0.5f);
+            InvokeRepeating("UpdateUI", 0.0f, 0.5f);
         }
 
         void OnDisable()
         {
-            CancelInvoke("UpdateResetTime");
+            CancelInvoke("UpdateUI");
         }
 
         void FixedUpdate()
@@ -40,54 +33,35 @@ namespace GreedyMercs.UI.Bounties
             bountyPointsText.text = Utils.Format.FormatNumber(GameState.Player.bountyPoints);
         }
 
-        void UpdateResetTime()
+        void UpdateUI()
         {
-            if (!Formulas.Server.BountyShopNeedsRefresh)
+            refreshButton.enabled = !GameState.BountyShop.IsShopValid;
+
+            if (GameState.BountyShop.IsShopValid)
             {
-                dailyResetText.text = Utils.Format.FormatSeconds(Formulas.Server.SecondsUntilDailyReset);
+                dailyResetText.text = Utils.Format.FormatSeconds(GameState.BountyShop.SecondsUntilInvalid);
             }
 
             else
             {
-                CancelInvoke("UpdateResetTime");
+                dailyResetText.text = "...";
 
-                EnableRefreshUI();
-            }
-        }
+                if (!isRefreshing)
+                {
+                    isRefreshing = true;
 
-        void EnableRefreshUI()
-        {
-            refreshButton.enabled = true;
-
-            dailyResetText.text = "Refresh";
-        }
-
-        void EnableShopUI()
-        {
-            refreshButton.enabled = false;
-        }
-
-        public void RefreshBountyShop()
-        {
-            if (Formulas.Server.BountyShopNeedsRefresh && !isRefreshing)
-            {
-                Server.RefreshBountyShop(this, ServerCallback, Utils.Json.GetDeviceNode());
+                    Server.RefreshBountyShop(this, ServerCallback, Utils.Json.GetDeviceNode());
+                }
             }
         }
 
         void ServerCallback(long code, string compressed)
         {
+            isRefreshing = false;
+
             if (code == 200)
             {
-                EnableShopUI();
-
-                isRefreshing = false;
-
-                JSONNode node = Utils.Json.Decompress(compressed);
-
-                GameState.BountyShop.Update(node);
-
-                InvokeRepeating("UpdateResetTime", 0.0f, 0.5f);
+                GameState.BountyShop.Update(Utils.Json.Decompress(compressed));
             }
         }
     }

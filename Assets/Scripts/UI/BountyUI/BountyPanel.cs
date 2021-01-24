@@ -109,7 +109,7 @@ namespace GreedyMercs.UI.Bounties
             var node = Utils.Json.GetDeviceNode();
 
             node.Add("currentStage", GameState.Stage.stage);
-            node.Add("lastClaimTime", GameState.Bounties.LastClaimTime.ToUnixMilliseconds());
+            node.Add("lastClaimTime", GameState.Bounties.lastClaimTime.ToUnixMilliseconds());
 
             claimingBounties = true;
 
@@ -125,8 +125,9 @@ namespace GreedyMercs.UI.Bounties
             {
                 var node = Utils.Json.Decompress(compressed);
 
-                GameState.Player.Update(node);
-                GameState.Bounties.Update(node);
+                GameState.Player.bountyPoints += node["earnedBountyPoints"].AsLong;
+
+                GameState.Bounties.lastClaimTime = DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime;
             }
         }
     }

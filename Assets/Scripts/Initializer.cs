@@ -35,7 +35,7 @@ namespace GreedyMercs
         {
             Debug.Log(Application.persistentDataPath);
 
-            Server.GetStaticData(this, ServerStaticDataCallback);
+            Server.GetGameData(this, ServerStaticDataCallback);
         }
 
         void ServerLoginCallback(long code, string compressed)
@@ -53,7 +53,7 @@ namespace GreedyMercs
                 GameState.Player.Update(node["player"]);
                 GameState.Armoury.Update(node["weapons"]);
                 GameState.Bounties.Update(node["bounties"]);
-                GameState.BountyShop.Update(node["userBountyShop"]);
+                GameState.BountyShop.Update(node["bountyShop"]);
 
                 SceneManager.LoadScene(isLocalSave ? "GameScene" : "IntroScene");
             }

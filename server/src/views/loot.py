@@ -9,10 +9,10 @@ from src import utils, checks, formulas
 class BuyLoot(View):
 
 	@checks.login_check
-	def dispatch_request(self, *, userid):
+	def dispatch_request(self, uid):
 
 		# - Load user data from the database
-		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
+		items = app.mongo.db.userItems.find_one({"userId": uid}) or dict()
 
 		prestige_points = int(items.get("prestigePoints", 0))
 
@@ -23,7 +23,7 @@ class BuyLoot(View):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		# - User cannot afford the next item
-		if prestige_points < (cost := formulas.next_prestige_item_cost(len(loot_items))):
+		if prestige_points < (cost := formulas.next_loot_item_cost(len(loot_items))):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		new_item_id = self.get_random_item(loot_items)
@@ -31,7 +31,7 @@ class BuyLoot(View):
 		remainPrestigePoints = prestige_points - cost
 
 		app.mongo.db.userItems.update_one(
-			{"userId": userid},
+			{"userId": uid},
 			{"$set": {"prestigePoints": str(remainPrestigePoints), f"loot.{new_item_id}": 1}},
 			upsert=True
 		)
@@ -54,14 +54,14 @@ class BuyLoot(View):
 class UpgradeLoot(View):
 
 	@checks.login_check
-	def dispatch_request(self, *, userid):
+	def dispatch_request(self, *, uid):
 
 		data = utils.decompress(request.data)
 
 		levels_buying = data["buyLevels"]
 
 		# - Load user data from the database
-		items = app.mongo.db.userItems.find_one({"userId": userid}) or dict()
+		items = app.mongo.db.userItems.find_one({"userId": uid}) or dict()
 
 		loot_items = {int(k): v for k, v in items.get("loot", dict()).items()}
 
@@ -85,7 +85,7 @@ class UpgradeLoot(View):
 		remain_prestige_points = prestige_points - cost
 
 		app.mongo.db.userItems.update_one(
-			{"userId": userid},
+			{"userId": uid},
 
 			{
 				"$set": {"prestigePoints": str(remain_prestige_points)},

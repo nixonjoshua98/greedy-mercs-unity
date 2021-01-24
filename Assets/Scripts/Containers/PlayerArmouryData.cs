@@ -33,8 +33,6 @@ namespace GreedyMercs.Armoury.Data
         {
             if (!weapons.TryGetValue(index, out ArmouryWeaponState state))
             {
-                Debug.Log("Error: Added weapon with ID " + index + " to dictionary");
-
                 weapons[index] = new ArmouryWeaponState { level = 0 };
             }
 

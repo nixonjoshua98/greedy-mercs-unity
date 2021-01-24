@@ -30,11 +30,11 @@ namespace GreedyMercs
             Loot    = new LootState(node["loot"]);
             Stage   = new StageState(node);
             Skills  = new SkillsState(node);
-            Player  = new PlayerState(node);
+            Player  = new PlayerState(node["player"]);
 
             Armoury = new PlayerArmouryData(node["weapons"]);
 
-            BountyShop = new PlayerBountyShopData(node["userBountyShop"]);
+            BountyShop = new PlayerBountyShopData(node["bountyShop"]);
 
             Bounties    = new BountyContainer(node);
 

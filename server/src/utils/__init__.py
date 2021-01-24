@@ -3,9 +3,28 @@ import json
 import gzip
 import base64
 
+from cachetools import cached, TTLCache
+
 import datetime as dt
 
 from . import dbops
+
+
+@cached(cache=TTLCache(maxsize=1, ttl=900))
+def static_game_data():
+
+	return {
+		"loot": 				read_data_file("loot.json"),
+		"bounties": 			read_data_file("bounties.json"),
+		"weapons": 				read_data_file("weapons.json"),
+		"characters": 			read_data_file("characters.json"),
+		"characterPassives": 	read_data_file("characterPassives.json"),
+		"bountyShopItems": 		read_data_file("bountyshopitems.json")
+	}
+
+
+def get_static_file(key: str):
+	return static_game_data()[key]
 
 
 def compress(data: dict) -> str:
@@ -26,10 +45,10 @@ def compress(data: dict) -> str:
 
 	compressed = gzip.compress(data_bytes)
 
-	return base64.b64encode(compressed).decode("utf-8")
+	return base64.b64encode(compressed)
 
 
-def decompress(data: str) -> dict:
+def decompress(data) -> dict:
 	"""
 	:param data: The string we want to decompress, received from the client
 
@@ -37,7 +56,7 @@ def decompress(data: str) -> dict:
 		Returns a decompressed dictionary
 	"""
 
-	decoded = base64.b64decode(data)
+	decoded = base64.urlsafe_b64decode(data)
 
 	decompressed = gzip.decompress(decoded)
 

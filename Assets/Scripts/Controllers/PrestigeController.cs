@@ -59,8 +59,6 @@ namespace GreedyMercs.StageDM.Prestige
         {
             CancelInvoke("UpdatePanel");
 
-            //StartCoroutine(PanelAnimation(0.9f));
-
             yield return SquadManager.MoveOut(1.0f);
 
             bool _ = Utils.File.ReadJson(DataManager.LOCAL_FILENAME, out JSONNode node);

@@ -53,7 +53,7 @@ namespace GreedyMercs
 
             public static int SecondsUntilDailyReset { get { return Mathf.CeilToInt((float)(NextDailyReset - DateTime.UtcNow).TotalSeconds); } }
 
-            public static bool BountyShopNeedsRefresh { get { return GameState.BountyShop.lastPurchaseReset < PrevDailyReset; } }
+            public static bool BountyShopNeedsRefresh { get { return GameState.BountyShop.LastPurchaseReset < PrevDailyReset; } }
         }
 
 

@@ -1,12 +1,13 @@
 
-from flask import Response, current_app as app
+from flask import Response
 from flask.views import View
 
 
 from src import utils
+from src.classes import StaticGameData
 
 
 class GameData(View):
 
 	def dispatch_request(self):
-		return Response(utils.compress(app.staticdata), status=200)
+		return Response(utils.compress(StaticGameData.data()), status=200)

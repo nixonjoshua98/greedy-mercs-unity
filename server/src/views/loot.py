@@ -5,6 +5,8 @@ from flask.views import View
 
 from src import utils, checks, formulas
 
+from src.classes import StaticGameData
+
 
 class BuyLoot(View):
 
@@ -14,19 +16,22 @@ class BuyLoot(View):
 		# - Load user data from the database
 		items = app.mongo.db.userItems.find_one({"userId": uid}) or dict()
 
+		# - Load static data
+		loot_static_data = StaticGameData.get("loot")
+
 		prestige_points = int(items.get("prestigePoints", 0))
 
-		loot_items = items.get("loot", dict())
+		user_loot = items.get("loot", dict())
 
 		# - No item available
-		if len(loot_items) == len(app.objects["loot"]):
+		if len(user_loot) == len(loot_static_data):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		# - User cannot afford the next item
-		if prestige_points < (cost := formulas.next_loot_item_cost(len(loot_items))):
+		if prestige_points < (cost := formulas.next_loot_item_cost(len(user_loot))):
 			return Response(utils.compress({"message": ""}), status=400)
 
-		new_item_id = self.get_random_item(loot_items)
+		new_item_id = self.get_random_item(user_loot)
 
 		remainPrestigePoints = prestige_points - cost
 
@@ -42,11 +47,9 @@ class BuyLoot(View):
 
 	def get_random_item(self, items: dict):
 
-		owned = [int(k) for k in items.keys()]
+		loot_items = StaticGameData.get("loot")
 
-		all_items = [int(k) for k, v in app.objects["loot"].items()]
-
-		available = list(set(all_items) - set(owned))
+		available = list(set(list(loot_items.keys())) - set(list(items.keys())))
 
 		return random.choice(available)
 
@@ -58,7 +61,8 @@ class UpgradeLoot(View):
 
 		data = utils.decompress(request.data)
 
-		levels_buying = data["buyLevels"]
+		item_buying		= str(data["itemId"])  # IDs are stored as strings (sicne JSON) so convert to follow suit
+		levels_buying 	= data["buyLevels"]
 
 		# - Load user data from the database
 		items = app.mongo.db.userItems.find_one({"userId": uid}) or dict()
@@ -67,20 +71,20 @@ class UpgradeLoot(View):
 
 		prestige_points = int(items.get("prestigePoints", 0))  # prestigePoints are stored as a string
 
-		static_item = app.objects["loot"][data["itemId"]]
+		staticdata = StaticGameData.get_item("loot", item_buying)
 
 		# - User is trying to upgrade an invalid item or one they do not currently own
 		if (item_level := loot_items.get(data["itemId"])) is None:
 			return Response(utils.compress({"message": "You do not own this item"}), status=400)
 
-		elif (item_level + levels_buying) > static_item.max_level:
-			return Response(utils.compress({"message": "Buying will exceed the item max level"}), status=400)
+		elif (item_level + levels_buying) > staticdata.get("maxLevel", float("inf")):
+			return Response(utils.compress({"message": "."}), status=400)
 
-		cost = static_item.levelup(item_level, data["buyLevels"])
+		cost = formulas.loot_levelup_cost(staticdata, item_level, levels_buying)
 
 		# - User cannot afford to upgrade
 		if cost > prestige_points:
-			return Response(utils.compress({"message": "You cannot afford to upgrade this item"}), status=400)
+			return Response(utils.compress({"message": "."}), status=400)
 
 		remain_prestige_points = prestige_points - cost
 
@@ -95,10 +99,4 @@ class UpgradeLoot(View):
 			upsert=True
 		)
 
-		return Response(utils.compress({
-				"itemLevel": 		item_level + data["buyLevels"],
-				"prestigePoints": 	str(remain_prestige_points)
-			}),
-
-			status=200
-		)
+		return "200", 200

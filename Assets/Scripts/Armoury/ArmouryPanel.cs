@@ -22,33 +22,29 @@ namespace GreedyMercs.Armoury.UI
         [SerializeField] GameObject ArmouryWeaponObject;
 
         // ===
-        Dictionary<int, ArmouryWeaponSlot> slots;
+        List<ArmouryWeaponSlot> slots;
 
-        void Awake()
+        void OnEnable()
         {
-            slots = new Dictionary<int, ArmouryWeaponSlot>();
-        }
+            slots = new List<ArmouryWeaponSlot>();
 
-        void Start()
-        {
             Populate(swordParent, StaticData.Armoury.GetWeapons(WeaponType.SWORD));
             Populate(staffParent, StaticData.Armoury.GetWeapons(WeaponType.STAFF));
 
             UpdateUI();
         }
 
-        void OnEnable()
+        void OnDisable()
         {
-            UpdateUI();
+            for (int i = 0; i < staffParent.childCount; ++i) Destroy(staffParent.GetChild(i).gameObject);
+            for (int i = 0; i < swordParent.childCount; ++i) Destroy(swordParent.GetChild(i).gameObject);
         }
 
         void UpdateUI()
         {
-            foreach (var entry in slots)
+            foreach (ArmouryWeaponSlot entry in slots)
             {
-                ArmouryWeaponState state = GameState.Armoury.GetWeapon(entry.Key);
-
-                entry.Value.levelText.text = state.level.ToString();
+                entry.UpdateUI();
             }
 
             damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(GameState.Armoury.DamageBonus() * 100));
@@ -63,11 +59,14 @@ namespace GreedyMercs.Armoury.UI
         {
             foreach (ArmouryItemSO w in weapons)
             {
-                ArmouryWeaponSlot slot = Utils.UI.Instantiate(ArmouryWeaponObject, parent, Vector3.zero).GetComponent<ArmouryWeaponSlot>();
+                if (GameState.Armoury.GetWeapon(w.Index).level > 0)
+                {
+                    ArmouryWeaponSlot slot = Utils.UI.Instantiate(ArmouryWeaponObject, parent, Vector3.zero).GetComponent<ArmouryWeaponSlot>();
 
-                slots.Add(w.Index, slot);
+                    slot.Init(w);
 
-                Utils.UI.ScaleImageW(slot.iconImage, w.icon, 150.0f);
+                    slots.Add(slot);
+                }
             }
         }
     }

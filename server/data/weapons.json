@@ -3,24 +3,24 @@
     "damageBonus": 1.1
   },
   "1": {
-    "damageBonus": 1.25
+    "damageBonus": 1.2
   },
   "2": {
-    "damageBonus": 1.5
+    "damageBonus": 1.35
   },
   "3": {
-    "damageBonus": 2.0
+    "damageBonus": 1.5
   },
   "4": {
     "damageBonus": 1.1
   },
   "5": {
-    "damageBonus": 1.25
+    "damageBonus": 1.2
   },
   "6": {
-    "damageBonus": 1.5
+    "damageBonus": 1.35
   },
   "7": {
-    "damageBonus": 2.0
+    "damageBonus": 1.5
   }
 }

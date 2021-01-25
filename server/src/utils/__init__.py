@@ -3,28 +3,9 @@ import json
 import gzip
 import base64
 
-from cachetools import cached, TTLCache
-
 import datetime as dt
 
 from . import dbops
-
-
-@cached(cache=TTLCache(maxsize=1, ttl=900))
-def static_game_data():
-
-	return {
-		"loot": 				read_data_file("loot.json"),
-		"bounties": 			read_data_file("bounties.json"),
-		"weapons": 				read_data_file("weapons.json"),
-		"characters": 			read_data_file("characters.json"),
-		"characterPassives": 	read_data_file("characterPassives.json"),
-		"bountyShopItems": 		read_data_file("bountyshopitems.json")
-	}
-
-
-def get_static_file(key: str):
-	return static_game_data()[key]
 
 
 def compress(data: dict) -> str:

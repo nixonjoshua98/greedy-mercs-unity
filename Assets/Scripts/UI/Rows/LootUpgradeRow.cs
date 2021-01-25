@@ -127,6 +127,7 @@ namespace GreedyMercs
                 UpgradeState state = GameState.Loot.Get(lootId);
 
                 state.level += levelsBuying;
+
                 GameState.Player.prestigePoints -= cost;
             }
 

@@ -8,6 +8,7 @@ from flask.views import View
 
 from src import utils, checks, formulas
 
+from src.classes import StaticGameData
 from src.enums import BountyShopItem
 
 
@@ -19,10 +20,10 @@ class BountyShopRefresh(View):
 
 		last_reset = shop.get("lastPurchaseReset")
 
-		if last_reset is None or app.last_daily_reset > last_reset:
+		if last_reset is None or app.last_reset_date > last_reset:
 			shop = app.mongo.db.bountyShop.find_one_and_update(
 				{"userId": uid},
-				{"$set": {"lastPurchaseReset": app.last_daily_reset}, "$unset": {"itemsBought": None}},
+				{"$set": {"lastPurchaseReset": app.last_reset_date}, "$unset": {"itemsBought": None}},
 
 				projection={'_id': False, 'userId': False},
 				upsert=True,
@@ -50,7 +51,7 @@ class BountyShop(View):
 		bounty_points 	= items.get("bountyPoints", 0)
 		num_bought 		= shop.get("itemsBought", dict()).get(str(item), 0)
 
-		item_data = app.staticdata["bountyShopItems"][str(item)]
+		item_data = StaticGameData.get_item("bountyShopItems", item)
 
 		max_reset_bought = item_data["maxResetBuy"]
 		purchase_cost = (cost_data := item_data["purchaseData"])["baseCost"] + (num_bought * cost_data["levelIncrease"])
@@ -90,7 +91,7 @@ def add_prestige_points(uid, max_stage_percent):
 
 def add_random_weapon(uid):
 
-	weapon = int(random.choice(tuple(app.staticdata["weapons"].keys())))
+	weapon = int(random.choice(tuple(StaticGameData.get("weapons").keys())))
 
 	app.mongo.db.userItems.update_one({"userId": uid}, {"$inc": {f"weapons.{weapon}": 1}}, upsert=True)
 

@@ -57,5 +57,28 @@ namespace GreedyMercs.Armoury.Data
 
             return val > 1 ? val : 0;
         }
+
+        public double DamageBonus(int index)
+        {
+            ArmouryWeaponState state = GameState.Armoury.GetWeapon(index);
+
+            if (state.level > 0)
+            {
+                ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(index);
+
+                return 1 + ((scriptable.damageBonus) - 1) * state.level;
+            }
+
+            return 0;
+        }
+
+        public double DamageBonus(int index, int level)
+        {
+            ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(index);
+
+            double val = 1 + ((scriptable.damageBonus) - 1) * level;
+
+            return val > 1 ? val : 0;
+        }
     }
 }

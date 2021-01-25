@@ -19,7 +19,7 @@ namespace GreedyMercs
 #if UNITY_EDITOR
         const string IP = LOCAL_IP;
 #else
-        const string IP = AWS_IP;
+        const string IP = LOCAL_IP;//AWS_IP;
 
 #endif
 

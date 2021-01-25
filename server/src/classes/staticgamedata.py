@@ -7,7 +7,7 @@ from src import utils
 class StaticGameData:
 	lookup = {
 		"loot": "loot.json",
-		"weapons": "weapons.json",
+		"armoury": "armoury.json",
 		"bounties": "bounties.json",
 		"characters": "characters.json",
 		"bountyShopItems": "bountyshopitems.json",

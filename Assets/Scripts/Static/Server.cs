@@ -19,7 +19,7 @@ namespace GreedyMercs
 #if UNITY_EDITOR
         const string IP = LOCAL_IP;
 #else
-        const string IP = LOCAL_IP;//AWS_IP;
+        const string IP = AWS_IP;
 
 #endif
 
@@ -43,6 +43,10 @@ namespace GreedyMercs
 
         // # === Data === #
         public static void GetGameData(MonoBehaviour mono, Action<long, string> callback) => mono.StartCoroutine(Get("gamedata", callback));
+
+        // # === Armoury === #
+        public static void UpgradeArmouryItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("armoury/upgradeitem", callback, node));
+
 
 
         public static void Prestige(MonoBehaviour mono, Action<long, string> callback, JSONNode node)

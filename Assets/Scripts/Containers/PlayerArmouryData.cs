@@ -61,15 +61,11 @@ namespace GreedyMercs.Armoury.Data
         public double DamageBonus(int index)
         {
             ArmouryWeaponState state = GameState.Armoury.GetWeapon(index);
+            ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(index);
 
-            if (state.level > 0)
-            {
-                ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(index);
+            double val = 1 + ((scriptable.damageBonus) - 1) * state.level;
 
-                return 1 + ((scriptable.damageBonus) - 1) * state.level;
-            }
-
-            return 0;
+            return val > 1 ? val : 0;
         }
 
         public double DamageBonus(int index, int level)
@@ -79,6 +75,11 @@ namespace GreedyMercs.Armoury.Data
             double val = 1 + ((scriptable.damageBonus) - 1) * level;
 
             return val > 1 ? val : 0;
+        }
+
+        public void UpgradeWeapon(int index, int levels)
+        {
+            GetWeapon(index).level += levels;
         }
     }
 }

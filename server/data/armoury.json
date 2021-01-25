@@ -1,0 +1,34 @@
+{
+  "0": {
+    "damageBonus": 1.1,
+    "upgradeCost": 2
+  },
+  "1": {
+    "damageBonus": 1.2,
+    "upgradeCost": 3
+  },
+  "2": {
+    "damageBonus": 1.35,
+    "upgradeCost": 4
+  },
+  "3": {
+    "damageBonus": 1.5,
+    "upgradeCost": 5
+  },
+  "4": {
+    "damageBonus": 1.1,
+    "upgradeCost": 2
+  },
+  "5": {
+    "damageBonus": 1.2,
+    "upgradeCost": 3
+  },
+  "6": {
+    "damageBonus": 1.35,
+    "upgradeCost": 4
+  },
+  "7": {
+    "damageBonus": 1.5,
+    "upgradeCost": 5
+  }
+}

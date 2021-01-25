@@ -79,19 +79,16 @@ namespace GreedyMercs
                 Utils.File.WriteJson(DataManager.LOCAL_STATIC_FILENAME, node);
             }
 
+            else if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
+            {
+                StaticData.Restore(JSON.Parse(localSaveJson));
+            }
+
             else
             {
-                if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
-                {
-                    StaticData.Restore(JSON.Parse(localSaveJson));
-                }
+                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
 
-                else
-                {
-                    Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
-
-                    return;
-                }
+                return;
             }
 
             Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());

@@ -24,13 +24,15 @@ namespace GreedyMercs.Armoury.Data
         public int Index;
 
         [Header("Static Data")]
-        public double damageBonus = 1;
+        public int upgradeCost;
+        public double damageBonus;
 
         public void Init(int index, JSONNode node)
         {
             Index = index;
 
             damageBonus = node["damageBonus"].AsDouble;
+            upgradeCost = node["upgradeCost"].AsInt;
         }
     }
 }

@@ -9,3 +9,5 @@ from .bounties import ClaimBounty
 from .prestige import Prestige
 
 from .bountyshop import BountyShop, BountyShopRefresh
+
+from .armoury import UpgradeArmourItem

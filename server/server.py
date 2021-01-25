@@ -3,8 +3,17 @@
 import src
 
 from src.views import (
-	GameData, Prestige, BuyLoot, UpgradeLoot,
-	ClaimBounty, ChangeUsername, PlayerLeaderboard, BountyShopRefresh, BountyShop, PlayerLogin
+	BuyLoot,
+	GameData,
+	Prestige,
+	BountyShop,
+	UpgradeLoot,
+	ClaimBounty,
+	PlayerLogin,
+	ChangeUsername,
+	PlayerLeaderboard,
+	BountyShopRefresh,
+	UpgradeArmourItem
 )
 
 app = src.create_app()
@@ -26,6 +35,9 @@ app.add_url_rule("/api/user/changeusername", 	view_func=ChangeUsername.as_view("
 
 # === Leaderboard === #
 app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["GET"])
+
+# === Armoury === #
+app.add_url_rule("/api/armoury/upgradeitem", view_func=UpgradeArmourItem.as_view("upgradearmoury"), methods=["PUT"])
 
 app.add_url_rule("/api/gamedata", 		view_func=GameData.as_view("gamedata"), methods=["GET"])
 app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), 			methods=["PUT"])

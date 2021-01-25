@@ -30,7 +30,7 @@ namespace GreedyMercs
 
         public int Count { get { return ItemList.Count; } }
 
-        public void Restore(JSONNode node)
+        public void Init(JSONNode node)
         {
             ItemDict = new Dictionary<LootID, LootItemSO>();
 

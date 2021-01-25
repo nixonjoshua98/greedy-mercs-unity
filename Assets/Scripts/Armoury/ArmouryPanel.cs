@@ -31,11 +31,13 @@ namespace GreedyMercs.Armoury.UI
             Populate(swordParent, StaticData.Armoury.GetWeapons(WeaponType.SWORD));
             Populate(staffParent, StaticData.Armoury.GetWeapons(WeaponType.STAFF));
 
-            UpdateUI();
+            InvokeRepeating("UpdateUI", 0.0f, 0.25f);
         }
 
         void OnDisable()
         {
+            CancelInvoke("UpdateUI");
+
             for (int i = 0; i < staffParent.childCount; ++i) Destroy(staffParent.GetChild(i).gameObject);
             for (int i = 0; i < swordParent.childCount; ++i) Destroy(swordParent.GetChild(i).gameObject);
         }

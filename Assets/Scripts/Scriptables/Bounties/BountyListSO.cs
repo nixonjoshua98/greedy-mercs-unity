@@ -20,7 +20,7 @@ namespace GreedyMercs
 
         Dictionary<BountyID, BountySO> BountyDict;
 
-        public void Restore(SimpleJSON.JSONNode node)
+        public void Init(SimpleJSON.JSONNode node)
         {
             BountyDict = new Dictionary<BountyID, BountySO>();
 

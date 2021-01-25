@@ -30,25 +30,21 @@ namespace GreedyMercs
         {
             SkillList.Init();
 
-            Armoury.Init(node["weapons"]);
-
+            LootList.Init(node["loot"]);
+            Armoury.Init(node["armoury"]);
+            BountyList.Init(node["bounties"]);
             BountyShop.Init(node["bountyShopItems"]);
-
-            CharacterList.Restore(node["characters"], node["characterPassives"]);
-
-            LootList.Restore(node["loot"]);
-            BountyList.Restore(node["bounties"]);
+            CharacterList.Init(node["characters"], node["characterPassives"]);
         }
 
         public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, BountyShopListSO bountyShop, ArmourySO armoury)
         {
-            BountyShop  = bountyShop;
-            Armoury     = armoury;
-
-            CharacterList = chars;
-            LootList = loot;
-            SkillList = skills;
-            BountyList = bounties;
+            BountyShop      = bountyShop;
+            Armoury         = armoury;
+            CharacterList   = chars;
+            LootList        = loot;
+            SkillList       = skills;
+            BountyList      = bounties;
         }
     }
 }

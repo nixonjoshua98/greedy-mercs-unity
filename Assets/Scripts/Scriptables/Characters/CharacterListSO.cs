@@ -22,7 +22,7 @@ namespace GreedyMercs
     {
         public List<CharacterSO> CharacterList;
 
-        public void Restore(JSONNode characters, JSONNode passivesData)
+        public void Init(JSONNode characters, JSONNode passivesData)
         {
             Dictionary<int, CharacterPassive> passiveDict = GetPassiveDict(passivesData);
 

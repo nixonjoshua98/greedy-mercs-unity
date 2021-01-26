@@ -49,7 +49,9 @@ namespace GreedyMercs.Armoury.UI
                 entry.UpdateUI();
             }
 
-            damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(GameState.Armoury.DamageBonus() * 100));
+            BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
+
+            damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
         }
 
         void FixedUpdate()

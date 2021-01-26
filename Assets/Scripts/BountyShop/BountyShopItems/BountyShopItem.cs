@@ -54,7 +54,7 @@ namespace GreedyMercs.BountyShop.UI
             purchaseCostText.text   = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.totalBought));
             descriptionText.text    = GetDescription();
 
-            purchaseButton.interactable = GameState.BountyShop.IsShopValid && data.maxResetBuy > state.totalBought;
+            purchaseButton.interactable = GameState.BountyShop.IsShopValid && !GameState.BountyShop.IsItemMaxBought(item) && GameState.BountyShop.CanAffordItem(item);
 
             if (stockAlert != null && GameState.BountyShop.IsShopValid && !GameState.BountyShop.IsItemMaxBought(item))
                 Destroy(stockAlert);

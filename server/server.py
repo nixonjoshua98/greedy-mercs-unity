@@ -1,10 +1,11 @@
 
+from flask import Flask
 
-import src
+from src.classes.backgroundtasks import BackgroundTasks
 
 from src.views import (
 	BuyLoot,
-	GameData,
+	StaticGameData,
 	Prestige,
 	BountyShop,
 	UpgradeLoot,
@@ -16,7 +17,11 @@ from src.views import (
 	UpgradeArmourItem
 )
 
-app = src.create_app()
+from src.exts import mongo
+
+mongo.create_mongo()
+
+app = Flask(__name__)
 
 # === Bounties === #
 app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty"), methods=["PUT"])
@@ -39,8 +44,10 @@ app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view(
 # === Armoury === #
 app.add_url_rule("/api/armoury/upgradeitem", view_func=UpgradeArmourItem.as_view("upgradearmoury"), methods=["PUT"])
 
-app.add_url_rule("/api/gamedata", 		view_func=GameData.as_view("gamedata"), methods=["GET"])
-app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), 			methods=["PUT"])
+app.add_url_rule("/api/gamedata", view_func=StaticGameData.as_view("gamedata"), methods=["GET"])
+app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), methods=["PUT"])
+
+BackgroundTasks().run()
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=2122, debug=True, threaded=False)

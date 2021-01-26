@@ -1,15 +1,16 @@
-from flask import Response, current_app as app
+from flask import Response
 
 from flask.views import View
 
 from src import utils
+from src.exts import mongo
 
 
 class PlayerLeaderboard(View):
 
 	def dispatch_request(self):
 
-		results = app.mongo.db.userStats.find(
+		results = mongo.db.userStats.find(
 			{
 				"maxPrestigeStage": {"$exists": True}
 			},

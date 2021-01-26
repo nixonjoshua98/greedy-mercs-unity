@@ -8,7 +8,7 @@ namespace GreedyMercs
     {
         public override void Process()
         {
-            GameState.Player.gold += StatsCache.GetBossGold(stageSpawned);
+            GameState.Player.gold += StatsCache.StageEnemy.GetBossGold(stageSpawned);
         }
     }
 

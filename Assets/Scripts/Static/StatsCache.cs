@@ -1,32 +1,29 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Numerics;
 using System.Collections.Generic;
 
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 namespace GreedyMercs
 {
-    class CacheValue
-    {
-        public float CachedAt;
-
-        public BigDouble Value;
-
-        public Dictionary<BonusType, double> Dict;
-    }
-
     public class StatsCache : MonoBehaviour
     {
-        static Dictionary<string, CacheValue> CachedValues = new Dictionary<string, CacheValue>();
+        #region Cache
+        static Dictionary<string, float> CacheTimers                            = new Dictionary<string, float>();
+        static Dictionary<string, BigDouble> CachedDoubles                      = new Dictionary<string, BigDouble>();
+        static Dictionary<string, Dictionary<BonusType, double>> CachedBonuses  = new Dictionary<string, Dictionary<BonusType, double>>();
 
         static Dictionary<BonusType, double> BonusFromCharacters
         {
             get
             {
-                if (IsCacheOutdated("CHARACTERS"))
-                    CachedValues["CHARACTERS"].Dict = GameState.Characters.CalcBonuses();
+                if (IsCacheOutdated("CHARACTERS", CachedBonuses))
+                    CachedBonuses["CHARACTERS"] = GameState.Characters.CalcBonuses();
 
-                return CachedValues["CHARACTERS"].Dict;
+                return CachedBonuses["CHARACTERS"];
             }
         }
 
@@ -34,12 +31,24 @@ namespace GreedyMercs
         {
             get
             {
-                if (IsCacheOutdated("LOOT"))
-                    CachedValues["LOOT"].Dict = GameState.Loot.CalcBonuses();
+                if (IsCacheOutdated("LOOT", CachedBonuses))
+                    CachedBonuses["LOOT"] = GameState.Loot.CalcBonuses();
 
-                return CachedValues["LOOT"].Dict;
+                return CachedBonuses["LOOT"];
             }
         }
+
+        public static BigDouble ArmouryDamageMultiplier
+        {
+            get
+            {
+                if (IsCacheOutdated("ARMOURY_DAMAGE", CachedDoubles))
+                    CachedDoubles["ARMOURY_DAMAGE"] = Math.Max(1.0f, GameState.Armoury.DamageBonus());
+
+                return CachedDoubles["ARMOURY_DAMAGE"];
+            }
+        }
+        #endregion
 
         static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CacBonuses(); } }
 
@@ -53,14 +62,11 @@ namespace GreedyMercs
                 {
                     UpgradeState state = GameState.Characters.Get(chara);
 
-                    if (CachedValues.TryGetValue(string.Format("CHARACTER_DMG_{0}", chara.ToString()), out CacheValue val))
-                    {
-                        total += val.Value;
-                    }
+                    if (CachedDoubles.TryGetValue(string.Format("CHARACTER_DMG_{0}", chara.ToString()), out BigDouble val))
+                        total += val;
+
                     else
-                    {
                         total += GetCharacterDamage(chara);
-                    }
                 }
 
                 return total;
@@ -69,7 +75,11 @@ namespace GreedyMercs
 
         public static void Clear()
         {
-            CachedValues.Clear();
+            CacheTimers.Clear();
+
+            CachedDoubles.Clear();
+
+            CachedBonuses.Clear();
         }
 
         public static class GoldUpgrades
@@ -80,9 +90,15 @@ namespace GreedyMercs
             #endregion
         }
 
-        public static class StageBoss
+        public static class StageEnemy
         {
-            public static float Timer => 15.0f + (float)BonusFromLoot.GetOrVal(BonusType.BOSS_TIMER_DUR, 0);
+            #region Boss
+            public static float BossTimer => 15.0f + (float)BonusFromLoot.GetOrVal(BonusType.BOSS_TIMER_DUR, 0);
+
+            public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * MultiplyBonuses(BonusType.ENEMY_GOLD, BonusType.ALL_GOLD);
+
+            public static BigDouble GetBossGold(int stage) => Formulas.CalcBossGold(stage) * MultiplyBonuses(BonusType.BOSS_GOLD, BonusType.ALL_GOLD);
+            #endregion
         }
 
         // # === Energy === #
@@ -145,42 +161,31 @@ namespace GreedyMercs
         {
             string key = "CHARACTER_DMG_" + chara.ToString();
 
-            if (IsCacheOutdated(key))
+            if (IsCacheOutdated(key, CachedDoubles))
             {
                 CharacterSO data = StaticData.CharacterList.Get(chara);
 
-                CachedValues[key].Value = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType);
+                CachedDoubles[key] = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType) * ArmouryDamageMultiplier;
             }
 
-            return CachedValues[key].Value;
-        }
-
-        public static BigDouble GetEnemyGold(int stage)
-        {
-            return Formulas.CalcEnemyGold(stage) * MultiplyBonuses(BonusType.ENEMY_GOLD, BonusType.ALL_GOLD);
-        }
-
-        public static BigDouble GetBossGold(int stage)
-        {
-            return Formulas.CalcBossGold(stage) * MultiplyBonuses(BonusType.BOSS_GOLD, BonusType.ALL_GOLD);
+            return CachedDoubles[key];
         }
 
         public static BigDouble GetTapDamage()
         {
-            if (IsCacheOutdated("TAP_DAMAGE"))
-            {
-                CachedValues["TAP_DAMAGE"].Value = (Formulas.CalcTapDamage() * MultiplyBonuses(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
-            }
+            string key = "TAP_DAMAGE";
 
-            return CachedValues["TAP_DAMAGE"].Value;
+            if (IsCacheOutdated(key, CachedDoubles))
+                CachedDoubles[key] = (Formulas.CalcTapDamage() * MultiplyBonuses(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
+
+            return CachedDoubles[key];
         }
 
-        // === Internal Methods ===
-        static bool IsCacheOutdated(string key)
+        static bool IsCacheOutdated<TVal>(string key, Dictionary<string, TVal> valueCache)
         {
-            if (!CachedValues.ContainsKey(key) || (Time.realtimeSinceStartup - CachedValues[key].CachedAt) >= 0.5f)
+            if (!valueCache.ContainsKey(key) || !CacheTimers.ContainsKey(key) || (Time.realtimeSinceStartup - CacheTimers[key]) >= 0.5f)
             {
-                CachedValues[key] = new CacheValue { CachedAt = Time.realtimeSinceStartup };
+                CacheTimers[key] = Time.realtimeSinceStartup;
 
                 return true;
             }

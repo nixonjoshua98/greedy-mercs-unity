@@ -4,7 +4,7 @@ import datetime as dt
 
 from src.enums import BonusType
 
-from src.classes import StaticGameData
+from src.classes.gamedata import GameData
 
 
 # === Loot Formulas === #
@@ -28,7 +28,7 @@ def stage_prestige_points(stage, userloot):
 def stage_bounty_levels(stage: int, bountylevels: dict):
 	new_levels = dict()
 
-	for key, bounty in StaticGameData.get("bounties").items():
+	for key, bounty in GameData.get("bounties").items():
 		level = bountylevels.get(key, 0)
 
 		if stage > bounty["unlockStage"] and level + 1 <= bounty["maxLevel"]:
@@ -40,7 +40,7 @@ def stage_bounty_levels(stage: int, bountylevels: dict):
 def prestige_bonus(loot):
 	bonus = 1
 
-	staticdata = StaticGameData.get("loot")
+	staticdata = GameData.get("loot")
 
 	for key, level in loot.items():
 		item = staticdata[key]
@@ -55,7 +55,7 @@ def prestige_bonus(loot):
 def bounty_hourly_income(bountylevels: dict, maxstage, lastclaim) -> int:
 	hourly_points = 0
 
-	for key, bounty in StaticGameData.get("bounties").items():
+	for key, bounty in GameData.get("bounties").items():
 		if maxstage > bounty["unlockStage"]:
 			hourly_points += bounty["bountyPoints"] + (bountylevels.get(key, 1) - 1)
 

@@ -1,11 +1,12 @@
 import random
 
-from flask import Response, request, current_app as app
+from flask import Response, request
 from flask.views import View
 
 from src import utils, checks, formulas
+from src.exts import mongo
 
-from src.classes import StaticGameData
+from src.classes.gamedata import GameData
 
 
 class BuyLoot(View):
@@ -14,10 +15,10 @@ class BuyLoot(View):
 	def dispatch_request(self, uid):
 
 		# - Load user data from the database
-		items = app.mongo.db.userItems.find_one({"userId": uid}) or dict()
+		items = mongo.db.userItems.find_one({"userId": uid}) or dict()
 
 		# - Load static data
-		loot_static_data = StaticGameData.get("loot")
+		loot_static_data = GameData.get("loot")
 
 		prestige_points = int(items.get("prestigePoints", 0))
 
@@ -35,7 +36,7 @@ class BuyLoot(View):
 
 		remainPrestigePoints = prestige_points - cost
 
-		app.mongo.db.userItems.update_one(
+		mongo.db.userItems.update_one(
 			{"userId": uid},
 			{"$set": {"prestigePoints": str(remainPrestigePoints), f"loot.{new_item_id}": 1}},
 			upsert=True
@@ -47,7 +48,7 @@ class BuyLoot(View):
 
 	def get_random_item(self, items: dict):
 
-		loot_items = StaticGameData.get("loot")
+		loot_items = GameData.get("loot")
 
 		available = list(set(list(loot_items.keys())) - set(list(items.keys())))
 
@@ -65,13 +66,13 @@ class UpgradeLoot(View):
 		levels_buying 	= data["buyLevels"]
 
 		# - Load user data from the database
-		items = app.mongo.db.userItems.find_one({"userId": uid}) or dict()
+		items = mongo.db.userItems.find_one({"userId": uid}) or dict()
 
 		loot_items = {int(k): v for k, v in items.get("loot", dict()).items()}
 
 		prestige_points = int(items.get("prestigePoints", 0))  # prestigePoints are stored as a string
 
-		staticdata = StaticGameData.get_item("loot", item_buying)
+		staticdata = GameData.get_item("loot", item_buying)
 
 		# - User is trying to upgrade an invalid item or one they do not currently own
 		if (item_level := loot_items.get(data["itemId"])) is None:
@@ -88,7 +89,7 @@ class UpgradeLoot(View):
 
 		remain_prestige_points = prestige_points - cost
 
-		app.mongo.db.userItems.update_one(
+		mongo.db.userItems.update_one(
 			{"userId": uid},
 
 			{

@@ -35,29 +35,29 @@ namespace GreedyMercs
             #endregion
         }
 
-        public static class Server
+        public class StageEnemy
         {
-            public static DateTime NextDailyReset
+            public static float SpawnDelay { get { return 0.25f; } }
+
+            #region Health
+            public static BigDouble CalcEnemyHealth(int stage)
             {
-                get
-                {
-                    DateTime now = DateTime.UtcNow;
+                BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
+                BigDouble y = BigDouble.Pow(1.15, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
 
-                    DateTime resetTime = new DateTime(now.Year, now.Month, now.Day, 20, 0, 0, 0);
-
-                    return now <= resetTime ? resetTime : resetTime.AddDays(1);
-                }
+                return 15 * x * y;
             }
 
-            public static DateTime PrevDailyReset { get { return NextDailyReset.AddDays(-1); } }
+            public static BigDouble CalcBossHealth(int stage) => CalcEnemyHealth(stage) * 3.0f;
+            #endregion
 
-            public static int SecondsUntilDailyReset { get { return Mathf.CeilToInt((float)(NextDailyReset - DateTime.UtcNow).TotalSeconds); } }
+            #region Gold
+            public static BigDouble CalcEnemyGold(int stage) => 10.0f * CalcEnemyHealth(stage) * (0.008 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
 
-            public static bool BountyShopNeedsRefresh { get { return GameState.BountyShop.LastPurchaseReset < PrevDailyReset; } }
+            public static BigDouble CalcBossGold(int stage) => CalcEnemyGold(stage) * 5.0f;
+
+            #endregion
         }
-
-
-        public static float EnemySpawnCooldown { get { return 0.25f; } }
 
 
         public static int CalcBountyHourlyIncome(BountyID bounty)
@@ -69,24 +69,11 @@ namespace GreedyMercs
             return scriptable.bountyPoints + (state.level - 1);
         }
 
-        public static BigDouble CalcEnemyHealth(int stage)
-        {
-            BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
-            BigDouble y = BigDouble.Pow(1.15, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
-
-            return 15 * x * y;
-        }
-
-        public static BigDouble CalcBossHealth(int stage)
-        {
-            return CalcEnemyHealth(stage) * 3.0f;
-        }
-
         // =====
 
         public static BigDouble CalcEnemyGold(int stage)
         {
-            return 10.0f * CalcEnemyHealth(stage) * (0.008 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
+            return 10.0f * StageEnemy.CalcEnemyHealth(stage) * (0.008 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
         }
 
         public static BigDouble CalcBossGold(int stage)

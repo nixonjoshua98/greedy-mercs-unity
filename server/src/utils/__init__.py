@@ -5,8 +5,6 @@ import base64
 
 import datetime as dt
 
-from . import dbops
-
 
 def compress(data: dict) -> str:
 	"""

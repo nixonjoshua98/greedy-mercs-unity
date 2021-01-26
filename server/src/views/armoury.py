@@ -1,10 +1,11 @@
-from flask import Response, request, current_app as app
+from flask import Response, request
 
 from flask.views import View
 
 from src import utils, checks
+from src.exts import mongo
 
-from src.classes import StaticGameData
+from src.classes.gamedata import GameData
 
 
 class UpgradeArmourItem(View):
@@ -17,14 +18,14 @@ class UpgradeArmourItem(View):
 		iid = data["itemId"]
 
 		# - Load data from the database
-		wp = (app.mongo.db.userItems.find_one({"userId": uid}) or dict()).get("weaponPoints", 0)
+		wp = (mongo.db.userItems.find_one({"userId": uid}) or dict()).get("weaponPoints", 0)
 
-		static_item = StaticGameData.get_item("armoury", iid)
+		static_item = GameData.get_item("armoury", iid)
 
 		if wp < (cost := static_item["upgradeCost"]):
 			return "400", 400
 
-		app.mongo.db.userItems.update_one(
+		mongo.db.userItems.update_one(
 			{"userId": uid},
 
 			{

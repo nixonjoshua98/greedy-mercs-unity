@@ -15,7 +15,7 @@ namespace GreedyMercs
 
         public override void Process()
         {
-            GameState.Player.gold += StatsCache.GetEnemyGold(stageSpawned);
+            GameState.Player.gold += StatsCache.StageEnemy.GetEnemyGold(stageSpawned);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace GreedyMercs
     {
         public override BigDouble GetIntialHealth()
         {
-            return Formulas.CalcEnemyHealth(GameState.Stage.stage);
+            return Formulas.StageEnemy.CalcEnemyHealth(GameState.Stage.stage);
         }
     }
 }

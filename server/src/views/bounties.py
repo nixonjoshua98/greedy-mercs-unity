@@ -1,10 +1,11 @@
 import datetime as dt
 
-from flask import Response, request, current_app as app
+from flask import Response, request
 
 from flask.views import View
 
 from src import utils, checks, formulas
+from src.exts import mongo
 
 
 class ClaimBounty(View):
@@ -16,8 +17,8 @@ class ClaimBounty(View):
 		data = utils.decompress(request.data)
 
 		# - Load data from the database
-		stats 		= app.mongo.db.userStats.find_one({"userId": uid}) or dict()
-		bounties 	= app.mongo.db.userBounties.find_one({"userId": uid})
+		stats 		= mongo.db.userStats.find_one({"userId": uid}) or dict()
+		bounties 	= mongo.db.userBounties.find_one({"userId": uid})
 
 		if bounties is None:
 			bounties = {"lastClaimTime": dt.datetime.utcfromtimestamp(data["lastClaimTime"] / 1000.0)}
@@ -31,7 +32,7 @@ class ClaimBounty(View):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		# - Update the database
-		app.mongo.db.userItems.update_one({"userId": uid}, {"$inc": {"bountyPoints": earned_points}}, upsert=True)
-		app.mongo.db.userBounties.update_one({"userId": uid}, {"$set": {"lastClaimTime": now}}, upsert=True)
+		mongo.db.userItems.update_one({"userId": uid}, {"$inc": {"bountyPoints": earned_points}}, upsert=True)
+		mongo.db.userBounties.update_one({"userId": uid}, {"$set": {"lastClaimTime": now}}, upsert=True)
 
 		return Response(utils.compress({"earnedBountyPoints": earned_points, "lastClaimTime": now}), status=200)

@@ -46,7 +46,7 @@ namespace GreedyMercs
 
                 bool isBoss = GameState.Stage.isStageCompleted;
 
-                enemyHealth = isBoss ? Formulas.CalcBossHealth(GameState.Stage.stage) : Formulas.CalcEnemyHealth(GameState.Stage.stage);
+                enemyHealth = isBoss ? Formulas.StageEnemy.CalcBossHealth(GameState.Stage.stage) : Formulas.StageEnemy.CalcEnemyHealth(GameState.Stage.stage);
 
                 BigDouble secondsToKillEnemy = enemyHealth / dps;
 
@@ -56,25 +56,25 @@ namespace GreedyMercs
                     if (isBoss)
                     {
                         // Takes too long to kill the boss
-                        if (secondsToKillEnemy > StatsCache.StageBoss.Timer)
+                        if (secondsToKillEnemy > StatsCache.StageEnemy.BossTimer)
                             break;
 
                         stagesGained++;
 
-                        GameState.Player.gold += StatsCache.GetBossGold(GameState.Stage.stage);
+                        GameState.Player.gold += StatsCache.StageEnemy.GetBossGold(GameState.Stage.stage);
 
                         GameState.Stage.AdvanceStage();
                     }
 
                     else
                     {
-                        GameState.Player.gold += StatsCache.GetEnemyGold(GameState.Stage.stage);
+                        GameState.Player.gold += StatsCache.StageEnemy.GetEnemyGold(GameState.Stage.stage);
 
                         GameState.Stage.AddKill();
                     }
 
                     // Reduce the time it took to kill the enemy, as well as the global cooldown
-                    progressTimeLeft -= (secondsToKillEnemy.ToDouble() + Formulas.EnemySpawnCooldown);
+                    progressTimeLeft -= (secondsToKillEnemy.ToDouble() + Formulas.StageEnemy.SpawnDelay);
 
                     continue;
                 }

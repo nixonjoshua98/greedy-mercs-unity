@@ -1,4 +1,7 @@
-﻿
+﻿using SimpleJSON;
+using System.Collections;
+using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace GreedyMercs
@@ -8,7 +11,18 @@ namespace GreedyMercs
     {
         void Awake()
         {
-            StartCoroutine(Utils.Lerp.RectTransform(GetComponent<RectTransform>(), Vector3.zero, Vector3.one, 0.2f));
+            StartCoroutine(Animation());
+        }
+
+        IEnumerator Animation()
+        {
+            RectTransform rt = GetComponent<RectTransform>();
+
+            yield return Utils.Lerp.RectTransform(rt, Vector3.zero, Vector3.one, 0.1f);
+
+            yield return Utils.Lerp.RectTransform(rt, Vector3.one, Vector3.one * 1.1f, 0.1f);
+
+            yield return Utils.Lerp.RectTransform(rt, Vector3.one * 1.1f, Vector3.one, 0.1f);
         }
     }
 }

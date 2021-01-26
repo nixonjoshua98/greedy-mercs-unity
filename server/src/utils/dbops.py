@@ -1,3 +1,4 @@
+from pymongo import ReturnDocument
 
 from src.exts import mongo
 from src.classes.gamedata import GameData
@@ -20,8 +21,19 @@ def get_player_data(uid):
 
 	bounties = mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
-	if shop.get("lastReset") is None:
-		shop["lastReset"] = GameData.last_daily_reset
+	if shop is None or shop.get("lastReset") is None:
+		shop = mongo.db.bountyShop.find_one_and_update(
+			{
+				"userId": uid
+			},
+			{
+				"$set": {"lastReset": GameData.last_daily_reset}
+			},
+
+			upsert=True,
+			projection={"_id": 0, "userId": 0},
+			return_document=ReturnDocument.AFTER
+		)
 
 	return {
 		"player": {

@@ -1,6 +1,4 @@
 
-from pymongo import UpdateOne
-
 from flask import Response, request
 
 from flask.views import View

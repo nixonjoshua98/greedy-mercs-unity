@@ -13,7 +13,6 @@ namespace GreedyMercs
         public string username = "Rogue Mercenary";
 
         public double currentEnergy = 0;
-        public int maxPrestigeStage = 0;
 
         // Currencies
         public BigInteger prestigePoints = 0;
@@ -29,11 +28,12 @@ namespace GreedyMercs
 
         public void Update(JSONNode node)
         {
+
             gold = node.HasKey("gold") ? BigDouble.Parse(node["gold"].Value) : gold;
             gems = node.HasKey("gems") ? node["gems"].AsLong : gems;
 
-            maxPrestigeStage    = node.HasKey("maxPrestigeStage") ? node["maxPrestigeStage"].AsInt : maxPrestigeStage;
-            currentEnergy       = node.HasKey("currentEnergy") ? node["currentEnergy"].AsFloat : currentEnergy;
+            username        = node.HasKey("username") ? node["username"].Value : username;
+            currentEnergy   = node.HasKey("currentEnergy") ? node["currentEnergy"].AsFloat : currentEnergy;
 
             bountyPoints = node.HasKey("bountyPoints") ? node["bountyPoints"].AsLong : bountyPoints;
             weaponPoints = node.HasKey("weaponPoints") ? node["weaponPoints"].AsLong : weaponPoints;

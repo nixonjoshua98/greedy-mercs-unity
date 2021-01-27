@@ -13,9 +13,6 @@ namespace GreedyMercs.UI.Bounties
         [SerializeField] Text dailyResetText;
         [SerializeField] Text bountyPointsText;
 
-        [Space]
-        [SerializeField] Button refreshButton;
-
         bool isRefreshing = false;
 
         void OnEnable()
@@ -37,11 +34,9 @@ namespace GreedyMercs.UI.Bounties
 
         void UpdateUI()
         {
-            refreshButton.enabled = !GameState.BountyShop.IsShopValid;
-
             if (GameState.BountyShop.IsShopValid)
             {
-                dailyResetText.text = Utils.Format.FormatSeconds(GameState.BountyShop.SecondsUntilInvalid);
+                dailyResetText.text = Utils.Format.FormatSeconds(GameState.BountyShop.SecondsUntilNextDailyReset);
             }
 
             else

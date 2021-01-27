@@ -11,3 +11,5 @@ from .prestige import Prestige
 from .bountyshop import BountyShop, BountyShopRefresh
 
 from .armoury import UpgradeArmourItem
+
+from .quests import ClaimQuestReward

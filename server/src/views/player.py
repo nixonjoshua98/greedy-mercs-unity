@@ -21,8 +21,6 @@ class PlayerLogin(View):
 		else:
 			uid = row["_id"]
 
-		print(dbops.get_player_data(uid))
-
 		return Response(utils.compress(dbops.get_player_data(uid)), status=200)
 
 
@@ -33,8 +31,6 @@ class ChangeUsername(View):
 
 		data = utils.decompress(request.data)
 
-		username = data["newUsername"]
-
-		mongo.db.userStats.update_one({"userId": uid}, {"$set": {"username": username}}, upsert=True)
+		mongo.db.userInfo.update_one({"userId": uid}, {"$set": {"username": data["newUsername"]}}, upsert=True)
 
 		return "OK", 200

@@ -17,10 +17,10 @@ namespace GreedyMercs.BountyShop.Data
     {
         Dictionary<BountyShopItemID, BountyItemState> items;
 
-        public DateTime lastReset;
+        public DateTime lastShopReset;
 
-        public bool IsShopValid { get { return (DateTime.UtcNow - lastReset).TotalDays < 1; } }
-        public int SecondsUntilInvalid { get { return (int)(lastReset.AddDays(1) - DateTime.UtcNow).TotalSeconds; } }
+        public bool IsShopValid { get { return SecondsUntilNextDailyReset > 0; } }
+        public int SecondsUntilNextDailyReset { get { return (int)(lastShopReset.AddDays(1) - DateTime.UtcNow).TotalSeconds; } }
 
         public PlayerBountyShopData(JSONNode node)
         {
@@ -38,7 +38,7 @@ namespace GreedyMercs.BountyShop.Data
                 items[itemId] = new BountyItemState { totalBought = node["itemsBought"][key].AsInt };
             }
 
-            lastReset = node.HasKey("lastReset") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastReset"].AsLong).DateTime : lastReset;
+            lastShopReset = DateTimeOffset.FromUnixTimeMilliseconds(node["lastReset"].AsLong).DateTime;
         }
 
         public JSONNode ToJson()
@@ -46,12 +46,12 @@ namespace GreedyMercs.BountyShop.Data
             JSONNode node           = new JSONObject();
             JSONNode itemsBought    = new JSONObject();
 
-            node.Add("lastReset", lastReset.ToUnixMilliseconds());
-
             foreach (var entry in items)
             { 
                 itemsBought[((int)entry.Key).ToString()] = entry.Value.totalBought.ToString();
             }
+
+            node.Add("lastReset", lastShopReset.ToUnixMilliseconds());
 
             node.Add("itemsBought", itemsBought);
 

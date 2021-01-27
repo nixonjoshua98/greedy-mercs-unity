@@ -24,7 +24,7 @@ namespace GreedyMercs.BountyShop.UI
         {
             BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            BigInteger points = StatsCache.GetPrestigePoints(Mathf.CeilToInt(GameState.Player.maxPrestigeStage * data.GetFloat("maxStagePercent")));
+            BigInteger points = StatsCache.GetPrestigePoints(Mathf.CeilToInt(GameState.LifetimeStats.maxPrestigeStage * data.GetFloat("maxStagePercent")));
 
             return string.Format("{0} Combat Experience", Utils.Format.FormatNumber(points < 100 ? 100 : points));
         }

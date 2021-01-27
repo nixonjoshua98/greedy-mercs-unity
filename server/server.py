@@ -11,6 +11,7 @@ from src.views import (
 	UpgradeLoot,
 	ClaimBounty,
 	PlayerLogin,
+	ClaimQuestReward,
 	ChangeUsername,
 	PlayerLeaderboard,
 	BountyShopRefresh,
@@ -44,8 +45,12 @@ app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view(
 # === Armoury === #
 app.add_url_rule("/api/armoury/upgradeitem", view_func=UpgradeArmourItem.as_view("upgradearmoury"), methods=["PUT"])
 
-app.add_url_rule("/api/gamedata", view_func=StaticGameData.as_view("gamedata"), methods=["GET"])
-app.add_url_rule("/api/prestige", 		view_func=Prestige.as_view("prestige"), methods=["PUT"])
+# === Quests === #
+app.add_url_rule("/api/quest/claim", view_func=ClaimQuestReward.as_view("completequest"), methods=["PUT"])
+
+
+app.add_url_rule("/api/gamedata", 	view_func=StaticGameData.as_view("gamedata"), 	methods=["GET"])
+app.add_url_rule("/api/prestige",	view_func=Prestige.as_view("prestige"), 		methods=["PUT"])
 
 BackgroundTasks().run()
 

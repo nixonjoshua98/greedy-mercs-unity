@@ -12,21 +12,16 @@ class BackgroundTasks:
 	def __init__(self):
 		self._scheduler = SafeScheduler()
 
-		self._scheduler.every().day.at("20:00").do(self.refresh_bounty_shop)
+		self._scheduler.every().day.at("20:00").do(self.daily_reset)
 
 	def run(self):
 		self._scheduler.run()
 
 	@staticmethod
-	def refresh_bounty_shop():
+	def daily_reset():
 
-		result = mongo.db.bountyShop.delete_many(
-			{
-				"lastReset": {"$lte": GameData.last_daily_reset}
-			}
-		)
-
-		print(f"Deleted {result.deleted_count} Bounty Shop Entries")
+		mongo.db.bountyShop.delete_many({})
+		mongo.db.dailyQuests.delete_many({})
 
 
 class SafeScheduler(UTCScheduler):

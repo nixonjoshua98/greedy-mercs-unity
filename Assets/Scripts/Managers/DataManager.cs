@@ -5,9 +5,9 @@ namespace GreedyMercs
 {
     public class DataManager : MonoBehaviour
     {
-        public static string LOCAL_FILENAME = "localsave_08";
-
-        public static string LOCAL_STATIC_FILENAME = "localstatic";
+        public static string DATA_FILE = "localsave01";
+        public static string STATIC_FILE = "localstatic01";
+        public static string LOCAL_ONLY_FILE = "localonly01";
 
         // ===
         public static bool IsPaused;
@@ -32,7 +32,7 @@ namespace GreedyMercs
 
         public static void Save()
         {
-            Utils.File.WriteJson(LOCAL_FILENAME, GameState.ToJson());
+            GameState.Save();
         }
     }
 }

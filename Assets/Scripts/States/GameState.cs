@@ -11,8 +11,11 @@ namespace GreedyMercs
 
     public static class GameState
     {
+        public static PlayerQuestData Quests;
+
         public static PlayerBountyShopData BountyShop;
         public static PlayerArmouryData Armoury;
+        public static PlayerLifetimeStats LifetimeStats;
 
         public static LootState Loot;
         public static StageState Stage;
@@ -27,21 +30,40 @@ namespace GreedyMercs
 
         public static void Restore(JSONNode node)
         {
-            Loot    = new LootState(node["loot"]);
-            Stage   = new StageState(node);
-            Skills  = new SkillsState(node);
-            Player  = new PlayerState(node["player"]);
+            Stage           = new StageState(node);
+            Skills          = new SkillsState(node);
+            Loot            = new LootState(node["loot"]);
+            Player          = new PlayerState(node["player"]);
+            LifetimeStats   = new PlayerLifetimeStats(node["lifetimeStats"]);
 
-            Armoury = new PlayerArmouryData(node["weapons"]);
-
-            BountyShop = new PlayerBountyShopData(node["bountyShop"]);
+            Quests      = new PlayerQuestData(node["quests"]);
+            Armoury     = new PlayerArmouryData(node["weapons"]);
+            BountyShop  = new PlayerBountyShopData(node["bountyShop"]);
 
             Bounties    = new BountyContainer(node);
-
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);
 
             LastLoginDate = node.HasKey("lastLoginDate") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastLoginDate"].AsLong).DateTime : DateTime.UtcNow;
+        }
+
+        public static void UpdateWithServerData(JSONNode node)
+        {
+            Loot.Update(node["loot"]);
+            Player.Update(node["player"]);
+            Armoury.Update(node["weapons"]);
+            Bounties.Update(node["bounties"]);
+            BountyShop.Update(node["bountyShop"]);
+
+            Quests.UpdateQuestsClaimed(node["questsClaimed"]);
+        }
+
+        public static void RestoreLocalOnlyData()
+        {
+            if (!Utils.File.ReadJson(DataManager.LOCAL_ONLY_FILE, out JSONNode node))
+                node = new JSONObject();
+
+            Quests = new PlayerQuestData(node["quests"]);
         }
 
         public static JSONNode ToJson()
@@ -54,12 +76,25 @@ namespace GreedyMercs
             node.Add("skills",          Skills.ToJson());
             node.Add("upgrades",        Upgrades.ToJson());
             node.Add("bounties",        Bounties.ToJson());
+            node.Add("bountyShop",      BountyShop.ToJson());
             node.Add("characters",      Characters.ToJson());
-            node.Add("userBountyShop",  BountyShop.ToJson());
+            node.Add("lifetimeStats",   LifetimeStats.ToJson());
 
             node.Add("lastLoginDate", DateTime.UtcNow.ToUnixMilliseconds());
 
             return node;
+        }
+
+        public static void Save()
+        {
+            Utils.File.WriteJson(DataManager.DATA_FILE, ToJson());
+
+            // Local ONLY
+            JSONNode node = new JSONObject();
+
+            node.Add("quests", Quests.ToJson());
+
+            Utils.File.WriteJson(DataManager.LOCAL_ONLY_FILE, node);
         }
     }
 }

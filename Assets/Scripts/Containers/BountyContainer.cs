@@ -58,7 +58,7 @@ namespace GreedyMercs
 
         public Dictionary<BountyID, BountySO> Unlocked()
         {
-            int stage = Mathf.Max(GameState.Player.maxPrestigeStage, GameState.Stage.stage);
+            int stage = Mathf.Max(GameState.LifetimeStats.maxPrestigeStage, GameState.Stage.stage);
 
             Dictionary<BountyID, BountySO> unlocked = new Dictionary<BountyID, BountySO>();
 
@@ -79,7 +79,7 @@ namespace GreedyMercs
             {
                 UpgradeState state = GameState.Bounties.GetState(bounty.BountyID);
 
-                if (GameState.Player.maxPrestigeStage > bounty.unlockStage && GameState.Stage.stage > bounty.unlockStage && bounty.maxLevel > state.level)
+                if (GameState.LifetimeStats.maxPrestigeStage > bounty.unlockStage && GameState.Stage.stage > bounty.unlockStage && bounty.maxLevel > state.level)
                     total++;
             }
 

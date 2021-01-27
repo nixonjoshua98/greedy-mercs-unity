@@ -24,7 +24,7 @@ namespace GreedyMercs.IntroScene
         {
             foreach (Text t in introText)
             {
-                yield return FadeInText(t, 3.0f);
+                yield return FadeInText(t, 2.0f);
             }
 
             continueButton.gameObject.SetActive(true);

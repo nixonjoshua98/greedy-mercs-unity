@@ -40,7 +40,7 @@ namespace GreedyMercs.StageDM.Prestige
             {
                 DataManager.IsPaused = true;
 
-                Utils.File.WriteJson(DataManager.LOCAL_FILENAME, Utils.Json.Decompress(compressed));
+                Utils.File.WriteJson(DataManager.DATA_FILE, Utils.Json.Decompress(compressed));
 
                 StartCoroutine(RunPrestigeAnimation());
             }
@@ -61,7 +61,7 @@ namespace GreedyMercs.StageDM.Prestige
 
             yield return SquadManager.MoveOut(1.0f);
 
-            bool _ = Utils.File.ReadJson(DataManager.LOCAL_FILENAME, out JSONNode node);
+            bool _ = Utils.File.ReadJson(DataManager.DATA_FILE, out JSONNode node);
 
             GameState.Restore(node);
 

@@ -8,6 +8,7 @@ from src.classes.gamedata import GameData
 
 
 # === Loot Formulas === #
+
 def loot_levelup_cost(item, start, buying):
 	return math.ceil(item["costCoeff"] * sum_non_int_power_seq(start, buying, item["costExpo"]))
 
@@ -21,6 +22,7 @@ def loot_effect(item, level):
 
 
 # === Prestige Formulas === #
+
 def stage_prestige_points(stage, userloot):
 	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus(userloot))
 
@@ -52,6 +54,7 @@ def prestige_bonus(loot):
 
 
 # === Bounties === #
+
 def bounty_hourly_income(bountylevels: dict, maxstage, lastclaim) -> int:
 	hourly_points = 0
 

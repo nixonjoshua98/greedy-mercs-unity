@@ -113,11 +113,11 @@ namespace GreedyMercs.UI.Bounties
 
             claimingBounties = true;
 
-            Server.ClaimBounty(this, OnBountyClaim, node);
+            Server.ClaimBounty(this, OnServerCallback, node);
         }
 
         // === Server Callbacks ===
-        void OnBountyClaim(long code, string compressed)
+        void OnServerCallback(long code, string compressed)
         {
             claimingBounties = false;
 

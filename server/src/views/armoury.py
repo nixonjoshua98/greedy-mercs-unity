@@ -25,13 +25,8 @@ class UpgradeArmourItem(View):
 		if wp < (cost := static_item["upgradeCost"]):
 			return "400", 400
 
-		mongo.db.userItems.update_one(
-			{"userId": uid},
+		weapon_key = f"weapons.{iid}"
 
-			{
-				"$inc": {"weaponPoints": -cost, f"weapons.{iid}": 1},
-			},
-			upsert=True
-		)
+		mongo.db.userItems.update_one({"userId": uid}, {"$inc": {"weaponPoints": -cost, weapon_key: 1}}, upsert=True)
 
 		return Response(utils.compress({"upgradeCost": cost}), status=200)

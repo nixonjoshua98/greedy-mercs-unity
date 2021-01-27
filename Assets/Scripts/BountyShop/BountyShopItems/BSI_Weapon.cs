@@ -17,16 +17,16 @@ namespace GreedyMercs.BountyShop.UI
             item = BountyShopItemID.WEAPON;
         }
 
-        protected override string GetDescription()
-        {
-            return "1 Random Weapon";
-        }
-
         protected override void ProcessBoughtItem(JSONNode node)
         {
             ArmouryWeaponState state = GameState.Armoury.GetWeapon(node["weaponReceived"].AsInt);
 
             state.level++;
+        }
+
+        protected override string GetDescription()
+        {
+            return "1 Random Weapon";
         }
     }
 }

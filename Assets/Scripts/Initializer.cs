@@ -40,20 +40,17 @@ namespace GreedyMercs
 
         void ServerLoginCallback(long code, string compressed)
         {
-            bool isLocalSave = Utils.File.Read(DataManager.LOCAL_FILENAME, out string localSaveJson);
+            bool isLocalSave = Utils.File.Read(DataManager.DATA_FILE, out string localSaveJson);
 
-            GameState.Restore(JSON.Parse(isLocalSave ? localSaveJson : "{}"));
+            JSONNode node = JSON.Parse(isLocalSave ? localSaveJson : "{}");
+
+            GameState.Restore(node);
+
+            GameState.RestoreLocalOnlyData();
 
             if (code == 200)
             {
-                // Update the local data with the data from the server
-                JSONNode node = Utils.Json.Decompress(compressed);
-
-                GameState.Loot.Update(node["loot"]);
-                GameState.Player.Update(node["player"]);
-                GameState.Armoury.Update(node["weapons"]);
-                GameState.Bounties.Update(node["bounties"]);
-                GameState.BountyShop.Update(node["bountyShop"]);
+                GameState.UpdateWithServerData(Utils.Json.Decompress(compressed));
 
                 SceneManager.LoadScene(isLocalSave ? "GameScene" : "IntroScene");
             }
@@ -76,10 +73,10 @@ namespace GreedyMercs
 
                 StaticData.Restore(node);
 
-                Utils.File.WriteJson(DataManager.LOCAL_STATIC_FILENAME, node);
+                Utils.File.WriteJson(DataManager.STATIC_FILE, node);
             }
 
-            else if (Utils.File.Read(DataManager.LOCAL_STATIC_FILENAME, out string localSaveJson))
+            else if (Utils.File.Read(DataManager.STATIC_FILE, out string localSaveJson))
             {
                 StaticData.Restore(JSON.Parse(localSaveJson));
             }

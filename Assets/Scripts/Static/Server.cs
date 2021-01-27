@@ -47,6 +47,9 @@ namespace GreedyMercs
         // # === Armoury === #
         public static void UpgradeArmouryItem(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("armoury/upgradeitem", callback, node));
 
+        // # === Quests === #
+        public static void ClaimQuestReward(MonoBehaviour mono, Action<long, string> callback, JSONNode node) => mono.StartCoroutine(Put("quest/claim", callback, node));
+
 
 
         public static void Prestige(MonoBehaviour mono, Action<long, string> callback, JSONNode node)

@@ -85,7 +85,7 @@ namespace GreedyMercs
 
             else if (GameState.Loot.Count < StaticData.LootList.Count)
             {
-                Server.BuyLootItem(this, OnBuyCallback, Utils.Json.GetDeviceNode());
+                Server.BuyLootItem(OnBuyCallback, Utils.Json.GetDeviceNode());
             }
         }
 

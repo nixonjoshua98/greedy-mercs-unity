@@ -29,7 +29,7 @@ namespace GreedyMercs
 
         // === Standard Events ===
 
-        public static UnityEvent OnPlayerTap = new UnityEvent();
+        public static UnityEvent OnPlayerClick = new UnityEvent();
 
         public static UnityEvent OnStageUpdate = new UnityEvent();
 

@@ -116,7 +116,7 @@ namespace GreedyMercs
                 node.Add("itemId", (int)lootId);
                 node.Add("buyLevels", BuyAmount);
 
-                Server.UpgradeLootItem(this, ServerCallback, node);
+                Server.UpgradeLootItem(ServerCallback, node);
             }
         }
 

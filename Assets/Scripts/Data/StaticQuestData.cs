@@ -7,7 +7,9 @@ namespace GreedyMercs.Quests.Data
 {
     public enum QuestID
     {
-        ENEMY_KILLS = 0
+        ENEMY_KILLS     = 0,
+        BOSS_KILLS      = 1,
+        PLAYER_CLICKS   = 2,
     }
 
     public struct QuestData

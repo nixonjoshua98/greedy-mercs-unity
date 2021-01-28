@@ -64,7 +64,7 @@ namespace GreedyMercs.Armoury.UI
 
                 node["itemId"] = weaponItem.Index;
 
-                Server.UpgradeArmouryItem(this, OnServerCallback, node);
+                Server.UpgradeArmouryItem(OnServerCallback, node);
             }
 
 

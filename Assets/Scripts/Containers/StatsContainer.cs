@@ -11,11 +11,22 @@ namespace GreedyMercs
     using GreedyMercs.Quests.Data;
     public class StatsContainer
     {
-        public int enemyKills = 0;
+        public int enemyKills   = 0;
+        public int bossKills    = 0;
+        public int playerClicks = 0;
 
         public virtual void Update(JSONNode node)
         {
-            enemyKills = node["enemyKills"].AsInt;
+            enemyKills      = node["enemyKills"].AsInt;
+            bossKills       = node["bossKills"].AsInt;
+            playerClicks    = node["playerClicks"].AsInt;
+        }
+
+        public void Zero()
+        {
+            enemyKills      = 0;
+            bossKills       = 0;
+            playerClicks    = 0;
         }
 
         public virtual JSONNode ToJson()
@@ -51,7 +62,7 @@ namespace GreedyMercs
             if (IsValid)
                 return;
 
-            enemyKills = 0;
+            Zero();
 
             lastReset = GameState.LastDailyReset;
 
@@ -70,7 +81,10 @@ namespace GreedyMercs
             }
         }
 
-        public bool IsQuestClaimed(QuestID quest) => questsClaimed.ContainsKey(quest) && questsClaimed[quest];
+        public bool IsQuestClaimed(QuestID quest)
+        {
+            return questsClaimed.ContainsKey(quest) && questsClaimed[quest];
+        }
         public void ClaimQuest(QuestID quest) => questsClaimed[quest] = true;
 
         public override JSONNode ToJson()

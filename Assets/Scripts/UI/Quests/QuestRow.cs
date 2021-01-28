@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,8 +12,8 @@ namespace GreedyMercs.Quests.UI
     {
         protected QuestID quest;
 
-        [SerializeField] Text progressText;
         [SerializeField] Text questTitle;
+        [SerializeField] Text progressText;
 
         [SerializeField] Image collectImage;
         [SerializeField] Button collectButton;
@@ -23,35 +21,66 @@ namespace GreedyMercs.Quests.UI
         [Header("Sprites")]
         [SerializeField] Sprite claimedQuestSprite;
 
+        protected abstract string TargetDataKey { get; }
+        protected abstract int ProgressValue { get; }
+
         //
         bool currentlyClaimingQuest = false;
 
-        void Awake()
+        void Start()
         {
             UpdateUI();
         }
 
-        void OnEnable() => InvokeRepeating("UpdateUI", 0.0f, 0.5f);
+        void OnEnable()
+        {
+            if (!GameState.Quests.IsQuestClaimed(quest)) 
+                InvokeRepeating("UpdateUI", 0.0f, 0.5f);
+        }
+
         void OnDisable() => CancelInvoke("UpdateUI");
 
-        protected abstract bool GetCompleted();
+        protected bool GetCompleted()
+        {
+            if (GameState.Quests.IsQuestClaimed(quest))
+                return true;
+
+            QuestData data = StaticData.Quests.GetQuest(quest);
+
+            return ProgressValue >= data.GetInt(TargetDataKey);
+        }
+
         protected abstract string GetQuestTitle();
-        protected abstract string GetProgressString();
+
+        protected string GetProgressString()
+        {
+            QuestData data = StaticData.Quests.GetQuest(quest);
+
+            int target = data.GetInt(TargetDataKey);
+
+            if (GameState.Quests.IsQuestClaimed(quest))
+                return string.Format("{0}/{0}", target);
+
+            return string.Format("{0}/{1}", Math.Min(target, ProgressValue), target);
+        }
 
         void UpdateUI()
         {
-            questTitle.text = GetQuestTitle();
-            progressText.text = GetProgressString();
+            questTitle.text     = GetQuestTitle();
+            progressText.text   = GetProgressString();
 
-            collectButton.interactable = GetCompleted();
+            if (collectButton)  // Check if the button exists since we destroy it at some point
+                collectButton.interactable = GetCompleted();
 
+            // Quest has been claimed
             if (GameState.Quests.IsQuestClaimed(quest))
             {
+                // Change the sprite to show the user they have claimed it
                 collectImage.sprite = claimedQuestSprite;
 
                 Destroy(collectButton);
 
-                CancelInvoke("UpdateUI");
+                CancelInvoke("UpdateUI");  // Stop updating the UI
             }
         }
 
@@ -65,7 +94,7 @@ namespace GreedyMercs.Quests.UI
 
                 node["questId"] = (int)quest;
 
-                Server.ClaimQuestReward(this, OnServerCallback, node);
+                Server.ClaimQuestReward(OnServerCallback, node);
             }
         }
 
@@ -85,6 +114,5 @@ namespace GreedyMercs.Quests.UI
         {
             GameState.Player.gems += node["gemReward"].AsInt;
         }
-
     }
 }

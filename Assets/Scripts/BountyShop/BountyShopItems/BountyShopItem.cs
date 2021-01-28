@@ -74,7 +74,7 @@ namespace GreedyMercs.BountyShop.UI
 
                 node.Add("itemId", (int)item);
 
-                Server.BuyBountyShopItem(this, ServerCallback, node);
+                Server.BuyBountyShopItem(ServerCallback, node);
             }
         }
 

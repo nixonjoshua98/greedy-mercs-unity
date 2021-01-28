@@ -35,7 +35,7 @@ namespace GreedyMercs
         {
             Debug.Log(Application.persistentDataPath);
 
-            Server.GetGameData(this, ServerStaticDataCallback);
+            Server.GetGameData(ServerStaticDataCallback);
         }
 
         void ServerLoginCallback(long code, string compressed)
@@ -86,7 +86,7 @@ namespace GreedyMercs
                 return;
             }
 
-            Server.Login(this, ServerLoginCallback, Utils.Json.GetDeviceNode());
+            Server.Login(ServerLoginCallback, Utils.Json.GetDeviceNode());
         }
     }
 }

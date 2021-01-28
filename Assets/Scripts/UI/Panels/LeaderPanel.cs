@@ -19,7 +19,7 @@ namespace GreedyMercs
 
         void Awake()
         {
-            Server.GetPlayerLeaderboard(this, ServerCallback);
+            Server.GetPlayerLeaderboard(ServerCallback);
         }
 
         void ServerCallback(long code, string compressed)

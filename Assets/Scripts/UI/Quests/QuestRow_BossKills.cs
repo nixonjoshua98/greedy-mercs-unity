@@ -9,21 +9,21 @@ namespace GreedyMercs.Quests.UI
 {
     using GreedyMercs.Quests.Data;
 
-    public class QuestRow_EnemyKills : QuestRow
+    public class QuestRow_BossKills : QuestRow
     {
-        protected override string TargetDataKey => "enemyKills";
-        protected override int ProgressValue => GameState.Quests.enemyKills;
+        protected override string TargetDataKey => "bossKills";
+        protected override int ProgressValue => GameState.Quests.bossKills;
 
         void Awake()
         {
-            quest = QuestID.ENEMY_KILLS;
+            quest = QuestID.BOSS_KILLS;
         }
 
         protected override string GetQuestTitle()
         {
             QuestData data = StaticData.Quests.GetQuest(quest);
 
-            return string.Format("Slay {0} Enemies", data.GetInt(TargetDataKey));
+            return string.Format("Defeat {0} Stage Bosses", data.GetInt(TargetDataKey));
         }
     }
 }

@@ -44,7 +44,7 @@ namespace GreedyMercs
 
             void Callback(long code, string compressed) => ServerCallback(username, code, compressed);
 
-            Server.ChangeUsername(this, Callback, node);
+            Server.ChangeUsername(Callback, node);
         }
 
         void ServerCallback(string username, long code, string compressed)

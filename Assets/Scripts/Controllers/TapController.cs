@@ -54,7 +54,7 @@ namespace GreedyMercs
         {
             GameManager.TryDealDamageToEnemy(StatsCache.GetTapDamage());
 
-            Events.OnPlayerTap.Invoke();
+            Events.OnPlayerClick.Invoke();
         }
     }
 }

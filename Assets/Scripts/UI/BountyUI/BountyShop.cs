@@ -47,7 +47,7 @@ namespace GreedyMercs.UI.Bounties
                 {
                     isRefreshing = true;
 
-                    Server.RefreshBountyShop(this, ServerCallback, Utils.Json.GetDeviceNode());
+                    Server.RefreshBountyShop(ServerCallback, Utils.Json.GetDeviceNode());
                 }
             }
         }

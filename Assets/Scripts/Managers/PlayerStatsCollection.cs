@@ -10,11 +10,23 @@ namespace GreedyMercs
         void Start()
         {
             Events.OnKillEnemy.AddListener(OnEnemyDeath);
+            Events.OnKilledBoss.AddListener(OnBossDeath);
+            Events.OnPlayerClick.AddListener(OnPlayerClick);
         }
 
         void OnEnemyDeath()
         {
             GameState.Quests.enemyKills++;
+        }
+
+        void OnBossDeath()
+        {
+            GameState.Quests.bossKills++;
+        }
+
+        void OnPlayerClick()
+        {
+            GameState.Quests.playerClicks++;
         }
     }
 }

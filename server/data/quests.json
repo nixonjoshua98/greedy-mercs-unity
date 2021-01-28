@@ -1,14 +1,14 @@
 {
   "0": {
     "gemReward": 10,
-    "enemyKills": 10
+    "enemyKills": 150
   },
   "1": {
     "gemReward": 10,
-    "bossKills": 5
+    "bossKills": 50
   },
   "2": {
     "gemReward": 10,
-    "playerClicks": 10
+    "playerClicks": 250
   }
 }

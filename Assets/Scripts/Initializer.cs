@@ -46,8 +46,6 @@ namespace GreedyMercs
 
             GameState.Restore(node);
 
-            GameState.RestoreLocalOnlyData();
-
             if (code == 200)
             {
                 GameState.UpdateWithServerData(Utils.Json.Decompress(compressed));

@@ -34,9 +34,9 @@ namespace GreedyMercs.UI.Bounties
 
         void UpdateUI()
         {
-            if (GameState.BountyShop.IsShopValid)
+            if (GameState.BountyShop.IsValid)
             {
-                dailyResetText.text = Utils.Format.FormatSeconds(GameState.BountyShop.SecondsUntilNextDailyReset);
+                dailyResetText.text = Utils.Format.FormatSeconds(GameState.TimeUntilNextReset);
             }
 
             else

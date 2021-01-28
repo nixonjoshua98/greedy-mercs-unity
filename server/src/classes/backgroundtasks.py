@@ -20,8 +20,8 @@ class BackgroundTasks:
 	@staticmethod
 	def daily_reset():
 
-		mongo.db.bountyShop.delete_many({})
 		mongo.db.dailyQuests.delete_many({})
+		mongo.db.bountyShop.delete_many({})
 
 
 class SafeScheduler(UTCScheduler):

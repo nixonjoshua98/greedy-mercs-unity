@@ -36,6 +36,11 @@ public static class Extensions
     {
         return (new DateTimeOffset(dt)).ToUnixTimeMilliseconds();
     }
+
+    public static DateTime ToUnixDatetime(this long val)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
+    }
 }
 
 namespace GreedyMercs.Utils

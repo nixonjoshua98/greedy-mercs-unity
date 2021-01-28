@@ -21,11 +21,6 @@ def get_player_data(uid):
 	info  		= mongo.db.userInfo.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	bounties 	= mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
-	if shop is None or shop.get("lastReset") is None:
-		shop = {"lastReset": GameData.last_daily_reset}
-
-		mongo.db.bountyShop.update_one({"userId": uid}, {"$set": shop}, upsert=True)
-
 	return {
 		"player": {
 			"username": 		info.get("username", "Rogue Mercenary"),

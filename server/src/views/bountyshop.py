@@ -17,6 +17,11 @@ class BountyShopRefresh(View):
 	def dispatch_request(self, uid):
 		shop = mongo.db.bountyShop.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
+		if shop.get("lastReset") is None or shop["lastReset"] < GameData.last_daily_reset:
+			shop = {"lastReset": GameData.last_daily_reset, "itemsBought": dict()}
+
+			mongo.db.bountyShop.update_one({"userId": uid}, {"$set": shop}, upsert=True)
+
 		return Response(utils.compress(shop), status=200)
 
 

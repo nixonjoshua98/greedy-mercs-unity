@@ -28,6 +28,20 @@ namespace GreedyMercs
 
         public static DateTime LastLoginDate;
 
+        public static DateTime LastDailyReset
+        {
+            get
+            {
+                DateTime now = DateTime.UtcNow;
+
+                DateTime resetTime = new DateTime(now.Year, now.Month, now.Day, 20, 0, 0);
+
+                return now <= resetTime ? resetTime.AddDays(-1) : resetTime; 
+            }
+        }
+
+        public static int TimeUntilNextReset { get { return (int)(LastDailyReset.AddDays(1) - DateTime.UtcNow).TotalSeconds; } }
+
         public static void Restore(JSONNode node)
         {
             Stage           = new StageState(node);
@@ -36,7 +50,6 @@ namespace GreedyMercs
             Player          = new PlayerState(node["player"]);
             LifetimeStats   = new PlayerLifetimeStats(node["lifetimeStats"]);
 
-            Quests      = new PlayerQuestData(node["quests"]);
             Armoury     = new PlayerArmouryData(node["weapons"]);
             BountyShop  = new PlayerBountyShopData(node["bountyShop"]);
 
@@ -44,7 +57,9 @@ namespace GreedyMercs
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);
 
-            LastLoginDate = node.HasKey("lastLoginDate") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastLoginDate"].AsLong).DateTime : DateTime.UtcNow;
+            LastLoginDate = node.HasKey("lastLoginDate") ? node["lastLoginDate"].AsLong.ToUnixDatetime() : DateTime.UtcNow;
+
+            RestoreLocalOnlyData();
         }
 
         public static void UpdateWithServerData(JSONNode node)
@@ -89,7 +104,6 @@ namespace GreedyMercs
         {
             Utils.File.WriteJson(DataManager.DATA_FILE, ToJson());
 
-            // Local ONLY
             JSONNode node = new JSONObject();
 
             node.Add("quests", Quests.ToJson());

@@ -54,9 +54,9 @@ namespace GreedyMercs.BountyShop.UI
             purchaseCostText.text   = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.totalBought));
             descriptionText.text    = GetDescription();
 
-            purchaseButton.interactable = GameState.BountyShop.IsShopValid && !GameState.BountyShop.IsItemMaxBought(item) && GameState.BountyShop.CanAffordItem(item);
+            purchaseButton.interactable = GameState.BountyShop.IsValid && !GameState.BountyShop.IsItemMaxBought(item) && GameState.BountyShop.CanAffordItem(item);
 
-            if (stockAlert != null && GameState.BountyShop.IsShopValid && !GameState.BountyShop.IsItemMaxBought(item))
+            if (stockAlert != null && GameState.BountyShop.IsValid && !GameState.BountyShop.IsItemMaxBought(item))
                 Destroy(stockAlert);
         }
 
@@ -68,7 +68,7 @@ namespace GreedyMercs.BountyShop.UI
 
             bool inStock = data.maxResetBuy > state.totalBought;
 
-            if (GameState.BountyShop.IsShopValid && inStock)
+            if (GameState.BountyShop.IsValid && inStock)
             {
                 JSONNode node = Utils.Json.GetDeviceNode();
 

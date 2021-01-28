@@ -37,9 +37,8 @@ namespace GreedyMercs
             descText.text = data.description;
             nameText.text = data.name;
 
-            lootId = data.ItemID;
-
-            Utils.UI.ScaleImageW(icon, data.icon, 150.0f);
+            lootId      = data.ItemID;
+            icon.sprite = data.icon;
 
             UpdateRow();
 

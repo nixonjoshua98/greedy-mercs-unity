@@ -17,6 +17,9 @@ namespace GreedyMercs
 
         public virtual void Update(JSONNode node)
         {
+            if (node == null)
+                return;
+
             enemyKills      = node["enemyKills"].AsInt;
             bossKills       = node["bossKills"].AsInt;
             playerClicks    = node["playerClicks"].AsInt;

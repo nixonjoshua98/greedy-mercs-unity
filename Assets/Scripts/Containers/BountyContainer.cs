@@ -27,9 +27,6 @@ namespace GreedyMercs
 
         public void Update(JSONNode node)
         {
-            if (node.HasKey("bounties"))
-                node = node["bounties"];
-
             lastClaimTime = node.HasKey("lastClaimTime") ? DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime : lastClaimTime;
 
             if (node.HasKey("bountyLevels"))
@@ -64,8 +61,10 @@ namespace GreedyMercs
 
             foreach (BountySO bounty in StaticData.BountyList.BountyList)
             {
-                if (stage > bounty.unlockStage)
+                if (stage > bounty.unlockStage || bountyStates.ContainsKey(bounty.BountyID))
+                {
                     unlocked.Add(bounty.BountyID, bounty);
+                }
             }
 
             return unlocked;

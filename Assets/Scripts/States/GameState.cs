@@ -53,7 +53,7 @@ namespace GreedyMercs
             Armoury     = new PlayerArmouryData(node["weapons"]);
             BountyShop  = new PlayerBountyShopData(node["bountyShop"]);
 
-            Bounties    = new BountyContainer(node);
+            Bounties    = new BountyContainer(node["bounties"]);
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);
 

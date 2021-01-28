@@ -30,10 +30,6 @@ namespace GreedyMercs
 
                 StartCoroutine(CreateLeaderboard(node));
             }
-            else
-            {
-                CenterText.text = "Failed to fetch leaderboard :(";
-            }
         }
 
         IEnumerator CreateLeaderboard(JSONNode node)

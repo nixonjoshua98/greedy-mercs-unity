@@ -9,7 +9,7 @@ namespace GreedyMercs
     [RequireComponent(typeof(RectTransform))]
     public class PanelPopup : MonoBehaviour
     {
-        void Awake()
+        void OnEnable()
         {
             StartCoroutine(Animation());
         }

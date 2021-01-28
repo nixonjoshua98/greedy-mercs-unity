@@ -5,7 +5,6 @@ namespace GreedyMercs
 {
     public class HeroUnlockPanel : MonoBehaviour
     {
-        [SerializeField] Text TitleText;
         [SerializeField] Text CostText;
 
         void Start()
@@ -17,8 +16,6 @@ namespace GreedyMercs
         {
             if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
             {
-                TitleText.text = chara.name;
-
                 CostText.text = Utils.Format.FormatNumber(chara.purchaseCost);
             }
 

@@ -25,7 +25,7 @@ namespace GreedyMercs
         {
             Instance = this;
 
-            Events.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
+            Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
         }
 
         IEnumerator Start()
@@ -43,14 +43,14 @@ namespace GreedyMercs
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
-            spawnedRow.transform.SetSiblingIndex(scrollContent.childCount);
+            spawnedRow.transform.SetSiblingIndex(1);
 
             CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 
             row.SetCharacter(chara);
         }
 
-        void OnHeroUnlocked(CharacterID chara)
+        void OnCharacterUnlocked(CharacterID chara)
         {
             AddRow(StaticData.CharacterList.Get(chara));
         }

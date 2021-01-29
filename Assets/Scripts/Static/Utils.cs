@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Collections;
 using System.IO.Compression;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,8 @@ using SimpleJSON;
 
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+
+using SysFile = System.IO.File;
 
 public static class Extensions
 {    
@@ -132,12 +135,12 @@ namespace GreedyMercs.Utils
 
         public static JSONNode Decompress(string data)
         {
-            return JSON.Parse(GZip.Unzip(Convert.FromBase64String(data)));
+            return JSON.Parse(File.Decompress(data));
         }
 
         public static string Compress(JSONNode node)
         {
-            return Convert.ToBase64String(GZip.Zip(node.ToString()));
+            return File.Compress(node.ToString());
         }
 
         public static JSONNode GetDeviceNode()
@@ -256,13 +259,47 @@ namespace GreedyMercs.Utils
     {
         static string GetPath(string filename) { return Application.persistentDataPath + "/" + filename; }
 
+        public static string Compress(string data) =>  Convert.ToBase64String(GZip.Zip(data));
+        public static string Decompress(string data) => GZip.Unzip(Convert.FromBase64String(data));
+
+        public static void SecureWrite(string filename, string obj)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+
+            using (FileStream file = SysFile.Open(GetPath(filename), FileMode.OpenOrCreate))
+            {
+                bf.Serialize(file, Compress(obj));
+            }
+        }
+
+        public static bool SecureRead(string filename, out string result)
+        {
+            result = default;
+
+            string path = GetPath(filename);
+
+            if (SysFile.Exists(path))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+
+                using (FileStream file = SysFile.Open(GetPath(filename), FileMode.Open))
+                {
+                    result = Decompress((string)bf.Deserialize(file));
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public static bool Read(string filename, out string content)
         {
             string path = GetPath(filename);
 
             content = "";
 
-            if (System.IO.File.Exists(path))
+            if (SysFile.Exists(path))
             {
                 using (StreamReader file = new StreamReader(GetPath(filename)))
                 {
@@ -280,16 +317,6 @@ namespace GreedyMercs.Utils
             using (StreamWriter file = new StreamWriter(GetPath(filename)))
             {
                 file.Write(content);
-            }
-        }
-
-        public static void Append(string filename, string content)
-        {
-            string path = GetPath(filename);
-
-            using (StreamWriter w = System.IO.File.AppendText(path))
-            {
-                w.WriteLine(content);
             }
         }
 
@@ -312,17 +339,6 @@ namespace GreedyMercs.Utils
 
             return false;
         }
-
-        public static void Delete(string filename)
-        {
-            string path = GetPath(filename);
-
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
-        }
-
     }
 
     public class Format : MonoBehaviour

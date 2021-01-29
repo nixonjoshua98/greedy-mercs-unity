@@ -19,6 +19,11 @@ namespace GreedyMercs
                 upgrades[(GoldUpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
         }
 
+        public void Clear()
+        {
+            upgrades = new Dictionary<GoldUpgradeID, UpgradeState>();
+        }
+
         public JSONNode ToJson()
         {
             return Utils.Json.CreateJSONArray("upgradeId", upgrades);

@@ -33,6 +33,7 @@ namespace GreedyMercs
                 return Mathf.Min(MercsTab.BuyAmount, StaticData.MAX_CHAR_LEVEL - state.level);
             }
         }
+
         public void SetCharacter(CharacterSO chara)
         {
             character = chara;
@@ -40,37 +41,49 @@ namespace GreedyMercs
             nameText.text = chara.name;
             Icon.sprite = chara.icon;
 
-            UpdateRow();
+            UpdateUI();
 
-            InvokeRepeating("UpdateRow", 0.25f, 0.25f);
+            MercsTab.AddBuyAmountListener(UpdateUI);
         }
 
-        void OnEnable()
-        {
-            if (character)
-                InvokeRepeating("UpdateRow", 0.0f, 0.25f);
-        }
-        void OnDisable() => CancelInvoke("UpdateRow");
+        void OnEnable() => UpdateUI();
+        void OnDisable() => CancelInvoke("UpdateUI");
 
-        void UpdateRow()
+        void UpdateUI() => UpdateUI(MercsTab.BuyAmount);
+        void UpdateUI(int amount)
         {
+            // A character may not be set yet, since the row is dynamic
+            if (character == null)
+                return;
+
+            // Loop the function is it is MAX since gold constantly changes
+            if (amount == -1 && !IsInvoking("UpdateUI"))
+                InvokeRepeating("UpdateUI", 0.5f, 0.5f);
+
+            else if (amount != -1) // Cancel the invoke if the value is a flatvalue (1, 10 etc)
+                CancelInvoke("UpdateUI");
+
+
             var state = GameState.Characters.Get(character.CharacterID);
 
             DamageText.text = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
+            nameText.text   = string.Format("(Lvl. {0}) {1}", state.level, character.name);
 
             if (state.level < StaticData.MAX_CHAR_LEVEL)
             {
-                string cost = Utils.Format.FormatNumber(Formulas.CalcCharacterLevelUpCost(character.CharacterID, BuyAmount));
+                BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.CharacterID, BuyAmount);
 
-                UpgradeCost.text = string.Format("x{0}\n{1}", BuyAmount, cost);
+                UpgradeCost.text            = string.Format("x{0}\n{1}", BuyAmount, Utils.Format.FormatNumber(cost));
+                UpgradeButton.interactable  = GameState.Player.gold >= cost;
             }
 
             else
-                UpgradeCost.text = "MAX";
+            {
+                UpgradeCost.text            = "MAX";
+                UpgradeButton.interactable  = false;
+            }
 
-            nameText.text = string.Format("(Lvl. {0}) {1}", state.level, character.name);
-
-            UpgradeButton.interactable = state.level < StaticData.MAX_CHAR_LEVEL;
+            UpgradeButton.interactable = UpgradeButton.interactable && BuyAmount > 0;
         }
 
         // === Button Callbacks ===
@@ -89,10 +102,10 @@ namespace GreedyMercs
 
                 GameState.Player.gold -= cost;
 
-                UpdateRow();
-
                 Events.OnCharacterLevelUp.Invoke(character.CharacterID);
             }
+
+            UpdateUI();
         }
 
         public void OnShowInfo()

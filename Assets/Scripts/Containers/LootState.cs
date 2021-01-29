@@ -7,13 +7,33 @@ namespace GreedyMercs
 {
     public class LootState
     {
+        const string FILE_NAME = "localloot01";
+
         Dictionary<LootID, UpgradeState> items;
 
         public int Count { get { return items.Count; } }
 
-        public LootState(JSONNode node)
+        public LootState()
+        {
+            items = new Dictionary<LootID, UpgradeState>();
+        }
+
+        public void UpdateWithServerData(JSONNode node)
         {
             Update(node);
+        }
+
+        public void UpdateWithLocalData()
+        {
+            if (!Utils.File.ReadJson(FILE_NAME, out JSONNode node))
+                node = new JSONObject();
+
+            Update(node);
+        }
+
+        public void Save()
+        {
+            Utils.File.WriteJson(FILE_NAME, ToJson());
         }
 
         public void Update(JSONNode node)
@@ -24,6 +44,8 @@ namespace GreedyMercs
             {
                 items[(LootID)int.Parse(itemId)] = new UpgradeState { level = node[itemId].AsInt };
             }
+
+            Save();
         }
 
         public JSONNode ToJson()

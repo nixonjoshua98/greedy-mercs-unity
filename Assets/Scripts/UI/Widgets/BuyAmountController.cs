@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 namespace GreedyMercs
 {
+    using IntegerEvent = GreedyMercs.CustomEvents.IntegerEvent;
+
     public class BuyAmountController : MonoBehaviour
     {
         [SerializeField] Button[] Buttons;
@@ -16,10 +18,17 @@ namespace GreedyMercs
 
         [HideInInspector] public int BuyAmount;
 
+        public IntegerEvent OnBuyAmountChanged;
+
         void Awake()
         {
-            BuyAmount = 1;
+            OnBuyAmountChanged = new IntegerEvent();
 
+            BuyAmount = amounts[0];
+        }
+
+        void Start()
+        {
             Images = new Image[Buttons.Length];
 
             for (int i = 0; i < Buttons.Length; ++i)
@@ -42,6 +51,8 @@ namespace GreedyMercs
             {
                 Images[i].color = (i == index) ? new Color(0, 1, 0, 190.0f / 255) : new Color(1, 1, 1, 190.0f / 255);
             }
+
+            OnBuyAmountChanged.Invoke(BuyAmount);
         }
     }
 }

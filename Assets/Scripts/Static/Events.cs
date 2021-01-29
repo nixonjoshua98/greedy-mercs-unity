@@ -10,7 +10,7 @@ namespace GreedyMercs.CustomEvents
 
     public class CharacterEvent : UnityEvent<CharacterID> { }
 
-    public class ScriptableCharacterEvent : UnityEvent<CharacterSO, int> { }
+    public class IntegerEvent : UnityEvent<int> { }
 }
 
 namespace GreedyMercs

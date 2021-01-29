@@ -35,7 +35,7 @@ namespace GreedyMercs
         {
             Debug.Log(Application.persistentDataPath);
 
-            Server.GetGameData(ServerStaticDataCallback);
+            Server.GetGameData(ServerGameDataCallback);
         }
 
         void ServerLoginCallback(long code, string compressed)
@@ -63,20 +63,21 @@ namespace GreedyMercs
             SceneManager.LoadScene(isLocalSave ? "GameScene" : "IntroScene");
         }
 
-        void ServerStaticDataCallback(long code, string compressedJson)
+        void ServerGameDataCallback(long code, string compressedJson)
         {
+
             if (code == 200)
             {
                 JSONNode node = Utils.Json.Decompress(compressedJson);
 
                 StaticData.Restore(node);
 
-                Utils.File.WriteJson(DataManager.STATIC_FILE, node);
+                Utils.File.SecureWrite(DataManager.STATIC_FILE, node.ToString());
             }
 
-            else if (Utils.File.Read(DataManager.STATIC_FILE, out string localSaveJson))
+            else if (Utils.File.SecureRead(DataManager.STATIC_FILE, out string localStaticData))
             {
-                StaticData.Restore(JSON.Parse(localSaveJson));
+                StaticData.Restore(JSON.Parse(localStaticData));
             }
 
             else

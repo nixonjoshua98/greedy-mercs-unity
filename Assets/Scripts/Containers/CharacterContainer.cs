@@ -22,6 +22,11 @@ namespace GreedyMercs
             }
         }
 
+        public void Clear()
+        {
+            characters = new Dictionary<CharacterID, UpgradeState>();
+        }
+
         public JSONNode ToJson()
         {
             return Utils.Json.CreateJSONArray("characterId", characters);

@@ -67,7 +67,12 @@ namespace GreedyMercs.StageDM.Prestige
 
             bool _ = Utils.File.ReadJson(DataManager.DATA_FILE, out JSONNode node);
 
-            GameState.Restore(node);
+            // The server data is stored locally to avoid prestige exploting
+            GameState.UpdateWithServerData(node);
+
+            GameState.Prestige();
+
+            GameState.Save();
 
             SceneManager.LoadSceneAsync("GameScene");
         }

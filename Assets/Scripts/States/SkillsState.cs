@@ -60,6 +60,11 @@ namespace GreedyMercs
             }
         }
 
+        public void Clear()
+        {
+            skills = new Dictionary<SkillID, SkillState>();
+        }
+
         public JSONNode ToJson()
         {
             JSONNode node = new JSONObject();

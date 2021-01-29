@@ -2,6 +2,7 @@
 using System.Collections;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 
 namespace GreedyMercs
@@ -25,13 +26,22 @@ namespace GreedyMercs
         {
             Instance = this;
 
+            Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
+        }
+
+        void Start()
+        {
             foreach (var chara in StaticData.CharacterList.CharacterList)
             {
                 if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
                     AddRow(chara);
             }
+        }
 
-            Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
+        // === Static Methods ===
+        public static void AddBuyAmountListener(UnityAction<int> callback)
+        {
+            Instance.buyAmount.OnBuyAmountChanged.AddListener(callback);
         }
 
         void AddRow(CharacterSO chara)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 using System.Collections.Generic;
 
@@ -36,7 +37,10 @@ namespace GreedyMercs
         void Awake()
         {
             Instance = this;
+        }
 
+        void Start()
+        {
             rows = new List<LootUpgradeRow>();
 
             foreach (var relic in GameState.Loot.Unlocked())
@@ -72,6 +76,13 @@ namespace GreedyMercs
 
             else
                 lootCostText.text = "All Loot\nObtained";
+        }
+
+        // === Static Methods ===
+
+        public static void AddBuyAmountListener(UnityAction<int> callback)
+        {
+            Instance.buyAmount.OnBuyAmountChanged.AddListener(callback);
         }
 
         // === Button Callbacks ===

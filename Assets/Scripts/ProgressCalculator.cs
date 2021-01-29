@@ -48,7 +48,7 @@ namespace GreedyMercs
 
                 enemyHealth = isBoss ? Formulas.StageEnemy.CalcBossHealth(GameState.Stage.stage) : Formulas.StageEnemy.CalcEnemyHealth(GameState.Stage.stage);
 
-                BigDouble secondsToKillEnemy = enemyHealth / dps;
+                BigDouble secondsToKillEnemy = BigDouble.Max(1, enemyHealth / dps);
 
                 // We have enough time left to kil the enemy
                 if (progressTimeLeft >= secondsToKillEnemy)

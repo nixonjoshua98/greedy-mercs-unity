@@ -40,13 +40,14 @@ namespace GreedyMercs
             lootId      = data.ItemID;
             icon.sprite = data.icon;
 
+            LootTab.AddBuyAmountListener(UpdateUI);
+
             UpdateUI();
         }
 
-        void OnEnable() => InvokeRepeating("UpdateUI", 0.0f, Random.Range(0.25f, 0.5f));
-        void OnDisable() => CancelInvoke("UpdateUI");
+        void OnEnable() => UpdateUI(LootTab.BuyAmount);
 
-        void UpdateUI()
+        void UpdateUI(int amount = 0)
         {
             LootItemSO scriptable   = StaticData.LootList.Get(lootId);
             UpgradeState state      = GameState.Loot.Get(lootId);
@@ -106,7 +107,7 @@ namespace GreedyMercs
 
             void ServerCallback(long code, string compressed)
             {
-                OnUpgradeCallback(cost, levelsBuying, code, compressed);
+                OnUpgradeCallback(levelsBuying, code, compressed);
             }
 
             if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.maxLevel)
@@ -120,16 +121,20 @@ namespace GreedyMercs
             }
         }
 
-        void OnUpgradeCallback(BigInteger cost, int levelsBuying, long code, string compressed)
+        void OnUpgradeCallback(int levelsBuying, long code, string compressed)
         {
             if (code == 200)
             {
+                JSONNode node = Utils.Json.Decompress(compressed);
+
                 UpgradeState state = GameState.Loot.Get(lootId);
 
                 state.level += levelsBuying;
 
-                GameState.Player.prestigePoints -= cost;
+                GameState.Player.prestigePoints -= BigInteger.Parse(node["upgradeCost"].Value);
             }
+
+            GameState.Loot.Save();
 
             UpdateUI();
         }

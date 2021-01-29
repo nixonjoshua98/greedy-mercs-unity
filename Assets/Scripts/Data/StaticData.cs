@@ -9,7 +9,7 @@ namespace GreedyMercs
     using GreedyMercs.Armoury.Data;
     using GreedyMercs.Quests.Data;
 
-    public class StaticData
+    public static class StaticData
     {
         public const int MAX_CHAR_LEVEL         = 1_000;
         public const int MAX_TAP_UPGRADE_LEVEL  = 1_000;

@@ -100,4 +100,4 @@ class UpgradeLoot(View):
 			upsert=True
 		)
 
-		return "200", 200
+		return Response(utils.compress({"upgradeCost": cost}), status=200)

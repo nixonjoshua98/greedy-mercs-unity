@@ -44,9 +44,10 @@ namespace GreedyMercs
 
         public static void Restore(JSONNode node)
         {
+            Loot = new LootState();
+
             Stage           = new StageState(node);
             Skills          = new SkillsState(node);
-            Loot            = new LootState(node["loot"]);
             Player          = new PlayerState(node["player"]);
             LifetimeStats   = new PlayerLifetimeStats(node["lifetimeStats"]);
 
@@ -59,33 +60,46 @@ namespace GreedyMercs
 
             LastLoginDate = node.HasKey("lastLoginDate") ? node["lastLoginDate"].AsLong.ToUnixDatetime() : DateTime.UtcNow;
 
-            RestoreLocalOnlyData();
+            UpdateWithLocalData();
+        }
+
+        public static void Prestige()
+        {
+            Stage.Reset();
+            Player.Reset();
+
+            Skills.Clear();
+            Upgrades.Clear();
+            Characters.Clear();
         }
 
         public static void UpdateWithServerData(JSONNode node)
         {
-            Loot.Update(node["loot"]);
             Player.Update(node["player"]);
             Armoury.Update(node["weapons"]);
             Bounties.Update(node["bounties"]);
             BountyShop.Update(node["bountyShop"]);
+            LifetimeStats.Update(node["lifetimeStats"]);
+
+            Loot.UpdateWithServerData(node["loot"]);
 
             Quests.UpdateQuestsClaimed(node["questsClaimed"]);
         }
 
-        public static void RestoreLocalOnlyData()
+        public static void UpdateWithLocalData()
         {
             if (!Utils.File.ReadJson(DataManager.LOCAL_ONLY_FILE, out JSONNode node))
                 node = new JSONObject();
 
             Quests = new PlayerQuestData(node["quests"]);
+
+            Loot.UpdateWithLocalData();
         }
 
         public static JSONNode ToJson()
         {
             JSONNode node = new JSONObject();
 
-            node.Add("loot",            Loot.ToJson());
             node.Add("stage",           Stage.ToJson());
             node.Add("player",          Player.ToJson());
             node.Add("skills",          Skills.ToJson());

@@ -40,12 +40,13 @@ namespace GreedyMercs
             lootId      = data.ItemID;
             icon.sprite = data.icon;
 
-            UpdateRow();
-
-            InvokeRepeating("UpdateRow", 0.0f, 0.25f);
+            UpdateUI();
         }
 
-        void UpdateRow()
+        void OnEnable() => InvokeRepeating("UpdateUI", 0.0f, Random.Range(0.25f, 0.5f));
+        void OnDisable() => CancelInvoke("UpdateUI");
+
+        void UpdateUI()
         {
             LootItemSO scriptable   = StaticData.LootList.Get(lootId);
             UpgradeState state      = GameState.Loot.Get(lootId);
@@ -65,7 +66,7 @@ namespace GreedyMercs
                 costText.text = "MAX";
 
 
-            buyButton.interactable = state.level < scriptable.maxLevel;
+            buyButton.interactable = state.level < scriptable.maxLevel && GameState.Player.prestigePoints >= Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount);
         }
 
         void UpdateEffectText()
@@ -130,7 +131,7 @@ namespace GreedyMercs
                 GameState.Player.prestigePoints -= cost;
             }
 
-            UpdateRow();
+            UpdateUI();
         }
     }
 }

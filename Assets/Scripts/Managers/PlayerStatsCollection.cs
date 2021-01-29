@@ -6,27 +6,14 @@ using UnityEngine;
 namespace GreedyMercs
 {
     public class PlayerStatsCollection : MonoBehaviour
-    { 
+    {
         void Start()
         {
-            Events.OnKillEnemy.AddListener(OnEnemyDeath);
-            Events.OnKilledBoss.AddListener(OnBossDeath);
-            Events.OnPlayerClick.AddListener(OnPlayerClick);
-        }
-
-        void OnEnemyDeath()
-        {
-            GameState.Quests.enemyKills++;
-        }
-
-        void OnBossDeath()
-        {
-            GameState.Quests.bossKills++;
-        }
-
-        void OnPlayerClick()
-        {
-            GameState.Quests.playerClicks++;
+            Events.OnKillEnemy.AddListener(() => { GameState.Quests.enemyKills++; });
+            Events.OnKilledBoss.AddListener(() => { GameState.Quests.bossKills++; });
+            Events.OnPlayerClick.AddListener(() => { GameState.Quests.playerClicks++; });
+            Events.OnPlayerPrestige.AddListener(() => { GameState.Quests.prestiges++; });
+            Events.OnSkillActivated.AddListener(() => { GameState.Quests.skillsActivated++; });
         }
     }
 }

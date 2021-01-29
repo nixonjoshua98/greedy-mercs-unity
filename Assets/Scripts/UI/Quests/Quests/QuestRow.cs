@@ -12,10 +12,12 @@ namespace GreedyMercs.Quests.UI
     {
         protected QuestID quest;
 
+        [Header("Components")]
         [SerializeField] Text questTitle;
+        [SerializeField] Text rewardText;
         [SerializeField] Text progressText;
-
         [SerializeField] Image collectImage;
+        [Space]
         [SerializeField] Button collectButton;
 
         [Header("Sprites")]
@@ -52,7 +54,7 @@ namespace GreedyMercs.Quests.UI
 
         protected abstract string GetQuestTitle();
 
-        protected string GetProgressString()
+        protected virtual string GetProgressString()
         {
             QuestData data = StaticData.Quests.GetQuest(quest);
 
@@ -62,6 +64,13 @@ namespace GreedyMercs.Quests.UI
                 return string.Format("{0}/{0}", target);
 
             return string.Format("{0}/{1}", Math.Min(target, ProgressValue), target);
+        }
+
+        protected virtual string GetRewardString()
+        {
+            QuestData data = StaticData.Quests.GetQuest(quest);
+
+            return string.Format("{0}x Gems", data.GetInt("gemReward"));
         }
 
         void UpdateUI()

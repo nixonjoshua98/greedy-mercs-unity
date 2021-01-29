@@ -104,6 +104,11 @@ namespace GreedyMercs
         {
             Utils.File.WriteJson(DataManager.DATA_FILE, ToJson());
 
+            SaveLocalDataOnly();
+        }
+
+        public static void SaveLocalDataOnly()
+        {
             JSONNode node = new JSONObject();
 
             node.Add("quests", Quests.ToJson());

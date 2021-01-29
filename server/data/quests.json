@@ -10,5 +10,13 @@
   "2": {
     "gemReward": 10,
     "playerClicks": 250
+  },
+  "3": {
+    "gemReward": 10,
+    "prestiges": 3
+  },
+  "4": {
+    "gemReward": 10,
+    "skillsActivated": 10
   }
 }

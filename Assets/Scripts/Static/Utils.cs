@@ -66,8 +66,9 @@ namespace GreedyMercs.Utils
                 case BonusType.ENERGY_CAPACITY:     return "Energy Capacity";
                 case BonusType.GOLD_RUSH_BONUS:     return "Gold Rush Bonus";
                 case BonusType.GOLD_RUSH_DURATION:  return "Gold Rush Duration";
-                case BonusType.AUTO_TAPS:           return "Auto Taps";
-                case BonusType.BOSS_TIMER_DUR:      return "Boss Timer Duration";
+                case BonusType.AUTO_CLICK_BONUS:    return "Auto Click Damage";
+                case BonusType.AUTO_CLICK_DURATION: return "Auto Click Duration";
+                case BonusType.BOSS_TIMER_DURATION: return "Boss Timer Duration";
 
                 default:
                     return "<missing name>";

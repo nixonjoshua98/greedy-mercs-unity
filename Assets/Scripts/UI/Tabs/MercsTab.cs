@@ -25,18 +25,13 @@ namespace GreedyMercs
         {
             Instance = this;
 
-            Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
-        }
-
-        IEnumerator Start()
-        {
             foreach (var chara in StaticData.CharacterList.CharacterList)
             {
                 if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
                     AddRow(chara);
-
-                yield return new WaitForFixedUpdate();
             }
+
+            Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
         }
 
         void AddRow(CharacterSO chara)

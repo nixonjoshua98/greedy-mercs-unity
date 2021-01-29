@@ -7,7 +7,8 @@ namespace GreedyMercs
 {    
     public enum SkillID
     {
-        GOLD_RUSH = 0,
+        GOLD_RUSH   = 0,
+        AUTO_CLICK  = 1
     }
 
     [System.Serializable]

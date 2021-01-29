@@ -11,25 +11,31 @@ namespace GreedyMercs
     using GreedyMercs.Quests.Data;
     public class StatsContainer
     {
-        public int enemyKills   = 0;
-        public int bossKills    = 0;
-        public int playerClicks = 0;
+        public int enemyKills;
+        public int prestiges;
+        public int bossKills;
+        public int playerClicks;
+        public int skillsActivated;
 
         public virtual void Update(JSONNode node)
         {
             if (node == null)
                 return;
 
-            enemyKills      = node["enemyKills"].AsInt;
-            bossKills       = node["bossKills"].AsInt;
-            playerClicks    = node["playerClicks"].AsInt;
+            prestiges           = node["prestiges"].AsInt;
+            enemyKills          = node["enemyKills"].AsInt;
+            bossKills           = node["bossKills"].AsInt;
+            playerClicks        = node["playerClicks"].AsInt;
+            skillsActivated     = node["skillsActivated"].AsInt;
         }
 
         public void Zero()
         {
+            prestiges       = 0;
             enemyKills      = 0;
             bossKills       = 0;
             playerClicks    = 0;
+            skillsActivated  = 0;
         }
 
         public virtual JSONNode ToJson()

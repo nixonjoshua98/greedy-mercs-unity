@@ -28,6 +28,8 @@ namespace GreedyMercs
         public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();
 
         // === Standard Events ===
+        public static UnityEvent OnSkillActivated = new UnityEvent();
+        public static UnityEvent OnPlayerPrestige = new UnityEvent();
 
         public static UnityEvent OnPlayerClick = new UnityEvent();
 

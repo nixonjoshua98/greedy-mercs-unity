@@ -3,38 +3,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GreedyMercs.Skills.UI
 {
-    public class GoldRushButton : MonoBehaviour
+    public class GoldRushButton : SkillButton
     {
-        [SerializeField] SkillID skill;
-
         [Header("Components")]
         [SerializeField] Button ActivateButton;
 
         [Header("Prefabs")]
         [SerializeField] GameObject CoinShowerPS;
 
-        public void OnClick()
+        void Awake()
         {
-            SkillState state = GameState.Skills.Get(skill);
-
-            if (!state.IsActive)
-            {
-                SkillLevel levelData = state.LevelData;
-
-                if (GameState.Player.currentEnergy >= levelData.EnergyCost)
-                {
-                    GameState.Player.currentEnergy -= levelData.EnergyCost;
-
-                    GameState.Skills.ActivateSkill(skill);
-
-                    Activate();
-                }
-            }
+            skill = SkillID.GOLD_RUSH;
         }
 
-        void Activate()
+        protected override void Activate()
         {
             StartCoroutine(Loop());
         }

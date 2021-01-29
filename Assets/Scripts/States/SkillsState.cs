@@ -28,7 +28,7 @@ namespace GreedyMercs
             SkillID = skill;
         }
 
-        public bool IsActive { get { return TimeSinceActivated <= StatsCache.SkillDuration(SkillID); } }
+        public bool IsActive { get { return TimeSinceActivated <= StatsCache.Skills.SkillDuration(SkillID); } }
 
         public double TimeSinceActivated { get { return (DateTime.UtcNow - skillActivated).TotalSeconds; } }
 

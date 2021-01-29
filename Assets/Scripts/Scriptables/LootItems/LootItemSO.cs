@@ -7,23 +7,22 @@ namespace GreedyMercs
 {    
     public enum LootID
     {
-        CLICK_GUANTLET = 0,
-        IRON_SWORD = 1,
-        OLD_SHORTS = 2,
-        HP_POTION = 3,
-        LAST_RING = 4,
-        TAP_SCROLL = 5,
-        POWER_AXE = 6,
-        SPELL_TOME = 7,
-        BRACERS = 8,
-        LUCKY_GEM = 9,
-        JADE_NECKLACE = 10,
-        ARTEMIS_BOW = 11,
-        WEALTH_BAG = 12,
-        THIEF_BELT = 13,
-        CRIT_CLOAK = 14,
-
-        ENERGY_RUNE     = 15,
+        CLICK_GUANTLET  = 0,
+        IRON_SWORD      = 1,
+        OLD_SHORTS      = 2,
+        HP_POTION       = 3,
+        LAST_RING       = 4,
+        TAP_SCROLL      = 5,
+        POWER_AXE       = 6,
+        SPELL_TOME      = 7,
+        BRACERS         = 8,
+        LUCKY_GEM       = 9,
+        JADE_NECKLACE   = 10,
+        ARTEMIS_BOW     = 11,
+        WEALTH_BAG      = 12,
+        THIEF_BELT      = 13,
+        CRIT_CLOAK      = 14,
+        ENERGY_STONE    = 15,
         MAGIC_VIAL      = 16,
         RAW_MEAT        = 17,
         COOKED_MEAT     = 18,
@@ -32,6 +31,7 @@ namespace GreedyMercs
         GOLD_COINS      = 21,
         MIGHTY_FORK     = 22,
         EXTENSION_BELL  = 23,
+        NO_MIGHTY_SPOON = 24,
     }
 
     public enum ValueType

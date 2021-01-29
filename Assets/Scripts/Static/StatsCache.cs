@@ -82,23 +82,68 @@ namespace GreedyMercs
             CachedBonuses.Clear();
         }
 
-        public static class GoldUpgrades
-        {
-            #region Auto Tap Upgrade
-            public static BigDouble AutoTapDamage() => AutoTaps() * StatsCache.GetTapDamage();
-            public static double AutoTaps() => Formulas.GoldUpgrades.CalcAutoTaps() + AddictiveBonuses(BonusType.AUTO_TAPS);
-            #endregion
-        }
-
         public static class StageEnemy
         {
             #region Boss
-            public static float BossTimer => 15.0f + (float)BonusFromLoot.GetOrVal(BonusType.BOSS_TIMER_DUR, 0);
+            public static float BossTimer => 15.0f + (float)BonusFromLoot.GetOrVal(BonusType.BOSS_TIMER_DURATION, 0);
 
             public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * MultiplyBonuses(BonusType.ENEMY_GOLD, BonusType.ALL_GOLD);
 
             public static BigDouble GetBossGold(int stage) => Formulas.CalcBossGold(stage) * MultiplyBonuses(BonusType.BOSS_GOLD, BonusType.ALL_GOLD);
             #endregion
+        }
+
+        public static class Skills
+        {
+            #region Bonus
+            public static double SkillBonus(SkillID skill)
+            {
+                switch (skill)
+                {
+                    case SkillID.GOLD_RUSH:
+                        return GameState.Skills.Get(SkillID.GOLD_RUSH).LevelData.BonusValue * MultiplyBonuses(BonusType.GOLD_RUSH_BONUS);
+
+                    case SkillID.AUTO_CLICK:
+                        return GameState.Skills.Get(SkillID.AUTO_CLICK).LevelData.BonusValue * MultiplyBonuses(BonusType.AUTO_CLICK_BONUS);
+
+                    default:
+                        Debug.Break();
+
+                        Debug.Log("Error: Skill not found");
+
+                        return 0;
+                }
+            }
+            #endregion
+
+            #region Duration
+            public static double SkillDuration(SkillID skill)
+            {
+                switch (skill)
+                {
+                    case SkillID.GOLD_RUSH:
+                        return StaticData.SkillList.Get(SkillID.GOLD_RUSH).Duration + AddictiveBonuses(BonusType.GOLD_RUSH_DURATION);
+
+                    case SkillID.AUTO_CLICK:
+                        return StaticData.SkillList.Get(SkillID.AUTO_CLICK).Duration + AddictiveBonuses(BonusType.AUTO_CLICK_DURATION);
+
+                    default:
+                        Debug.Break();
+
+                        Debug.Log("Error: Skill not found");
+
+                        return 0;
+                }
+            }
+            #endregion
+
+            public static BigDouble AutoClickDamage()
+            {
+                if (IsCacheOutdated("ARROW_BARRAGE_DMG", CachedDoubles))
+                    CachedDoubles["ARROW_BARRAGE_DMG"] = GetTapDamage() * SkillBonus(SkillID.AUTO_CLICK);
+
+                return CachedDoubles["ARROW_BARRAGE_DMG"];
+            }
         }
 
         // # === Energy === #
@@ -108,21 +153,6 @@ namespace GreedyMercs
             int skillEnergy = GameState.Skills.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
 
             return 50.0f + skillEnergy + AddictiveBonuses(BonusType.ENERGY_CAPACITY);
-        }
-
-        // === Skills === #
-        public static double GoldRushBonus()
-        {
-            SkillState state = GameState.Skills.Get(SkillID.GOLD_RUSH);
-
-            return state.LevelData.BonusValue * MultiplyBonuses(BonusType.GOLD_RUSH_BONUS);
-        }
-
-        public static double SkillDuration(SkillID skill)
-        {
-            SkillSO state = StaticData.SkillList.Get(skill);
-
-            return state.Duration + AddictiveBonuses(BonusType.GOLD_RUSH_DURATION);
         }
 
 

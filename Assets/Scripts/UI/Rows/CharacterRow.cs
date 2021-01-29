@@ -33,7 +33,6 @@ namespace GreedyMercs
                 return Mathf.Min(MercsTab.BuyAmount, StaticData.MAX_CHAR_LEVEL - state.level);
             }
         }
-
         public void SetCharacter(CharacterSO chara)
         {
             character = chara;
@@ -45,6 +44,13 @@ namespace GreedyMercs
 
             InvokeRepeating("UpdateRow", 0.25f, 0.25f);
         }
+
+        void OnEnable()
+        {
+            if (character)
+                InvokeRepeating("UpdateRow", 0.0f, 0.25f);
+        }
+        void OnDisable() => CancelInvoke("UpdateRow");
 
         void UpdateRow()
         {

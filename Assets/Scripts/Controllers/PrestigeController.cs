@@ -40,6 +40,10 @@ namespace GreedyMercs.StageDM.Prestige
             {
                 DataManager.IsPaused = true;
 
+                Events.OnPlayerPrestige.Invoke();
+
+                GameState.SaveLocalDataOnly();
+
                 Utils.File.WriteJson(DataManager.DATA_FILE, Utils.Json.Decompress(compressed));
 
                 StartCoroutine(RunPrestigeAnimation());

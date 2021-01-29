@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace GreedyMercs
 {
-    public abstract class SkillRow : MonoBehaviour
+    public class SkillRow : MonoBehaviour
     {
         [SerializeField] protected SkillID SkillID;
 
@@ -26,9 +26,7 @@ namespace GreedyMercs
         [Header("Prefabs")]
         [SerializeField] GameObject SkillButtonObject;
 
-        protected abstract string SkillDescription();
-
-        void Awake()
+        void Start()
         {
             UpdateUI();
 
@@ -38,9 +36,22 @@ namespace GreedyMercs
             }
         }
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             UpdateUI();
+        }
+
+        protected virtual string GetDescription()
+        {
+            if (!GameState.Skills.IsUnlocked(SkillID))
+                return "Locked";
+
+            string effect = Utils.Format.FormatNumber(StatsCache.Skills.SkillBonus(SkillID) * 100);
+            double duration = StatsCache.Skills.SkillDuration(SkillID);
+
+            string bonusType = Utils.Generic.BonusToString(StaticData.SkillList.Get(SkillID).bonusType);
+
+            return string.Format("Lasts for <color=orange>{0}s</color>\nMultiply <color=orange>{1}</color> by <color=orange>{2}%</color>", duration, bonusType, effect);
         }
 
         public void OnClick()
@@ -71,9 +82,9 @@ namespace GreedyMercs
             UpdateUI();
         }
 
-        void UpdateUI()
+        protected void UpdateUI()
         {
-            descriptionText.text = SkillDescription();
+            descriptionText.text = GetDescription();
 
             if (GameState.Skills.IsUnlocked(SkillID))
             {

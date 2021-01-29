@@ -7,34 +7,6 @@ namespace GreedyMercs
 {
     public static class Formulas
     {
-        public static class GoldUpgrades
-        {
-            #region Auto Tap Upgrade
-            public static double CalcAutoTaps()
-            {
-                UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
-
-                return (state.level - 1) / 2.0f;
-            }
-
-            public static BigDouble CalcAutoTapsLevelUpCost(int levels)
-            {
-                UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
-
-                return BigMath.SumGeometricSeries(levels, 10_000_000, 1.13f, (state.level - 1));
-            }
-
-            public static int AffordTapDamageLevels()
-            {
-                UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.AUTO_TAP_DMG);
-
-                int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10_000_000, 1.13f, state.level - 1).ToString());
-
-                return Mathf.Min(StaticData.MAX_AUTO_TAP_LEVEL - state.level, maxLevels);
-            }
-            #endregion
-        }
-
         public class StageEnemy
         {
             public static float SpawnDelay { get { return 0.25f; } }

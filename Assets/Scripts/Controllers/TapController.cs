@@ -11,28 +11,6 @@ namespace GreedyMercs
         [SerializeField] ParticleSystem ps;
 
         float lastClickTime = 0;
-        float lastAutoTapTime = 0;
-
-        public void Awake()
-        {
-            lastAutoTapTime = Time.time;
-
-            InvokeRepeating("AutoTap", 1.0f, 1.0f);
-        }
-
-        void AutoTap()
-        {
-            float secsSinceAuto = Time.time - lastAutoTapTime;
-
-            BigDouble dmg = StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto);
-
-            if (dmg >= 1)
-            {
-                GameManager.TryDealDamageToEnemy(StatsCache.GoldUpgrades.AutoTapDamage() * Mathf.Min(1, secsSinceAuto));
-
-                lastAutoTapTime = Time.time;
-            }
-        }
 
         public void OnPointerDown(PointerEventData eventData)
         {

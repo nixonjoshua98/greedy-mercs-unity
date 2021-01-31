@@ -1,6 +1,6 @@
 {
 	"0": {
-		"unlockCost": 50,
+		"unlockCost": "50",
 		"passives": [
 			{
 				"skill": 8,
@@ -57,7 +57,7 @@
 		]
 	},
 	"1": {
-		"unlockCost": 750,
+		"unlockCost": "750",
 		"passives": [
 			{
 				"skill": 3,
@@ -114,7 +114,7 @@
 		]
 	},
 	"2": {
-		"unlockCost": 10000,
+		"unlockCost": "10000",
 		"passives": [
 			{
 				"skill": 9,
@@ -399,8 +399,8 @@
 		]
 	},
 	"7": {
-		"baseDamage": "2.5e12",
 		"unlockCost": "2.5e14",
+		"baseDamage": "2.5e12",
 		"passives": [
 			{
 				"skill": 4,
@@ -458,6 +458,7 @@
 	},
 	"8": {
 		"unlockCost": "1e18",
+		"baseDamage": "1e16",
 		"passives": [
 			{
 				"skill": 9,

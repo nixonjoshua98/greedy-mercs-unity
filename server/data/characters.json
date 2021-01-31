@@ -1,5 +1,6 @@
 {
 	"0": {
+		"unlockCost": 50,
 		"passives": [
 			{
 				"skill": 8,
@@ -56,6 +57,7 @@
 		]
 	},
 	"1": {
+		"unlockCost": 750,
 		"passives": [
 			{
 				"skill": 3,
@@ -112,6 +114,7 @@
 		]
 	},
 	"2": {
+		"unlockCost": 10000,
 		"passives": [
 			{
 				"skill": 9,
@@ -168,6 +171,7 @@
 		]
 	},
 	"3": {
+		"unlockCost": "50000",
 		"passives": [
 			{
 				"skill": 1,
@@ -224,6 +228,7 @@
 		]
 	},
 	"4": {
+		"unlockCost": "2.5e6",
 		"passives": [
 			{
 				"skill": 4,
@@ -280,6 +285,7 @@
 		]
 	},
 	"5": {
+		"unlockCost": "7.5e7",
 		"passives": [
 			{
 				"skill": 2,
@@ -335,7 +341,8 @@
 			}
 		]
 	},
-		"6": {
+	"6": {
+		"unlockCost": "8.0e8",
 		"passives": [
 			{
 				"skill": 7,
@@ -346,7 +353,7 @@
 				"unlockLevel": 50
 			},
 			{
-				"skill": 4,
+				"skill": 1,
 				"unlockLevel": 75
 			},
 			{
@@ -370,7 +377,7 @@
 				"unlockLevel": 250
 			},
 			{
-				"skill": 2,
+				"skill": 1,
 				"unlockLevel": 300
 			},
 			{
@@ -387,6 +394,121 @@
 			},
 			{
 				"skill": 5,
+				"unlockLevel": 500
+			}
+		]
+	},
+	"7": {
+		"baseDamage": "2.5e12",
+		"unlockCost": "2.5e14",
+		"passives": [
+			{
+				"skill": 4,
+				"unlockLevel": 25
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 50
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 75
+			},
+			{
+				"skill": 6,
+				"unlockLevel": 100
+			},
+			{
+				"skill": 3,
+				"unlockLevel": 125
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 150
+			},
+			{
+				"skill": 10,
+				"unlockLevel": 200
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 250
+			},
+			{
+				"skill": 7,
+				"unlockLevel": 300
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 350
+			},
+			{
+				"skill": 11,
+				"unlockLevel": 400
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 450
+			},
+			{
+				"skill": 7,
+				"unlockLevel": 500
+			}
+		]
+	},
+	"8": {
+		"unlockCost": "1e18",
+		"passives": [
+			{
+				"skill": 9,
+				"unlockLevel": 25
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 50
+			},
+			{
+				"skill": 4,
+				"unlockLevel": 75
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 100
+			},
+			{
+				"skill": 9,
+				"unlockLevel": 125
+			},
+			{
+				"skill": 4,
+				"unlockLevel": 150
+			},
+			{
+				"skill": 10,
+				"unlockLevel": 200
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 250
+			},
+			{
+				"skill": 7,
+				"unlockLevel": 300
+			},
+			{
+				"skill": 2,
+				"unlockLevel": 350
+			},
+			{
+				"skill": 11,
+				"unlockLevel": 400
+			},
+			{
+				"skill": 5,
+				"unlockLevel": 450
+			},
+			{
+				"skill": 7,
 				"unlockLevel": 500
 			}
 		]

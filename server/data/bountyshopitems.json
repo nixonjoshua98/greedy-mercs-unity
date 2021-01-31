@@ -15,7 +15,7 @@
     "maxResetBuy": 25
   },
   "3": {
-    "purchaseData": {"baseCost": 125, "levelIncrease": 25},
+    "purchaseData": {"baseCost": 75, "levelIncrease": 50},
     "maxResetBuy": 3
   }
 }

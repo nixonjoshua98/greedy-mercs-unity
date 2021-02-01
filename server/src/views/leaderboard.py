@@ -10,15 +10,26 @@ class PlayerLeaderboard(View):
 
 	def dispatch_request(self):
 
-		results = mongo.db.userStats.find(
-			{
-				"maxPrestigeStage": {"$exists": True}
-			},
-			{
-				"_id": 0,
-				"userId": 0
-			}
+		results = mongo.db.userStats.aggregate(
+			[
+				{"$match": {"maxPrestigeStage": {"$exists": True}}},
+				{
+					"$lookup": {
+						"from": "userInfo",
+						"localField": "userId",
+						"foreignField": "userId",
+						"as": "userInfoLookup"
+					}
+				},
+				{"$unwind": {"path": "$userInfoLookup", "preserveNullAndEmptyArrays": True}},
+				{
+					"$project": {
+						"_id": 0, "username": "$userInfoLookup.username", "maxPrestigeStage": 1}
+				},
 
-		).sort("maxPrestigeStage", -1).limit(20)
+				{"$sort": {"maxPrestigeStage": -1}},
+				{"$limit": 25}
+			]
+		)
 
 		return Response(utils.compress({"players": list(results)}), status=200)

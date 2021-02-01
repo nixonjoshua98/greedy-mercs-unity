@@ -24,7 +24,7 @@ def loot_effect(item, level):
 # === Prestige Formulas === #
 
 def stage_prestige_points(stage, userloot):
-	return math.ceil(math.pow(math.ceil((max(stage, 80) - 80) / 10.0), 2.2) * prestige_bonus(userloot))
+	return math.ceil(math.pow(math.ceil((max(stage, 75) - 75) / 10.0), 2.2) * prestige_bonus(userloot))
 
 
 def stage_bounty_levels(stage: int, bountylevels: dict):

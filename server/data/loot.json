@@ -185,5 +185,12 @@
     "costExpo": 2.0,
     "baseEffect": 1.0,
     "levelEffect": 1.0
+  },
+    "25": {
+    "bonusType": 3,
+    "costCoeff": 0.7,
+    "costExpo": 1.6,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
   }
 }

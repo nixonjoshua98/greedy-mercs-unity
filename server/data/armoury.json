@@ -30,5 +30,21 @@
   "7": {
     "damageBonus": 1.5,
     "upgradeCost": 5
+  },
+  "8": {
+    "damageBonus": 1.1,
+    "upgradeCost": 2
+  },
+  "9": {
+    "damageBonus": 1.2,
+    "upgradeCost": 3
+  },
+  "10": {
+    "damageBonus": 1.35,
+    "upgradeCost": 4
+  },
+  "11": {
+    "damageBonus": 1.5,
+    "upgradeCost": 5
   }
 }

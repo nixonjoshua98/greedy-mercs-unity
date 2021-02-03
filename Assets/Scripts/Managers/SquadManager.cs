@@ -37,6 +37,8 @@ namespace GreedyMercs
                 if (GameState.Characters.Contains(chara.CharacterID))
                 {
                     AddCharacter(chara);
+
+                    yield return new WaitForSeconds(0.5f);
                 }
 
                 yield return new WaitForFixedUpdate();
@@ -53,8 +55,8 @@ namespace GreedyMercs
         {
             GameObject character = Instantiate(chara.prefab, transform);
 
-            Vector3 endPos = characterSpots[0].position;
-            Vector3 startPos = new Vector3(endPos.x - 7.0f, endPos.y, endPos.y);
+            Vector3 endPos      = characterSpots[0].position;
+            Vector3 startPos    = new Vector3(endPos.x - 10.0f, endPos.y, endPos.y);
 
             character.transform.position = startPos;
 
@@ -100,7 +102,7 @@ namespace GreedyMercs
                 atk.Anim.Play("Walk");
 
                 Vector3 start = atk.transform.localPosition;
-                Vector3 end = start - new Vector3(7, 0, 0);
+                Vector3 end = start - new Vector3(start.x - 10.0f, 0, 0);
 
                 Instance.StartCoroutine(Utils.Lerp.Local(atk.gameObject, start, end, duration));
             }

@@ -10,14 +10,14 @@ namespace GreedyMercs
     {
         Action callback;
 
-        public void Init(Action _callback, float distance)
+        public void Init(Action _callback, float distance, float speed)
         {
             callback = _callback;
 
-            StartCoroutine(ProjectileLoop(distance));
+            StartCoroutine(ProjectileLoop(distance, speed));
         }
 
-        IEnumerator ProjectileLoop(float distance)
+        IEnumerator ProjectileLoop(float distance, float speed)
         {
             float progress = 0.0f;
 
@@ -26,7 +26,7 @@ namespace GreedyMercs
 
             while (progress < 1.0f)
             {
-                progress += (Time.deltaTime * 2);
+                progress += (Time.deltaTime * speed);
 
                 transform.position = Vector3.Lerp(startPos, endPos, progress);
 

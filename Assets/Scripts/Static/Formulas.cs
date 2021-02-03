@@ -5,26 +5,36 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GreedyMercs.Perks.Data;
     public static class Formulas
     {
         public class StageEnemy
         {
-            public static float SpawnDelay { get { return 0.25f; } }
+            public static float SpawnDelay
+            {
+                get
+                {
+                    if (GameState.Perks.IsPerkActive(PerkID.ENEMY_COOLDOWN))
+                        return 0.15f;
+
+                    return 0.25f;
+                }
+            }
 
             #region Health
             public static BigDouble CalcEnemyHealth(int stage)
             {
                 BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
-                BigDouble y = BigDouble.Pow(1.15, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
+                BigDouble y = BigDouble.Pow(1.16, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
 
                 return 15 * x * y;
             }
 
-            public static BigDouble CalcBossHealth(int stage) => CalcEnemyHealth(stage) * 3.0f;
+            public static BigDouble CalcBossHealth(int stage) => CalcEnemyHealth(stage) * (stage % 5 == 0 ? 5.0f : 3.0f);
             #endregion
 
             #region Gold
-            public static BigDouble CalcEnemyGold(int stage) => 10.0f * CalcEnemyHealth(stage) * (0.008 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
+            public static BigDouble CalcEnemyGold(int stage) => 10.0f * CalcEnemyHealth(stage) * (0.0075 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
 
             public static BigDouble CalcBossGold(int stage) => CalcEnemyGold(stage) * 5.0f;
 
@@ -57,32 +67,32 @@ namespace GreedyMercs
 
         public static BigDouble CalcCharacterDamage(CharacterID chara)
         {
-            var state = GameState.Characters.Get(chara);
-            CharacterSO data = StaticData.CharacterList.Get(chara);
+            var state           = GameState.Characters.Get(chara);
+            CharacterSO data    = StaticData.CharacterList.Get(chara);
 
-            return (data.purchaseCost / (10.0f + data.unlockOrder)) * state.level * BigDouble.Pow(2.0f, (state.level - 1) / 100.0f) * (1 - (0.03f * data.unlockOrder));
+            BigDouble baseDamage = data.baseDamage > 0 ? data.baseDamage : (data.unlockCost / (10.0f + BigDouble.Log10(data.unlockCost)));
+
+            return baseDamage * state.level * BigDouble.Pow(2.0f, (state.level - 1) / 100.0f) * (1 - (0.035f * data.unlockOrder));
         }
 
         // ===
 
         public static BigDouble CalcCharacterLevelUpCost(CharacterID chara, int levels)
         {
-            var state = GameState.Characters.Get(chara);
-            CharacterSO data = StaticData.CharacterList.Get(chara);
+            var state           = GameState.Characters.Get(chara);
+            CharacterSO data    = StaticData.CharacterList.Get(chara);
 
-            return BigMath.SumGeometricSeries(levels, data.purchaseCost, 1.075, state.level);
+            return BigMath.SumGeometricSeries(levels, data.unlockCost, 1.075 + (data.unlockOrder / 1000.0), state.level);
         }
 
         public static int AffordCharacterLevels(CharacterID chara)
         {
-            UpgradeState state = GameState.Characters.Get(chara);
-            CharacterSO data = StaticData.CharacterList.Get(chara);
+            UpgradeState state  = GameState.Characters.Get(chara);
+            CharacterSO data    = StaticData.CharacterList.Get(chara);
 
-            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.purchaseCost, 1.075, state.level);
+            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.unlockCost, 1.075 + (data.unlockOrder / 1000.0), state.level);
 
-            int maxLevels = int.Parse(val.ToString());
-
-            return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.level, maxLevels);
+            return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.level, int.Parse(val.ToString()));
         }
 
 
@@ -98,14 +108,14 @@ namespace GreedyMercs
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
 
-            return BigMath.SumGeometricSeries(levels, 10.0f, 1.09f, (state.level - 1));
+            return BigMath.SumGeometricSeries(levels, 5, 1.09, (state.level - 1));
         }
 
         public static int AffordTapDamageLevels()
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
 
-            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 10.0, 1.09, state.level - 1).ToString());
+            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 5, 1.09, state.level - 1).ToString());
 
             return Mathf.Min(StaticData.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
         }
@@ -117,7 +127,7 @@ namespace GreedyMercs
             if (stage < StageState.MIN_PRESTIGE_STAGE)
                 return 0;
 
-            BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - StageState.MIN_PRESTIGE_STAGE) / 10.0f), 2.2);
+            BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2.2);
 
             return BigInteger.Parse(big.Ceiling().ToString("F0"));
         }

@@ -11,6 +11,7 @@ namespace GreedyMercs
         [SerializeField] Text StageText;
         [SerializeField] Text GoldText;
         [SerializeField] Text mercDpsText;
+        [SerializeField] Text tapDamageText;
         [SerializeField] Text DiamondsText;
 
         void Awake()
@@ -20,7 +21,7 @@ namespace GreedyMercs
 
             UpdateStageText();
 
-            InvokeRepeating("RegularUpdate", 0.0f, 0.25f);
+            InvokeRepeating("UpdateUI", 0.0f, 0.25f);
         }
 
         void FixedUpdate()
@@ -29,9 +30,10 @@ namespace GreedyMercs
             DiamondsText.text   = GameState.Player.gems.ToString();
         }
 
-        void RegularUpdate()
+        void UpdateUI()
         {
-            mercDpsText.text = Utils.Format.FormatNumber(StatsCache.TotalCharacterDPS);
+            mercDpsText.text    = Utils.Format.FormatNumber(StatsCache.TotalCharacterDPS);
+            tapDamageText.text  = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
         }
 
         void UpdateStageText()

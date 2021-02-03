@@ -65,7 +65,6 @@ namespace GreedyMercs
 
         void ServerGameDataCallback(long code, string compressedJson)
         {
-
             if (code == 200)
             {
                 JSONNode node = Utils.Json.Decompress(compressedJson);

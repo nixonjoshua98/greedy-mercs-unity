@@ -5,20 +5,31 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
-    public abstract class CharacterProjectileAttack : CharacterAttack
+    public class CharacterProjectileAttack : CharacterAttack
     {
+        [Header("Prefabs")]
         [SerializeField] protected GameObject ProjectileObject;
 
+        [Header("References")]
         [SerializeField] protected Transform startPosition;
+
+        [Header("Projectile Behaviour")]
+        [SerializeField] float distance;
+        [SerializeField] float speed;
 
         public override void OnAttackEvent()
         {
             CreateProjectile();
         }
 
-        public abstract void CreateProjectile();
+        public void CreateProjectile()
+        {
+            GameObject projectile = Instantiate(ProjectileObject, startPosition.position, Quaternion.identity);
 
-        public virtual void OnProjectileHit()
+            projectile.GetComponent<StraightProjectile>().Init(OnProjectileHit, distance, speed);
+        }
+
+        public void OnProjectileHit()
         {
             DealDamage();
         }

@@ -4,16 +4,7 @@ using UnityEngine;
 
 namespace GreedyMercs
 {    
-    public enum CharacterID
-    {
-        WRAITH      = 0,
-        GOLEM       = 1,
-        SATYR       = 2,
-        ANGEL       = 3,
-        MINOTAUR    = 4,
-        REAPER      = 5,
-        FIRE_GOLEM  = 6
-    }
+    public enum CharacterID { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN }
 
     [PreferBinarySerialization]
     [CreateAssetMenu(menuName = "Scriptables/Character")]
@@ -25,20 +16,20 @@ namespace GreedyMercs
 
         public BonusType attackType;
 
-        [SerializeField] string purchaseCostString;
-
         public GameObject prefab;
 
         public Sprite icon;
 
         // - Runtime
         [HideInInspector] public int unlockOrder;
-        [HideInInspector] public BigDouble purchaseCost;
+        [HideInInspector] public BigDouble baseDamage;
+        [HideInInspector] public BigDouble unlockCost;
         [HideInInspector] public List<CharacterPassive> passives;
 
-        public void Init(int _unlockOrder, List<CharacterPassive> _passives)
+        public void Init(int _unlockOrder, string _unlockCost, string _baseDamage, List<CharacterPassive> _passives)
         {
-            purchaseCost = BigDouble.Parse(purchaseCostString);
+            baseDamage  = BigDouble.Parse(_baseDamage == "" ? "0" : _baseDamage);
+            unlockCost  = BigDouble.Parse(_unlockCost);
 
             unlockOrder = _unlockOrder;
             passives    = _passives;

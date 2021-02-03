@@ -9,7 +9,8 @@ namespace GreedyMercs.Armoury.Data
     public enum WeaponType
     {
         SWORD   = 0,
-        STAFF   = 1
+        STAFF   = 1,
+        AXE     = 2
     }
 
     [PreferBinarySerialization]

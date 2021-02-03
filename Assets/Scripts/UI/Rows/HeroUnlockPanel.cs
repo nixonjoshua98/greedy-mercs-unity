@@ -16,7 +16,7 @@ namespace GreedyMercs
         {
             if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
             {
-                CostText.text = Utils.Format.FormatNumber(chara.purchaseCost);
+                CostText.text = Utils.Format.FormatNumber(chara.unlockCost);
             }
 
             else
@@ -29,9 +29,9 @@ namespace GreedyMercs
         {
             if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
             {
-                if (GameState.Player.gold >= chara.purchaseCost)
+                if (GameState.Player.gold >= chara.unlockCost)
                 {
-                    GameState.Player.gold -= chara.purchaseCost;
+                    GameState.Player.gold -= chara.unlockCost;
 
                     GameState.Characters.Add(chara.CharacterID);
 

@@ -1,8 +1,19 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace GreedyMercs
 {
+    [System.Serializable]
+    struct PassiveUnlockObject
+    {
+        public GameObject root;
+
+        public Text text;
+    }
+
     public class CharacterRow : MonoBehaviour
     {
         [Header("Images")]
@@ -18,6 +29,9 @@ namespace GreedyMercs
 
         [Header("Prefabs")]
         [SerializeField] GameObject CharacterPanelObject;
+
+        [Space]
+        [SerializeField] PassiveUnlockObject passiveUnlockObject;
 
         CharacterSO character;
 
@@ -42,27 +56,15 @@ namespace GreedyMercs
             Icon.sprite = chara.icon;
 
             UpdateUI();
-
-            MercsTab.AddBuyAmountListener(UpdateUI);
         }
 
-        void OnEnable() => UpdateUI();
+        void OnEnable() => InvokeRepeating("UpdateUI", 0.0f, 0.5f);
         void OnDisable() => CancelInvoke("UpdateUI");
-
-        void UpdateUI() => UpdateUI(MercsTab.BuyAmount);
-        void UpdateUI(int amount)
+        
+        void UpdateUI()
         {
             // A character may not be set yet, since the row is dynamic
-            if (character == null)
-                return;
-
-            // Loop the function is it is MAX since gold constantly changes
-            if (amount == -1 && !IsInvoking("UpdateUI"))
-                InvokeRepeating("UpdateUI", 0.5f, 0.5f);
-
-            else if (amount != -1) // Cancel the invoke if the value is a flatvalue (1, 10 etc)
-                CancelInvoke("UpdateUI");
-
+            if (character == null) return;
 
             var state = GameState.Characters.Get(character.CharacterID);
 
@@ -92,9 +94,10 @@ namespace GreedyMercs
         {
             int levelsBuying = BuyAmount;
 
-            var state = GameState.Characters.Get(character.CharacterID);
+            UpgradeState state  = GameState.Characters.Get(character.CharacterID);
+            BigDouble cost      = Formulas.CalcCharacterLevelUpCost(character.CharacterID, levelsBuying);
 
-            BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.CharacterID, levelsBuying);
+            int numPassives = GameState.Characters.GetUnlockedPassives(character.CharacterID).Count;
 
             if (state.level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
             {
@@ -105,6 +108,11 @@ namespace GreedyMercs
                 Events.OnCharacterLevelUp.Invoke(character.CharacterID);
             }
 
+            List<CharacterPassive> passives = GameState.Characters.GetUnlockedPassives(character.CharacterID);
+
+            if (passives.Count > numPassives)
+                ShowUnlockedPassive(passives[passives.Count - 1]);
+
             UpdateUI();
         }
 
@@ -113,6 +121,22 @@ namespace GreedyMercs
             GameObject panel = Utils.UI.Instantiate(CharacterPanelObject, Vector3.zero);
 
             panel.GetComponent<CharacterPanel>().SetHero(character.CharacterID);
+        }
+
+        void ShowUnlockedPassive(CharacterPassive passive)
+        {
+            IEnumerator Animation()
+            {
+                passiveUnlockObject.root.SetActive(true);
+
+                passiveUnlockObject.text.text = passive.ToString();
+
+                yield return new WaitForSeconds(2.0f);
+
+                passiveUnlockObject.root.SetActive(false);
+            }
+
+            PersistentMono.Inst.StartCoroutine(Animation());
         }
     }
 }

@@ -35,6 +35,8 @@ namespace GreedyMercs
             Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
         }
 
+        //void FixedUpdate() => Time.timeScale = 10;
+
         void Start()
         {
             SpawnNextEnemy();

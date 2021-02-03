@@ -8,10 +8,12 @@ namespace GreedyMercs
 {
     using GreedyMercs.BountyShop.Data;
     using GreedyMercs.Armoury.Data;
+    using GreedyMercs.Perks.Data;
 
     public static class GameState
     {
         public static PlayerQuestData Quests;
+        public static PlayerPerkData Perks;
 
         public static PlayerBountyShopData BountyShop;
         public static PlayerArmouryData Armoury;
@@ -91,7 +93,8 @@ namespace GreedyMercs
             if (!Utils.File.ReadJson(DataManager.LOCAL_ONLY_FILE, out JSONNode node))
                 node = new JSONObject();
 
-            Quests = new PlayerQuestData(node["quests"]);
+            Quests  = new PlayerQuestData(node["quests"]);
+            Perks   = new PlayerPerkData(node["perks"]);
 
             Loot.UpdateWithLocalData();
         }
@@ -126,6 +129,7 @@ namespace GreedyMercs
             JSONNode node = new JSONObject();
 
             node.Add("quests", Quests.ToJson());
+            node.Add("perks", Perks.ToJson());
 
             Utils.File.WriteJson(DataManager.LOCAL_ONLY_FILE, node);
         }

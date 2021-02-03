@@ -48,9 +48,9 @@ namespace GreedyMercs
                 return CachedDoubles["ARMOURY_DAMAGE"];
             }
         }
-        #endregion
 
         static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CacBonuses(); } }
+        #endregion
 
         public static BigDouble TotalCharacterDPS
         {

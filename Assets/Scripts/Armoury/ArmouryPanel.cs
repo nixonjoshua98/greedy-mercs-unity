@@ -17,6 +17,7 @@ namespace GreedyMercs.Armoury.UI
         [Header("Weapon Parents")]
         [SerializeField] Transform swordParent;
         [SerializeField] Transform staffParent;
+        [SerializeField] Transform axesParent;
 
         [Header("Prefabs")]
         [SerializeField] GameObject ArmouryWeaponObject;
@@ -30,6 +31,7 @@ namespace GreedyMercs.Armoury.UI
 
             Populate(swordParent, StaticData.Armoury.GetWeapons(WeaponType.SWORD));
             Populate(staffParent, StaticData.Armoury.GetWeapons(WeaponType.STAFF));
+            Populate(axesParent, StaticData.Armoury.GetWeapons(WeaponType.AXE));
 
             InvokeRepeating("UpdateUI", 0.0f, 0.25f);
         }
@@ -40,6 +42,7 @@ namespace GreedyMercs.Armoury.UI
 
             for (int i = 0; i < staffParent.childCount; ++i) Destroy(staffParent.GetChild(i).gameObject);
             for (int i = 0; i < swordParent.childCount; ++i) Destroy(swordParent.GetChild(i).gameObject);
+            for (int i = 0; i < axesParent.childCount; ++i) Destroy(axesParent.GetChild(i).gameObject);
         }
 
         void UpdateUI()

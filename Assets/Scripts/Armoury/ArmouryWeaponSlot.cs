@@ -23,7 +23,7 @@ namespace GreedyMercs.Armoury.UI
         {
             weaponItem = weapon;
 
-            Utils.UI.ScaleImageW(iconImage, weapon.icon, 150.0f);
+            iconImage.sprite = weapon.icon;
         }
 
         public void UpdateUI()

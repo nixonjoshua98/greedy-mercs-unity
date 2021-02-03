@@ -11,7 +11,7 @@
   },
   "2": {
     "weaponPoints": 1,
-    "purchaseData": {"baseCost": 25, "levelIncrease": 5},
+    "purchaseData": {"baseCost": 15, "levelIncrease": 5},
     "maxResetBuy": 25
   },
   "3": {

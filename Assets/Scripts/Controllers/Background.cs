@@ -6,14 +6,6 @@ using UnityEngine.UI;
 
 namespace GreedyMercs
 {
-    [System.Serializable]
-    public struct SpriteColourPair
-    {
-        public Sprite Background;
-        public Color Color;
-    }
-
-
     public class Background : MonoBehaviour
     {
         /* ===
@@ -24,7 +16,7 @@ namespace GreedyMercs
          * ===
          */
 
-        [SerializeField] SpriteColourPair[] backgrounds;
+        [SerializeField] Sprite[] backgrounds;
 
         void Awake()
         {
@@ -46,13 +38,9 @@ namespace GreedyMercs
 
         void ChangeBackground()
         {
-            SpriteColourPair pair = backgrounds[Mathf.FloorToInt(GameState.Stage.stage / 25) % backgrounds.Length];
-
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-            Camera.main.backgroundColor = pair.Color;
-
-            sr.sprite = pair.Background;
+            sr.sprite = backgrounds[Mathf.FloorToInt(GameState.Stage.stage / 25) % backgrounds.Length];
         }
     }
 }

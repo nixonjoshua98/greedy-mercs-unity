@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: 0
+  character: {fileID: 11400000, guid: d3468e41abdb2ec48b6a7b76c37254f9, type: 2}
   levelupParticles: {fileID: 4391011981482158493}
 --- !u!114 &-972560618126700487
 MonoBehaviour:
@@ -147,7 +147,6 @@ MonoBehaviour:
   anim: {fileID: 2168791721332256124}
   delayBetweenAttacks: 0.5
   ps: {fileID: 218371283688233683}
-  AttackSlot: {fileID: 7181371514258106237}
 --- !u!1 &7181371514258106237
 GameObject:
   m_ObjectHideFlags: 0

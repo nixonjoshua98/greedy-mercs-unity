@@ -22,11 +22,7 @@ class PlayerLeaderboard(View):
 					}
 				},
 				{"$unwind": {"path": "$userInfoLookup", "preserveNullAndEmptyArrays": True}},
-				{
-					"$project": {
-						"_id": 0, "username": "$userInfoLookup.username", "maxPrestigeStage": 1}
-				},
-
+				{"$project": {"_id": 0, "username": "$userInfoLookup.username", "maxPrestigeStage": 1}},
 				{"$sort": {"maxPrestigeStage": -1}},
 				{"$limit": 25}
 			]

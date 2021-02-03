@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 using SimpleJSON;
 
@@ -48,6 +49,8 @@ public static class Extensions
 
 namespace GreedyMercs.Utils
 {
+    using GreedyMercs.UI.Messages;
+
     public class Generic
     {
         public static string BonusToString(BonusType skill)
@@ -193,17 +196,13 @@ namespace GreedyMercs.Utils
             msg.Init(title, desc);
         }
 
-        public static void ScaleImageW(Image img, Sprite spr, float w)
+        public static void ShowYesNoPrompt(string title, UnityAction callback)
         {
-            RectTransform rt = img.GetComponent<RectTransform>();
+            GameObject o = Resources.Load<GameObject>("YesNoPrompt");
 
-            img.sprite = spr;
+            YesNoPrompt prompt = Instantiate(o, Vector3.zero).GetComponent<YesNoPrompt>();
 
-            img.SetNativeSize();
-
-            float percentBigger = (float)(rt.rect.width / w);
-
-            rt.sizeDelta = new Vector2(rt.sizeDelta.x / percentBigger, rt.sizeDelta.y / percentBigger);
+            prompt.Init(title, "", callback);
         }
     }
     public class GZip
@@ -323,7 +322,7 @@ namespace GreedyMercs.Utils
 
         public static void WriteJson(string filename, JSONNode node)
         {
-            Write(filename, Format.FormatJson(node.ToString()));
+            Write(filename, node.ToString());
         }
 
         public static bool ReadJson(string filename, out JSONNode node)
@@ -403,29 +402,6 @@ namespace GreedyMercs.Utils
                 return m.ToString("F") + unitsTable[n];
             
             return val.ToString("e2").Replace("+", "");
-        }
-
-        public static string FormatJson(string json, string indent="  ")
-        {
-            var indentation = 0;
-            var quoteCount = 0;
-            var escapeCount = 0;
-
-            var result =
-                from ch in json ?? string.Empty
-                let escaped = (ch == '\\' ? escapeCount++ : escapeCount > 0 ? escapeCount-- : escapeCount) > 0
-                let quotes = ch == '"' && !escaped ? quoteCount++ : quoteCount
-                let unquoted = quotes % 2 == 0
-                let colon = ch == ':' && unquoted ? ": " : null
-                let nospace = char.IsWhiteSpace(ch) && unquoted ? string.Empty : null
-                let lineBreak = ch == ',' && unquoted ? ch + Environment.NewLine + string.Concat(Enumerable.Repeat(indent, indentation)) : null
-                let openChar = (ch == '{' || ch == '[') && unquoted ? ch + Environment.NewLine + string.Concat(Enumerable.Repeat(indent, ++indentation)) : ch.ToString()
-                let closeChar = (ch == '}' || ch == ']') && unquoted ? Environment.NewLine + string.Concat(Enumerable.Repeat(indent, --indentation)) + ch : ch.ToString()
-                select colon ?? nospace ?? lineBreak ?? (
-                    openChar.Length > 1 ? openChar : closeChar
-                );
-
-            return string.Concat(result);
         }
 
         public static string FormatSeconds(int seconds)

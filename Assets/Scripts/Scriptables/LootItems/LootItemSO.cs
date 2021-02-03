@@ -32,6 +32,7 @@ namespace GreedyMercs
         MIGHTY_FORK     = 22,
         EXTENSION_BELL  = 23,
         NO_MIGHTY_SPOON = 24,
+        METEORITE       = 25,
     }
 
     public enum ValueType

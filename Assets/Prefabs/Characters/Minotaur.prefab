@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: 4
+  character: {fileID: 11400000, guid: 22a1709139179eb44aa9483db2e906c6, type: 2}
   levelupParticles: {fileID: 2548665190170535142}
 --- !u!114 &7584063817302087079
 MonoBehaviour:
@@ -64,7 +64,6 @@ MonoBehaviour:
   character: {fileID: 9045855751808842391}
   anim: {fileID: 4196962537881791945}
   delayBetweenAttacks: 0.8
-  weaponSlot: {fileID: 2006900576644043195}
 --- !u!1 &8552994621849392845
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +288,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1799281124101359693, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1799281124101359693, guid: f599d76226aa16e4b87e507fa32dd4b8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 2946989359822449562, guid: f599d76226aa16e4b87e507fa32dd4b8,
         type: 3}
       propertyPath: m_Name
@@ -315,12 +324,6 @@ Transform:
 --- !u!95 &4196962537881791945 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5516008474935807127, guid: f599d76226aa16e4b87e507fa32dd4b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552994619959746910}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2006900576644043195 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7884578347305545957, guid: f599d76226aa16e4b87e507fa32dd4b8,
     type: 3}
   m_PrefabInstance: {fileID: 8552994619959746910}
   m_PrefabAsset: {fileID: 0}

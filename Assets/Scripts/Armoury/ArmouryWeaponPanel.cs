@@ -29,8 +29,8 @@ namespace GreedyMercs.Armoury.UI
         {
             weaponItem = item;
 
-            Utils.UI.ScaleImageW(colouredWeapon, item.icon, 400.0f);
-            Utils.UI.ScaleImageW(shadowWeapon, item.icon, 400.0f);
+            colouredWeapon.sprite   = item.icon;
+            shadowWeapon.sprite     = item.icon;
 
             UpdateUI();
         }
@@ -49,7 +49,7 @@ namespace GreedyMercs.Armoury.UI
                 Stringify(GameState.Armoury.DamageBonus(weaponItem.Index, state.level + 1))
                 );
 
-            upgradeText.text = string.Format("Upgrade\n{0} Weapon Points", data.upgradeCost);
+            upgradeText.text = string.Format("{0} Weapon Points", data.upgradeCost);
 
             upgradeButton.interactable = GameState.Player.weaponPoints >= data.upgradeCost;
         }

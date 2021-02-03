@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 5097099789309128635}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0.75, y: 0.375, z: 1}
+  m_LocalScale: {x: 0.55, y: 0.275, z: 1}
   m_Children: []
   m_Father: {fileID: 5097099789489235669}
   m_RootOrder: 1
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f0fbf03d25084c8bd550851dd58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: 1
+  character: {fileID: 11400000, guid: e5bdbc039c8bbbc468976121c37a9779, type: 2}
   levelupParticles: {fileID: 1642814941999183293}
 --- !u!114 &5626720670049821243
 MonoBehaviour:
@@ -145,7 +145,6 @@ MonoBehaviour:
   character: {fileID: 584215120242430387}
   anim: {fileID: 1791531129569585673}
   delayBetweenAttacks: 1
-  weaponSlot: {fileID: 5292051542539626501}
 --- !u!1001 &812573510342374399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -320,12 +319,6 @@ Transform:
 --- !u!95 &1791531129569585673 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6800511658964374014, guid: ce9de6eff68268441bd3dbe5c5b088c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 5097099789426097143}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5292051542539626501 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1138757142083539954, guid: ce9de6eff68268441bd3dbe5c5b088c9,
     type: 3}
   m_PrefabInstance: {fileID: 5097099789426097143}
   m_PrefabAsset: {fileID: 0}

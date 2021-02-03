@@ -94,6 +94,8 @@ namespace GreedyMercs
             return items[loot];
         }
 
+        public bool Contains(LootID loot) => items.ContainsKey(loot);
+
         public void Add(LootID loot)
         {
             items[loot] = new UpgradeState { level = 1 };

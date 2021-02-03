@@ -18,7 +18,7 @@ def compress(data: dict) -> str:
 		if isinstance(o, (dt.date, dt.datetime)):
 			return int(o.timestamp() * 1000)
 
-		return o
+		return str(o)
 
 	data_bytes = json.dumps(data, default=default).encode("utf-8")
 

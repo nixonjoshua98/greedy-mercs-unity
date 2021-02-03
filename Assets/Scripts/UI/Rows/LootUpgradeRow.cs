@@ -19,7 +19,6 @@ namespace GreedyMercs
         [SerializeField] Text costText;
         [SerializeField] Text nameText;
         [SerializeField] Text effectText;
-        [SerializeField] Text descText;
 
         int BuyAmount
         {
@@ -34,20 +33,22 @@ namespace GreedyMercs
 
         public void Init(LootItemSO data)
         {
-            descText.text = data.description;
-            nameText.text = data.name;
-
-            lootId      = data.ItemID;
-            icon.sprite = data.icon;
-
-            LootTab.AddBuyAmountListener(UpdateUI);
+            lootId          = data.ItemID;
+            nameText.text   = data.name;
+            icon.sprite     = data.icon;
 
             UpdateUI();
         }
 
-        void OnEnable() => UpdateUI(LootTab.BuyAmount);
+        void OnEnable()
+        {
+            if (GameState.Loot.Contains(lootId))
+                InvokeRepeating("UpdateUI", 0.0f, 0.5f);
+        }
+        
+        void OnDisable() => CancelInvoke("UpdateUI");
 
-        void UpdateUI(int amount = 0)
+        void UpdateUI()
         {
             LootItemSO scriptable   = StaticData.LootList.Get(lootId);
             UpgradeState state      = GameState.Loot.Get(lootId);
@@ -105,10 +106,7 @@ namespace GreedyMercs
 
             BigInteger cost = Formulas.CalcLootItemLevelUpCost(lootId, levelsBuying);
 
-            void ServerCallback(long code, string compressed)
-            {
-                OnUpgradeCallback(levelsBuying, code, compressed);
-            }
+            void ServerCallback(long code, string compressed) => OnUpgradeCallback(levelsBuying, code, compressed);
 
             if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.maxLevel)
             {

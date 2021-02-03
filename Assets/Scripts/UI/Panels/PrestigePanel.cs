@@ -65,7 +65,7 @@ namespace GreedyMercs
 
         IEnumerator PanelAnimation(float duration)
         {
-            StartCoroutine(Utils.Lerp.RectTransform(lootBagRect, lootBagRect.localScale, lootBagRect.localScale * 4, duration));
+            StartCoroutine(Utils.Lerp.RectTransform(lootBagRect, lootBagRect.localScale, lootBagRect.localScale * 2, duration));
 
             BigInteger coins = StatsCache.GetPrestigePoints(GameState.Stage.stage);
 

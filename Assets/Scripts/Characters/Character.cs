@@ -8,21 +8,21 @@ namespace GreedyMercs
 {
     public class Character : MonoBehaviour
     {
-        [SerializeField] CharacterID character;
+        [SerializeField] CharacterSO character;
 
         // === Components ===
         [Header("Components")]
         [SerializeField] ParticleSystem levelupParticles;
 
         // === Public Accessors ===
-        public CharacterID CharacterID { get { return character; } }
+        public CharacterID CharacterID { get { return character.CharacterID; } }
 
         // === Private Attributes ===
         SpriteRenderer[] renderers;
 
         void Awake()
         {
-            Events.OnCharacterLevelUp.AddListener((CharacterID chara) => { if (chara == character) OnLevelup(); });
+            Events.OnCharacterLevelUp.AddListener((CharacterID chara) => { if (chara == character.CharacterID) OnLevelup(); });
         }
 
         IEnumerator Start()

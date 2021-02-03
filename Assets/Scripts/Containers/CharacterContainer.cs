@@ -34,9 +34,13 @@ namespace GreedyMercs
 
         // === Helper Methods ===
 
-        public UpgradeState Get(CharacterID chara)
+        public UpgradeState Get(CharacterID chara) => characters[chara];
+
+        public List<CharacterPassive> GetUnlockedPassives(CharacterID chara)
         {
-            return characters[chara];
+            UpgradeState state = Get(chara);
+
+            return StaticData.CharacterList.Get(chara).passives.Where(e => state.level >= e.unlockLevel).ToList();        
         }
 
         public List<CharacterID> Unlocked() => characters.Keys.ToList();

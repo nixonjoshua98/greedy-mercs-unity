@@ -7,9 +7,6 @@ namespace GreedyMercs
 {
     public class CharacterMeleeAttack : CharacterAttack
     {
-        [Header("Character Slots")]
-        [SerializeField] GameObject weaponSlot;
-
         public override void OnAttackEvent()
         {
             DealDamage();

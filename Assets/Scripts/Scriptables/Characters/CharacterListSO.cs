@@ -14,6 +14,8 @@ namespace GreedyMercs
         public int unlockLevel;
 
         public CharacterPassive Clone() => new CharacterPassive { bonusType = bonusType, value = value, unlockLevel = unlockLevel };
+
+        public override string ToString() => (value * 100).ToString() + "% " + Utils.Generic.BonusToString(bonusType);
     }
 
     [PreferBinarySerialization]
@@ -34,7 +36,9 @@ namespace GreedyMercs
 
                 List<CharacterPassive> passives = new List<CharacterPassive>();
 
-                foreach (JSONNode passive in characters[key]["passives"].AsArray)
+                JSONNode charaNode = characters[key];
+
+                foreach (JSONNode passive in charaNode["passives"].AsArray)
                 {
                     CharacterPassive p = passiveDict[passive["skill"].AsInt].Clone();
 
@@ -43,10 +47,10 @@ namespace GreedyMercs
                     passives.Add(p);
                 }
 
-                chara.Init(i, passives);
+                chara.Init(i, charaNode["unlockCost"].Value, charaNode["baseDamage"].Value, passives);
             }
 
-            CharacterList.Sort((x, y) => x.purchaseCost.CompareTo(y.purchaseCost));
+            CharacterList.Sort((x, y) => x.unlockCost.CompareTo(y.unlockCost));
         }
 
         Dictionary<int, CharacterPassive> GetPassiveDict(JSONNode node)

@@ -51,7 +51,7 @@ namespace GreedyMercs
 
             string bonusType = Utils.Generic.BonusToString(StaticData.SkillList.Get(SkillID).bonusType);
 
-            return string.Format("Lasts for <color=orange>{0}s</color>\nMultiply <color=orange>{1}</color> by <color=orange>{2}%</color>", duration, bonusType, effect);
+            return string.Format("Multiply <color=orange>{1}</color> by <color=orange>{2}%</color> for <color=orange>{0}s</color>", duration, bonusType, effect);
         }
 
         public void OnClick()

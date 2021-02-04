@@ -56,8 +56,8 @@ class BountyShop(View):
 		results = {
 			BountyShopItem.PRESTIGE_POINTS: lambda u: add_prestige_points(u, item_data["maxStagePercent"]),
 			BountyShopItem.GEMS: lambda u: add_items(u, gems=item_data["gems"]),
-			BountyShopItem.WEAPON_POINTS: lambda u: add_items(u, weaponPoints=item_data["weaponPoints"]),
-			BountyShopItem.WEAPON: lambda u: add_random_weapon(u)
+			BountyShopItem.WEAPON_POINTS: lambda u: add_items(u, armouryPoints=item_data["armouryPoints"]),
+			BountyShopItem.WEAPON: lambda u: add_random_weapon(u, items=items)
 
 		}.get(item)(uid)
 
@@ -79,13 +79,21 @@ def add_prestige_points(uid, max_stage_percent):
 	return {"prestigePointsReceived": str(points)}
 
 
-def add_random_weapon(uid):
+def add_random_weapon(uid, *, items):
 
-	weapon = int(random.choice(tuple(GameData.get("armoury").keys())))
+	user_armoury = items.get("armoury", dict())
+	armoury_data = GameData.get("armoury")
 
-	mongo.db.userItems.update_one({"userId": uid}, {"$inc": {f"weapons.{weapon}": 1}}, upsert=True)
+	def get_item_key(item, key):
+		return user_armoury.get(item, dict()).get(key, 0)
 
-	return {"weaponReceived": weapon}
+	keys = sorted(tuple(armoury_data.keys()), key=lambda k: (get_item_key(k, "owned"), get_item_key(k, "level")))
+
+	item_received = random.choice(keys[0: len(keys) // 2])
+
+	mongo.db.userItems.update_one({"userId": uid}, {"$inc": {f"armoury.{item_received}.owned": 1}}, upsert=True)
+
+	return {"itemReceived": item_received}
 
 
 def add_items(userid, **kwargs):

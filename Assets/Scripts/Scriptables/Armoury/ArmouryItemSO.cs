@@ -21,19 +21,26 @@ namespace GreedyMercs.Armoury.Data
 
         public Sprite icon;
 
-        [Header("Runtime")]
-        public int Index;
-
         [Header("Static Data")]
+        public int ItemID;
+
+        [Space]
+        public int itemTier;
         public int upgradeCost;
+        public int evoUpgradeCost;
+        [Space]
         public double damageBonus;
 
         public void Init(int index, JSONNode node)
         {
-            Index = index;
+            ItemID = index;
+
+            evoUpgradeCost = 10;
 
             damageBonus = node["damageBonus"].AsDouble;
-            upgradeCost = node["upgradeCost"].AsInt;
+
+            itemTier        = node["itemTier"].AsInt;
+            upgradeCost     = node["upgradeCost"].AsInt;
         }
     }
 }

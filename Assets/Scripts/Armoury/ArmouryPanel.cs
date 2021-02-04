@@ -14,24 +14,20 @@ namespace GreedyMercs.Armoury.UI
         [SerializeField] Text damageBonusText;
         [SerializeField] Text weaponPointText;
 
-        [Header("Weapon Parents")]
-        [SerializeField] Transform swordParent;
-        [SerializeField] Transform staffParent;
-        [SerializeField] Transform axesParent;
+        [SerializeField] Transform itemsParent;
 
         [Header("Prefabs")]
-        [SerializeField] GameObject ArmouryWeaponObject;
+        [SerializeField] GameObject ArmouryItemObject;
+        [SerializeField] GameObject ArmouryPanelObject;
 
         // ===
-        List<ArmouryWeaponSlot> slots;
+        List<ArmouryItemSlot> slots;
 
         void OnEnable()
         {
-            slots = new List<ArmouryWeaponSlot>();
+            slots = new List<ArmouryItemSlot>();
 
-            Populate(swordParent, StaticData.Armoury.GetWeapons(WeaponType.SWORD));
-            Populate(staffParent, StaticData.Armoury.GetWeapons(WeaponType.STAFF));
-            Populate(axesParent, StaticData.Armoury.GetWeapons(WeaponType.AXE));
+            Populate();
 
             InvokeRepeating("UpdateUI", 0.0f, 0.25f);
         }
@@ -40,18 +36,11 @@ namespace GreedyMercs.Armoury.UI
         {
             CancelInvoke("UpdateUI");
 
-            for (int i = 0; i < staffParent.childCount; ++i) Destroy(staffParent.GetChild(i).gameObject);
-            for (int i = 0; i < swordParent.childCount; ++i) Destroy(swordParent.GetChild(i).gameObject);
-            for (int i = 0; i < axesParent.childCount; ++i) Destroy(axesParent.GetChild(i).gameObject);
+            for (int i = 0; i < itemsParent.childCount; ++i) Destroy(itemsParent.GetChild(i).gameObject);
         }
 
         void UpdateUI()
         {
-            foreach (ArmouryWeaponSlot entry in slots)
-            {
-                entry.UpdateUI();
-            }
-
             BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
 
             damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
@@ -59,22 +48,30 @@ namespace GreedyMercs.Armoury.UI
 
         void FixedUpdate()
         {
-            weaponPointText.text = GameState.Player.weaponPoints.ToString();
+            weaponPointText.text = GameState.Player.armouryPoints.ToString();
         }
 
-        void Populate(Transform parent, List<ArmouryItemSO> weapons)
+        void Populate()
         {
-            foreach (ArmouryItemSO w in weapons)
+            foreach (ArmouryItemSO w in StaticData.Armoury.GetWeapons())
             {
-                if (GameState.Armoury.GetWeapon(w.Index).level > 0)
-                {
-                    ArmouryWeaponSlot slot = Utils.UI.Instantiate(ArmouryWeaponObject, parent, Vector3.zero).GetComponent<ArmouryWeaponSlot>();
+                ArmouryItemSlot slot = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItemSlot>();
 
-                    slot.Init(w);
+                slot.Init(w);
 
-                    slots.Add(slot);
-                }
+                slot.SetButtonCallback(() => { OnIconClick(w); });
+
+                slots.Add(slot);
             }
+        }
+
+        // === Button Callback ===
+
+        void OnIconClick(ArmouryItemSO item)
+        {
+            ArmouryWeaponPanel panel = Utils.UI.Instantiate(ArmouryPanelObject, Vector3.zero).GetComponent<ArmouryWeaponPanel>();
+
+            panel.Init(item);
         }
     }
 }

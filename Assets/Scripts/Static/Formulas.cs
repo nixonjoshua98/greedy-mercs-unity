@@ -6,9 +6,10 @@ using UnityEngine;
 namespace GreedyMercs
 {
     using GreedyMercs.Perks.Data;
+    using GreedyMercs.Armoury.Data;
     public static class Formulas
     {
-        public class StageEnemy
+        public static class StageEnemy
         {
             public static float SpawnDelay
             {
@@ -39,6 +40,34 @@ namespace GreedyMercs
             public static BigDouble CalcBossGold(int stage) => CalcEnemyGold(stage) * 5.0f;
 
             #endregion
+        }
+
+        public static class Armoury
+        {
+            public static double WeaponDamage(int index)
+            {
+                ArmouryWeaponState state = GameState.Armoury.GetWeapon(index);
+
+                return WeaponDamage(index, state.level, state.evoLevel);
+            }
+
+            public static double WeaponDamage(int index, int level)
+            {
+                ArmouryWeaponState state = GameState.Armoury.GetWeapon(index);
+
+                return WeaponDamage(index, level, state.evoLevel);
+            }
+
+            public static double WeaponDamage(int index, int level, int evoLevel)
+            {
+                ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(index);
+
+                double val = (evoLevel + 1) * ((scriptable.damageBonus) - 1) * level;
+
+                val += 1;
+
+                return val > 1 ? val : 0;
+            }
         }
 
 

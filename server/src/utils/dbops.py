@@ -28,7 +28,7 @@ def get_player_data(uid):
 			"bountyPoints": 	items.get("bountyPoints", 0),
 			"prestigePoints": 	items.get("prestigePoints", 0),
 			"gems": 			items.get("gems", 0),
-			"weaponPoints": 	items.get("weaponPoints", 0)
+			"armouryPoints": 	items.get("armouryPoints", 0)
 		},
 
 		"questsClaimed":	quests.get("questsClaimed", dict()),
@@ -37,6 +37,6 @@ def get_player_data(uid):
 		"bountyShop": 		shop,
 		"bounties": 		bounties,
 
-		"weapons": 	items.get("weapons", dict()),
+		"armoury": 	items.get("armoury", dict()),
 		"loot": 	items.get("loot", dict())
 	}

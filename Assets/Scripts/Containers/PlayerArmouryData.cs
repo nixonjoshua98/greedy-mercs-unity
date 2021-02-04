@@ -8,11 +8,13 @@ namespace GreedyMercs.Armoury.Data
     public class ArmouryWeaponState
     {
         public int level;
+        public int owned;
+        public int evoLevel;
     }
 
     public class PlayerArmouryData
     {
-        Dictionary<int, ArmouryWeaponState> weapons;
+        Dictionary<int, ArmouryWeaponState> items;
 
         public PlayerArmouryData(JSONNode node)
         {
@@ -21,62 +23,57 @@ namespace GreedyMercs.Armoury.Data
 
         public void Update(JSONNode node)
         {
-            weapons = new Dictionary<int, ArmouryWeaponState>();
+            items = new Dictionary<int, ArmouryWeaponState>();
 
             foreach (string key in node.Keys)
             {
-                weapons.Add(int.Parse(key), new ArmouryWeaponState { level = node[key].AsInt });
+                JSONNode item = node[key];
+
+                items.Add(int.Parse(key), JsonUtility.FromJson<ArmouryWeaponState>(item.ToString()));
             }
+        }
+
+        public JSONNode ToJson()
+        {
+            JSONNode node = new JSONObject();
+
+            foreach (var entry in items)
+            {
+                node.Add(((int)entry.Key).ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
+            }
+
+            return node;
         }
 
         public ArmouryWeaponState GetWeapon(int index)
         {
-            if (!weapons.TryGetValue(index, out ArmouryWeaponState state))
+            if (!items.ContainsKey(index))
             {
-                weapons[index] = new ArmouryWeaponState { level = 0 };
+                items[index] = new ArmouryWeaponState { level = 0 };
             }
 
-            return weapons[index];
+            return items[index];
         }
 
         public double DamageBonus()
         {
             double val = 0;
 
-            foreach (var w in weapons)
+            foreach (var w in items)
             {
                 ArmouryWeaponState state = GameState.Armoury.GetWeapon(w.Key);
 
                 if (state.level > 0)
                 {
-                    ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(w.Key);
-
-                    val += 1 + ((scriptable.damageBonus) - 1) * state.level;
+                    val += Formulas.Armoury.WeaponDamage(w.Key);
                 }
             }
 
             return val;
         }
 
-        public double DamageBonus(int index)
-        {
-            ArmouryWeaponState state = GameState.Armoury.GetWeapon(index);
+        public void UpgradeWeapon(int index, int levels) => GetWeapon(index).level += levels;
 
-            return DamageBonus(index, state.level);
-        }
-
-        public double DamageBonus(int index, int level)
-        {
-            ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(index);
-
-            double val = 1 + ((scriptable.damageBonus) - 1) * level;
-
-            return val > 1 ? val : 0;
-        }
-
-        public void UpgradeWeapon(int index, int levels)
-        {
-            GetWeapon(index).level += levels;
-        }
+        public void AddItem(int index) => GetWeapon(index).owned += 1;
     }
 }

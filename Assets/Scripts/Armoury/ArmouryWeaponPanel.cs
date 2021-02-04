@@ -4,30 +4,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using SimpleJSON;
+
 namespace GreedyMercs.Armoury.UI
 {
     using GreedyMercs.Armoury.Data;
-    using SimpleJSON;
 
     public class ArmouryWeaponPanel : MonoBehaviour
     {
-        [Header("Components")]
+        [Header("Upgrade Components")]
+        [SerializeField] Text upgradeDamageText;
         [SerializeField] Button upgradeButton;
-        [SerializeField] Text upgradeText;
 
-        [Header("Components (Weapon)")]
+        [Header("Evolve Components")]
+        [SerializeField] Text evoDamageText;
+        [SerializeField] Slider evolveSlider;
+        [SerializeField] Button evoUpgradeButton;
+
+        [Header("Item Components")]
         [SerializeField] Image colouredWeapon;
         [SerializeField] Image shadowWeapon;
 
-        [Header("Components (Level + Damage)")]
-        [SerializeField] Text levelText;
-        [SerializeField] Text damageText;
+        [Header("References")]
+        [SerializeField] GameObject[] stars;
 
-        ArmouryItemSO weaponItem;
+        ArmouryItemSO armouryItem;
 
         public void Init(ArmouryItemSO item)
         {
-            weaponItem = item;
+            armouryItem = item;
 
             colouredWeapon.sprite   = item.icon;
             shadowWeapon.sprite     = item.icon;
@@ -37,49 +42,91 @@ namespace GreedyMercs.Armoury.UI
 
         void UpdateUI()
         {
-            string Stringify(double d) => Utils.Format.FormatNumber(d * 100) + "%";
+            ArmouryWeaponState state    = GameState.Armoury.GetWeapon(armouryItem.ItemID);
+            ArmouryItemSO data          = StaticData.Armoury.GetWeapon(armouryItem.ItemID);
 
-            ArmouryItemSO data          = StaticData.Armoury.GetWeapon(weaponItem.Index);
-            ArmouryWeaponState state    = GameState.Armoury.GetWeapon(weaponItem.Index);
+            string StringyLevelDamage(int lvl) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(armouryItem.ItemID, lvl) * 100) + "%";
+            string StringyEvoLevelDamage(int evo) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(armouryItem.ItemID, state.level, evo) * 100) + "%";
 
-            levelText.text  = string.Format("Level {0} -> {1}", state.level, state.level + 1);
+            upgradeDamageText.text  = string.Format("{0} -> {1}", StringyLevelDamage(state.level), StringyLevelDamage(state.level + 1));
+            evoDamageText.text      = string.Format("{0} -> {1}", StringyEvoLevelDamage(state.evoLevel), StringyEvoLevelDamage(state.evoLevel + 1));
 
-            damageText.text = string.Format("{0} -> {1}", 
-                Stringify(GameState.Armoury.DamageBonus(weaponItem.Index)),
-                Stringify(GameState.Armoury.DamageBonus(weaponItem.Index, state.level + 1))
-                );
+            upgradeButton.interactable      = GameState.Player.armouryPoints >= data.upgradeCost;
+            evoUpgradeButton.interactable   = state.owned >= data.evoUpgradeCost;
 
-            upgradeText.text = string.Format("{0} Weapon Points", data.upgradeCost);
+            evolveSlider.value = state.owned;
 
-            upgradeButton.interactable = GameState.Player.weaponPoints >= data.upgradeCost;
+            UpdateStarRating();
         }
 
-        public void OnClick()
+        void UpdateStarRating()
         {
-            ArmouryItemSO data = StaticData.Armoury.GetWeapon(weaponItem.Index);
+            for (int i = 0; i < stars.Length; ++i)
+            {
+                stars[i].SetActive(i <= armouryItem.itemTier - 1);
+            }
+        }
 
-            if (GameState.Player.weaponPoints >= data.upgradeCost)
+        // === Callbacks ===
+
+        public void UpgradeItem()
+        {
+            ArmouryItemSO data = StaticData.Armoury.GetWeapon(armouryItem.ItemID);
+
+            if (GameState.Player.armouryPoints >= data.upgradeCost)
             {
                 JSONNode node = Utils.Json.GetDeviceNode();
 
-                node["itemId"] = weaponItem.Index;
+                node["itemId"] = armouryItem.ItemID;
 
-                Server.UpgradeArmouryItem(OnServerCallback, node);
+                Server.UpgradeArmouryItem(OnUpgradeCallback, node);
             }
-
 
             UpdateUI();
         }
 
-        void OnServerCallback(long code, string compressed)
+        public void EvolveItem()
+        {
+            ArmouryItemSO data          = StaticData.Armoury.GetWeapon(armouryItem.ItemID);
+            ArmouryWeaponState state    = GameState.Armoury.GetWeapon(armouryItem.ItemID);
+
+            if (state.owned >= data.evoUpgradeCost)
+            {
+                JSONNode node = Utils.Json.GetDeviceNode();
+
+                node["itemId"] = armouryItem.ItemID;
+
+                Server.EvolveArmouryItem(OnEvolveCallback, node);
+            }
+
+            UpdateUI();
+        }
+
+        void OnUpgradeCallback(long code, string compressed)
         {
             if (code == 200)
             {
                 JSONNode node = Utils.Json.Decompress(compressed);
 
-                GameState.Armoury.UpgradeWeapon(weaponItem.Index, 1);
+                GameState.Armoury.UpgradeWeapon(armouryItem.ItemID, 1);
 
-                GameState.Player.weaponPoints -= node["upgradeCost"].AsInt;
+                GameState.Player.armouryPoints -= node["upgradeCost"].AsInt;
+            }
+
+            UpdateUI();
+        }
+
+        void OnEvolveCallback(long code, string compressed)
+        {
+            if (code == 200)
+            {
+                JSONNode node = Utils.Json.Decompress(compressed);
+
+                ArmouryWeaponState state = GameState.Armoury.GetWeapon(armouryItem.ItemID);
+
+                state.evoLevel += 1;
+
+                state.owned = node["owned"].AsInt;
             }
 
             UpdateUI();

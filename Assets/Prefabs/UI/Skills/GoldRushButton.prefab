@@ -222,7 +222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29efd35a289af6c429f9cac10e02e6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill: 0
   ActivateButton: {fileID: 8847922440698631958}
   CoinShowerPS: {fileID: 840605549013801549, guid: ebdea8b96090287408358da95a21020f,
     type: 3}
@@ -291,7 +290,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f33f85a890c13d64ca40ae6415e57bce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 475df524c8612ba4cb41e6c039119166, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -10,12 +10,12 @@
     "maxResetBuy": 3
   },
   "2": {
-    "weaponPoints": 1,
+    "armouryPoints": 1,
     "purchaseData": {"baseCost": 15, "levelIncrease": 5},
     "maxResetBuy": 25
   },
   "3": {
     "purchaseData": {"baseCost": -75, "levelIncrease": -50},
-    "maxResetBuy": 30000
+    "maxResetBuy": 3
   }
 }

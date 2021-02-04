@@ -1,50 +1,47 @@
 {
   "0": {
+    "itemTier": 1,
     "damageBonus": 1.1,
-    "upgradeCost": 2
+    "upgradeCost": 1
   },
   "1": {
-    "damageBonus": 1.2,
-    "upgradeCost": 3
+    "itemTier": 2,
+    "damageBonus": 1.25,
+    "upgradeCost": 2
   },
   "2": {
-    "damageBonus": 1.35,
-    "upgradeCost": 4
+    "itemTier": 3,
+    "damageBonus": 1.5,
+    "upgradeCost": 3
   },
   "3": {
-    "damageBonus": 1.5,
-    "upgradeCost": 5
+    "itemTier": 1,
+    "damageBonus": 1.1,
+    "upgradeCost": 1
   },
   "4": {
-    "damageBonus": 1.1,
+    "itemTier": 2,
+    "damageBonus": 1.25,
     "upgradeCost": 2
   },
   "5": {
-    "damageBonus": 1.2,
+    "itemTier": 3,
+    "damageBonus": 1.5,
     "upgradeCost": 3
   },
   "6": {
-    "damageBonus": 1.35,
-    "upgradeCost": 4
+    "itemTier": 1,
+    "damageBonus": 1.1,
+    "upgradeCost": 1
   },
   "7": {
-    "damageBonus": 1.5,
-    "upgradeCost": 5
-  },
-  "8": {
-    "damageBonus": 1.1,
+    "itemTier": 2,
+    "damageBonus": 1.25,
     "upgradeCost": 2
   },
-  "9": {
-    "damageBonus": 1.2,
-    "upgradeCost": 3
-  },
-  "10": {
-    "damageBonus": 1.35,
-    "upgradeCost": 4
-  },
-  "11": {
+  "8": {
+    "itemTier": 3,
     "damageBonus": 1.5,
-    "upgradeCost": 5
+    "upgradeCost": 3
   }
 }

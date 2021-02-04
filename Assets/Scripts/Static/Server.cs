@@ -45,7 +45,8 @@ namespace GreedyMercs
         public static void GetGameData(Action<long, string> callback) => PersistentMono.Inst.StartCoroutine(Get("gamedata", callback));
 
         // # === Armoury === #
-        public static void UpgradeArmouryItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("armoury/upgradeitem", callback, node));
+        public static void UpgradeArmouryItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("armoury/upgrade", callback, node));
+        public static void EvolveArmouryItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("armoury/upgradeevo", callback, node));
 
         // # === Quests === #
         public static void ClaimQuestReward(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("quest/claim", callback, node));

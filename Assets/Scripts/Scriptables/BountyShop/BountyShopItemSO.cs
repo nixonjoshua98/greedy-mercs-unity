@@ -11,8 +11,8 @@ namespace GreedyMercs.BountyShop.Data
     {
         PRESTIGE_POINTS = 0,
         GEMS            = 1,
-        WEAPON_POINTS   = 2,
-        WEAPON          = 3
+        ARMOURY_POINTS  = 2,
+        WEAPON_CHEST    = 3
     }
 
     [PreferBinarySerialization]

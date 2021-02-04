@@ -53,7 +53,7 @@ namespace GreedyMercs
             Player          = new PlayerState(node["player"]);
             LifetimeStats   = new PlayerLifetimeStats(node["lifetimeStats"]);
 
-            Armoury     = new PlayerArmouryData(node["weapons"]);
+            Armoury     = new PlayerArmouryData(node["armoury"]);
             BountyShop  = new PlayerBountyShopData(node["bountyShop"]);
 
             Bounties    = new BountyContainer(node["bounties"]);
@@ -78,7 +78,7 @@ namespace GreedyMercs
         public static void UpdateWithServerData(JSONNode node)
         {
             Player.Update(node["player"]);
-            Armoury.Update(node["weapons"]);
+            Armoury.Update(node["armoury"]);
             Bounties.Update(node["bounties"]);
             BountyShop.Update(node["bountyShop"]);
             LifetimeStats.Update(node["lifetimeStats"]);
@@ -106,6 +106,7 @@ namespace GreedyMercs
             node.Add("stage",           Stage.ToJson());
             node.Add("player",          Player.ToJson());
             node.Add("skills",          Skills.ToJson());
+            node.Add("armoury",         Armoury.ToJson());
             node.Add("upgrades",        Upgrades.ToJson());
             node.Add("bounties",        Bounties.ToJson());
             node.Add("bountyShop",      BountyShop.ToJson());

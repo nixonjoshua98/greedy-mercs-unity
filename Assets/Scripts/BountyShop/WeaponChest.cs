@@ -54,6 +54,15 @@ namespace GreedyMercs.Armoury.UI
 
         public void PurchaseChest()
         {
+            void Purchase()
+            {
+                JSONNode node = Utils.Json.GetDeviceNode();
+
+                node.Add("itemId", (int)item);
+
+                Server.BuyBountyShopItem(ServerCallback, node);
+            }
+
             BountyItemState state = GameState.BountyShop.GetItem(item);
             BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
@@ -61,11 +70,7 @@ namespace GreedyMercs.Armoury.UI
 
             if (GameState.BountyShop.IsValid && inStock)
             {
-                JSONNode node = Utils.Json.GetDeviceNode();
-
-                node.Add("itemId", (int)item);
-
-                Server.BuyBountyShopItem(ServerCallback, node);
+                Utils.UI.ShowYesNoPrompt("Purchase Chest?", Purchase);
             }
         }
 

@@ -19,7 +19,7 @@ namespace GreedyMercs.Perks.Data
         public DateTime ActivatedAt;
 
         public int SecondsSinceActivated { get { return Mathf.CeilToInt((float)(DateTime.UtcNow - ActivatedAt).TotalSeconds); } }
-        public int DurationRemaining { get { return 60 - SecondsSinceActivated; } }
+        public int DurationRemaining { get { return (60 * 60 * 6) - SecondsSinceActivated; } }
         public bool IsActive { get { return SecondsSinceActivated >= 0 && DurationRemaining > 0; } }
     }
 
@@ -63,12 +63,17 @@ namespace GreedyMercs.Perks.Data
             return node;
         }
 
-        public int SecondsSinceActivated(PerkID perk)
+        public Dictionary<BonusType, double> CalcBonuses()
         {
-            if (!perks.ContainsKey(perk))
-                return -1;
+            Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 
-            return perks[perk].SecondsSinceActivated;
+            if (IsPerkActive(PerkID.DAMAGE_BOOST))
+                bonuses[BonusType.MERC_DAMAGE] = 5.0;
+
+            if (IsPerkActive(PerkID.ENERGY_POTION))
+                bonuses[BonusType.ENERGY_INCOME] = 2.0;
+
+            return bonuses;
         }
 
         public int PerkDurationRemaining(PerkID perk)

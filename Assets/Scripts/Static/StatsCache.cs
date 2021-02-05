@@ -16,14 +16,14 @@ namespace GreedyMercs
         static Dictionary<string, BigDouble> CachedDoubles                      = new Dictionary<string, BigDouble>();
         static Dictionary<string, Dictionary<BonusType, double>> CachedBonuses  = new Dictionary<string, Dictionary<BonusType, double>>();
 
-        static Dictionary<BonusType, double> BonusFromCharacters
+        public static BigDouble ArmouryDamageMultiplier
         {
             get
             {
-                if (IsCacheOutdated("CHARACTERS", CachedBonuses))
-                    CachedBonuses["CHARACTERS"] = GameState.Characters.CalcBonuses();
+                if (IsCacheOutdated("ARMOURY_DAMAGE", CachedDoubles))
+                    CachedDoubles["ARMOURY_DAMAGE"] = Math.Max(1.0f, GameState.Armoury.DamageBonus());
 
-                return CachedBonuses["CHARACTERS"];
+                return CachedDoubles["ARMOURY_DAMAGE"];
             }
         }
 
@@ -37,19 +37,22 @@ namespace GreedyMercs
                 return CachedBonuses["LOOT"];
             }
         }
-
-        public static BigDouble ArmouryDamageMultiplier
+        static Dictionary<BonusType, double> BonusFromCharacters
         {
             get
             {
-                if (IsCacheOutdated("ARMOURY_DAMAGE", CachedDoubles))
-                    CachedDoubles["ARMOURY_DAMAGE"] = Math.Max(1.0f, GameState.Armoury.DamageBonus());
+                if (IsCacheOutdated("CHARACTERS", CachedBonuses))
+                    CachedBonuses["CHARACTERS"] = GameState.Characters.CalcBonuses();
 
-                return CachedDoubles["ARMOURY_DAMAGE"];
+                return CachedBonuses["CHARACTERS"];
             }
         }
 
-        static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CacBonuses(); } }
+        static Dictionary<BonusType, double> BonusFromPerks { get { return GameState.Perks.CalcBonuses(); } }
+        static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CalcBonuses(); } }
+
+        public static BigDouble GetCritChance() => StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
+        public static BigDouble GetCritDamage() => StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
         #endregion
 
         public static BigDouble TotalCharacterDPS
@@ -84,18 +87,15 @@ namespace GreedyMercs
 
         public static class StageEnemy
         {
-            #region Boss
             public static float BossTimer => 15.0f + (float)BonusFromLoot.GetOrVal(BonusType.BOSS_TIMER_DURATION, 0);
 
             public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * MultiplyBonuses(BonusType.ENEMY_GOLD, BonusType.ALL_GOLD);
 
             public static BigDouble GetBossGold(int stage) => Formulas.CalcBossGold(stage) * MultiplyBonuses(BonusType.BOSS_GOLD, BonusType.ALL_GOLD);
-            #endregion
         }
 
         public static class Skills
         {
-            #region Bonus
             public static double SkillBonus(SkillID skill)
             {
                 switch (skill)
@@ -114,9 +114,7 @@ namespace GreedyMercs
                         return 0;
                 }
             }
-            #endregion
 
-            #region Duration
             public static double SkillDuration(SkillID skill)
             {
                 switch (skill)
@@ -135,19 +133,19 @@ namespace GreedyMercs
                         return 0;
                 }
             }
-            #endregion
 
             public static BigDouble AutoClickDamage()
             {
-                if (IsCacheOutdated("ARROW_BARRAGE_DMG", CachedDoubles))
-                    CachedDoubles["ARROW_BARRAGE_DMG"] = GetTapDamage() * SkillBonus(SkillID.AUTO_CLICK);
+                if (IsCacheOutdated("AUTO_CLICK_DMG", CachedDoubles))
+                    CachedDoubles["AUTO_CLICK_DMG"] = GetTapDamage() * SkillBonus(SkillID.AUTO_CLICK);
 
-                return CachedDoubles["ARROW_BARRAGE_DMG"];
+                return CachedDoubles["AUTO_CLICK_DMG"];
             }
         }
 
+
         // # === Energy === #
-        public static double PlayerEnergyPerMinute() => 1.0f + AddictiveBonuses(BonusType.ENERGY_INCOME);
+        public static double PlayerEnergyPerMinute() => (1.0f + AddictiveBonuses(BonusType.ENERGY_INCOME)) * BonusFromPerks.GetOrVal(BonusType.ENERGY_INCOME, 1);
         public static double PlayerMaxEnergy()
         {
             int skillEnergy = GameState.Skills.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
@@ -177,16 +175,6 @@ namespace GreedyMercs
             return BigInteger.Parse(big.Ceiling().ToString("F0"));
         }
 
-        public static BigDouble GetCritChance()
-        {
-            return StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
-        }
-
-        public static BigDouble GetCritDamage()
-        {
-            return StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
-        }
-
         public static BigDouble GetCharacterDamage(CharacterID chara)
         {
             string key = "CHARACTER_DMG_" + chara.ToString();
@@ -195,7 +183,12 @@ namespace GreedyMercs
             {
                 CharacterSO data = StaticData.CharacterList.Get(chara);
 
-                CachedDoubles[key] = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType) * ArmouryDamageMultiplier;
+                CachedDoubles[key] = (
+                    Formulas.CalcCharacterDamage(chara) * 
+                    MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType) * 
+                    ArmouryDamageMultiplier *
+                    BonusFromPerks.GetOrVal(BonusType.MERC_DAMAGE, 1)
+                    );
             }
 
             return CachedDoubles[key];

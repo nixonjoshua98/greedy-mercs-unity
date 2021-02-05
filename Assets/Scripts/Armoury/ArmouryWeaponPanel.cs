@@ -54,7 +54,8 @@ namespace GreedyMercs.Armoury.UI
             upgradeButton.interactable      = GameState.Player.armouryPoints >= data.upgradeCost;
             evoUpgradeButton.interactable   = state.owned >= data.evoUpgradeCost;
 
-            evolveSlider.value = state.owned;
+            evolveSlider.maxValue   = data.evoUpgradeCost;
+            evolveSlider.value      = state.owned;
 
             UpdateStarRating();
         }

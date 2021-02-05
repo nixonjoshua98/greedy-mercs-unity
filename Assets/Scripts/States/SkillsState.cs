@@ -77,7 +77,7 @@ namespace GreedyMercs
             return node;
         }
 
-        public Dictionary<BonusType, double> CacBonuses()
+        public Dictionary<BonusType, double> CalcBonuses()
         {
             Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 

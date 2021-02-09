@@ -31,6 +31,7 @@ app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty
 # === Bounty Shop === #
 app.add_url_rule("/api/bountyshop/refresh", view_func=BountyShopRefresh.as_view("bountyshop.refresh"), 	methods=["PUT"])
 app.add_url_rule("/api/bountyshop/buy", 	view_func=BountyShop.as_view("bountyshop.buy"), 			methods=["PUT"])
+app.add_url_rule("/api/bountyshop/buy/chest", view_func=BountyShop.as_view("bountyshop.buy"), 			methods=["PUT"])
 
 # === Loot Items === #
 app.add_url_rule("/api/loot/buy", 		view_func=BuyLoot.as_view("buyitem"), 			methods=["PUT"])

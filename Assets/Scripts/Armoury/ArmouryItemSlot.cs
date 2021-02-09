@@ -30,11 +30,13 @@ namespace GreedyMercs.Armoury.UI
 
         ArmouryItemSO scriptableItem;
 
-        public void Init(ArmouryItemSO weapon)
+        public void Init(ArmouryItemSO weapon, bool hideLockedPanel = false)
         {
             scriptableItem = weapon;
 
             UpdateUI();
+            UpdateStarRating();
+            ToggleLockedText(hideLockedPanel);
         }
 
         public void SetButtonCallback(UnityAction e)
@@ -54,9 +56,6 @@ namespace GreedyMercs.Armoury.UI
 
             frameImage.color        = slotColour.FrameColour;
             backgroundImage.color   = slotColour.BackgroundColour;
-
-            UpdateStarRating();
-            ToggleLockedText();
         }
 
         void UpdateStarRating()
@@ -67,15 +66,15 @@ namespace GreedyMercs.Armoury.UI
             }
         }
 
-        void ToggleLockedText()
+        void ToggleLockedText(bool hideLockedPanel)
         {
             ArmouryWeaponState state = GameState.Armoury.GetWeapon(scriptableItem.ItemID);
 
             bool isUnlocked = (state.level + state.evoLevel + state.owned) > 0;
 
-            lockedPanel.SetActive(!isUnlocked);
+            lockedPanel.SetActive(!isUnlocked && !hideLockedPanel);
 
-            button.interactable = isUnlocked;
+            button.interactable = !lockedPanel.activeInHierarchy;
         }
     }
 }

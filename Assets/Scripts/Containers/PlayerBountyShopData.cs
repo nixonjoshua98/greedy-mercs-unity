@@ -10,7 +10,7 @@ namespace GreedyMercs.BountyShop.Data
 {
     public class BountyItemState
     {
-        public int totalBought;
+        public int dailyPurchased;
     }
 
     public class PlayerBountyShopData
@@ -34,7 +34,7 @@ namespace GreedyMercs.BountyShop.Data
             {
                 BountyShopItemID itemId = (BountyShopItemID)int.Parse(key);
 
-                items[itemId] = new BountyItemState { totalBought = node["itemsBought"][key].AsInt };
+                items[itemId] = new BountyItemState { dailyPurchased = node["itemsBought"][key].AsInt };
             }
 
             lastReset = DateTimeOffset.FromUnixTimeMilliseconds(node["lastReset"].AsLong).DateTime;
@@ -47,7 +47,7 @@ namespace GreedyMercs.BountyShop.Data
 
             foreach (var entry in items)
             { 
-                itemsBought[((int)entry.Key).ToString()] = entry.Value.totalBought.ToString();
+                itemsBought[((int)entry.Key).ToString()] = entry.Value.dailyPurchased.ToString();
             }
 
             node.Add("lastReset", lastReset.ToUnixMilliseconds());
@@ -63,7 +63,7 @@ namespace GreedyMercs.BountyShop.Data
             if (items.TryGetValue(key, out BountyItemState item))
                 return item;
 
-            items[key] = new BountyItemState { totalBought = 0 };
+            items[key] = new BountyItemState { dailyPurchased = 0 };
 
             return GetItem(key);
         }
@@ -74,7 +74,7 @@ namespace GreedyMercs.BountyShop.Data
         {
             BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
 
-            return GetItem(key).totalBought >= data.maxResetBuy;
+            return GetItem(key).dailyPurchased >= data.maxResetBuy;
         }
 
         public bool CanAffordItem(BountyShopItemID key)
@@ -83,7 +83,7 @@ namespace GreedyMercs.BountyShop.Data
 
             BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
 
-            return GameState.Player.bountyPoints >= data.PurchaseCost(state.totalBought);
+            return GameState.Player.bountyPoints >= data.PurchaseCost(state.dailyPurchased);
         }
 
         public void ProcessPurchase(BountyShopItemID key)
@@ -92,9 +92,9 @@ namespace GreedyMercs.BountyShop.Data
 
             BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
 
-            GameState.Player.bountyPoints -= data.PurchaseCost(state.totalBought);
+            GameState.Player.bountyPoints -= data.PurchaseCost(state.dailyPurchased);
 
-            state.totalBought++;
+            state.dailyPurchased++;
         }
     }
 }

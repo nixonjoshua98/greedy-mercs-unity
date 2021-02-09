@@ -36,3 +36,7 @@ class BountyShopItem(enum.IntEnum):
     GEMS = 1,
     WEAPON_POINTS = 2,
     WEAPON = 3
+
+
+class Chests(enum.IntEnum):
+    ARMOURY_CHEST = 0

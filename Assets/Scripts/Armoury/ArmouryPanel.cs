@@ -53,7 +53,7 @@ namespace GreedyMercs.Armoury.UI
 
         void Populate()
         {
-            foreach (ArmouryItemSO w in StaticData.Armoury.GetWeapons())
+            foreach (ArmouryItemSO w in StaticData.Armoury.GetAllItems())
             {
                 ArmouryItemSlot slot = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItemSlot>();
 

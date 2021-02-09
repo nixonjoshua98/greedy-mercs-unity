@@ -32,7 +32,7 @@ namespace GreedyMercs.Armoury.Data
             return WeaponArray.Where(w => w.Type == type).ToList();
         }
 
-        public List<ArmouryItemSO> GetWeapons()
+        public List<ArmouryItemSO> GetAllItems()
         {
             return WeaponArray.ToList();
         }

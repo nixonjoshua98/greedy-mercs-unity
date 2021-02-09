@@ -6,7 +6,7 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.Armoury.UI
+namespace GreedyMercs.BountyShop.UI
 {
     using GreedyMercs.BountyShop.Data;
 
@@ -18,6 +18,9 @@ namespace GreedyMercs.Armoury.UI
         [SerializeField] Text purchaseCostText;
         [Space]
         [SerializeField] Button purchaseButton;
+
+        [Header("Prefabs")]
+        [SerializeField] GameObject ArmouryChestPanelObject;
 
         void OnEnable() => InvokeRepeating("UpdateUI", 0.0f, 0.25f);
         void OnDisable() => CancelInvoke("UpdateUI");
@@ -44,12 +47,7 @@ namespace GreedyMercs.Armoury.UI
                 purchaseCostText.text = "SOLD OUT";
 
             else
-                purchaseCostText.text = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.totalBought));
-        }
-
-        protected void ProcessBoughtItem(JSONNode node)
-        {
-            GameState.Armoury.AddItem(node["itemReceived"].AsInt);
+                purchaseCostText.text = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.dailyPurchased));
         }
 
         public void PurchaseChest()
@@ -66,7 +64,7 @@ namespace GreedyMercs.Armoury.UI
             BountyItemState state = GameState.BountyShop.GetItem(item);
             BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            bool inStock = data.maxResetBuy > state.totalBought;
+            bool inStock = data.maxResetBuy > state.dailyPurchased;
 
             if (GameState.BountyShop.IsValid && inStock)
             {
@@ -80,7 +78,13 @@ namespace GreedyMercs.Armoury.UI
             {
                 GameState.BountyShop.ProcessPurchase(item);
 
-                ProcessBoughtItem(Utils.Json.Decompress(compressed));
+                JSONNode node = Utils.Json.Decompress(compressed);
+
+                int itemReceived = node["itemReceived"].AsInt;
+
+                GameState.Armoury.AddItem(itemReceived);
+
+                Utils.UI.Instantiate(ArmouryChestPanelObject, Vector3.zero).GetComponent<ArmouryChestPanel>().Init(itemReceived);
             }
 
             UpdateUI();

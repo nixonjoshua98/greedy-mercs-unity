@@ -64,9 +64,7 @@ namespace GreedyMercs.Armoury.Data
                 ArmouryWeaponState state = GameState.Armoury.GetWeapon(w.Key);
 
                 if (state.level > 0)
-                {
                     val += Formulas.Armoury.WeaponDamage(w.Key);
-                }
             }
 
             return val;

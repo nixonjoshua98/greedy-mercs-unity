@@ -1,5 +1,4 @@
 from src.exts import mongo
-from src.classes.gamedata import GameData
 
 import time
 import datetime
@@ -21,7 +20,7 @@ class BackgroundTasks:
 	def daily_reset():
 
 		mongo.db.dailyQuests.delete_many({})
-		mongo.db.bountyShop.delete_many({})
+		mongo.db.dailyResetPurchases.delete_many({})
 
 
 class SafeScheduler(UTCScheduler):

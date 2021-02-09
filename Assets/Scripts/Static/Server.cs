@@ -26,6 +26,9 @@ namespace GreedyMercs
         // === Bounties ===
         public static void ClaimBounty(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("bounty/claim", callback, node));
 
+        // === Chests === 
+        public static void PurchaseWeaponChest(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("chest/purchase", callback, node));
+
         // === Bounty Shop ===
         public static void RefreshBountyShop(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("bountyshop/refresh", callback, node));
         public static void BuyBountyShopItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("bountyshop/buy", callback, node));

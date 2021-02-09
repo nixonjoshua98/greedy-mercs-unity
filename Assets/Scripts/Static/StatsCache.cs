@@ -53,7 +53,6 @@ namespace GreedyMercs
 
         public static BigDouble GetCritChance() => StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
         public static BigDouble GetCritDamage() => StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
-        #endregion
 
         public static BigDouble TotalCharacterDPS
         {
@@ -75,6 +74,7 @@ namespace GreedyMercs
                 return total;
             }
         }
+        #endregion
 
         public static void Clear()
         {

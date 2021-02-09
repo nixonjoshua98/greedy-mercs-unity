@@ -1,3 +1,4 @@
+import enum
 import random
 
 from flask import request, Response
@@ -15,12 +16,12 @@ class BountyShopRefresh(View):
 
 	@checks.login_check
 	def dispatch_request(self, uid):
-		shop = mongo.db.bountyShop.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
+		shop = mongo.db.dailyResetPurchases.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
 		if shop.get("lastReset") is None or shop["lastReset"] < GameData.last_daily_reset:
 			shop = {"lastReset": GameData.last_daily_reset, "itemsBought": dict()}
 
-			mongo.db.bountyShop.update_one({"userId": uid}, {"$set": shop}, upsert=True)
+			mongo.db.dailyResetPurchases.update_one({"userId": uid}, {"$set": shop}, upsert=True)
 
 		return Response(utils.compress(shop), status=200)
 
@@ -33,7 +34,7 @@ class BountyShop(View):
 		data = utils.decompress(request.data)
 
 		# - Load data from database
-		shop 	= mongo.db.bountyShop.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
+		shop 	= mongo.db.dailyResetPurchases.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 		items 	= mongo.db.userItems.find_one({"userId": uid}) or dict()
 
 		item = data["itemId"]
@@ -49,7 +50,7 @@ class BountyShop(View):
 		if num_bought >= max_reset_bought or bounty_points < purchase_cost:
 			return Response(utils.compress({"message": "Bought max amount"}), status=400)
 
-		mongo.db.bountyShop.update_one({"userId": uid}, {"$inc": {f"itemsBought.{item}": 1}}, upsert=True)
+		mongo.db.dailyResetPurchases.update_one({"userId": uid}, {"$inc": {f"itemsBought.{item}": 1}}, upsert=True)
 
 		mongo.db.userItems.update_one({"userId": uid}, {"$inc": {"bountyPoints": -purchase_cost}}, upsert=True)
 
@@ -62,6 +63,10 @@ class BountyShop(View):
 		}.get(item)(uid)
 
 		return Response(utils.compress(results), status=200)
+
+	def purchase_chest(self, uid):
+
+		pass
 
 
 def add_prestige_points(uid, max_stage_percent):

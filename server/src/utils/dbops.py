@@ -1,6 +1,5 @@
 
 from src.exts import mongo
-from src.classes.gamedata import GameData
 
 
 def get_player_data(uid):

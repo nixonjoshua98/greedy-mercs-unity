@@ -28,7 +28,7 @@ namespace GreedyMercs.BountyShop.UI
             BountyItemState state = GameState.BountyShop.GetItem(item);
             BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            stockText.text          = string.Format("{0} Left in Stock", data.maxResetBuy - state.totalBought);
+            stockText.text          = string.Format("{0} Left in Stock", data.maxResetBuy - state.dailyPurchased);
             descriptionText.text    = GetDescription();
 
             if (!GameState.BountyShop.IsValid)
@@ -38,7 +38,7 @@ namespace GreedyMercs.BountyShop.UI
                 purchaseCostText.text = "SOLD OUT";
 
             else
-                purchaseCostText.text = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.totalBought));
+                purchaseCostText.text = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.dailyPurchased));
 
             purchaseButton.interactable = GameState.BountyShop.IsValid && !GameState.BountyShop.IsItemMaxBought(item) && GameState.BountyShop.CanAffordItem(item);
         }
@@ -87,7 +87,7 @@ namespace GreedyMercs.BountyShop.UI
             BountyItemState state = GameState.BountyShop.GetItem(item);
             BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
 
-            bool inStock = data.maxResetBuy > state.totalBought;
+            bool inStock = data.maxResetBuy > state.dailyPurchased;
 
             if (GameState.BountyShop.IsValid && inStock)
             {

@@ -1,42 +1,27 @@
 import enum
 
 
+class Enum(enum.IntEnum):
+    @classmethod
+    def get_val(cls, val: int):
+        val = int(val)
+
+        if val in cls._value2member_map_:
+            return cls(val)
+
+        return None
+
+
 class BonusType(enum.IntEnum):
-    NONE = -1,
-
-    MERC_DAMAGE = 0,
-    ENEMY_GOLD = 1,
-    TAP_DAMAGE = 2,
-    BOSS_GOLD = 3,
-    CHAR_TAP_DAMAGE_ADD = 4,
-    MELEE_DAMAGE = 5,
-    RANGED_DAMAGE = 7,
-    CRIT_CHANCE = 8,
-    ALL_GOLD = 9,
-    CRIT_DAMAGE = 10,
-    CASH_OUT_BONUS = 11,
-    ENERGY_INCOME = 12,
-    ENERGY_CAPACITY = 13,
-    GOLD_RUSH_BONUS = 14,
-    GOLD_RUSH_DURATION = 15,
-    AUTO_CLICK_BONUS = 16,
-    AUTO_CLICK_DURATION = 17,
-    BOSS_TIMER_DURATION = 18,
+    CASH_OUT_BONUS = 11
 
 
-class ValueType(enum.IntEnum):
-    MULTIPLY            = 0,
-    ADDITIVE_PERCENT    = 1,
-    ADDITIVE_FLAT_VAL   = 2
+class BountyShopItemID(Enum):
 
+    PRESTIGE_POINTS = 100
+    GEMS            = 101
+    ARMOURY_POINTS  = 102
 
-class BountyShopItem(enum.IntEnum):
-
-    PRESTIGE_POINTS = 0,
-    GEMS = 1,
-    WEAPON_POINTS = 2,
-    WEAPON = 3
-
-
-class Chests(enum.IntEnum):
-    ARMOURY_CHEST = 0
+    ARMOURY_CHEST_A = 300
+    ARMOURY_CHEST_B = 301
+    ARMOURY_CHEST_C = 302

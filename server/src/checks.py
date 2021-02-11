@@ -14,6 +14,9 @@ def login_check(f):
 		if (row := mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
 			return Response(utils.compress({"message": ""}), status=400)
 
-		return f(*args, **kwargs, uid=row["_id"])
+		try:
+			return f(*args, **kwargs, uid=row["_id"], data=data)
+		except TypeError:
+			return f(*args, **kwargs, uid=row["_id"])
 
 	return decorator

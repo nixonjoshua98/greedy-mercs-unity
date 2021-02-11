@@ -1,22 +1,22 @@
 {
   "0": {
     "gemReward": 10,
-    "enemyKills": 150
+    "targetValue": 150
   },
   "1": {
     "gemReward": 10,
-    "bossKills": 50
+    "targetValue": 50
   },
   "2": {
     "gemReward": 10,
-    "playerClicks": 250
+    "targetValue": 250
   },
   "3": {
     "gemReward": 10,
-    "prestiges": 3
+    "targetValue": 3
   },
   "4": {
     "gemReward": 10,
-    "skillsActivated": 10
+    "targetValue": 10
   }
 }

@@ -19,7 +19,7 @@ class Prestige(View):
 
 		# - Load data from the database
 		stats = mongo.db.userStats.find_one({"userId": uid})
-		items = mongo.db.userItems.find_one({"userId": uid}) or dict()
+		items = mongo.db.inventories.find_one({"userId": uid}) or dict()
 
 		# - Update max prestige stage
 		if stats is None or stats.get("maxPrestigeStage", 0) < stage:
@@ -30,7 +30,7 @@ class Prestige(View):
 		# - Add prestige points earned
 		pp = int(items.get("prestigePoints", 0)) + formulas.stage_prestige_points(stage, items.get("loot", dict()))
 
-		mongo.db.userItems.update_one({"userId": uid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
+		mongo.db.inventories.update_one({"userId": uid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
 		return Response(utils.compress(dbops.get_player_data(uid)), status=200)
 

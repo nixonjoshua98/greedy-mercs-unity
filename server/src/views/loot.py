@@ -15,7 +15,7 @@ class BuyLoot(View):
 	def dispatch_request(self, uid):
 
 		# - Load user data from the database
-		items = mongo.db.userItems.find_one({"userId": uid}) or dict()
+		items = mongo.db.inventories.find_one({"userId": uid}) or dict()
 
 		# - Load static data
 		loot_static_data = GameData.get("loot")
@@ -36,13 +36,13 @@ class BuyLoot(View):
 
 		remainPrestigePoints = prestige_points - cost
 
-		mongo.db.userItems.update_one(
+		mongo.db.inventories.update_one(
 			{"userId": uid},
 			{"$set": {"prestigePoints": str(remainPrestigePoints), f"loot.{new_item_id}": 1}},
 			upsert=True
 		)
 
-		return_data = {"newLootId": new_item_id, "prestigePoints": str(remainPrestigePoints)}
+		return_data = {"newLootId": new_item_id, "remainingPoints": str(remainPrestigePoints)}
 
 		return Response(utils.compress(return_data), status=200)
 
@@ -66,7 +66,7 @@ class UpgradeLoot(View):
 		levels_buying 	= data["buyLevels"]
 
 		# - Load user data from the database
-		items = mongo.db.userItems.find_one({"userId": uid}) or dict()
+		items = mongo.db.inventories.find_one({"userId": uid}) or dict()
 
 		loot_items = {int(k): v for k, v in items.get("loot", dict()).items()}
 
@@ -87,17 +87,17 @@ class UpgradeLoot(View):
 		if cost > prestige_points:
 			return Response(utils.compress({"message": "."}), status=400)
 
-		remain_prestige_points = prestige_points - cost
+		remaining_points = prestige_points - cost
 
-		mongo.db.userItems.update_one(
+		mongo.db.inventories.update_one(
 			{"userId": uid},
 
 			{
-				"$set": {"prestigePoints": str(remain_prestige_points)},
+				"$set": {"prestigePoints": str(remaining_points)},
 				"$inc": {f"loot.{data['itemId']}": data["buyLevels"]}
 			},
 
 			upsert=True
 		)
 
-		return Response(utils.compress({"upgradeCost": cost}), status=200)
+		return Response(utils.compress({"remainingPoints": remaining_points}), status=200)

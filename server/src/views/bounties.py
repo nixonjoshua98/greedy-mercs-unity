@@ -11,10 +11,8 @@ from src.exts import mongo
 class ClaimBounty(View):
 
 	@checks.login_check
-	def dispatch_request(self, *, uid):
+	def dispatch_request(self, *, uid, data):
 		now = dt.datetime.utcnow()
-
-		data = utils.decompress(request.data)
 
 		# - Load data from the database
 		stats 		= mongo.db.userStats.find_one({"userId": uid}) or dict()
@@ -32,7 +30,7 @@ class ClaimBounty(View):
 			return Response(utils.compress({"message": ""}), status=400)
 
 		# - Update the database
-		mongo.db.userItems.update_one({"userId": uid}, {"$inc": {"bountyPoints": earned_points}}, upsert=True)
+		mongo.db.inventories.update_one({"userId": uid}, {"$inc": {"bountyPoints": earned_points}}, upsert=True)
 		mongo.db.userBounties.update_one({"userId": uid}, {"$set": {"lastClaimTime": now}}, upsert=True)
 
 		return Response(utils.compress({"earnedBountyPoints": earned_points, "lastClaimTime": now}), status=200)

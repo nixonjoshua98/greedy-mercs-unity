@@ -7,6 +7,8 @@ from src.exts import mongo
 
 from src.classes.gamedata import GameData
 
+from src.utils.dbops import update_armoury_item
+
 
 class UpgradeArmouryItem(View):
 
@@ -18,16 +20,14 @@ class UpgradeArmouryItem(View):
 		iid = data["itemId"]
 
 		# - Load data from the database
-		wp = (mongo.db.userItems.find_one({"userId": uid}) or dict()).get("armouryPoints", 0)
+		wp = (mongo.db.inventories.find_one({"userId": uid}) or dict()).get("armouryPoints", 0)
 
 		static_item = GameData.get_item("armoury", iid)
 
 		if wp < (cost := static_item["upgradeCost"]):
 			return "400", 400
 
-		weapon_key = f"armoury.{iid}.level"
-
-		mongo.db.userItems.update_one({"userId": uid}, {"$inc": {"armouryPoints": -cost, weapon_key: 1}}, upsert=True)
+		update_armoury_item(uid, iid, points=-cost, levels=1)
 
 		return Response(utils.compress({"upgradeCost": cost}), status=200)
 
@@ -37,24 +37,20 @@ class UpgradeEvoArmouryItem(View):
 	@checks.login_check
 	def dispatch_request(self, uid):
 
+		EVO_LEVEL_COST = 10
+
 		data = utils.decompress(request.data)
 
 		iid = str(data["itemId"])
 
 		# - Load data from the database
-		armoury = (mongo.db.userItems.find_one({"userId": uid}) or dict()).get("armoury", dict())
+		armoury = (mongo.db.inventories.find_one({"userId": uid}) or dict()).get("armoury", dict())
 
 		owned = armoury.get(iid, dict()).get("owned", 0)
 
-		if owned < 5:
+		if owned < EVO_LEVEL_COST:
 			return "400", 400
 
-		mongo.db.userItems.update_one(
-			{"userId": uid},
+		update_armoury_item(uid, iid, owned=-EVO_LEVEL_COST, evolevels=1)
 
-			{"$inc": {f"armoury.{iid}.owned": -5, f"armoury.{iid}.evoLevel": 1}},
-
-			upsert=True
-		)
-
-		return Response(utils.compress({"owned": owned - 5}), status=200)
+		return Response(utils.compress({"owned": owned - EVO_LEVEL_COST}), status=200)

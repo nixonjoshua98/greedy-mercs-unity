@@ -27,6 +27,6 @@ class ClaimQuestReward(View):
 
 		mongo.db.dailyQuests.update_one({"userId": uid}, {"$set": {f"questsClaimed.{quest}": True}}, upsert=True)
 
-		mongo.db.userItems.update_one({"userId": uid}, {"$inc": {"gems": static_quest["gemReward"]}}, upsert=True)
+		mongo.db.inventories.update_one({"userId": uid}, {"$inc": {"gems": static_quest["gemReward"]}}, upsert=True)
 
 		return Response(utils.compress({"gemReward": static_quest["gemReward"]}), status=200)

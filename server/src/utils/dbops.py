@@ -1,4 +1,6 @@
 
+from pymongo import ReturnDocument
+
 from src.exts import mongo
 
 
@@ -13,29 +15,52 @@ def get_player_data(uid):
 		Returns the users data as a dict
 	"""
 
-	shop  		= mongo.db.bountyShop.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
+	shop  		= mongo.db.dailyResetPurchases.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	quests		= mongo.db.dailyQuests.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
-	items 		= mongo.db.userItems.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	stats 		= mongo.db.userStats.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	info  		= mongo.db.userInfo.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	bounties 	= mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
+	inventory = mongo.db.inventories.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
+
 	return {
 		"player": {
-			"username": 		info.get("username", "Rogue Mercenary"),
-
-			"bountyPoints": 	items.get("bountyPoints", 0),
-			"prestigePoints": 	items.get("prestigePoints", 0),
-			"gems": 			items.get("gems", 0),
-			"armouryPoints": 	items.get("armouryPoints", 0)
+			"username": info.get("username", "Rogue Mercenary"),
 		},
 
-		"questsClaimed":	quests.get("questsClaimed", dict()),
+		"inventory": inventory,
+
+		"questsClaimed": quests.get("questsClaimed", dict()),
 
 		"lifetimeStats": 	stats,
 		"bountyShop": 		shop,
 		"bounties": 		bounties,
 
-		"armoury": 	items.get("armoury", dict()),
-		"loot": 	items.get("loot", dict())
+		"loot": 	inventory.get("loot", dict()),
+		"armoury": 	inventory.get("armoury", dict())
 	}
+
+
+def update_armoury_item(uid, iid, *, points=0, levels=0, owned=0, evolevels=0):
+	"""
+	Update an armoury item, as well as having the option of incrementing the users armoury points
+	====================
+
+	:return:
+		Return the users inventory after the query has executed
+	"""
+
+	return mongo.db.inventories.find_one_and_update(
+		{"userId": uid},
+		{
+			"$inc": {
+				"armouryPoints": points,
+
+				f"armoury.{iid}.level": levels,
+				f"armoury.{iid}.owned": owned,
+				f"armoury.{iid}.evoLevel": evolevels
+			}
+		},
+		upsert=True,
+		return_document=ReturnDocument.AFTER
+	)

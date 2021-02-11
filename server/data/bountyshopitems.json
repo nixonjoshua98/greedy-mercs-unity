@@ -1,21 +1,36 @@
 {
-  "0": {
+  "100": {
     "maxStagePercent": 0.75,
-    "purchaseData": {"baseCost": 100, "levelIncrease": 25},
-    "maxResetBuy": 5
+    "purchaseData": {"baseCost": 100, "purchaseIncrease": 25},
+    "dailyPurchaseLimit": 5
   },
-  "1": {
+
+  "101": {
     "gems": 5,
-    "purchaseData": {"baseCost": 50, "levelIncrease": 25},
-    "maxResetBuy": 3
+    "purchaseData": {"baseCost": 50, "purchaseIncrease": 25},
+    "dailyPurchaseLimit": 3
   },
-  "2": {
+
+  "102": {
     "armouryPoints": 1,
-    "purchaseData": {"baseCost": 15, "levelIncrease": 5},
-    "maxResetBuy": 25
+    "purchaseData": {"baseCost": 15, "purchaseIncrease": 5},
+    "dailyPurchaseLimit": 25
   },
-  "3": {
-    "purchaseData": {"baseCost": -75, "levelIncrease": -50},
-    "maxResetBuy": 1000
+
+  "300": {
+    "minTier": 1, "maxTier": 1,
+    "purchaseData": {"baseCost": 0, "purchaseIncrease": -50},
+    "dailyPurchaseLimit": 1000
+  },
+
+  "301": {
+    "minTier": 2, "maxTier": 2,
+    "purchaseData": {"baseCost": 0, "purchaseIncrease": -75},
+    "dailyPurchaseLimit": 1000
+  },
+  "302": {
+    "minTier": 3, "maxTier": 3,
+    "purchaseData": {"baseCost": 0, "purchaseIncrease": -100},
+    "dailyPurchaseLimit": 1000
   }
 }

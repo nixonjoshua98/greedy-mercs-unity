@@ -3,22 +3,7 @@ from flask import Flask
 
 from src.classes.backgroundtasks import BackgroundTasks
 
-from src.views import (
-	BuyLoot,
-	StaticGameData,
-	Prestige,
-	BountyShop,
-	UpgradeLoot,
-	ClaimBounty,
-	PlayerLogin,
-	ClaimQuestReward,
-	ChangeUsername,
-	PlayerLeaderboard,
-	BountyShopRefresh,
-	UpgradeArmouryItem,
-	UpgradeEvoArmouryItem
-)
-
+from src.views import *
 from src.exts import mongo
 
 mongo.create_mongo()
@@ -31,11 +16,13 @@ app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty
 # === Bounty Shop === #
 app.add_url_rule("/api/bountyshop/refresh", view_func=BountyShopRefresh.as_view("bountyshop.refresh"), 	methods=["PUT"])
 app.add_url_rule("/api/bountyshop/buy", 	view_func=BountyShop.as_view("bountyshop.buy"), 			methods=["PUT"])
-app.add_url_rule("/api/bountyshop/buy/chest", view_func=BountyShop.as_view("bountyshop.buy"), 			methods=["PUT"])
 
 # === Loot Items === #
 app.add_url_rule("/api/loot/buy", 		view_func=BuyLoot.as_view("buyitem"), 			methods=["PUT"])
 app.add_url_rule("/api/loot/upgrade", 	view_func=UpgradeLoot.as_view("upgradeitem"), 	methods=["PUT"])
+
+# === Shop (Diamond Purchases) === #
+app.add_url_rule("/api/shop/buyperk",	view_func=PurchasePerk.as_view("purchaseperk"),	methods=["PUT"])
 
 # === Player (User) === #
 app.add_url_rule("/api/user/login", 			view_func=PlayerLogin.as_view("playerlogin"), 		methods=["PUT"])
@@ -51,8 +38,9 @@ app.add_url_rule("/api/armoury/upgradeevo",	view_func=UpgradeEvoArmouryItem.as_v
 # === Quests === #
 app.add_url_rule("/api/quest/claim", view_func=ClaimQuestReward.as_view("completequest"), methods=["PUT"])
 
-
+# === Data === #
 app.add_url_rule("/api/gamedata", 	view_func=StaticGameData.as_view("gamedata"), 	methods=["GET"])
+
 app.add_url_rule("/api/prestige",	view_func=Prestige.as_view("prestige"), 		methods=["PUT"])
 
 BackgroundTasks().run()

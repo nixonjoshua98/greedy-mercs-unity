@@ -19,18 +19,18 @@
 
   "300": {
     "minTier": 1, "maxTier": 1,
-    "purchaseData": {"baseCost": 0, "purchaseIncrease": -50},
+    "purchaseData": {"baseCost": -50, "purchaseIncrease": -25},
     "dailyPurchaseLimit": 1000
   },
 
   "301": {
     "minTier": 2, "maxTier": 2,
-    "purchaseData": {"baseCost": 0, "purchaseIncrease": -75},
+    "purchaseData": {"baseCost": -75, "purchaseIncrease": -25},
     "dailyPurchaseLimit": 1000
   },
   "302": {
     "minTier": 3, "maxTier": 3,
-    "purchaseData": {"baseCost": 0, "purchaseIncrease": -100},
+    "purchaseData": {"baseCost": -100, "purchaseIncrease": -50},
     "dailyPurchaseLimit": 1000
   }
 }

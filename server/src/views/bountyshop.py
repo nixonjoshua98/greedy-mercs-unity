@@ -59,7 +59,7 @@ class BountyShop(View):
 		bp_cost 		= item.purchase_cost(num_bought)
 
 		# - User has already reached the daily purchase limit
-		if num_bought >= item.daily_limit or bp_cost >= bounty_points:
+		if num_bought >= item.daily_limit or bp_cost > bounty_points:
 			return Response(utils.compress({"message": "."}), status=400)
 
 		mongo.db.inventories.update_one({"userId": uid}, {"$inc": {"bountyPoints": -bp_cost}}, upsert=True)

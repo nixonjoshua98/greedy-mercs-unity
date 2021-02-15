@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
 using UnityEngine;
 
 namespace GreedyMercs
 {
-    [RequireComponent(typeof(Character))]
     public abstract class CharacterAttack : MonoBehaviour
     {
-        [Header("Scripts")]
-        [SerializeField] Character character;
-
         [Header("Components")]
         [SerializeField] protected Animator anim;
 
@@ -19,65 +14,61 @@ namespace GreedyMercs
         [Header("Properties")]
         [SerializeField, Range(0, 2.5f)] float delayBetweenAttacks = 0.25f;
 
-        float attackTimer;
-
-        float lastAttackTime;
+        bool CanAttack { get { return isAttacksToggled && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"); } }
+        public bool IsAttackReady { get { return CanAttack && attackTimer <= 0.0f; } }
 
         bool isAttacksToggled;
 
-        protected bool CanAttack { get { return isAttacksToggled && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"); } }
+        float lastAttackTime;
+        float attackTimer;
+
+        Action<float> AttackCallback;
 
         void Awake()
         {
-            attackTimer = delayBetweenAttacks;
-        }
-
-        void Start()
-        {
-            lastAttackTime = Time.realtimeSinceStartup;
-
-            attackTimer = delayBetweenAttacks;
+            ToggleAttacking(true);
         }
 
         void FixedUpdate()
         {
             if (CanAttack)
             {
-                attackTimer -= Time.fixedDeltaTime;
-
-                if (attackTimer <= 0.0f)
-                {
-                    attackTimer = delayBetweenAttacks;
-
-                    if (GameManager.IsEnemyAvailable)
-                    {
-                        StartAttack();
-                    }
-                }
+                attackTimer = Mathf.Max(0.0f, attackTimer - Time.fixedDeltaTime);
             }
         }
 
-        public abstract void OnAttackEvent();
+        public void SetAttackCallback(Action<float> callback)
+        {
+            AttackCallback = callback;
+        }
 
-        void StartAttack()
+        // === Attack Methods ===
+
+        public void StartAttack()
         {
             anim.Play("Attack");
         }
 
-        protected void DealDamage()
+        public abstract void OnAttackAnimationFinished();
+
+        protected void OnAttackHit()
         {
-            float timeSinceAttack = Time.realtimeSinceStartup - lastAttackTime;
+            AttackCallback(Time.timeSinceLevelLoad - lastAttackTime);
 
-            GameManager.TryDealDamageToEnemy(StatsCache.GetCharacterDamage(character.CharacterID) * (timeSinceAttack * Time.timeScale));
-
-            lastAttackTime = Time.realtimeSinceStartup;
+            ResetAttackTimer();
         }
 
         public void ToggleAttacking(bool val)
         {
-            attackTimer = delayBetweenAttacks;
+            ResetAttackTimer();
 
             isAttacksToggled = val;
+        }
+
+        protected void ResetAttackTimer()
+        {
+            attackTimer     = delayBetweenAttacks;
+            lastAttackTime  = Time.timeSinceLevelLoad;
         }
     }
 }

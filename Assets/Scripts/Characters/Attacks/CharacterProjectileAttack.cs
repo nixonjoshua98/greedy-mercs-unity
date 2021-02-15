@@ -17,21 +17,21 @@ namespace GreedyMercs
         [SerializeField] float distance;
         [SerializeField] float speed;
 
-        public override void OnAttackEvent()
+        public override void OnAttackAnimationFinished()
         {
             CreateProjectile();
         }
 
         public void CreateProjectile()
         {
-            GameObject projectile = Instantiate(ProjectileObject, startPosition.position, Quaternion.identity);
+            GameObject projectile = Instantiate(ProjectileObject, startPosition.position, Quaternion.identity, transform);
 
             projectile.GetComponent<StraightProjectile>().Init(OnProjectileHit, distance, speed);
         }
 
         public void OnProjectileHit()
         {
-            DealDamage();
+            OnAttackHit();
         }
     }
 }

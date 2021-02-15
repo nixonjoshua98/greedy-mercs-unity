@@ -6,6 +6,8 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using Inventory;
+
     using GreedyMercs.BountyShop.Data;
     using GreedyMercs.Armoury.Data;
     using GreedyMercs.Perks.Data;
@@ -28,6 +30,8 @@ namespace GreedyMercs
         public static UpgradesContainer Upgrades;
         public static CharacterContainer Characters;
 
+        public static PlayerInventory Inventory;
+
         public static DateTime LastLoginDate;
 
         public static DateTime LastDailyReset
@@ -47,6 +51,8 @@ namespace GreedyMercs
         public static void Restore(JSONNode node)
         {
             Loot = new LootState();
+
+            Inventory = new PlayerInventory(node["inventory"]);
 
             Stage           = new StageState(node);
             Skills          = new SkillsState(node);
@@ -86,6 +92,8 @@ namespace GreedyMercs
             Loot.UpdateWithServerData(node["loot"]);
 
             Quests.UpdateQuestsClaimed(node["questsClaimed"]);
+
+            Inventory.Update(node["inventory"]);
         }
 
         public static void UpdateWithLocalData()
@@ -103,6 +111,7 @@ namespace GreedyMercs
         {
             JSONNode node = new JSONObject();
 
+            node.Add("inventory",       Inventory.ToJson());
             node.Add("stage",           Stage.ToJson());
             node.Add("player",          Player.ToJson());
             node.Add("skills",          Skills.ToJson());
@@ -123,6 +132,8 @@ namespace GreedyMercs
             Utils.File.WriteJson(DataManager.DATA_FILE, ToJson());
 
             SaveLocalDataOnly();
+
+            Loot.Save();
         }
 
         public static void SaveLocalDataOnly()

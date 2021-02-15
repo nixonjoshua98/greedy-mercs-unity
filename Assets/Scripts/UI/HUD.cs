@@ -12,7 +12,6 @@ namespace GreedyMercs
         [SerializeField] Text GoldText;
         [SerializeField] Text mercDpsText;
         [SerializeField] Text tapDamageText;
-        [SerializeField] Text DiamondsText;
 
         void Awake()
         {
@@ -26,8 +25,7 @@ namespace GreedyMercs
 
         void FixedUpdate()
         {
-            GoldText.text       = Utils.Format.FormatNumber(GameState.Player.gold);
-            DiamondsText.text   = GameState.Player.gems.ToString();
+            GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
         }
 
         void UpdateUI()

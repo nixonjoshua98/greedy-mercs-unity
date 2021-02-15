@@ -20,20 +20,21 @@ namespace GreedyMercs
         [SerializeField] Text nameText;
         [SerializeField] Text effectText;
 
+        protected LootItemSO itemData => StaticData.LootList.Get(lootId);
+        protected UpgradeState itemState => GameState.Loot.Get(lootId);
+
         int BuyAmount
         {
             get
             {
-                LootItemSO data     = StaticData.LootList.Get(lootId);
-                UpgradeState state  = GameState.Loot.Get(lootId);
-
-                return Mathf.Min(LootTab.BuyAmount, data.maxLevel - state.level);
+                return Mathf.Min(LootTab.BuyAmount, itemData.maxLevel - itemState.level);
             }
         }
 
         public void Init(LootItemSO data)
         {
-            lootId          = data.ItemID;
+            lootId = data.ItemID;
+
             nameText.text   = data.name;
             icon.sprite     = data.icon;
 
@@ -50,14 +51,11 @@ namespace GreedyMercs
 
         void UpdateUI()
         {
-            LootItemSO scriptable   = StaticData.LootList.Get(lootId);
-            UpgradeState state      = GameState.Loot.Get(lootId);
-
             UpdateEffectText();
 
-            nameText.text = string.Format("(Lvl. {0}) {1}", state.level, scriptable.name);
+            nameText.text = string.Format("(Lvl. {0}) {1}", itemState.level, itemData.name);
 
-            if (state.level < scriptable.maxLevel)
+            if (itemState.level < itemData.maxLevel)
             {
                 string cost = Utils.Format.FormatNumber(Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount));
 
@@ -68,16 +66,14 @@ namespace GreedyMercs
                 costText.text = "MAX";
 
 
-            buyButton.interactable = state.level < scriptable.maxLevel && GameState.Player.prestigePoints >= Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount);
+            buyButton.interactable = itemState.level < itemData.maxLevel && GameState.Inventory.prestigePoints >= Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount);
         }
 
         void UpdateEffectText()
         {
-            LootItemSO scriptable = StaticData.LootList.Get(lootId);
-
             double effect = Formulas.CalcLootItemEffect(lootId);
 
-            switch (scriptable.valueType)
+            switch (itemData.valueType)
             {
                 case ValueType.MULTIPLY:
                     effectText.text = Utils.Format.FormatNumber(effect * 100) + "%";
@@ -92,7 +88,7 @@ namespace GreedyMercs
                     break;
             }
 
-            effectText.text += " " + Utils.Generic.BonusToString(scriptable.bonusType);
+            effectText.text += " " + Utils.Generic.BonusToString(itemData.bonusType);
         }
 
         // === Button Callbacks
@@ -101,14 +97,11 @@ namespace GreedyMercs
         {
             int levelsBuying = BuyAmount;
 
-            LootItemSO data     = StaticData.LootList.Get(lootId);
-            UpgradeState state  = GameState.Loot.Get(lootId);
-
             BigInteger cost = Formulas.CalcLootItemLevelUpCost(lootId, levelsBuying);
 
             void ServerCallback(long code, string compressed) => OnUpgradeCallback(levelsBuying, code, compressed);
 
-            if (levelsBuying > 0 && GameState.Player.prestigePoints >= cost && (state.level + levelsBuying) <= data.maxLevel)
+            if (levelsBuying > 0 && GameState.Inventory.prestigePoints >= cost && (itemState.level + levelsBuying) <= itemData.maxLevel)
             {
                 JSONNode node = Utils.Json.GetDeviceNode();
 
@@ -125,14 +118,10 @@ namespace GreedyMercs
             {
                 JSONNode node = Utils.Json.Decompress(compressed);
 
-                UpgradeState state = GameState.Loot.Get(lootId);
+                itemState.level += levelsBuying;
 
-                state.level += levelsBuying;
-
-                GameState.Player.prestigePoints -= BigInteger.Parse(node["upgradeCost"].Value);
+                GameState.Inventory.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
             }
-
-            GameState.Loot.Save();
 
             UpdateUI();
         }

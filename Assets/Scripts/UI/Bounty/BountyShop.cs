@@ -29,7 +29,7 @@ namespace GreedyMercs.UI.Bounties
 
         void FixedUpdate()
         {
-            bountyPointsText.text = Utils.Format.FormatNumber(GameState.Player.bountyPoints);
+            bountyPointsText.text = Utils.Format.FormatNumber(GameState.Inventory.bountyPoints);
         }
 
         void UpdateUI()

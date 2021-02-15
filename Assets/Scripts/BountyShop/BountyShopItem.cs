@@ -9,38 +9,16 @@ namespace GreedyMercs.BountyShop.UI
 {
     using GreedyMercs.BountyShop.Data;
 
-    public class BountyShopItem : MonoBehaviour
+    public class BountyShopItem : BountyShopItemBase
     {
-        [SerializeField] BountyShopItemID item;
-
         [Header("Components")]
-        [SerializeField] Text stockText;
         [SerializeField] Text descriptionText;
-        [SerializeField] Text purchaseCostText;
-        [Space]
-        [SerializeField] Button purchaseButton;
 
-        void OnEnable()=> InvokeRepeating("UpdateUI", 0.0f, 0.25f);
-        void OnDisable() => CancelInvoke("UpdateUI");
-
-        void UpdateUI()
+        protected override void UpdateUI()
         {
-            BountyItemState state = GameState.BountyShop.GetItem(item);
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
+            base.UpdateUI();
 
-            stockText.text          = string.Format("{0} Left in Stock", data.maxResetBuy - state.dailyPurchased);
-            descriptionText.text    = GetDescription();
-
-            if (!GameState.BountyShop.IsValid)
-                purchaseCostText.text = "...";
-
-            else if (GameState.BountyShop.IsItemMaxBought(item))
-                purchaseCostText.text = "SOLD OUT";
-
-            else
-                purchaseCostText.text = string.Format("Purchase\n{0} Points", data.PurchaseCost(state.dailyPurchased));
-
-            purchaseButton.interactable = GameState.BountyShop.IsValid && !GameState.BountyShop.IsItemMaxBought(item) && GameState.BountyShop.CanAffordItem(item);
+            descriptionText.text = GetDescription();
         }
 
         protected void ProcessBoughtItem(JSONNode node)
@@ -48,34 +26,34 @@ namespace GreedyMercs.BountyShop.UI
             switch (item)
             {
                 case BountyShopItemID.PRESTIGE_POINTS:
-                    GameState.Player.prestigePoints += BigInteger.Parse(node["prestigePointsReceived"].Value);
+                    GameState.Inventory.prestigePoints += BigInteger.Parse(node["prestigePointsReceived"].Value);
                     break;
 
                 case BountyShopItemID.GEMS:
-                    GameState.Player.gems += node["gemsReceived"].AsLong;
+                    GameState.Inventory.gems += node["gemsReceived"].AsLong;
                     break;
 
                 case BountyShopItemID.ARMOURY_POINTS:
-                    GameState.Player.armouryPoints += node["armouryPointsReceived"].AsLong;
+                    GameState.Inventory.armouryPoints += node["armouryPointsReceived"].AsLong;
                     break;
             }
         }
 
-        protected string GetDescription()
+        string GetDescription()
         {
             switch (item)
             {
                 case BountyShopItemID.PRESTIGE_POINTS:
-                    BountyShopItemSO data   = StaticData.BountyShop.GetItem(item);
+                    BountyShopItemData data = StaticData.BountyShop.Get(item);
                     BigInteger points       = StatsCache.GetPrestigePoints(Mathf.CeilToInt(GameState.LifetimeStats.maxPrestigeStage * data.GetFloat("maxStagePercent")));
 
                     return string.Format("{0} Runestones", Utils.Format.FormatNumber(points < 100 ? 100 : points));
 
                 case BountyShopItemID.GEMS:
-                    return string.Format("{0} Gems", StaticData.BountyShop.GetItem(item).GetLong("gems"));
+                    return string.Format("{0} Gems", StaticData.BountyShop.Get(item).GetInt("gems"));
 
                 case BountyShopItemID.ARMOURY_POINTS:
-                    return string.Format("{0} Armoury Points", StaticData.BountyShop.GetItem(item).GetLong("armouryPoints"));
+                    return string.Format("{0} Armoury Points", StaticData.BountyShop.Get(item).GetInt("armouryPoints"));
             }
 
             return "Default Description";
@@ -84,10 +62,7 @@ namespace GreedyMercs.BountyShop.UI
 
         public void OnClick()
         {
-            BountyItemState state = GameState.BountyShop.GetItem(item);
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(item);
-
-            bool inStock = data.maxResetBuy > state.dailyPurchased;
+            bool inStock = itemData.dailyPurchaseLimit > itemState.dailyPurchased;
 
             if (GameState.BountyShop.IsValid && inStock)
             {

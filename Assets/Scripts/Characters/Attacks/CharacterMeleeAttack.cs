@@ -7,9 +7,9 @@ namespace GreedyMercs
 {
     public class CharacterMeleeAttack : CharacterAttack
     {
-        public override void OnAttackEvent()
+        public override void OnAttackAnimationFinished()
         {
-            DealDamage();
+            OnAttackHit();
         }
     }
 }

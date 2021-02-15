@@ -8,14 +8,14 @@ namespace GreedyMercs
         [Header("Components")]
         [SerializeField] ParticleSystem ps;
 
-        public override void OnAttackEvent()
+        public override void OnAttackAnimationFinished()
         {
             ps.Play();
         }
 
         public void OnParticleDone()
         {
-            DealDamage();
+            OnAttackHit();
         }
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3809291868709772811}
   - component: {fileID: 3809291868709772812}
   - component: {fileID: 2399499620534547128}
+  - component: {fileID: 832731005685548614}
   m_Layer: 5
   m_Name: GemPurchaseLabel
   m_TagString: Untagged
@@ -57,8 +58,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   purchaseText: {fileID: 3809291869151614182}
   purchaseButton: {fileID: 2399499620534547128}
-  overlayText: {fileID: 6584082664667732433}
   overlayObject: {fileID: 4300259164485168231}
+  overlayText: {fileID: 6584082664667732433}
+  shinyEffect: {fileID: 832731005685548614}
 --- !u!222 &3809291868709772811
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -150,6 +152,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &832731005685548614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3809291868709772814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectFactor: 0.124
+  m_Width: 0.25
+  m_Rotation: 135
+  m_Softness: 1
+  m_Brightness: 1
+  m_Gloss: 1
+  m_EffectArea: 1
+  m_Player:
+    play: 1
+    initialPlayDelay: 1
+    duration: 1
+    loop: 1
+    loopDelay: 2
+    updateMode: 0
 --- !u!1 &3809291868950485669
 GameObject:
   m_ObjectHideFlags: 0

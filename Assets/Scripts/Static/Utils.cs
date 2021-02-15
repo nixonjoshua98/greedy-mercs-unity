@@ -80,6 +80,19 @@ namespace GreedyMercs.Utils
                     return "<missing name>";
             }
         }
+
+        public static TEnum ParseEnum<TEnum>(string val) where TEnum : struct, Enum
+        {
+            try
+            {
+                return (TEnum)Enum.Parse(typeof(TEnum), val);
+            }
+            catch (ArgumentException)
+            {
+                return default(TEnum);
+            }
+
+        }
     }
 
     public class Lerp
@@ -120,6 +133,19 @@ namespace GreedyMercs.Utils
 
     public class Json
     {
+        public static void TryParseDict<TEnum, TVal>(JSONNode node, out Dictionary<TEnum, TVal> dict) where TEnum : struct, Enum
+        {
+            dict = new Dictionary<TEnum, TVal>();
+
+            foreach (string key in node.Keys)
+            {
+                TEnum id = Generic.ParseEnum<TEnum>(key);
+                TVal val = JsonUtility.FromJson<TVal>(node[key].ToString());
+
+                dict.Add(id, val);
+            }
+        }
+
         public static JSONArray CreateJSONArray<TKey, TValue>(string key, Dictionary<TKey, TValue> dict)
         {
             JSONArray array = new JSONArray();

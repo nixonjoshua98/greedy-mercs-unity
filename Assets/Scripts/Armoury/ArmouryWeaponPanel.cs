@@ -51,7 +51,7 @@ namespace GreedyMercs.Armoury.UI
             upgradeDamageText.text  = string.Format("{0} -> {1}", StringyLevelDamage(state.level), StringyLevelDamage(state.level + 1));
             evoDamageText.text      = string.Format("{0} -> {1}", StringyEvoLevelDamage(state.evoLevel), StringyEvoLevelDamage(state.evoLevel + 1));
 
-            upgradeButton.interactable      = GameState.Player.armouryPoints >= data.upgradeCost;
+            upgradeButton.interactable      = GameState.Inventory.armouryPoints >= data.upgradeCost;
             evoUpgradeButton.interactable   = state.owned >= data.evoUpgradeCost;
 
             evolveSlider.maxValue   = data.evoUpgradeCost;
@@ -74,7 +74,7 @@ namespace GreedyMercs.Armoury.UI
         {
             ArmouryItemSO data = StaticData.Armoury.GetWeapon(armouryItem.ItemID);
 
-            if (GameState.Player.armouryPoints >= data.upgradeCost)
+            if (GameState.Inventory.armouryPoints >= data.upgradeCost)
             {
                 JSONNode node = Utils.Json.GetDeviceNode();
 
@@ -111,7 +111,7 @@ namespace GreedyMercs.Armoury.UI
 
                 GameState.Armoury.UpgradeWeapon(armouryItem.ItemID, 1);
 
-                GameState.Player.armouryPoints -= node["upgradeCost"].AsInt;
+                GameState.Inventory.armouryPoints -= node["upgradeCost"].AsInt;
             }
 
             UpdateUI();

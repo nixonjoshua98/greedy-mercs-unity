@@ -16,14 +16,12 @@ namespace GreedyMercs.Quests.Data
 
     public struct QuestData
     {
-        JSONNode node;
+        public readonly int targetValue;
 
-        public QuestData(JSONNode _node)
+        public QuestData(JSONNode node)
         {
-            node = _node;
+            targetValue = node["targetValue"].AsInt;
         }
-
-        public int GetInt(string key) => node[key].AsInt;
     }
 
     public class StaticQuestData
@@ -47,5 +45,4 @@ namespace GreedyMercs.Quests.Data
 
         public QuestData GetQuest(QuestID quest) => quests[quest];
     }
-
 }

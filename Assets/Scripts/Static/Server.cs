@@ -13,48 +13,48 @@ namespace GreedyMercs
     {
         const int PORT = 2122;
 
-        const string LOCAL_IP = "109.151.46.45";
+        const string LOCAL_IP = "109.151.25.118";
         const string AWS_IP = "18.232.147.109";
 
 #if UNITY_EDITOR
         const string IP = LOCAL_IP;
 #else
         const string IP = AWS_IP;
-
 #endif
 
-        // === Bounties ===
-        public static void ClaimBounty(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("bounty/claim", callback, node));
+        static void StartCoroutine(IEnumerator f) => PersistentMono.Inst.StartCoroutine(f);
 
-        // === Chests === 
-        public static void PurchaseWeaponChest(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("chest/purchase", callback, node));
+
+        // === Bounties ===
+        public static void ClaimBounty(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bounty/claim", callback, node));
 
         // === Bounty Shop ===
-        public static void RefreshBountyShop(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("bountyshop/refresh", callback, node));
-        public static void BuyBountyShopItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("bountyshop/buy", callback, node));
+        public static void RefreshBountyShop(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bountyshop/refresh", callback, node));
+        public static void BuyBountyShopItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bountyshop/buy", callback, node));
 
         // === Prestige Items === 
-        public static void BuyLootItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("loot/buy", callback, node));
-        public static void UpgradeLootItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("loot/upgrade", callback, node));
+        public static void BuyLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/buy", callback, node));
+        public static void UpgradeLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/upgrade", callback, node));
+
+        // === Shop ===
+        public static void PurchasePerk(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("shop/buyperk", callback, node));
 
         // === Player ===
-        public static void Login(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("user/login", callback, node));
-        public static void ChangeUsername(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("user/changeusername", callback, node));
+        public static void Login(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("user/login", callback, node));
+        public static void ChangeUsername(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("user/changeusername", callback, node));
 
         // === Leaderboards ===
-        public static void GetPlayerLeaderboard(Action<long, string> callback) => PersistentMono.Inst.StartCoroutine(Get("leaderboard/player", callback));
+        public static void GetPlayerLeaderboard(Action<long, string> callback) => StartCoroutine(Get("leaderboard/player", callback));
 
         // # === Data === #
-        public static void GetGameData(Action<long, string> callback) => PersistentMono.Inst.StartCoroutine(Get("gamedata", callback));
+        public static void GetGameData(Action<long, string> callback) => StartCoroutine(Get("gamedata", callback));
 
         // # === Armoury === #
-        public static void UpgradeArmouryItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("armoury/upgrade", callback, node));
-        public static void EvolveArmouryItem(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("armoury/upgradeevo", callback, node));
+        public static void UpgradeArmouryItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("armoury/upgrade", callback, node));
+        public static void EvolveArmouryItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("armoury/upgradeevo", callback, node));
 
         // # === Quests === #
-        public static void ClaimQuestReward(Action<long, string> callback, JSONNode node) => PersistentMono.Inst.StartCoroutine(Put("quest/claim", callback, node));
-
-
+        public static void ClaimQuestReward(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("quest/claim", callback, node));
 
         public static void Prestige(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
         {

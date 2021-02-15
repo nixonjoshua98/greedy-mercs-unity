@@ -48,7 +48,7 @@ namespace GreedyMercs.Armoury.UI
 
         void FixedUpdate()
         {
-            weaponPointText.text = GameState.Player.armouryPoints.ToString();
+            weaponPointText.text = GameState.Inventory.armouryPoints.ToString();
         }
 
         void Populate()

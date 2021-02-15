@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
+using Coffee.UIEffects;
+
 namespace GreedyMercs.Armoury.UI
 {
     using GreedyMercs.Armoury.Data;
@@ -28,7 +30,12 @@ namespace GreedyMercs.Armoury.UI
         [SerializeField] GameObject lockedPanel;
         [SerializeField] GameObject[] stars;
 
+        [Header("Effects")]
+        [SerializeField] UIShiny shinyEffect;
+
         ArmouryItemSO scriptableItem;
+
+        ArmouryWeaponState state { get { return GameState.Armoury.GetWeapon(scriptableItem.ItemID); } }
 
         public void Init(ArmouryItemSO weapon, bool hideLockedPanel = false)
         {
@@ -36,6 +43,7 @@ namespace GreedyMercs.Armoury.UI
 
             UpdateUI();
             UpdateStarRating();
+            UpdateShinyEffect(hideLockedPanel: hideLockedPanel);
             ToggleLockedText(hideLockedPanel);
         }
 
@@ -68,13 +76,19 @@ namespace GreedyMercs.Armoury.UI
 
         void ToggleLockedText(bool hideLockedPanel)
         {
-            ArmouryWeaponState state = GameState.Armoury.GetWeapon(scriptableItem.ItemID);
-
             bool isUnlocked = (state.level + state.evoLevel + state.owned) > 0;
 
             lockedPanel.SetActive(!isUnlocked && !hideLockedPanel);
 
             button.interactable = !lockedPanel.activeInHierarchy;
+        }
+
+        void UpdateShinyEffect(bool hideLockedPanel)
+        {
+            if (state.owned > 0 || hideLockedPanel)
+                shinyEffect.Play(reset: false);
+            else
+                shinyEffect.Stop(reset: true);
         }
     }
 }

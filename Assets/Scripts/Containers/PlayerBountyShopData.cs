@@ -37,7 +37,7 @@ namespace GreedyMercs.BountyShop.Data
                 items[itemId] = new BountyItemState { dailyPurchased = node["itemsBought"][key].AsInt };
             }
 
-            lastReset = DateTimeOffset.FromUnixTimeMilliseconds(node["lastReset"].AsLong).DateTime;
+            lastReset = node["lastReset"].AsLong.ToUnixDatetime();
         }
 
         public JSONNode ToJson()
@@ -68,31 +68,41 @@ namespace GreedyMercs.BountyShop.Data
             return GetItem(key);
         }
 
-        // # ===Helper Methods === #
+        // # === Helper Methods === #
+
+        public bool CanPurchaseItem(BountyShopItemID key) => IsValid && !IsItemMaxBought(key) && CanAffordItem(key);
+
+        public int NextPurchaseCost(BountyShopItemID key)
+        {
+            BountyItemState state   = GameState.BountyShop.GetItem(key);
+            BountyShopItemData data = StaticData.BountyShop.Get(key);
+
+            return data.PurchaseCost(state.dailyPurchased);
+        }
 
         public bool IsItemMaxBought(BountyShopItemID key)
         {
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
+            BountyShopItemData data = StaticData.BountyShop.Get(key);
 
-            return GetItem(key).dailyPurchased >= data.maxResetBuy;
+            return GetItem(key).dailyPurchased >= data.dailyPurchaseLimit;
         }
 
         public bool CanAffordItem(BountyShopItemID key)
         {
             BountyItemState state = GetItem(key);
 
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
+            BountyShopItemData data = StaticData.BountyShop.Get(key);
 
-            return GameState.Player.bountyPoints >= data.PurchaseCost(state.dailyPurchased);
+            return GameState.Inventory.bountyPoints >= data.PurchaseCost(state.dailyPurchased);
         }
 
         public void ProcessPurchase(BountyShopItemID key)
         {
             BountyItemState state = GetItem(key);
 
-            BountyShopItemSO data = StaticData.BountyShop.GetItem(key);
+            BountyShopItemData data = StaticData.BountyShop.Get(key);
 
-            GameState.Player.bountyPoints -= data.PurchaseCost(state.dailyPurchased);
+            GameState.Inventory.bountyPoints -= data.PurchaseCost(state.dailyPurchased);
 
             state.dailyPurchased++;
         }

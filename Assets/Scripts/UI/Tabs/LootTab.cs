@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 
+using System.Numerics;
 using System.Collections.Generic;
 
 using SimpleJSON;
@@ -66,7 +67,7 @@ namespace GreedyMercs
 
         void UpdateUI()
         {
-            prestigePointText.text      = Utils.Format.FormatNumber(GameState.Player.prestigePoints);
+            prestigePointText.text      = Utils.Format.FormatNumber(GameState.Inventory.prestigePoints);
             buyLootButton.interactable  = GameState.Loot.Count < StaticData.LootList.Count;
 
             if (GameState.Loot.Count < StaticData.LootList.Count)
@@ -89,7 +90,7 @@ namespace GreedyMercs
 
         public void OnBuyLoot()
         {
-            if (GameState.Player.prestigePoints < Formulas.CalcNextLootCost(GameState.Loot.Count))
+            if (GameState.Inventory.prestigePoints < Formulas.CalcNextLootCost(GameState.Loot.Count))
             {
                 Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new item");
             }
@@ -108,7 +109,7 @@ namespace GreedyMercs
 
                 LootID item = (LootID)node["newLootId"].AsInt;
 
-                GameState.Player.Update(node);
+                GameState.Inventory.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
 
                 GameState.Loot.Add(item);
 
@@ -117,7 +118,7 @@ namespace GreedyMercs
 
             else
             {
-                Utils.UI.ShowMessage("Buy Loot Item", "Failed to buy item :(");
+                Utils.UI.ShowMessage("Purchase Loot", "Failed to buy item :(");
             }
 
             UpdateUI();

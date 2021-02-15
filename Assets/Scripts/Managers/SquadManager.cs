@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GreedyMercs.Characters;
+
     public class SquadManager : MonoBehaviour
     {
         static SquadManager Instance = null;
@@ -14,7 +16,6 @@ namespace GreedyMercs
         List<Transform> characterSpots;
 
         List<CharacterAttack> attacks;
-
 
         void Awake()
         {
@@ -38,7 +39,7 @@ namespace GreedyMercs
                 {
                     AddCharacter(chara);
 
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSecondsRealtime(0.1f);
                 }
 
                 yield return new WaitForFixedUpdate();
@@ -55,20 +56,13 @@ namespace GreedyMercs
         {
             GameObject character = Instantiate(chara.prefab, transform);
 
-            Vector3 endPos      = characterSpots[0].position;
-            Vector3 startPos    = new Vector3(endPos.x - 10.0f, endPos.y, endPos.y);
+            character.transform.position = characterSpots[0].position;
 
-            character.transform.position = startPos;
-
-            var atk = character.GetComponent<CharacterAttack>();
-
-            attacks.Add(atk);
+            attacks.Add(character.GetComponent<CharacterAttack>());
 
             Destroy(characterSpots[0].gameObject);
 
             characterSpots.RemoveAt(0);
-
-            StartCoroutine(MoveInCharacter(atk, startPos, endPos, 2.0f));
         }
 
         void OnHeroUnlocked(CharacterID chara)
@@ -76,24 +70,11 @@ namespace GreedyMercs
             AddCharacter(StaticData.CharacterList.Get(chara));
         }
 
-        IEnumerator MoveInCharacter(CharacterAttack atk, Vector3 start, Vector3 end, float duration)
-        {
-            atk.ToggleAttacking(false);
-
-            atk.Anim.Play("Walk");
-
-            yield return Utils.Lerp.Local(atk.gameObject, start, end, duration);
-
-            atk.Anim.Play("Idle");
-
-            atk.ToggleAttacking(true);
-        }
-
         public static IEnumerator MoveOut(float duration)
         {
             foreach (var atk in Instance.attacks)
             {
-                Character character = atk.GetComponent<Character>();
+                CharacterController character = atk.gameObject.GetComponent<CharacterController>();
 
                 character.Flip();
 
@@ -102,7 +83,7 @@ namespace GreedyMercs
                 atk.Anim.Play("Walk");
 
                 Vector3 start = atk.transform.localPosition;
-                Vector3 end = start - new Vector3(start.x - 10.0f, 0, 0);
+                Vector3 end  = start - new Vector3(10.0f, 0, 0);
 
                 Instance.StartCoroutine(Utils.Lerp.Local(atk.gameObject, start, end, duration));
             }

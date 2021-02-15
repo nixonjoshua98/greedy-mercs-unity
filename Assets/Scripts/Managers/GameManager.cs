@@ -35,8 +35,6 @@ namespace GreedyMercs
             Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
         }
 
-        //void FixedUpdate() => Time.timeScale = 10;
-
         void Start()
         {
             SpawnNextEnemy();
@@ -142,7 +140,7 @@ namespace GreedyMercs
 
         void SpawnEnemy()
         {
-            CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity);
+            CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity, SpawnPoint);
 
             _enemyHealth = CurrentEnemy.GetComponent<Health>();
 

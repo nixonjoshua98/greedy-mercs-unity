@@ -23,7 +23,7 @@ namespace GreedyMercs
         public static LootItemListSO LootList;
         public static CharacterListSO CharacterList;
 
-        public static BountyShopListSO BountyShop;
+        public static BountyShopData BountyShop;
 
         public static ArmourySO Armoury;
 
@@ -36,16 +36,16 @@ namespace GreedyMercs
 
             SkillList.Init();
 
+            BountyShop = new BountyShopData(node["bountyShopItems"]);
+
             LootList.Init(node["loot"]);
             Armoury.Init(node["armoury"]);
             BountyList.Init(node["bounties"]);
-            BountyShop.Init(node["bountyShopItems"]);
             CharacterList.Init(node["characters"], node["characterPassives"]);
         }
 
-        public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, BountyShopListSO bountyShop, ArmourySO armoury)
+        public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, ArmourySO armoury)
         {
-            BountyShop      = bountyShop;
             Armoury         = armoury;
             CharacterList   = chars;
             LootList        = loot;

@@ -95,7 +95,7 @@ namespace GreedyMercs
                 bossToSpawn = BossObjects[Random.Range(0, BossObjects.Length)];
             }
 
-            CurrentBossEnemy = Instantiate(bossToSpawn, BossSpawnPoint.position, Quaternion.identity);
+            CurrentBossEnemy = Instantiate(bossToSpawn, BossSpawnPoint.position, Quaternion.identity, BossSpawnPoint);
 
             Events.OnBossSpawned.Invoke(CurrentBossEnemy);
 

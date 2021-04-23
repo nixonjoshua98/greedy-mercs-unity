@@ -1,47 +1,53 @@
 {
-  "0": {
-    "itemTier": 1,
-    "damageBonus": 1.1,
-    "upgradeCost": 1
+  "iron": {
+    "cost": 1
   },
-  "1": {
-    "itemTier": 2,
-    "damageBonus": 1.25,
-    "upgradeCost": 2
-  },
-  "2": {
-    "itemTier": 3,
-    "damageBonus": 1.5,
-    "upgradeCost": 3
-  },
-  "3": {
-    "itemTier": 1,
-    "damageBonus": 1.1,
-    "upgradeCost": 1
-  },
-  "4": {
-    "itemTier": 2,
-    "damageBonus": 1.25,
-    "upgradeCost": 2
-  },
-  "5": {
-    "itemTier": 3,
-    "damageBonus": 1.5,
-    "upgradeCost": 3
-  },
-  "6": {
-    "itemTier": 1,
-    "damageBonus": 1.1,
-    "upgradeCost": 1
-  },
-  "7": {
-    "itemTier": 2,
-    "damageBonus": 1.25,
-    "upgradeCost": 2
-  },
-  "8": {
-    "itemTier": 3,
-    "damageBonus": 1.5,
-    "upgradeCost": 3
+
+  "gear": {
+    "0": {
+      "itemTier": 1,
+      "damageBonus": 1.1,
+      "upgradeCost": 1
+    },
+    "1": {
+      "itemTier": 2,
+      "damageBonus": 1.25,
+      "upgradeCost": 2
+    },
+    "2": {
+      "itemTier": 3,
+      "damageBonus": 1.5,
+      "upgradeCost": 3
+    },
+    "3": {
+      "itemTier": 1,
+      "damageBonus": 1.1,
+      "upgradeCost": 1
+    },
+    "4": {
+      "itemTier": 2,
+      "damageBonus": 1.25,
+      "upgradeCost": 2
+    },
+    "5": {
+      "itemTier": 3,
+      "damageBonus": 1.5,
+      "upgradeCost": 3
+    },
+    "6": {
+      "itemTier": 1,
+      "damageBonus": 1.1,
+      "upgradeCost": 1
+    },
+    "7": {
+      "itemTier": 2,
+      "damageBonus": 1.25,
+      "upgradeCost": 2
+    },
+    "8": {
+      "itemTier": 3,
+      "damageBonus": 1.5,
+      "upgradeCost": 3
+    }
   }
 }

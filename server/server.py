@@ -10,6 +10,8 @@ mongo.create_mongo()
 
 app = Flask(__name__)
 
+app.add_url_rule("/api/armoury", view_func=Armoury.as_view("armoury"), methods=["PUT"])
+
 # === Bounties === #
 app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty"), methods=["PUT"])
 

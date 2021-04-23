@@ -12,13 +12,13 @@ namespace GreedyMercs.BountyShop.UI
     public class BountyShopItem : BountyShopItemBase
     {
         [Header("Components")]
-        [SerializeField] Text descriptionText;
+        [SerializeField] Text itemQuantityText;
 
         protected override void UpdateUI()
         {
             base.UpdateUI();
 
-            descriptionText.text = GetDescription();
+            SetQuantity();
         }
 
         protected void ProcessBoughtItem(JSONNode node)
@@ -32,31 +32,26 @@ namespace GreedyMercs.BountyShop.UI
                 case BountyShopItemID.GEMS:
                     GameState.Inventory.gems += node["gemsReceived"].AsLong;
                     break;
-
-                case BountyShopItemID.ARMOURY_POINTS:
-                    GameState.Inventory.armouryPoints += node["armouryPointsReceived"].AsLong;
-                    break;
             }
         }
 
-        string GetDescription()
+        void SetQuantity()
         {
+            itemQuantityText.text = "x";
+
             switch (item)
             {
                 case BountyShopItemID.PRESTIGE_POINTS:
                     BountyShopItemData data = StaticData.BountyShop.Get(item);
-                    BigInteger points       = StatsCache.GetPrestigePoints(Mathf.CeilToInt(GameState.LifetimeStats.maxPrestigeStage * data.GetFloat("maxStagePercent")));
+                    BigInteger points = StatsCache.GetPrestigePoints(Mathf.CeilToInt(GameState.LifetimeStats.maxPrestigeStage * data.GetFloat("maxStagePercent")));
 
-                    return string.Format("{0} Runestones", Utils.Format.FormatNumber(points < 100 ? 100 : points));
+                    itemQuantityText.text += Utils.Format.FormatNumber(points < 100 ? 100 : points);
+                    break;
 
                 case BountyShopItemID.GEMS:
-                    return string.Format("{0} Gems", StaticData.BountyShop.Get(item).GetInt("gems"));
-
-                case BountyShopItemID.ARMOURY_POINTS:
-                    return string.Format("{0} Armoury Points", StaticData.BountyShop.Get(item).GetInt("armouryPoints"));
+                    itemQuantityText.text += StaticData.BountyShop.Get(item).GetInt("gems").ToString();
+                    break;
             }
-
-            return "Default Description";
         }
 
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Networking;
 
 using SimpleJSON;
+
 
 namespace GreedyMercs
 {
@@ -13,14 +15,19 @@ namespace GreedyMercs
     {
         const int PORT = 2122;
 
-        const string LOCAL_IP = "109.151.25.118";
+        const string LOCAL_IP = "109.154.20.217";
         const string AWS_IP = "18.232.147.109";
 
 #if UNITY_EDITOR
         const string IP = LOCAL_IP;
 #else
-        const string IP = AWS_IP;
+        const string IP = LOCAL_IP;
 #endif
+
+        static string GetUrl(string endpoint)
+        {
+            return string.Format("http://{0}:{1}/api/{2}", IP, PORT, endpoint);
+        }
 
         static void StartCoroutine(IEnumerator f) => PersistentMono.Inst.StartCoroutine(f);
 
@@ -36,8 +43,6 @@ namespace GreedyMercs
         public static void BuyLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/buy", callback, node));
         public static void UpgradeLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/upgrade", callback, node));
 
-        // === Shop ===
-        public static void PurchasePerk(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("shop/buyperk", callback, node));
 
         // === Player ===
         public static void Login(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("user/login", callback, node));
@@ -61,7 +66,17 @@ namespace GreedyMercs
             mono.StartCoroutine(Put("prestige", callback, node));
         }
 
-        // ===
+        public static void Put(string endpoint, string purpose, JSONNode node, Action<long, string> callback)
+        {
+            IEnumerator _Put()
+            {
+                UnityWebRequest www = UnityWebRequest.Put(GetUrl(endpoint) + string.Format("?purpose={0}", purpose), Utils.Json.Compress(node));
+
+                yield return SendRequest(www, callback);
+            }
+
+            StartCoroutine(_Put());
+        }
 
         static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
         {

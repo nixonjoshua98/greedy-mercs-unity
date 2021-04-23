@@ -10,7 +10,7 @@ from .prestige import Prestige
 
 from .bountyshop import BountyShop, BountyShopRefresh
 
-from .armoury import UpgradeArmouryItem, UpgradeEvoArmouryItem
+from .armoury import UpgradeArmouryItem, UpgradeEvoArmouryItem, Armoury
 
 from .quests import ClaimQuestReward
 

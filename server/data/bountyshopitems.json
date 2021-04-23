@@ -14,7 +14,7 @@
   "102": {
     "armouryPoints": 1,
     "purchaseData": {"baseCost": 15, "purchaseIncrease": 5},
-    "dailyPurchaseLimit": 25
+    "dailyPurchaseLimit": 2500
   },
 
   "300": {

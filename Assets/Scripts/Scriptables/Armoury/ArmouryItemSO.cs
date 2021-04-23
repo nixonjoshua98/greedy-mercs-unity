@@ -25,9 +25,10 @@ namespace GreedyMercs.Armoury.Data
         public int ItemID;
 
         [Space]
-        public int itemTier;
+        public int starRating;
         public int upgradeCost;
         public int evoUpgradeCost;
+
         [Space]
         public double damageBonus;
 
@@ -39,8 +40,8 @@ namespace GreedyMercs.Armoury.Data
 
             damageBonus = node["damageBonus"].AsDouble;
 
-            itemTier        = node["itemTier"].AsInt;
-            upgradeCost     = node["upgradeCost"].AsInt;
+            starRating  = node["itemTier"].AsInt;
+            upgradeCost = node["upgradeCost"].AsInt;
         }
     }
 }

@@ -24,23 +24,26 @@ namespace GreedyMercs
 
         protected override void UpdateRow()
         {
-            UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
+            UpdateButtonText();
 
             damageText.text = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
 
-            if (state.level < StaticData.MAX_TAP_UPGRADE_LEVEL)
+            nameText.text = string.Format("(Lvl. {0}) Tap Damage", State.level);
+
+            buyButton.interactable = State.level < StaticData.MAX_TAP_UPGRADE_LEVEL;
+        }
+
+        void UpdateButtonText()
+        {
+            costText.text       = "-";
+            purchaseText.text   = "MAX LEVEL";
+
+            if (State.level < StaticData.MAX_TAP_UPGRADE_LEVEL)
             {
-                string cost = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
+                purchaseText.text = string.Format("x{0}", BuyAmount);
 
-                costText.text = string.Format("x{0}\n{1}", BuyAmount, cost);
+                costText.text = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
             }
-
-            else
-                costText.text = "MAX";
-
-            nameText.text = string.Format("(Lvl. {0}) Tap Damage", state.level);
-
-            buyButton.interactable = state.level < StaticData.MAX_TAP_UPGRADE_LEVEL;
         }
 
         // === Button Callbacks ===

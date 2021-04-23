@@ -10,6 +10,23 @@ from src.classes.gamedata import GameData
 from src.utils.dbops import update_armoury_item
 
 
+class Armoury(View):
+
+	@checks.login_check
+	def dispatch_request(self, uid, data):
+		purpose = request.args.get("purpose")
+
+		if purpose == "buyIron":
+			return self.buy_iron(uid, data)
+
+		return "400", 400
+
+	def buy_iron(self, uid, data):
+		mongo.db.inventories.update_one({"userId": uid}, {"$inc": {"armouryPoints": 1}})
+
+		return Response(utils.compress({"pointsGained": 1}), status=200)
+
+
 class UpgradeArmouryItem(View):
 
 	@checks.login_check
@@ -22,7 +39,7 @@ class UpgradeArmouryItem(View):
 		# - Load data from the database
 		wp = (mongo.db.inventories.find_one({"userId": uid}) or dict()).get("armouryPoints", 0)
 
-		static_item = GameData.get_item("armoury", iid)
+		static_item = GameData.get_item("armoury", "gear")[iid]
 
 		if wp < (cost := static_item["upgradeCost"]):
 			return "400", 400

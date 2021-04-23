@@ -79,13 +79,6 @@ namespace GreedyMercs
                 lootCostText.text = "All Loot\nObtained";
         }
 
-        // === Static Methods ===
-
-        public static void AddBuyAmountListener(UnityAction<int> callback)
-        {
-            Instance.buyAmount.OnBuyAmountChanged.AddListener(callback);
-        }
-
         // === Button Callbacks ===
 
         public void OnBuyLoot()

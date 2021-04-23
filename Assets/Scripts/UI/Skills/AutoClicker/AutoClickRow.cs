@@ -20,7 +20,7 @@ namespace GreedyMercs.Skills.UI
             string effect   = Utils.Format.FormatNumber(StatsCache.Skills.AutoClickDamage());
             double duration = StatsCache.Skills.SkillDuration(SkillID);
 
-            return string.Format("Deal <color=orange>{1}</color> damage every <color=orange>0.1</color> seconds for <color=orange>{0}s</color>", duration, effect);
+            return string.Format("Duration <color=orange>{0}s</color>\nDeal <color=orange>{1}</color> damage every <color=orange>0.1</color> seconds", duration, effect);
         }
     }
 }

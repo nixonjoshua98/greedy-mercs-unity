@@ -64,7 +64,7 @@ namespace GreedyMercs.Armoury.UI
         {
             for (int i = 0; i < stars.Length; ++i)
             {
-                stars[i].SetActive(i <= armouryItem.itemTier - 1);
+                stars[i].SetActive(i <= armouryItem.starRating - 1);
             }
         }
 

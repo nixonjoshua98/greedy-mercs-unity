@@ -9,6 +9,8 @@ using Coffee.UIEffects;
 
 namespace GreedyMercs.Armoury.UI
 {
+    using GreedyMercs.UI;
+
     using GreedyMercs.Armoury.Data;
 
     struct ItemSlotColour
@@ -20,6 +22,8 @@ namespace GreedyMercs.Armoury.UI
     public class ArmouryItemSlot : MonoBehaviour
     {
         [Header("Components")]
+        [SerializeField] Text slotText;
+        [Space]
         [SerializeField] Image itemImage;
         [SerializeField] Image frameImage;
         [SerializeField] Image backgroundImage;
@@ -27,8 +31,8 @@ namespace GreedyMercs.Armoury.UI
         [SerializeField] Button button;
 
         [Header("References")]
+        [SerializeField] StarRatingController stars;
         [SerializeField] GameObject lockedPanel;
-        [SerializeField] GameObject[] stars;
 
         [Header("Effects")]
         [SerializeField] UIShiny shinyEffect;
@@ -42,9 +46,13 @@ namespace GreedyMercs.Armoury.UI
             scriptableItem = weapon;
 
             UpdateUI();
-            UpdateStarRating();
+
+            stars.UpdateRating(scriptableItem.starRating);
+            
             UpdateShinyEffect(hideLockedPanel: hideLockedPanel);
             ToggleLockedText(hideLockedPanel);
+
+            slotText.text = scriptableItem.name;
         }
 
         public void SetButtonCallback(UnityAction e)
@@ -58,20 +66,12 @@ namespace GreedyMercs.Armoury.UI
         {
             Color[] colors = new Color[3] { Color.black, Color.green, Color.blue };
 
-            ItemSlotColour slotColour = new ItemSlotColour() { FrameColour = colors[scriptableItem.itemTier - 1] };
+            ItemSlotColour slotColour = new ItemSlotColour() { FrameColour = colors[scriptableItem.starRating - 1] };
 
             itemImage.sprite = scriptableItem.icon;
 
             frameImage.color        = slotColour.FrameColour;
             backgroundImage.color   = slotColour.BackgroundColour;
-        }
-
-        void UpdateStarRating()
-        {
-            for (int i = 0; i < stars.Length; ++i)
-            {
-                stars[i].SetActive(i <= scriptableItem.itemTier - 1);
-            }
         }
 
         void ToggleLockedText(bool hideLockedPanel)

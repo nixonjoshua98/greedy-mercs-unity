@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GreedyMercs
 {
@@ -31,13 +32,18 @@ namespace GreedyMercs
 
             StatsCache.Clear();
 
-            Events.OnBossSpawned.AddListener(OnBossSpawned);
-            Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+            SubscribeToEvents();
         }
 
         void Start()
         {
             SpawnNextEnemy();
+        }
+
+        void SubscribeToEvents()
+        {
+            Events.OnBossSpawned.AddListener(OnBossSpawned);
+            Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
         }
 
         // This is the only method which should be dealing damage to the enemy

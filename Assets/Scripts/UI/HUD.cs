@@ -10,8 +10,6 @@ namespace GreedyMercs
     {
         [SerializeField] Text StageText;
         [SerializeField] Text GoldText;
-        [SerializeField] Text mercDpsText;
-        [SerializeField] Text tapDamageText;
 
         void Awake()
         {
@@ -19,19 +17,11 @@ namespace GreedyMercs
             Events.OnBossSpawned.AddListener(OnBossSpawned);
 
             UpdateStageText();
-
-            InvokeRepeating("UpdateUI", 0.0f, 0.25f);
         }
 
         void FixedUpdate()
         {
             GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
-        }
-
-        void UpdateUI()
-        {
-            mercDpsText.text    = Utils.Format.FormatNumber(StatsCache.TotalCharacterDPS);
-            tapDamageText.text  = Utils.Format.FormatNumber(StatsCache.GetTapDamage());
         }
 
         void UpdateStageText()

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace GreedyMercs
+namespace GreedyMercs.UI
 {
     public class MercsTab : MonoBehaviour
     {
@@ -36,12 +36,6 @@ namespace GreedyMercs
                 if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
                     AddRow(chara);
             }
-        }
-
-        // === Static Methods ===
-        public static void AddBuyAmountListener(UnityAction<int> callback)
-        {
-            Instance.buyAmount.OnBuyAmountChanged.AddListener(callback);
         }
 
         void AddRow(CharacterSO chara)

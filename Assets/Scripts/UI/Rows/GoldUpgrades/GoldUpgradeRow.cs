@@ -11,11 +11,14 @@ namespace GreedyMercs
         [Header("Components")]
         [SerializeField] protected Button buyButton;
         [Space]
+        [SerializeField] protected Text purchaseText;
         [SerializeField] protected Text costText;
         [SerializeField] protected Text nameText;
         [SerializeField] protected Text damageText;
 
         protected abstract int BuyAmount { get; }
+
+        protected UpgradeState State { get { return GameState.Upgrades.GetUpgrade(upgrade); } }
 
         void FixedUpdate()
         {

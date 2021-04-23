@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GreedyMercs.UI
 {
     [System.Serializable]
     struct PassiveUnlockObject
@@ -16,13 +16,14 @@ namespace GreedyMercs
 
     public class CharacterRow : MonoBehaviour
     {
+        [SerializeField] UpgradeButton upgradeButton;
+
         [Header("Images")]
         [SerializeField] Image Icon;
 
         [Header("Text")]
         [SerializeField] Text nameText;
         [SerializeField] Text DamageText;
-        [SerializeField] Text UpgradeCost;
 
         [Header("Buttons")]
         [SerializeField] Button UpgradeButton;
@@ -48,6 +49,8 @@ namespace GreedyMercs
             }
         }
 
+        protected UpgradeState State { get { return GameState.Characters.Get(character.CharacterID); } }
+
         public void SetCharacter(CharacterSO chara)
         {
             character = chara;
@@ -66,24 +69,24 @@ namespace GreedyMercs
             // A character may not be set yet, since the row is dynamic
             if (character == null) return;
 
-            var state = GameState.Characters.Get(character.CharacterID);
-
             DamageText.text = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
-            nameText.text   = string.Format("(Lvl. {0}) {1}", state.level, character.name);
+            nameText.text   = string.Format("(Lvl. {0}) {1}", State.level, character.name);
 
-            if (state.level < StaticData.MAX_CHAR_LEVEL)
+            upgradeButton.Set("MAX LEVEL", "-");
+
+            UpgradeButton.interactable  = false;
+
+            if (State.level < StaticData.MAX_CHAR_LEVEL)
             {
                 BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.CharacterID, BuyAmount);
 
-                UpgradeCost.text            = string.Format("x{0}\n{1}", BuyAmount, Utils.Format.FormatNumber(cost));
-                UpgradeButton.interactable  = GameState.Player.gold >= cost;
+                upgradeButton.Set(string.Format("x{0}", BuyAmount), Utils.Format.FormatNumber(cost));
+
+                UpgradeButton.interactable = GameState.Player.gold >= cost;
             }
 
             else
-            {
-                UpgradeCost.text            = "MAX";
-                UpgradeButton.interactable  = false;
-            }
+                upgradeButton.Set(new Color(0.5f, 0.5f, 0.5f));
 
             UpgradeButton.interactable = UpgradeButton.interactable && BuyAmount > 0;
         }
@@ -94,14 +97,13 @@ namespace GreedyMercs
         {
             int levelsBuying = BuyAmount;
 
-            UpgradeState state  = GameState.Characters.Get(character.CharacterID);
-            BigDouble cost      = Formulas.CalcCharacterLevelUpCost(character.CharacterID, levelsBuying);
+            BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.CharacterID, levelsBuying);
 
             int numPassives = GameState.Characters.GetUnlockedPassives(character.CharacterID).Count;
 
-            if (state.level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
+            if (State.level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
             {
-                state.level += levelsBuying;
+                State.level += levelsBuying;
 
                 GameState.Player.gold -= cost;
 

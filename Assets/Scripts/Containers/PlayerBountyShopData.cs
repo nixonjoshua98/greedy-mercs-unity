@@ -19,7 +19,7 @@ namespace GreedyMercs.BountyShop.Data
 
         public DateTime lastReset;
 
-        public bool IsValid { get { return lastReset >= GameState.LastDailyReset; } }
+        public bool IsValid { get { return true; } }
 
         public PlayerBountyShopData(JSONNode node)
         {
@@ -28,6 +28,8 @@ namespace GreedyMercs.BountyShop.Data
 
         public void Update(JSONNode node)
         {
+            Debug.Log(GameState.LastDailyReset);
+
             items = new Dictionary<BountyShopItemID, BountyItemState>();
 
             foreach (string key in node["itemsBought"].Keys)

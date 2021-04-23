@@ -19,9 +19,9 @@ namespace GreedyMercs
 
             if (heroState.level < passive.unlockLevel)
             {
-                UnlockText.color        = MultiplyColorAlpha(UnlockText.color, 0.25f);
-                DescriptionText.color   = MultiplyColorAlpha(DescriptionText.color, 0.25f);
-                PanelImage.color        = MultiplyColorAlpha(PanelImage.color, 0.25f);
+                UnlockText.color        = MultiplyColorAlpha(UnlockText.color, 0.5f);
+                DescriptionText.color   = MultiplyColorAlpha(DescriptionText.color, 0.5f);
+                PanelImage.color        = MultiplyColorAlpha(PanelImage.color, 0.5f);
             }
         }
 

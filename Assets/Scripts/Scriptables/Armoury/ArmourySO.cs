@@ -12,13 +12,17 @@ namespace GreedyMercs.Armoury.Data
     [CreateAssetMenu(menuName = "Scriptables/Armoury")]
     public class ArmourySO : ScriptableObject
     {
+        public int IronCost { get; private set; }
+
         [SerializeField] ArmouryItemSO[] WeaponArray;
 
         public void Init(JSONNode node)
         {
+            IronCost = node["iron"]["cost"].AsInt;
+
             for (int i = 0; i < WeaponArray.Length; ++i)
             {
-                WeaponArray[i].Init(i, node[i.ToString()]);
+                WeaponArray[i].Init(i, node["gear"][i.ToString()]);
             }
         }
 

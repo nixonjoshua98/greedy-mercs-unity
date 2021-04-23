@@ -36,7 +36,9 @@ namespace GreedyMercs.UI.Bounties
         {
             if (GameState.BountyShop.IsValid)
             {
-                dailyResetText.text = Utils.Format.FormatSeconds(GameState.TimeUntilNextReset);
+                string temp = Utils.Format.FormatSeconds(GameState.TimeUntilNextReset);
+
+                dailyResetText.text = string.Format("Shop refresh in {0}", temp);
             }
 
             else
@@ -58,7 +60,9 @@ namespace GreedyMercs.UI.Bounties
 
             if (code == 200)
             {
-                GameState.BountyShop.Update(Utils.Json.Decompress(compressed));
+                JSONNode node = Utils.Json.Decompress(compressed);
+
+                GameState.BountyShop.Update(node);
             }
         }
     }

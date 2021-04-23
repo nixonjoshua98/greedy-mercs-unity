@@ -28,27 +28,22 @@ namespace GreedyMercs.Armoury.UI
             slots = new List<ArmouryItemSlot>();
 
             Populate();
-
-            InvokeRepeating("UpdateUI", 0.0f, 0.25f);
         }
 
         void OnDisable()
         {
-            CancelInvoke("UpdateUI");
-
             for (int i = 0; i < itemsParent.childCount; ++i) Destroy(itemsParent.GetChild(i).gameObject);
         }
 
-        void UpdateUI()
-        {
-            BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
 
-            damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
-        }
 
         void FixedUpdate()
         {
             weaponPointText.text = GameState.Inventory.armouryPoints.ToString();
+
+            BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
+
+            damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
         }
 
         void Populate()

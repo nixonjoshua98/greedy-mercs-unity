@@ -14,7 +14,6 @@ namespace GreedyMercs.BountyShop.Data
 
         PRESTIGE_POINTS = 100,
         GEMS            = 101,
-        ARMOURY_POINTS  = 102,
 
         ARMOURY_CHEST_A = 300,
         ARMOURY_CHEST_B = 301,

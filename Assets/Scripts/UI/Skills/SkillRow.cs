@@ -19,12 +19,16 @@ namespace GreedyMercs
 
         [Header("Text")]
         [SerializeField] Text nameText;
-        [SerializeField] Text buyButtonText;
         [SerializeField] Text energyCostText;
         [SerializeField] Text descriptionText;
+        [Space]
+        [SerializeField] Text buttonTopText;
+        [SerializeField] Text buttonBtmText;
 
         [Header("Prefabs")]
         [SerializeField] GameObject SkillButtonObject;
+
+        protected SkillState State { get { return GameState.Skills.Get(SkillID);} }
 
         void Start()
         {
@@ -41,17 +45,61 @@ namespace GreedyMercs
             UpdateUI();
         }
 
+        protected void UpdateUI()
+        {
+            descriptionText.text = GetDescription();
+
+            UpdateButtonText();
+
+            energyCostText.text     = "";
+            buyButton.interactable  = true;
+
+            if (GameState.Skills.IsUnlocked(SkillID))
+            {
+                SkillSO scriptable = StaticData.SkillList.Get(SkillID);
+
+                energyCostText.text     = State.LevelData.EnergyCost.ToString() + " Energy";
+                nameText.text           = string.Format("(Lvl. {0}) {1}", State.level, scriptable.name);
+                buyButton.interactable  = !State.IsMaxLevel;
+            }
+        }
+
         protected virtual string GetDescription()
         {
             if (!GameState.Skills.IsUnlocked(SkillID))
                 return "Locked";
 
-            string effect = Utils.Format.FormatNumber(StatsCache.Skills.SkillBonus(SkillID) * 100);
-            double duration = StatsCache.Skills.SkillDuration(SkillID);
+            string effect       = Utils.Format.FormatNumber(StatsCache.Skills.SkillBonus(SkillID) * 100);
+            string bonusType    = Utils.Generic.BonusToString(StaticData.SkillList.Get(SkillID).bonusType);
 
-            string bonusType = Utils.Generic.BonusToString(StaticData.SkillList.Get(SkillID).bonusType);
+            double duration     = StatsCache.Skills.SkillDuration(SkillID);
 
-            return string.Format("Multiply <color=orange>{1}</color> by <color=orange>{2}%</color> for <color=orange>{0}s</color>", duration, bonusType, effect);
+            return string.Format("Duration <color=orange>{0}s</color>\nMultiply <color=orange>{1}</color> by <color=orange>{2}%</color>", duration, bonusType, effect);
+        }
+
+        void UpdateButtonText()
+        {
+            if (GameState.Skills.IsUnlocked(SkillID))
+            {
+                buttonTopText.text = "MAX LEVEL";
+                buttonBtmText.text = "-";
+
+                if (!State.IsMaxLevel)
+                {
+                    SkillLevel nextLevel = GameState.Skills.GetSkillLevel(SkillID, State.level + 1);
+
+                    buttonTopText.text  = string.Format("Level {0} -> {1}", State.level, State.level + 1);
+                    buttonBtmText.text  = Utils.Format.FormatNumber(nextLevel.UpgradeCost);
+                }
+            }
+
+            else
+            {
+                SkillLevel skillLevel = GameState.Skills.GetSkillLevel(SkillID, 1);
+
+                buttonTopText.text = "LOCKED";
+                buttonBtmText.text = Utils.Format.FormatNumber(skillLevel.UpgradeCost);
+            }
         }
 
         public void OnClick()
@@ -80,43 +128,6 @@ namespace GreedyMercs
             }
 
             UpdateUI();
-        }
-
-        protected void UpdateUI()
-        {
-            descriptionText.text = GetDescription();
-
-            if (GameState.Skills.IsUnlocked(SkillID))
-            {
-                SkillState state        = GameState.Skills.Get(SkillID);
-                SkillLevel skillLevel   = state.LevelData;
-
-                energyCostText.text     = skillLevel.EnergyCost.ToString() + " Energy";
-
-                if (state.IsMaxLevel)
-                    buyButtonText.text = "MAX";
-
-                else
-                {
-                    SkillLevel nextLevel    = GameState.Skills.GetSkillLevel(SkillID, state.level + 1);
-                    buyButtonText.text      = Utils.Format.FormatNumber(nextLevel.UpgradeCost);
-                }
-
-                SkillSO scriptable = StaticData.SkillList.Get(SkillID);
-
-                nameText.text = string.Format("(Lvl. {0}) {1}", state.level, scriptable.name);
-
-                buyButton.interactable  = !state.IsMaxLevel;
-            }
-
-            else
-            {
-                SkillLevel skillLevel = GameState.Skills.GetSkillLevel(SkillID, 1);
-
-                buyButtonText.text      = string.Format("Unlock\n{0}", Utils.Format.FormatNumber(skillLevel.UpgradeCost));
-                energyCostText.text     = "";
-                buyButton.interactable  = true;
-            }
         }
     }
 }

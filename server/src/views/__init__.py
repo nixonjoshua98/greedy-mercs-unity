@@ -13,5 +13,3 @@ from .bountyshop import BountyShop, BountyShopRefresh
 from .armoury import UpgradeArmouryItem, UpgradeEvoArmouryItem, Armoury
 
 from .quests import ClaimQuestReward
-
-from .perks import PurchasePerk

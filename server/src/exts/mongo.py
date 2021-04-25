@@ -1,8 +1,6 @@
 
 
-client = None
-
-db = None
+client, db = None, None
 
 
 def create_mongo():

@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 namespace GreedyMercs
 {
-    using IntegerEvent = GreedyMercs.CustomEvents.IntegerEvent;
-
     public class BuyAmountController : MonoBehaviour
     {
         [SerializeField] Button[] Buttons;

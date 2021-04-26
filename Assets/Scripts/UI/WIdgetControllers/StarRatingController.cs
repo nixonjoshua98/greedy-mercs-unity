@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace GreedyMercs.UI
@@ -8,7 +9,7 @@ namespace GreedyMercs.UI
     {
         [SerializeField] GameObject[] stars;
 
-        public void UpdateRating(int rating)
+        public void SetRating(int rating)
         {
             for (int i = 0; i < stars.Length; ++i)
             {

@@ -1,58 +1,62 @@
-﻿using SimpleJSON;
-using System.Collections;
+﻿
+using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
+
+using SimpleJSON;
 
 namespace GreedyMercs.Armoury.Data
 {
-    public class ArmouryWeaponState
+    public class ArmouryItemState
     {
+        public readonly int WeaponIndex;
+
         public int level;
         public int owned;
         public int evoLevel;
+
+        public ArmouryItemState(int index)
+        {
+            WeaponIndex = index;
+        }
     }
 
     public class PlayerArmouryData
     {
-        Dictionary<int, ArmouryWeaponState> items;
+        Dictionary<int, ArmouryItemState> items;
 
-        public PlayerArmouryData(JSONNode node)
+        public PlayerArmouryData()
         {
-            Update(node);
+            items = new Dictionary<int, ArmouryItemState>();
         }
 
-        public void Update(JSONNode node)
+        public static PlayerArmouryData FromJsonNode(JSONNode node)
         {
-            items = new Dictionary<int, ArmouryWeaponState>();
+            PlayerArmouryData inst = new PlayerArmouryData();
 
-            foreach (string key in node.Keys)
+            JSONNode items = node;
+
+            foreach (string key in items.Keys)
             {
-                JSONNode item = node[key];
+                int weaponIndex = int.Parse(key);
 
-                items.Add(int.Parse(key), JsonUtility.FromJson<ArmouryWeaponState>(item.ToString()));
+                JSONNode item = items[key];
+
+                ArmouryItemState state = new ArmouryItemState(weaponIndex)
+                {
+                    level = item.GetValueOrDefault("level", 0),
+                    owned = item.GetValueOrDefault("owned", 0),
+                    evoLevel = item.GetValueOrDefault("evoLevel", 0)
+                };
+
+                inst.SetWeaponState(weaponIndex, state);
             }
+
+            return inst;
         }
 
-        public JSONNode ToJson()
+        public JSONNode Serialize()
         {
-            JSONNode node = new JSONObject();
-
-            foreach (var entry in items)
-            {
-                node.Add(((int)entry.Key).ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
-            }
-
-            return node;
-        }
-
-        public ArmouryWeaponState GetWeapon(int index)
-        {
-            if (!items.ContainsKey(index))
-            {
-                items[index] = new ArmouryWeaponState { level = 0 };
-            }
-
-            return items[index];
+            return Funcs.SerializeDictionary(items);
         }
 
         public double DamageBonus()
@@ -61,7 +65,7 @@ namespace GreedyMercs.Armoury.Data
 
             foreach (var w in items)
             {
-                ArmouryWeaponState state = GameState.Armoury.GetWeapon(w.Key);
+                ArmouryItemState state = GameState.Armoury.GetItem(w.Key);
 
                 if (state.level > 0)
                     val += Formulas.Armoury.WeaponDamage(w.Key);
@@ -70,8 +74,51 @@ namespace GreedyMercs.Armoury.Data
             return val;
         }
 
-        public void UpgradeWeapon(int index, int levels) => GetWeapon(index).level += levels;
+        // = = = SET = = =
+        void SetWeaponState(int itemId, ArmouryItemState state)
+        {
+            items[itemId] = state;
+        }
 
-        public void AddItem(int index) => GetWeapon(index).owned += 1;
+        // = = = GET = = =
+        public List<ArmouryItemState> GetOwned()
+        {
+            List<ArmouryItemState> ls = new List<ArmouryItemState>();
+
+            foreach (ArmouryItemState state in items.Values)
+            {
+                if (state.owned > 0)
+                {
+                    ls.Add(state);
+                }
+            }
+
+            return ls;
+
+        }
+
+        public ArmouryItemState GetItem(int index)
+        {
+            if (!items.ContainsKey(index))
+                items[index] = new ArmouryItemState(index);
+
+            return items[index];
+        }
+
+        public void UpgradeItem(int index, int levels)
+        {
+            GetItem(index).level += levels;
+        }
+
+        public void EvoUpgradeItem(int index, int levels)
+        {
+            GetItem(index).evoLevel += levels;
+        }
+
+
+        public void AddOwnedItem(int index, int total = 1)
+        {
+            GetItem(index).owned += total;
+        }
     }
 }

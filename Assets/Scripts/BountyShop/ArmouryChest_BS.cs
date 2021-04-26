@@ -53,7 +53,7 @@ namespace GreedyMercs.BountyShop.UI
 
                 int itemReceived = node["itemReceived"].AsInt;
 
-                GameState.Armoury.AddItem(itemReceived);
+                GameState.Armoury.AddOwnedItem(itemReceived);
 
                 Utils.UI.Instantiate(ArmouryChestPanelObject, Vector3.zero).GetComponent<ArmouryChestPanel>().Init(itemReceived);
             }

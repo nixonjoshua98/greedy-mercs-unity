@@ -30,10 +30,6 @@ app.add_url_rule("/api/user/changeusername", 	view_func=ChangeUsername.as_view("
 # === Leaderboard === #
 app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["GET"])
 
-# === Armoury === #
-app.add_url_rule("/api/armoury/upgrade", 	view_func=UpgradeArmouryItem.as_view("upgradearmoury"), methods=["PUT"])
-app.add_url_rule("/api/armoury/upgradeevo",	view_func=UpgradeEvoArmouryItem.as_view("upgradeevo"), methods=["PUT"])
-
 # === Quests === #
 app.add_url_rule("/api/quest/claim", view_func=ClaimQuestReward.as_view("completequest"), methods=["PUT"])
 

@@ -995,7 +995,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6327673235935639991}
-  m_LocalRotation: {x: 0, y: 0, z: 0.13052616, w: 0.9914449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1003,11 +1003,11 @@ RectTransform:
   - {fileID: 6327673235720851048}
   m_Father: {fileID: 7945577385650713909}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 15}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -400}
-  m_SizeDelta: {x: 940, y: 215}
+  m_SizeDelta: {x: 900, y: 215}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6327673235935639881
 CanvasRenderer:
@@ -1221,10 +1221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradeDamageText: {fileID: 970779202199193605}
-  upgradeButton: {fileID: 5511596304998737092}
   evoDamageText: {fileID: 6327673234716776864}
   evolveSlider: {fileID: 7076364102369548540}
-  evoUpgradeButton: {fileID: 1919086376970119212}
   colouredWeapon: {fileID: 6327673235720851051}
   shadowWeapon: {fileID: 6327673234602855321}
   stars: {fileID: 1766234712204878420}

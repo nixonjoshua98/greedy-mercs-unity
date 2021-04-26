@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -7,7 +6,6 @@ using SimpleJSON;
 
 namespace GreedyMercs.Armoury.Data
 {
-
     [PreferBinarySerialization]
     [CreateAssetMenu(menuName = "Scriptables/Armoury")]
     public class ArmourySO : ScriptableObject
@@ -31,15 +29,9 @@ namespace GreedyMercs.Armoury.Data
             return WeaponArray[index];
         }
 
-        public List<ArmouryItemSO> GetWeapons(WeaponType type)
-        {
-            return WeaponArray.Where(w => w.Type == type).ToList();
-        }
-
         public List<ArmouryItemSO> GetAllItems()
         {
             return WeaponArray.ToList();
         }
     }
-
 }

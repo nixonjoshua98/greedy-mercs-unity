@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 namespace GreedyMercs.BountyShop.UI
 {
+    using GM.Armoury;
+
     public class ArmouryChest_BS : BountyShopItemBase
     {
         [Space]
@@ -53,7 +55,7 @@ namespace GreedyMercs.BountyShop.UI
 
                 int itemReceived = node["itemReceived"].AsInt;
 
-                GameState.Armoury.AddOwnedItem(itemReceived);
+                ArmouryManager.Instance.AddOwnedItem(itemReceived, 1);
 
                 Utils.UI.Instantiate(ArmouryChestPanelObject, Vector3.zero).GetComponent<ArmouryChestPanel>().Init(itemReceived);
             }

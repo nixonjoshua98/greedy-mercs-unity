@@ -8,8 +8,6 @@ namespace GreedyMercs.Armoury.UI
 {
     using GM.Armoury;
 
-    using ServerUtils = GM.ServerUtils;
-
     using GreedyMercs.UI;
 
     using GreedyMercs.Armoury.Data;
@@ -39,7 +37,7 @@ namespace GreedyMercs.Armoury.UI
             colouredWeapon.sprite   = item.icon;
             shadowWeapon.sprite     = item.icon;
 
-            stars.SetRating(armouryItem.starRating);
+            stars.SetRating(armouryItem.itemTier);
         }
 
         void FixedUpdate()
@@ -50,10 +48,11 @@ namespace GreedyMercs.Armoury.UI
             }
         }
 
+
         void UpdateUI()
         {
-            ArmouryItemState state    = GameState.Armoury.GetItem(armouryItem.ItemID);
-            ArmouryItemSO data          = StaticData.Armoury.GetWeapon(armouryItem.ItemID);
+            ArmouryItemState state  = ArmouryManager.Instance.GetItem(armouryItem.ItemID);
+            ArmouryItemSO data      = StaticData.Armoury.GetWeapon(armouryItem.ItemID);
 
             string StringyLevelDamage(int lvl) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(armouryItem.ItemID, lvl) * 100) + "%";
             string StringyEvoLevelDamage(int evo) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(armouryItem.ItemID, state.level, evo) * 100) + "%";
@@ -65,32 +64,22 @@ namespace GreedyMercs.Armoury.UI
             evolveSlider.value      = state.owned;
         }
 
+
         void UpgradeItem()
         {
-            ServerUtils.Armoury.UpgradeItem(armouryItem.ItemID, (code, body) => { });
+            ArmouryManager.Instance.UpgradeItem(armouryItem.ItemID, (code, body) => { });
         }
 
 
         public void EvolveItem()
         {
-            ServerUtils.Armoury.EvolveItem(armouryItem.ItemID, (code, body) => { });
+            ArmouryManager.Instance.EvolveItem(armouryItem.ItemID, (code, body) => { });
         }
 
 
         // = = = Button Callbacks = = =
-        public void OnUpgradeButton()
-        {
-            UpgradeItem();
-        }
-
-        public void OnEvolveButton()
-        {
-            EvolveItem();
-        }
-
-        public void OnClosePopup()
-        {
-            Destroy(gameObject);
-        }
+        public void OnEvolveButton() { EvolveItem(); }
+        public void OnUpgradeButton() { UpgradeItem(); }
+        public void OnClosePopup() { Destroy(gameObject); }
     }
 }

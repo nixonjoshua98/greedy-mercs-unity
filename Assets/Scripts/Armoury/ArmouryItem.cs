@@ -37,7 +37,7 @@ namespace GreedyMercs.Armoury.UI
 
             UpdateUI();
 
-            stars.SetRating(scriptableItem.starRating);
+            stars.SetRating(scriptableItem.itemTier);
         }
 
         public void SetButtonCallback(UnityAction e)
@@ -51,7 +51,7 @@ namespace GreedyMercs.Armoury.UI
         {
             Color[] colors = new Color[3] { Color.gray, Color.green, Color.blue };
 
-            ItemSlotColour slotColour = new ItemSlotColour() { FrameColour = colors[scriptableItem.starRating - 1] };
+            ItemSlotColour slotColour = new ItemSlotColour() { FrameColour = colors[scriptableItem.itemTier - 1] };
 
             itemImage.sprite = scriptableItem.icon;
 

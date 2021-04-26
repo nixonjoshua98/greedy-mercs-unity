@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 
 namespace GreedyMercs
 {
+    using GM.Armoury;
+
     public class StatsCache : MonoBehaviour
     {
         #region Cache
@@ -21,7 +23,7 @@ namespace GreedyMercs
             get
             {
                 if (IsCacheOutdated("ARMOURY_DAMAGE", CachedDoubles))
-                    CachedDoubles["ARMOURY_DAMAGE"] = Math.Max(1.0f, GameState.Armoury.DamageBonus());
+                    CachedDoubles["ARMOURY_DAMAGE"] = Math.Max(1.0f, ArmouryManager.Instance.DamageBonus());
 
                 return CachedDoubles["ARMOURY_DAMAGE"];
             }

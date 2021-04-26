@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 993344753}
   - component: {fileID: 993344752}
   m_Layer: 0
-  m_Name: Initializer
+  m_Name: GameDataInitializer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 993344751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32a7b5d846ba8634eaa5688098d222bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f69ee3a17d74de438354747cc05251c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Armoury: {fileID: 11400000, guid: f8a28976699026e418854f096d7ff71c, type: 2}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Numerics;
 using System.Collections;
@@ -9,7 +8,6 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 
 using SimpleJSON;

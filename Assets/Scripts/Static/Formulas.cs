@@ -48,14 +48,14 @@ namespace GreedyMercs
         {
             public static double WeaponDamage(int index)
             {
-                ArmouryItemState state = GameState.Armoury.GetItem(index);
+                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
 
                 return WeaponDamage(index, state.level, state.evoLevel);
             }
 
             public static double WeaponDamage(int index, int level)
             {
-                ArmouryItemState state = GameState.Armoury.GetItem(index);
+                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
 
                 return WeaponDamage(index, level, state.evoLevel);
             }

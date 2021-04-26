@@ -8,6 +8,8 @@ using GM.Armoury;
 
 namespace GreedyMercs.Armoury.UI
 {
+    using GM.Armoury;
+
     using GreedyMercs.Armoury.Data;
 
     public class ArmouryPanel : MonoBehaviour
@@ -32,7 +34,7 @@ namespace GreedyMercs.Armoury.UI
 
         void OnEnable()
         {
-            foreach (ArmouryItemState state in GameState.Armoury.GetOwned())
+            foreach (ArmouryItemState state in ArmouryManager.Instance.GetOwned())
             {
                 if (!itemObjects.ContainsKey(state.WeaponIndex))
                 {

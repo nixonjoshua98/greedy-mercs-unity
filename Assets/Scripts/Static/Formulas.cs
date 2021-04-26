@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GM.Armoury;
+
     using GreedyMercs.Perks.Data;
     using GreedyMercs.Armoury.Data;
     public static class Formulas

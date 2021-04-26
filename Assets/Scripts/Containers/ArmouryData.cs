@@ -1,11 +1,13 @@
 ﻿
-using System.Linq;
 using System.Collections.Generic;
 
 using SimpleJSON;
 
-namespace GreedyMercs.Armoury.Data
+namespace GM.Armoury
 {
+    using GameState = GreedyMercs.GameState;
+    using Formulas = GreedyMercs.Formulas;
+
     public class ArmouryItemState
     {
         public readonly int WeaponIndex;
@@ -20,18 +22,18 @@ namespace GreedyMercs.Armoury.Data
         }
     }
 
-    public class PlayerArmouryData
+    public class ArmouryData
     {
         Dictionary<int, ArmouryItemState> items;
 
-        public PlayerArmouryData()
+        public ArmouryData()
         {
             items = new Dictionary<int, ArmouryItemState>();
         }
 
-        public static PlayerArmouryData FromJsonNode(JSONNode node)
+        public static ArmouryData FromJsonNode(JSONNode node)
         {
-            PlayerArmouryData inst = new PlayerArmouryData();
+            ArmouryData inst = new ArmouryData();
 
             JSONNode items = node;
 
@@ -94,7 +96,6 @@ namespace GreedyMercs.Armoury.Data
             }
 
             return ls;
-
         }
 
         public ArmouryItemState GetItem(int index)

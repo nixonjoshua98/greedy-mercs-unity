@@ -8,9 +8,63 @@ using UnityEngine.Networking;
 
 using SimpleJSON;
 
+using Utils = GreedyMercs.Utils;
+using GameState = GreedyMercs.GameState;
+using PersistentMono = GreedyMercs.PersistentMono;
 
-namespace GreedyMercs
+namespace GM.ServerUtils
 {
+    public static class Armoury
+    {
+        public static void UpgradeItem(int weaponIndex, Action<long, string> call)
+        {
+            void Callback(long code, string body)
+            {
+                if (code == 200)
+                {
+                    JSONNode returnNode = Utils.Json.Decompress(body);
+
+                    int levelsGained = returnNode.GetValueOrDefault("levelsGained", 0);
+
+                    GameState.Armoury.UpgradeItem(weaponIndex, levelsGained);
+                }
+
+                call(code, body);
+            }
+
+            JSONNode node = Utils.Json.GetDeviceNode();
+
+            node["itemId"] = weaponIndex;
+
+            Server.Put("armoury", "upgradeItem", node, Callback);
+        }
+
+        public static void EvolveItem(int weaponIndex, Action<long, string> call)
+        {
+            void Callback(long code, string body)
+            {
+                if (code == 200)
+                {
+                    JSONNode returnNode = Utils.Json.Decompress(body);
+
+                    int evoLevelsGained = returnNode.GetValueOrDefault("evoLevelsGained", 0);
+
+                    GameState.Armoury.EvoUpgradeItem(weaponIndex, evoLevelsGained);
+                }
+
+                call(code, body);
+            }
+
+            JSONNode node = Utils.Json.GetDeviceNode();
+
+            node["itemId"] = weaponIndex;
+
+            Server.Put("armoury", "evolveItem", node, Callback);
+        }
+    }
+}
+
+
     public static class Server
     {
         const int PORT = 2122;
@@ -108,4 +162,3 @@ namespace GreedyMercs
             callback.Invoke(www.responseCode, www.downloadHandler.text);
         }
     }
-}

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using GM.Armoury;
+
 namespace GreedyMercs.Armoury.UI
 {
     using GreedyMercs.Armoury.Data;

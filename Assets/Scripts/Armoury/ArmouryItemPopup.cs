@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using SimpleJSON;
-
 namespace GreedyMercs.Armoury.UI
 {
+    using GM.Armoury;
+
+    using ServerUtils = GM.ServerUtils;
+
     using GreedyMercs.UI;
 
     using GreedyMercs.Armoury.Data;
@@ -36,6 +38,8 @@ namespace GreedyMercs.Armoury.UI
 
             colouredWeapon.sprite   = item.icon;
             shadowWeapon.sprite     = item.icon;
+
+            stars.SetRating(armouryItem.starRating);
         }
 
         void FixedUpdate()
@@ -59,52 +63,19 @@ namespace GreedyMercs.Armoury.UI
 
             evolveSlider.maxValue   = data.evoUpgradeCost;
             evolveSlider.value      = state.owned;
-
-            stars.SetRating(armouryItem.starRating);
         }
 
         void UpgradeItem()
         {
-            JSONNode node = Utils.Json.GetDeviceNode();
-
-            node["itemId"] = armouryItem.ItemID;
-
-            Server.Put("armoury", "upgradeItem", node, OnUpgradeCallback);
-        }
-
-        void OnUpgradeCallback(long code, string body)
-        {
-            if (code == 200)
-            {
-                JSONNode node = Utils.Json.Decompress(body);
-
-                int levelsGained = node.GetValueOrDefault("levelsGained", 0);
-
-                GameState.Armoury.UpgradeItem(armouryItem.ItemID, levelsGained);
-            }
+            ServerUtils.Armoury.UpgradeItem(armouryItem.ItemID, (code, body) => { });
         }
 
 
         public void EvolveItem()
         {
-            JSONNode node = Utils.Json.GetDeviceNode();
-
-            node["itemId"] = armouryItem.ItemID;
-
-            Server.Put("armoury", "evolveItem", node, OnEvolveCallback);
+            ServerUtils.Armoury.EvolveItem(armouryItem.ItemID, (code, body) => { });
         }
 
-        void OnEvolveCallback(long code, string compressed)
-        {
-            if (code == 200)
-            {
-                JSONNode node = Utils.Json.Decompress(compressed);
-
-                int evoLevelsGained = node.GetValueOrDefault("evoLevelsGained", 0);
-
-                GameState.Armoury.EvoUpgradeItem(armouryItem.ItemID, evoLevelsGained);
-            }
-        }
 
         // = = = Button Callbacks = = =
         public void OnUpgradeButton()
@@ -114,7 +85,7 @@ namespace GreedyMercs.Armoury.UI
 
         public void OnEvolveButton()
         {
-
+            EvolveItem();
         }
 
         public void OnClosePopup()

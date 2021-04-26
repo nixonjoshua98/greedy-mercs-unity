@@ -6,6 +6,8 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using GM.Armoury;
+
     using Inventory;
 
     using GreedyMercs.BountyShop.Data;
@@ -18,7 +20,7 @@ namespace GreedyMercs
         public static PlayerPerkData Perks;
 
         public static PlayerBountyShopData BountyShop;
-        public static PlayerArmouryData Armoury;
+        public static ArmouryData Armoury;
         public static PlayerLifetimeStats LifetimeStats;
 
         public static LootState Loot;
@@ -59,7 +61,7 @@ namespace GreedyMercs
             Player          = new PlayerState(node["player"]);
             LifetimeStats   = new PlayerLifetimeStats(node["lifetimeStats"]);
 
-            Armoury = PlayerArmouryData.FromJsonNode(node["armoury"]);
+            Armoury = ArmouryData.FromJsonNode(node["armoury"]);
 
             BountyShop  = new PlayerBountyShopData(node["bountyShop"]);
 
@@ -84,7 +86,7 @@ namespace GreedyMercs
 
         public static void UpdateWithServerData(JSONNode node)
         {
-            Armoury = PlayerArmouryData.FromJsonNode(node["armoury"]);
+            Armoury = ArmouryData.FromJsonNode(node["armoury"]);
 
             Player.Update(node["player"]);
             Bounties.Update(node["bounties"]);

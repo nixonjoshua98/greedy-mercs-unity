@@ -16,7 +16,7 @@ namespace Interface
     {
         public void OnClick()
         {
-            JSONNode node = Utils.Json.GetDeviceNode();
+            JSONNode node = Utils.Json.GetDeviceInfo();
 
             Server.Put("armoury", "buyIron", node, OnServerResponse);
         }

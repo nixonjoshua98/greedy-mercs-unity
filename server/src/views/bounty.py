@@ -1,11 +1,28 @@
 import datetime as dt
 
-from flask import Response, request
+from flask import Response
 
-from flask.views import View
+from flask.views import View, request
 
 from src import utils, checks, formulas
 from src.exts import mongo
+
+from src.classes.serverresponse import ServerResponse
+
+
+class Bounty(View):
+
+	@checks.login_check
+	def dispatch_request(self, *, uid, data):
+		purpose = request.args.get("purpose")
+
+		if purpose == "claimPoints":
+			return self.claim_points(uid, data)
+
+		return "400", 400
+
+	def claim_points(self, uid, data):
+		return ServerResponse({})
 
 
 class ClaimBounty(View):

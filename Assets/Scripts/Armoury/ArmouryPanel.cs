@@ -49,7 +49,7 @@ namespace GreedyMercs.Armoury.UI
 
             BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
 
-            damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
+            damageBonusText.text = string.Format("{0}% Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
         }
 
         void InstantiateItem(ArmouryItemState state)
@@ -69,7 +69,7 @@ namespace GreedyMercs.Armoury.UI
 
         void OnIconClick(ArmouryItemSO item)
         {
-            GameObject obj = Funcs.UI.Instantiate(ItemPopupObject, gameObject);
+            GameObject obj = Funcs.UI.Instantiate(ItemPopupObject);
 
             ArmouryItemPopup panel = obj.GetComponent<ArmouryItemPopup>();
 

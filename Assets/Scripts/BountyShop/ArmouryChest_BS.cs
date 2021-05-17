@@ -30,7 +30,7 @@ namespace GreedyMercs.BountyShop.UI
         {
             void Purchase()
             {
-                JSONNode node = Utils.Json.GetDeviceNode();
+                JSONNode node = Utils.Json.GetDeviceInfo();
 
                 node.Add("itemId", (int)item);
 

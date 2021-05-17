@@ -61,7 +61,7 @@ namespace GreedyMercs.BountyShop.UI
 
             if (GameState.BountyShop.IsValid && inStock)
             {
-                JSONNode node = Utils.Json.GetDeviceNode();
+                JSONNode node = Utils.Json.GetDeviceInfo();
 
                 node.Add("itemId", (int)item);
 

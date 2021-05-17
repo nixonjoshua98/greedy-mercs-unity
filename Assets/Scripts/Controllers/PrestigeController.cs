@@ -25,7 +25,7 @@ namespace GreedyMercs.StageDM.Prestige
 
         public void Prestige(Action<bool> callback)
         {
-            JSONNode node = Utils.Json.GetDeviceNode();
+            JSONNode node = Utils.Json.GetDeviceInfo();
 
             node.Add("prestigeStage", GameState.Stage.stage);
 
@@ -38,13 +38,9 @@ namespace GreedyMercs.StageDM.Prestige
         {
             if (code == 200)
             {
-                DataManager.IsPaused = true;
-
                 Events.OnPlayerPrestige.Invoke();
 
                 GameState.SaveLocalDataOnly();
-
-                Utils.File.WriteJson(DataManager.DATA_FILE, Utils.Json.Decompress(compressed));
 
                 StartCoroutine(RunPrestigeAnimation());
             }
@@ -64,11 +60,6 @@ namespace GreedyMercs.StageDM.Prestige
             CancelInvoke("UpdatePanel");
 
             yield return SquadManager.MoveOut(1.0f);
-
-            bool _ = Utils.File.ReadJson(DataManager.DATA_FILE, out JSONNode node);
-
-            // The server data is stored locally to avoid prestige exploting
-            GameState.UpdateWithServerData(node);
 
             GameState.Prestige();
 

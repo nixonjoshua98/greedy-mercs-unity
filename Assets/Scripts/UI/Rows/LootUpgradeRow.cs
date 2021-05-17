@@ -103,7 +103,7 @@ namespace GreedyMercs
 
             if (levelsBuying > 0 && GameState.Inventory.prestigePoints >= cost && (itemState.level + levelsBuying) <= itemData.maxLevel)
             {
-                JSONNode node = Utils.Json.GetDeviceNode();
+                JSONNode node = Utils.Json.GetDeviceInfo();
 
                 node.Add("itemId", (int)lootId);
                 node.Add("buyLevels", BuyAmount);

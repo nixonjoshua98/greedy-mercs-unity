@@ -38,7 +38,7 @@ namespace GreedyMercs
 
         void OnUsernameChange(string username)
         {
-            JSONNode node = Utils.Json.GetDeviceNode();
+            JSONNode node = Utils.Json.GetDeviceInfo();
 
             node["newUsername"] = username;
 

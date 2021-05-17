@@ -16,7 +16,7 @@ public static class Server
 {
     const int PORT = 2122;
 
-    const string LOCAL_IP = "109.154.20.217";
+    const string LOCAL_IP = "109.152.215.17";
     const string AWS_IP = "18.232.147.109";
 
 #if UNITY_EDITOR

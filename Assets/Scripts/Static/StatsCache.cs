@@ -50,7 +50,6 @@ namespace GreedyMercs
             }
         }
 
-        static Dictionary<BonusType, double> BonusFromPerks { get { return GameState.Perks.CalcBonuses(); } }
         static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CalcBonuses(); } }
 
         public static BigDouble GetCritChance() => StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
@@ -147,7 +146,7 @@ namespace GreedyMercs
 
 
         // # === Energy === #
-        public static double PlayerEnergyPerMinute() => (1.0f + AddictiveBonuses(BonusType.ENERGY_INCOME)) * BonusFromPerks.GetOrVal(BonusType.ENERGY_INCOME, 1);
+        public static double PlayerEnergyPerMinute() => (1.0f + AddictiveBonuses(BonusType.ENERGY_INCOME));
         public static double PlayerMaxEnergy()
         {
             int skillEnergy = GameState.Skills.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
@@ -185,12 +184,7 @@ namespace GreedyMercs
             {
                 CharacterSO data = StaticData.CharacterList.Get(chara);
 
-                CachedDoubles[key] = (
-                    Formulas.CalcCharacterDamage(chara) * 
-                    MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType) * 
-                    ArmouryDamageMultiplier *
-                    BonusFromPerks.GetOrVal(BonusType.MERC_DAMAGE, 1)
-                    );
+                CachedDoubles[key] = Formulas.CalcCharacterDamage(chara) * MultiplyBonuses(BonusType.MERC_DAMAGE, data.attackType) * ArmouryDamageMultiplier;
             }
 
             return CachedDoubles[key];

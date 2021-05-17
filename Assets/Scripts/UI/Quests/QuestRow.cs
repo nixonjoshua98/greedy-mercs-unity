@@ -121,7 +121,7 @@ namespace GreedyMercs.Quests.UI
             {
                 currentlyClaimingQuest = true;
 
-                JSONNode node = Utils.Json.GetDeviceNode();
+                JSONNode node = Utils.Json.GetDeviceInfo();
 
                 node["questId"] = (int)quest;
 

@@ -7,7 +7,6 @@ namespace GreedyMercs
 {
     using GM.Armoury;
 
-    using GreedyMercs.Perks.Data;
     using GreedyMercs.Armoury.Data;
     public static class Formulas
     {
@@ -17,9 +16,6 @@ namespace GreedyMercs
             {
                 get
                 {
-                    if (GameState.Perks.IsPerkActive(PerkID.ENEMY_COOLDOWN))
-                        return 0.15f;
-
                     return 0.25f;
                 }
             }

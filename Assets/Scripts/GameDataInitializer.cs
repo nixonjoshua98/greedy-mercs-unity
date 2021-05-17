@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace GreedyMercs
 {
+    using GM.Bounty;
     using GM.Armoury;
 
     using GreedyMercs.Armoury.Data;
@@ -72,7 +73,7 @@ namespace GreedyMercs
 
             InstantiateServerData(node);
 
-            Server.Login(ServerLoginCallback, Utils.Json.GetDeviceNode());
+            Server.Login(ServerLoginCallback, Utils.Json.GetDeviceInfo());
         }
 
         void InstantiatePlayerData(JSONNode node)
@@ -80,6 +81,8 @@ namespace GreedyMercs
             GameState.Restore(node);
 
             ArmouryManager.Create(node["armoury"]);
+            BountyManager.Create(new JSONObject());
+
         }
 
         void InstantiateServerData(JSONNode node)

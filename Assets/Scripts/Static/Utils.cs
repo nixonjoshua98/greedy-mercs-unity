@@ -145,6 +145,8 @@ namespace GreedyMercs.Utils
 
                 yield return new WaitForEndOfFrame();
             }
+
+            rt.localScale = Vector3.one;
         }
     }
 
@@ -177,7 +179,7 @@ namespace GreedyMercs.Utils
             return File.Compress(node.ToString());
         }
 
-        public static JSONNode GetDeviceNode()
+        public static JSONNode GetDeviceInfo()
         {
             JSONObject node = new JSONObject();
 

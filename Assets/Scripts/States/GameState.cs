@@ -6,18 +6,13 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
-    using GM.Armoury;
-
     using Inventory;
 
     using GreedyMercs.BountyShop.Data;
-    using GreedyMercs.Armoury.Data;
-    using GreedyMercs.Perks.Data;
 
     public static class GameState
     {
         public static PlayerQuestData Quests;
-        public static PlayerPerkData Perks;
 
         public static PlayerBountyShopData BountyShop;
         public static PlayerLifetimeStats LifetimeStats;
@@ -53,6 +48,8 @@ namespace GreedyMercs
         {
             Loot = new LootState();
 
+            Quests = new PlayerQuestData(new JSONObject());
+
             Inventory = new PlayerInventory(node["inventory"]);
 
             Stage           = new StageState(node);
@@ -67,8 +64,6 @@ namespace GreedyMercs
             Characters  = new CharacterContainer(node);
 
             LastLoginDate = node.HasKey("lastLoginDate") ? node["lastLoginDate"].AsLong.ToUnixDatetime() : DateTime.UtcNow;
-
-            UpdateWithLocalData();
         }
 
         public static void Prestige()
@@ -95,17 +90,6 @@ namespace GreedyMercs
             Inventory.Update(node["inventory"]);
         }
 
-        public static void UpdateWithLocalData()
-        {
-            if (!Utils.File.ReadJson(DataManager.LOCAL_ONLY_FILE, out JSONNode node))
-                node = new JSONObject();
-
-            Quests  = new PlayerQuestData(node["quests"]);
-            Perks   = new PlayerPerkData(node["perks"]);
-
-            Loot.UpdateWithLocalData();
-        }
-
         public static JSONNode ToJson()
         {
             JSONNode node = new JSONObject();
@@ -127,8 +111,6 @@ namespace GreedyMercs
 
         public static void Save()
         {
-            Utils.File.WriteJson(DataManager.DATA_FILE, ToJson());
-
             SaveLocalDataOnly();
 
             Loot.Save();
@@ -139,9 +121,6 @@ namespace GreedyMercs
             JSONNode node = new JSONObject();
 
             node.Add("quests", Quests.ToJson());
-            node.Add("perks", Perks.ToJson());
-
-            Utils.File.WriteJson(DataManager.LOCAL_ONLY_FILE, node);
         }
     }
 }

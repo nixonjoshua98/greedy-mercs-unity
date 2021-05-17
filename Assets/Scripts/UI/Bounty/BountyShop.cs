@@ -11,7 +11,6 @@ namespace GreedyMercs.UI.Bounties
     {
         [Header("Components")]
         [SerializeField] Text dailyResetText;
-        [SerializeField] Text bountyPointsText;
 
         bool isRefreshing = false;
 
@@ -25,11 +24,6 @@ namespace GreedyMercs.UI.Bounties
         void OnDisable()
         {
             CancelInvoke("UpdateUI");
-        }
-
-        void FixedUpdate()
-        {
-            bountyPointsText.text = Utils.Format.FormatNumber(GameState.Inventory.bountyPoints);
         }
 
         void UpdateUI()
@@ -49,7 +43,7 @@ namespace GreedyMercs.UI.Bounties
                 {
                     isRefreshing = true;
 
-                    Server.RefreshBountyShop(ServerCallback, Utils.Json.GetDeviceNode());
+                    Server.RefreshBountyShop(ServerCallback, Utils.Json.GetDeviceInfo());
                 }
             }
         }

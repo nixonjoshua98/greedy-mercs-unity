@@ -1,5 +1,6 @@
 ﻿
 using System;
+
 using System.Collections.Generic;
 
 using SimpleJSON;
@@ -28,30 +29,27 @@ namespace GM.Armoury
     {
         public static ArmouryManager Instance = null;
 
-        Dictionary<int, ArmouryItemState> items;
+        Dictionary<int, ArmouryItemState> states;
 
         public ArmouryManager()
         {
-            items = new Dictionary<int, ArmouryItemState>();
+            states = new Dictionary<int, ArmouryItemState>();
         }
 
-        public static ArmouryManager Create(JSONNode playerData)
+        public static ArmouryManager Create(JSONNode node)
         {
             Instance = new ArmouryManager();
 
-            JSONNode items = playerData;
-
-            foreach (string key in items.Keys)
+            foreach (string key in node.Keys)
             {
                 int weaponIndex = int.Parse(key);
 
-                JSONNode item = items[key];
+                JSONNode item = node[key];
 
-                ArmouryItemState state = new ArmouryItemState(weaponIndex)
-                {
-                    level       = item.GetValueOrDefault("level", 0),
-                    owned       = item.GetValueOrDefault("owned", 0),
-                    evoLevel    = item.GetValueOrDefault("evoLevel", 0)
+                ArmouryItemState state = new ArmouryItemState(weaponIndex) {
+                    level       = item["level"].AsInt, 
+                    owned       = item["owned"].AsInt,
+                    evoLevel    = item["evoLevel"].AsInt
                 };
 
                 Instance.SetWeaponState(weaponIndex, state);
@@ -70,15 +68,15 @@ namespace GM.Armoury
                 {
                     JSONNode returnNode = Utils.Json.Decompress(body);
 
-                    int levelsGained = returnNode.GetValueOrDefault("levelsGained", 0);
+                    int levelsGained = returnNode["levelsGained"].AsInt;
 
-                    UpgradeItem(weaponIndex, levelsGained);
+                    AddUpgradeLevel(weaponIndex, levelsGained);
                 }
 
                 call(code, body);
             }
 
-            JSONNode node = Utils.Json.GetDeviceNode();
+            JSONNode node = Utils.Json.GetDeviceInfo();
 
             node["itemId"] = weaponIndex;
 
@@ -94,15 +92,15 @@ namespace GM.Armoury
                 {
                     JSONNode returnNode = Utils.Json.Decompress(body);
 
-                    int evoLevelsGained = returnNode.GetValueOrDefault("evoLevelsGained", 0);
+                    int evoLevelsGained = returnNode["evoLevelsGained"];
 
-                    EvoUpgradeItem(weaponIndex, evoLevelsGained);
+                    AddEvolveLevel(weaponIndex, evoLevelsGained);
                 }
 
                 call(code, body);
             }
 
-            JSONNode node = Utils.Json.GetDeviceNode();
+            JSONNode node = Utils.Json.GetDeviceInfo();
 
             node["itemId"] = weaponIndex;
 
@@ -115,7 +113,7 @@ namespace GM.Armoury
         {
             double val = 0;
 
-            foreach (var w in items)
+            foreach (var w in states)
             {
                 ArmouryItemState state = GetItem(w.Key);
 
@@ -130,7 +128,7 @@ namespace GM.Armoury
         // = = = SET = = =
         void SetWeaponState(int itemId, ArmouryItemState state)
         {
-            items[itemId] = state;
+            states[itemId] = state;
         }
 
         // = = = GET = = =
@@ -138,7 +136,7 @@ namespace GM.Armoury
         {
             List<ArmouryItemState> ls = new List<ArmouryItemState>();
 
-            foreach (ArmouryItemState state in items.Values)
+            foreach (ArmouryItemState state in states.Values)
             {
                 if (state.owned > 0)
                     ls.Add(state);
@@ -149,15 +147,15 @@ namespace GM.Armoury
 
         public ArmouryItemState GetItem(int index)
         {
-            if (!items.ContainsKey(index))
-                items[index] = new ArmouryItemState(index);
+            if (!states.ContainsKey(index))
+                states[index] = new ArmouryItemState(index);
 
-            return items[index];
+            return states[index];
         }
 
         // = = = Shorthand GET Methods = = = 
-        public void UpgradeItem(int index, int levels) { GetItem(index).level += levels; }
+        public void AddUpgradeLevel(int index, int levels) { GetItem(index).level += levels; }
         public void AddOwnedItem(int index, int total) { GetItem(index).owned += total; }
-        public void EvoUpgradeItem(int index, int levels) { GetItem(index).evoLevel += levels; }
+        public void AddEvolveLevel(int index, int levels) { GetItem(index).evoLevel += levels; }
     }
 }

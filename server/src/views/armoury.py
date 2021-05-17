@@ -28,18 +28,18 @@ class Armoury(View):
 	def buy_iron(self, uid, data):
 		mongo.db.inventories.update_one({"userId": uid}, {"$inc": {"armouryPoints": 1}})
 
-		return ServerResponse({"pointsGained": 1}, status=200)
+		return ServerResponse({"pointsGained": 1})
 
 	def upgrade_item(self, uid, data):
 		item = data["itemId"]
 
 		mongo.db.userArmouryItems.update_one({"userId": uid}, {"$inc": {f"items.{item}.level": 1}})
 
-		return ServerResponse({"levelsGained": 1}, status=200)
+		return ServerResponse({"levelsGained": 1})
 
 	def evolve_item(self, uid, data):
 		item = data["itemId"]
 
 		mongo.db.userArmouryItems.update_one({"userId": uid}, {"$inc": {f"items.{item}.evoLevel": 1}})
 
-		return ServerResponse({"evoLevelsGained": 1}, status=200)
+		return ServerResponse({"evoLevelsGained": 1})

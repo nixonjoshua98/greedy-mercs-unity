@@ -84,7 +84,7 @@ namespace GreedyMercs.UI.Bounties
 
         void FixedUpdate()
         {
-            bountyPointsText.text = Utils.Format.FormatNumber(GameState.Inventory.bountyPoints);
+            bountyPointsText.text = GameState.Inventory.bountyPoints.ToString();
 
             claimButton.interactable = !claimingBounties && GameState.Bounties.CurrentClaimAmount > 0;
 
@@ -106,7 +106,7 @@ namespace GreedyMercs.UI.Bounties
             if (GameState.Bounties.CurrentClaimAmount <= 0)
                 return;
 
-            var node = Utils.Json.GetDeviceNode();
+            var node = Utils.Json.GetDeviceInfo();
 
             node.Add("currentStage", GameState.Stage.stage);
             node.Add("lastClaimTime", GameState.Bounties.lastClaimTime.ToUnixMilliseconds());

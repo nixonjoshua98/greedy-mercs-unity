@@ -28,8 +28,6 @@ namespace GreedyMercs.BountyShop.Data
 
         public void Update(JSONNode node)
         {
-            Debug.Log(GameState.LastDailyReset);
-
             items = new Dictionary<BountyShopItemID, BountyItemState>();
 
             foreach (string key in node["itemsBought"].Keys)

@@ -4,8 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using GM.Armoury;
+
 namespace GreedyMercs.Armoury.UI
 {
+    using GM.Armoury;
+
     using GreedyMercs.Armoury.Data;
 
     public class ArmouryPanel : MonoBehaviour
@@ -18,24 +22,26 @@ namespace GreedyMercs.Armoury.UI
 
         [Header("Prefabs")]
         [SerializeField] GameObject ArmouryItemObject;
-        [SerializeField] GameObject ArmouryPanelObject;
+        [SerializeField] GameObject ItemPopupObject;
 
         // ===
-        List<ArmouryItemSlot> slots;
+        Dictionary<int, ArmouryItem> itemObjects;
+
+        void Awake()
+        {
+            itemObjects = new Dictionary<int, ArmouryItem>();
+        }
 
         void OnEnable()
         {
-            slots = new List<ArmouryItemSlot>();
-
-            Populate();
+            foreach (ArmouryItemState state in ArmouryManager.Instance.GetOwned())
+            {
+                if (!itemObjects.ContainsKey(state.WeaponIndex))
+                {
+                    InstantiateItem(state);
+                }
+            }
         }
-
-        void OnDisable()
-        {
-            for (int i = 0; i < itemsParent.childCount; ++i) Destroy(itemsParent.GetChild(i).gameObject);
-        }
-
-
 
         void FixedUpdate()
         {
@@ -46,25 +52,26 @@ namespace GreedyMercs.Armoury.UI
             damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
         }
 
-        void Populate()
+        void InstantiateItem(ArmouryItemState state)
         {
-            foreach (ArmouryItemSO w in StaticData.Armoury.GetAllItems())
-            {
-                ArmouryItemSlot slot = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItemSlot>();
+            var serverData = StaticData.Armoury.GetWeapon(state.WeaponIndex);
 
-                slot.Init(w);
+            ArmouryItem item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItem>();
 
-                slot.SetButtonCallback(() => { OnIconClick(w); });
+            item.Init(serverData);
 
-                slots.Add(slot);
-            }
+            item.SetButtonCallback(() => { OnIconClick(serverData); });
+
+            itemObjects[state.WeaponIndex] = item;
         }
 
         // === Button Callback ===
 
         void OnIconClick(ArmouryItemSO item)
         {
-            ArmouryWeaponPanel panel = Utils.UI.Instantiate(ArmouryPanelObject, Vector3.zero).GetComponent<ArmouryWeaponPanel>();
+            GameObject obj = Funcs.UI.Instantiate(ItemPopupObject, gameObject);
+
+            ArmouryItemPopup panel = obj.GetComponent<ArmouryItemPopup>();
 
             panel.Init(item);
         }

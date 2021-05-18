@@ -23,19 +23,12 @@ app.add_url_rule("/api/bountyshop/buy", 	view_func=BountyShop.as_view("bountysho
 app.add_url_rule("/api/loot/buy", 		view_func=BuyLoot.as_view("buyitem"), 			methods=["PUT"])
 app.add_url_rule("/api/loot/upgrade", 	view_func=UpgradeLoot.as_view("upgradeitem"), 	methods=["PUT"])
 
-# === Shop (Diamond Purchases) === #
-app.add_url_rule("/api/shop/buyperk",	view_func=PurchasePerk.as_view("purchaseperk"),	methods=["PUT"])
-
 # === Player (User) === #
 app.add_url_rule("/api/user/login", 			view_func=PlayerLogin.as_view("playerlogin"), 		methods=["PUT"])
 app.add_url_rule("/api/user/changeusername", 	view_func=ChangeUsername.as_view("changeusername"), methods=["PUT"])
 
 # === Leaderboard === #
 app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["GET"])
-
-# === Armoury === #
-app.add_url_rule("/api/armoury/upgrade", 	view_func=UpgradeArmouryItem.as_view("upgradearmoury"), methods=["PUT"])
-app.add_url_rule("/api/armoury/upgradeevo",	view_func=UpgradeEvoArmouryItem.as_view("upgradeevo"), methods=["PUT"])
 
 # === Quests === #
 app.add_url_rule("/api/quest/claim", view_func=ClaimQuestReward.as_view("completequest"), methods=["PUT"])

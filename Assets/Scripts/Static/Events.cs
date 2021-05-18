@@ -2,6 +2,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+namespace GM.Events
+{
+    [System.Serializable]
+    public class IntegerEvent : UnityEvent<int> { }
+}
+
 namespace GreedyMercs.CustomEvents
 {
     public class GameObjectEvent : UnityEvent<GameObject> { }
@@ -9,8 +15,6 @@ namespace GreedyMercs.CustomEvents
     public class HealthEvent : UnityEvent<Health> { }
 
     public class CharacterEvent : UnityEvent<CharacterID> { }
-
-    public class IntegerEvent : UnityEvent<int> { }
 }
 
 namespace GreedyMercs

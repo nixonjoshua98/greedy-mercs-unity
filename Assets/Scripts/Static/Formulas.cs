@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GM.Armoury;
+
     using GreedyMercs.Perks.Data;
     using GreedyMercs.Armoury.Data;
     public static class Formulas
@@ -46,14 +48,14 @@ namespace GreedyMercs
         {
             public static double WeaponDamage(int index)
             {
-                ArmouryWeaponState state = GameState.Armoury.GetWeapon(index);
+                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
 
                 return WeaponDamage(index, state.level, state.evoLevel);
             }
 
             public static double WeaponDamage(int index, int level)
             {
-                ArmouryWeaponState state = GameState.Armoury.GetWeapon(index);
+                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
 
                 return WeaponDamage(index, level, state.evoLevel);
             }

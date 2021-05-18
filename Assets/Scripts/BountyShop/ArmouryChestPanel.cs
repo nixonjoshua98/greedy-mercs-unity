@@ -12,7 +12,7 @@ namespace GreedyMercs.BountyShop.UI
 
     public class ArmouryChestPanel : MonoBehaviour
     {
-        [SerializeField] ArmouryItemSlot itemSlot;
+        [SerializeField] ArmouryItem itemSlot;
 
         [Header("References")]
         [SerializeField] GameObject claimButtonObject;
@@ -30,7 +30,7 @@ namespace GreedyMercs.BountyShop.UI
 
             for (int i = 0; i < Random.Range(10, 15); ++i)
             {
-                itemSlot.Init(items[Random.Range(0, items.Count)], hideLockedPanel: true);
+                itemSlot.Init(items[Random.Range(0, items.Count)]);
 
                 yield return new WaitForSeconds(0.15f);
             }

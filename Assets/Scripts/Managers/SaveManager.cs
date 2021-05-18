@@ -6,7 +6,6 @@ namespace GreedyMercs
     public class DataManager : MonoBehaviour
     {
         public static string DATA_FILE = "localsave01";
-        public static string STATIC_FILE = "localstatic01";
         public static string LOCAL_ONLY_FILE = "localonly01";
 
         // ===

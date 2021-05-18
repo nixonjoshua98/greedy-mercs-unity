@@ -213,7 +213,7 @@ RectTransform:
   m_Children:
   - {fileID: 1388807365}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -301,7 +301,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &864864439
 GameObject:
@@ -367,7 +367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &993344751
 GameObject:
@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 993344753}
   - component: {fileID: 993344752}
   m_Layer: 0
-  m_Name: Initializer
+  m_Name: '[GameDataInitializer]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 993344751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32a7b5d846ba8634eaa5688098d222bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f69ee3a17d74de438354747cc05251c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Armoury: {fileID: 11400000, guid: f8a28976699026e418854f096d7ff71c, type: 2}
@@ -415,7 +415,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1388807364
 GameObject:

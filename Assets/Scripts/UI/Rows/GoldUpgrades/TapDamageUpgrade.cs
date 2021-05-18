@@ -1,28 +1,49 @@
 ﻿
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GreedyMercs
 {
-    public class TapDamageUpgrade : GoldUpgradeRow
+    using GM.Interface;
+
+    public class TapDamageUpgrade : MonoBehaviour
     {
-        protected override int BuyAmount
+        GoldUpgradeID upgrade = GoldUpgradeID.TAP_DAMAGE;
+
+        UpgradeState State { get { return GameState.Upgrades.GetUpgrade(upgrade); } }
+
+        [SerializeField] BuyController controller;
+
+        [Header("Components")]
+        [SerializeField] DefaultUpgradeButton upgradeButton;
+        [Space]
+        [SerializeField] Button buyButton;
+        [Space]
+        [SerializeField] Text nameText;
+        [SerializeField] Text damageText;
+
+        int _buyAmount;
+
+        int buyAmount
         {
             get
             {
-                if (PlayerTab.BuyAmount == -1)
+                if (_buyAmount == -1)
+                {
                     return Formulas.AffordTapDamageLevels();
+                }
 
-                var state = GameState.Upgrades.GetUpgrade(upgrade);
-
-                return Mathf.Min(PlayerTab.BuyAmount, StaticData.MAX_TAP_UPGRADE_LEVEL - state.level);
+                return Mathf.Min(_buyAmount, StaticData.MAX_TAP_UPGRADE_LEVEL - State.level);
             }
         }
-        void Awake()
+
+
+        void Start()
         {
-            upgrade = GoldUpgradeID.TAP_DAMAGE;
+            controller.AddListener((amount) => { _buyAmount = amount; });
         }
 
-        protected override void UpdateRow()
+        void FixedUpdate()
         {
             UpdateButtonText();
 
@@ -35,28 +56,34 @@ namespace GreedyMercs
 
         void UpdateButtonText()
         {
-            costText.text       = "-";
-            purchaseText.text   = "MAX LEVEL";
+            string top = "MAX";
+            string btm = "-";
 
             if (State.level < StaticData.MAX_TAP_UPGRADE_LEVEL)
             {
-                purchaseText.text = string.Format("x{0}", BuyAmount);
-
-                costText.text = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(BuyAmount));
+                top = string.Format("x{0}", buyAmount);
+                btm = Utils.Format.FormatNumber(Formulas.CalcTapDamageLevelUpCost(buyAmount));
             }
+
+            upgradeButton.SetText(top, btm);
         }
 
         // === Button Callbacks ===
 
-        public override void OnBuy()
+        public void OnBuy()
         {
-            int levelsBuying = BuyAmount;
+            int levelsBuying = buyAmount;
 
             BigDouble cost = Formulas.CalcTapDamageLevelUpCost(levelsBuying);
 
-            UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
+            if (GameState.Player.gold >= cost)
+            {
+                UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
 
-            BuyUpgrade(cost, levelsBuying);
+                state.level += levelsBuying;
+
+                GameState.Player.gold -= cost;
+            }
         }
     }
 }

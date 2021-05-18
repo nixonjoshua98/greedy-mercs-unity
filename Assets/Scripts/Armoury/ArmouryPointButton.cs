@@ -12,27 +12,8 @@ namespace Interface
 
     using Utils = GreedyMercs.Utils;
 
-    using GreedyMercs.BountyShop.Data;
-
     public class ArmouryPointButton : MonoBehaviour
     {
-        Text purchaseText;
-
-        void Awake()
-        {
-            purchaseText = GetComponentInChildren<Text>();
-        }
-
-        void FixedUpdate()
-        {
-            UpdateUI();
-        }
-
-        void UpdateUI()
-        {
-            //purchaseText.text = string.Format("Buy Iron\n{0}x BP", StaticData.Armoury.IronCost);
-        }
-
         public void OnClick()
         {
             JSONNode node = Utils.Json.GetDeviceNode();

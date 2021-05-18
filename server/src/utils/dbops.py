@@ -23,6 +23,8 @@ def get_player_data(uid):
 
 	inventory = mongo.db.inventories.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
+	armoury = mongo.db["userArmouryItems"].find_one({"userId": uid}) or dict()
+
 	return {
 		"player": {
 			"username": info.get("username", "Rogue Mercenary"),
@@ -37,7 +39,8 @@ def get_player_data(uid):
 		"bounties": 		bounties,
 
 		"loot": 	inventory.get("loot", dict()),
-		"armoury": 	inventory.get("armoury", dict())
+
+		"armoury": 	armoury.get("items", {})
 	}
 
 

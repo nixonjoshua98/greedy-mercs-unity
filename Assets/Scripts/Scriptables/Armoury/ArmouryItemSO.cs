@@ -14,7 +14,7 @@ namespace GreedyMercs.Armoury.Data
     }
 
     [PreferBinarySerialization]
-    [CreateAssetMenu(menuName = "Scriptables/ArmouryItem")]
+    [CreateAssetMenu(menuName="Scriptables/ArmouryItem")]
     public class ArmouryItemSO : ScriptableObject
     {
         public WeaponType Type;
@@ -25,7 +25,7 @@ namespace GreedyMercs.Armoury.Data
         public int ItemID;
 
         [Space]
-        public int starRating;
+        public int itemTier;
         public int upgradeCost;
         public int evoUpgradeCost;
 
@@ -40,7 +40,7 @@ namespace GreedyMercs.Armoury.Data
 
             damageBonus = node["damageBonus"].AsDouble;
 
-            starRating  = node["itemTier"].AsInt;
+            itemTier  = node["itemTier"].AsInt;
             upgradeCost = node["upgradeCost"].AsInt;
         }
     }

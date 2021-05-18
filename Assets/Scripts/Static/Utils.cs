@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Numerics;
 using System.Collections;
@@ -9,7 +8,6 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 
 using SimpleJSON;
@@ -18,6 +16,39 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 using SysFile = System.IO.File;
+
+public static class Funcs
+{
+    public static JSONNode SerializeDictionary<TKey, TVal>(Dictionary<TKey, TVal> dict)
+    {
+        JSONNode node = new JSONObject();
+
+        foreach (KeyValuePair<TKey, TVal> entry in dict)
+        {
+            node.Add(entry.Key.ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
+        }
+
+        return node;
+    }
+
+    public static class UI
+    {
+        public static GameObject MainCanvas { get { return GameObject.FindGameObjectWithTag("MainCanvas"); } }
+        public static GameObject Instantiate(GameObject obj, GameObject parent = null)
+        {
+            if (parent == null)
+                parent = MainCanvas;
+
+            GameObject createdObject = GameObject.Instantiate(obj);
+
+            createdObject.transform.SetParent(parent.transform, false);
+
+            return createdObject;
+        }
+    }
+
+}
+
 
 public static class Extensions
 {    
@@ -80,19 +111,6 @@ namespace GreedyMercs.Utils
                     return "<missing name>";
             }
         }
-
-        public static TEnum ParseEnum<TEnum>(string val) where TEnum : struct, Enum
-        {
-            try
-            {
-                return (TEnum)Enum.Parse(typeof(TEnum), val);
-            }
-            catch (ArgumentException)
-            {
-                return default(TEnum);
-            }
-
-        }
     }
 
     public class Lerp
@@ -133,19 +151,6 @@ namespace GreedyMercs.Utils
 
     public class Json
     {
-        public static void TryParseDict<TEnum, TVal>(JSONNode node, out Dictionary<TEnum, TVal> dict) where TEnum : struct, Enum
-        {
-            dict = new Dictionary<TEnum, TVal>();
-
-            foreach (string key in node.Keys)
-            {
-                TEnum id = Generic.ParseEnum<TEnum>(key);
-                TVal val = JsonUtility.FromJson<TVal>(node[key].ToString());
-
-                dict.Add(id, val);
-            }
-        }
-
         public static JSONArray CreateJSONArray<TKey, TValue>(string key, Dictionary<TKey, TValue> dict)
         {
             JSONArray array = new JSONArray();

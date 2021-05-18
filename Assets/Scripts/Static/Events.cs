@@ -6,6 +6,8 @@ namespace GM.Events
 {
     [System.Serializable]
     public class IntegerEvent : UnityEvent<int> { }
+
+    public class GameObjectEvent : UnityEvent<GameObject> { }
 }
 
 namespace GreedyMercs.CustomEvents

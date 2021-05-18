@@ -19,11 +19,16 @@ def get_player_data(uid):
 	quests		= mongo.db.dailyQuests.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	stats 		= mongo.db.userStats.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	info  		= mongo.db.userInfo.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
-	bounties 	= mongo.db.userBounties.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
 	inventory = mongo.db.inventories.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
 	armoury = mongo.db["userArmouryItems"].find_one({"userId": uid}) or dict()
+
+	bounties_v2 = mongo.db["userBountiesV2"].find({"userId": uid})
+
+	import datetime as dt
+
+	mongo.db["userBountiesV2"].update_one({"userId": uid, "bountyId": 0}, {"$set": {"lastClaimTime": dt.datetime.utcnow()}}, upsert=True)
 
 	return {
 		"player": {
@@ -36,11 +41,12 @@ def get_player_data(uid):
 
 		"lifetimeStats": 	stats,
 		"bountyShop": 		shop,
-		"bounties": 		bounties,
 
 		"loot": 	inventory.get("loot", dict()),
 
-		"armoury": 	armoury.get("items", {})
+		"armoury": 	armoury.get("items", {}),
+
+		"bountiesV2": list(bounties_v2)
 	}
 
 

@@ -33,9 +33,6 @@ public static class Server
     static void StartCoroutine(IEnumerator f) => PersistentMono.Inst.StartCoroutine(f);
 
 
-    // === Bounties ===
-    public static void ClaimBounty(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bounty/claim", callback, node));
-
     // === Bounty Shop ===
     public static void RefreshBountyShop(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bountyshop/refresh", callback, node));
     public static void BuyBountyShopItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bountyshop/buy", callback, node));

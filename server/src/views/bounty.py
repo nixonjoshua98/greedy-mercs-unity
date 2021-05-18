@@ -1,4 +1,8 @@
+import math
+
 import datetime as dt
+
+from pymongo import ReturnDocument
 
 from flask import Response
 
@@ -7,6 +11,7 @@ from flask.views import View, request
 from src import utils, checks, formulas
 from src.exts import mongo
 
+from src.classes import resources
 from src.classes.serverresponse import ServerResponse
 
 
@@ -22,32 +27,23 @@ class Bounty(View):
 		return "400", 400
 
 	def claim_points(self, uid, data):
-		return ServerResponse({})
-
-
-class ClaimBounty(View):
-
-	@checks.login_check
-	def dispatch_request(self, *, uid, data):
 		now = dt.datetime.utcnow()
 
-		# - Load data from the database
-		stats 		= mongo.db.userStats.find_one({"userId": uid}) or dict()
-		bounties 	= mongo.db.userBounties.find_one({"userId": uid})
+		bounty_resources = resources.get("bounties")["bounties"]
 
-		if bounties is None:
-			bounties = {"lastClaimTime": dt.datetime.utcfromtimestamp(data["lastClaimTime"] / 1000.0)}
+		bounties = list(mongo.db["userBountiesV2"].find({"userId": uid}))
 
-		max_stage = max(stats.get("maxPrestigeStage", 0), data.get("currentStage", 0))
+		points = 0
 
-		bounty_levels = bounties.get("bountyLevels", dict())
-		earned_points = formulas.bounty_hourly_income(bounty_levels, max_stage, bounties["lastClaimTime"])
+		for i, bounty in enumerate(bounties):
+			bounty_data = bounty_resources[bounty["bountyId"]]
 
-		if earned_points == 0:
-			return Response(utils.compress({"message": ""}), status=400)
+			hours_since_claim = (now - bounty["lastClaimTime"]).total_seconds() / 3_600
 
-		# - Update the database
-		mongo.db.inventories.update_one({"userId": uid}, {"$inc": {"bountyPoints": earned_points}}, upsert=True)
-		mongo.db.userBounties.update_one({"userId": uid}, {"$set": {"lastClaimTime": now}}, upsert=True)
+			points += math.floor(hours_since_claim * bounty_data["hourlyIncome"])
 
-		return Response(utils.compress({"earnedBountyPoints": earned_points, "lastClaimTime": now}), status=200)
+		mongo.db["userBountiesV2"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
+
+		inv = mongo.update_inventory(uid, inc_={"bountyPoints": points})
+
+		return ServerResponse({"totalBountyPoints": inv["bountyPoints"], "claimTime": now})

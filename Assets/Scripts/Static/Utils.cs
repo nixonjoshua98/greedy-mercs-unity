@@ -12,13 +12,27 @@ using UnityEngine.Events;
 
 using SimpleJSON;
 
-using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 using SysFile = System.IO.File;
 
 public static class Funcs
 {
+    public static DateTime ToDateTime(long timestamp)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
+    }
+
+    public static JSONNode GetDeviceInfo()
+    {
+        JSONObject node = new JSONObject();
+
+        node.Add("deviceId", SystemInfo.deviceUniqueIdentifier);
+
+        return node;
+    }
+
+
     public static JSONNode SerializeDictionary<TKey, TVal>(Dictionary<TKey, TVal> dict)
     {
         JSONNode node = new JSONObject();
@@ -31,8 +45,18 @@ public static class Funcs
         return node;
     }
 
+
     public static class UI
     {
+        public static GameObject Instantiate(GameObject o, Transform parent, Vector3 pos)
+        {
+            GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
+
+            createdObject.transform.SetParent(parent, false);
+
+            return createdObject;
+        }
+
         public static GameObject MainCanvas { get { return GameObject.FindGameObjectWithTag("MainCanvas"); } }
         public static GameObject Instantiate(GameObject obj, GameObject parent = null)
         {

@@ -1,0 +1,10 @@
+{
+  "bounties": {
+    "0": {
+      "hourlyIncome": 3600,
+      "prefabString": "little_jimmy",
+      "iconString": "default_bounty_icon",
+      "unlockStage": 3
+    }
+  }
+}

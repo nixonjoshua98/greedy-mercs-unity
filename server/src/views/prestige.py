@@ -25,7 +25,7 @@ class Prestige(View):
 		if stats is None or stats.get("maxPrestigeStage", 0) < stage:
 			mongo.db.userStats.update_one({"userId": uid}, {"$set": {"maxPrestigeStage": stage}}, upsert=True)
 
-		self.add_bounty_levels(uid, stage)
+		# self.add_bounty_levels(uid, stage)
 
 		# - Add prestige points earned
 		pp = int(items.get("prestigePoints", 0)) + formulas.stage_prestige_points(stage, items.get("loot", dict()))

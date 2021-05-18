@@ -5,11 +5,14 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
-    public struct BountyStaticData
+    public struct BountyServerData
     {
-        public int bountyPoints;
+        public int hourlyIncome;
         public int unlockStage;
         public int maxLevel;
+
+        public string iconString;
+        public string prefabString;
     }
 
     [PreferBinarySerialization]
@@ -22,13 +25,15 @@ namespace GreedyMercs
 
         public void Init(SimpleJSON.JSONNode node)
         {
+            node = node["bounties"];
+
             BountyDict = new Dictionary<BountyID, BountySO>();
 
             foreach (string key in node.Keys)
             {
                 BountyID id = (BountyID)int.Parse(key);
 
-                BountyStaticData data = JsonUtility.FromJson<BountyStaticData>(node[key].ToString());
+                BountyServerData data = JsonUtility.FromJson<BountyServerData>(node[key].ToString());
 
                 BountySO bounty = GetFromList(id);
 
@@ -41,8 +46,9 @@ namespace GreedyMercs
         // === Helper Methods ===
 
         public BountySO Get(BountyID bounty) => BountyDict[bounty];
+        public BountySO Get(int bounty) => Get((BountyID)bounty);
 
-        public bool GetStageBoss(int stage, out BountySO bounty)
+        public bool IsBountyBoss(int stage, out BountySO bounty)
         {
             bounty = null;
 

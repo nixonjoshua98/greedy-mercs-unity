@@ -3,6 +3,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using GM;
+
 namespace GreedyMercs
 {
     public class BossBattleManager : MonoBehaviour
@@ -79,14 +81,15 @@ namespace GreedyMercs
 
             GameObject bossToSpawn;
 
-            bool isNamedBoss = StaticData.BountyList.GetStageBoss(GameState.Stage.stage, out var boss);
+            bool isNamedBoss = StaticData.BountyList.IsBountyBoss(GameState.Stage.stage, out var boss);
 
             if (isNamedBoss)
             {
-                bossToSpawn = boss.prefab;
+                bossToSpawn = ResourceManager.LoadPrefab("BountyBossPrefabs", boss.prefabString);
 
                 bossNameText.text = boss.name.ToUpper();
             }
+
             // Normal boss
             else
             {

@@ -35,7 +35,7 @@ namespace GreedyMercs
 
         void UpdatePanel()
         {
-            bountyLevelsText.text = GameState.Bounties.GetPrestigeBountyLevels().ToString();
+            bountyLevelsText.text = "-1";// GameState.Bounties.GetPrestigeBountyLevels().ToString();
 
             prestigePointText.text = Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage));
         }

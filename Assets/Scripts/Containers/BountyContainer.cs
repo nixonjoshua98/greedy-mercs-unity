@@ -50,7 +50,7 @@ namespace GreedyMercs
 
             return node;
         }
-
+        
         // === Helper ===
 
         public Dictionary<BountyID, BountySO> Unlocked()
@@ -72,17 +72,18 @@ namespace GreedyMercs
 
         public int GetPrestigeBountyLevels()
         {
-            int total = 0;
+            return -1;
+            //int total = 0;
 
-            foreach (BountySO bounty in StaticData.BountyList.BountyList)
-            {
-                UpgradeState state = GameState.Bounties.GetState(bounty.BountyID);
+            //foreach (BountySO bounty in StaticData.BountyList.BountyList)
+            //{
+            //    UpgradeState state = GameState.Bounties.GetState(bounty.BountyID);
 
-                if (GameState.LifetimeStats.maxPrestigeStage > bounty.unlockStage && GameState.Stage.stage > bounty.unlockStage && bounty.maxLevel > state.level)
-                    total++;
-            }
+            //    if (GameState.LifetimeStats.maxPrestigeStage > bounty.unlockStage && GameState.Stage.stage > bounty.unlockStage && bounty.maxLevel > state.level)
+            //        total++;
+            //}
 
-            return total;
+            //return total;
         }
 
         // === States ===

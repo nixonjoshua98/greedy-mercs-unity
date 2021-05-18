@@ -1,12 +1,24 @@
 
+from pymongo import MongoClient, ReturnDocument
 
-client, db = None, None
+from pymongo.database import Database
+
+client = None
+
+db: Database = None
+
+
+def update_inventory(uid, *, inc_: dict):
+	return db["inventories"].find_one_and_update(
+		{"userId": uid},
+		{"$inc": inc_},
+		upsert=True,
+		return_document=ReturnDocument.AFTER
+	)
 
 
 def create_mongo():
 	import os
-
-	from pymongo import MongoClient
 
 	global client, db
 

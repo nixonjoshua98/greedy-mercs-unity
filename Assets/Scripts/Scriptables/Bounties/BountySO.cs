@@ -22,19 +22,25 @@ namespace GreedyMercs
 
         public new string name;
 
+        public string iconString;
+        public string prefabString;
+
         public Sprite icon;
 
         public GameObject prefab;
 
-        [HideInInspector] public int bountyPoints;
+        [HideInInspector] public int hourlyIncome;
         [HideInInspector] public int unlockStage;
         [HideInInspector] public int maxLevel;
 
-        public void Init(BountyStaticData data)
+        public void Init(BountyServerData data)
         {
-            bountyPoints = data.bountyPoints;
+            hourlyIncome = data.hourlyIncome;
             unlockStage = data.unlockStage;
             maxLevel = data.maxLevel;
+
+            iconString      = data.iconString;
+            prefabString    = data.prefabString;
         }
     }
 }

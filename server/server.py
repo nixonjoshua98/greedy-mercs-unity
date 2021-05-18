@@ -13,9 +13,6 @@ app = Flask(__name__)
 app.add_url_rule("/api/armoury", view_func=Armoury.as_view("armoury"), methods=["PUT"])
 app.add_url_rule("/api/bounty", view_func=Bounty.as_view("bounty"), methods=["PUT"])
 
-# === Bounties === #
-app.add_url_rule("/api/bounty/claim", view_func=ClaimBounty.as_view("claimbounty"), methods=["PUT"])
-
 # === Bounty Shop === #
 app.add_url_rule("/api/bountyshop/refresh", view_func=BountyShopRefresh.as_view("bountyshop.refresh"), 	methods=["PUT"])
 app.add_url_rule("/api/bountyshop/buy", 	view_func=BountyShop.as_view("bountyshop.buy"), 			methods=["PUT"])

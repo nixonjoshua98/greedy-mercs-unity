@@ -10,7 +10,6 @@ namespace GreedyMercs.UI.Bounties
     public class BountyPanel : MonoBehaviour
     {
         [Header("Components")]
-        [SerializeField] Text bountyPointsText;
         [SerializeField] Text bountyIncomeText;
         [SerializeField] Text claimButtonText;
 
@@ -34,101 +33,102 @@ namespace GreedyMercs.UI.Bounties
 
         void Awake()
         {
+            Debug.Log("BountyPanel");
+
             icons = new List<GameObject>();
 
             claimingBounties = false;
         }
 
-        void OnEnable()
-        {
-            CheckNewBounty();
+        //    void OnEnable()
+        //    {
+        //        CheckNewBounty();
 
-            InvokeRepeating("CheckNewBounty", 1.0f, 1.0f);
-        }
+        //        InvokeRepeating("CheckNewBounty", 1.0f, 1.0f);
+        //    }
 
-        void OnDisable()
-        {
-            CancelInvoke("CheckNewBounty");
-        }
+        //    void OnDisable()
+        //    {
+        //        CancelInvoke("CheckNewBounty");
+        //    }
 
-        void CheckNewBounty()
-        {
-            if (GameState.Bounties.Unlocked().Count != numBountiesDisplayed)
-            {
-                foreach (GameObject o in icons)
-                    Destroy(o);
+        //    void CheckNewBounty()
+        //    {
+        //        if (GameState.Bounties.Unlocked().Count != numBountiesDisplayed)
+        //        {
+        //            foreach (GameObject o in icons)
+        //                Destroy(o);
 
-                CreateIcons();
-            }
-        }
+        //            CreateIcons();
+        //        }
+        //    }
 
-        void CreateIcons()
-        {
-            numBountiesDisplayed = 0;
+        //    void CreateIcons()
+        //    {
+        //        numBountiesDisplayed = 0;
 
-            icons = new List<GameObject>();
+        //        icons = new List<GameObject>();
 
-            foreach (var bounty in GameState.Bounties.Unlocked())
-            {
-                numBountiesDisplayed++;
+        //        foreach (var bounty in GameState.Bounties.Unlocked())
+        //        {
+        //            numBountiesDisplayed++;
 
-                GameObject inst = Utils.UI.Instantiate(BountyIconObject, bountyIconsParent, Vector3.one);
+        //            GameObject inst = Utils.UI.Instantiate(BountyIconObject, bountyIconsParent, Vector3.one);
 
-                BountyIcon bountyIcon = inst.GetComponent<BountyIcon>();
+        //            BountyIcon bountyIcon = inst.GetComponent<BountyIcon>();
 
-                bountyIcon.SetBounty(bounty.Value);
+        //            bountyIcon.SetBounty(bounty.Value);
 
-                icons.Add(inst);
-            }
-        }
+        //            icons.Add(inst);
+        //        }
+        //    }
 
-        void FixedUpdate()
-        {
-            bountyPointsText.text = GameState.Inventory.bountyPoints.ToString();
+        //    void FixedUpdate()
+        //    {
+        //        claimButton.interactable = !claimingBounties && GameState.Bounties.CurrentClaimAmount > 0;
 
-            claimButton.interactable = !claimingBounties && GameState.Bounties.CurrentClaimAmount > 0;
+        //        UpdateSlider();
+        //    }
 
-            UpdateSlider();
-        }
+        //    void UpdateSlider()
+        //    {
+        //        collectionSlider.value = GameState.Bounties.PercentFilled;
 
-        void UpdateSlider()
-        {
-            collectionSlider.value = GameState.Bounties.PercentFilled;
-
-            claimButtonText.text    = string.Format("Collect ({0})", GameState.Bounties.CurrentClaimAmount);
-            bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", GameState.Bounties.HourlyIncome, GameState.Bounties.MaxClaimAmount);
-        }
+        //        claimButtonText.text    = string.Format("Collect ({0})", GameState.Bounties.CurrentClaimAmount);
+        //        bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", GameState.Bounties.HourlyIncome, GameState.Bounties.MaxClaimAmount);
+        //    }
 
 
-        // === Button Callbacks ===
-        public void OnClaimBountyPoints()
-        {
-            if (GameState.Bounties.CurrentClaimAmount <= 0)
-                return;
+        //    // === Button Callbacks ===
+        //    public void OnClaimBountyPoints()
+        //    {
+        //        if (GameState.Bounties.CurrentClaimAmount <= 0)
+        //            return;
 
-            var node = Utils.Json.GetDeviceInfo();
+        //        var node = Utils.Json.GetDeviceInfo();
 
-            node.Add("currentStage", GameState.Stage.stage);
-            node.Add("lastClaimTime", GameState.Bounties.lastClaimTime.ToUnixMilliseconds());
+        //        node.Add("currentStage", GameState.Stage.stage);
+        //        node.Add("lastClaimTime", GameState.Bounties.lastClaimTime.ToUnixMilliseconds());
 
-            claimingBounties = true;
+        //        claimingBounties = true;
 
-            Server.ClaimBounty(OnServerCallback, node);
-        }
+        //        Server.ClaimBounty(OnServerCallback, node);
+        //    }
 
-        // === Server Callbacks ===
-        void OnServerCallback(long code, string compressed)
-        {
-            claimingBounties = false;
+        //    // === Server Callbacks ===
+        //    void OnServerCallback(long code, string compressed)
+        //    {
+        //        claimingBounties = false;
 
-            if (code == 200)
-            {
-                var node = Utils.Json.Decompress(compressed);
+        //        if (code == 200)
+        //        {
+        //            var node = Utils.Json.Decompress(compressed);
 
-                GameState.Inventory.bountyPoints += node["earnedBountyPoints"].AsLong;
+        //            GameState.Inventory.bountyPoints += node["earnedBountyPoints"].AsLong;
 
-                GameState.Bounties.lastClaimTime = DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime;
-            }
-        }
+        //            GameState.Bounties.lastClaimTime = DateTimeOffset.FromUnixTimeMilliseconds(node["lastClaimTime"].AsLong).DateTime;
+        //        }
+        //    }
+        //}
     }
 }

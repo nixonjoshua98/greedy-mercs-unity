@@ -22,7 +22,6 @@ namespace GreedyMercs
         public static PlayerState Player;
         public static SkillsState Skills;
 
-        public static BountyContainer Bounties;
         public static UpgradesContainer Upgrades;
         public static CharacterContainer Characters;
 
@@ -59,7 +58,6 @@ namespace GreedyMercs
 
             BountyShop  = new PlayerBountyShopData(node["bountyShop"]);
 
-            Bounties    = new BountyContainer(node["bounties"]);
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);
 
@@ -79,7 +77,6 @@ namespace GreedyMercs
         public static void UpdateWithServerData(JSONNode node)
         {
             Player.Update(node["player"]);
-            Bounties.Update(node["bounties"]);
             BountyShop.Update(node["bountyShop"]);
             LifetimeStats.Update(node["lifetimeStats"]);
 
@@ -99,7 +96,6 @@ namespace GreedyMercs
             node.Add("player",          Player.ToJson());
             node.Add("skills",          Skills.ToJson());
             node.Add("upgrades",        Upgrades.ToJson());
-            node.Add("bounties",        Bounties.ToJson());
             node.Add("bountyShop",      BountyShop.ToJson());
             node.Add("characters",      Characters.ToJson());
             node.Add("lifetimeStats",   LifetimeStats.ToJson());

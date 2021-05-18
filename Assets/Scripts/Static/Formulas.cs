@@ -71,11 +71,12 @@ namespace GreedyMercs
 
         public static int CalcBountyHourlyIncome(BountyID bounty)
         {
-            var scriptable = StaticData.BountyList.Get(bounty);
+            return -1;
+            //var scriptable = StaticData.BountyList.Get(bounty);
 
-            var state = GameState.Bounties.GetState(bounty);
+            //var state = GameState.Bounties.GetState(bounty);
 
-            return scriptable.bountyPoints + (state.level - 1);
+            //return scriptable.bountyPoints + (state.level - 1);
         }
 
         // =====

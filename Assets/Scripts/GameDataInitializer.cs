@@ -23,12 +23,11 @@ namespace GreedyMercs
 
         [SerializeField] LootItemListSO RelicList;
         [SerializeField] SkillListSO SkillList;
-        [SerializeField] BountyListSO BountyList;
         [SerializeField] CharacterListSO CharacterList;
 
         void Awake()
         {
-            StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList, Armoury);
+            StaticData.AssignScriptables(SkillList, CharacterList, RelicList, Armoury);
         }
 
         void Start()

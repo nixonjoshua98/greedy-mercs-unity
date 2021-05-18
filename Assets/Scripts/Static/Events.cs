@@ -25,8 +25,6 @@ namespace GreedyMercs
 
     public class Events : MonoBehaviour
     {
-        public static GameObjectEvent OnBossSpawned = new GameObjectEvent();
-
         public static HealthEvent OnEnemyHurt = new HealthEvent();
 
         public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
@@ -44,11 +42,7 @@ namespace GreedyMercs
 
         public static UnityEvent OnNewStageStarted = new UnityEvent();
 
-        public static UnityEvent OnFailedToKillBoss = new UnityEvent();
-
         public static UnityEvent OnEnemySpawned = new UnityEvent();
-
-        public static UnityEvent OnKilledBoss = new UnityEvent();
 
         public static UnityEvent OnKillEnemy = new UnityEvent();
     }

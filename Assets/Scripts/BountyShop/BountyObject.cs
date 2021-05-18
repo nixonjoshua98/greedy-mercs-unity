@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
-    using BountySO      = GreedyMercs.BountySO;
-    using StaticData    = GreedyMercs.StaticData;
+    using StaticData = GreedyMercs.StaticData;
 
     public class BountyObject : MonoBehaviour
     {
@@ -16,12 +15,12 @@ namespace GM.Bounty
 
         public void SetBounty(BountyState state)
         {
-            BountySO data = StaticData.BountyList.Get(state.bountyId);
+            ServerBountyData data = StaticData.Bounty.Get(state.bountyId);
 
             bountyName.text = data.name;
             pointsText.text = string.Format("{0} Points / hour", data.hourlyIncome);
 
-            icon.sprite = ResourceManager.LoadSprite("BountyIcons", data.iconString);
+            icon.sprite = data.icon;
         }
     }
 }

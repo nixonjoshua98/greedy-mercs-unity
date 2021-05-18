@@ -23,6 +23,8 @@ namespace GreedyMercs
 
         void Awake()
         {
+            OnDeath = new GameObjectEvent();
+
             maxHealth = currentHealth = GetIntialHealth();
         }
 

@@ -2,20 +2,20 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 using GM;
+using GM.Events;
 
 namespace GreedyMercs
 {
+    using GM.Bounty;
+
     public class BossBattleManager : MonoBehaviour
     {
-        static BossBattleManager Instance = null;
+        public static BossBattleManager Instance = null;
 
-        bool _isAvoidingBoss = false;
-
-        // Static public accessors
-        public static bool IsAvoidingBoss { get { return Instance._isAvoidingBoss; } }
-        // -----------------------
+        public bool isAvoidingBoss { get; private set; } = false;
 
         [Header("UI Objects & Components")]
         [SerializeField] GameObject bossAnimObject;
@@ -36,9 +36,19 @@ namespace GreedyMercs
 
         GameObject CurrentBossEnemy;
 
+        // Events
+        public UnityEvent OnBossDeath;
+        public UnityEvent OnFailedToKillBoss;
+        public GameObjectEvent OnBossSpawn;
+
+
         void Awake()
         {
             Instance = this;
+
+            OnBossDeath = new UnityEvent();
+            OnBossSpawn = new GameObjectEvent();
+            OnFailedToKillBoss = new UnityEvent();
 
             SetUIActive(false);
 
@@ -53,79 +63,58 @@ namespace GreedyMercs
             BossTimerText.gameObject.SetActive(active);
         }
 
-        // Static public method accessor
         public static void StartBossBattle()
         {
-            // WARNING: GameManager sometimes calls this method twice for some reason,
-            // so we have a check if a boss is already spawned and just ignore it if so.
-            // This should be looked into but this *temporary* fix works well.
-            // Does not work :(
-            if (Instance.CurrentBossEnemy == null)
-            {
-                Instance.StartCoroutine(Instance.IBossBattle());
-            }
+            Instance.StartCoroutine(Instance.IBossBattle());
         }
 
+
+
+        // = = = Button Callbacks ===
         public void OnFightBossButton()
         {
-            _isAvoidingBoss = false;
+            isAvoidingBoss = false;
 
-            GameManager.TrySkipToBoss();
+            if (!isAvoidingBoss && GameManager.Instance.IsAllStageEnemiesKilled)
+            {
+                StartBossBattle();
+            }
 
             BossButton.gameObject.SetActive(false);
         }
 
         IEnumerator IBossBattle()
         {
-            SetUIActive(true);
+            PrepareBossBattle();
 
-            GameObject bossToSpawn;
+            yield return BossBattleLoop();
 
-            bool isNamedBoss = StaticData.BountyList.IsBountyBoss(GameState.Stage.stage, out var boss);
-
-            if (isNamedBoss)
-            {
-                bossToSpawn = ResourceManager.LoadPrefab("BountyBossPrefabs", boss.prefabString);
-
-                bossNameText.text = boss.name.ToUpper();
-            }
-
-            // Normal boss
-            else
-            {
-                bossNameText.text = "BOSS BATTLE";
-
-                bossToSpawn = BossObjects[Random.Range(0, BossObjects.Length)];
-            }
-
-            CurrentBossEnemy = Instantiate(bossToSpawn, BossSpawnPoint.position, Quaternion.identity, BossSpawnPoint);
-
-            Events.OnBossSpawned.Invoke(CurrentBossEnemy);
-
-            yield return ITimer();
-
-            SetUIActive(false);
-
-            if (CurrentBossEnemy != null)
-            {
-                BossButton.SetActive(true);
-
-                _isAvoidingBoss = true;
-
-                Destroy(CurrentBossEnemy);
-
-                Events.OnFailedToKillBoss.Invoke();
-            }
-
-            else
-            {
-                Events.OnKilledBoss.Invoke();
-            }
+            OnAfterBossBattle();
         }
 
-        IEnumerator ITimer()
+        void PrepareBossBattle()
         {
-            float timer = StatsCache.StageEnemy.BossTimer;
+            SetUIActive(true);
+
+            bool isBountyBoss = StaticData.Bounty.IsBountyBoss(GameState.Stage.stage, out var boss);
+
+            // Grab the boss which we are going to nstantiate later
+            GameObject bossToSpawn = isBountyBoss ? StaticData.Bounty.Get(boss.BountyID).prefab : BossObjects[Random.Range(0, BossObjects.Length)];
+
+            // Set the name
+            bossNameText.text = isBountyBoss ? boss.name.ToUpper() : "BOSS BATTLE";
+
+            // Instantiate the enemy object on the spawn location
+            CurrentBossEnemy = Instantiate(bossToSpawn, BossSpawnPoint.position, Quaternion.identity, BossSpawnPoint);
+
+            OnBossSpawn.Invoke(CurrentBossEnemy);
+        }
+
+        IEnumerator BossBattleLoop()
+        {
+            float maxTimer = StatsCache.StageEnemy.BossTimer;
+
+            float timer = maxTimer;
 
             BossSlider.value = timer;
 
@@ -133,12 +122,34 @@ namespace GreedyMercs
             {
                 timer -= Time.deltaTime;
 
-                BossSlider.value = timer;
+                BossSlider.value = timer / maxTimer;
 
                 BossTimerText.text = Mathf.CeilToInt(timer).ToString();
 
                 yield return new WaitForEndOfFrame();
             }
         }
+
+        void OnAfterBossBattle()
+        {
+            SetUIActive(false);
+
+            if (CurrentBossEnemy != null)
+            {
+                BossButton.SetActive(true);
+
+                isAvoidingBoss = true;
+
+                Destroy(CurrentBossEnemy);
+
+                OnFailedToKillBoss.Invoke();
+            }
+
+            else
+            {
+                OnBossDeath.Invoke();
+            }
+        }
+
     }
 }

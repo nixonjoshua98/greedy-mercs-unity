@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GreedyMercs
 {
     public class GameManager : MonoBehaviour
     {
-        static GameManager Instance = null;
+        public static GameManager Instance = null;
 
         [SerializeField] Transform SpawnPoint;
         [Space]
@@ -15,40 +16,39 @@ namespace GreedyMercs
         [Space]
         [SerializeField] DamageNumbers damageNumbers;
 
-        GameObject CurrentEnemy;
+        GameObject currentEnemy;
+        Health enemyHealth;   
 
-        // === Internal ===
-        Health _enemyHealth;
+        public static Health CurrentEnemyHealth { get { return Instance.enemyHealth; } }
 
-        // === Public ===
-        public static Health CurrentEnemyHealth { get { return Instance._enemyHealth; } }
-
-        public static bool IsEnemyAvailable { get { return Instance.CurrentEnemy != null; } }
+        public bool IsEnemyAvailable { get { return Instance.currentEnemy != null; } }
+        public bool IsAllStageEnemiesKilled { get { return GameState.Stage.isStageCompleted; } }
 
         void Awake()
         {
             Instance = this;
 
             StatsCache.Clear();
-
-            SubscribeToEvents();
         }
 
         void Start()
         {
+            SubscribeToEvents();
+
             SpawnNextEnemy();
         }
 
         void SubscribeToEvents()
         {
-            Events.OnBossSpawned.AddListener(OnBossSpawned);
-            Events.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+            BossBattleManager.Instance.OnBossSpawn.AddListener(OnBossSpawn);
+
+            BossBattleManager.Instance.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
         }
 
         // This is the only method which should be dealing damage to the enemy
         public static void TryDealDamageToEnemy(BigDouble amount)
         {
-            if (Instance.CurrentEnemy != null)
+            if (Instance.currentEnemy != null)
             {
                 if (!CurrentEnemyHealth.IsDead)
                 {
@@ -59,95 +59,95 @@ namespace GreedyMercs
                     CurrentEnemyHealth.TakeDamage(amount);
 
                     Events.OnEnemyHurt.Invoke(CurrentEnemyHealth);
-
-                    if (CurrentEnemyHealth.IsDead)
-                    {
-                        Instance.OnEnemyDeath();
-
-                        Destroy(Instance.CurrentEnemy);
-                    }
                 }
             }
         }
 
-        // Called from BossBattleManager
-        public static void TrySkipToBoss()
-        {
-            if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
-            {
-                BossBattleManager.StartBossBattle();
-            }
-        }
-
-        // UnityEvent Listener
         public void OnFailedToKillBoss()
         {
             SpawnNextEnemy();
         }
 
-        // UnityEvent Listener
-        void OnBossSpawned(GameObject boss)
+        void OnBossSpawn(GameObject boss)
         {
-            if (Instance.CurrentEnemy != null)
-            {
-                Destroy(Instance.CurrentEnemy);
-            }
+            if (currentEnemy)
+                Destroy(currentEnemy);
 
-            CurrentEnemy = boss;
+            currentEnemy = boss;
 
-            _enemyHealth = CurrentEnemy.GetComponent<Health>();
+            enemyHealth = currentEnemy.GetComponent<Health>();
+
+            enemyHealth.OnDeath.AddListener((_) => { OnBossEnemyDeath(); });
         }
 
         void OnEnemyDeath()
         {
-            if (Instance.CurrentEnemy.TryGetComponent(out LootDrop loot))
+            if (Instance.currentEnemy.TryGetComponent(out LootDrop loot))
+            {
                 loot.Process();
-
-            // ===
-
-            if (CurrentEnemy.CompareTag("Enemy"))
-            {
-                GameState.Stage.AddKill();
-
-                Events.OnKillEnemy.Invoke();
             }
+        }
 
-            else if (CurrentEnemy.CompareTag("BossEnemy"))
-            {
-                GameState.Stage.AdvanceStage();
-
-                Events.OnNewStageStarted.Invoke();
-            }
+        void OnAfterEnemyDeath()
+        {
+            Destroy(currentEnemy);
 
             SpawnNextEnemy();
         }
 
-        void SpawnNextEnemy()
+        void OnNormalEnemyDeath()
         {
-            StartCoroutine(ISpawnNextEnemy());
+            OnEnemyDeath();
+
+            GameState.Stage.AddKill();
+
+            Events.OnKillEnemy.Invoke();
+
+            OnAfterEnemyDeath();
         }
 
-        IEnumerator ISpawnNextEnemy()
+        void OnBossEnemyDeath()
         {
-            yield return new WaitForSeconds(Formulas.StageEnemy.SpawnDelay);
+            OnEnemyDeath();
 
-            if (!BossBattleManager.IsAvoidingBoss && GameState.Stage.isStageCompleted)
-            {
-                BossBattleManager.StartBossBattle();
-            }
-            else
-            {
-                Events.OnStageUpdate.Invoke();
+            GameState.Stage.AdvanceStage();
 
-                SpawnEnemy();
+            Events.OnNewStageStarted.Invoke();
+
+            OnAfterEnemyDeath();
+        }
+
+        void SpawnNextEnemy()
+        {
+            IEnumerator ISpawnNextEnemy()
+            {
+                yield return new WaitForSeconds(Formulas.StageEnemy.SpawnDelay);
+
+                bool isAvoidingBoss = BossBattleManager.Instance.isAvoidingBoss;
+
+                if (!isAvoidingBoss && GameState.Stage.isStageCompleted)
+                {
+                    BossBattleManager.StartBossBattle();
+                }
+
+                else
+                {
+                    Events.OnStageUpdate.Invoke();
+
+                    SpawnEnemy();
+                }
             }
+
+            StartCoroutine(ISpawnNextEnemy());
         }
 
         void SpawnEnemy()
         {
-            CurrentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity, SpawnPoint);
+            currentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity, SpawnPoint);
 
-            _enemyHealth = CurrentEnemy.GetComponent<Health>();
+            enemyHealth = currentEnemy.GetComponent<Health>();
+
+            enemyHealth.OnDeath.AddListener((_) => { OnNormalEnemyDeath(); });
 
             Events.OnEnemySpawned.Invoke();
         }

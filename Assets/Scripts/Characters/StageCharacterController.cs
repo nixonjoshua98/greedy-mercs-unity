@@ -42,7 +42,7 @@ namespace GreedyMercs.Characters
 
         protected override bool StartAttackCheck()
         {
-            return attack.IsAttackReady && GameManager.IsEnemyAvailable;
+            return attack.IsAttackReady && GameManager.Instance.IsEnemyAvailable;
         }
 
         protected override void OnAttackHit(float timeSinceAttack)

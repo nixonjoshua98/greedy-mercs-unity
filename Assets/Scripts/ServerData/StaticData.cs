@@ -3,6 +3,8 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using GM.Bounty;
+
     using GreedyMercs.BountyShop.Data;
     using GreedyMercs.Armoury.Data;
     using GreedyMercs.Quests.Data;
@@ -17,13 +19,14 @@ namespace GreedyMercs
         public const float BASE_CRIT_MULTIPLIER = 3.0f;
 
         public static SkillListSO SkillList;
-        public static BountyListSO BountyList;
         public static LootItemListSO LootList;
         public static CharacterListSO CharacterList;
 
         public static BountyShopData BountyShop;
 
         public static ArmourySO Armoury;
+
+        public static ServerBountyDataController Bounty;
 
         // Stores the data for the daily quests
         public static StaticQuestData Quests;
@@ -38,17 +41,17 @@ namespace GreedyMercs
 
             LootList.Init(node["loot"]);
             Armoury.Init(node["armoury"]);
-            BountyList.Init(node["bounties"]);
             CharacterList.Init(node["characters"], node["characterPassives"]);
+
+            Bounty = new ServerBountyDataController(node["bounties"]);
         }
 
-        public static void AssignScriptables(SkillListSO skills, BountyListSO bounties, CharacterListSO chars, LootItemListSO loot, ArmourySO armoury)
+        public static void AssignScriptables(SkillListSO skills, CharacterListSO chars, LootItemListSO loot, ArmourySO armoury)
         {
             Armoury         = armoury;
             CharacterList   = chars;
             LootList        = loot;
             SkillList       = skills;
-            BountyList      = bounties;
         }
     }
 }

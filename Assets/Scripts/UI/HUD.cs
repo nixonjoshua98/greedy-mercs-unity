@@ -11,10 +11,11 @@ namespace GreedyMercs
         [SerializeField] Text StageText;
         [SerializeField] Text GoldText;
 
-        void Awake()
+        void Start()
         {
             Events.OnStageUpdate.AddListener(OnStageUpdate);
-            Events.OnBossSpawned.AddListener(OnBossSpawned);
+
+            BossBattleManager.Instance.OnBossSpawn.AddListener(OnBossSpawned);
 
             UpdateStageText();
         }

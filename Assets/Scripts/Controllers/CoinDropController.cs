@@ -7,10 +7,11 @@ namespace GreedyMercs
     {
         [SerializeField] ParticleSystem ps;
 
-        public void Awake()
+        public void Start()
         {
             Events.OnKillEnemy.AddListener(PlayCoinParticles);
-            Events.OnKilledBoss.AddListener(PlayCoinParticles);
+
+            BossBattleManager.Instance.OnBossDeath.AddListener(PlayCoinParticles);
         }
 
 

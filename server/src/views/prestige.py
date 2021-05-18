@@ -1,7 +1,14 @@
 
+import datetime as dt
+
+from pymongo import InsertOne
+
+
 from flask import Response, request
 
 from flask.views import View
+
+from src.classes import resources
 
 from src import formulas, utils, checks
 from src.utils import dbops
@@ -25,23 +32,33 @@ class Prestige(View):
 		if stats is None or stats.get("maxPrestigeStage", 0) < stage:
 			mongo.db.userStats.update_one({"userId": uid}, {"$set": {"maxPrestigeStage": stage}}, upsert=True)
 
-		# self.add_bounty_levels(uid, stage)
+		self.process_new_bounties(uid, stage)
 
 		# - Add prestige points earned
 		pp = int(items.get("prestigePoints", 0)) + formulas.stage_prestige_points(stage, items.get("loot", dict()))
 
 		mongo.db.inventories.update_one({"userId": uid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
-		return Response(utils.compress(dbops.get_player_data(uid)), status=200)
+		return Response(utils.compress(dbops.get_player_data(uid)))
 
 	@classmethod
-	def add_bounty_levels(cls, uid, stage):
+	def process_new_bounties(cls, uid, stage):
 
-		levels = (mongo.db.userBounties.find_one({"userId": uid}) or dict()).get("bountyLevels", dict())
+		bounties = list(mongo.db["userBounties"].find({"userId": uid}))
 
-		levels_earned = formulas.stage_bounty_levels(stage, levels)
+		exist_bounty_ids = [b["bountyId"] for b in bounties]
 
-		if levels_earned:
-			query = {f"bountyLevels.{key}": level for key, level in levels_earned.items()}
+		bounty_data = resources.get("bounties")["bounties"]
 
-			mongo.db.userBounties.update_one({"userId": uid}, {"$inc": query})
+		def new_earned_bounty(id_, b): return id_ not in exist_bounty_ids and stage >= b["unlockStage"]
+
+		earned_bounties = [key for key, bounty in bounty_data.items() if new_earned_bounty(key, bounty)]
+
+		if earned_bounties:
+			now = dt.datetime.utcnow()
+
+			reqs = [InsertOne({"userId": uid, "bountyId": id_, "lastClaimTime": now}) for id_ in earned_bounties]
+
+			mongo.db["userBounties"].bulk_write(reqs)
+
+

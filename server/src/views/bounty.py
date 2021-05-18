@@ -2,13 +2,9 @@ import math
 
 import datetime as dt
 
-from pymongo import ReturnDocument
-
-from flask import Response
-
 from flask.views import View, request
 
-from src import utils, checks, formulas
+from src import checks
 from src.exts import mongo
 
 from src.classes import resources
@@ -31,7 +27,7 @@ class Bounty(View):
 
 		bounty_resources = resources.get("bounties")["bounties"]
 
-		bounties = list(mongo.db["userBountiesV2"].find({"userId": uid}))
+		bounties = list(mongo.db["userBounties"].find({"userId": uid}))
 
 		points = 0
 
@@ -42,7 +38,7 @@ class Bounty(View):
 
 			points += math.floor(hours_since_claim * bounty_data["hourlyIncome"])
 
-		mongo.db["userBountiesV2"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
+		mongo.db["userBounties"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
 
 		inv = mongo.update_inventory(uid, inc_={"bountyPoints": points})
 

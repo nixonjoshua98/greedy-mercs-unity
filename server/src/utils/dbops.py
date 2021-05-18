@@ -1,6 +1,4 @@
 
-from pymongo import ReturnDocument
-
 from src.exts import mongo
 
 
@@ -22,13 +20,9 @@ def get_player_data(uid):
 
 	inventory = mongo.db.inventories.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 
-	armoury = mongo.db["userArmouryItems"].find_one({"userId": uid}) or dict()
+	armoury = mongo.db["userArmouryItems"].find({"userId": uid})
 
-	bounties_v2 = mongo.db["userBountiesV2"].find({"userId": uid})
-
-	import datetime as dt
-
-	mongo.db["userBountiesV2"].update_one({"userId": uid, "bountyId": 0}, {"$set": {"lastClaimTime": dt.datetime.utcnow()}}, upsert=True)
+	bounties = mongo.db["userBounties"].find({"userId": uid})
 
 	return {
 		"player": {
@@ -44,32 +38,6 @@ def get_player_data(uid):
 
 		"loot": 	inventory.get("loot", dict()),
 
-		"armoury": 	armoury.get("items", {}),
-
-		"bountiesV2": list(bounties_v2)
+		"armoury": list(armoury),
+		"bounties": list(bounties)
 	}
-
-
-def update_armoury_item(uid, iid, *, points=0, levels=0, owned=0, evolevels=0):
-	"""
-	Update an armoury item, as well as having the option of incrementing the users armoury points
-	====================
-
-	:return:
-		Return the users inventory after the query has executed
-	"""
-
-	return mongo.db.inventories.find_one_and_update(
-		{"userId": uid},
-		{
-			"$inc": {
-				"armouryPoints": points,
-
-				f"armoury.{iid}.level": levels,
-				f"armoury.{iid}.owned": owned,
-				f"armoury.{iid}.evoLevel": evolevels
-			}
-		},
-		upsert=True,
-		return_document=ReturnDocument.AFTER
-	)

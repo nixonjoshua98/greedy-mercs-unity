@@ -99,7 +99,7 @@ def add_prestige_points(uid, max_stage_percent, *, items):
 def add_armoury_item(uid, *, itemdata):
 	item = chests.armoury_chest(mintier=itemdata["minTier"], maxtier=itemdata["maxTier"])
 
-	mongo.db["userArmouryItems"].update_one({"userId": uid}, {"$inc": {f"items.{item}.owned": 1}}, upsert=True)
+	mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": int(item)}, {"$inc": {"owned": 1}}, upsert=True)
 
 	return {"itemReceived": item}
 

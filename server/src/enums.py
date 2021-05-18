@@ -2,6 +2,7 @@ import enum
 
 
 class Enum(enum.IntEnum):
+
     @classmethod
     def get_val(cls, val: int):
         val = int(val)

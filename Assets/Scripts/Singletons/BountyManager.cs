@@ -26,48 +26,34 @@ namespace GM.Bounty
         }
     }
 
-    public class BountyManager : MonoBehaviour
+    public class BountyManager
     {
         public static BountyManager Instance = null;
 
         Dictionary<int, BountyState> states;
 
-        public static BountyManager Create(JSONNode node)
-        {
-            if (Instance != null)
-            {
-                Destroy(Instance.gameObject);
-            }
-
-            GameObject obj = new GameObject("BountyManager [Created]");
-
-            Instance = obj.AddComponent<BountyManager>();
-
-            Instance.Setup(node);
-
-            return Instance;
-        }
-
-        void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-
-        void Setup(JSONNode node)
+        public BountyManager()
         {
             states = new Dictionary<int, BountyState>();
+        }
+
+        public static BountyManager Create(JSONNode node)
+        {
+            Instance = new BountyManager();
 
             foreach (JSONNode bounty in node.AsArray)
             {
-                int questId = bounty["questId"].AsInt;
+                int questId = bounty["bountyId"].AsInt;
 
                 BountyState state = new BountyState(questId)
                 {
                     LastClaimTime = Funcs.ToDateTime(bounty["lastClaimTime"].AsLong)
                 };
 
-                SetState(questId, state);
+                Instance.SetState(questId, state);
             }
+
+            return Instance;
         }
 
         // = = = Server Methods = = =
@@ -98,20 +84,18 @@ namespace GM.Bounty
 
         public List<BountyState> Bounties { get { return states.Values.ToList(); } }
 
-        public int TotalHourlyIncome
+        public int MaxHourlyIncome
         { 
             get
             {
-                int total = 0;
+                int income = 0;
 
                 foreach (BountyState state in states.Values)
                 {
-                    int hourlyIncome = StaticData.Bounty.Get(state.bountyId).hourlyIncome;
-
-                    total += hourlyIncome;
+                    income += StaticData.Bounty.Get(state.bountyId).hourlyIncome;
                 }
 
-                return total;
+                return income;
             }
         }
 
@@ -125,7 +109,7 @@ namespace GM.Bounty
 
                 foreach (BountyState state in states.Values)
                 {
-                    float hoursSinceClaim = (float)(now - state.LastClaimTime).TotalHours;
+                    float hoursSinceClaim = Math.Min(StaticData.Bounty.MaxUnclaimedHours, (float)(now - state.LastClaimTime).TotalHours);
 
                     int hourlyIncome = StaticData.Bounty.Get(state.bountyId).hourlyIncome;
 
@@ -146,7 +130,7 @@ namespace GM.Bounty
                 {
                     int hourlyIncome = StaticData.Bounty.Get(state.bountyId).hourlyIncome;
 
-                    capacity += hourlyIncome * 6;
+                    capacity += Mathf.FloorToInt(hourlyIncome * StaticData.Bounty.MaxUnclaimedHours);
                 }
 
                 return capacity;

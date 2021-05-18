@@ -39,7 +39,18 @@ namespace GM.Bounty
     {
         Dictionary<int, ServerBountyData> bountyData;
 
+        public readonly float MaxUnclaimedHours;
+
         public ServerBountyDataController(JSONNode node)
+        {
+            bountyData = new Dictionary<int, ServerBountyData>();
+
+            MaxUnclaimedHours = node["maxUnclaimedHours"].AsFloat;
+
+            SetupBountyData(node);
+        }
+
+        void SetupBountyData(JSONNode node)
         {
             node = node["bounties"];
 

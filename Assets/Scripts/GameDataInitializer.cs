@@ -80,8 +80,7 @@ namespace GreedyMercs
             GameState.Restore(node);
 
             ArmouryManager.Create(node["armoury"]);
-            BountyManager.Create(node["bountiesV2"]);
-
+            BountyManager.Create(node["bounties"]);
         }
 
         void InstantiateServerData(JSONNode node)

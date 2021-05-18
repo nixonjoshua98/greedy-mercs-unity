@@ -22,6 +22,6 @@ def create_mongo():
 
 	global client, db
 
-	client = MongoClient(os.getenv("MONGO_URI") or "mongodb://localhost:27017/greedymercs")
+	client = MongoClient(os.getenv("MONGO_URI") or "mongodb://localhost:27017/")
 
-	db = client.get_default_database()
+	db = client["_greedy"]

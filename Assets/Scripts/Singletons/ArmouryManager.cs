@@ -13,15 +13,15 @@ namespace GM.Armoury
 
     public class ArmouryItemState
     {
-        public readonly int WeaponIndex;
+        public readonly int ItemID;
 
         public int level;
         public int owned;
         public int evoLevel;
 
-        public ArmouryItemState(int index)
+        public ArmouryItemState(int itemId)
         {
-            WeaponIndex = index;
+            ItemID = itemId;
         }
     }
 
@@ -40,19 +40,17 @@ namespace GM.Armoury
         {
             Instance = new ArmouryManager();
 
-            foreach (string key in node.Keys)
+            foreach (JSONNode item in node.AsArray)
             {
-                int weaponIndex = int.Parse(key);
+                int itemId = item["itemId"].AsInt;
 
-                JSONNode item = node[key];
-
-                ArmouryItemState state = new ArmouryItemState(weaponIndex) {
+                ArmouryItemState state = new ArmouryItemState(itemId) {
                     level       = item["level"].AsInt, 
                     owned       = item["owned"].AsInt,
                     evoLevel    = item["evoLevel"].AsInt
                 };
 
-                Instance.SetWeaponState(weaponIndex, state);
+                Instance.SetWeaponState(itemId, state);
             }
 
             return Instance;

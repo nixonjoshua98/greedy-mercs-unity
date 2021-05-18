@@ -27,7 +27,7 @@ namespace GM.Bounty
 
         void FixedUpdate()
         {
-            bountyIncomeText.text = string.Format("{0} / hour (Max {1})", BountyManager.Instance.TotalHourlyIncome, BountyManager.Instance.TotalCapacity);
+            bountyIncomeText.text = string.Format("{0} / hour (Max {1})", BountyManager.Instance.MaxHourlyIncome, BountyManager.Instance.TotalCapacity);
 
             bountySlider.value      = BountyManager.Instance.PercentFilled;
             unclaimedTotalText.text = string.Format("Collect ({0})", BountyManager.Instance.UnclaimedTotal);

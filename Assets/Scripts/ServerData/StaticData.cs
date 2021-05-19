@@ -4,9 +4,8 @@ using SimpleJSON;
 namespace GreedyMercs
 {
     using GM.Bounty;
+    using GM.Armoury;
 
-    using GreedyMercs.BountyShop.Data;
-    using GreedyMercs.Armoury.Data;
     using GreedyMercs.Quests.Data;
 
     public static class StaticData
@@ -22,13 +21,9 @@ namespace GreedyMercs
         public static LootItemListSO LootList;
         public static CharacterListSO CharacterList;
 
-        public static BountyShopData BountyShop;
+        public static ServerBountyData Bounty;
+        public static ServerArmouryData Armoury;
 
-        public static ArmourySO Armoury;
-
-        public static ServerBountyDataController Bounty;
-
-        // Stores the data for the daily quests
         public static StaticQuestData Quests;
 
         public static void Restore(JSONNode node)
@@ -37,18 +32,15 @@ namespace GreedyMercs
 
             SkillList.Init();
 
-            BountyShop = new BountyShopData(node["bountyShopItems"]);
-
             LootList.Init(node["loot"]);
-            Armoury.Init(node["armoury"]);
             CharacterList.Init(node["characters"], node["characterPassives"]);
 
-            Bounty = new ServerBountyDataController(node["bounties"]);
+            Bounty  = new ServerBountyData(node["bounties"]);
+            Armoury = new ServerArmouryData(node["armoury"]);
         }
 
-        public static void AssignScriptables(SkillListSO skills, CharacterListSO chars, LootItemListSO loot, ArmourySO armoury)
+        public static void AssignScriptables(SkillListSO skills, CharacterListSO chars, LootItemListSO loot)
         {
-            Armoury         = armoury;
             CharacterList   = chars;
             LootList        = loot;
             SkillList       = skills;

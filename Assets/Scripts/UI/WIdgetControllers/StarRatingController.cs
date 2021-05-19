@@ -9,7 +9,7 @@ namespace GreedyMercs.UI
     {
         [SerializeField] GameObject[] stars;
 
-        public void SetRating(int rating)
+        public void Show(int rating)
         {
             for (int i = 0; i < stars.Length; ++i)
             {

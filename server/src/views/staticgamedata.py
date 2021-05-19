@@ -16,5 +16,6 @@ class StaticGameData(View):
 		data = GameData.data
 
 		data["bounties"] = resources.get("bounties")
+		data["armoury"] = resources.get("armoury")
 
 		return Response(utils.compress(data))

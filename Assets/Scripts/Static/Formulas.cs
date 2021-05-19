@@ -6,8 +6,7 @@ using UnityEngine;
 namespace GreedyMercs
 {
     using GM.Armoury;
-
-    using GreedyMercs.Armoury.Data;
+    
     public static class Formulas
     {
         public static class StageEnemy
@@ -58,9 +57,9 @@ namespace GreedyMercs
 
             public static double WeaponDamage(int index, int level, int evoLevel)
             {
-                ArmouryItemSO scriptable = StaticData.Armoury.GetWeapon(index);
+                ArmouryItemData itemData = StaticData.Armoury.Get(index);
 
-                double val = (evoLevel + 1) * ((scriptable.damageBonus) - 1) * level;
+                double val = (evoLevel + 1) * ((itemData.BaseDamageMultiplier) - 1) * level;
 
                 val += 1;
 

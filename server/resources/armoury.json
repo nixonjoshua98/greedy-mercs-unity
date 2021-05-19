@@ -2,52 +2,54 @@
   "iron": {
     "cost": 1
   },
-
   "gear": {
     "0": {
+      "iconString": "axe_01",
       "itemTier": 1,
       "damageBonus": 1.1,
       "upgradeCost": 1
     },
     "1": {
+      "iconString": "club_01",
       "itemTier": 2,
       "damageBonus": 1.25,
       "upgradeCost": 2
     },
     "2": {
+      "iconString": "sword_02",
       "itemTier": 3,
       "damageBonus": 1.5,
       "upgradeCost": 3
     },
     "3": {
+      "iconString": "bow_01",
       "itemTier": 1,
       "damageBonus": 1.1,
       "upgradeCost": 1
     },
     "4": {
+      "iconString": "staff_01",
       "itemTier": 2,
       "damageBonus": 1.25,
       "upgradeCost": 2
     },
     "5": {
+      "iconString": "sword_01",
       "itemTier": 3,
       "damageBonus": 1.5,
       "upgradeCost": 3
     },
     "6": {
+      "iconString": "staff_02",
       "itemTier": 1,
       "damageBonus": 1.1,
       "upgradeCost": 1
     },
     "7": {
+      "iconString": "short_staff_01",
       "itemTier": 2,
       "damageBonus": 1.25,
       "upgradeCost": 2
-    },
-    "8": {
-      "itemTier": 3,
-      "damageBonus": 1.5,
-      "upgradeCost": 3
     }
   }
 }

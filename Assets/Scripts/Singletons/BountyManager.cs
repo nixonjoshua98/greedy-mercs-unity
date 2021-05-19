@@ -92,7 +92,7 @@ namespace GM.Bounty
 
                 foreach (BountyState state in states.Values)
                 {
-                    income += StaticData.Bounty.Get(state.bountyId).hourlyIncome;
+                    income += StaticData.Bounty.Get(state.bountyId).HourlyIncome;
                 }
 
                 return income;
@@ -111,7 +111,7 @@ namespace GM.Bounty
                 {
                     float hoursSinceClaim = Math.Min(StaticData.Bounty.MaxUnclaimedHours, (float)(now - state.LastClaimTime).TotalHours);
 
-                    int hourlyIncome = StaticData.Bounty.Get(state.bountyId).hourlyIncome;
+                    int hourlyIncome = StaticData.Bounty.Get(state.bountyId).HourlyIncome;
 
                     unclaimed += Mathf.FloorToInt(hoursSinceClaim * hourlyIncome);
                 }
@@ -128,7 +128,7 @@ namespace GM.Bounty
 
                 foreach (BountyState state in states.Values)
                 {
-                    int hourlyIncome = StaticData.Bounty.Get(state.bountyId).hourlyIncome;
+                    int hourlyIncome = StaticData.Bounty.Get(state.bountyId).HourlyIncome;
 
                     capacity += Mathf.FloorToInt(hourlyIncome * StaticData.Bounty.MaxUnclaimedHours);
                 }

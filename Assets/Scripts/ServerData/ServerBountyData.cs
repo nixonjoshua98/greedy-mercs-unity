@@ -6,26 +6,26 @@ using UnityEngine;
 
 namespace GM.Bounty
 {
-    public struct ServerBountyData
+    public struct BountyDataStruct
     {
-        public readonly int BountyID;
+        public readonly int ID;
 
-        public string name;
+        public readonly string Name;
 
-        public int hourlyIncome;
-        public int unlockStage;
+        public readonly int HourlyIncome;
+        public readonly int UnlockStage;
 
         string iconString;
         string prefabString;
 
-        public ServerBountyData(int _bountyId, JSONNode node)
+        public BountyDataStruct(int _bountyId, JSONNode node)
         {
-            BountyID = _bountyId;
+            ID = _bountyId;
 
-            name = node["name"].Value;
+            Name = node["name"].Value;
 
-            hourlyIncome    = node["hourlyIncome"].AsInt;
-            unlockStage     = node["unlockStage"].AsInt;
+            HourlyIncome    = node["hourlyIncome"].AsInt;
+            UnlockStage     = node["unlockStage"].AsInt;
 
             iconString      = node["iconString"].Value;
             prefabString    = node["prefabString"].Value;
@@ -35,15 +35,15 @@ namespace GM.Bounty
         public GameObject prefab { get { return ResourceManager.LoadPrefab("BountyBossPrefabs", prefabString); } }
     }
 
-    public class ServerBountyDataController
+    public class ServerBountyData
     {
-        Dictionary<int, ServerBountyData> bountyData;
+        Dictionary<int, BountyDataStruct> bountyData;
 
         public readonly float MaxUnclaimedHours;
 
-        public ServerBountyDataController(JSONNode node)
+        public ServerBountyData(JSONNode node)
         {
-            bountyData = new Dictionary<int, ServerBountyData>();
+            bountyData = new Dictionary<int, BountyDataStruct>();
 
             MaxUnclaimedHours = node["maxUnclaimedHours"].AsFloat;
 
@@ -54,29 +54,29 @@ namespace GM.Bounty
         {
             node = node["bounties"];
 
-            bountyData = new Dictionary<int, ServerBountyData>();
+            bountyData = new Dictionary<int, BountyDataStruct>();
 
             foreach (string key in node.Keys)
             {
                 int id = int.Parse(key);
 
-                ServerBountyData data = new ServerBountyData(id, node[key]);
+                BountyDataStruct data = new BountyDataStruct(id, node[key]);
 
                 bountyData.Add(id, data);
             }
         }
 
-        public ServerBountyData Get(int bounty) => bountyData[bounty];
+        public BountyDataStruct Get(int bounty) => bountyData[bounty];
 
-        public bool IsBountyBoss(int stage, out ServerBountyData bounty)
+        public bool IsBountyBoss(int stage, out BountyDataStruct bounty)
         {
-            bounty = new ServerBountyData();
+            bounty = new BountyDataStruct();
 
-            foreach (ServerBountyData b in bountyData.Values)
+            foreach (BountyDataStruct b in bountyData.Values)
             {
                 bounty = b;
 
-                if (b.unlockStage == stage)
+                if (b.UnlockStage == stage)
                     return true;
             }
 

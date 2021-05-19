@@ -10,8 +10,6 @@ namespace GreedyMercs.Armoury.UI
 {
     using GM.Armoury;
 
-    using GreedyMercs.Armoury.Data;
-
     public class ArmouryPanel : MonoBehaviour
     {
         [Header("Compoents")]
@@ -54,20 +52,20 @@ namespace GreedyMercs.Armoury.UI
 
         void InstantiateItem(ArmouryItemState state)
         {
-            var serverData = StaticData.Armoury.GetWeapon(state.ItemID);
+            ArmouryItemData serverItemData = StaticData.Armoury.Get(state.ItemID);
 
             ArmouryItem item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItem>();
 
-            item.Init(serverData);
+            item.Init(serverItemData);
 
-            item.SetButtonCallback(() => { OnIconClick(serverData); });
+            item.SetButtonCallback(() => { OnIconClick(serverItemData); });
 
             itemObjects[state.ItemID] = item;
         }
 
         // === Button Callback ===
 
-        void OnIconClick(ArmouryItemSO item)
+        void OnIconClick(ArmouryItemData item)
         {
             GameObject obj = Funcs.UI.Instantiate(ItemPopupObject);
 

@@ -15,10 +15,10 @@ namespace GM.Bounty
 
         public void SetBounty(BountyState state)
         {
-            ServerBountyData data = StaticData.Bounty.Get(state.bountyId);
+            BountyDataStruct data = StaticData.Bounty.Get(state.bountyId);
 
-            bountyName.text = data.name;
-            pointsText.text = string.Format("{0} Points / hour", data.hourlyIncome);
+            bountyName.text = data.Name;
+            pointsText.text = string.Format("{0}/hour", data.HourlyIncome);
 
             icon.sprite = data.icon;
         }

@@ -1,29 +1,48 @@
 {
-  "maxUnclaimedHours": 0.25,
+  "maxUnclaimedHours": 0.025,
 
   "bounties": {
     "0": {
-      "hourlyIncome": 3600,
+      "hourlyIncome": 1000,
       "name": "Bounty 0",
       "prefabString": "little_jimmy",
       "iconString": "default_bounty_icon",
       "unlockStage": 1
     },
-
     "1": {
-      "hourlyIncome": 3600,
+      "hourlyIncome": 2000,
       "name": "Bounty 1",
       "prefabString": "little_jimmy",
       "iconString": "default_bounty_icon",
       "unlockStage": 2
     },
-
     "2": {
-      "hourlyIncome": 3600,
+      "hourlyIncome": 3000,
       "name": "Bounty 2",
       "prefabString": "little_jimmy",
       "iconString": "default_bounty_icon",
       "unlockStage": 3
+    },
+    "3": {
+      "hourlyIncome": 4000,
+      "name": "Bounty 3",
+      "prefabString": "little_jimmy",
+      "iconString": "default_bounty_icon",
+      "unlockStage": 4
+    },
+    "4": {
+      "hourlyIncome": 5000,
+      "name": "Bounty 4",
+      "prefabString": "little_jimmy",
+      "iconString": "default_bounty_icon",
+      "unlockStage": 5
+    },
+    "5": {
+      "hourlyIncome": 6000,
+      "name": "Bounty 5",
+      "prefabString": "little_jimmy",
+      "iconString": "default_bounty_icon",
+      "unlockStage": 6
     }
   }
 }

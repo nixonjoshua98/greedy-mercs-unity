@@ -8,8 +8,6 @@ namespace GreedyMercs
     using GM.Bounty;
     using GM.Armoury;
 
-    using GreedyMercs.Armoury.Data;
-
     [System.Serializable]
     public class UpgradeState
     {
@@ -18,16 +16,13 @@ namespace GreedyMercs
 
     public class GameDataInitializer : MonoBehaviour
     {
-        [Header("Scriptables")]
-        [SerializeField] ArmourySO Armoury;
-
         [SerializeField] LootItemListSO RelicList;
         [SerializeField] SkillListSO SkillList;
         [SerializeField] CharacterListSO CharacterList;
 
         void Awake()
         {
-            StaticData.AssignScriptables(SkillList, CharacterList, RelicList, Armoury);
+            StaticData.AssignScriptables(SkillList, CharacterList, RelicList);
         }
 
         void Start()

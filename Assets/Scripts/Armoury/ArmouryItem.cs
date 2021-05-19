@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 namespace GreedyMercs.Armoury.UI
 {
-    using GreedyMercs.UI;
+    using GM.Armoury;
 
-    using GreedyMercs.Armoury.Data;
+    using GreedyMercs.UI;
 
     public class ArmouryItem : MonoBehaviour
     {
@@ -19,13 +19,11 @@ namespace GreedyMercs.Armoury.UI
         [Header("References")]
         [SerializeField] StarRatingController stars;
 
-        ArmouryItemSO scriptableItem;
-
-        public void Init(ArmouryItemSO weapon)
+        public void Init(ArmouryItemData itemData)
         {
-            scriptableItem = weapon;
+            itemImage.sprite = itemData.Icon;
 
-            UpdateUI();
+            stars.Show(itemData.Tier);
         }
 
         public void SetButtonCallback(UnityAction e)
@@ -33,13 +31,6 @@ namespace GreedyMercs.Armoury.UI
             button.onClick.RemoveAllListeners();
 
             button.onClick.AddListener(e);
-        }
-
-        void UpdateUI()
-        {
-            itemImage.sprite = scriptableItem.icon;
-
-            stars.SetRating(scriptableItem.itemTier);
         }
     }
 }

@@ -8,13 +8,10 @@ namespace GreedyMercs
 {
     using Inventory;
 
-    using GreedyMercs.BountyShop.Data;
-
     public static class GameState
     {
         public static PlayerQuestData Quests;
 
-        public static PlayerBountyShopData BountyShop;
         public static PlayerLifetimeStats LifetimeStats;
 
         public static LootState Loot;
@@ -56,8 +53,6 @@ namespace GreedyMercs
             Player          = new PlayerState(node["player"]);
             LifetimeStats   = new PlayerLifetimeStats(node["lifetimeStats"]);
 
-            BountyShop  = new PlayerBountyShopData(node["bountyShop"]);
-
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);
 
@@ -77,7 +72,6 @@ namespace GreedyMercs
         public static void UpdateWithServerData(JSONNode node)
         {
             Player.Update(node["player"]);
-            BountyShop.Update(node["bountyShop"]);
             LifetimeStats.Update(node["lifetimeStats"]);
 
             Loot.UpdateWithServerData(node["loot"]);
@@ -85,24 +79,6 @@ namespace GreedyMercs
             Quests.UpdateQuestsClaimed(node["questsClaimed"]);
 
             Inventory.Update(node["inventory"]);
-        }
-
-        public static JSONNode ToJson()
-        {
-            JSONNode node = new JSONObject();
-
-            node.Add("inventory",       Inventory.ToJson());
-            node.Add("stage",           Stage.ToJson());
-            node.Add("player",          Player.ToJson());
-            node.Add("skills",          Skills.ToJson());
-            node.Add("upgrades",        Upgrades.ToJson());
-            node.Add("bountyShop",      BountyShop.ToJson());
-            node.Add("characters",      Characters.ToJson());
-            node.Add("lifetimeStats",   LifetimeStats.ToJson());
-
-            node.Add("lastLoginDate", DateTime.UtcNow.ToUnixMilliseconds());
-
-            return node;
         }
 
         public static void Save()

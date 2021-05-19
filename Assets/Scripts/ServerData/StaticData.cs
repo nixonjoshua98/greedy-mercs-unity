@@ -5,6 +5,7 @@ namespace GreedyMercs
 {
     using GM.Bounty;
     using GM.Armoury;
+    using GM.BountyShop;
 
     using GreedyMercs.Quests.Data;
 
@@ -23,6 +24,7 @@ namespace GreedyMercs
 
         public static ServerBountyData Bounty;
         public static ServerArmouryData Armoury;
+        public static ServerBountyShopData BountyShop;
 
         public static StaticQuestData Quests;
 
@@ -37,6 +39,8 @@ namespace GreedyMercs
 
             Bounty  = new ServerBountyData(node["bounties"]);
             Armoury = new ServerArmouryData(node["armoury"]);
+
+            BountyShop = new ServerBountyShopData(node["bountyShop"]);
         }
 
         public static void AssignScriptables(SkillListSO skills, CharacterListSO chars, LootItemListSO loot)

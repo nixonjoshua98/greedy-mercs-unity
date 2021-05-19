@@ -51,7 +51,7 @@ namespace GreedyMercs.Armoury.UI
             upgradeDamageText.text  = string.Format("{0} -> {1}", StringyLevelDamage(state.level), StringyLevelDamage(state.level + 1));
             evoDamageText.text      = string.Format("{0} -> {1}", StringyEvoLevelDamage(state.evoLevel), StringyEvoLevelDamage(state.evoLevel + 1));
 
-            evolveSlider.maxValue   = serverItemData.EvoUpgradeCost;
+            evolveSlider.maxValue = 5;
             evolveSlider.value      = state.owned;
         }
 

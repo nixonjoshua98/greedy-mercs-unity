@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
-    using Utils = GreedyMercs.Utils;
     using GameState = GreedyMercs.GameState;
 
     public class BountyTab : MonoBehaviour
@@ -18,7 +17,6 @@ namespace GM.Bounty
         [SerializeField] Transform bountySlotsParent;
 
         [Header("Components")]
-        [SerializeField] Text shopRefreshText;
         [SerializeField] Text bountyIncomeText;
         [SerializeField] Text unclaimedTotalText;
         [SerializeField] Text bountyPointsText;
@@ -32,7 +30,6 @@ namespace GM.Bounty
 
         void FixedUpdate()
         {
-            shopRefreshText.text    = string.Format("Refreshes in {0}", Utils.Format.FormatSeconds(GameState.TimeUntilNextReset));
             bountyPointsText.text   = GameState.Inventory.bountyPoints.ToString();
             bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", BountyManager.Instance.MaxHourlyIncome, BountyManager.Instance.TotalCapacity);
             unclaimedTotalText.text = string.Format("Collect ({0})", BountyManager.Instance.UnclaimedTotal);

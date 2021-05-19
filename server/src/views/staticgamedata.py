@@ -15,6 +15,7 @@ class StaticGameData(View):
 	def dispatch_request(self):
 		data = GameData.data
 
+		data["bountyShop"] = resources.get("bountyshop")
 		data["bounties"] = resources.get("bounties")
 		data["armoury"] = resources.get("armoury")
 

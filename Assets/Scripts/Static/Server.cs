@@ -32,11 +32,6 @@ public static class Server
 
     static void StartCoroutine(IEnumerator f) => PersistentMono.Inst.StartCoroutine(f);
 
-
-    // === Bounty Shop ===
-    public static void RefreshBountyShop(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bountyshop/refresh", callback, node));
-    public static void BuyBountyShopItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("bountyshop/buy", callback, node));
-
     // === Prestige Items === 
     public static void BuyLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/buy", callback, node));
     public static void UpgradeLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/upgrade", callback, node));
@@ -97,7 +92,8 @@ public static class Server
 
         yield return www.SendWebRequest();
 
-        UnityEngine.Debug.Log(www.url + " | " + www.responseCode + " | " + sw.ElapsedMilliseconds + "ms");
+        if (www.isHttpError)
+            UnityEngine.Debug.Log(www.url + " | " + www.responseCode + " | " + sw.ElapsedMilliseconds + "ms");
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);
     }

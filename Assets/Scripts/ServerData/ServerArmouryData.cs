@@ -10,28 +10,21 @@ namespace GM.Armoury
 {
     public struct ArmouryItemData
     {
-        public readonly int ID;
+        public int ID;
 
-        public readonly int Tier;
-        public readonly int UpgradeCost;
-        public readonly int EvoUpgradeCost;
+        public int Tier;
 
-        public readonly float BaseDamageMultiplier;
+        public float BaseDamageMultiplier;
 
         string iconString;
 
-        public ArmouryItemData(int itemId, JSONNode node)
+        public ArmouryItemData(int itemId, JSONNode itemData)
         {
             ID = itemId;
 
-            Tier = node["itemTier"].AsInt;
-
-            UpgradeCost = node["upgradeCost"].AsInt;
-            EvoUpgradeCost = 10;
-
-            BaseDamageMultiplier = node["damageBonus"].AsFloat;
-
-            iconString = node.GetValueOrDefault("iconString", "default_armoury_item");
+            BaseDamageMultiplier    = itemData["baseDamageMultiplier"];
+            Tier                    = itemData["itemTier"].AsInt;
+            iconString              = itemData["iconString"];
         }
 
         public Sprite Icon { get { return ResourceManager.LoadSprite("ArmourySprites", iconString); } }
@@ -54,7 +47,7 @@ namespace GM.Armoury
         {
             items = new Dictionary<int, ArmouryItemData>();
 
-            JSONNode itemsNode = node["gear"];
+            JSONNode itemsNode = node["items"];
 
             foreach (string key in itemsNode.Keys)
             {

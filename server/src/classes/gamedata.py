@@ -9,10 +9,7 @@ class GameDataMeta(type):
 	lookup = {
 		"loot": "loot.json",
 		"quests": "quests.json",
-		"armoury": "armoury.json",
-		"bounties": "bounties.json",
 		"characters": "characters.json",
-		"bountyShopItems": "bountyshopitems.json",
 		"characterPassives": "characterPassives.json"
 	}
 

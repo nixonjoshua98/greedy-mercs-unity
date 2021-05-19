@@ -7,8 +7,7 @@ from .leaderboard import PlayerLeaderboard
 from .staticgamedata import StaticGameData
 from .prestige import Prestige
 
-from .bountyshop import BountyShop, BountyShopRefresh
-
+from .bountyshop import BountyShop
 from .armoury import Armoury
 from .bounty import Bounty
 

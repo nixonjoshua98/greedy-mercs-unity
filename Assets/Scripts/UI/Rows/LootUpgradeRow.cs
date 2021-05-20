@@ -7,6 +7,8 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using GM.Inventory;
+
     public class LootUpgradeRow : MonoBehaviour
     {
         LootID lootId;
@@ -51,6 +53,8 @@ namespace GreedyMercs
 
         void UpdateUI()
         {
+            InventoryManager inv = InventoryManager.Instance;
+
             UpdateEffectText();
 
             nameText.text = string.Format("(Lvl. {0}) {1}", itemState.level, itemData.name);
@@ -66,7 +70,7 @@ namespace GreedyMercs
                 costText.text = "MAX";
 
 
-            buyButton.interactable = itemState.level < itemData.maxLevel && GameState.Inventory.prestigePoints >= Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount);
+            buyButton.interactable = itemState.level < itemData.maxLevel && inv.prestigePoints >= Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount);
         }
 
         void UpdateEffectText()
@@ -95,13 +99,15 @@ namespace GreedyMercs
 
         public void OnBuy()
         {
+            InventoryManager inv = InventoryManager.Instance;
+
             int levelsBuying = BuyAmount;
 
             BigInteger cost = Formulas.CalcLootItemLevelUpCost(lootId, levelsBuying);
 
             void ServerCallback(long code, string compressed) => OnUpgradeCallback(levelsBuying, code, compressed);
 
-            if (levelsBuying > 0 && GameState.Inventory.prestigePoints >= cost && (itemState.level + levelsBuying) <= itemData.maxLevel)
+            if (levelsBuying > 0 && inv.prestigePoints >= cost && (itemState.level + levelsBuying) <= itemData.maxLevel)
             {
                 JSONNode node = Utils.Json.GetDeviceInfo();
 
@@ -114,13 +120,15 @@ namespace GreedyMercs
 
         void OnUpgradeCallback(int levelsBuying, long code, string compressed)
         {
+            InventoryManager inv = InventoryManager.Instance;
+
             if (code == 200)
             {
                 JSONNode node = Utils.Json.Decompress(compressed);
 
                 itemState.level += levelsBuying;
 
-                GameState.Inventory.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
+                inv.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
             }
 
             UpdateUI();

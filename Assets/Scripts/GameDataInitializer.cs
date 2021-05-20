@@ -7,6 +7,7 @@ namespace GreedyMercs
 {
     using GM.Bounty;
     using GM.Armoury;
+    using GM.Inventory;
 
     [System.Serializable]
     public class UpgradeState
@@ -76,6 +77,7 @@ namespace GreedyMercs
 
             ArmouryManager.Create(node["armoury"]);
             BountyManager.Create(node["bounties"]);
+            InventoryManager.Create(node["inventory"]);
         }
 
         void InstantiateServerData(JSONNode node)

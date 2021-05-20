@@ -8,7 +8,7 @@ using SimpleJSON;
 
 namespace Interface
 {
-    using GreedyMercs;
+    using GM.Inventory;
 
     using Utils = GreedyMercs.Utils;
 
@@ -27,7 +27,7 @@ namespace Interface
             {
                 JSONNode node = Utils.Json.Decompress(data);
 
-                GameState.Inventory.armouryPoints += node["pointsGained"].AsInt;
+               InventoryManager.Instance.armouryPoints += node["pointsGained"].AsInt;
             }
         }
     }

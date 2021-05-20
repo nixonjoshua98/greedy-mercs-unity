@@ -11,6 +11,8 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GreedyMercs
 {
+    using GM.Inventory;
+
     public class LootTab : MonoBehaviour
     {
         static LootTab Instance = null;
@@ -67,7 +69,9 @@ namespace GreedyMercs
 
         void UpdateUI()
         {
-            prestigePointText.text      = Utils.Format.FormatNumber(GameState.Inventory.prestigePoints);
+            InventoryManager inv = InventoryManager.Instance;
+
+            prestigePointText.text      = Utils.Format.FormatNumber(inv.prestigePoints);
             buyLootButton.interactable  = GameState.Loot.Count < StaticData.LootList.Count;
 
             if (GameState.Loot.Count < StaticData.LootList.Count)
@@ -83,7 +87,9 @@ namespace GreedyMercs
 
         public void OnBuyLoot()
         {
-            if (GameState.Inventory.prestigePoints < Formulas.CalcNextLootCost(GameState.Loot.Count))
+            InventoryManager inv = InventoryManager.Instance;
+
+            if (inv.prestigePoints < Formulas.CalcNextLootCost(GameState.Loot.Count))
             {
                 Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new item");
             }
@@ -96,13 +102,15 @@ namespace GreedyMercs
 
         public void OnBuyCallback(long code, string data)
         {
+            InventoryManager inv = InventoryManager.Instance;
+
             if (code == 200)
             {
                 JSONNode node = Utils.Json.Decompress(data);
 
                 LootID item = (LootID)node["newLootId"].AsInt;
 
-                GameState.Inventory.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
+                inv.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
 
                 GameState.Loot.Add(item);
 

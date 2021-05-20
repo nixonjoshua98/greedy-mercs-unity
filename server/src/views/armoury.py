@@ -26,7 +26,7 @@ class Armoury(View):
 		return "400", 400
 
 	def buy_iron(self, uid, data):
-		mongo.update_inventory(uid, inc_={"armouryPoints": 1})
+		mongo.update_items(uid, inc_={"armouryPoints": 1})
 
 		return ServerResponse({"pointsGained": 1})
 

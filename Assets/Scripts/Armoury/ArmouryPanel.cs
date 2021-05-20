@@ -9,6 +9,7 @@ using GM.Armoury;
 namespace GreedyMercs.Armoury.UI
 {
     using GM.Armoury;
+    using GM.Inventory;
 
     public class ArmouryPanel : MonoBehaviour
     {
@@ -43,7 +44,9 @@ namespace GreedyMercs.Armoury.UI
 
         void FixedUpdate()
         {
-            weaponPointText.text = GameState.Inventory.armouryPoints.ToString();
+            InventoryManager inv = InventoryManager.Instance;
+
+            weaponPointText.text = inv.armouryPoints.ToString();
 
             BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
 

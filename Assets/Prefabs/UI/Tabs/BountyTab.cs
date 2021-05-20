@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
+    using GM.Inventory;
+
     using GameState = GreedyMercs.GameState;
 
     public class BountyTab : MonoBehaviour
@@ -30,7 +32,9 @@ namespace GM.Bounty
 
         void FixedUpdate()
         {
-            bountyPointsText.text   = GameState.Inventory.bountyPoints.ToString();
+            InventoryManager inv = InventoryManager.Instance;
+
+            bountyPointsText.text   = inv.bountyPoints.ToString();
             bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", BountyManager.Instance.MaxHourlyIncome, BountyManager.Instance.TotalCapacity);
             unclaimedTotalText.text = string.Format("Collect ({0})", BountyManager.Instance.UnclaimedTotal);
 

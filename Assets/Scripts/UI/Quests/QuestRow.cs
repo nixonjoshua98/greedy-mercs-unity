@@ -7,6 +7,8 @@ using Coffee.UIEffects;
 
 namespace GreedyMercs.Quests.UI
 {
+    using GM.Inventory;
+
     using GreedyMercs.Quests.Data;
     using SimpleJSON;
 
@@ -145,7 +147,7 @@ namespace GreedyMercs.Quests.UI
 
         void ProcessReward(JSONNode node)
         {
-            GameState.Inventory.gems += node["gemReward"].AsInt;
+            InventoryManager.Instance.gems += node["gemReward"].AsInt;
         }
     }
 }

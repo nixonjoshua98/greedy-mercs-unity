@@ -1,13 +1,9 @@
 ﻿using System;
 
-using UnityEngine;
-
 using SimpleJSON;
 
 namespace GreedyMercs
 {
-    using Inventory;
-
     public static class GameState
     {
         public static PlayerQuestData Quests;
@@ -21,8 +17,6 @@ namespace GreedyMercs
 
         public static UpgradesContainer Upgrades;
         public static CharacterContainer Characters;
-
-        public static PlayerInventory Inventory;
 
         public static DateTime LastLoginDate;
 
@@ -45,8 +39,6 @@ namespace GreedyMercs
             Loot = new LootState();
 
             Quests = new PlayerQuestData(new JSONObject());
-
-            Inventory = new PlayerInventory(node["inventory"]);
 
             Stage           = new StageState(node);
             Skills          = new SkillsState(node);
@@ -77,8 +69,6 @@ namespace GreedyMercs
             Loot.UpdateWithServerData(node["loot"]);
 
             Quests.UpdateQuestsClaimed(node["questsClaimed"]);
-
-            Inventory.Update(node["inventory"]);
         }
 
         public static void Save()

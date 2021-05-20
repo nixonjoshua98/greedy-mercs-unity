@@ -8,8 +8,8 @@ client = None
 db: Database = None
 
 
-def update_inventory(uid, *, inc_: dict):
-	return db["inventories"].find_one_and_update(
+def update_items(uid, *, inc_: dict):
+	return db["userItems"].find_one_and_update(
 		{"userId": uid},
 		{"$inc": inc_},
 		upsert=True,

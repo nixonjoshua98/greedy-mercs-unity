@@ -10,6 +10,8 @@ using SimpleJSON;
 
 namespace GM.Bounty
 {
+    using GM.Inventory;
+
     using StaticData = GreedyMercs.StaticData;
 
     using Utils = GreedyMercs.Utils;
@@ -67,7 +69,7 @@ namespace GM.Bounty
 
                     SetAllClaimTimes(Funcs.ToDateTime(returnData["claimTime"].AsLong));
 
-                    GreedyMercs.GameState.Inventory.bountyPoints = returnData["totalBountyPoints"].AsInt;
+                    InventoryManager.Instance.bountyPoints = returnData["totalBountyPoints"].AsInt;
                 }
 
                 call(code, body);

@@ -20,11 +20,15 @@ namespace GM.BountyShop
 
         public BountyShopItemType ItemType;
 
+        public int QuantityPerPurchase;
+
         public BountyShopItem(int id, JSONNode node)
         {
             ID = id;
 
-            ItemType = (BountyShopItemType)id; // Quick conversion
+            ItemType = (BountyShopItemType)node["itemTypeId"].AsInt; // Quick conversion
+
+            QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
         }
     }
 
@@ -35,15 +39,23 @@ namespace GM.BountyShop
 
         public ServerBountyShopData(JSONNode node)
         {
-            SetupItems(node);
+            UpdateAll(node);
         }
 
+        // = = = GET = = =
+        public BountyShopItem GetItem(int id)
+        {
+            return items[id];
+        }
 
-        void SetupItems(JSONNode node)
+        public void UpdateAll(JSONNode node)
+        {
+            UpdateItems(node["items"]);
+        }
+
+        public void UpdateItems(JSONNode node)
         {
             items = new Dictionary<int, BountyShopItem>();
-
-            node = node["items"];
 
             foreach (string key in node.Keys)
             {

@@ -5,9 +5,8 @@ import datetime as dt
 from flask.views import View, request
 
 from src import checks
-from src.exts import mongo
+from src.exts import mongo, resources
 
-from src.classes import resources
 from src.classes.serverresponse import ServerResponse
 
 
@@ -51,6 +50,6 @@ class Bounty(View):
 		mongo.db["userBounties"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
 
 		# Add the bounty points to the users inventory
-		inv = mongo.update_items(uid, inc_={"bountyPoint": points})
+		inv = mongo.update_items(uid, inc={"bountyPoint": points})
 
 		return ServerResponse({"totalBountyPoints": inv["bountyPoint"], "claimTime": now})

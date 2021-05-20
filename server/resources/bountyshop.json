@@ -2,17 +2,14 @@
   "items": {
     "0": {
       "itemTypeId": 100,
-      "purchaseCost": 69,
+      "purchaseCost": 25,
+      "dailyPurchaseLimit": 10,
       "quantityPerPurchase": 1
     },
     "1": {
       "itemTypeId": 200,
-      "purchaseCost": 420,
-      "quantityPerPurchase": 1
-    },
-    "2": {
-      "itemTypeId": 0,
-      "purchaseCost": 25,
+      "purchaseCost": 50,
+      "dailyPurchaseLimit": 25,
       "quantityPerPurchase": 1
     }
   }

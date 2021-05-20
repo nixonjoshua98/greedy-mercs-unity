@@ -10,24 +10,56 @@ namespace GM.BountyShop
 
     using SimpleJSON;
 
+    struct BountyShopPurchaseData
+    {
+        public int TotalDailyPurchases;
+
+        public BountyShopPurchaseData(int total)
+        {
+            TotalDailyPurchases = total;
+        }
+    }
+
+
     public class BountyShopManager
     {
-        static BountyShopManager _Instance = null;
+        public static BountyShopManager Instance = null;
 
-        public static BountyShopManager Instance
+        Dictionary<int, BountyShopPurchaseData> purchases;
+
+        public static BountyShopManager Create(JSONNode node)
         {
-            get
-            {
-                if (_Instance == null)
-                    _Instance = new BountyShopManager();
+            Instance = new BountyShopManager();
 
-                return _Instance;
+            Instance.SetDailyPurchases(node["dailyPurchases"]);
+
+            return Instance;
+        }
+
+        public void SetDailyPurchases(JSONNode node)
+        {
+            purchases = new Dictionary<int, BountyShopPurchaseData>();
+
+            // {0: 0, 1: 3}
+            foreach (string key in node.Keys)
+            {
+                int id = int.Parse(key);
+
+                BountyShopPurchaseData inst = new BountyShopPurchaseData(node[key].AsInt);
+
+                purchases.Add(id, inst);
             }
         }
 
-        public BountyShopManager()
+        // = = = Quick Helper = = =
+        public bool InStock(int iid)
         {
+            int dailyPurchases = 0;
 
+            if (purchases.TryGetValue(iid, out BountyShopPurchaseData data))
+                dailyPurchases = data.TotalDailyPurchases;
+
+            return GreedyMercs.StaticData.BountyShop.GetItem(iid).DailyPurchaseLimit > dailyPurchases;
         }
 
         // = = = Server Methods ===
@@ -40,6 +72,8 @@ namespace GM.BountyShop
                     JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
 
                     GreedyMercs.StaticData.BountyShop.UpdateAll(resp["serverData"]);
+
+                    SetDailyPurchases(resp["dailyPurchases"]);
 
                     action.Invoke();
                 }
@@ -61,6 +95,8 @@ namespace GM.BountyShop
                     JSONNode userItems = resp["userItems"];
 
                     InventoryManager.Instance.SetItems(userItems);
+
+                    Refresh(() => { }); // Temp
                 }
 
                 action.Invoke(code == 200);

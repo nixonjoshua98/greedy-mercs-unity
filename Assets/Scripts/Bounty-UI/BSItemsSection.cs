@@ -34,13 +34,13 @@ namespace GM.BountyShop
         {
             DestroyAllSlots();
 
-            foreach (BountyShopItem itemData in ServerData.BountyShop.Items)
+            foreach (BountyShopItemData itemData in ServerData.BountyShop.Items)
             {
                 GameObject o = Funcs.UI.Instantiate(ItemSlotObject, ItemsParent);
 
                 BountyShopItemSlot slot = o.GetComponent<BountyShopItemSlot>();
 
-                slot.SetItem(itemData);
+                slot.SetItemID(itemData.ID);
 
                 items.Add(o);
             }

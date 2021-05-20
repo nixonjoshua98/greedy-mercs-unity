@@ -1,6 +1,8 @@
 
 from src.exts import mongo
 
+from src import dbutils
+
 
 def get_player_data(uid):
 	"""
@@ -13,7 +15,6 @@ def get_player_data(uid):
 		Returns the users data as a dict
 	"""
 
-	shop  		= mongo.db.dailyResetPurchases.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	quests		= mongo.db.dailyQuests.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	stats 		= mongo.db.userStats.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
 	info  		= mongo.db.userInfo.find_one({"userId": uid}, {"_id": 0, "userId": 0}) or dict()
@@ -34,10 +35,10 @@ def get_player_data(uid):
 		"questsClaimed": quests.get("questsClaimed", dict()),
 
 		"lifetimeStats": 	stats,
-		"bountyShop": 		shop,
+		"bountyShop": 		{"dailyPurchases": dbutils.bs.get_daily_purchases(uid)},
 
 		"loot": 	items.get("loot", dict()),
 
 		"armoury": list(armoury),
-		"bounties": list(bounties)
+		"bounties": list(bounties),
 	}

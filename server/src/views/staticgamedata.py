@@ -1,13 +1,10 @@
 
-from flask import Response
 from flask.views import View
 
-
-from src import utils
-
-from src.classes import resources
+from src.exts import resources
 
 from src.classes.gamedata import GameData
+from src.classes.serverresponse import ServerResponse
 
 
 class StaticGameData(View):
@@ -19,4 +16,4 @@ class StaticGameData(View):
 		data["bounties"] = resources.get("bounties")
 		data["armoury"] = resources.get("armoury")
 
-		return Response(utils.compress(data))
+		return ServerResponse(data)

@@ -8,8 +8,8 @@ client = None
 db: Database = None
 
 
-def update_items(uid, *, inc_: dict):
-	return db["userItems"].find_one_and_update({"userId": uid}, {"$inc": inc_}, upsert=True, return_document=ReturnDocument.AFTER)
+def update_items(uid, *, inc: dict):
+	return db["userItems"].find_one_and_update({"userId": uid}, {"$inc": inc}, upsert=True, return_document=ReturnDocument.AFTER)
 
 
 def create_mongo():

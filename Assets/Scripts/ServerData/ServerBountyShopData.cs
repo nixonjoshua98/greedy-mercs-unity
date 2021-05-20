@@ -13,22 +13,22 @@ namespace GM.BountyShop
         // Represents the type of item in the shop
         // The shop could contain multiple items (with unique ids) but multiple of the same item type
 
-        FLAT_BP = 0, // Bounty Point [Temp]
-        FLAT_BLUE_GEM = 100,
-        FLAT_AP = 200, // Armoury Point
+        FLAT_BLUE_GEM   = 100,
+        FLAT_AP         = 200, // Armoury Point
 
     }
 
-    public class BountyShopItem
+    public struct BountyShopItemData
     {
         public int ID;
 
         public BountyShopItemType ItemType;
 
         public int QuantityPerPurchase;
+        public int DailyPurchaseLimit;
         public int PurchaseCost;
 
-        public BountyShopItem(int id, JSONNode node)
+        public BountyShopItemData(int id, JSONNode node)
         {
             ID = id;
 
@@ -37,13 +37,14 @@ namespace GM.BountyShop
             PurchaseCost = node["purchaseCost"].AsInt;
 
             QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
+            DailyPurchaseLimit = node["dailyPurchaseLimit"].AsInt;
         }
     }
 
 
     public class ServerBountyShopData
     {
-        Dictionary<int, BountyShopItem> items;
+        Dictionary<int, BountyShopItemData> items;
 
         public ServerBountyShopData(JSONNode node)
         {
@@ -51,8 +52,8 @@ namespace GM.BountyShop
         }
 
         // = = = GET = = =
-        public List<BountyShopItem> Items { get { return items.Values.ToList(); } }
-        public BountyShopItem GetItem(int id)
+        public List<BountyShopItemData> Items { get { return items.Values.ToList(); } }
+        public BountyShopItemData GetItem(int id)
         {
             return items[id];
         }
@@ -64,13 +65,13 @@ namespace GM.BountyShop
 
         public void UpdateItems(JSONNode node)
         {
-            items = new Dictionary<int, BountyShopItem>();
+            items = new Dictionary<int, BountyShopItemData>();
 
             foreach (string key in node.Keys)
             {
                 int id = int.Parse(key);
 
-                items.Add(id, new BountyShopItem(id, node[key]));
+                items.Add(id, new BountyShopItemData(id, node[key]));
             }
         }
     }

@@ -8,25 +8,27 @@ namespace GM.BountyShop
 {
     public class BountyShopItemSlot : MonoBehaviour
     {
+        [Header("Children")]
+        [SerializeField] GameObject outStockObject;
+
         [Header("Components - UI")]
         [SerializeField] Image itemIcon;
         [Space]
         [SerializeField] Text itemNameText;
         [SerializeField] Text purchaseCostText;
 
-        BountyShopItem assignedSlotItem;
-
-
+        int _itemId;
         bool _isUpdatingUi = false;
 
-        public void SetItem(BountyShopItem item)
+        BountyShopItemData ServerItemData { get { return GreedyMercs.StaticData.BountyShop.GetItem(_itemId); } }
+
+        public void SetItemID(int itemId)
         {
-            assignedSlotItem = item; // Set which item this slot will represent
+            _itemId         = itemId;
+            _isUpdatingUi   = true;
 
             SetIcon();
             SetName();
-
-            _isUpdatingUi = true;
         }
 
         void FixedUpdate()
@@ -34,14 +36,16 @@ namespace GM.BountyShop
             if (!_isUpdatingUi)
                 return;
 
-            purchaseCostText.text = assignedSlotItem.PurchaseCost.ToString();
+            outStockObject.SetActive(!BountyShopManager.Instance.InStock(ServerItemData.ID));
+
+            purchaseCostText.text = ServerItemData.PurchaseCost.ToString();
         }
 
 
         // = = = Button Callbacks ===
         public void OnPurchaseButton()
         {
-            BountyShopManager.Instance.PurchaseItem(assignedSlotItem.ID, OnPurchasedItem);
+            BountyShopManager.Instance.PurchaseItem(ServerItemData.ID, OnPurchasedItem);
         }
 
         // = = = Server Callbacks ===
@@ -55,7 +59,7 @@ namespace GM.BountyShop
         {
             string key = "blue_gem_icon";
 
-            switch (assignedSlotItem.ItemType)
+            switch (ServerItemData.ItemType)
             {
                 case BountyShopItemType.FLAT_BLUE_GEM:
                     key = "blue_gem_icon";
@@ -64,10 +68,6 @@ namespace GM.BountyShop
                 case BountyShopItemType.FLAT_AP:
                     key = "iron_icon";
                     break;
-
-                case BountyShopItemType.FLAT_BP:
-                    key = "bounty_point_icon";
-                    break;
             }
 
             itemIcon.sprite = ResourceManager.LoadSprite("Icons", key);
@@ -75,7 +75,7 @@ namespace GM.BountyShop
 
         void SetName()
         {
-            itemNameText.text = assignedSlotItem.ItemType.ToString();
+            itemNameText.text = ServerItemData.ItemType.ToString();
         }
     }
 }

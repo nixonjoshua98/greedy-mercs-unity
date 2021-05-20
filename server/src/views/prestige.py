@@ -8,11 +8,9 @@ from flask import Response, request
 
 from flask.views import View
 
-from src.classes import resources
-
 from src import formulas, utils, checks
 from src.utils import dbops
-from src.exts import mongo
+from src.exts import mongo, resources
 
 
 class Prestige(View):

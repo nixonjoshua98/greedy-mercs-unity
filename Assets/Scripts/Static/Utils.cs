@@ -48,6 +48,8 @@ public static class Funcs
 
     public static class UI
     {
+        public static GameObject Instantiate(GameObject o, Transform parent) { return Instantiate(o, parent.gameObject); }
+
         public static GameObject Instantiate(GameObject o, Transform parent, Vector3 pos)
         {
             GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);

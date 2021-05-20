@@ -11,6 +11,11 @@ from src.classes import resources
 from src.classes.serverresponse import ServerResponse
 
 
+class ItemType:
+	FLAT_BLUE_GEM 	= 100
+	FLAT_AP 		= 200  # Armoury Points
+
+
 class BountyShop(View):
 
 	@checks.login_check
@@ -26,7 +31,17 @@ class BountyShop(View):
 		return "400", 400
 
 	def purchase_item(self, uid, data):
-		items = mongo.update_items(uid, inc_={"bountyPoints": 1})
+		iid = data["itemId"]
+
+		item_data = resources.get("bountyshop")["items"][iid]
+		item_type = item_data["itemTypeId"]
+
+		key = {
+			ItemType.FLAT_BLUE_GEM: "blueGem",
+			ItemType.FLAT_AP: "armouryPoint"
+		}[item_type]
+
+		items = mongo.update_items(uid, inc_={key: item_data["quantityPerPurchase"]})
 
 		return ServerResponse({"userItems": items})
 

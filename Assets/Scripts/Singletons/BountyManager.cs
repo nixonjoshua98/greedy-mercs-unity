@@ -69,7 +69,7 @@ namespace GM.Bounty
 
                     SetAllClaimTimes(Funcs.ToDateTime(returnData["claimTime"].AsLong));
 
-                    InventoryManager.Instance.bountyPoints = returnData["totalBountyPoints"].AsInt;
+                    InventoryManager.Instance.BountyPoints = returnData["totalBountyPoints"].AsInt;
                 }
 
                 call(code, body);

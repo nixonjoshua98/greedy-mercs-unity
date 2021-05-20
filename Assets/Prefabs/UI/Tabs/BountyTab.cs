@@ -34,7 +34,7 @@ namespace GM.Bounty
         {
             InventoryManager inv = InventoryManager.Instance;
 
-            bountyPointsText.text   = inv.bountyPoints.ToString();
+            bountyPointsText.text   = inv.BountyPoints.ToString();
             bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", BountyManager.Instance.MaxHourlyIncome, BountyManager.Instance.TotalCapacity);
             unclaimedTotalText.text = string.Format("Collect ({0})", BountyManager.Instance.UnclaimedTotal);
 

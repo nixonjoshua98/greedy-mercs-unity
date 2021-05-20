@@ -147,7 +147,7 @@ namespace GreedyMercs.Quests.UI
 
         void ProcessReward(JSONNode node)
         {
-            InventoryManager.Instance.gems += node["gemReward"].AsInt;
+            InventoryManager.Instance.BlueGems += node["gemReward"].AsInt;
         }
     }
 }

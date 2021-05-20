@@ -6,15 +6,24 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
+    using ServerData = GreedyMercs.StaticData;
+
     public class BSItemsSection : MonoBehaviour
     {
+        [Header("Prefabs - UI")]
+        [SerializeField] GameObject ItemSlotObject;
+
+        [Header("Transforms - UI")]
+        [SerializeField] Transform ItemsParent;
+
+        [Header("Components - UI")]
         [SerializeField] Text shopRefreshText;
 
-        public BountyShopSlot slot;
+        List<GameObject> items;
 
-        void Start()
+        void Awake()
         {
-            slot.SetItem(GreedyMercs.StaticData.BountyShop.GetItem(0));
+            items = new List<GameObject>();
         }
 
         void OnEnable()
@@ -22,14 +31,42 @@ namespace GM.BountyShop
             BountyShopManager.Instance.Refresh(OnShopRefreshed);
         }
 
-        void OnShopRefreshed()
-        {
-            Debug.Log("OnShopRefreshed");
-        }
-
         void FixedUpdate()
         {
             shopRefreshText.text = "Refreshes in ???";
+        }
+
+        // = = = Server Callbacks = = =
+        void OnShopRefreshed()
+        {
+            InstantiateItemSlots();
+        }
+
+        // = = =
+        void InstantiateItemSlots()
+        {
+            DestroyAllSlots();
+
+            foreach (BountyShopItem itemData in ServerData.BountyShop.Items)
+            {
+                GameObject o = Funcs.UI.Instantiate(ItemSlotObject, ItemsParent);
+
+                BountyShopItemSlot slot = o.GetComponent<BountyShopItemSlot>();
+
+                slot.SetItem(itemData);
+
+                items.Add(o);
+            }
+        }
+
+        void DestroyAllSlots()
+        {
+            foreach (GameObject o in items)
+            {
+                Destroy(o);
+            }
+
+            items.Clear();
         }
     }
 }

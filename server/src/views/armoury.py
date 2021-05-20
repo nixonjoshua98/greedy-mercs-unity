@@ -14,10 +14,7 @@ class Armoury(View):
 	def dispatch_request(self, uid, data):
 		purpose = request.args.get("purpose")
 
-		if purpose == "buyIron":
-			return self.buy_iron(uid, data)
-
-		elif purpose == "upgradeItem":
+		if purpose == "upgradeItem":
 			return self.upgrade_item(uid, data)
 
 		elif purpose == "evolveItem":
@@ -25,21 +22,16 @@ class Armoury(View):
 
 		return "400", 400
 
-	def buy_iron(self, uid, data):
-		mongo.update_items(uid, inc_={"armouryPoints": 1})
-
-		return ServerResponse({"pointsGained": 1})
-
 	def upgrade_item(self, uid, data):
-		item = data["itemId"]
+		iid = data["itemId"]
 
-		mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": item}, {"$inc": {"level": 1}})
+		mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": iid}, {"$inc": {"level": 1}})
 
 		return ServerResponse({"levelsGained": 1})
 
 	def evolve_item(self, uid, data):
-		item = data["itemId"]
+		iid = data["itemId"]
 
-		mongo.db.userArmouryItems.update_one({"userId": uid, "itemId": item}, {"$inc": {"evoLevel": 1}})
+		mongo.db.userArmouryItems.update_one({"userId": uid, "itemId": iid}, {"$inc": {"evoLevel": 1}})
 
 		return ServerResponse({"evoLevelsGained": 1})

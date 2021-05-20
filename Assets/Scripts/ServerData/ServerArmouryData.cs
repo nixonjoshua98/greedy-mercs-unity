@@ -34,12 +34,8 @@ namespace GM.Armoury
     {
         Dictionary<int, ArmouryItemData> items;
 
-        public readonly int IronCost;
-
         public ServerArmouryData(JSONNode node)
         {
-            IronCost = node["iron"]["cost"].AsInt;
-
             SetupItemData(node);
         }
 

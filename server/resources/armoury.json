@@ -1,8 +1,4 @@
 {
-  "iron": {
-    "cost": 1
-  },
-
   "items": {
     "0": {
       "iconString": "axe_01",

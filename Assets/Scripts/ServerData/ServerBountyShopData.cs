@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,7 +12,8 @@ namespace GM.BountyShop
     {
         // Represents the type of item in the shop
         // The shop could contain multiple items (with unique ids) but multiple of the same item type
-        FLAT_DIAMONDS = 100,
+        FLAT_BLUE_GEM       = 100,
+        FLAT_AP = 200,
     }
 
     public class BountyShopItem
@@ -21,12 +23,15 @@ namespace GM.BountyShop
         public BountyShopItemType ItemType;
 
         public int QuantityPerPurchase;
+        public int PurchaseCost;
 
         public BountyShopItem(int id, JSONNode node)
         {
             ID = id;
 
             ItemType = (BountyShopItemType)node["itemTypeId"].AsInt; // Quick conversion
+
+            PurchaseCost = node["purchaseCost"].AsInt;
 
             QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
         }
@@ -43,6 +48,7 @@ namespace GM.BountyShop
         }
 
         // = = = GET = = =
+        public List<BountyShopItem> Items { get { return items.Values.ToList(); } }
         public BountyShopItem GetItem(int id)
         {
             return items[id];

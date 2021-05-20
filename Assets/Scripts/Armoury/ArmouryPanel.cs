@@ -46,7 +46,7 @@ namespace GreedyMercs.Armoury.UI
         {
             InventoryManager inv = InventoryManager.Instance;
 
-            weaponPointText.text = inv.armouryPoints.ToString();
+            weaponPointText.text = inv.ArmouryPoints.ToString();
 
             BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
 

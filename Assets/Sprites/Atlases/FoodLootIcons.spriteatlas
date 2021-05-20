@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 7e12287176477f044ba06f2835eeb059, type: 3}
-    totalSpriteSurfaceArea: 8986544
+    totalSpriteSurfaceArea: 8949680
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -143,7 +143,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f87dba95bcfb7c7449005113df24d94a, type: 3}
   - {fileID: 21300000, guid: 80aa6aa5cd6b2414aa20af6a797bebf8, type: 3}
   - {fileID: 21300000, guid: b25c9fa5068347142bcb27583b7e41d1, type: 3}
-  - {fileID: 21300000, guid: acddbdb5c01c4ae4fa8828b4f0ff2ec5, type: 3}
   - {fileID: 21300000, guid: 7ec46ad594486db44bf2a6cccf37a033, type: 3}
   - {fileID: 21300000, guid: 366ae5e5dc0105d4981fb123410be477, type: 3}
   - {fileID: 21300000, guid: 399cc016d68fae447a2ea1cd00e05675, type: 3}
@@ -387,7 +386,6 @@ SpriteAtlas:
   - DreadEyeWings
   - Firearms
   - Soup
-  - Iron
   - BackpackD
   - Vinegar
   - PurpleGemstone

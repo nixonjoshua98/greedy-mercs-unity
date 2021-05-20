@@ -2,6 +2,12 @@
   "items": {
     "0": {
       "itemTypeId": 100,
+      "purchaseCost": 1,
+      "quantityPerPurchase": 1
+    },
+    "1": {
+      "itemTypeId": 200,
+      "purchaseCost": 2,
       "quantityPerPurchase": 1
     }
   }

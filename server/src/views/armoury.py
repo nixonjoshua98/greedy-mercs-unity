@@ -32,6 +32,6 @@ class Armoury(View):
 	def evolve_item(self, uid, data):
 		iid = data["itemId"]
 
-		mongo.db.userArmouryItems.update_one({"userId": uid, "itemId": iid}, {"$inc": {"evoLevel": 1}})
+		mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": iid}, {"$inc": {"evoLevel": 1}})
 
 		return ServerResponse({"evoLevelsGained": 1})

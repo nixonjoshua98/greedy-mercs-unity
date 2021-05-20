@@ -8,7 +8,7 @@ def get(file_name):
 	return _load_file(f"{file_name}.json")
 
 
-@cached(cache=TTLCache(maxsize=64, ttl=900))
+@cached(cache=TTLCache(maxsize=64, ttl=60 * 5))
 def _load_file(path):
 	path = os.path.join(os.getcwd(), "resources", path)
 

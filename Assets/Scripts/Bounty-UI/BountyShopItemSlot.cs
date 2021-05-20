@@ -64,6 +64,10 @@ namespace GM.BountyShop
                 case BountyShopItemType.FLAT_AP:
                     key = "iron_icon";
                     break;
+
+                case BountyShopItemType.FLAT_BP:
+                    key = "bounty_point_icon";
+                    break;
             }
 
             itemIcon.sprite = ResourceManager.LoadSprite("Icons", key);

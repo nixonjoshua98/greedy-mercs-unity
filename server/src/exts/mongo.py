@@ -9,12 +9,7 @@ db: Database = None
 
 
 def update_items(uid, *, inc_: dict):
-	return db["userItems"].find_one_and_update(
-		{"userId": uid},
-		{"$inc": inc_},
-		upsert=True,
-		return_document=ReturnDocument.AFTER
-	)
+	return db["userItems"].find_one_and_update({"userId": uid}, {"$inc": inc_}, upsert=True, return_document=ReturnDocument.AFTER)
 
 
 def create_mongo():
@@ -24,4 +19,4 @@ def create_mongo():
 
 	client = MongoClient(os.getenv("MONGO_URI") or "mongodb://localhost:27017/")
 
-	db = client["_greedy"]
+	db = client["g0"]

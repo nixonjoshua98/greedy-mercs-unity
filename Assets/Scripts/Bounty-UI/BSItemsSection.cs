@@ -16,9 +16,6 @@ namespace GM.BountyShop
         [Header("Transforms - UI")]
         [SerializeField] Transform ItemsParent;
 
-        [Header("Components - UI")]
-        [SerializeField] Text shopRefreshText;
-
         List<GameObject> items;
 
         void Awake()
@@ -26,18 +23,8 @@ namespace GM.BountyShop
             items = new List<GameObject>();
         }
 
-        void OnEnable()
-        {
-            BountyShopManager.Instance.Refresh(OnShopRefreshed);
-        }
-
-        void FixedUpdate()
-        {
-            shopRefreshText.text = "Refreshes in ???";
-        }
-
-        // = = = Server Callbacks = = =
-        void OnShopRefreshed()
+        // = = = Callbacks = = =
+        public void OnShopRefreshed()
         {
             InstantiateItemSlots();
         }

@@ -12,6 +12,8 @@ from src.classes.serverresponse import ServerResponse
 
 
 class ItemType:
+	FLAT_BP			= 0  # Bounty Points [Temp]
+
 	FLAT_BLUE_GEM 	= 100
 	FLAT_AP 		= 200  # Armoury Points
 
@@ -38,7 +40,8 @@ class BountyShop(View):
 
 		key = {
 			ItemType.FLAT_BLUE_GEM: "blueGem",
-			ItemType.FLAT_AP: "armouryPoint"
+			ItemType.FLAT_AP: "armouryPoint",
+			ItemType.FLAT_BP: "bountyPoint"
 		}[item_type]
 
 		items = mongo.update_items(uid, inc_={key: item_data["quantityPerPurchase"]})

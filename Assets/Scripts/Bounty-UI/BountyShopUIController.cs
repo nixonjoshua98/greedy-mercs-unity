@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+using System;
 
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+
 
 namespace GM.BountyShop
 {
@@ -22,7 +23,9 @@ namespace GM.BountyShop
 
         void FixedUpdate()
         {
-            shopRefreshText.text = "Refreshes in ???";
+            TimeSpan timeUntilReset = Funcs.TimeUntil(GreedyMercs.StaticData.NextDailyReset);
+
+            shopRefreshText.text = string.Format("Refreshes in {0}", Funcs.Format.Seconds(timeUntilReset.TotalSeconds));
         }
     }
 }

@@ -23,6 +23,11 @@ public static class Funcs
         return DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
     }
 
+    public static TimeSpan TimeUntil(DateTime date)
+    {
+        return date - DateTime.UtcNow;
+    }
+
     public static JSONNode GetDeviceInfo()
     {
         JSONObject node = new JSONObject();
@@ -32,17 +37,19 @@ public static class Funcs
         return node;
     }
 
-
-    public static JSONNode SerializeDictionary<TKey, TVal>(Dictionary<TKey, TVal> dict)
+    public static class Format
     {
-        JSONNode node = new JSONObject();
-
-        foreach (KeyValuePair<TKey, TVal> entry in dict)
+        public static string Seconds(double seconds) { return Seconds((long)seconds); }
+        public static string Seconds(long seconds)
         {
-            node.Add(entry.Key.ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
-        }
+            long hours = seconds / 3_600;            
+            seconds -= (3_600 * hours);
 
-        return node;
+            long mins = seconds / 60;
+            seconds -= (60 * mins);
+
+            return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
+        }
     }
 
 

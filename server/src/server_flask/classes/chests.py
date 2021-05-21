@@ -1,6 +1,6 @@
 import random
 
-from src.classes.gamedata import GameData
+from src.server_flask.classes.gamedata import GameData
 
 
 def armoury_chest(*, mintier, maxtier):

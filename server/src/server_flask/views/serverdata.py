@@ -2,12 +2,13 @@
 from flask.views import View
 
 from src.exts import resources
+from src import dbutils
 
-from src.classes.gamedata import GameData
-from src.classes.serverresponse import ServerResponse
+from src.server_flask.classes.gamedata import GameData
+from src.server_flask.classes.serverresponse import ServerResponse
 
 
-class StaticGameData(View):
+class ServerData(View):
 
 	def dispatch_request(self):
 		data = GameData.data
@@ -15,5 +16,7 @@ class StaticGameData(View):
 		data["bountyShop"] = resources.get("bountyshop")
 		data["bounties"] = resources.get("bounties")
 		data["armoury"] = resources.get("armoury")
+
+		data["nextDailyReset"] = dbutils.next_daily_reset()
 
 		return ServerResponse(data)

@@ -14,7 +14,6 @@ namespace GM.BountyShop
         [Header("Components - UI")]
         [SerializeField] Image itemIcon;
         [Space]
-        [SerializeField] Text itemNameText;
         [SerializeField] Text purchaseCostText;
 
         int _itemId;
@@ -28,7 +27,6 @@ namespace GM.BountyShop
             _isUpdatingUi   = true;
 
             SetIcon();
-            SetName();
         }
 
         void FixedUpdate()
@@ -71,11 +69,6 @@ namespace GM.BountyShop
             }
 
             itemIcon.sprite = ResourceManager.LoadSprite("Icons", key);
-        }
-
-        void SetName()
-        {
-            itemNameText.text = ServerItemData.ItemType.ToString();
         }
     }
 }

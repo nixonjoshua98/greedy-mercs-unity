@@ -11,10 +11,6 @@ namespace GreedyMercs.Quests.UI
         [Header("Components")]
         [SerializeField] Text dailyResetText;
 
-        void OnEnable() => InvokeRepeating("UpdateUI", 0.0f, 0.5f);
-
-        void OnDisable() => CancelInvoke("UpdateUI");
-
         void Awake()
         {
             if (!GameState.Quests.IsValid)
@@ -23,10 +19,10 @@ namespace GreedyMercs.Quests.UI
             }
         }
 
-        void UpdateUI()
+        void FixedUpdate()
         {
             if (GameState.Quests.IsValid)
-                dailyResetText.text = string.Format("Time until reset: {0}", Utils.Format.FormatSeconds(GameState.TimeUntilNextReset));
+                dailyResetText.text = string.Format("Time until reset: {0}", Funcs.Format.Seconds(Funcs.TimeUntil(StaticData.NextDailyReset).TotalSeconds));
 
             else
                 dailyResetText.text = "Resetting...";

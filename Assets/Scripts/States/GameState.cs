@@ -20,20 +20,6 @@ namespace GreedyMercs
 
         public static DateTime LastLoginDate;
 
-        public static DateTime LastDailyReset
-        {
-            get
-            {
-                DateTime now = DateTime.UtcNow;
-
-                DateTime resetTime = new DateTime(now.Year, now.Month, now.Day, 20, 0, 0);
-
-                return now <= resetTime ? resetTime.AddDays(-1) : resetTime; 
-            }
-        }
-
-        public static int TimeUntilNextReset { get { return (int)(LastDailyReset.AddDays(1) - DateTime.UtcNow).TotalSeconds; } }
-
         public static void Restore(JSONNode node)
         {
             Loot = new LootState();

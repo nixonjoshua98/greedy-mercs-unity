@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 using SimpleJSON;
 
 namespace GreedyMercs
@@ -28,6 +29,8 @@ namespace GreedyMercs
 
         public static StaticQuestData Quests;
 
+        public static DateTime NextDailyReset;
+
         public static void Restore(JSONNode node)
         {
             Quests = new StaticQuestData(node["quests"]);
@@ -37,10 +40,11 @@ namespace GreedyMercs
             LootList.Init(node["loot"]);
             CharacterList.Init(node["characters"], node["characterPassives"]);
 
-            Bounty  = new ServerBountyData(node["bounties"]);
-            Armoury = new ServerArmouryData(node["armoury"]);
+            Bounty      = new ServerBountyData(node["bounties"]);
+            Armoury     = new ServerArmouryData(node["armoury"]);
+            BountyShop  = new ServerBountyShopData(node["bountyShop"]);
 
-            BountyShop = new ServerBountyShopData(node["bountyShop"]);
+            NextDailyReset = Funcs.ToDateTime(node["nextDailyReset"]);
         }
 
         public static void AssignScriptables(SkillListSO skills, CharacterListSO chars, LootItemListSO loot)

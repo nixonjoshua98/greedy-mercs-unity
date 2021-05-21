@@ -2,9 +2,9 @@ from flask import Response, request
 
 from flask.views import View
 
-from src import utils, checks
+from src.server_flask import utils, checks
 from src.exts import mongo
-from src.utils import dbops
+from src.server_flask.utils import dbops
 
 
 class PlayerLogin(View):

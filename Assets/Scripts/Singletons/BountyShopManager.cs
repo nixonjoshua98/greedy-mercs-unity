@@ -71,8 +71,13 @@ namespace GM.BountyShop
                 {
                     JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
 
+                    // Update the store items pulled from the server
                     GreedyMercs.StaticData.BountyShop.UpdateAll(resp["serverData"]);
+                       
+                    // Updates the next daily reset time
+                    GreedyMercs.StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);
 
+                    // Updates the users purchases
                     SetDailyPurchases(resp["dailyPurchases"]);
 
                     action.Invoke();

@@ -2,7 +2,7 @@ from flask import Response
 
 from flask.views import View
 
-from src import utils
+from src.server_flask import utils
 from src.exts import mongo
 
 

@@ -2,8 +2,9 @@
 import datetime as dt
 
 from src.exts import mongo, resources
+from src import dbutils
 
-from src.classes.serverresponse import ServerResponse
+from src.server_flask.classes.serverresponse import ServerResponse
 
 
 class ItemType:
@@ -61,7 +62,7 @@ def _perform_purchase(uid, iid):
 	# Database Query Updates
 	inc = {"bountyPoint": -item_price(iid), key: item_data["quantityPerPurchase"]}
 
-	items = mongo.update_items(uid, inc=inc)
+	items = dbutils.inv.update_items(uid, inc=inc)
 
 	return ServerResponse({"userItems": items})
 
@@ -76,7 +77,7 @@ def _within_purchase_limit(uid, iid: int) -> bool:
 	item_data = resources.get("bountyshop")["items"][iid]
 
 	user_purchases = mongo.db["bountyShopPurchases"].find(
-		{"userId": uid, "itemId": iid, "purchaseTime": {"$gte": resources.last_reset()}}
+		{"userId": uid, "itemId": iid, "purchaseTime": {"$gte": dbutils.last_daily_reset()}}
 	)
 
 	user_purchases = list(user_purchases)

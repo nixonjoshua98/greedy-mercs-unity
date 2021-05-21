@@ -4,9 +4,9 @@ from flask.views import View
 
 from src import dbutils
 
-from src import checks
-from src.exts import mongo, resources
-from src.classes.serverresponse import ServerResponse
+from ... import checks
+from src.exts import resources
+from src.server_flask.classes.serverresponse import ServerResponse
 
 from . import shop_items
 
@@ -29,7 +29,8 @@ class BountyShop(View):
 		return ServerResponse(
 			{
 				"serverData": resources.get("bountyshop"),
-				"dailyPurchases": dbutils.bs.get_daily_purchases(uid)
+				"dailyPurchases": dbutils.bs.get_daily_purchases(uid),
+				"nextDailyResetTime": dbutils.next_daily_reset()
 			}
 		)
 

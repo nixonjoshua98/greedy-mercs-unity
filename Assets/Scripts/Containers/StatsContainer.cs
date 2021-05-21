@@ -50,13 +50,13 @@ namespace GreedyMercs
 
         public DateTime lastReset;
 
-        public bool IsValid { get { return lastReset >= GameState.LastDailyReset; } }
+        public bool IsValid { get { return lastReset >= StaticData.NextDailyReset.AddDays(-1); } }
 
         public PlayerQuestData(JSONNode node)
         {
             questsClaimed = new Dictionary<QuestID, bool>();
 
-            lastReset = node.HasKey("lastReset") ? node["lastReset"].AsLong.ToUnixDatetime() : GameState.LastDailyReset;
+            lastReset = node.HasKey("lastReset") ? node["lastReset"].AsLong.ToUnixDatetime() : StaticData.NextDailyReset.AddDays(-1);
 
             if (IsValid)
                 Update(node);
@@ -73,7 +73,7 @@ namespace GreedyMercs
 
             Zero();
 
-            lastReset = GameState.LastDailyReset;
+            lastReset = StaticData.NextDailyReset.AddDays(-1);
 
             questsClaimed.Clear();
         }

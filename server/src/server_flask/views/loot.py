@@ -3,10 +3,10 @@ import random
 from flask import Response, request
 from flask.views import View
 
-from src import utils, checks, formulas
+from src.server_flask import utils, checks, formulas
 from src.exts import mongo
 
-from src.classes.gamedata import GameData
+from src.server_flask.classes.gamedata import GameData
 
 
 class BuyLoot(View):

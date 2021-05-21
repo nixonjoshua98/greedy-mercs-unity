@@ -2,10 +2,10 @@ from flask import request
 
 from flask.views import View
 
-from src import checks
+from src.server_flask import checks
 from src.exts import mongo
 
-from src.classes.serverresponse import ServerResponse
+from src.server_flask.classes.serverresponse import ServerResponse
 
 
 class Armoury(View):

@@ -3,7 +3,7 @@ from flask import Response, request
 
 from src.exts import mongo
 
-from src import utils
+from src.server_flask import utils
 
 
 def login_check(f):

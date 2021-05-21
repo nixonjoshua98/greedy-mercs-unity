@@ -1,9 +1,11 @@
 
-from src.exts import mongo, resources
+from src.exts import mongo
+
+from src import dbutils
 
 
 def get_daily_purchases(uid):
-	cursor = mongo.db["bountyShopPurchases"].find({"userId": uid, "purchaseTime": {"$gte": resources.last_reset()}})
+	cursor = mongo.db["bountyShopPurchases"].find({"userId": uid, "purchaseTime": {"$gte": dbutils.last_daily_reset()}})
 
 	results = list(cursor)
 

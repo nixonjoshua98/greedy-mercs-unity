@@ -2,7 +2,7 @@ import datetime as dt
 
 from cachetools import cached, TTLCache
 
-from src import utils
+from src.server_flask import utils
 
 
 class GameDataMeta(type):

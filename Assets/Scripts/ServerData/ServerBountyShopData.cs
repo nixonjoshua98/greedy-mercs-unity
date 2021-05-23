@@ -3,75 +3,117 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
+using UnityEngine;
+
 
 namespace GM.BountyShop
 {
     using SimpleJSON;
 
-    public enum BountyShopItemType
+    public enum BsTokenType
     {
-        // Represents the type of item in the shop
-        // The shop could contain multiple items (with unique ids) but multiple of the same item type
-
         FLAT_BLUE_GEM   = 100,
         FLAT_AP         = 200, // Armoury Point
-
     }
 
-    public struct BountyShopItemData
+    public abstract class AbstractBountyShopData
     {
         public int ID;
 
-        public BountyShopItemType ItemType;
-
-        public int QuantityPerPurchase;
         public int DailyPurchaseLimit;
         public int PurchaseCost;
 
-        public BountyShopItemData(int id, JSONNode node)
+        string _IconString;
+
+        public AbstractBountyShopData(int id, JSONNode node)
         {
             ID = id;
 
-            ItemType = (BountyShopItemType)node["itemTypeId"].AsInt; // Quick conversion
+            _IconString = node["iconString"];
 
-            PurchaseCost = node["purchaseCost"].AsInt;
+            PurchaseCost        = node["purchaseCost"].AsInt;
+            DailyPurchaseLimit  = node["dailyPurchaseLimit"].AsInt;
+        }
+
+        public Sprite Icon { get { return ResourceManager.LoadSprite(_IconString); } }
+    }
+
+
+    public class BsItemData : AbstractBountyShopData
+    {
+        public BsTokenType Type;
+
+        public int QuantityPerPurchase;
+
+        public BsItemData(int id, JSONNode node) : base(id, node)
+        {
+            Type = (BsTokenType)node["itemType"].AsInt; // Quick conversion
 
             QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
-            DailyPurchaseLimit = node["dailyPurchaseLimit"].AsInt;
+        }
+    }
+
+    public class BsChestData : AbstractBountyShopData
+    {
+        public ChestType Type;
+
+        public BsChestData(int id, JSONNode node) : base(id, node)
+        {
+            Type = (ChestType)node["chestType"].AsInt;
         }
     }
 
 
     public class ServerBountyShopData
     {
-        Dictionary<int, BountyShopItemData> items;
+        Dictionary<int, BsItemData> itemData;
 
         public ServerBountyShopData(JSONNode node)
         {
             UpdateAll(node);
         }
 
+
         // = = = GET = = =
-        public List<BountyShopItemData> Items { get { return items.Values.ToList(); } }
-        public BountyShopItemData GetItem(int id)
+        public List<AbstractBountyShopData> All
+        { 
+            get
+            {
+                List<AbstractBountyShopData> ls = new List<AbstractBountyShopData>();
+
+                ls.AddRange(itemData.Values.ToList());
+
+                return ls;
+            } 
+        }
+
+        public AbstractBountyShopData Get(int id)
         {
-            return items[id];
+            return itemData[id];
         }
 
         public void UpdateAll(JSONNode node)
         {
-            UpdateItems(node["items"]);
+            SetItemsData(node["items"]);
         }
 
-        public void UpdateItems(JSONNode node)
+
+        public void SetItemsData(JSONNode node) { Set(ref itemData, node); }
+
+
+        // = = = Private Methods = = =
+        void Set<TVal>(ref Dictionary<int, TVal> dict, JSONNode node)
         {
-            items = new Dictionary<int, BountyShopItemData>();
+            dict = new Dictionary<int, TVal>();
 
             foreach (string key in node.Keys)
             {
                 int id = int.Parse(key);
 
-                items.Add(id, new BountyShopItemData(id, node[key]));
+                // Smelly code to create an instance of the shop item from a generic
+                TVal instance = (TVal)Activator.CreateInstance(typeof(TVal), new object[] { id, node[key] });
+
+                dict.Add(id, instance);
             }
         }
     }

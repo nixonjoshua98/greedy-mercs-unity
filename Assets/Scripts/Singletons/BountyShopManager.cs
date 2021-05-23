@@ -59,7 +59,7 @@ namespace GM.BountyShop
             if (purchases.TryGetValue(iid, out BountyShopPurchaseData data))
                 dailyPurchases = data.TotalDailyPurchases;
 
-            return GreedyMercs.StaticData.BountyShop.GetItem(iid).DailyPurchaseLimit > dailyPurchases;
+            return GreedyMercs.StaticData.BountyShop.Get(iid).DailyPurchaseLimit > dailyPurchases;
         }
 
         // = = = Server Methods ===

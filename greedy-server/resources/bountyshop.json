@@ -1,0 +1,18 @@
+{
+  "items": {
+    "1000": {
+      "itemType": 100,
+      "purchaseCost": 25,
+      "dailyPurchaseLimit": 100,
+      "quantityPerPurchase": 1,
+      "iconString": "Icons/blue_gem_icon"
+    },
+    "1001": {
+      "itemType": 200,
+      "purchaseCost": 50,
+      "dailyPurchaseLimit": 500,
+      "quantityPerPurchase": 1,
+      "iconString": "Icons/iron_icon"
+    }
+  }
+}

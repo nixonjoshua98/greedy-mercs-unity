@@ -68,8 +68,7 @@ namespace GM.Bounty
                     JSONNode returnData = Utils.Json.Decompress(body);
 
                     SetAllClaimTimes(Funcs.ToDateTime(returnData["claimTime"].AsLong));
-
-                    InventoryManager.Instance.BountyPoints = returnData["totalBountyPoints"].AsInt;
+                    InventoryManager.Instance.SetItems(returnData["inventoryItems"]);
                 }
 
                 call(code, body);

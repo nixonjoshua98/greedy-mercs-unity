@@ -31,14 +31,19 @@ namespace GM
         }
 
 
-        public static Sprite LoadSprite(string path, string name) { return Instance._LoadSprite(path, name); }
-        public static GameObject LoadPrefab(string path, string name) { return Instance._LoadPrefab(path, name); }
+        public static Sprite LoadSprite(string path, string name) { return Instance._LoadSprite(CreatePath(path, name)); }
+        public static Sprite LoadSprite(string path) { return Instance._LoadSprite(path); }
+        public static GameObject LoadPrefab(string path, string name) { return Instance._LoadPrefab(CreatePath(path, name)); }
+        
 
-
-        public Sprite _LoadSprite(string path, string name)
+        // = = = Private Methods = = = 
+        static string CreatePath(string path, string name)
         {
-            path = string.Format("{0}/{1}", path, name);
+            return string.Format("{0}/{1}", path, name);
+        }
 
+        Sprite _LoadSprite(string path)
+        {
             if (CachedSprites.ContainsKey(path))
                 return CachedSprites[path];
 
@@ -47,10 +52,8 @@ namespace GM
             return CachedSprites[path];
         }
 
-        public GameObject _LoadPrefab(string path, string name)
+        GameObject _LoadPrefab(string path)
         {
-            path = string.Format("{0}/{1}", path, name);
-
             if (CachedPrefabs.ContainsKey(path))
                 return CachedPrefabs[path];
 

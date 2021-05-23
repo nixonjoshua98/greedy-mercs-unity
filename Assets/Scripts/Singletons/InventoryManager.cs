@@ -36,10 +36,10 @@ namespace GM.Inventory
 
         public void SetItems(JSONNode node)
         {
-            BlueGems = node.GetValueOrDefault("blueGem", 0).AsInt;
+            BlueGems = node.GetValueOrDefault("blueGems", 0).AsInt;
 
-            BountyPoints = node.GetValueOrDefault("bountyPoint", 0).AsInt;
-            ArmouryPoints = node.GetValueOrDefault("armouryPoint", 0).AsInt;
+            BountyPoints = node.GetValueOrDefault("bountyPoints", 0).AsInt;
+            ArmouryPoints = node.GetValueOrDefault("armouryPoints", 0).AsInt;
 
             prestigePoints = node.HasKey("prestigePoints") ? BigInteger.Parse(node["prestigePoints"], System.Globalization.NumberStyles.Any) : 0;
         }

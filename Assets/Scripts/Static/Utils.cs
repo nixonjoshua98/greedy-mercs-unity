@@ -82,6 +82,17 @@ public static class Funcs
 
 }
 
+namespace GM
+{
+    public static class DictionaryExtensions
+    {
+        public static TValue GetOrVal<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
+        {
+            return dict.TryGetValue(key, out var value) ? value : fallback;
+        }
+    }
+}
+
 
 public static class Extensions
 {    

@@ -1,4 +1,14 @@
-﻿namespace GreedyMercs
+﻿
+namespace GM
+{
+    public enum ChestType
+    {
+        ARMOURY_CHEST = 100
+    }
+}
+
+
+namespace GreedyMercs
 {
     public enum BonusType
     {

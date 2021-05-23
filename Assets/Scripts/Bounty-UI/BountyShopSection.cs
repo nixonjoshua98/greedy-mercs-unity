@@ -8,7 +8,7 @@ namespace GM.BountyShop
 {
     using ServerData = GreedyMercs.StaticData;
 
-    public class BSItemsSection : MonoBehaviour
+    public class BountyShopSection : MonoBehaviour
     {
         [Header("Prefabs - UI")]
         [SerializeField] GameObject ItemSlotObject;
@@ -34,7 +34,7 @@ namespace GM.BountyShop
         {
             DestroyAllSlots();
 
-            foreach (AbstractBountyShopData itemData in ServerData.BountyShop.All)
+            foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.All)
             {
                 GameObject o = Funcs.UI.Instantiate(ItemSlotObject, ItemsParent);
 

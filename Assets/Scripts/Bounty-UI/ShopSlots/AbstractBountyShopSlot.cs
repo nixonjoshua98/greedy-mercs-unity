@@ -19,7 +19,7 @@ namespace GM.BountyShop
         int _itemId;
         protected bool _isUpdatingUi = false;
 
-        protected AbstractBountyShopData ServerItemData { get { return GreedyMercs.StaticData.BountyShop.Get(_itemId); } }
+        protected AbstractBountyShopData ServerItemData { get { return BountyShopManager.Instance.ServerData.Get(_itemId); } }
 
         public void SetID(int itemId)
         {

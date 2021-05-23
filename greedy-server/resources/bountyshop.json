@@ -10,7 +10,14 @@
     "1001": {
       "itemType": 200,
       "purchaseCost": 50,
-      "dailyPurchaseLimit": 500,
+      "dailyPurchaseLimit": 5,
+      "quantityPerPurchase": 1,
+      "iconString": "Icons/iron_icon"
+    },
+
+    "armouryItems": {
+      "armouryItemId": 0,
+      "dailyPurchaseLimit": 5,
       "quantityPerPurchase": 1,
       "iconString": "Icons/iron_icon"
     }

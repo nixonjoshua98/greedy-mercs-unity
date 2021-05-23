@@ -269,7 +269,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2932696443486010817}
+      - m_Target: {fileID: 6022985057078761994}
         m_MethodName: OnPurchaseButton
         m_Mode: 1
         m_Arguments:
@@ -289,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2932696443486010830}
-  - component: {fileID: 2932696443486010817}
+  - component: {fileID: 6022985057078761994}
   - component: {fileID: 2932696443486010816}
   - component: {fileID: 2932696443486010831}
   m_Layer: 5
@@ -320,7 +320,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 132.6}
   m_SizeDelta: {x: 325, y: 225}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &2932696443486010817
+--- !u!114 &6022985057078761994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

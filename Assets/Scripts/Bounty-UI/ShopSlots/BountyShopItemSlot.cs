@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
-    public class BountyShopitemSlot : AbstractBountyShopSlot
+    public class BountyShopItemSlot : AbstractBountyShopSlot
     {
         void FixedUpdate()
         {

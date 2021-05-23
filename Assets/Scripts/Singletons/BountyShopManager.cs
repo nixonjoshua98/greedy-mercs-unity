@@ -27,13 +27,22 @@ namespace GM.BountyShop
 
         Dictionary<int, BountyShopPurchaseData> purchases;
 
+        public ServerBountyShopData ServerData;
+
         public static BountyShopManager Create(JSONNode node)
         {
-            Instance = new BountyShopManager();
-
-            Instance.SetDailyPurchases(node["dailyPurchases"]);
+            Instance = new BountyShopManager(node);
 
             return Instance;
+        }
+
+        BountyShopManager(JSONNode node)
+        {
+            SetDailyPurchases(node["dailyPurchases"]);
+
+            ServerData = new ServerBountyShopData();
+
+            Refresh(() => { });
         }
 
         public void SetDailyPurchases(JSONNode node)
@@ -59,7 +68,7 @@ namespace GM.BountyShop
             if (purchases.TryGetValue(iid, out BountyShopPurchaseData data))
                 dailyPurchases = data.TotalDailyPurchases;
 
-            return GreedyMercs.StaticData.BountyShop.Get(iid).DailyPurchaseLimit > dailyPurchases;
+            return ServerData.Get(iid).DailyPurchaseLimit > dailyPurchases;
         }
 
         // = = = Server Methods ===
@@ -72,7 +81,7 @@ namespace GM.BountyShop
                     JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
 
                     // Update the store items pulled from the server
-                    GreedyMercs.StaticData.BountyShop.UpdateAll(resp["serverData"]);
+                    ServerData.UpdateAll(resp["serverData"]);
                        
                     // Updates the next daily reset time
                     GreedyMercs.StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);

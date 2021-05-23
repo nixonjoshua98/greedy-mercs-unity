@@ -53,24 +53,14 @@ namespace GM.BountyShop
         }
     }
 
-    public class BsChestData : AbstractBountyShopData
-    {
-        public ChestType Type;
-
-        public BsChestData(int id, JSONNode node) : base(id, node)
-        {
-            Type = (ChestType)node["chestType"].AsInt;
-        }
-    }
-
 
     public class ServerBountyShopData
     {
         Dictionary<int, BsItemData> itemData;
 
-        public ServerBountyShopData(JSONNode node)
+        public ServerBountyShopData()
         {
-            UpdateAll(node);
+            itemData = new Dictionary<int, BsItemData>();
         }
 
 
@@ -81,7 +71,7 @@ namespace GM.BountyShop
             {
                 List<AbstractBountyShopData> ls = new List<AbstractBountyShopData>();
 
-                ls.AddRange(itemData.Values.ToList());
+                foreach (AbstractBountyShopData ele in itemData.Values.ToList()) { ls.Add(ele); }
 
                 return ls;
             } 

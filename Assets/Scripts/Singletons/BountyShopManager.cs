@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 namespace GM.BountyShop
 {
+    using GM.Armoury;
     using GM.Inventory;
 
     using SimpleJSON;
@@ -106,21 +107,53 @@ namespace GM.BountyShop
                 {
                     JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
 
-                    JSONNode userItems = resp["userItems"];
-
-                    InventoryManager.Instance.SetItems(userItems);
-
-                    Refresh(() => { }); // Temp
+                    OnPurchaseAnyItem(itemId, resp);
                 }
 
                 action.Invoke(code == 200);
             }
 
+            Server.Put("bountyshop", "purchaseItem", CreateJson(itemId), Callback);
+        }
+
+        public void PurchaseArmouryItem(int itemId, UnityAction<bool> action)
+        {
+            void Callback(long code, string body)
+            {
+                if (code == 200)
+                {
+                    JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
+
+                    ArmouryManager.Instance.SetArmouryItems(resp["userArmouryItems"]);
+
+                    OnPurchaseAnyItem(itemId, resp);
+                }
+
+                action.Invoke(code == 200);
+            }
+
+            Server.Put("bountyshop", "purchaseArmouryItem", CreateJson(itemId), Callback);
+        }
+
+        // = = = Helper = = =
+        JSONNode CreateJson(int itemId)
+        {
             JSONNode node = GreedyMercs.Utils.Json.GetDeviceInfo();
 
             node["itemId"] = itemId;
 
-            Server.Put("bountyshop", "purchaseItem", node, Callback);
+            return node;
+        }
+
+        // = = = Callbacks = = =
+
+        void OnPurchaseAnyItem(int itemId, JSONNode resp)
+        {
+            JSONNode userItems = resp["userItems"];
+
+            InventoryManager.Instance.SetItems(userItems);
+
+            Refresh(() => { }); // Temp
         }
     }
 }

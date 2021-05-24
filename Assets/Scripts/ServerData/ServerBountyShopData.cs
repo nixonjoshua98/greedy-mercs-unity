@@ -10,7 +10,7 @@ namespace GM.BountyShop
 {
     using SimpleJSON;
 
-    public enum BsTokenType
+    public enum BsItemType
     {
         FLAT_BLUE_GEM   = 100,
         FLAT_AP         = 200, // Armoury Point
@@ -20,58 +20,70 @@ namespace GM.BountyShop
     {
         public int ID;
 
+        public int QuantityPerPurchase;
         public int DailyPurchaseLimit;
         public int PurchaseCost;
-
-        string _IconString;
 
         public AbstractBountyShopData(int id, JSONNode node)
         {
             ID = id;
 
-            _IconString = node["iconString"];
-
             PurchaseCost        = node["purchaseCost"].AsInt;
             DailyPurchaseLimit  = node["dailyPurchaseLimit"].AsInt;
+            QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
         }
 
-        public Sprite Icon { get { return ResourceManager.LoadSprite(_IconString); } }
+        public abstract Sprite Icon { get; }
     }
 
 
     public class BsItemData : AbstractBountyShopData
     {
-        public BsTokenType Type;
+        public BsItemType ItemType;
 
-        public int QuantityPerPurchase;
+        string _IconString;
 
         public BsItemData(int id, JSONNode node) : base(id, node)
         {
-            Type = (BsTokenType)node["itemType"].AsInt; // Quick conversion
+            ItemType = (BsItemType)node["itemType"].AsInt;
 
-            QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
+            _IconString = node["iconString"];
         }
+
+        public override Sprite Icon { get { return ResourceManager.LoadSprite(_IconString); } }
     }
+
+    public class BsArmouryItemData : AbstractBountyShopData
+    {
+        public int ArmouryItemID;
+
+        public BsArmouryItemData(int id, JSONNode node) : base(id, node)
+        {
+            ArmouryItemID = node["armouryItemId"].AsInt;
+        }
+
+        public override Sprite Icon { get { return GreedyMercs.StaticData.Armoury.Get(ArmouryItemID).Icon; } }
+    }
+
 
 
     public class ServerBountyShopData
     {
-        Dictionary<int, BsItemData> itemData;
-
-        public ServerBountyShopData()
-        {
-            itemData = new Dictionary<int, BsItemData>();
-        }
-
+        Dictionary<int, BsItemData> normalItems;
+        Dictionary<int, BsArmouryItemData> armouryItems;
 
         // = = = GET = = =
+        public List<BsItemData> NormalItems { get { return normalItems.Values.ToList(); } }
+        public List<BsArmouryItemData> ArmouryItems { get { return armouryItems.Values.ToList(); } }
+
         public List<AbstractBountyShopData> All
         { 
             get
             {
                 List<AbstractBountyShopData> ls = new List<AbstractBountyShopData>();
 
-                foreach (AbstractBountyShopData ele in itemData.Values.ToList()) { ls.Add(ele); }
+                foreach (AbstractBountyShopData ele in normalItems.Values.ToList()) { ls.Add(ele); }
+                foreach (AbstractBountyShopData ele in armouryItems.Values.ToList()) { ls.Add(ele); }
 
                 return ls;
             } 
@@ -79,16 +91,22 @@ namespace GM.BountyShop
 
         public AbstractBountyShopData Get(int id)
         {
-            return itemData[id];
+            if (normalItems.ContainsKey(id))
+                return normalItems[id];
+
+            return armouryItems[id];
+        }
+
+        public BsArmouryItemData GetArmouryItem(int id)
+        {
+            return armouryItems[id];
         }
 
         public void UpdateAll(JSONNode node)
         {
-            SetItemsData(node["items"]);
+            Set(ref normalItems, node["items"]);
+            Set(ref armouryItems, node["armouryItems"]);
         }
-
-
-        public void SetItemsData(JSONNode node) { Set(ref itemData, node); }
 
 
         // = = = Private Methods = = =

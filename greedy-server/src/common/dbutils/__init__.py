@@ -1,5 +1,5 @@
 
-from . import bs, inv
+from . import bs, inv, armoury
 
 import datetime as dt
 

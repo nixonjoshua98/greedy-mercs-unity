@@ -2,7 +2,7 @@ from flask import request
 
 from flask.views import View
 
-from src.common import mongo, checks, dbutils
+from src.common import checks, dbutils
 
 from src.classes import ServerResponse
 
@@ -24,13 +24,13 @@ class Armoury(View):
 	def upgrade_item(self, uid, data):
 		iid = data["itemId"]
 
-		mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": iid}, {"$inc": {"level": 1}})
+		dbutils.armoury.update_item(uid, iid, inc={"level": 10})
 
-		return ServerResponse({"levelsGained": 1})
+		return ServerResponse({"levelsGained": 10})
 
 	def evolve_item(self, uid, data):
 		iid = data["itemId"]
 
-		mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": iid}, {"$inc": {"evoLevel": 1}})
+		dbutils.armoury.update_item(uid, iid, inc={"evoLevel": 10})
 
-		return ServerResponse({"evoLevelsGained": 1})
+		return ServerResponse({"evoLevelsGained": 10})

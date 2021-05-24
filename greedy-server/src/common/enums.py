@@ -1,7 +1,7 @@
 import enum
 
 
-class Enum(enum.IntEnum):
+class EnumBase(enum.IntEnum):
 
     @classmethod
     def get_val(cls, val: int):
@@ -13,5 +13,5 @@ class Enum(enum.IntEnum):
         return None
 
 
-class BonusType(enum.IntEnum):
+class BonusType(EnumBase):
     CASH_OUT_BONUS = 11

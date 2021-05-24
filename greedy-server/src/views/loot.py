@@ -72,7 +72,7 @@ class UpgradeLoot(View):
 
 		prestige_points = int(items.get("prestigePoints", 0))  # prestigePoints are stored as a string
 
-		staticdata = GameData.get_item("loot", item_buying)
+		staticdata = GameData.get("loot")[item_buying]
 
 		# - User is trying to upgrade an invalid item or one they do not currently own
 		if (item_level := loot_items.get(data["itemId"])) is None:

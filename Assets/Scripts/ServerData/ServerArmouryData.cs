@@ -22,7 +22,7 @@ namespace GM.Armoury
         {
             ID = itemId;
 
-            BaseDamageMultiplier    = itemData["baseDamageMultiplier"];
+            BaseDamageMultiplier    = itemData["baseDamageMultiplier"].AsFloat;
             Tier                    = itemData["itemTier"].AsInt;
             iconString              = itemData["iconString"];
         }
@@ -56,8 +56,6 @@ namespace GM.Armoury
         }
 
         // = = = GET = = =
-        public List<ArmouryItemData> Items { get { return items.Values.ToList(); } }
-
         public ArmouryItemData Get(int itemId)
         {
             return items[itemId];

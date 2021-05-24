@@ -35,7 +35,7 @@ namespace GreedyMercs.Armoury.UI
         {
             foreach (ArmouryItemState state in ArmouryManager.Instance.GetOwned())
             {
-                if (!itemObjects.ContainsKey(state.ItemID))
+                if (!itemObjects.ContainsKey(state.ID))
                 {
                     InstantiateItem(state);
                 }
@@ -55,7 +55,7 @@ namespace GreedyMercs.Armoury.UI
 
         void InstantiateItem(ArmouryItemState state)
         {
-            ArmouryItemData serverItemData = StaticData.Armoury.Get(state.ItemID);
+            ArmouryItemData serverItemData = StaticData.Armoury.Get(state.ID);
 
             ArmouryItem item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItem>();
 
@@ -63,7 +63,7 @@ namespace GreedyMercs.Armoury.UI
 
             item.SetButtonCallback(() => { OnIconClick(serverItemData); });
 
-            itemObjects[state.ItemID] = item;
+            itemObjects[state.ID] = item;
         }
 
         // === Button Callback ===

@@ -10,16 +10,23 @@
     "1001": {
       "itemType": 200,
       "purchaseCost": 50,
-      "dailyPurchaseLimit": 5,
-      "quantityPerPurchase": 1,
+      "dailyPurchaseLimit": 100,
+      "quantityPerPurchase": 5,
       "iconString": "Icons/iron_icon"
-    },
-
-    "armouryItems": {
+    }
+  },
+  "armouryItems": {
+    "2000": {
       "armouryItemId": 0,
+      "purchaseCost": 50,
       "dailyPurchaseLimit": 5,
-      "quantityPerPurchase": 1,
-      "iconString": "Icons/iron_icon"
+      "quantityPerPurchase": 25
+    },
+    "2001": {
+      "armouryItemId": 5,
+      "purchaseCost": 50,
+      "dailyPurchaseLimit": 5,
+      "quantityPerPurchase": 1
     }
   }
 }

@@ -13,7 +13,7 @@ namespace GM.Armoury
 
     public class ArmouryItemState
     {
-        public readonly int ItemID;
+        public int ID;
 
         public int level;
         public int owned;
@@ -21,7 +21,7 @@ namespace GM.Armoury
 
         public ArmouryItemState(int itemId)
         {
-            ItemID = itemId;
+            ID = itemId;
         }
     }
 
@@ -31,78 +31,54 @@ namespace GM.Armoury
 
         Dictionary<int, ArmouryItemState> states;
 
-        public ArmouryManager()
-        {
-            states = new Dictionary<int, ArmouryItemState>();
-        }
-
         public static ArmouryManager Create(JSONNode node)
         {
             Instance = new ArmouryManager();
 
-            foreach (JSONNode item in node.AsArray)
-            {
-                int itemId = item["itemId"].AsInt;
-
-                ArmouryItemState state = new ArmouryItemState(itemId) {
-                    level       = item["level"].AsInt, 
-                    owned       = item["owned"].AsInt,
-                    evoLevel    = item["evoLevel"].AsInt
-                };
-
-                Instance.SetWeaponState(itemId, state);
-            }
+            Instance.SetArmouryItems(node);
 
             return Instance;
         }
 
 
         // = = = Server Methods = = =
-        public void UpgradeItem(int weaponIndex, Action<long, string> call)
+        public void UpgradeItem(int itemId, Action<long, string> call)
         {
             void Callback(long code, string body)
             {
                 if (code == 200)
                 {
-                    JSONNode returnNode = Utils.Json.Decompress(body);
+                    JSONNode resp = Utils.Json.Decompress(body);
 
-                    int levelsGained = returnNode["levelsGained"].AsInt;
+                    int levelsGained = resp["levelsGained"].AsInt;
 
-                    AddUpgradeLevel(weaponIndex, levelsGained);
+                    AddUpgradeLevel(itemId, levelsGained);
                 }
 
                 call(code, body);
             }
 
-            JSONNode node = Utils.Json.GetDeviceInfo();
-
-            node["itemId"] = weaponIndex;
-
-            Server.Put("armoury", "upgradeItem", node, Callback);
+            Server.Put("armoury", "upgradeItem", CreateJson(itemId), Callback);
         }
 
 
-        public void EvolveItem(int weaponIndex, Action<long, string> call)
+        public void EvolveItem(int itemId, Action<long, string> call)
         {
             void Callback(long code, string body)
             {
                 if (code == 200)
                 {
-                    JSONNode returnNode = Utils.Json.Decompress(body);
+                    JSONNode resp = Utils.Json.Decompress(body);
 
-                    int evoLevelsGained = returnNode["evoLevelsGained"];
+                    int evoLevelsGained = resp["evoLevelsGained"];
 
-                    AddEvolveLevel(weaponIndex, evoLevelsGained);
+                    AddEvolveLevel(itemId, evoLevelsGained);
                 }
 
                 call(code, body);
             }
 
-            JSONNode node = Utils.Json.GetDeviceInfo();
-
-            node["itemId"] = weaponIndex;
-
-            Server.Put("armoury", "evolveItem", node, Callback);
+            Server.Put("armoury", "evolveItem", CreateJson(itemId), Callback);
         }
 
 
@@ -122,12 +98,6 @@ namespace GM.Armoury
             return val;
         }
 
-
-        // = = = SET = = =
-        void SetWeaponState(int itemId, ArmouryItemState state)
-        {
-            states[itemId] = state;
-        }
 
         // = = = GET = = =
         public List<ArmouryItemState> GetOwned()
@@ -152,8 +122,36 @@ namespace GM.Armoury
         }
 
         // = = = Shorthand GET Methods = = = 
-        public void AddUpgradeLevel(int index, int levels) { GetItem(index).level += levels; }
-        public void AddOwnedItem(int index, int total) { GetItem(index).owned += total; }
-        public void AddEvolveLevel(int index, int levels) { GetItem(index).evoLevel += levels; }
+        void AddUpgradeLevel(int index, int levels) { GetItem(index).level += levels; }
+        void AddEvolveLevel(int index, int levels) { GetItem(index).evoLevel += levels; }
+
+        public void SetArmouryItems(JSONNode node)
+        {
+            states = new Dictionary<int, ArmouryItemState>();
+
+            foreach (JSONNode item in node.AsArray)
+            {
+                int itemId = item["itemId"].AsInt;
+
+                ArmouryItemState state = new ArmouryItemState(itemId)
+                {
+                    level = item["level"].AsInt,
+                    owned = item["owned"].AsInt,
+                    evoLevel = item["evoLevel"].AsInt
+                };
+
+                states[itemId] = state;
+            }
+        }
+
+        // = = = Internal = = =
+        JSONNode CreateJson(int itemId)
+        {
+            JSONNode node = Utils.Json.GetDeviceInfo();
+
+            node["itemId"] = itemId;
+
+            return node;
+        }
     }
 }

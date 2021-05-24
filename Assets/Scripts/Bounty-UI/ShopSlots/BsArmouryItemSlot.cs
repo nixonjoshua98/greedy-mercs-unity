@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
-    public class BountyShopChestSlot : AbstractBountyShopSlot
+    public class BsArmouryItemSlot : AbstractBountyShopSlot
     {
         void FixedUpdate()
         {
@@ -22,7 +20,7 @@ namespace GM.BountyShop
         // = = = Button Callbacks ===
         public void OnPurchaseButton()
         {
-            BountyShopManager.Instance.PurchaseItem(ServerItemData.ID, (_) => { });
+            BountyShopManager.Instance.PurchaseArmouryItem(ServerItemData.ID, (_) => { });
         }
     }
 }

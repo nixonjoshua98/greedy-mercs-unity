@@ -1,5 +1,5 @@
 
-from src.common import mongo, resources, dbutils
+from src.common import mongo, dbutils
 
 
 def get_daily_purchases(uid, *, iid: int = None):
@@ -15,11 +15,3 @@ def get_daily_purchases(uid, *, iid: int = None):
 	data = {iid_: count_func(iid_) for iid_ in set(r["itemId"] for r in results)}
 
 	return data.get(iid, 0) if iid is not None else data
-
-
-def within_purchase_limit(uid, iid: int) -> bool:
-	data = resources.get(resources.BOUNTY_SHOP)["items"][iid]
-
-	user_purchases = get_daily_purchases(uid, iid=iid)
-
-	return user_purchases < data["dailyPurchaseLimit"]

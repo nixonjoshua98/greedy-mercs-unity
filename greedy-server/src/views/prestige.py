@@ -50,7 +50,7 @@ class Prestige(View):
 
 		def new_earned_bounty(id_, b): return id_ not in exist_bounty_ids and stage >= b["unlockStage"]
 
-		earned_bounties = [key for key, bounty in bounty_data.items() if new_earned_bounty(key, bounty)]
+		earned_bounties = [key for key, bounty in bounty_data.all_items() if new_earned_bounty(key, bounty)]
 
 		if earned_bounties:
 			now = dt.datetime.utcnow()

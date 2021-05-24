@@ -23,7 +23,7 @@ class ClaimQuestReward(View):
 		if quests.get(quest, False):
 			return "400", 400
 
-		static_quest = GameData.get_item("quests", quest)
+		static_quest = GameData.get("quests")[quest]
 
 		mongo.db.dailyQuests.update_one({"userId": uid}, {"$set": {f"questsClaimed.{quest}": True}}, upsert=True)
 

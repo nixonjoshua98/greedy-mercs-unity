@@ -3,13 +3,9 @@ import json
 
 from cachetools import cached, TTLCache
 
-BOUNTY_SHOP = "bountyshop"
-
 
 def get(file_name):
-	data = dicts()[file_name]
-
-	return data
+	return dicts()[file_name]
 
 
 @cached(cache=TTLCache(maxsize=16, ttl=60 * 5))
@@ -31,3 +27,13 @@ def dicts():
 	return data
 
 
+class _ResourceController:
+
+	@property
+	def bounty_shop(self):
+		from .bsitems import SvrBountyShopData
+
+		return SvrBountyShopData(dicts()["bountyshopitems"])
+
+
+res = _ResourceController()

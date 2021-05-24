@@ -1,10 +1,11 @@
-from flask import Response, request
+from flask import request
 
 from flask.views import View
 
 from src import utils
-from src.common import mongo, checks
-from src.utils import dbops
+from src.common import mongo, checks, dbutils
+
+from src.classes import ServerResponse
 
 
 class PlayerLogin(View):
@@ -21,7 +22,7 @@ class PlayerLogin(View):
 		else:
 			uid = row["_id"]
 
-		return Response(utils.compress(dbops.get_player_data(uid)), status=200)
+		return ServerResponse(dbutils.get_player_data(uid))
 
 
 class ChangeUsername(View):

@@ -49,6 +49,6 @@ class Bounty(View):
 		mongo.db["userBounties"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
 
 		# Add the bounty points to the users inventory
-		inv = dbutils.inv.update_items(uid, inc={"bountyPoints": points})
+		inv = dbutils.inventory.update_items(uid, inc={"bountyPoints": points})
 
 		return ServerResponse({"claimTime": now, "inventoryItems": inv})

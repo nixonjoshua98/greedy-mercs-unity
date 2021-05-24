@@ -1,6 +1,5 @@
 {
-  "items": {
-    "0": {
+"0": {
       "iconString": "axe_01",
       "itemTier": 1,
       "baseDamageMultiplier": 1.1
@@ -40,5 +39,4 @@
       "itemTier": 2,
       "baseDamageMultiplier": 1.25
     }
-  }
 }

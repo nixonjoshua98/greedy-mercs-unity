@@ -25,15 +25,3 @@ def dicts():
 		data[name] = data_file
 
 	return data
-
-
-class _ResourceController:
-
-	@property
-	def bounty_shop(self):
-		from .bsitems import SvrBountyShopData
-
-		return SvrBountyShopData(dicts()["bountyshopitems"])
-
-
-res = _ResourceController()

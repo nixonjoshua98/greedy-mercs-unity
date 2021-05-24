@@ -43,13 +43,11 @@ namespace GM.Armoury
         {
             items = new Dictionary<int, ArmouryItemData>();
 
-            JSONNode itemsNode = node["items"];
-
-            foreach (string key in itemsNode.Keys)
+            foreach (string key in node.Keys)
             {
                 int id = int.Parse(key);
 
-                ArmouryItemData data = new ArmouryItemData(id, itemsNode[key]);
+                ArmouryItemData data = new ArmouryItemData(id, node[key]);
 
                 items.Add(id, data);
             }

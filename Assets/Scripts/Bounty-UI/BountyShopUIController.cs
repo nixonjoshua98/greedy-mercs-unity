@@ -15,7 +15,8 @@ namespace GM.BountyShop
         [SerializeField] GameObject ArmouryItemSlot;
 
         [Header("Components - UI")]
-        [SerializeField] Transform ItemsParent;
+        [SerializeField] Transform normalItemsParent;
+        [SerializeField] Transform armouryItemsParent;
         [Space]
         [SerializeField] Text shopRefreshText;
 
@@ -43,19 +44,15 @@ namespace GM.BountyShop
             DestroyAllSlots();
 
             foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.NormalItems)
-            {
-                items.Add(InstantiateSlot(ItemSlotObject, itemData));
-            }
+                items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
 
             foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.ArmouryItems)
-            {
-                items.Add(InstantiateSlot(ArmouryItemSlot, itemData));
-            }
+                items.Add(InstantiateSlot(ArmouryItemSlot, armouryItemsParent, itemData));
         }
 
-        GameObject InstantiateSlot(GameObject prefab, AbstractBountyShopData itemData)
+        GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopData itemData)
         {
-            GameObject o = Funcs.UI.Instantiate(prefab, ItemsParent);
+            GameObject o = Funcs.UI.Instantiate(prefab, parent);
 
             AbstractBountyShopSlot slot = o.GetComponent<AbstractBountyShopSlot>();
 

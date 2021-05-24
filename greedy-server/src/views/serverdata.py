@@ -13,7 +13,7 @@ class ServerData(View):
 		data = GameData.data
 
 		data["bounties"] = resources.get("bounties")
-		data["armoury"] = resources.get("armoury")
+		data["armouryItems"] = resources.get("armouryitems")
 
 		data["nextDailyReset"] = dbutils.next_daily_reset()
 

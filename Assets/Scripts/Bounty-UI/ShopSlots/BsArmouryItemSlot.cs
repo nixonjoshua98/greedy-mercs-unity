@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
+    using GM.Armoury;
+
     public class BsArmouryItemSlot : AbstractBountyShopSlot
     {
+        protected new BsArmouryItemData ServerItemData { get { return BountyShopManager.Instance.ServerData.GetArmouryItem(_itemId); } }
+
         void FixedUpdate()
         {
             if (!_isUpdatingUi)

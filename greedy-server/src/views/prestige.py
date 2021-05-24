@@ -4,13 +4,14 @@ import datetime as dt
 from pymongo import InsertOne
 
 
-from flask import Response, request
+from flask import request
 
 from flask.views import View
 
 from src import utils
-from src.utils import dbops
-from src.common import mongo, resources, checks, formulas
+from src.common import mongo, resources, checks, formulas, dbutils
+
+from src.classes import ServerResponse
 
 
 class Prestige(View):
@@ -37,7 +38,7 @@ class Prestige(View):
 
 		mongo.db.inventories.update_one({"userId": uid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
-		return Response(utils.compress(dbops.get_player_data(uid)))
+		return ServerResponse(dbutils.get_player_data(uid))
 
 	@classmethod
 	def process_new_bounties(cls, uid, stage):

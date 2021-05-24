@@ -8,6 +8,8 @@ namespace GM.BountyShop
 {
     public class BountyShopItemSlot : AbstractBountyShopSlot
     {
+        [SerializeField] Text purchaseQuantityText;
+
         void FixedUpdate()
         {
             if (!_isUpdatingUi)
@@ -16,6 +18,13 @@ namespace GM.BountyShop
             outStockObject.SetActive(!BountyShopManager.Instance.InStock(ServerItemData.ID));
 
             purchaseCostText.text = ServerItemData.PurchaseCost.ToString();
+        }
+
+        protected override void OnItemAssigned()
+        {
+            base.OnItemAssigned();
+
+            purchaseQuantityText.text = string.Format("x{0}", ServerItemData.QuantityPerPurchase);
         }
 
 

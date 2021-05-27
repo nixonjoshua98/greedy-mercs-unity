@@ -35,7 +35,7 @@ namespace GreedyMercs.UI
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
-            spawnedRow.transform.SetSiblingIndex(1);
+            spawnedRow.transform.SetSiblingIndex(0);
 
             CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 

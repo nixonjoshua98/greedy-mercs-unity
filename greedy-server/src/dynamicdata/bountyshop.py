@@ -93,12 +93,12 @@ def _generate_armoury_items(uid) -> dict:
 	for i, key in enumerate(keys):
 		item_data = all_items[key]
 
-		id_ = (days_since_epoch * 1_000) + (i * 100) + (key * 10)
+		id_ = (days_since_epoch * 10_000) - (i * 1_000) - (key * 100)
 
 		entry = {
 			"armouryItemId": key,
-			"purchaseCost": 50 * (item_data["itemTier"] + 1),
-			"dailyPurchaseLimit": max(1, 3 - item_data["itemTier"]),
+			"purchaseCost": 100 + (item_data["itemTier"] * 75),
+			"dailyPurchaseLimit": max(1, 3 - (item_data["itemTier"] - 1)),
 			"quantityPerPurchase": 1
 		}
 

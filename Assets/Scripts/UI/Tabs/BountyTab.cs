@@ -49,7 +49,7 @@ namespace GM.Bounty
 
                 BountyObject obj = inst.GetComponent<BountyObject>();
 
-                obj.SetBounty(bounty);
+                obj.SetBounty(bounty.ID);
             }
         }
 

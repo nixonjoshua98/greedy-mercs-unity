@@ -31,8 +31,8 @@ namespace GM.Bounty
             prefabString    = node["prefabString"].Value;
         }
 
-        public Sprite icon { get { return ResourceManager.LoadSprite("BountyIcons", iconString); } }
-        public GameObject prefab { get { return ResourceManager.LoadPrefab("BountyBossPrefabs", prefabString); } }
+        public Sprite Icon { get { return ResourceManager.LoadSprite(iconString); } }
+        public GameObject EnemyPrefab { get { return ResourceManager.LoadPrefab("BountyBossPrefabs", prefabString); } }
     }
 
     public class ServerBountyData

@@ -81,7 +81,7 @@ namespace GreedyMercs
         {
             if (GameState.Skills.IsUnlocked(SkillID))
             {
-                buttonTopText.text = "MAX LEVEL";
+                buttonTopText.text = "MAX";
                 buttonBtmText.text = "-";
 
                 if (!State.IsMaxLevel)

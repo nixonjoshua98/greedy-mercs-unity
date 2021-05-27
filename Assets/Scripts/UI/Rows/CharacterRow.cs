@@ -70,7 +70,7 @@ namespace GM.UI
             DamageText.text = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(assignedCharacter.CharacterID)) + " DPS";
             nameText.text   = string.Format("(Lvl. {0}) {1}", State.level, assignedCharacter.name);
 
-            upgradeButton.SetText("MAX LEVEL", "-");
+            upgradeButton.SetText("MAX", "-");
 
             if (State.level < StaticData.MAX_CHAR_LEVEL)
             {

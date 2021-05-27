@@ -99,7 +99,7 @@ namespace GreedyMercs
             bool isBountyBoss = StaticData.Bounty.IsBountyBoss(GameState.Stage.stage, out var boss);
 
             // Grab the boss which we are going to nstantiate later
-            GameObject bossToSpawn = isBountyBoss ? StaticData.Bounty.Get(boss.ID).prefab : BossObjects[Random.Range(0, BossObjects.Length)];
+            GameObject bossToSpawn = isBountyBoss ? StaticData.Bounty.Get(boss.ID).EnemyPrefab : BossObjects[Random.Range(0, BossObjects.Length)];
 
             // Set the name
             bossNameText.text = isBountyBoss ? boss.Name.ToUpper() : "BOSS BATTLE";

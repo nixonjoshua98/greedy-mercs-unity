@@ -13,14 +13,14 @@ namespace GM.Bounty
 
         [SerializeField] Image icon;
 
-        public void SetBounty(BountyState state)
+        public void SetBounty(int bountyId)
         {
-            BountyDataStruct data = StaticData.Bounty.Get(state.bountyId);
+            BountyDataStruct data = StaticData.Bounty.Get(bountyId);
 
             bountyName.text = data.Name;
-            pointsText.text = string.Format("{0}/hour", data.HourlyIncome);
+            pointsText.text = string.Format("{0}", data.HourlyIncome);
 
-            icon.sprite = data.icon;
+            icon.sprite = data.Icon;
         }
     }
 }

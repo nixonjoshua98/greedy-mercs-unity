@@ -6,42 +6,42 @@
       "hourlyIncome": 10000,
       "name": "Bounty 0",
       "prefabString": "little_jimmy",
-      "iconString": "default_bounty_icon",
+      "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 1
     },
     "1": {
       "hourlyIncome": 20000,
       "name": "Bounty 1",
       "prefabString": "little_jimmy",
-      "iconString": "default_bounty_icon",
+      "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 2
     },
     "2": {
       "hourlyIncome": 30000,
       "name": "Bounty 2",
       "prefabString": "little_jimmy",
-      "iconString": "default_bounty_icon",
+      "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 3
     },
     "3": {
       "hourlyIncome": 40000,
       "name": "Bounty 3",
       "prefabString": "little_jimmy",
-      "iconString": "default_bounty_icon",
+      "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 4
     },
     "4": {
       "hourlyIncome": 50000,
       "name": "Bounty 4",
       "prefabString": "little_jimmy",
-      "iconString": "default_bounty_icon",
+      "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 5
     },
     "5": {
       "hourlyIncome": 60000,
       "name": "Bounty 5",
       "prefabString": "little_jimmy",
-      "iconString": "default_bounty_icon",
+      "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 6
     }
   }

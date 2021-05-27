@@ -4,19 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.UI
+namespace GM.UI
 {
-    [System.Serializable]
-    struct PassiveUnlockObject
-    {
-        public GameObject root;
+    using Utils = GreedyMercs.Utils;
 
-        public Text text;
-    }
+    using GreedyMercs;
+    using GreedyMercs.UI;
 
     public class CharacterRow : MonoBehaviour
     {
-        [SerializeField] UpgradeButton upgradeButton;
+        [SerializeField] StackedButton upgradeButton;
 
         [Header("Images")]
         [SerializeField] Image Icon;
@@ -25,81 +22,71 @@ namespace GreedyMercs.UI
         [SerializeField] Text nameText;
         [SerializeField] Text DamageText;
 
-        [Header("Buttons")]
-        [SerializeField] Button UpgradeButton;
-
         [Header("Prefabs")]
         [SerializeField] GameObject CharacterPanelObject;
 
-        [Space]
-        [SerializeField] PassiveUnlockObject passiveUnlockObject;
+        CharacterSO assignedCharacter;
 
-        CharacterSO character;
+        int _buyAmount;
+        bool _updatingUi;
 
-        protected int BuyAmount
+        void Awake()
+        {
+            BuyController buyController = FindObjectOfType<MercsTab>().GetComponentInChildren<BuyController>();
+
+            buyController.AddListener((val) => { _buyAmount = val; });
+        }
+
+        protected int TargetBuyAmount
         {
             get
             {
-                if (MercsTab.BuyAmount == -1)
-                    return Formulas.AffordCharacterLevels(character.CharacterID);
+                if (_buyAmount == -1)
+                    return Formulas.AffordCharacterLevels(assignedCharacter.CharacterID);
 
-                var state = GameState.Characters.Get(character.CharacterID);
+                var state = GameState.Characters.Get(assignedCharacter.CharacterID);
 
-                return Mathf.Min(MercsTab.BuyAmount, StaticData.MAX_CHAR_LEVEL - state.level);
+                return Mathf.Min(_buyAmount, StaticData.MAX_CHAR_LEVEL - state.level);
             }
         }
 
-        protected UpgradeState State { get { return GameState.Characters.Get(character.CharacterID); } }
+        protected UpgradeState State { get { return GameState.Characters.Get(assignedCharacter.CharacterID); } }
 
         public void SetCharacter(CharacterSO chara)
         {
-            character = chara;
+            assignedCharacter = chara;
 
             nameText.text = chara.name;
             Icon.sprite = chara.icon;
 
-            UpdateUI();
+            _updatingUi = true;
         }
-
-        void OnEnable() => InvokeRepeating("UpdateUI", 0.0f, 0.5f);
-        void OnDisable() => CancelInvoke("UpdateUI");
         
-        void UpdateUI()
+        void FixedUpdate()
         {
-            // A character may not be set yet, since the row is dynamic
-            if (character == null) return;
+            if (!_updatingUi)
+                return;
 
-            DamageText.text = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(character.CharacterID)) + " DPS";
-            nameText.text   = string.Format("(Lvl. {0}) {1}", State.level, character.name);
+            DamageText.text = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(assignedCharacter.CharacterID)) + " DPS";
+            nameText.text   = string.Format("(Lvl. {0}) {1}", State.level, assignedCharacter.name);
 
-            upgradeButton.Set("MAX LEVEL", "-");
-
-            UpgradeButton.interactable  = false;
+            upgradeButton.SetText("MAX LEVEL", "-");
 
             if (State.level < StaticData.MAX_CHAR_LEVEL)
             {
-                BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.CharacterID, BuyAmount);
+                BigDouble cost = Formulas.CalcCharacterLevelUpCost(assignedCharacter.CharacterID, TargetBuyAmount);
 
-                upgradeButton.Set(string.Format("x{0}", BuyAmount), Utils.Format.FormatNumber(cost));
-
-                UpgradeButton.interactable = GameState.Player.gold >= cost;
+                upgradeButton.SetText(string.Format("x{0}", TargetBuyAmount), Utils.Format.FormatNumber(cost));
             }
-
-            else
-                upgradeButton.Set(new Color(0.5f, 0.5f, 0.5f));
-
-            UpgradeButton.interactable = UpgradeButton.interactable && BuyAmount > 0;
         }
 
         // === Button Callbacks ===
 
         public void OnUpgrade()
         {
-            int levelsBuying = BuyAmount;
+            int levelsBuying = TargetBuyAmount;
 
-            BigDouble cost = Formulas.CalcCharacterLevelUpCost(character.CharacterID, levelsBuying);
-
-            int numPassives = GameState.Characters.GetUnlockedPassives(character.CharacterID).Count;
+            BigDouble cost = Formulas.CalcCharacterLevelUpCost(assignedCharacter.CharacterID, levelsBuying);
 
             if (State.level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
             {
@@ -107,38 +94,15 @@ namespace GreedyMercs.UI
 
                 GameState.Player.gold -= cost;
 
-                Events.OnCharacterLevelUp.Invoke(character.CharacterID);
+                Events.OnCharacterLevelUp.Invoke(assignedCharacter.CharacterID);
             }
-
-            List<CharacterPassive> passives = GameState.Characters.GetUnlockedPassives(character.CharacterID);
-
-            if (passives.Count > numPassives)
-                ShowUnlockedPassive(passives[passives.Count - 1]);
-
-            UpdateUI();
         }
 
         public void OnShowInfo()
         {
             GameObject panel = Utils.UI.Instantiate(CharacterPanelObject, Vector3.zero);
 
-            panel.GetComponent<CharacterPanel>().SetHero(character.CharacterID);
-        }
-
-        void ShowUnlockedPassive(CharacterPassive passive)
-        {
-            IEnumerator Animation()
-            {
-                passiveUnlockObject.root.SetActive(true);
-
-                passiveUnlockObject.text.text = passive.ToString();
-
-                yield return new WaitForSeconds(2.0f);
-
-                passiveUnlockObject.root.SetActive(false);
-            }
-
-            PersistentMono.Inst.StartCoroutine(Animation());
+            panel.GetComponent<CharacterPanel>().SetHero(assignedCharacter.CharacterID);
         }
     }
 }

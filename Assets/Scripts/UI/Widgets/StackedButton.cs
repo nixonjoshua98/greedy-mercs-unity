@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Interface
+namespace GM.UI
 {
-    public class DefaultUpgradeButton : MonoBehaviour
+    public class StackedButton : MonoBehaviour
     {
         public Text TopText;
         public Text BottomText;

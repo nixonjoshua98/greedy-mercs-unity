@@ -7,25 +7,18 @@ using UnityEngine.Events;
 
 namespace GreedyMercs.UI
 {
+    using GM.UI;
+
     public class MercsTab : MonoBehaviour
     {
-        static MercsTab Instance = null;
-
         [Header("Transforms")]
         [SerializeField] Transform scrollContent;
-
-        [Header("Controllers")]
-        [SerializeField] BuyAmountController buyAmount;
 
         [Header("Prefabs")]
         [SerializeField] GameObject characterRowObject;
 
-        public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
-
         void Awake()
         {
-            Instance = this;
-
             Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
         }
 

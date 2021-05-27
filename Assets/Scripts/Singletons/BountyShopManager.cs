@@ -153,7 +153,7 @@ namespace GM.BountyShop
 
             InventoryManager.Instance.SetItems(userItems);
 
-            Refresh(() => { }); // Temp
+            SetDailyPurchases(resp["dailyPurchases"]);
         }
     }
 }

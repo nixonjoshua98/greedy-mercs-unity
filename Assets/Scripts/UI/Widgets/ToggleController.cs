@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-namespace GM.Interface
+namespace GM.UI
 {
     using GM.Events;
 
@@ -28,11 +28,12 @@ namespace GM.Interface
             }
         }
 
-        public void AddListener(UnityAction<int> call)
+        public void AddListener(UnityAction<int> call, bool invokeEvent = true)
         {
             OnValueChanged.AddListener(call);
 
-            InvokeEvent(currentIndex);
+            if (invokeEvent)
+                InvokeEvent(currentIndex);
         }
 
         void OnToggleUpdate(int index, bool val)

@@ -46,16 +46,15 @@ class BountyShop(View):
 		if item is None or not self._can_purchase_item(uid, item=item):
 			return "400", 400
 
-		try:
-			items = dbutils.inventory.update_items(uid, inc={
-					"bountyPoints": -item.purchase_cost,
-					item.get_db_key(): item.quantity_per_purchase
-				}
-			)
-			return ServerResponse({"userItems": items})
+		items = dbutils.inventory.update_items(uid, inc={
+				"bountyPoints": -item.purchase_cost,
+				item.get_db_key(): item.quantity_per_purchase
+			}
+		)
 
-		finally:
-			self._log_purchase(uid, iid)
+		self._log_purchase(uid, iid)
+
+		return ServerResponse({"userItems": items, "dailyPurchases": dbutils.bs.get_daily_purchases(uid)})
 
 	def purchase_armoury_item(self, uid, data):
 		shop_items = dynamicdata.get_bounty_shop(uid)
@@ -65,15 +64,19 @@ class BountyShop(View):
 		if item is None or not self._can_purchase_item(uid, item=item):
 			return "400", 400
 
-		try:
-			armoury = dbutils.armoury.update_item(uid, item.armoury_item_id, inc={"owned": item.quantity_per_purchase})
+		armoury = dbutils.armoury.update_item(uid, item.armoury_item_id, inc={"owned": item.quantity_per_purchase})
 
-			items = dbutils.inventory.update_items(uid, inc={"bountyPoints": -item.purchase_cost})
+		items = dbutils.inventory.update_items(uid, inc={"bountyPoints": -item.purchase_cost})
 
-			return ServerResponse({"userItems": items, "userArmouryItems": armoury})
+		self._log_purchase(uid, iid)
 
-		finally:
-			self._log_purchase(uid, iid)
+		return ServerResponse(
+			{
+				"userItems": items,
+				"userArmouryItems": armoury,
+				"dailyPurchases": dbutils.bs.get_daily_purchases(uid)
+			}
+		)
 
 	@staticmethod
 	def _can_purchase_item(uid, *, item):

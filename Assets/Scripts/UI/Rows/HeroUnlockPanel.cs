@@ -18,9 +18,6 @@ namespace GreedyMercs
             {
                 CostText.text = Utils.Format.FormatNumber(chara.unlockCost);
             }
-
-            else
-                Destroy(gameObject);
         }
 
         // === Button Callbacks ===

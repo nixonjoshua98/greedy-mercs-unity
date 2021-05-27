@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GreedyMercs
 {
-    using GM.Interface;
+    using GM.UI;
 
     public class TapDamageUpgrade : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace GreedyMercs
         [SerializeField] BuyController controller;
 
         [Header("Components")]
-        [SerializeField] DefaultUpgradeButton upgradeButton;
+        [SerializeField] StackedButton upgradeButton;
         [Space]
         [SerializeField] Button buyButton;
         [Space]

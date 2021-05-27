@@ -83,17 +83,17 @@ def _generate_armoury_items(uid) -> dict:
 
 	all_items, selected_items = resources.get("armouryitems"), {}
 
-	keys = random.choices(list(all_items.keys()), k=5)
+	keys = random.choices(list(all_items.keys()), k=9)
 
 	for i, key in enumerate(keys):
 		item_data = all_items[key]
 
-		id_ = 2_000 + key + i + last_reset.day
+		id_ = (2_000 + i) + last_reset.day + (key * i)
 
 		entry = {
 			"armouryItemId": key,
 			"purchaseCost": 50 * (item_data["itemTier"] + 1),
-			"dailyPurchaseLimit": max(1, 6 - item_data["itemTier"]),
+			"dailyPurchaseLimit": max(1, 3 - item_data["itemTier"]),
 			"quantityPerPurchase": 1
 		}
 

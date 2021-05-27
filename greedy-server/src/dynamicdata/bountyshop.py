@@ -1,4 +1,7 @@
+
 import random
+
+import datetime as dt
 
 from src.common import resources, dbutils
 
@@ -85,10 +88,12 @@ def _generate_armoury_items(uid) -> dict:
 
 	keys = random.choices(list(all_items.keys()), k=9)
 
+	days_since_epoch = (last_reset - dt.datetime.fromtimestamp(0)).days
+
 	for i, key in enumerate(keys):
 		item_data = all_items[key]
 
-		id_ = (2_000 + i) + last_reset.day + (key * i)
+		id_ = (days_since_epoch * 1_000) + (i * 100) + (key * 10)
 
 		entry = {
 			"armouryItemId": key,

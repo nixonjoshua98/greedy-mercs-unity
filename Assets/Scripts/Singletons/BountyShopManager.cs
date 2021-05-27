@@ -107,7 +107,7 @@ namespace GM.BountyShop
                 {
                     JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
 
-                    OnPurchaseAnyItem(itemId, resp);
+                    OnPurchaseAnyItem(resp);
                 }
 
                 action.Invoke(code == 200);
@@ -126,7 +126,7 @@ namespace GM.BountyShop
 
                     ArmouryManager.Instance.SetArmouryItems(resp["userArmouryItems"]);
 
-                    OnPurchaseAnyItem(itemId, resp);
+                    OnPurchaseAnyItem(resp);
                 }
 
                 action.Invoke(code == 200);
@@ -147,7 +147,7 @@ namespace GM.BountyShop
 
         // = = = Callbacks = = =
 
-        void OnPurchaseAnyItem(int itemId, JSONNode resp)
+        void OnPurchaseAnyItem(JSONNode resp)
         {
             JSONNode userItems = resp["userItems"];
 

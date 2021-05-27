@@ -83,12 +83,12 @@ def _generate_armoury_items(uid) -> dict:
 
 	all_items, selected_items = resources.get("armouryitems"), {}
 
-	keys = sorted(list(all_items.keys()), key=lambda _: random.random())
+	keys = random.choices(list(all_items.keys()), k=5)
 
-	for key in keys:
+	for i, key in enumerate(keys):
 		item_data = all_items[key]
 
-		id_ = 2_000 + key + last_reset.day
+		id_ = 2_000 + key + i + last_reset.day
 
 		entry = {
 			"armouryItemId": key,

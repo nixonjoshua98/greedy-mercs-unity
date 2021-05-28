@@ -167,14 +167,9 @@ namespace GreedyMercs
             return data.baseEffect + (data.levelEffect * (state.Level - 1));
         }
 
-        // === Relics ===
-
-        public static BigInteger CalcLootItemLevelUpCost(int relic, int levels)
+        public static BigInteger ArtefactLevelUpCost(int current, int levels, float expo, float coeff)
         {
-            var data = StaticData.Artefacts.Get(relic);
-            ArtefactState state = ArtefactManager.Instance.Get(relic);
-
-            return (data.costCoeff * SumNonIntegerPowerSeq(state.Level, levels, data.costExpo)).ToBigInteger();
+            return (coeff * SumNonIntegerPowerSeq(current, levels, expo)).ToBigInteger();
         }
 
         // === General ===

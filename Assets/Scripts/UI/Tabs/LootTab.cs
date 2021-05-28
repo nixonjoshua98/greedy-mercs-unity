@@ -29,29 +29,42 @@ namespace GreedyMercs
         [Header("Prefabs")]
         [SerializeField] GameObject LootRowObject;
 
-        List<LootUpgradeRow> rows;
+        List<GameObject> rows;
+
+        void Awake()
+        {
+            rows = new List<GameObject>();
+        }
 
         void Start()
         {
-            rows = new List<LootUpgradeRow>();
+            InstantiateRows();
+        }
+
+        void InstantiateRows()
+        {
+            Clear();
 
             foreach (ArtefactState state in ArtefactManager.Instance.StatesList)
             {
-                AddRow(state.ID);
+                GameObject inst = Utils.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
+
+                LootUpgradeRow row = inst.GetComponent<LootUpgradeRow>();
+
+                row.Init(state.ID);
+
+                rows.Add(inst);
             }
         }
 
-        void AddRow(int artefactId)
+        void Clear()
         {
-            ArtefactData data = StaticData.Artefacts.Get(artefactId);
+            foreach (GameObject r in rows)
+            {
+                Destroy(r);
+            }
 
-            GameObject inst = Utils.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
-
-            LootUpgradeRow row = inst.GetComponent<LootUpgradeRow>();
-
-            row.Init(data.ID);
-
-            rows.Add(row);
+            rows.Clear();
         }
 
         void FixedUpdate()
@@ -73,32 +86,17 @@ namespace GreedyMercs
 
         // === Button Callbacks ===
 
-        public void OnBuyLoot()
+        public void OnPurchaseArtefactBtn()
         {
-            Server.BuyLootItem(OnBuyCallback, Utils.Json.GetDeviceInfo());
-        }
-
-        public void OnBuyCallback(long code, string data)
-        {
-            InventoryManager inv = InventoryManager.Instance;
-
-            if (code == 200)
+            void ServerCallback(bool purchased)
             {
-                JSONNode node = Utils.Json.Decompress(data);
-
-                int item = node["newLootId"].AsInt;
-
-                inv.prestigePoints = node["remainingPoints"].AsInt;
-
-                ArtefactManager.Instance.Temp_Add(item);
-
-                AddRow(item);
+                if (purchased)
+                {
+                    InstantiateRows();
+                }
             }
 
-            else
-            {
-                Utils.UI.ShowMessage("Purchase Loot", "Failed to buy item :(");
-            }
+            ArtefactManager.Instance.PurchaseNewArtefact(ServerCallback);
         }
     }
 }

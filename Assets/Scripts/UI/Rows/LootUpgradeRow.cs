@@ -30,13 +30,13 @@ namespace GreedyMercs
         bool _updatingUi;
 
         ArtefactData ServerData { get { return StaticData.Artefacts.Get(artefactId); } }
-        ArtefactState ArtefactState { get { return ArtefactManager.Instance.Get(artefactId); } }
+        ArtefactState State { get { return ArtefactManager.Instance.Get(artefactId); } }
 
         int BuyAmount
         {
             get
             {
-                return Mathf.Min(_buyAmount, ServerData.MaxLevel - ArtefactState.Level);
+                return Mathf.Min(_buyAmount, ServerData.MaxLevel - State.Level);
             }
         }
 
@@ -66,19 +66,19 @@ namespace GreedyMercs
 
             UpdateEffectText();
 
-            nameText.text = string.Format("(Lvl. {0}) {1}", ArtefactState.Level, ServerData.Name);
+            nameText.text = string.Format("(Lvl. {0}) {1}", State.Level, ServerData.Name);
 
             stackedButton.SetText("MAX", "-");
 
-            if (ArtefactState.Level < ServerData.MaxLevel)
+            if (State.Level < ServerData.MaxLevel)
             {
-                string cost = Utils.Format.FormatNumber(Formulas.CalcLootItemLevelUpCost(artefactId, BuyAmount));
+                string cost = Utils.Format.FormatNumber(State.CostToUpgrade(BuyAmount));
 
                 stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }
 
 
-            buyButton.interactable = ArtefactState.Level < ServerData.MaxLevel && inv.prestigePoints >= Formulas.CalcLootItemLevelUpCost(artefactId, BuyAmount);
+            buyButton.interactable = State.Level < ServerData.MaxLevel && inv.prestigePoints >= State.CostToUpgrade(BuyAmount);
         }
 
         void UpdateEffectText()
@@ -107,37 +107,12 @@ namespace GreedyMercs
 
         public void OnUpgradeArtefactBtn()
         {
-            InventoryManager inv = InventoryManager.Instance;
-
-            int levelsBuying = BuyAmount;
-
-            BigInteger cost = Formulas.CalcLootItemLevelUpCost(artefactId, levelsBuying);
-
-            void ServerCallback(long code, string compressed) => OnUpgradeCallback(levelsBuying, code, compressed);
-
-            if (levelsBuying > 0 && inv.prestigePoints >= cost && (ArtefactState.Level + levelsBuying) <= ServerData.MaxLevel)
+            void ServerCallback(bool purchased)
             {
-                JSONNode node = Utils.Json.GetDeviceInfo();
 
-                node.Add("itemId", artefactId);
-                node.Add("buyLevels", BuyAmount);
-
-                Server.UpgradeLootItem(ServerCallback, node);
             }
-        }
 
-        void OnUpgradeCallback(int levelsBuying, long code, string compressed)
-        {
-            InventoryManager inv = InventoryManager.Instance;
-
-            if (code == 200)
-            {
-                JSONNode node = Utils.Json.Decompress(compressed);
-
-                ArtefactState.Level += levelsBuying;
-
-                inv.prestigePoints = node["remainingPoints"].AsInt;
-            }
+            ArtefactManager.Instance.UpgradeArtefact(artefactId, BuyAmount, ServerCallback);
         }
     }
 }

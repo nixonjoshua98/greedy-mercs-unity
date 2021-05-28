@@ -1,9 +1,7 @@
 
-from . import bs, armoury
+from . import bs, armoury, artefacts, inventory
 
 from src.common import mongo
-
-from pymongo import ReturnDocument
 
 import datetime as dt
 
@@ -15,17 +13,6 @@ def last_daily_reset():
 	reset_time = (now := dt.datetime.utcnow()).replace(hour=20, minute=0, second=0, microsecond=0)
 
 	return reset_time - dt.timedelta(days=1) if now <= reset_time else reset_time
-
-
-class inventory:
-
-	@staticmethod
-	def update_items(uid, *, inc: dict):
-		return mongo.db["userItems"].find_one_and_update({"userId": uid}, {"$inc": inc}, upsert=True, return_document=ReturnDocument.AFTER)
-
-	@staticmethod
-	def get_items(uid):
-		return mongo.db["userItems"].find_one({"userId": uid}) or dict()
 
 
 def get_player_data(uid):
@@ -47,7 +34,7 @@ def get_player_data(uid):
 		"lifetimeStats": stats,
 		"bountyShop": {"dailyPurchases": bs.get_daily_purchases(uid)},
 
-		"loot": mongo.db["inventories"].find_one({"userId": uid}).get("loot", dict()),
+		"artefacts": artefacts.get(uid),
 
 		"armoury": armoury.get_armoury(uid),
 		"bounties": list(bounties),

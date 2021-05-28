@@ -42,7 +42,7 @@ namespace GM.Artefacts
             bonusType = (BonusType)node["bonusType"].AsInt;
             valueType = (ValueType)node["valueType"].AsInt;
 
-            MaxLevel = node["maxLevel"];
+            MaxLevel = node.GetValueOrDefault("maxLevel", 1_000).AsInt;
 
             costExpo    = node["costExpo"];
             costCoeff   = node["costCoeff"];

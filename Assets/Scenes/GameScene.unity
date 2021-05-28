@@ -1739,7 +1739,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.5
 --- !u!222 &183858792
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3604,26 +3604,17 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1003288040050276513, guid: 2842bc39e0119e145a721ae0401d51a8,
+    - target: {fileID: 995483146104999097, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003288041460646013, guid: 2842bc39e0119e145a721ae0401d51a8,
-        type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003288041568460388, guid: 2842bc39e0119e145a721ae0401d51a8,
-        type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
+      propertyPath: m_Text
+      value: x1K
       objectReference: {fileID: 0}
     - target: {fileID: 1003288041572336494, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 48c0542a863bf10438b3a126ca971403,
+        type: 3}
     - target: {fileID: 2066897927708061408, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -3653,16 +3644,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2998725287388418770, guid: 2842bc39e0119e145a721ae0401d51a8,
-        type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4006040086487443911, guid: 2842bc39e0119e145a721ae0401d51a8,
-        type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 4230653206238691442, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
@@ -3754,25 +3735,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6707286411616578078, guid: 2842bc39e0119e145a721ae0401d51a8,
+    - target: {fileID: 7432547295093481443, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7878125076001561841, guid: 2842bc39e0119e145a721ae0401d51a8,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7878125076001561841, guid: 2842bc39e0119e145a721ae0401d51a8,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -40
-      objectReference: {fileID: 0}
-    - target: {fileID: 9073346519774120638, guid: 2842bc39e0119e145a721ae0401d51a8,
-        type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.75
+      propertyPath: BuyAmounts.Array.data[3]
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2842bc39e0119e145a721ae0401d51a8, type: 3}
@@ -11910,7 +11876,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Purchase New Artifact
+  m_Text: Purchase New Artefact
 --- !u!222 &1952208636
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12743,10 +12709,10 @@ RectTransform:
   m_Father: {fileID: 900080246}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 116, y: 0}
-  m_SizeDelta: {x: 184, y: 0}
+  m_SizeDelta: {x: -132, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &2115060189
 GameObject:

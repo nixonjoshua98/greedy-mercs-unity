@@ -12,8 +12,9 @@ namespace GM.BountyShop
 
     public enum BsItemType
     {
-        FLAT_BLUE_GEM   = 100,
-        FLAT_AP         = 200, // Armoury Point
+        BLUE_GEM        = 100,
+        ARMOURY_POINTS  = 200,
+        PRESTIGE_POINTS = 300,
     }
 
     public abstract class AbstractBountyShopData

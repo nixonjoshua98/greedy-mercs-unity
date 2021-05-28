@@ -5,14 +5,14 @@
       "purchaseCost": 25,
       "dailyPurchaseLimit": 5,
       "quantityPerPurchase": 10,
-      "iconString": "Icons/blue_gem_icon"
+      "iconString": "Icons/blue_gem"
     },
     "1001": {
       "itemType": 200,
       "purchaseCost": 50,
       "dailyPurchaseLimit": 25,
       "quantityPerPurchase": 5,
-      "iconString": "Icons/iron_icon"
+      "iconString": "Icons/iron"
     }
   },
   "armouryItems": {

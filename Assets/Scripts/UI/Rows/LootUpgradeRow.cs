@@ -78,7 +78,7 @@ namespace GreedyMercs
             }
 
 
-            buyButton.interactable = State.Level < ServerData.MaxLevel && inv.prestigePoints >= State.CostToUpgrade(BuyAmount);
+            buyButton.interactable = State.Level < ServerData.MaxLevel && inv.PrestigePoints >= State.CostToUpgrade(BuyAmount);
         }
 
         void UpdateEffectText()

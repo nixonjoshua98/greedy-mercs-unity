@@ -1,10 +1,8 @@
-
 import random
 
 import datetime as dt
 
 from src.common import resources, dbutils
-
 
 from src.common.enums import EnumBase
 
@@ -14,8 +12,9 @@ def get_bounty_shop(uid) -> "BountyShopItems":
 
 
 class ItemType(EnumBase):
-	FLAT_BLUE_GEMS = 100
-	FLAT_AP = 200
+	BLUE_GEMS = 100
+	ARMOURY_POINTS = 200
+	PRESTIGE_POINTS = 300
 
 
 class BountyShopItems:
@@ -52,9 +51,9 @@ class BsShopItemBase:
 
 		self.id = id_
 
-		self.purchase_cost 			= data["purchaseCost"]
-		self.daily_purchase_limit 	= data["dailyPurchaseLimit"]
-		self.quantity_per_purchase 	= data["quantityPerPurchase"]
+		self.purchase_cost = data["purchaseCost"]
+		self.daily_purchase_limit = data["dailyPurchaseLimit"]
+		self.quantity_per_purchase = data["quantityPerPurchase"]
 
 	def to_dict(self):
 		return self._dict
@@ -67,7 +66,11 @@ class BountyShopItem(BsShopItemBase):
 		self.item_type = ItemType.get_val(data["itemType"])
 
 	def get_db_key(self):
-		return {ItemType.FLAT_BLUE_GEMS: "blueGems", ItemType.FLAT_AP: "armouryPoints"}[self.item_type]
+		return {
+			ItemType.BLUE_GEMS: "blueGems",
+			ItemType.ARMOURY_POINTS: "armouryPoints",
+			ItemType.PRESTIGE_POINTS: "prestigePoints"
+		}[self.item_type]
 
 
 class BsArmouryItem(BsShopItemBase):
@@ -78,7 +81,22 @@ class BsArmouryItem(BsShopItemBase):
 
 
 def _generate_normal_items(uid) -> dict:
-	return {k: BountyShopItem(k, v) for k, v in resources.get("bountyshopitems")["items"].items()}
+	def create_item(key_, type_, cost, limit, quantity, icon):
+		return BountyShopItem(
+			key_,
+			{
+				"itemType": type_, "purchaseCost": cost, "dailyPurchaseLimit": limit,
+				"quantityPerPurchase": quantity, "iconString": icon
+			}
+		)
+
+	items = {k: BountyShopItem(k, v) for k, v in resources.get("bountyshopitems")["items"].items()}
+
+	last_key = max(list(items.keys()))
+
+	items[last_key + 1] = create_item(last_key + 1, ItemType.PRESTIGE_POINTS, 450, 1_000, 1_000_000_000, "Icons/rune")
+
+	return items
 
 
 def _generate_armoury_items(uid) -> dict:

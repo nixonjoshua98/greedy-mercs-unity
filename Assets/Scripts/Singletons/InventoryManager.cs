@@ -13,12 +13,12 @@ namespace GM.Inventory
     {
         public static InventoryManager Instance = null;
 
-        public long prestigePoints;
-
         public int BlueGems;
 
         public int BountyPoints;
         public int ArmouryPoints;
+
+        public BigInteger PrestigePoints;
 
         InventoryManager(JSONNode node)
         {
@@ -39,7 +39,10 @@ namespace GM.Inventory
             BountyPoints = node.GetValueOrDefault("bountyPoints", 0).AsInt;
             ArmouryPoints = node.GetValueOrDefault("armouryPoints", 0).AsInt;
 
-            prestigePoints = node.GetValueOrDefault("prestigePoints", 0).AsLong;
+            if (node.HasKey("prestigePoints"))
+            {
+                PrestigePoints = BigInteger.Parse(node["prestigePoints"], System.Globalization.NumberStyles.Any);
+            }
         }
     }
 }

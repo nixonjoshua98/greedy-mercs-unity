@@ -10,21 +10,20 @@ namespace GM.BountyShop
     {
         [SerializeField] Text purchaseQuantityText;
 
+        protected override void OnItemAssigned()
+        {
+            base.OnItemAssigned();
+
+            purchaseQuantityText.text   = string.Format("x{0}", ServerItemData.QuantityPerPurchase);
+            purchaseCostText.text       = ServerItemData.PurchaseCost.ToString();
+        }
+
         void FixedUpdate()
         {
             if (!_isUpdatingUi)
                 return;
 
             outStockObject.SetActive(!BountyShopManager.Instance.InStock(ServerItemData.ID));
-
-            purchaseCostText.text = ServerItemData.PurchaseCost.ToString();
-        }
-
-        protected override void OnItemAssigned()
-        {
-            base.OnItemAssigned();
-
-            purchaseQuantityText.text = string.Format("x{0}", ServerItemData.QuantityPerPurchase);
         }
 
 

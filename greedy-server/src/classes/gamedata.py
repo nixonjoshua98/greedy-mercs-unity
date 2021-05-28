@@ -4,7 +4,6 @@ from src import utils
 
 class GameDataMeta(type):
 	lookup = {
-		"loot": "loot.json",
 		"quests": "quests.json",
 		"characters": "characters.json",
 		"characterPassives": "characterPassives.json"

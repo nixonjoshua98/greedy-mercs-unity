@@ -72,16 +72,15 @@ namespace GreedyMercs
             InventoryManager inv = InventoryManager.Instance;
             ArtefactManager arts = ArtefactManager.Instance;
 
-            prestigePointText.text      = Utils.Format.FormatNumber(inv.prestigePoints);
+            prestigePointText.text      = Utils.Format.FormatNumber(inv.PrestigePoints);
             buyLootButton.interactable  = arts.Count < StaticData.Artefacts.Count;
+
+            lootCostText.text = "-";
 
             if (arts.Count < StaticData.Artefacts.Count)
             {
                 lootCostText.text = string.Format("{0}", Utils.Format.FormatNumber(Formulas.CalcNextLootCost(arts.Count)));
             }
-
-            else
-                lootCostText.text = "All Loot\nObtained";
         }
 
         // === Button Callbacks ===

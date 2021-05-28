@@ -10,7 +10,6 @@ namespace GreedyMercs
 
         public static PlayerLifetimeStats LifetimeStats;
 
-        public static LootState Loot;
         public static StageState Stage;
         public static PlayerState Player;
         public static SkillsState Skills;
@@ -22,8 +21,6 @@ namespace GreedyMercs
 
         public static void Restore(JSONNode node)
         {
-            Loot = new LootState();
-
             Quests = new PlayerQuestData(new JSONObject());
 
             Stage           = new StageState(node);
@@ -45,30 +42,6 @@ namespace GreedyMercs
             Skills.Clear();
             Upgrades.Clear();
             Characters.Clear();
-        }
-        
-        public static void UpdateWithServerData(JSONNode node)
-        {
-            Player.Update(node["player"]);
-            LifetimeStats.Update(node["lifetimeStats"]);
-
-            Loot.UpdateWithServerData(node["loot"]);
-
-            Quests.UpdateQuestsClaimed(node["questsClaimed"]);
-        }
-
-        public static void Save()
-        {
-            SaveLocalDataOnly();
-
-            Loot.Save();
-        }
-
-        public static void SaveLocalDataOnly()
-        {
-            JSONNode node = new JSONObject();
-
-            node.Add("quests", Quests.ToJson());
         }
     }
 }

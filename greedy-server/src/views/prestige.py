@@ -36,6 +36,8 @@ class Prestige(View):
 		# - Add prestige points earned
 		pp = int(items.get("prestigePoints", 0)) + formulas.stage_prestige_points(stage, items.get("loot", dict()))
 
+		dbutils.inventory.update_items(uid, inc={"prestigePoints": 1_000})
+
 		mongo.db.inventories.update_one({"userId": uid}, {"$set": {"prestigePoints": str(pp)}}, upsert=True)
 
 		return ServerResponse(dbutils.get_player_data(uid))
@@ -51,7 +53,7 @@ class Prestige(View):
 
 		def new_earned_bounty(id_, b): return id_ not in exist_bounty_ids and stage >= b["unlockStage"]
 
-		earned_bounties = [key for key, bounty in bounty_data.all_items() if new_earned_bounty(key, bounty)]
+		earned_bounties = [key for key, bounty in bounty_data.items() if new_earned_bounty(key, bounty)]
 
 		if earned_bounties:
 			now = dt.datetime.utcnow()

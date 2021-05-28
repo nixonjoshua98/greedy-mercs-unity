@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: c38bd1b37da866d44b34c591df28d8ed, type: 3}
-    totalSpriteSurfaceArea: 1566792
+    totalSpriteSurfaceArea: 1501256
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -55,7 +55,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3e4fcc84a0ac95b429c56452575f6021, type: 3}
   - {fileID: 21300000, guid: 5fd50594014b70e48bd6993443d46b32, type: 3}
   - {fileID: 21300000, guid: 6592b916f86b19e428db6f6847c7b6dd, type: 3}
-  - {fileID: 21300000, guid: 5d9ba4e7d0964044ea54abe409d81dfd, type: 3}
   - {fileID: 21300000, guid: b97c91e8b348f3f4ebdc11f5c82182cd, type: 3}
   - {fileID: 21300000, guid: e7d29a79bc7fae248887c8a08a160303, type: 3}
   - {fileID: 21300000, guid: e52ea25af699fd445b7046374f81a5b9, type: 3}
@@ -80,7 +79,6 @@ SpriteAtlas:
   - ingots
   - sword
   - mp
-  - apple
   - shield
   - gem
   - hp

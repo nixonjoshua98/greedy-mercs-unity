@@ -6,6 +6,7 @@ using UnityEngine;
 namespace GreedyMercs
 {
     using GM.Armoury;
+    using GM.Artefacts;
     
     public static class Formulas
     {
@@ -157,22 +158,23 @@ namespace GreedyMercs
 
         // ===
 
-        public static double CalcLootItemEffect(LootID relic)
+        public static double CalcLootItemEffect(int relic)
         {
-            LootItemSO data = StaticData.LootList.Get(relic);
-            UpgradeState state = GameState.Loot.Get(relic);
+            var data = StaticData.Artefacts.Get(relic);
 
-            return data.baseEffect + (data.levelEffect * (state.level - 1));
+            ArtefactState state = ArtefactManager.Instance.Get(relic);
+
+            return data.baseEffect + (data.levelEffect * (state.Level - 1));
         }
 
         // === Relics ===
 
-        public static BigInteger CalcLootItemLevelUpCost(LootID relic, int levels)
+        public static BigInteger CalcLootItemLevelUpCost(int relic, int levels)
         {
-            LootItemSO data = StaticData.LootList.Get(relic);
-            UpgradeState state = GameState.Loot.Get(relic);
+            var data = StaticData.Artefacts.Get(relic);
+            ArtefactState state = ArtefactManager.Instance.Get(relic);
 
-            return (data.costCoeff * SumNonIntegerPowerSeq(state.level, levels, data.costExpo)).ToBigInteger();
+            return (data.costCoeff * SumNonIntegerPowerSeq(state.Level, levels, data.costExpo)).ToBigInteger();
         }
 
         // === General ===

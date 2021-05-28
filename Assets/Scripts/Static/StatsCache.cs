@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 namespace GreedyMercs
 {
     using GM.Armoury;
+    using GM.Artefacts;
 
     public class StatsCache : MonoBehaviour
     {
@@ -34,7 +35,7 @@ namespace GreedyMercs
             get
             {
                 if (IsCacheOutdated("LOOT", CachedBonuses))
-                    CachedBonuses["LOOT"] = GameState.Loot.CalcBonuses();
+                    CachedBonuses["LOOT"] = ArtefactManager.Instance.CalculateTotalBonuses();
 
                 return CachedBonuses["LOOT"];
             }

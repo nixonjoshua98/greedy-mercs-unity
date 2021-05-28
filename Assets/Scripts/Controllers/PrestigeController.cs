@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -40,8 +39,6 @@ namespace GreedyMercs.StageDM.Prestige
             {
                 Events.OnPlayerPrestige.Invoke();
 
-                GameState.SaveLocalDataOnly();
-
                 StartCoroutine(RunPrestigeAnimation());
             }
 
@@ -62,8 +59,6 @@ namespace GreedyMercs.StageDM.Prestige
             yield return SquadManager.MoveOut(1.0f);
 
             GameState.Prestige();
-
-            GameState.Save();
 
             SceneManager.LoadSceneAsync("GameScene");
         }

@@ -7,77 +7,85 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using GM.UI;
+    using GM.Artefacts;
     using GM.Inventory;
 
     public class LootUpgradeRow : MonoBehaviour
     {
-        LootID lootId;
+        int artefactId;
 
         [Header("Components")]
         [SerializeField] Image icon;
         [Space]
         [SerializeField] Button buyButton;
         [Space]
-        [SerializeField] Text costText;
         [SerializeField] Text nameText;
         [SerializeField] Text effectText;
+        
+        [Header("Components - Scripts")]
+        [SerializeField] StackedButton stackedButton;
 
-        protected LootItemSO itemData => StaticData.LootList.Get(lootId);
-        protected UpgradeState itemState => GameState.Loot.Get(lootId);
+        int _buyAmount;
+        bool _updatingUi;
+
+        ArtefactData ServerData { get { return StaticData.Artefacts.Get(artefactId); } }
+        ArtefactState ArtefactState { get { return ArtefactManager.Instance.Get(artefactId); } }
 
         int BuyAmount
         {
             get
             {
-                return Mathf.Min(LootTab.BuyAmount, itemData.maxLevel - itemState.level);
+                return Mathf.Min(_buyAmount, ServerData.MaxLevel - ArtefactState.Level);
             }
         }
 
-        public void Init(LootItemSO data)
+        void Awake()
         {
-            lootId = data.ItemID;
+            BuyController buyController = FindObjectOfType<LootTab>().GetComponentInChildren<BuyController>();
 
-            nameText.text   = data.name;
-            icon.sprite     = data.icon;
-
-            UpdateUI();
+            buyController.AddListener((val) => { _buyAmount = val; });
         }
 
-        void OnEnable()
+        public void Init(int id)
         {
-            if (GameState.Loot.Contains(lootId))
-                InvokeRepeating("UpdateUI", 0.0f, 0.5f);
-        }
-        
-        void OnDisable() => CancelInvoke("UpdateUI");
+            artefactId = id;
 
-        void UpdateUI()
+            nameText.text = ServerData.Name;
+            icon.sprite = ServerData.Icon;
+
+            _updatingUi = true;
+        }
+
+        void FixedUpdate()
         {
+            if (!_updatingUi)
+                return;
+
             InventoryManager inv = InventoryManager.Instance;
 
             UpdateEffectText();
 
-            nameText.text = string.Format("(Lvl. {0}) {1}", itemState.level, itemData.name);
+            nameText.text = string.Format("(Lvl. {0}) {1}", ArtefactState.Level, ServerData.Name);
 
-            if (itemState.level < itemData.maxLevel)
+            stackedButton.SetText("MAX", "-");
+
+            if (ArtefactState.Level < ServerData.MaxLevel)
             {
-                string cost = Utils.Format.FormatNumber(Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount));
+                string cost = Utils.Format.FormatNumber(Formulas.CalcLootItemLevelUpCost(artefactId, BuyAmount));
 
-                costText.text = string.Format("x{0}\n{1}", BuyAmount, cost);
+                stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }
 
-            else
-                costText.text = "MAX";
 
-
-            buyButton.interactable = itemState.level < itemData.maxLevel && inv.prestigePoints >= Formulas.CalcLootItemLevelUpCost(lootId, BuyAmount);
+            buyButton.interactable = ArtefactState.Level < ServerData.MaxLevel && inv.prestigePoints >= Formulas.CalcLootItemLevelUpCost(artefactId, BuyAmount);
         }
 
         void UpdateEffectText()
         {
-            double effect = Formulas.CalcLootItemEffect(lootId);
+            double effect = Formulas.CalcLootItemEffect(artefactId);
 
-            switch (itemData.valueType)
+            switch (ServerData.valueType)
             {
                 case ValueType.MULTIPLY:
                     effectText.text = Utils.Format.FormatNumber(effect * 100) + "%";
@@ -92,26 +100,26 @@ namespace GreedyMercs
                     break;
             }
 
-            effectText.text += " " + Utils.Generic.BonusToString(itemData.bonusType);
+            effectText.text += " " + Utils.Generic.BonusToString(ServerData.bonusType);
         }
 
-        // === Button Callbacks
+        // = = = Button Callbacks = = =
 
-        public void OnBuy()
+        public void OnUpgradeArtefactBtn()
         {
             InventoryManager inv = InventoryManager.Instance;
 
             int levelsBuying = BuyAmount;
 
-            BigInteger cost = Formulas.CalcLootItemLevelUpCost(lootId, levelsBuying);
+            BigInteger cost = Formulas.CalcLootItemLevelUpCost(artefactId, levelsBuying);
 
             void ServerCallback(long code, string compressed) => OnUpgradeCallback(levelsBuying, code, compressed);
 
-            if (levelsBuying > 0 && inv.prestigePoints >= cost && (itemState.level + levelsBuying) <= itemData.maxLevel)
+            if (levelsBuying > 0 && inv.prestigePoints >= cost && (ArtefactState.Level + levelsBuying) <= ServerData.MaxLevel)
             {
                 JSONNode node = Utils.Json.GetDeviceInfo();
 
-                node.Add("itemId", (int)lootId);
+                node.Add("itemId", artefactId);
                 node.Add("buyLevels", BuyAmount);
 
                 Server.UpgradeLootItem(ServerCallback, node);
@@ -126,12 +134,10 @@ namespace GreedyMercs
             {
                 JSONNode node = Utils.Json.Decompress(compressed);
 
-                itemState.level += levelsBuying;
+                ArtefactState.Level += levelsBuying;
 
-                inv.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
+                inv.prestigePoints = node["remainingPoints"].AsInt;
             }
-
-            UpdateUI();
         }
     }
 }

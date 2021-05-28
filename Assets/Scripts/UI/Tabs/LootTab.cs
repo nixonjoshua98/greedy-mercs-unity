@@ -11,17 +11,13 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GreedyMercs
 {
+    using GM.Artefacts;
     using GM.Inventory;
 
     public class LootTab : MonoBehaviour
     {
-        static LootTab Instance = null;
-
         [Header("GameObjects")]
         [SerializeField] GameObject rowParent;
-
-        [Space]
-        [SerializeField] BuyAmountController buyAmount;
 
         [Header("Components")]
         [SerializeField] Button buyLootButton;
@@ -33,50 +29,42 @@ namespace GreedyMercs
         [Header("Prefabs")]
         [SerializeField] GameObject LootRowObject;
 
-        public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
-
         List<LootUpgradeRow> rows;
-
-        void Awake()
-        {
-            Instance = this;
-        }
 
         void Start()
         {
             rows = new List<LootUpgradeRow>();
 
-            foreach (var relic in GameState.Loot.Unlocked())
+            foreach (ArtefactState state in ArtefactManager.Instance.StatesList)
             {
-                AddRow(relic.Key);
+                AddRow(state.ID);
             }
-
-            InvokeRepeating("UpdateUI", 0.0f, 0.1f);
         }
 
-        void AddRow(LootID item)
+        void AddRow(int artefactId)
         {
-            LootItemSO scriptable = StaticData.LootList.Get(item);
+            ArtefactData data = StaticData.Artefacts.Get(artefactId);
 
             GameObject inst = Utils.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
 
             LootUpgradeRow row = inst.GetComponent<LootUpgradeRow>();
 
-            row.Init(scriptable);
+            row.Init(data.ID);
 
             rows.Add(row);
         }
 
-        void UpdateUI()
+        void FixedUpdate()
         {
             InventoryManager inv = InventoryManager.Instance;
+            ArtefactManager arts = ArtefactManager.Instance;
 
             prestigePointText.text      = Utils.Format.FormatNumber(inv.prestigePoints);
-            buyLootButton.interactable  = GameState.Loot.Count < StaticData.LootList.Count;
+            buyLootButton.interactable  = arts.Count < StaticData.Artefacts.Count;
 
-            if (GameState.Loot.Count < StaticData.LootList.Count)
+            if (arts.Count < StaticData.Artefacts.Count)
             {
-                lootCostText.text = string.Format("Buy Loot\n{0}", Utils.Format.FormatNumber(Formulas.CalcNextLootCost(GameState.Loot.Count)));
+                lootCostText.text = string.Format("{0}", Utils.Format.FormatNumber(Formulas.CalcNextLootCost(arts.Count)));
             }
 
             else
@@ -87,17 +75,7 @@ namespace GreedyMercs
 
         public void OnBuyLoot()
         {
-            InventoryManager inv = InventoryManager.Instance;
-
-            if (inv.prestigePoints < Formulas.CalcNextLootCost(GameState.Loot.Count))
-            {
-                Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new item");
-            }
-
-            else if (GameState.Loot.Count < StaticData.LootList.Count)
-            {
-                Server.BuyLootItem(OnBuyCallback, Utils.Json.GetDeviceInfo());
-            }
+            Server.BuyLootItem(OnBuyCallback, Utils.Json.GetDeviceInfo());
         }
 
         public void OnBuyCallback(long code, string data)
@@ -108,11 +86,11 @@ namespace GreedyMercs
             {
                 JSONNode node = Utils.Json.Decompress(data);
 
-                LootID item = (LootID)node["newLootId"].AsInt;
+                int item = node["newLootId"].AsInt;
 
-                inv.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
+                inv.prestigePoints = node["remainingPoints"].AsInt;
 
-                GameState.Loot.Add(item);
+                ArtefactManager.Instance.Temp_Add(item);
 
                 AddRow(item);
             }
@@ -121,8 +99,6 @@ namespace GreedyMercs
             {
                 Utils.UI.ShowMessage("Purchase Loot", "Failed to buy item :(");
             }
-
-            UpdateUI();
         }
     }
 }

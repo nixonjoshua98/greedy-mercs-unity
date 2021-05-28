@@ -47,7 +47,7 @@ def get_player_data(uid):
 		"lifetimeStats": stats,
 		"bountyShop": {"dailyPurchases": bs.get_daily_purchases(uid)},
 
-		"loot": {},
+		"loot": mongo.db["inventories"].find_one({"userId": uid}).get("loot", dict()),
 
 		"armoury": armoury.get_armoury(uid),
 		"bounties": list(bounties),

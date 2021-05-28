@@ -12,6 +12,8 @@ class ServerData(View):
 	def dispatch_request(self):
 		data = GameData.data
 
+		data["artefactsData"] = resources.get("artefacts")
+
 		data["bounties"] = resources.get("bounties")
 		data["armouryItems"] = resources.get("armouryitems")
 

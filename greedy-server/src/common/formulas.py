@@ -30,7 +30,7 @@ def prestige_bonus(loot):
 
 	staticdata = GameData.get("loot")
 
-	for key, level in loot.all_items():
+	for key, level in loot.items():
 		item = staticdata[key]
 
 		if item["bonusType"] == BonusType.CASH_OUT_BONUS:

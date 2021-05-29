@@ -5,14 +5,15 @@ using UnityEngine.Events;
 using System.Numerics;
 using System.Collections.Generic;
 
-using SimpleJSON;
-
 using Vector3 = UnityEngine.Vector3;
 
-namespace GreedyMercs
+namespace GM.Artefacts
 {
-    using GM.Artefacts;
     using GM.Inventory;
+
+    using GreedyMercs;
+
+    using Utils = GreedyMercs.Utils;
 
     public class LootTab : MonoBehaviour
     {
@@ -47,7 +48,7 @@ namespace GreedyMercs
 
             foreach (ArtefactState state in ArtefactManager.Instance.StatesList)
             {
-                GameObject inst = Utils.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
+                GameObject inst = Funcs.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
 
                 ArtefactRow row = inst.GetComponent<ArtefactRow>();
 

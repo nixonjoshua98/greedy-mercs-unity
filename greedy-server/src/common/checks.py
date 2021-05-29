@@ -1,5 +1,5 @@
 
-from flask import Response, request
+from flask import request
 
 from src.common import mongo
 
@@ -12,7 +12,7 @@ def login_check(f):
 		data = utils.decompress(request.data)
 
 		if (row := mongo.db["userLogins"].find_one({"deviceId": data["deviceId"]})) is None:
-			return Response(utils.compress({"message": ""}), status=400)
+			return "400", 400
 
 		return f(*args, **kwargs, uid=row["_id"], data=data)
 

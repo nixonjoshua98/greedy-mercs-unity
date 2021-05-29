@@ -22,7 +22,7 @@ namespace GreedyMercs
 
         public static ServerBountyData Bounty;
         public static ServerArmouryData Armoury;
-        public static SvrArtefactData Artefacts;
+        public static ServerArtefactData Artefacts;
 
         public static DateTime NextDailyReset;
 
@@ -34,7 +34,7 @@ namespace GreedyMercs
 
             Bounty      = new ServerBountyData(node["bounties"]);
             Armoury     = new ServerArmouryData(node["armouryItems"]);
-            Artefacts   = new SvrArtefactData(node["artefactsData"]);
+            Artefacts   = new ServerArtefactData(node["artefactsData"]);
 
             NextDailyReset = Funcs.ToDateTime(node["nextDailyReset"]);
         }

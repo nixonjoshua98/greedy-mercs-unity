@@ -10,7 +10,7 @@ from src.common import mongo, resources, checks
 from src.classes import ServerResponse
 
 
-class Bounty(View):
+class BountyView(View):
 
 	@checks.login_check
 	def dispatch_request(self, *, uid, data):
@@ -43,7 +43,7 @@ class Bounty(View):
 			hours_since_claim = (now - bounty_entry["lastClaimTime"]).total_seconds() / 3_600
 
 			# Hours since bounty claimed, taking into account the max unclaimed hours
-			hours = min(max_unclaimed_hours, hours_since_claim)
+			hours = max(0, min(max_unclaimed_hours, hours_since_claim))
 
 			# Calculate the income and increment the total
 			points += math.floor(hours * bounty_data["hourlyIncome"])

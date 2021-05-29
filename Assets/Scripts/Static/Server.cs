@@ -36,9 +36,6 @@ public static class Server
     public static void Login(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("user/login", callback, node));
     public static void ChangeUsername(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("user/changeusername", callback, node));
 
-    // === Leaderboards ===
-    public static void GetPlayerLeaderboard(Action<long, string> callback) => StartCoroutine(Get("leaderboard/player", callback));
-
     // # === Data === #
     public static void GetGameData(Action<long, string> callback) => StartCoroutine(Get("gamedata", callback));
 

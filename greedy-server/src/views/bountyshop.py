@@ -9,7 +9,7 @@ from src.common import mongo, checks
 from src.classes import ServerResponse
 
 
-class BountyShop(View):
+class BountyShopView(View):
 
 	@checks.login_check
 	def dispatch_request(self, *, uid, data):

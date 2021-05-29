@@ -18,8 +18,6 @@ namespace GreedyMercs
         {
             if (GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE)
             {
-                //anim.Play("Pulse");
-
                 CancelInvoke("RegularUpdate");
             }
         }

@@ -9,7 +9,7 @@ from src.common import checks
 from src.classes import ServerResponse
 
 
-class Armoury(View):
+class ArmouryView(View):
 
 	@checks.login_check
 	def dispatch_request(self, uid, data):

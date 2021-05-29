@@ -24,12 +24,7 @@ class Prestige(View):
 		stage = data["prestigeStage"]
 
 		# - Load data from the database
-		stats = mongo.db.userStats.find_one({"userId": uid})
 		items = mongo.db.inventories.find_one({"userId": uid}) or dict()
-
-		# - Update max prestige stage
-		if stats is None or stats.get("maxPrestigeStage", 0) < stage:
-			mongo.db.userStats.update_one({"userId": uid}, {"$set": {"maxPrestigeStage": stage}}, upsert=True)
 
 		self.process_new_bounties(uid, stage)
 

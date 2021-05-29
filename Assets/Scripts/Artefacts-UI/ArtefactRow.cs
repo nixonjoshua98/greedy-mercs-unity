@@ -2,13 +2,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM.Artefacts
 {
     using GM.UI;
-    using GM.Artefacts;
     using GM.Inventory;
 
-    public class ArtefactRow : MonoBehaviour
+    using GreedyMercs;
+    using Utils = GreedyMercs.Utils;
+
+    public class ArtefactRow : ExtendedMonoBehaviour
     {
         int artefactId;
 
@@ -26,7 +28,7 @@ namespace GreedyMercs
         int _buyAmount;
         bool _updatingUi;
 
-        ArtefactData ServerData { get { return StaticData.Artefacts.Get(artefactId); } }
+        ArtefactData ServerData { get { return GreedyMercs.StaticData.Artefacts.Get(artefactId); } }
         ArtefactState State { get { return ArtefactManager.Instance.Get(artefactId); } }
 
         int BuyAmount { get {  return Mathf.Min(_buyAmount, ServerData.MaxLevel - State.Level); } }
@@ -48,7 +50,7 @@ namespace GreedyMercs
             _updatingUi = true;
         }
 
-        void FixedUpdate()
+        protected override void PeriodicUpdate()
         {
             if (!_updatingUi)
                 return;

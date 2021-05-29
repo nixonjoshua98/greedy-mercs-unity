@@ -56,13 +56,13 @@ namespace GM.Artefacts
         public Sprite Icon { get { return ResourceManager.LoadSprite(iconString); } }
     }
 
-    public class SvrArtefactData
+    public class ServerArtefactData
     {
         Dictionary<int, ArtefactData> artefacts;
 
         public int Count { get { return artefacts.Count; } }
 
-        public SvrArtefactData(JSONNode node)
+        public ServerArtefactData(JSONNode node)
         {
             SetData(node);
         }

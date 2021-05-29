@@ -34,26 +34,16 @@ namespace GM.Bounty
 
         Dictionary<int, BountyState> states;
 
-        public BountyManager()
+        public BountyManager(JSONNode node)
         {
             states = new Dictionary<int, BountyState>();
+
+            SetBounties(node);
         }
 
         public static BountyManager Create(JSONNode node)
         {
-            Instance = new BountyManager();
-
-            foreach (JSONNode bounty in node.AsArray)
-            {
-                int questId = bounty["bountyId"].AsInt;
-
-                BountyState state = new BountyState(questId)
-                {
-                    LastClaimTime = Funcs.ToDateTime(bounty["lastClaimTime"].AsLong)
-                };
-
-                Instance.SetState(questId, state);
-            }
+            Instance = new BountyManager(node);
 
             return Instance;
         }
@@ -68,15 +58,14 @@ namespace GM.Bounty
                     JSONNode returnData = Utils.Json.Decompress(body);
 
                     SetAllClaimTimes(Funcs.ToDateTime(returnData["claimTime"].AsLong));
+
                     InventoryManager.Instance.SetItems(returnData["inventoryItems"]);
                 }
 
                 call(code, body);
             }
 
-            JSONNode postData = Funcs.GetDeviceInfo();
-
-            Server.Put("bounty", "claimPoints", postData, Callback);
+            Server.Put("bounty", "claimPoints", Callback);
         }
 
 
@@ -148,9 +137,27 @@ namespace GM.Bounty
             }
         }
 
-        void SetState(int questId, BountyState state)
+        void SetBounties(JSONNode node)
         {
-            states[questId] = state;
+            foreach (JSONNode bounty in node.AsArray)
+            {
+                int id = bounty["bountyId"].AsInt;
+
+                // Ignore 'disabled' bounties which are not in the server data
+                if (StaticData.Bounty.Contains(id))
+                {
+                    BountyState state = new BountyState(id)
+                    {
+                        LastClaimTime = Funcs.ToDateTime(bounty["lastClaimTime"].AsLong)
+                    };
+
+                    states[id] = state;
+                }
+                else
+                {
+                    Debug.LogWarning(string.Format("Bounty {0} is currently not available", id));
+                }
+            }
         }
     }
 }

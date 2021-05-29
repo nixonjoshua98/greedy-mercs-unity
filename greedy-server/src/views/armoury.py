@@ -2,7 +2,9 @@ from flask import request
 
 from flask.views import View
 
-from src.common import checks, dbutils
+from src import dbutils
+
+from src.common import checks
 
 from src.classes import ServerResponse
 

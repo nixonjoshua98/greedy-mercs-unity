@@ -1,5 +1,12 @@
 
-from src import utils
+import os, json
+
+
+def read_data_file(name) -> dict:
+	path = os.path.join(os.getcwd(), "data", name)
+
+	with open(path, "r") as fh:
+		return json.loads(fh.read())
 
 
 class GameDataMeta(type):
@@ -11,7 +18,7 @@ class GameDataMeta(type):
 
 	@property
 	def data(self):
-		return {k: utils.read_data_file(v) for k, v in self.lookup.items()}
+		return {k: read_data_file(v) for k, v in self.lookup.items()}
 
 	def get(self, key: str):
 		return self.data[key]

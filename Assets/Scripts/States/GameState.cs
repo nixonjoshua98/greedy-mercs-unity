@@ -6,10 +6,6 @@ namespace GreedyMercs
 {
     public static class GameState
     {
-        public static PlayerQuestData Quests;
-
-        public static PlayerLifetimeStats LifetimeStats;
-
         public static StageState Stage;
         public static PlayerState Player;
         public static SkillsState Skills;
@@ -21,12 +17,9 @@ namespace GreedyMercs
 
         public static void Restore(JSONNode node)
         {
-            Quests = new PlayerQuestData(new JSONObject());
-
             Stage           = new StageState(node);
             Skills          = new SkillsState(node);
             Player          = new PlayerState(node["player"]);
-            LifetimeStats   = new PlayerLifetimeStats(node["lifetimeStats"]);
 
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);

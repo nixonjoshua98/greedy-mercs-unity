@@ -2,8 +2,8 @@ from flask import request
 
 from flask.views import View
 
-from src import utils
-from src.common import mongo, checks, dbutils
+from src import utils, dbutils
+from src.common import mongo, checks
 
 from src.classes import ServerResponse
 

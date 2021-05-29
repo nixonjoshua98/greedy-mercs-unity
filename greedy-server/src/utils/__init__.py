@@ -40,20 +40,3 @@ def decompress(data) -> dict:
 	decompressed = gzip.decompress(decoded)
 
 	return json.loads(decompressed.decode("utf-8"))
-
-
-def read_data_file(name) -> dict:
-	"""
-	Load a JSON file from the /data directory
-	====================
-
-	:param name:The file we want to read as a JSON file
-
-	:return:
-		Returns a dictionary of the JSON file
-	"""
-
-	path = os.path.join(os.getcwd(), "data", name)
-
-	with open(path, "r") as fh:
-		return json.loads(fh.read())

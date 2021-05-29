@@ -49,7 +49,7 @@ namespace GreedyMercs
             {
                 GameObject inst = Utils.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
 
-                LootUpgradeRow row = inst.GetComponent<LootUpgradeRow>();
+                ArtefactRow row = inst.GetComponent<ArtefactRow>();
 
                 row.Init(state.ID);
 

@@ -66,7 +66,10 @@ namespace GM.Bounty
             }
         }
 
-        public BountyDataStruct Get(int bounty) => bountyData[bounty];
+        // = = = Get Methods = = = //
+
+        public BountyDataStruct Get(int bounty) { return bountyData[bounty]; }
+        public bool Contains(int bounty) { return bountyData.ContainsKey(bounty); }
 
         public bool IsBountyBoss(int stage, out BountyDataStruct bounty)
         {

@@ -32,11 +32,6 @@ public static class Server
 
     static void StartCoroutine(IEnumerator f) => PersistentMono.Inst.StartCoroutine(f);
 
-    // === Prestige Items === 
-    public static void BuyLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/buy", callback, node));
-    public static void UpgradeLootItem(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("loot/upgrade", callback, node));
-
-
     // === Player ===
     public static void Login(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("user/login", callback, node));
     public static void ChangeUsername(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("user/changeusername", callback, node));
@@ -47,9 +42,6 @@ public static class Server
     // # === Data === #
     public static void GetGameData(Action<long, string> callback) => StartCoroutine(Get("gamedata", callback));
 
-    // # === Quests === #
-    public static void ClaimQuestReward(Action<long, string> callback, JSONNode node) => StartCoroutine(Put("quest/claim", callback, node));
-
     public static void Prestige(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
     {
         mono.StartCoroutine(Put("prestige", callback, node));
@@ -59,7 +51,9 @@ public static class Server
     {
         IEnumerator _Put()
         {
-            UnityWebRequest www = UnityWebRequest.Put(GetUrl(endpoint) + string.Format("?purpose={0}", purpose), Utils.Json.Compress(node));
+            string body = EncryptAndPrepareJSON(node, purpose);
+
+            UnityWebRequest www = UnityWebRequest.Put(GetUrl(endpoint) + string.Format("?purpose={0}", purpose), body);
 
             yield return SendRequest(www, callback);
         }
@@ -67,9 +61,11 @@ public static class Server
         StartCoroutine(_Put());
     }
 
+    public static void Put(string endpoint, string purpose, Action<long, string> callback) { Put(endpoint, purpose, new JSONObject(), callback); }
+
     static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
     {
-        UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:{1}/api/{2}", IP, PORT, endpoint), Utils.Json.Compress(json));
+        UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:{1}/api/{2}", IP, PORT, endpoint), EncryptAndPrepareJSON(json, ""));
 
         yield return SendRequest(www, callback);
     }
@@ -96,5 +92,13 @@ public static class Server
             UnityEngine.Debug.Log(www.url + " | " + www.responseCode + " | " + sw.ElapsedMilliseconds + "ms");
 
         callback.Invoke(www.responseCode, www.downloadHandler.text);
+    }
+
+    static string EncryptAndPrepareJSON(JSONNode node, string purpose)
+    {
+        node["purpose"]     = purpose;
+        node["deviceId"]    = SystemInfo.deviceUniqueIdentifier;
+
+        return Funcs.EncryptServerJSON(node);
     }
 }

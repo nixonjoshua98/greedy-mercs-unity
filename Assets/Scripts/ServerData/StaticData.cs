@@ -8,8 +8,6 @@ namespace GreedyMercs
     using GM.Armoury;
     using GM.Artefacts;
 
-    using GreedyMercs.Quests.Data;
-
     public static class StaticData
     {
         public const int MAX_CHAR_LEVEL         = 1_000;
@@ -26,14 +24,10 @@ namespace GreedyMercs
         public static ServerArmouryData Armoury;
         public static SvrArtefactData Artefacts;
 
-        public static StaticQuestData Quests;
-
         public static DateTime NextDailyReset;
 
         public static void Restore(JSONNode node)
         {
-            Quests = new StaticQuestData(node["quests"]);
-
             SkillList.Init();
 
             CharacterList.Init(node["characters"], node["characterPassives"]);

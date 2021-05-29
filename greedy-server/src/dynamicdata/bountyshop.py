@@ -2,7 +2,8 @@ import random
 
 import datetime as dt
 
-from src.common import resources, dbutils
+from src.common import resources
+from src import dbutils
 
 from src.common.enums import EnumBase
 

@@ -8,8 +8,8 @@ from flask import request
 
 from flask.views import View
 
-from src import utils
-from src.common import mongo, resources, checks, formulas, dbutils
+from src import utils, dbutils
+from src.common import mongo, resources, checks, formulas
 
 from src.classes import ServerResponse
 

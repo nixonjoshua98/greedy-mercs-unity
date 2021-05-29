@@ -1,12 +1,11 @@
-
 from flask import request
 from flask.views import View
 
 import datetime as dt
 
-from src import dynamicdata
+from src import dynamicdata, dbutils
 
-from src.common import mongo, checks, dbutils
+from src.common import mongo, checks
 from src.classes import ServerResponse
 
 
@@ -46,7 +45,8 @@ class BountyShop(View):
 		if item is None or not self._can_purchase_item(uid, item=item):
 			return "400", 400
 
-		items = dbutils.inventory.update_items(uid, inc={
+		items = dbutils.inventory.update_items(
+			uid, inc={
 				"bountyPoints": -item.purchase_cost,
 				item.get_db_key(): item.quantity_per_purchase
 			}

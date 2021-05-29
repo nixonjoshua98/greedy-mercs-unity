@@ -4,7 +4,7 @@
   "bounties": {
     "0": {
       "hourlyIncome": 10000,
-      "name": "Bounty 0",
+      "name": "Little Jimmy",
       "prefabString": "little_jimmy",
       "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 1
@@ -22,27 +22,6 @@
       "prefabString": "little_jimmy",
       "iconString": "BountyIcons/little_jimmy",
       "unlockStage": 3
-    },
-    "3": {
-      "hourlyIncome": 40000,
-      "name": "Bounty 3",
-      "prefabString": "little_jimmy",
-      "iconString": "BountyIcons/little_jimmy",
-      "unlockStage": 4
-    },
-    "4": {
-      "hourlyIncome": 50000,
-      "name": "Bounty 4",
-      "prefabString": "little_jimmy",
-      "iconString": "BountyIcons/little_jimmy",
-      "unlockStage": 5
-    },
-    "5": {
-      "hourlyIncome": 60000,
-      "name": "Bounty 5",
-      "prefabString": "little_jimmy",
-      "iconString": "BountyIcons/little_jimmy",
-      "unlockStage": 6
     }
   }
 }

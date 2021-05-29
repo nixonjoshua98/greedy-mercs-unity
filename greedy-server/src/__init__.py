@@ -18,9 +18,6 @@ def create_app():
 	# === Leaderboard === #
 	app.add_url_rule("/api/leaderboard/player", view_func=PlayerLeaderboard.as_view("playerleaderboard"), methods=["GET"])
 
-	# === Quests === #
-	app.add_url_rule("/api/quest/claim", view_func=ClaimQuestReward.as_view("completequest"), methods=["PUT"])
-
 	# === Data === #
 	app.add_url_rule("/api/gamedata", view_func=ServerData.as_view("gamedata"), methods=["GET"])
 

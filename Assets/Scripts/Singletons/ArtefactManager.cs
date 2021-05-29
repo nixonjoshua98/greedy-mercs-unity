@@ -25,11 +25,10 @@ namespace GM.Artefacts
             ID = id;
         }
 
-        public BigInteger CostToUpgrade(int levels)
-        {
-            return Formulas.ArtefactLevelUpCost(Level, levels, _svrData.costExpo, _svrData.costCoeff);
-        }
+        public bool IsMaxLevel() { return Level >= _svrData.MaxLevel; }
+        public BigInteger CostToUpgrade(int levels) { return Formulas.ArtefactLevelUpCost(Level, levels, _svrData.costExpo, _svrData.costCoeff); }
     }
+
 
     public class ArtefactManager
     {
@@ -73,7 +72,7 @@ namespace GM.Artefacts
                 call.Invoke(code == 200);
             }
 
-            JSONNode node = GreedyMercs.Utils.Json.GetDeviceInfo();
+            JSONNode node = new JSONObject();
 
             node["artefactId"] = artefactId;
             node["totalLevelsBuying"] = levelsBuying;

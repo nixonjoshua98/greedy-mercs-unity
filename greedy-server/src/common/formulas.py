@@ -7,7 +7,7 @@ from src.classes.gamedata import GameData
 
 # === Loot Formulas === #
 
-def loot_levelup_cost(item, start, buying):
+def loot_levelup_cost(item: dict, start, buying):
 	return math.ceil(item["costCoeff"] * sum_non_int_power_seq(start, buying, item["costExpo"]))
 
 

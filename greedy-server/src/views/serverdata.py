@@ -1,7 +1,8 @@
 
 from flask.views import View
 
-from src.common import resources, dbutils
+from src.common import resources
+from src import dbutils
 
 from src.classes.gamedata import GameData
 from src.classes.serverresponse import ServerResponse

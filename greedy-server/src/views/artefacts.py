@@ -3,7 +3,9 @@ import random
 from flask import request
 from flask.views import View
 
-from src.common import checks, dbutils, resources, formulas
+from src import dbutils
+
+from src.common import checks, resources, formulas
 
 from src.classes import ServerResponse
 
@@ -48,7 +50,7 @@ class ArtefactsView(View):
 
 		return ServerResponse({"userItems": items, "userArtefacts": arts})
 
-	def purchase_artefact(self, uid, data):
+	def purchase_artefact(self, uid, _):
 
 		all_arts_data = resources.get("artefacts")
 

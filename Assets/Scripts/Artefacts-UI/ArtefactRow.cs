@@ -1,9 +1,6 @@
-﻿using System.Numerics;
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
-
-using SimpleJSON;
 
 namespace GreedyMercs
 {
@@ -11,7 +8,7 @@ namespace GreedyMercs
     using GM.Artefacts;
     using GM.Inventory;
 
-    public class LootUpgradeRow : MonoBehaviour
+    public class ArtefactRow : MonoBehaviour
     {
         int artefactId;
 
@@ -32,13 +29,7 @@ namespace GreedyMercs
         ArtefactData ServerData { get { return StaticData.Artefacts.Get(artefactId); } }
         ArtefactState State { get { return ArtefactManager.Instance.Get(artefactId); } }
 
-        int BuyAmount
-        {
-            get
-            {
-                return Mathf.Min(_buyAmount, ServerData.MaxLevel - State.Level);
-            }
-        }
+        int BuyAmount { get {  return Mathf.Min(_buyAmount, ServerData.MaxLevel - State.Level); } }
 
         void Awake()
         {
@@ -70,15 +61,14 @@ namespace GreedyMercs
 
             stackedButton.SetText("MAX", "-");
 
-            if (State.Level < ServerData.MaxLevel)
+            if (!State.IsMaxLevel())
             {
                 string cost = Utils.Format.FormatNumber(State.CostToUpgrade(BuyAmount));
 
                 stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }
 
-
-            buyButton.interactable = State.Level < ServerData.MaxLevel && inv.PrestigePoints >= State.CostToUpgrade(BuyAmount);
+            buyButton.interactable = !State.IsMaxLevel() && inv.PrestigePoints >= State.CostToUpgrade(BuyAmount);
         }
 
         void UpdateEffectText()

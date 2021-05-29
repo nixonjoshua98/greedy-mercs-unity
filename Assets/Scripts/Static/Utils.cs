@@ -5,36 +5,28 @@ using System.Numerics;
 using System.Collections;
 using System.IO.Compression;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
-using UnityEngine.Events;
 
 using SimpleJSON;
 
 using Vector3 = UnityEngine.Vector3;
 
-using SysFile = System.IO.File;
-
 public static class Funcs
 {
-    public static DateTime ToDateTime(long timestamp)
+    // = = = Time = = = //
+    public static DateTime ToDateTime(long timestamp) => DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
+    public static TimeSpan TimeUntil(DateTime date) => date - DateTime.UtcNow;
+
+    // = = = Server = = = //
+    public static string EncryptServerJSON(JSONNode node)
     {
-        return DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
+        return Convert.ToBase64String(GreedyMercs.Utils.GZip.Zip(node.ToString()));
     }
 
-    public static TimeSpan TimeUntil(DateTime date)
+    public static JSONNode DecryptServerJSON(string data)
     {
-        return date - DateTime.UtcNow;
-    }
-
-    public static JSONNode GetDeviceInfo()
-    {
-        JSONObject node = new JSONObject();
-
-        node.Add("deviceId", SystemInfo.deviceUniqueIdentifier);
-
-        return node;
+        return JSON.Parse(GreedyMercs.Utils.GZip.Unzip(Convert.FromBase64String(data)));
     }
 
     public static class Format
@@ -51,7 +43,6 @@ public static class Funcs
             return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
         }
     }
-
 
     public static class UI
     {
@@ -111,11 +102,6 @@ public static class Extensions
         return BigInteger.Parse(val.Ceiling().ToString("F0"));
     }
 
-    public static long ToUnixMilliseconds(this DateTime dt)
-    {
-        return (new DateTimeOffset(dt)).ToUnixTimeMilliseconds();
-    }
-
     public static DateTime ToUnixDatetime(this long val)
     {
         return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
@@ -124,8 +110,6 @@ public static class Extensions
 
 namespace GreedyMercs.Utils
 {
-    using GreedyMercs.UI.Messages;
-
     public class Generic
     {
         public static string BonusToString(BonusType skill)
@@ -215,12 +199,7 @@ namespace GreedyMercs.Utils
 
         public static JSONNode Decompress(string data)
         {
-            return JSON.Parse(File.Decompress(data));
-        }
-
-        public static string Compress(JSONNode node)
-        {
-            return File.Compress(node.ToString());
+            return Funcs.DecryptServerJSON(data);
         }
 
         public static JSONNode GetDeviceInfo()
@@ -272,16 +251,8 @@ namespace GreedyMercs.Utils
 
             msg.Init(title, desc);
         }
-
-        public static void ShowYesNoPrompt(string title, UnityAction callback)
-        {
-            GameObject o = Resources.Load<GameObject>("YesNoPrompt");
-
-            YesNoPrompt prompt = Instantiate(o, Vector3.zero).GetComponent<YesNoPrompt>();
-
-            prompt.Init(title, "", callback);
-        }
     }
+
     public class GZip
     {
         // Given by William at Tier 9 Studios (Auto Battles Online)
@@ -328,92 +299,6 @@ namespace GreedyMercs.Utils
             }
 
             return unzippedStr;
-        }
-    }
-
-    public class File
-    {
-        static string GetPath(string filename) { return Application.persistentDataPath + "/" + filename; }
-
-        public static string Compress(string data) =>  Convert.ToBase64String(GZip.Zip(data));
-        public static string Decompress(string data) => GZip.Unzip(Convert.FromBase64String(data));
-
-        public static void SecureWrite(string filename, string obj)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-
-            using (FileStream file = SysFile.Open(GetPath(filename), FileMode.OpenOrCreate))
-            {
-                bf.Serialize(file, Compress(obj));
-            }
-        }
-
-        public static bool SecureRead(string filename, out string result)
-        {
-            result = default;
-
-            string path = GetPath(filename);
-
-            if (SysFile.Exists(path))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-
-                using (FileStream file = SysFile.Open(GetPath(filename), FileMode.Open))
-                {
-                    result = Decompress((string)bf.Deserialize(file));
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool Read(string filename, out string content)
-        {
-            string path = GetPath(filename);
-
-            content = "";
-
-            if (SysFile.Exists(path))
-            {
-                using (StreamReader file = new StreamReader(GetPath(filename)))
-                {
-                    content = file.ReadToEnd();
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static void Write(string filename, string content)
-        {
-            using (StreamWriter file = new StreamWriter(GetPath(filename)))
-            {
-                file.Write(content);
-            }
-        }
-
-
-        public static void WriteJson(string filename, JSONNode node)
-        {
-            Write(filename, node.ToString());
-        }
-
-        public static bool ReadJson(string filename, out JSONNode node)
-        {
-            node = null;
-
-            if (Read(filename, out string content))
-            {
-                node = JSON.Parse(content);
-
-                return true;
-            }
-
-            return false;
         }
     }
 
@@ -479,14 +364,6 @@ namespace GreedyMercs.Utils
                 return m.ToString("F") + unitsTable[n];
             
             return val.ToString("e2").Replace("+", "");
-        }
-
-        public static string FormatSeconds(int seconds)
-        {
-            int hours = seconds / 3_600; seconds -= (3_600 * hours);
-            int mins = seconds / 60; seconds -= (60 * mins);
-
-            return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
         }
     }
 }

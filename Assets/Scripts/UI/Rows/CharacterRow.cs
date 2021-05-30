@@ -11,7 +11,7 @@ namespace GM.UI
     using GreedyMercs;
     using GreedyMercs.UI;
 
-    public class CharacterRow : MonoBehaviour
+    public class CharacterRow : ExtendedMonoBehaviour
     {
         [SerializeField] StackedButton upgradeButton;
 
@@ -62,7 +62,7 @@ namespace GM.UI
             _updatingUi = true;
         }
         
-        void FixedUpdate()
+        protected override void PeriodicUpdate()
         {
             if (!_updatingUi)
                 return;

@@ -77,19 +77,6 @@ namespace GM.BountyShop
         public List<BsItemData> NormalItems { get { return normalItems.Values.ToList(); } }
         public List<BsArmouryItemData> ArmouryItems { get { return armouryItems.Values.ToList(); } }
 
-        public List<AbstractBountyShopData> All
-        { 
-            get
-            {
-                List<AbstractBountyShopData> ls = new List<AbstractBountyShopData>();
-
-                foreach (AbstractBountyShopData ele in normalItems.Values.ToList()) { ls.Add(ele); }
-                foreach (AbstractBountyShopData ele in armouryItems.Values.ToList()) { ls.Add(ele); }
-
-                return ls;
-            } 
-        }
-
         public AbstractBountyShopData Get(int id)
         {
             if (normalItems.ContainsKey(id))

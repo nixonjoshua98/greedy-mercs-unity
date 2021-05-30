@@ -398,7 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f69ee3a17d74de438354747cc05251c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelicList: {fileID: 11400000, guid: 451cc5e88d92a4d4c8ae77b3f0e37181, type: 2}
   SkillList: {fileID: 11400000, guid: a358a2c4699477142a6572e08d3113a4, type: 2}
   CharacterList: {fileID: 11400000, guid: 5193cbc189730d24086b48017c922fc1, type: 2}
 --- !u!4 &993344753

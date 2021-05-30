@@ -34,40 +34,36 @@ namespace GreedyMercs
 
         void ServerLoginCallback(long code, string body)
         {
-            JSONNode node;
-
             if (code == 200)
-                node = Utils.Json.Decompress(body);
+            {
+                JSONNode node = Funcs.DecryptServerJSON(body);
+
+                InstantiatePlayerData(node);
+
+                SceneManager.LoadScene("GameScene");
+            }
 
             else
             {
                 Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required to play.");
-
-                return;
             }
-
-            InstantiatePlayerData(node);
-
-            SceneManager.LoadScene("GameScene");
         }
 
         void ServerGameDataCallback(long code, string compressedJson)
         {
-            JSONNode node;
-
             if (code == 200)
-                node = Utils.Json.Decompress(compressedJson);
+            {
+                JSONNode node = Funcs.DecryptServerJSON(compressedJson);
+
+                InstantiateServerData(node);
+
+                Server.Login(ServerLoginCallback, Utils.Json.GetDeviceInfo());
+            }
 
             else
             {
                 Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
-
-                return;
             }
-
-            InstantiateServerData(node);
-
-            Server.Login(ServerLoginCallback, Utils.Json.GetDeviceInfo());
         }
 
         void InstantiatePlayerData(JSONNode node)

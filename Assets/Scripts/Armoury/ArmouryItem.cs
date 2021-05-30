@@ -7,7 +7,7 @@ namespace GreedyMercs.Armoury.UI
 {
     using GM.Armoury;
 
-    using GreedyMercs.UI;
+    using GM.UI;
 
     public class ArmouryItem : MonoBehaviour
     {

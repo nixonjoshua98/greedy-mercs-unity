@@ -19,7 +19,7 @@ namespace GM.BountyShop
         protected int _itemId;
         protected bool _isUpdatingUi = false;
 
-        protected AbstractBountyShopData ServerItemData { get { return BountyShopManager.Instance.ServerData.Get(_itemId); } }
+        protected AbstractBountyShopData ShopItemData { get { return BountyShopManager.Instance.ServerData.Get(_itemId); } }
 
         public virtual void SetID(int itemId)
         {
@@ -31,7 +31,7 @@ namespace GM.BountyShop
 
         protected virtual void OnItemAssigned()
         {
-            iconImage.sprite = ServerItemData.Icon;
+            iconImage.sprite = ShopItemData.Icon;
         }
     }
 }

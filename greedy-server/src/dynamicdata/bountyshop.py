@@ -13,8 +13,8 @@ def get_bounty_shop(uid) -> "BountyShopItems":
 
 
 class ItemType(EnumBase):
-	BLUE_GEMS = 100
-	ARMOURY_POINTS = 200
+	BLUE_GEMS 		= 100
+	ARMOURY_POINTS 	= 200
 	PRESTIGE_POINTS = 300
 
 
@@ -82,22 +82,7 @@ class BsArmouryItem(BsShopItemBase):
 
 
 def _generate_normal_items(uid) -> dict:
-	def create_item(key_, type_, cost, limit, quantity, icon):
-		return BountyShopItem(
-			key_,
-			{
-				"itemType": type_, "purchaseCost": cost, "dailyPurchaseLimit": limit,
-				"quantityPerPurchase": quantity, "iconString": icon
-			}
-		)
-
-	items = {k: BountyShopItem(k, v) for k, v in resources.get("bountyshopitems")["items"].items()}
-
-	last_key = max(list(items.keys()))
-
-	items[last_key + 1] = create_item(last_key + 1, ItemType.PRESTIGE_POINTS, 450, 1_000, 1_000_000_000, "Icons/rune")
-
-	return items
+	return {k: BountyShopItem(k, v) for k, v in resources.get("bountyshopitems")["items"].items()}
 
 
 def _generate_armoury_items(uid) -> dict:
@@ -116,7 +101,7 @@ def _generate_armoury_items(uid) -> dict:
 
 		entry = {
 			"armouryItemId": key,
-			"purchaseCost": 100 + (item_data["itemTier"] * 75),
+			"purchaseCost": 100 + (item_data["itemTier"] * 125),
 			"dailyPurchaseLimit": max(1, 3 - (item_data["itemTier"] - 1)),
 			"quantityPerPurchase": 1
 		}

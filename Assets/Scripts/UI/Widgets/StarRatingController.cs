@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs.UI
+namespace GM.UI
 {
     public class StarRatingController : MonoBehaviour
     {

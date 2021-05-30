@@ -14,8 +14,8 @@ namespace GM.BountyShop
         {
             base.OnItemAssigned();
 
-            purchaseQuantityText.text   = string.Format("x{0}", ServerItemData.QuantityPerPurchase);
-            purchaseCostText.text       = ServerItemData.PurchaseCost.ToString();
+            purchaseQuantityText.text   = string.Format("x{0}", ShopItemData.QuantityPerPurchase);
+            purchaseCostText.text       = ShopItemData.PurchaseCost.ToString();
         }
 
         void FixedUpdate()
@@ -23,14 +23,14 @@ namespace GM.BountyShop
             if (!_isUpdatingUi)
                 return;
 
-            outStockObject.SetActive(!BountyShopManager.Instance.InStock(ServerItemData.ID));
+            outStockObject.SetActive(!BountyShopManager.Instance.InStock(ShopItemData.ID));
         }
 
 
         // = = = Button Callbacks ===
         public void OnPurchaseButton()
         {
-            BountyShopManager.Instance.PurchaseItem(ServerItemData.ID, (_) => { });
+            BountyShopManager.Instance.PurchaseItem(ShopItemData.ID, (_) => { });
         }
     }
 }

@@ -2,7 +2,7 @@ import math
 
 from src.common.enums import BonusType
 
-from src.classes.gamedata import GameData
+from src.common import resources
 
 
 # === Loot Formulas === #
@@ -25,13 +25,15 @@ def stage_prestige_points(stage, userloot):
 	return math.ceil(math.pow(math.ceil((max(stage, 75) - 75) / 10.0), 2.2) * prestige_bonus(userloot))
 
 
-def prestige_bonus(loot):
+def prestige_bonus(artefacts):
 	bonus = 1
 
-	staticdata = GameData.get("loot")
+	artefacts_data = resources.get("artefacts")
 
-	for key, level in loot.items():
-		item = staticdata[key]
+	for key, data in artefacts.items():
+		item = artefacts_data[key]
+
+		level = data["level"]
 
 		if item["bonusType"] == BonusType.CASH_OUT_BONUS:
 			bonus *= loot_effect(item, level)

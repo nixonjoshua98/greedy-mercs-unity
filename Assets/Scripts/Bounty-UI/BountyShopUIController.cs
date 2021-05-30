@@ -42,7 +42,7 @@ namespace GM.BountyShop
         void InstantiateItemSlots()
         {
             DestroyAllSlots();
-
+            
             foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.NormalItems)
                 items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
 

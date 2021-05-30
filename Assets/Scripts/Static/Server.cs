@@ -48,9 +48,7 @@ public static class Server
     {
         IEnumerator _Put()
         {
-            string body = EncryptAndPrepareJSON(node, purpose);
-
-            UnityWebRequest www = UnityWebRequest.Put(GetUrl(endpoint) + string.Format("?purpose={0}", purpose), body);
+            UnityWebRequest www = UnityWebRequest.Put(GetUrl(endpoint) + string.Format("?purpose={0}", purpose), EncryptAndPrepareJSON(node, purpose));
 
             yield return SendRequest(www, callback);
         }

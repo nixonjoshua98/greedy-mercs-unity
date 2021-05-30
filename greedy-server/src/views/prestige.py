@@ -4,11 +4,9 @@ import datetime as dt
 from pymongo import InsertOne
 
 
-from flask import request
-
 from flask.views import View
 
-from src import utils, dbutils
+from src import dbutils
 from src.common import mongo, resources, checks, formulas
 
 from src.classes import ServerResponse
@@ -17,19 +15,19 @@ from src.classes import ServerResponse
 class Prestige(View):
 
 	@checks.login_check
-	def dispatch_request(self, *, uid):
-
-		data = utils.decompress(request.data)
+	def dispatch_request(self, *, uid, data):
 
 		stage = data["prestigeStage"]
 
 		# - Load data from the database
 		items = mongo.db.inventories.find_one({"userId": uid}) or dict()
 
+		user_artefacts = dbutils.artefacts.get(uid)
+
 		self.process_new_bounties(uid, stage)
 
 		# - Add prestige points earned
-		pp = int(items.get("prestigePoints", 0)) + formulas.stage_prestige_points(stage, items.get("loot", dict()))
+		pp = int(items.get("prestigePoints", 0)) + formulas.stage_prestige_points(stage, user_artefacts)
 
 		dbutils.inventory.update_items(uid, inc={"prestigePoints": 1_000})
 

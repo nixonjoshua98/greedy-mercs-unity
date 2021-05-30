@@ -1,30 +1,6 @@
-import os
 import json
 import gzip
 import base64
-
-import datetime as dt
-
-
-def compress(data: dict) -> str:
-	"""
-	:param data: The dictionary we want to compress, ready to send back to the client
-
-	:return:
-		Returns a compressed gzip + encoded with base64 string
-	"""
-
-	def default(o):
-		if isinstance(o, (dt.date, dt.datetime)):
-			return int(o.timestamp() * 1000)
-
-		return str(o)
-
-	data_bytes = json.dumps(data, default=default).encode("utf-8")
-
-	compressed = gzip.compress(data_bytes)
-
-	return base64.b64encode(compressed)
 
 
 def decompress(data) -> dict:

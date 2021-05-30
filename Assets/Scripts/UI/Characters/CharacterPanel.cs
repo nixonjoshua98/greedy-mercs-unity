@@ -11,10 +11,5 @@ namespace GreedyMercs
         {
             skillsPanel.SetHero(chara);
         }
-
-        public void OnClose()
-        {
-            Destroy(gameObject);
-        }
     }
 }

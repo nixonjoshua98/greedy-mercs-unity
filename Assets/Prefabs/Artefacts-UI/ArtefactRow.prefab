@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4561ec9fd9c65724ca3fbf4917c1523e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8113084ee8e346649b67bfa249e77677, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -188,7 +188,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -32, y: -32}
+  m_SizeDelta: {x: -26, y: -26.000004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3880152926866330883
 CanvasRenderer:
@@ -359,6 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a046d08f112afa4a83548008b61e0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.1
   icon: {fileID: 5622928692124337748}
   buyButton: {fileID: 1556556388984161936}
   nameText: {fileID: 8993995686601496495}

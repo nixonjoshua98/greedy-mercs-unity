@@ -18,6 +18,7 @@ namespace GM.Artefacts
 
         public int Level;
 
+        // Quick dirty reference to the server 'static' data for the artefact
         ArtefactData _svrData { get { return StaticData.Artefacts.Get(ID); } }
 
         public ArtefactState(int id)
@@ -26,7 +27,18 @@ namespace GM.Artefacts
         }
 
         public bool IsMaxLevel() { return Level >= _svrData.MaxLevel; }
-        public BigInteger CostToUpgrade(int levels) { return Formulas.ArtefactLevelUpCost(Level, levels, _svrData.costExpo, _svrData.costCoeff); }
+
+        // Formula shortcut
+        public BigInteger CostToUpgrade(int levels)
+        {
+            return Formulas.ArtefactLevelUpCost(Level, levels, _svrData.costExpo, _svrData.costCoeff);
+        }
+
+        // Formula shortcut
+        public double Effect()
+        {
+            return Formulas.ArtefactEffect(Level, _svrData.baseEffect, _svrData.levelEffect);
+        }
     }
 
 
@@ -48,8 +60,8 @@ namespace GM.Artefacts
             SetArtefactStates(node);
         }
 
-        // = = = Get = = =
-        public List<ArtefactState> StatesList { get { return states.Values.ToList(); } }
+        // = = = Get = = = //
+        public List<ArtefactState> StatesList { get { return states.Values.OrderBy(ele => ele.ID).ToList(); } }
         public int Count { get { return states.Count; } }
 
         public ArtefactState Get(int loot)
@@ -101,7 +113,7 @@ namespace GM.Artefacts
 
         // = = =
 
-        public Dictionary<BonusType, double> CalculateTotalBonuses()
+        public Dictionary<BonusType, double> CalculateBonuses()
         {
             Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 
@@ -109,18 +121,16 @@ namespace GM.Artefacts
             {
                 ArtefactData data = StaticData.Artefacts.Get(state.ID);
 
+                double effect = state.Effect();
+
                 switch (data.valueType)
                 {
                     case ValueType.MULTIPLY:
-                        bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * Formulas.CalcLootItemEffect(state.ID);
+                        bonuses[data.bonusType] = bonuses.Get(data.bonusType, 1) * effect;
                         break;
 
-                    case ValueType.ADDITIVE_FLAT_VAL:
-                        bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 0) + Formulas.CalcLootItemEffect(state.ID);
-                        break;
-
-                    case ValueType.ADDITIVE_PERCENT:
-                        bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 0) + Formulas.CalcLootItemEffect(state.ID);
+                    default:
+                        bonuses[data.bonusType] = bonuses.Get(data.bonusType, 0) + effect;
                         break;
                 }
             }

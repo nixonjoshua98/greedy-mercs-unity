@@ -14,15 +14,27 @@ using Vector3 = UnityEngine.Vector3;
 
 public static class Funcs
 {
+    public static class Bonus
+    {
+        public static string BonusString(ValueType valueType, double val)
+        {
+            switch (valueType)
+            {
+                case ValueType.ADDITIVE:
+                    return string.Format("{0}", GreedyMercs.Utils.Format.FormatNumber(val));
+
+                case ValueType.PERCENTAGE:
+                    return string.Format("{0}%", GreedyMercs.Utils.Format.FormatNumber(val * 100));
+
+                default:
+                    return string.Format("{0}%", GreedyMercs.Utils.Format.FormatNumber(val * 100));
+            }
+        }
+    }
+
     // = = = Time = = = //
     public static DateTime ToDateTime(long timestamp) => DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
     public static TimeSpan TimeUntil(DateTime date) => date - DateTime.UtcNow;
-
-    // = = = Server = = = //
-    public static string EncryptServerJSON(JSONNode node)
-    {
-        return Convert.ToBase64String(GreedyMercs.Utils.GZip.Zip(node.ToString()));
-    }
 
     public static JSONNode DecryptServerJSON(string data)
     {
@@ -73,24 +85,34 @@ public static class Funcs
 
 }
 
-namespace GM
+public static class DictionaryExtensions
 {
-    public static class DictionaryExtensions
+    public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
     {
-        public static TValue GetOrVal<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
-        {
-            return dict.TryGetValue(key, out var value) ? value : fallback;
-        }
+        return dict.TryGetValue(key, out var value) ? value : fallback;
+    }
+}
+
+public static class StringExtensions
+{
+    public static string ToTitle(this string str)
+    {
+        return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
+    }
+}
+
+public static class EnumExtensions
+{
+    public static string ToTitle(this BonusType bonusType)
+    {
+        return bonusType.ToString().Replace("_", " ").ToTitle();
     }
 }
 
 
+
 public static class Extensions
 {    
-    public static TValue GetOrVal<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
-    {
-        return dict.TryGetValue(key, out var value) ? value : fallback;
-    }
 
     public static BigDouble ToBigDouble(this BigInteger val)
     {

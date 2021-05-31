@@ -10,6 +10,17 @@ namespace GreedyMercs
     
     public static class Formulas
     {
+        // = = = Artefacts = = = /
+        public static BigInteger ArtefactLevelUpCost(int currentLevel, int levels, float expo, float coeff)
+        {
+            return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
+        }
+
+        public static double ArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
+        {
+            return baseEffect + (levelEffect * (currentLevel - 1));
+        }
+
         public static class StageEnemy
         {
             public static float SpawnDelay
@@ -82,7 +93,7 @@ namespace GreedyMercs
 
         // ===
 
-        public static BigDouble CalcCharacterDamage(CharacterID chara)
+        public static BigDouble CharacterBaseDamage(CharacterID chara)
         {
             var state           = GameState.Characters.Get(chara);
             CharacterSO data    = StaticData.CharacterList.Get(chara);
@@ -156,34 +167,18 @@ namespace GreedyMercs
             return BigInteger.Parse((Mathf.Max(1, numRelics - 2) * BigDouble.Pow(1.35, numRelics).Floor()).ToString("F0"));
         }
 
-        // ===
-
-        public static double CalcLootItemEffect(int relic)
-        {
-            var data = StaticData.Artefacts.Get(relic);
-
-            ArtefactState state = ArtefactManager.Instance.Get(relic);
-
-            return data.baseEffect + (data.levelEffect * (state.Level - 1));
-        }
-
-        public static BigInteger ArtefactLevelUpCost(int current, int levels, float expo, float coeff)
-        {
-            return (coeff * SumNonIntegerPowerSeq(current, levels, expo)).ToBigInteger();
-        }
-
         // === General ===
 
-        public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float s)
+        public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float exponent)
         {
             // https://math.stackexchange.com/questions/82588/is-there-a-formula-for-sums-of-consecutive-powers-where-the-powers-are-non-inte
 
 
             BigDouble Predicate(int startValue)
             {
-                BigDouble x = Mathf.Pow(startValue, s + 1) / (s + 1);
-                BigDouble y = Mathf.Pow(startValue, s) / 2;
-                BigDouble z = Mathf.Sqrt(Mathf.Pow(startValue, s - 1));
+                BigDouble x = Mathf.Pow(startValue, exponent + 1) / (exponent + 1);
+                BigDouble y = Mathf.Pow(startValue, exponent) / 2;
+                BigDouble z = Mathf.Sqrt(Mathf.Pow(startValue, exponent - 1));
 
                 return x + y + z;
             }

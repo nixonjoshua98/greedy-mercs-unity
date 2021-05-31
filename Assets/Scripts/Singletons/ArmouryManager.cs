@@ -100,6 +100,15 @@ namespace GM.Armoury
 
 
         // = = = GET = = =
+        public Dictionary<BonusType, double> CalculateBonuses()
+        {
+            Dictionary<BonusType, double> dict = new Dictionary<BonusType, double>();
+
+            dict[BonusType.MERC_DAMAGE] = DamageBonus();
+
+            return dict;
+        }
+
         public List<ArmouryItemState> GetOwned()
         {
             List<ArmouryItemState> ls = new List<ArmouryItemState>();

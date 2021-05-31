@@ -32,9 +32,9 @@ namespace GreedyMercs
 
             CharacterList.Init(node["characters"], node["characterPassives"]);
 
-            Bounty      = new ServerBountyData(node["bounties"]);
-            Armoury     = new ServerArmouryData(node["armouryItems"]);
-            Artefacts   = new ServerArtefactData(node["artefactsData"]);
+            Bounty          = new ServerBountyData(node["bounties"]);
+            Armoury         = new ServerArmouryData(node["armouryItems"]);
+            Artefacts       = new ServerArtefactData(node["artefacts"]);
 
             NextDailyReset = Funcs.ToDateTime(node["nextDailyReset"]);
         }

@@ -94,6 +94,11 @@ public static class Server
         node["purpose"]     = purpose;
         node["deviceId"]    = SystemInfo.deviceUniqueIdentifier;
 
-        return Funcs.EncryptServerJSON(node);
+        return EncryptServerJSON(node);
+    }
+
+    static string EncryptServerJSON(JSONNode node)
+    {
+        return Convert.ToBase64String(Utils.GZip.Zip(node.ToString()));
     }
 }

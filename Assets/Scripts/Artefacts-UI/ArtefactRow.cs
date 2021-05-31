@@ -7,12 +7,11 @@ namespace GM.Artefacts
     using GM.UI;
     using GM.Inventory;
 
-    using GreedyMercs;
     using Utils = GreedyMercs.Utils;
 
     public class ArtefactRow : ExtendedMonoBehaviour
     {
-        int artefactId;
+        int _artefactId;
 
         [Header("Components")]
         [SerializeField] Image icon;
@@ -28,10 +27,10 @@ namespace GM.Artefacts
         int _buyAmount;
         bool _updatingUi;
 
-        ArtefactData ServerData { get { return GreedyMercs.StaticData.Artefacts.Get(artefactId); } }
-        ArtefactState State { get { return ArtefactManager.Instance.Get(artefactId); } }
+        ArtefactData ServerData { get { return GreedyMercs.StaticData.Artefacts.Get(_artefactId); } }
+        ArtefactState ArtState { get { return ArtefactManager.Instance.Get(_artefactId); } }
 
-        int BuyAmount { get {  return Mathf.Min(_buyAmount, ServerData.MaxLevel - State.Level); } }
+        int BuyAmount { get {  return Mathf.Min(_buyAmount, ServerData.MaxLevel - ArtState.Level); } }
 
         void Awake()
         {
@@ -42,7 +41,7 @@ namespace GM.Artefacts
 
         public void Init(int id)
         {
-            artefactId = id;
+            _artefactId = id;
 
             nameText.text = ServerData.Name;
             icon.sprite = ServerData.Icon;
@@ -59,44 +58,30 @@ namespace GM.Artefacts
 
             UpdateEffectText();
 
-            nameText.text = string.Format("(Lvl. {0}) {1}", State.Level, ServerData.Name);
+            nameText.text = string.Format("(Lvl. {0}) {1}", ArtState.Level, ServerData.Name);
 
             stackedButton.SetText("MAX", "-");
 
-            if (!State.IsMaxLevel())
+            if (!ArtState.IsMaxLevel())
             {
-                string cost = Utils.Format.FormatNumber(State.CostToUpgrade(BuyAmount));
+                string cost = Utils.Format.FormatNumber(ArtState.CostToUpgrade(BuyAmount));
 
                 stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }
 
-            buyButton.interactable = !State.IsMaxLevel() && inv.PrestigePoints >= State.CostToUpgrade(BuyAmount);
+            buyButton.interactable = !ArtState.IsMaxLevel() && inv.PrestigePoints >= ArtState.CostToUpgrade(BuyAmount);
         }
 
         void UpdateEffectText()
         {
-            double effect = Formulas.CalcLootItemEffect(artefactId);
+            double effect = ArtState.Effect();
 
-            switch (ServerData.valueType)
-            {
-                case ValueType.MULTIPLY:
-                    effectText.text = Utils.Format.FormatNumber(effect * 100) + "%";
-                    break;
-
-                case ValueType.ADDITIVE_PERCENT:
-                    effectText.text = "+ " + Utils.Format.FormatNumber(effect * 100) + "%";
-                    break;
-
-                case ValueType.ADDITIVE_FLAT_VAL:
-                    effectText.text = "+ " + Utils.Format.FormatNumber(effect);
-                    break;
-            }
+            effectText.text = Funcs.Bonus.BonusString(ServerData.valueType, effect);
 
             effectText.text += " " + Utils.Generic.BonusToString(ServerData.bonusType);
         }
 
-        // = = = Button Callbacks = = =
-
+        // = = = Button Callbacks = = = //
         public void OnUpgradeArtefactBtn()
         {
             void ServerCallback(bool purchased)
@@ -104,7 +89,7 @@ namespace GM.Artefacts
 
             }
 
-            ArtefactManager.Instance.UpgradeArtefact(artefactId, BuyAmount, ServerCallback);
+            ArtefactManager.Instance.UpgradeArtefact(_artefactId, BuyAmount, ServerCallback);
         }
     }
 }

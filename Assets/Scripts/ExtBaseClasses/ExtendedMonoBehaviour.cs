@@ -31,6 +31,9 @@ namespace GM
             PeriodicUpdate();
         }
 
-        protected abstract void PeriodicUpdate();
+        protected virtual void PeriodicUpdate()
+        {
+
+        }
     }
 }

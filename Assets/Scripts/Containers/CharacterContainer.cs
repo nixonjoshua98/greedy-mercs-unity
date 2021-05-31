@@ -27,11 +27,6 @@ namespace GreedyMercs
             characters = new Dictionary<CharacterID, UpgradeState>();
         }
 
-        public JSONNode ToJson()
-        {
-            return Utils.Json.CreateJSONArray("characterId", characters);
-        }
-
         // === Helper Methods ===
 
         public UpgradeState Get(CharacterID chara) => characters[chara];
@@ -54,7 +49,7 @@ namespace GreedyMercs
             characters[charaId] = new UpgradeState { level = 1 };
         }
 
-        public Dictionary<BonusType, double> CalcBonuses()
+        public Dictionary<BonusType, double> CalculateBonuses()
         {
             Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 
@@ -70,11 +65,11 @@ namespace GreedyMercs
                         {
                             if (passive.value < 1)
                             {
-                                bonuses[passive.bonusType] = bonuses.GetOrVal(passive.bonusType, 0) + passive.value;
+                                bonuses[passive.bonusType] = bonuses.Get(passive.bonusType, 0) + passive.value;
                             }
 
                             else
-                                bonuses[passive.bonusType] = bonuses.GetOrVal(passive.bonusType, 1) * passive.value;
+                                bonuses[passive.bonusType] = bonuses.Get(passive.bonusType, 1) * passive.value;
                         }
                     }
                 }
@@ -99,7 +94,7 @@ namespace GreedyMercs
                         {
                             if (passive.bonusType == BonusType.CHAR_TAP_DAMAGE_ADD)
                             {
-                                val += passive.value * StatsCache.GetCharacterDamage(hero);
+                                val += passive.value * StatsCache.CharacterDamage(hero);
                             }
                         }
                     }

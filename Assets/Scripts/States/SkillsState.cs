@@ -77,7 +77,7 @@ namespace GreedyMercs
             return node;
         }
 
-        public Dictionary<BonusType, double> CalcBonuses()
+        public Dictionary<BonusType, double> CalculateBonuses()
         {
             Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
 
@@ -87,7 +87,7 @@ namespace GreedyMercs
                 {
                     SkillSO data = StaticData.SkillList.Get(entry.Key);
 
-                    bonuses[data.bonusType] = bonuses.GetOrVal(data.bonusType, 1) * entry.Value.LevelData.BonusValue;
+                    bonuses[data.bonusType] = bonuses.Get(data.bonusType, 1) * entry.Value.LevelData.BonusValue;
                 }
             }
 

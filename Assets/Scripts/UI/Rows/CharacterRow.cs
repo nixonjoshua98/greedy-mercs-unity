@@ -67,7 +67,7 @@ namespace GM.UI
             if (!_updatingUi)
                 return;
 
-            DamageText.text = Utils.Format.FormatNumber(StatsCache.GetCharacterDamage(assignedCharacter.CharacterID)) + " DPS";
+            DamageText.text = Utils.Format.FormatNumber(StatsCache.CharacterDamage(assignedCharacter.CharacterID)) + " DPS";
             nameText.text   = string.Format("(Lvl. {0}) {1}", State.level, assignedCharacter.name);
 
             upgradeButton.SetText("MAX", "-");

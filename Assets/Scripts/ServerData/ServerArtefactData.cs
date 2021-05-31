@@ -6,15 +6,6 @@ using SimpleJSON;
 
 namespace GM.Artefacts
 {
-    using BonusType = GreedyMercs.BonusType;
-
-    public enum ValueType
-    {
-        MULTIPLY = 0,
-        ADDITIVE_PERCENT = 1,
-        ADDITIVE_FLAT_VAL = 2
-    }
-
     public class ArtefactData
     {
         public int ID;
@@ -37,7 +28,7 @@ namespace GM.Artefacts
         {
             ID = id;
 
-            Name = node.GetValueOrDefault("artefactName", "Artefact Name");
+            Name = node.GetValueOrDefault("name", "Artefact Name");
 
             bonusType = (BonusType)node["bonusType"].AsInt;
             valueType = (ValueType)node["valueType"].AsInt;

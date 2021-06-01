@@ -1,8 +1,10 @@
-name: '3'
+name: Fallen
 
 attackType: 0
 
 unlockCost: '50000'
+
+prefabString: MercPrefabs/3_FallenAngel
 
 passives:
 - bonusType: 0

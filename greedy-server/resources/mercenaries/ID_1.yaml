@@ -1,8 +1,10 @@
-name: '1'
+name: Reaper Man
 
 attackType: 0
 
 unlockCost: '750'
+
+prefabString: MercPrefabs/1_ReaperMan
 
 passives:
 - bonusType: 1

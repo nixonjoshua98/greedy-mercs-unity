@@ -85,7 +85,7 @@ namespace GM.BountyShop
                     ServerData.UpdateAll(resp["serverData"]);
                        
                     // Updates the next daily reset time
-                    GreedyMercs.StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);
+                    StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);
 
                     // Updates the users purchases
                     SetDailyPurchases(resp["dailyPurchases"]);

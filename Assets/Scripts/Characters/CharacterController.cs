@@ -9,7 +9,7 @@ namespace GreedyMercs.Characters
 
     public abstract class CharacterController : MonoBehaviour
     {
-        [SerializeField] protected MercContainer character;
+        [SerializeField] protected CharacterID character;
 
         [Header("Character Scripts")]
         protected CharacterAttack attack;
@@ -37,7 +37,7 @@ namespace GreedyMercs.Characters
 
         protected virtual void OnAttackHit(float timeSinceAttack)
         {
-            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character.ID) * timeSinceAttack);
+            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character) * timeSinceAttack);
         }
 
         void GetInitialComponents()

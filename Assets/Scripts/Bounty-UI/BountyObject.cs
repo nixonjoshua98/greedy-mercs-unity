@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
-    using StaticData = GreedyMercs.StaticData;
-
     public class BountyObject : MonoBehaviour
     {
         [Header("Components")]

@@ -27,10 +27,13 @@ namespace GM.Characters
         [Header("Prefabs")]
         [SerializeField] GameObject CharacterPanelObject;
 
-        MercContainer assignedCharacter;
+        CharacterID _mercId;
 
         int _buyAmount;
         bool _updatingUi;
+
+        protected MercState State { get { return MercenaryManager.Instance.GetState(_mercId); } }
+        protected MercData Data { get { return StaticData.Mercs.GetMerc(_mercId); } }
 
         void Awake()
         {
@@ -44,22 +47,17 @@ namespace GM.Characters
             get
             {
                 if (_buyAmount == -1)
-                    return Formulas.AffordCharacterLevels(assignedCharacter.ID);
+                    return Formulas.AffordCharacterLevels(_mercId);
 
-                var state = GameState.Characters.Get(assignedCharacter.ID);
-
-                return Mathf.Min(_buyAmount, StaticData.MAX_CHAR_LEVEL - state.level);
+                return Mathf.Min(_buyAmount, StaticData.MAX_CHAR_LEVEL - State.Level);
             }
         }
 
-        protected UpgradeState State { get { return GameState.Characters.Get(assignedCharacter.ID); } }
-
-        public void SetCharacter(MercContainer chara)
+        public void SetCharacter(CharacterID chara)
         {
-            assignedCharacter = chara;
+            _mercId = chara;
 
-            nameText.text = chara.name;
-            Icon.sprite = chara.Icon;
+            nameText.text = Data.Name;
 
             _updatingUi = true;
         }
@@ -69,14 +67,14 @@ namespace GM.Characters
             if (!_updatingUi)
                 return;
 
-            DamageText.text = Utils.Format.FormatNumber(StatsCache.CharacterDamage(assignedCharacter.ID)) + " DPS";
-            nameText.text   = string.Format("(Lvl. {0}) {1}", State.level, assignedCharacter.name);
+            DamageText.text = Utils.Format.FormatNumber(StatsCache.CharacterDamage(_mercId)) + " DPS";
+            nameText.text   = string.Format("(Lvl. {0}) {1}", State.Level, Data.Name);
 
             upgradeButton.SetText("MAX", "-");
 
-            if (State.level < StaticData.MAX_CHAR_LEVEL)
+            if (State.Level < StaticData.MAX_CHAR_LEVEL)
             {
-                BigDouble cost = Formulas.CalcCharacterLevelUpCost(assignedCharacter.ID, TargetBuyAmount);
+                BigDouble cost = Formulas.CalcCharacterLevelUpCost(_mercId, TargetBuyAmount);
 
                 upgradeButton.SetText(string.Format("x{0}", TargetBuyAmount), Utils.Format.FormatNumber(cost));
             }
@@ -88,15 +86,15 @@ namespace GM.Characters
         {
             int levelsBuying = TargetBuyAmount;
 
-            BigDouble cost = Formulas.CalcCharacterLevelUpCost(assignedCharacter.ID, levelsBuying);
+            BigDouble cost = Formulas.CalcCharacterLevelUpCost(_mercId, levelsBuying);
 
-            if (State.level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
+            if (State.Level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
             {
-                State.level += levelsBuying;
+                MercenaryManager.Instance.AddLevels(_mercId, levelsBuying);
 
                 GameState.Player.gold -= cost;
 
-                Events.OnCharacterLevelUp.Invoke(assignedCharacter.ID);
+                Events.OnCharacterLevelUp.Invoke(_mercId);
             }
         }
 
@@ -104,7 +102,7 @@ namespace GM.Characters
         {
             GameObject panel = Utils.UI.Instantiate(CharacterPanelObject, Vector3.zero);
 
-            panel.GetComponent<CharacterPanel>().SetHero(assignedCharacter.ID);
+            panel.GetComponent<CharacterPanel>().SetHero(_mercId);
         }
     }
 }

@@ -1,8 +1,10 @@
-name: '4'
+name: Minotaur
 
 attackType: 0
 
 unlockCost: 2.5e6
+
+prefabString: MercPrefabs/4_Minotaur
 
 passives:
 - bonusType: 2

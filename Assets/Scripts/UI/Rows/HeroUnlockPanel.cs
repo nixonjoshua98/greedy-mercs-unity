@@ -16,7 +16,9 @@ namespace GreedyMercs
 
         void UpdatePanel()
         {
-            if (StaticData.CharacterList.GetNextHero(out CharacterID chara))
+            CostText.text = "-";
+
+            if (MercenaryManager.Instance.GetNextHero(out CharacterID chara))
             {
                 MercData mercData = StaticData.Mercs.GetMerc(chara);
 
@@ -28,7 +30,7 @@ namespace GreedyMercs
 
         public void OnUnlockButton()
         {
-            if (StaticData.CharacterList.GetNextHero(out CharacterID chara))
+            if (MercenaryManager.Instance.GetNextHero(out CharacterID chara))
             {
                 MercData mercData = StaticData.Mercs.GetMerc(chara);
 
@@ -36,7 +38,7 @@ namespace GreedyMercs
                 {
                     GameState.Player.gold -= mercData.UnlockCost;
 
-                    GameState.Characters.Add(chara);
+                    MercenaryManager.Instance.SetState(chara);
 
                     Events.OnCharacterUnlocked.Invoke(chara);
                 }

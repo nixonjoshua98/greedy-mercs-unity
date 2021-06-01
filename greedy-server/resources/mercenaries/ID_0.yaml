@@ -1,8 +1,10 @@
-name: '0'
+name: Stone Golem
 
 attackType: 0
 
 unlockCost: '50'
+
+prefabString: MercPrefabs/0_StoneGolem
 
 passives:
 - bonusType: 4

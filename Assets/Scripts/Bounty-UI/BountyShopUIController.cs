@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
-    using StaticData = GreedyMercs.StaticData;
-
     public class BountyShopUIController : MonoBehaviour
     {
         [Header("Prefabs - UI")]

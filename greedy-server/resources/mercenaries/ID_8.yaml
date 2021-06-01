@@ -1,9 +1,11 @@
-name: '8'
+name: Demon Knight
 
 attackType: 0
 
 baseDamage: 1e16
 unlockCost: 1e18
+
+prefabString: MercPrefabs/8_DemonKnight
 
 passives:
 - bonusType: 7

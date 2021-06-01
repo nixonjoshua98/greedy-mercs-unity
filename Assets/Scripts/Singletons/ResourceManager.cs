@@ -30,9 +30,10 @@ namespace GM
             CachedPrefabs = new Dictionary<string, GameObject>();
         }
 
-
         public static Sprite LoadSprite(string path, string name) { return Instance._LoadSprite(CreatePath(path, name)); }
         public static Sprite LoadSprite(string path) { return Instance._LoadSprite(path); }
+
+        public static GameObject LoadPrefab(string path) { return Instance._LoadPrefab(path); }
         public static GameObject LoadPrefab(string path, string name) { return Instance._LoadPrefab(CreatePath(path, name)); }
         
 

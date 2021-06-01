@@ -22,15 +22,14 @@ namespace GreedyMercs
 
         IEnumerator Create(CharacterID chara)
         {
-            MercData data = StaticData.Mercs.GetMerc(chara);
-
-            UpgradeState heroState = GameState.Characters.Get(chara);
+            MercData data   = StaticData.Mercs.GetMerc(chara);
+            MercState state = MercenaryManager.Instance.GetState(chara);
 
             foreach (MercPassiveData passive in data.Passives)
             {
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 
-                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(heroState, passive);
+                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(state, passive);
 
                 yield return new WaitForFixedUpdate();
             }

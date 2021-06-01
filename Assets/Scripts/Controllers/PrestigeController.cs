@@ -28,8 +28,6 @@ namespace GreedyMercs.StageDM.Prestige
 
             node.Add("prestigeStage", GameState.Stage.stage);
 
-            SquadManager.ToggleAttacking(false);
-
             Server.Prestige(this, (code, compressed) => { OnPrestigeCallback(code, compressed, callback); }, node);
         }
 
@@ -45,8 +43,6 @@ namespace GreedyMercs.StageDM.Prestige
             else
             {
                 Utils.UI.ShowMessage("Server Connection", "Failed to contact the server :(");
-
-                SquadManager.ToggleAttacking(true);
             }
 
             callback(code == 200);

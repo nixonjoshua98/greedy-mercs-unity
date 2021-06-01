@@ -96,33 +96,33 @@ namespace GreedyMercs
 
         public static BigDouble CharacterBaseDamage(CharacterID chara)
         {
-            MercData data = StaticData.Mercs.GetMerc(chara);
-
-            var state  = GameState.Characters.Get(chara);
+            MercData data   = StaticData.Mercs.GetMerc(chara);
+            MercState state = MercenaryManager.Instance.GetState(chara);
 
             BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
 
-            return baseDamage * state.level * BigDouble.Pow(2.0f, (state.level - 1) / 100.0f) * (1 - (0.035f * (int)chara));
+            return baseDamage * state.Level * BigDouble.Pow(2.0f, (state.Level - 1) / 100.0f) * (1 - (0.035f * (int)chara));
         }
 
         // ===
 
         public static BigDouble CalcCharacterLevelUpCost(CharacterID chara, int levels)
         {
-            var state       = GameState.Characters.Get(chara);
+            MercState state = MercenaryManager.Instance.GetState(chara);
             MercData data   = StaticData.Mercs.GetMerc(chara);
 
-            return BigMath.SumGeometricSeries(levels, data.UnlockCost, 1.075 + ((int)chara / 1000.0), state.level);
+            return BigMath.SumGeometricSeries(levels, data.UnlockCost, 1.075 + ((int)chara / 1000.0), state.Level);
         }
 
         public static int AffordCharacterLevels(CharacterID chara)
         {
-            UpgradeState state  = GameState.Characters.Get(chara);
+            MercState state = MercenaryManager.Instance.GetState(chara);
+
             MercData data = StaticData.Mercs.GetMerc(chara);
 
-            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)chara / 1000.0), state.level);
+            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)chara / 1000.0), state.Level);
 
-            return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.level, int.Parse(val.ToString()));
+            return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
         }
 
 

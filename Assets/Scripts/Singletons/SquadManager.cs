@@ -9,22 +9,12 @@ namespace GreedyMercs
 {
     using GM.Characters;
 
-    using GreedyMercs.Characters;
-
     public class SquadManager : MonoBehaviour
     {
-        static SquadManager Instance = null;
-
         List<Transform> characterSpots;
-
-        List<CharacterAttack> attacks;
 
         void Awake()
         {
-            Instance = this;
-
-            attacks = new List<CharacterAttack>();
-
             characterSpots = new List<Transform>();
 
             for (int i = 0; i < transform.childCount; ++i)
@@ -33,34 +23,13 @@ namespace GreedyMercs
             Events.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
         }
 
-        IEnumerator Start()
+        void AddCharacter(CharacterID chara)
         {
-            foreach (MercContainer chara in StaticData.CharacterList.mercsArray)
-            {
-                if (GameState.Characters.Contains(chara.ID))
-                {
-                    AddCharacter(chara);
+            MercData data = StaticData.Mercs.GetMerc(chara);
 
-                    yield return new WaitForSecondsRealtime(0.1f);
-                }
-
-                yield return new WaitForFixedUpdate();
-            }
-        }
-
-        public static void ToggleAttacking(bool val)
-        {
-            foreach (var atk in Instance.attacks)
-                atk.ToggleAttacking(val);
-        }
-
-        void AddCharacter(MercContainer chara)
-        {
-            GameObject character = Instantiate(chara.Prefab, transform);
+            GameObject character = Instantiate(data.Prefab, transform);
 
             character.transform.position = characterSpots[0].position;
-
-            attacks.Add(character.GetComponent<CharacterAttack>());
 
             Destroy(characterSpots[0].gameObject);
 
@@ -69,7 +38,7 @@ namespace GreedyMercs
 
         void OnHeroUnlocked(CharacterID chara)
         {
-            AddCharacter(StaticData.CharacterList.Get(chara));
+            AddCharacter(chara);
         }
     }
 }

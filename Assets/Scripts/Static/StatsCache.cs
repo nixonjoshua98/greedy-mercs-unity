@@ -32,7 +32,7 @@ namespace GreedyMercs
 
         static Dictionary<BonusType, double> BonusFromArmoury { get { return ArmouryManager.Instance.CalculateBonuses(); } }
         static Dictionary<BonusType, double> BonusFromArtefacts { get { return ArtefactManager.Instance.CalculateBonuses(); } }
-        static Dictionary<BonusType, double> BonusFromCharacterPassives { get { return GameState.Characters.CalculateBonuses(); } }
+        static Dictionary<BonusType, double> BonusFromCharacterPassives { get { return MercenaryManager.Instance.CalculateBonuses(); } }
         static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CalculateBonuses(); } }
 
         public static BigDouble GetCritChance() => StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
@@ -44,10 +44,8 @@ namespace GreedyMercs
             {
                 BigDouble total = 0;
 
-                foreach (CharacterID chara in GameState.Characters.Unlocked())
-                {
-                    UpgradeState state = GameState.Characters.Get(chara);
-                    
+                foreach (CharacterID chara in MercenaryManager.Instance.Unlocked)
+                {                   
                     total += CharacterDamage(chara);
                 }
 

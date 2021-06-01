@@ -26,7 +26,7 @@ namespace GreedyMercs.Characters
         // === Internal Methods ===
         void SubscribeToEvents()
         {
-            Events.OnCharacterLevelUp.AddListener((CharacterID chara) => { if (chara == character.ID) OnLevelup(); });
+            Events.OnCharacterLevelUp.AddListener((CharacterID chara) => { if (chara == character) OnLevelup(); });
         }
 
         protected override void UpdateSortingLayers(int layer)
@@ -47,7 +47,7 @@ namespace GreedyMercs.Characters
 
         protected override void OnAttackHit(float timeSinceAttack)
         {
-            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character.ID) * timeSinceAttack);
+            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character) * timeSinceAttack);
         }
     }
 }

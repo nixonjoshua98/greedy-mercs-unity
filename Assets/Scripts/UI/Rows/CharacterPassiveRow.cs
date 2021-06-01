@@ -11,13 +11,13 @@ namespace GM.Characters
 
         public Image PanelImage;
 
-        public void UpdatePanel(UpgradeState heroState, MercPassiveData passive)
+        public void UpdatePanel(MercState state, MercPassiveData passive)
         {
             UnlockText.text = passive.UnlockLevel.ToString();
 
             DescriptionText.text = (passive.Value * 100).ToString() + "% " + GreedyMercs.Utils.Generic.BonusToString(passive.Type);
 
-            if (heroState.level < passive.UnlockLevel)
+            if (state.Level < passive.UnlockLevel)
             {
                 UnlockText.color        = MultiplyColorAlpha(UnlockText.color, 0.5f);
                 DescriptionText.color   = MultiplyColorAlpha(DescriptionText.color, 0.5f);

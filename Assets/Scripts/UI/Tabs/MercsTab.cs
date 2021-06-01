@@ -22,19 +22,10 @@ namespace GM.UI
 
         void Awake()
         {
-            Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
+            Events.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
-        void Start()
-        {
-            foreach (var chara in StaticData.CharacterList.mercsArray)
-            {
-                if (GameState.Characters.TryGetState(chara.ID, out UpgradeState _))
-                    AddRow(chara);
-            }
-        }
-
-        void AddRow(MercContainer chara)
+        void AddRow(CharacterID chara)
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
@@ -43,11 +34,6 @@ namespace GM.UI
             CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 
             row.SetCharacter(chara);
-        }
-
-        void OnCharacterUnlocked(CharacterID chara)
-        {
-            AddRow(StaticData.CharacterList.Get(chara));
         }
     }
 }

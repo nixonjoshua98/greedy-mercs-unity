@@ -63,7 +63,7 @@ namespace GM.BountyShop
             ArmouryItemID = node["armouryItemId"].AsInt;
         }
 
-        public override Sprite Icon { get { return GreedyMercs.StaticData.Armoury.Get(ArmouryItemID).Icon; } }
+        public override Sprite Icon { get { return StaticData.Armoury.Get(ArmouryItemID).Icon; } }
     }
 
 

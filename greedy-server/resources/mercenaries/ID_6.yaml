@@ -1,8 +1,10 @@
-name: '6'
+name: Fire Golem
 
 attackType: 0
 
 unlockCost: 8.0e8
+
+prefabString: MercPrefabs/6_FireGolem
 
 passives:
 - bonusType: 5

@@ -14,7 +14,7 @@ namespace GM.BountyShop
         [Header("Components - Scripts")]
         [SerializeField] StarRatingController starController;
 
-        ArmouryItemData ArmouryItemData { get { return GreedyMercs.StaticData.Armoury.Get(ShopItemData.ArmouryItemID); } }
+        ArmouryItemData ArmouryItemData { get { return StaticData.Armoury.Get(ShopItemData.ArmouryItemID); } }
         new BsArmouryItemData ShopItemData { get { return BountyShopManager.Instance.ServerData.GetArmouryItem(_itemId); } }
 
         void Awake()

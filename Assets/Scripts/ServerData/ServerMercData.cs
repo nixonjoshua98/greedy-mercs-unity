@@ -25,6 +25,11 @@ namespace GM.Characters
         public BigDouble BaseDamage;
 
         public MercPassiveData[] Passives;
+
+        // Making it Public for {...} creation. Value should not be changed
+        public string _prefabString;
+
+        public GameObject Prefab { get { return ResourceManager.LoadPrefab(_prefabString); } }
     }
 
     public class ServerMercData
@@ -58,7 +63,9 @@ namespace GM.Characters
                     BaseDamage = new BigDouble(current["baseDamage"]),
                     AttackType = (BonusType)current["attackType"].AsInt,
                     UnlockCost = current["unlockCost"],
-                    Passives = ParsePassives(current["passives"].AsArray)
+                    Passives = ParsePassives(current["passives"].AsArray),
+
+                    _prefabString = current.GetValueOrDefault("prefabString", "MercPrefabs/0_StoneGolem")
                 };
 
                 mercs[id] = inst;
@@ -75,7 +82,7 @@ namespace GM.Characters
                 {
                     Type = (BonusType)passive["bonusType"].AsInt,
                     Value = passive["bonusValue"].AsFloat,
-                    UnlockLevel = passive["unlockLevel"].AsInt
+                    UnlockLevel = passive["unlockLevel"].AsInt,
                 };
 
                 passives.Add(data);

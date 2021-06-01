@@ -16,15 +16,15 @@ namespace GreedyMercs
     using GM.Inventory;
     using GM.BountyShop;
     using GM.Artefacts;
+    using GM.Characters;
 
     public class GameDataInitializer : MonoBehaviour
     {
         [SerializeField] SkillListSO SkillList;
-        [SerializeField] MercObjectsContainer CharacterList;
 
         void Awake()
         {
-            StaticData.AssignScriptables(SkillList, CharacterList);
+            StaticData.AssignScriptables(SkillList);
         }
 
         void Start()
@@ -69,6 +69,8 @@ namespace GreedyMercs
         void InstantiatePlayerData(JSONNode node)
         {
             GameState.Restore(node);
+
+            MercenaryManager.Create();
 
             ArmouryManager.Create(node["armoury"]);
             BountyManager.Create(node["bounties"]);

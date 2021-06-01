@@ -5,7 +5,7 @@ namespace GM.Characters
 {
     public class CharacterController : AbstractCharacterController
     {
-        [SerializeField] int characterId = -1;
+        [SerializeField] CharacterID characterId;
 
         // Components
         AbstractCharacterAttack attackController;
@@ -13,9 +13,6 @@ namespace GM.Characters
         void Awake()
         {
             GetComponents();
-
-            if (characterId == -1)
-                Debug.LogError("CharacterID cannot be -1");
         }
 
         void GetComponents()
@@ -39,7 +36,7 @@ namespace GM.Characters
         // = = = Callback = = = //
         public override void OnAttack()
         {
-            GreedyMercs.GameManager.TryDealDamageToEnemy(GreedyMercs.StatsCache.CharacterDamage((CharacterID)characterId));
+            GreedyMercs.GameManager.TryDealDamageToEnemy(GreedyMercs.StatsCache.CharacterDamage(characterId));
         }
 
         protected override bool CanAttack(GameObject obj)

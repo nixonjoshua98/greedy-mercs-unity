@@ -12,8 +12,6 @@ namespace GM.Bounty
 {
     using GM.Inventory;
 
-    using StaticData = GreedyMercs.StaticData;
-
     using Utils = GreedyMercs.Utils;
 
     public class BountyState

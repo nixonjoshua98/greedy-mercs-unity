@@ -27,7 +27,7 @@ namespace GM.Artefacts
         int _buyAmount;
         bool _updatingUi;
 
-        ArtefactData ServerData { get { return GreedyMercs.StaticData.Artefacts.Get(_artefactId); } }
+        ArtefactData ServerData { get { return StaticData.Artefacts.Get(_artefactId); } }
         ArtefactState ArtState { get { return ArtefactManager.Instance.Get(_artefactId); } }
 
         int BuyAmount { get {  return Mathf.Min(_buyAmount, ServerData.MaxLevel - ArtState.Level); } }

@@ -30,6 +30,8 @@ public enum BonusType
     BOSS_TIMER_DURATION = 18,
 }
 
+public enum CharacterID { ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN }
+
 public enum GoldUpgradeID
 {
     TAP_DAMAGE = 0

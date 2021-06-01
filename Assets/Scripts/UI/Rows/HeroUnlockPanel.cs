@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 namespace GreedyMercs
 {
+    using GM.Characters;
+
     public class HeroUnlockPanel : MonoBehaviour
     {
         [SerializeField] Text CostText;
@@ -14,9 +16,11 @@ namespace GreedyMercs
 
         void UpdatePanel()
         {
-            if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
+            if (StaticData.CharacterList.GetNextHero(out CharacterID chara))
             {
-                CostText.text = Utils.Format.FormatNumber(chara.unlockCost);
+                MercData mercData = StaticData.Mercs.GetMerc(chara);
+
+                CostText.text = Utils.Format.FormatNumber(mercData.UnlockCost);
             }
         }
 
@@ -24,15 +28,17 @@ namespace GreedyMercs
 
         public void OnUnlockButton()
         {
-            if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
+            if (StaticData.CharacterList.GetNextHero(out CharacterID chara))
             {
-                if (GameState.Player.gold >= chara.unlockCost)
+                MercData mercData = StaticData.Mercs.GetMerc(chara);
+
+                if (GameState.Player.gold >= mercData.UnlockCost)
                 {
-                    GameState.Player.gold -= chara.unlockCost;
+                    GameState.Player.gold -= mercData.UnlockCost;
 
-                    GameState.Characters.Add(chara.CharacterID);
+                    GameState.Characters.Add(chara);
 
-                    Events.OnCharacterUnlocked.Invoke(chara.CharacterID);
+                    Events.OnCharacterUnlocked.Invoke(chara);
                 }
 
                 UpdatePanel();

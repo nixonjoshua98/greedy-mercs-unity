@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GM.Characters;
     public class CharacterContainer
     {
         Dictionary<CharacterID, UpgradeState> characters;
@@ -31,13 +32,6 @@ namespace GreedyMercs
 
         public UpgradeState Get(CharacterID chara) => characters[chara];
 
-        public List<CharacterPassive> GetUnlockedPassives(CharacterID chara)
-        {
-            UpgradeState state = Get(chara);
-
-            return StaticData.CharacterList.Get(chara).passives.Where(e => state.level >= e.unlockLevel).ToList();        
-        }
-
         public List<CharacterID> Unlocked() => characters.Keys.ToList();
 
         public bool Contains(CharacterID chara) => characters.ContainsKey(chara);
@@ -57,19 +51,19 @@ namespace GreedyMercs
             {
                 if (GameState.Characters.TryGetState(hero, out var state))
                 {
-                    List<CharacterPassive> passives = StaticData.CharacterList.Get(hero).passives;
+                    MercData data = StaticData.Mercs.GetMerc(hero);
 
-                    foreach (CharacterPassive passive in passives)
+                    foreach (MercPassiveData passive in data.Passives)
                     {
-                        if (state.level >= passive.unlockLevel)
+                        if (state.level >= passive.UnlockLevel)
                         {
-                            if (passive.value < 1)
+                            if (passive.Value < 1)
                             {
-                                bonuses[passive.bonusType] = bonuses.Get(passive.bonusType, 0) + passive.value;
+                                bonuses[passive.Type] = bonuses.Get(passive.Type, 0) + passive.Value;
                             }
 
                             else
-                                bonuses[passive.bonusType] = bonuses.Get(passive.bonusType, 1) * passive.value;
+                                bonuses[passive.Type] = bonuses.Get(passive.Type, 1) * passive.Value;
                         }
                     }
                 }
@@ -86,15 +80,15 @@ namespace GreedyMercs
             {
                 if (GameState.Characters.TryGetState(hero, out var state))
                 {
-                    List<CharacterPassive> passives = StaticData.CharacterList.Get(hero).passives;
+                    MercData data = StaticData.Mercs.GetMerc(hero);
 
-                    foreach (CharacterPassive passive in passives)
+                    foreach (MercPassiveData passive in data.Passives)
                     {
-                        if (state.level >= passive.unlockLevel)
+                        if (state.level >= passive.UnlockLevel)
                         {
-                            if (passive.bonusType == BonusType.CHAR_TAP_DAMAGE_ADD)
+                            if (passive.Type == BonusType.CHAR_TAP_DAMAGE_ADD)
                             {
-                                val += passive.value * StatsCache.CharacterDamage(hero);
+                                val += passive.Value * StatsCache.CharacterDamage(hero);
                             }
                         }
                     }

@@ -39,7 +39,7 @@ namespace GreedyMercs.StageDM.Prestige
             {
                 Events.OnPlayerPrestige.Invoke();
 
-                StartCoroutine(RunPrestigeAnimation());
+                RunPrestigeAnimation();
             }
 
             else
@@ -52,11 +52,9 @@ namespace GreedyMercs.StageDM.Prestige
             callback(code == 200);
         }
 
-        IEnumerator RunPrestigeAnimation()
+        void RunPrestigeAnimation()
         {
             CancelInvoke("UpdatePanel");
-
-            yield return SquadManager.MoveOut(1.0f);
 
             GameState.Prestige();
 

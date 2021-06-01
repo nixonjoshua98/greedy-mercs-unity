@@ -5,9 +5,11 @@ using UnityEngine;
 
 namespace GreedyMercs.Characters
 {
+    using GM.Characters;
+
     public abstract class CharacterController : MonoBehaviour
     {
-        [SerializeField] protected CharacterSO character;
+        [SerializeField] protected MercContainer character;
 
         [Header("Character Scripts")]
         protected CharacterAttack attack;
@@ -35,7 +37,7 @@ namespace GreedyMercs.Characters
 
         protected virtual void OnAttackHit(float timeSinceAttack)
         {
-            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character.CharacterID) * timeSinceAttack);
+            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character.ID) * timeSinceAttack);
         }
 
         void GetInitialComponents()

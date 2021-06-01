@@ -11,6 +11,7 @@ namespace GreedyMercs
 {
     using GM.Armoury;
     using GM.Artefacts;
+    using GM.Characters;
 
     public class StatsCache : MonoBehaviour
     {
@@ -147,14 +148,13 @@ namespace GreedyMercs
         }
 
         // = = = Characters (Mercenaries) = = = //
-        public static BigDouble CharacterDamage(CharacterID characterId)
+        public static BigDouble CharacterDamage(CharacterID chara)
         {
-            CharacterSO data = StaticData.CharacterList.Get(characterId);
-
-            BigDouble val = Formulas.CharacterBaseDamage(characterId);
+            MercData data = StaticData.Mercs.GetMerc(chara);
+            BigDouble val = Formulas.CharacterBaseDamage(chara);
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(data.attackType);
+            val *= MultiplyAllSources(data.AttackType);
 
             return val;
         }

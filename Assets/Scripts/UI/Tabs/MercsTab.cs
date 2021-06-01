@@ -5,9 +5,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace GreedyMercs.UI
+namespace GM.UI
 {
-    using GM.UI;
+    using GreedyMercs;
+
+
+    using GM.Characters;
 
     public class MercsTab : MonoBehaviour
     {
@@ -24,14 +27,14 @@ namespace GreedyMercs.UI
 
         void Start()
         {
-            foreach (var chara in StaticData.CharacterList.CharacterList)
+            foreach (var chara in StaticData.CharacterList.mercsArray)
             {
-                if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
+                if (GameState.Characters.TryGetState(chara.ID, out UpgradeState _))
                     AddRow(chara);
             }
         }
 
-        void AddRow(CharacterSO chara)
+        void AddRow(MercContainer chara)
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 

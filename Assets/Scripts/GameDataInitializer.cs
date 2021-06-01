@@ -3,6 +3,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public class UpgradeState
+{
+    public int level = 1;
+}
+
 namespace GreedyMercs
 {
     using GM.Bounty;
@@ -11,16 +17,10 @@ namespace GreedyMercs
     using GM.BountyShop;
     using GM.Artefacts;
 
-    [System.Serializable]
-    public class UpgradeState
-    {
-        public int level = 1;
-    }
-
     public class GameDataInitializer : MonoBehaviour
     {
         [SerializeField] SkillListSO SkillList;
-        [SerializeField] CharacterListSO CharacterList;
+        [SerializeField] MercObjectsContainer CharacterList;
 
         void Awake()
         {

@@ -1,0 +1,46 @@
+name: '0'
+
+attackType: 0
+
+unlockCost: '50'
+
+passives:
+- bonusType: 4
+  bonusValue: 0.001
+  unlockLevel: 25
+- bonusType: 0
+  bonusValue: 1.25
+  unlockLevel: 50
+- bonusType: 3
+  bonusValue: 1.1
+  unlockLevel: 75
+- bonusType: 1
+  bonusValue: 1.1
+  unlockLevel: 100
+- bonusType: 0
+  bonusValue: 1.15
+  unlockLevel: 125
+- bonusType: 8
+  bonusValue: 0.01
+  unlockLevel: 150
+- bonusType: 2
+  bonusValue: 2.0
+  unlockLevel: 200
+- bonusType: 0
+  bonusValue: 1.25
+  unlockLevel: 250
+- bonusType: 1
+  bonusValue: 1.1
+  unlockLevel: 300
+- bonusType: 0
+  bonusValue: 1.15
+  unlockLevel: 350
+- bonusType: 1
+  bonusValue: 1.1
+  unlockLevel: 400
+- bonusType: 10
+  bonusValue: 1.5
+  unlockLevel: 450
+- bonusType: 3
+  bonusValue: 1.15
+  unlockLevel: 500

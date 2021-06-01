@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GM.Characters;
+
     using GreedyMercs.Characters;
 
     public class SquadManager : MonoBehaviour
@@ -33,9 +35,9 @@ namespace GreedyMercs
 
         IEnumerator Start()
         {
-            foreach (CharacterSO chara in StaticData.CharacterList.CharacterList)
+            foreach (MercContainer chara in StaticData.CharacterList.mercsArray)
             {
-                if (GameState.Characters.Contains(chara.CharacterID))
+                if (GameState.Characters.Contains(chara.ID))
                 {
                     AddCharacter(chara);
 
@@ -52,9 +54,9 @@ namespace GreedyMercs
                 atk.ToggleAttacking(val);
         }
 
-        void AddCharacter(CharacterSO chara)
+        void AddCharacter(MercContainer chara)
         {
-            GameObject character = Instantiate(chara.prefab, transform);
+            GameObject character = Instantiate(chara.Prefab, transform);
 
             character.transform.position = characterSpots[0].position;
 
@@ -68,27 +70,6 @@ namespace GreedyMercs
         void OnHeroUnlocked(CharacterID chara)
         {
             AddCharacter(StaticData.CharacterList.Get(chara));
-        }
-
-        public static IEnumerator MoveOut(float duration)
-        {
-            foreach (var atk in Instance.attacks)
-            {
-                CharacterController character = atk.gameObject.GetComponent<CharacterController>();
-
-                character.Flip();
-
-                atk.ToggleAttacking(false);
-
-                atk.Anim.Play("Walk");
-
-                Vector3 start = atk.transform.localPosition;
-                Vector3 end  = start - new Vector3(10.0f, 0, 0);
-
-                Instance.StartCoroutine(Utils.Lerp.Local(atk.gameObject, start, end, duration));
-            }
-
-            yield return new WaitForSeconds(duration);
         }
     }
 }

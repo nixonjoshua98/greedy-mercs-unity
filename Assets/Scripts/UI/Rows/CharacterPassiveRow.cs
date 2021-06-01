@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM.Characters
 {
     public class CharacterPassiveRow : MonoBehaviour
     {
@@ -11,13 +11,13 @@ namespace GreedyMercs
 
         public Image PanelImage;
 
-        public void UpdatePanel(UpgradeState heroState, CharacterPassive passive)
+        public void UpdatePanel(UpgradeState heroState, MercPassiveData passive)
         {
-            UnlockText.text = passive.unlockLevel.ToString();
+            UnlockText.text = passive.UnlockLevel.ToString();
 
-            DescriptionText.text = (passive.value * 100).ToString() + "% " + Utils.Generic.BonusToString(passive.bonusType);
+            DescriptionText.text = (passive.Value * 100).ToString() + "% " + GreedyMercs.Utils.Generic.BonusToString(passive.Type);
 
-            if (heroState.level < passive.unlockLevel)
+            if (heroState.level < passive.UnlockLevel)
             {
                 UnlockText.color        = MultiplyColorAlpha(UnlockText.color, 0.5f);
                 DescriptionText.color   = MultiplyColorAlpha(DescriptionText.color, 0.5f);

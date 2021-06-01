@@ -7,6 +7,7 @@ namespace GreedyMercs
     using GM.Bounty;
     using GM.Armoury;
     using GM.Artefacts;
+    using GM.Characters;
 
     public static class StaticData
     {
@@ -18,8 +19,9 @@ namespace GreedyMercs
         public const float BASE_CRIT_MULTIPLIER = 3.0f;
 
         public static SkillListSO SkillList;
-        public static CharacterListSO CharacterList;
+        public static MercObjectsContainer CharacterList;
 
+        public static ServerMercData Mercs;
         public static ServerBountyData Bounty;
         public static ServerArmouryData Armoury;
         public static ServerArtefactData Artefacts;
@@ -30,8 +32,7 @@ namespace GreedyMercs
         {
             SkillList.Init();
 
-            CharacterList.Init(node["characters"], node["characterPassives"]);
-
+            Mercs           = new ServerMercData(node["mercData"]);
             Bounty          = new ServerBountyData(node["bounties"]);
             Armoury         = new ServerArmouryData(node["armouryItems"]);
             Artefacts       = new ServerArtefactData(node["artefacts"]);
@@ -39,7 +40,7 @@ namespace GreedyMercs
             NextDailyReset = Funcs.ToDateTime(node["nextDailyReset"]);
         }
 
-        public static void AssignScriptables(SkillListSO skills, CharacterListSO chars)
+        public static void AssignScriptables(SkillListSO skills, MercObjectsContainer chars)
         {
             CharacterList   = chars;
             SkillList       = skills;

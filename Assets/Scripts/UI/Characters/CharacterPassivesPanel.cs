@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace GreedyMercs
 {
+    using GM.Characters;
+
     public class CharacterPassivesPanel : MonoBehaviour
     {
         [SerializeField] GameObject SkillRow;
@@ -20,11 +22,11 @@ namespace GreedyMercs
 
         IEnumerator Create(CharacterID chara)
         {
-            List<CharacterPassive> passives = StaticData.CharacterList.Get(chara).passives;
+            MercData data = StaticData.Mercs.GetMerc(chara);
 
             UpgradeState heroState = GameState.Characters.Get(chara);
 
-            foreach (CharacterPassive passive in passives)
+            foreach (MercPassiveData passive in data.Passives)
             {
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

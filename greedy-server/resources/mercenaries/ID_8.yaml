@@ -5,7 +5,7 @@ attackType: 0
 baseDamage: 1e16
 unlockCost: 1e18
 
-prefabString: MercPrefabs/8_DemonKnight
+prefabString: Mercs/Prefabs/demon_knight
 
 passives:
 - bonusType: 7

@@ -4,7 +4,7 @@ attackType: 0
 
 unlockCost: 8.0e8
 
-prefabString: MercPrefabs/6_FireGolem
+prefabString: Mercs/Prefabs/fire_golem
 
 passives:
 - bonusType: 5

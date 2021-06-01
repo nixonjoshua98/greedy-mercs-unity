@@ -26,6 +26,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  E_Attack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &297949869582887569
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,7 +71,7 @@ GameObject:
   - component: {fileID: 692912607}
   - component: {fileID: 2779092497925630716}
   m_Layer: 0
-  m_Name: Necromancer
+  m_Name: 7_Necromancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad4b33071a38f74eb53afdab5172c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 11400000, guid: 51a7bcc1a89edf84c8bb84b94ca72d05, type: 2}
+  character: 7
   levelupParticles: {fileID: 1848767103919299936}
 --- !u!1001 &297949869594014040
 PrefabInstance:

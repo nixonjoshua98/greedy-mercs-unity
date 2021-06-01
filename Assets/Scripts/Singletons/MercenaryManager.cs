@@ -63,7 +63,7 @@ namespace GM.Characters
         // = = = Set Methods = = = //
         public void SetState(CharacterID chara)
         {
-            states[chara] = new MercState();
+            states[chara] = new MercState() { Level = 1 };
         }
 
         public void SetState(CharacterID chara, MercState state)

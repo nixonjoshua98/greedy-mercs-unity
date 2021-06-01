@@ -4,7 +4,7 @@ attackType: 0
 
 unlockCost: 2.5e6
 
-prefabString: MercPrefabs/4_Minotaur
+prefabString: Mercs/Prefabs/minotaur
 
 passives:
 - bonusType: 2

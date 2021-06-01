@@ -4,7 +4,7 @@ attackType: 0
 
 unlockCost: '750'
 
-prefabString: MercPrefabs/1_ReaperMan
+prefabString: Mercs/Prefabs/reaper
 
 passives:
 - bonusType: 1

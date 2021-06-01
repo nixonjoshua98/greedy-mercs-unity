@@ -43,6 +43,11 @@ namespace GM.Characters
         // = = = Animation Event = = = //
         public virtual void OnAttackAnimationEvent()
         {
+            OnAttackHit();
+        }
+
+        protected virtual void OnAttackHit()
+        {
             characterController.OnAttack();
 
             isAttacking = false;

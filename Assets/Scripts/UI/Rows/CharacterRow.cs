@@ -18,7 +18,7 @@ namespace GM.Characters
         [SerializeField] StackedButton upgradeButton;
 
         [Header("Images")]
-        [SerializeField] Image Icon;
+        [SerializeField] Image iconImage;
 
         [Header("Text")]
         [SerializeField] Text nameText;
@@ -58,6 +58,7 @@ namespace GM.Characters
             _mercId = chara;
 
             nameText.text = Data.Name;
+            iconImage.sprite = Data.Icon;
 
             _updatingUi = true;
         }

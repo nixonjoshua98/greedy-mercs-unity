@@ -8,31 +8,18 @@ namespace GM.Bounty
 {
     public struct BountyDataStruct
     {
-        public readonly int ID;
+        public int ID;
 
-        public readonly string Name;
+        public string Name;
 
-        public readonly int HourlyIncome;
-        public readonly int UnlockStage;
+        public int HourlyIncome;
+        public int UnlockStage;
 
-        string iconString;
-        string prefabString;
+        public string _iconString;
+        public string _prefabString;
 
-        public BountyDataStruct(int _bountyId, JSONNode node)
-        {
-            ID = _bountyId;
-
-            Name = node["name"].Value;
-
-            HourlyIncome    = node["hourlyIncome"].AsInt;
-            UnlockStage     = node["unlockStage"].AsInt;
-
-            iconString      = node["iconString"].Value;
-            prefabString    = node["prefabString"].Value;
-        }
-
-        public Sprite Icon { get { return ResourceManager.LoadSprite(iconString); } }
-        public GameObject EnemyPrefab { get { return ResourceManager.LoadPrefab("BountyBossPrefabs", prefabString); } }
+        public Sprite Icon { get { return ResourceManager.LoadSprite(_iconString); } }
+        public GameObject EnemyPrefab { get { return ResourceManager.LoadPrefab(_prefabString); } }
     }
 
     public class ServerBountyData
@@ -58,9 +45,22 @@ namespace GM.Bounty
 
             foreach (string key in node.Keys)
             {
+                JSONNode current = node[key];
+
                 int id = int.Parse(key);
 
-                BountyDataStruct data = new BountyDataStruct(id, node[key]);
+                BountyDataStruct data = new BountyDataStruct()
+                {
+                    ID = id,
+
+                    Name = current["name"],
+
+                    HourlyIncome    = current["hourlyIncome"].AsInt,
+                    UnlockStage     = current["unlockStage"].AsInt,
+
+                    _iconString     = current["iconString"],
+                    _prefabString   = current["prefabString"],
+                };
 
                 bountyData.Add(id, data);
             }

@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1013097418}
   - component: {fileID: 7223755797353518722}
   m_Layer: 0
-  m_Name: SatyrFire
+  m_Name: 9_SatyrFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad4b33071a38f74eb53afdab5172c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 11400000, guid: 98a0aa4fec1a42d449208efe318796b8, type: 2}
+  character: 9
   levelupParticles: {fileID: 9148661660360780692}
 --- !u!1001 &4212931058609886445
 PrefabInstance:

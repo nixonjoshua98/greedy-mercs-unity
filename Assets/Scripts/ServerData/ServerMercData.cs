@@ -28,7 +28,9 @@ namespace GM.Characters
 
         // Making it Public for {...} creation. Value should not be changed
         public string _prefabString;
+        public string _iconString;
 
+        public Sprite Icon { get { return ResourceManager.LoadSprite(_iconString); } }
         public GameObject Prefab { get { return ResourceManager.LoadPrefab(_prefabString); } }
     }
 
@@ -65,7 +67,8 @@ namespace GM.Characters
                     UnlockCost = current["unlockCost"],
                     Passives = ParsePassives(current["passives"].AsArray),
 
-                    _prefabString = current.GetValueOrDefault("prefabString", "MercPrefabs/0_StoneGolem")
+                    _prefabString = current.GetValueOrDefault("prefabString", "Mercs/Prefabs/stone_golem"),
+                    _iconString = current.GetValueOrDefault("iconString", "Mercs/Icons/wraith")
                 };
 
                 mercs[id] = inst;

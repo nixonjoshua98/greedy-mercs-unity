@@ -4,7 +4,8 @@ attackType: 0
 
 unlockCost: '50'
 
-prefabString: MercPrefabs/0_StoneGolem
+prefabString: Mercs/Prefabs/stone_golem
+iconString: Mercs/Icons/stone_golem
 
 passives:
 - bonusType: 4

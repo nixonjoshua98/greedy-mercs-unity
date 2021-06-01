@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4094388374024800131}
   - component: {fileID: 5851843726208437365}
   m_Layer: 0
-  m_Name: SkeletonArcher
+  m_Name: 5_SkeletonArcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad4b33071a38f74eb53afdab5172c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 11400000, guid: 48be29837ba39e142b0cefe0445afb9d, type: 2}
+  character: 5
   levelupParticles: {fileID: 2691064301689834744}
 --- !u!114 &4094388373761363250
 MonoBehaviour:
@@ -124,6 +124,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  E_Attack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4094388373211105978
 PrefabInstance:
   m_ObjectHideFlags: 0

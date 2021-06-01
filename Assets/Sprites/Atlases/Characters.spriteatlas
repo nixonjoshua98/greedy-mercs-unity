@@ -190,8 +190,8 @@ SpriteAtlas:
   - Right Hand
   - Face 03
   - Right Leg
-  - Head
-  - Head
+  - reaper
+  - orc_head
   - Face 01
   - Face 03
   - Face 03
@@ -233,7 +233,7 @@ SpriteAtlas:
   - Body
   - Face 03
   - Right Hand
-  - Head
+  - minotaur
   - Face 03
   - Left Leg
   - Face 01
@@ -253,7 +253,7 @@ SpriteAtlas:
   - Left Hand
   - Right Hand
   - Right Hand
-  - Head
+  - demon_knight
   - Face 02
   - Left Hand
   - Left Leg

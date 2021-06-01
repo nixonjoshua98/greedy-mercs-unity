@@ -5,22 +5,22 @@
     "0": {
       "hourlyIncome": 10000,
       "name": "Little Jimmy",
-      "prefabString": "little_jimmy",
-      "iconString": "BountyIcons/little_jimmy",
+      "prefabString": "Bounties/Prefabs/little_jimmy",
+      "iconString": "Bounties/Icons/little_jimmy",
       "unlockStage": 1
     },
     "1": {
       "hourlyIncome": 20000,
       "name": "Block Head",
-      "prefabString": "block_head",
-      "iconString": "BountyIcons/block_head",
+      "prefabString": "Bounties/Prefabs/block_head",
+      "iconString": "Bounties/Icons/block_head",
       "unlockStage": 2
     },
     "2": {
       "hourlyIncome": 30000,
       "name": "Stealth Orc",
-      "prefabString": "stealth_orc",
-      "iconString": "BountyIcons/stealth_orc",
+      "prefabString": "Bounties/Prefabs/stealth_orc",
+      "iconString": "Bounties/Icons/stealth_orc",
       "unlockStage": 3
     }
   }

@@ -15,7 +15,7 @@ namespace GM.Characters
         {
             UnlockText.text = passive.UnlockLevel.ToString();
 
-            DescriptionText.text = (passive.Value * 100).ToString() + "% " + GreedyMercs.Utils.Generic.BonusToString(passive.Type);
+            DescriptionText.text = Funcs.BonusString(passive.Type, passive.Value);
 
             if (state.Level < passive.UnlockLevel)
             {

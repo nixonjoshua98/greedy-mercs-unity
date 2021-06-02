@@ -6,7 +6,6 @@ using UnityEngine;
 namespace GreedyMercs
 {
     using GM.Armoury;
-    using GM.Artefacts;
     using GM.Characters;
     
     public static class Formulas
@@ -21,6 +20,18 @@ namespace GreedyMercs
         {
             return baseEffect + (levelEffect * (currentLevel - 1));
         }
+
+        // = = = Mercs = = = //
+        public static BigDouble MercLevelUpCost(int currentLevel, int levelsBuying, double unlockCost)
+        {
+            return BigMath.SumGeometricSeries(levelsBuying, unlockCost, 1.077, currentLevel);
+        }
+
+        public static BigDouble MercBaseDamage(BigDouble baseDamage, int level)
+        {
+            return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f) * (1 - 0.035f);
+        }
+
 
         public static class StageEnemy
         {
@@ -94,25 +105,7 @@ namespace GreedyMercs
 
         // ===
 
-        public static BigDouble CharacterBaseDamage(CharacterID chara)
-        {
-            MercData data   = StaticData.Mercs.GetMerc(chara);
-            MercState state = MercenaryManager.Instance.GetState(chara);
-
-            BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
-
-            return baseDamage * state.Level * BigDouble.Pow(2.0f, (state.Level - 1) / 100.0f) * (1 - (0.035f * (int)chara));
-        }
-
         // ===
-
-        public static BigDouble CalcCharacterLevelUpCost(CharacterID chara, int levels)
-        {
-            MercState state = MercenaryManager.Instance.GetState(chara);
-            MercData data   = StaticData.Mercs.GetMerc(chara);
-
-            return BigMath.SumGeometricSeries(levels, data.UnlockCost, 1.075 + ((int)chara / 1000.0), state.Level);
-        }
 
         public static int AffordCharacterLevels(CharacterID chara)
         {

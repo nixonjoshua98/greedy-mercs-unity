@@ -68,14 +68,14 @@ namespace GM.Characters
             if (!_updatingUi)
                 return;
 
-            DamageText.text = Utils.Format.FormatNumber(StatsCache.CharacterDamage(_mercId)) + " DPS";
+            DamageText.text = Utils.Format.FormatNumber(StatsCache.TotalMercDamage(_mercId)) + " DPS";
             nameText.text   = string.Format("(Lvl. {0}) {1}", State.Level, Data.Name);
 
             upgradeButton.SetText("MAX", "-");
 
             if (State.Level < StaticData.MAX_CHAR_LEVEL)
             {
-                BigDouble cost = Formulas.CalcCharacterLevelUpCost(_mercId, TargetBuyAmount);
+                BigDouble cost = State.CostToUpgrade(TargetBuyAmount);
 
                 upgradeButton.SetText(string.Format("x{0}", TargetBuyAmount), Utils.Format.FormatNumber(cost));
             }
@@ -87,7 +87,7 @@ namespace GM.Characters
         {
             int levelsBuying = TargetBuyAmount;
 
-            BigDouble cost = Formulas.CalcCharacterLevelUpCost(_mercId, levelsBuying);
+            BigDouble cost = State.CostToUpgrade(TargetBuyAmount);
 
             if (State.Level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
             {

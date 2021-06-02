@@ -15,6 +15,12 @@ namespace GreedyMercs
 
     public class StatsCache : MonoBehaviour
     {
+        const float BASE_ENERGY_CAP = 50.0f;
+        const float BASE_ENERGY_MIN = 1.0f;
+
+        const float BASE_CRIT_CHANCE = 0.01f;
+        const float BASE_CRIT_MULTIPLIER = 2.5f;
+
         static Dictionary<string, float> CacheTimers                            = new Dictionary<string, float>();
         static Dictionary<string, BigDouble> CachedDoubles                      = new Dictionary<string, BigDouble>();
         static Dictionary<string, Dictionary<BonusType, double>> CachedBonuses  = new Dictionary<string, Dictionary<BonusType, double>>();
@@ -23,10 +29,7 @@ namespace GreedyMercs
         {
             get
             {
-                if (IsCacheOutdated("ARMOURY_DAMAGE", CachedDoubles))
-                    CachedDoubles["ARMOURY_DAMAGE"] = Math.Max(1.0f, ArmouryManager.Instance.DamageBonus());
-
-                return CachedDoubles["ARMOURY_DAMAGE"];
+                return Math.Max(1.0f, ArmouryManager.Instance.DamageBonus());
             }
         }
 
@@ -34,9 +37,6 @@ namespace GreedyMercs
         static Dictionary<BonusType, double> BonusFromArtefacts { get { return ArtefactManager.Instance.CalculateBonuses(); } }
         static Dictionary<BonusType, double> BonusFromCharacterPassives { get { return MercenaryManager.Instance.CalculateBonuses(); } }
         static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CalculateBonuses(); } }
-
-        public static BigDouble GetCritChance() => StaticData.BASE_CRIT_CHANCE + AddictiveBonuses(BonusType.CRIT_CHANCE);
-        public static BigDouble GetCritDamage() => StaticData.BASE_CRIT_MULTIPLIER + AddictiveBonuses(BonusType.CRIT_DAMAGE);
 
         public static BigDouble TotalCharacterDPS
         {
@@ -46,7 +46,7 @@ namespace GreedyMercs
 
                 foreach (CharacterID chara in MercenaryManager.Instance.Unlocked)
                 {                   
-                    total += CharacterDamage(chara);
+                    total += TotalMercDamage(chara);
                 }
 
                 return total;
@@ -66,9 +66,9 @@ namespace GreedyMercs
         {
             public static float BossTimer => 15.0f + (float)BonusFromArtefacts.Get(BonusType.BOSS_TIMER_DURATION, 0);
 
-            public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * MultiplyBonuses(BonusType.ENEMY_GOLD, BonusType.ALL_GOLD);
+            public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * AddAllSources(BonusType.ENEMY_GOLD) * AddAllSources(BonusType.ALL_GOLD);
 
-            public static BigDouble GetBossGold(int stage) => Formulas.CalcBossGold(stage) * MultiplyBonuses(BonusType.BOSS_GOLD, BonusType.ALL_GOLD);
+            public static BigDouble GetBossGold(int stage) => Formulas.CalcBossGold(stage) * AddAllSources(BonusType.BOSS_GOLD) * AddAllSources(BonusType.ALL_GOLD);
         }
 
         public static class Skills
@@ -78,10 +78,10 @@ namespace GreedyMercs
                 switch (skill)
                 {
                     case SkillID.GOLD_RUSH:
-                        return GameState.Skills.Get(SkillID.GOLD_RUSH).LevelData.BonusValue * MultiplyBonuses(BonusType.GOLD_RUSH_BONUS);
+                        return GameState.Skills.Get(SkillID.GOLD_RUSH).LevelData.BonusValue * MultiplyAllSources(BonusType.GOLD_RUSH_BONUS);
 
                     case SkillID.AUTO_CLICK:
-                        return GameState.Skills.Get(SkillID.AUTO_CLICK).LevelData.BonusValue * MultiplyBonuses(BonusType.AUTO_CLICK_BONUS);
+                        return GameState.Skills.Get(SkillID.AUTO_CLICK).LevelData.BonusValue * MultiplyAllSources(BonusType.AUTO_CLICK_BONUS);
 
                     default:
                         Debug.Break();
@@ -97,10 +97,10 @@ namespace GreedyMercs
                 switch (skill)
                 {
                     case SkillID.GOLD_RUSH:
-                        return StaticData.SkillList.Get(SkillID.GOLD_RUSH).Duration + AddictiveBonuses(BonusType.GOLD_RUSH_DURATION);
+                        return StaticData.SkillList.Get(SkillID.GOLD_RUSH).Duration + AddAllSources(BonusType.GOLD_RUSH_DURATION);
 
                     case SkillID.AUTO_CLICK:
-                        return StaticData.SkillList.Get(SkillID.AUTO_CLICK).Duration + AddictiveBonuses(BonusType.AUTO_CLICK_DURATION);
+                        return StaticData.SkillList.Get(SkillID.AUTO_CLICK).Duration + AddAllSources(BonusType.AUTO_CLICK_DURATION);
 
                     default:
                         Debug.Break();
@@ -122,22 +122,43 @@ namespace GreedyMercs
 
 
         // # === Energy === #
-        public static double PlayerEnergyPerMinute() => (1.0f + AddictiveBonuses(BonusType.ENERGY_INCOME));
-        public static double PlayerMaxEnergy()
+        public static double EnergyPerMinute()
         {
-            int skillEnergy = GameState.Skills.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
+            double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_INCOME, 0);
+            double percentExtraCapacity = MultiplyAllSources(BonusType.PERCENT_ENERGY_INCOME, 1);
 
-            return 50.0f + skillEnergy + AddictiveBonuses(BonusType.ENERGY_CAPACITY);
+            return (BASE_ENERGY_MIN + flatExtraCapacity) * percentExtraCapacity;
+        }
+
+        public static double MaxEnergyCapacity()
+        {
+            int energyFromSkills = GameState.Skills.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
+
+            double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_CAPACITY);
+            double percentExtraCapacity = MultiplyAllSources(BonusType.PERCENT_ENERGY_CAPACITY);
+
+            return (BASE_ENERGY_CAP + energyFromSkills + flatExtraCapacity) * percentExtraCapacity;
+        }
+
+        // = = = Critical Hits = = = //
+        public static BigDouble CriticalHitChance()
+        {
+            return BASE_CRIT_CHANCE + AddAllSources(BonusType.FLAT_CRIT_CHANCE);
+        }
+
+        public static BigDouble CriticalHitMultiplier()
+        {
+            return BASE_CRIT_MULTIPLIER + MultiplyAllSources(BonusType.FLAT_CRIT_DMG_MULT);
         }
 
 
         public static bool ApplyCritHit(ref BigDouble val)
         {
-            BigDouble critChance = GetCritChance();
+            BigDouble critChance = CriticalHitChance();
 
             if (critChance >= 1.0 || Random.Range(0.0f, 1.0f) < critChance)
             {
-                val *= GetCritDamage();
+                val *= CriticalHitMultiplier();
 
                 return true;
             }
@@ -145,21 +166,32 @@ namespace GreedyMercs
             return false;
         }
 
-        // = = = Characters (Mercenaries) = = = //
-        public static BigDouble CharacterDamage(CharacterID chara)
+        // = = = Mercs = = = //
+        public static BigDouble BaseMercDamage(CharacterID chara)
         {
-            MercData data = StaticData.Mercs.GetMerc(chara);
-            BigDouble val = Formulas.CharacterBaseDamage(chara);
+            MercState state = MercenaryManager.Instance.GetState(chara);
+            MercData data   = StaticData.Mercs.GetMerc(chara);
+
+            BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
+
+            return Formulas.MercBaseDamage(baseDamage, state.Level);
+        }
+
+        public static BigDouble TotalMercDamage(CharacterID chara)
+        {
+            MercState state = MercenaryManager.Instance.GetState(chara);
+
+            BigDouble val = BaseMercDamage(chara);
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(data.AttackType);
+            val *= MultiplyAllSources(state.svrData.AttackType);
 
             return val;
         }
 
         public static BigInteger GetPrestigePoints(int stage)
         {
-            BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyBonuses(BonusType.CASH_OUT_BONUS);
+            BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyAllSources(BonusType.CASH_OUT_BONUS);
 
             return BigInteger.Parse(big.Ceiling().ToString("F0"));
         }
@@ -169,7 +201,7 @@ namespace GreedyMercs
             string key = "TAP_DAMAGE";
 
             if (IsCacheOutdated(key, CachedDoubles))
-                CachedDoubles[key] = (Formulas.CalcTapDamage() * MultiplyBonuses(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
+                CachedDoubles[key] = (Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
 
             return CachedDoubles[key];
         }
@@ -199,24 +231,24 @@ namespace GreedyMercs
                 );
         }
 
-        public static double MultiplyBonuses(params BonusType[] types)
+        static double MultiplyAllSources(BonusType type, double defaultGetValue = 1)
         {
-            double val = 1.0f;
-
-            foreach (BonusType type in types)
-                val *= BonusFromCharacterPassives.Get(type, 1) * BonusFromArtefacts.Get(type, 1) * BonusFromSkills.Get(type, 1);
-
-            return val;
+            return (
+                BonusFromSkills.Get(type, defaultGetValue) *
+                BonusFromArmoury.Get(type, defaultGetValue) *
+                BonusFromArtefacts.Get(type, defaultGetValue) *
+                BonusFromCharacterPassives.Get(type, defaultGetValue)
+                );
         }
 
-        public static double AddictiveBonuses(params BonusType[] types)
+        static double AddAllSources(BonusType type, double defaultGetValue = 0)
         {
-            double val = 0.0f;
-
-            foreach (BonusType type in types)
-                val += BonusFromCharacterPassives.Get(type, 0) + BonusFromArtefacts.Get(type, 0);
-
-            return val;
+            return (
+                BonusFromSkills.Get(type, defaultGetValue) +
+                BonusFromArmoury.Get(type, defaultGetValue) +
+                BonusFromArtefacts.Get(type, defaultGetValue) +
+                BonusFromCharacterPassives.Get(type, defaultGetValue)
+                );
         }
     }
 }

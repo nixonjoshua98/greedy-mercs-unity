@@ -74,11 +74,7 @@ namespace GM.Artefacts
 
         void UpdateEffectText()
         {
-            double effect = ArtState.Effect();
-
-            effectText.text = Funcs.Bonus.BonusString(ServerData.valueType, effect);
-
-            effectText.text += " " + Utils.Generic.BonusToString(ServerData.bonusType);
+            effectText.text = string.Format("{0} {1}", StringFormatting.Number(ArtState.Effect()), Funcs.BonusString(ServerData.bonusType));
         }
 
         // = = = Button Callbacks = = = //

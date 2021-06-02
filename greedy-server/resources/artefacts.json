@@ -81,8 +81,7 @@
   "9": {
     "name": "Critical Touch",
     "iconString": "ArtefactIcons/necklace",
-    "bonusType": 8,
-    "valueType": 1,
+    "bonusType": 300,
     "maxLevel": 10,
     "costCoeff": 1.0,
     "costExpo": 3.0,
@@ -122,29 +121,29 @@
     "levelEffect": 0.5
   },
   "14": {
-    "bonusType": 10,
+    "bonusType": 301,
     "costCoeff": 0.6,
     "costExpo": 1.4,
     "baseEffect": 1.25,
     "levelEffect": 0.25
   },
   "15": {
-    "bonusType": 12,
-    "valueType": 2,
+    "name": "Charm of The New Beginning",
+    "bonusType": 100,
     "maxLevel": 40,
+    "costCoeff": 0.5,
+    "costExpo": 2.5,
+    "baseEffect": 1,
+    "levelEffect": 1
+  },
+  "16": {
+    "name": "Liquid Energy",
+    "bonusType": 200,
+    "maxLevel": 25,
     "costCoeff": 0.5,
     "costExpo": 2.5,
     "baseEffect": 0.1,
     "levelEffect": 0.1
-  },
-  "16": {
-    "bonusType": 13,
-    "valueType": 2,
-    "maxLevel": 25,
-    "costCoeff": 0.5,
-    "costExpo": 2.5,
-    "baseEffect": 2.0,
-    "levelEffect": 2.0
   },
   "17": {
     "bonusType": 5,

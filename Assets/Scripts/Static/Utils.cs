@@ -12,24 +12,63 @@ using SimpleJSON;
 
 using Vector3 = UnityEngine.Vector3;
 
-public static class Funcs
+public static class DictionaryExtensions
 {
-    public static class Bonus
+    public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
     {
-        public static string BonusString(ValueType valueType, double val)
-        {
-            switch (valueType)
-            {
-                case ValueType.ADDITIVE:
-                    return string.Format("{0}", GreedyMercs.Utils.Format.FormatNumber(val));
+        return dict.TryGetValue(key, out var value) ? value : fallback;
+    }
+}
 
-                case ValueType.PERCENTAGE:
-                    return string.Format("{0}%", GreedyMercs.Utils.Format.FormatNumber(val * 100));
+public static class Extensions
+{
 
-                default:
-                    return string.Format("{0}%", GreedyMercs.Utils.Format.FormatNumber(val * 100));
-            }
-        }
+    public static BigDouble ToBigDouble(this BigInteger val)
+    {
+        return BigDouble.Parse(val.ToString());
+    }
+
+    public static BigInteger ToBigInteger(this BigDouble val)
+    {
+        return BigInteger.Parse(val.Ceiling().ToString("F0"));
+    }
+
+    public static DateTime ToUnixDatetime(this long val)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
+    }
+}
+
+public class StringFormatting : MonoBehaviour
+{
+    static Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
+
+    public static string Number(double val)
+    {
+        if (val < 1d)
+            return Math.Round(val, 3).ToString();
+
+        int n = (int)Math.Log(val, 1000);
+
+        float m = (float)(val / Mathf.Pow(1000.0f, n));
+
+        if (n < unitsTable.Count)
+            return m.ToString("F") + unitsTable[n];
+
+        return val.ToString("e2").Replace("+", "");
+    }
+}
+
+    public static class Funcs
+{
+    public static string BonusString(BonusType bonusType)
+    {
+        return bonusType.ToString();
+    }
+
+    public static string BonusString(BonusType bonusType, double val)
+    {
+        return string.Format("{0} {1}", val, BonusString(bonusType));
     }
 
     // = = = Time = = = //
@@ -85,84 +124,8 @@ public static class Funcs
 
 }
 
-public static class DictionaryExtensions
-{
-    public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
-    {
-        return dict.TryGetValue(key, out var value) ? value : fallback;
-    }
-}
-
-public static class StringExtensions
-{
-    public static string ToTitle(this string str)
-    {
-        return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
-    }
-}
-
-public static class EnumExtensions
-{
-    public static string ToTitle(this BonusType bonusType)
-    {
-        return bonusType.ToString().Replace("_", " ").ToTitle();
-    }
-}
-
-
-
-public static class Extensions
-{    
-
-    public static BigDouble ToBigDouble(this BigInteger val)
-    {
-        return BigDouble.Parse(val.ToString());
-    }
-
-    public static BigInteger ToBigInteger(this BigDouble val)
-    {
-        return BigInteger.Parse(val.Ceiling().ToString("F0"));
-    }
-
-    public static DateTime ToUnixDatetime(this long val)
-    {
-        return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
-    }
-}
-
 namespace GreedyMercs.Utils
 {
-    public class Generic
-    {
-        public static string BonusToString(BonusType skill)
-        {
-            switch (skill)
-            {
-                case BonusType.MERC_DAMAGE:         return "Merc Damage";
-                case BonusType.TAP_DAMAGE:          return "Tap Damage";
-                case BonusType.CHAR_TAP_DAMAGE_ADD: return "Bonus to Tap Damage";
-                case BonusType.ENEMY_GOLD:          return "Enemy Gold";
-                case BonusType.BOSS_GOLD:           return "Boss Gold";
-                case BonusType.MELEE_DAMAGE:        return "Melee Damage";
-                case BonusType.CRIT_CHANCE:         return "Critical Hit Chance";
-                case BonusType.RANGED_DAMAGE:       return "Ranged Damage";
-                case BonusType.ALL_GOLD:            return "All Gold";
-                case BonusType.CRIT_DAMAGE:         return "Critical Hit Damage";
-                case BonusType.CASH_OUT_BONUS:      return "Cash Out Bonus";
-                case BonusType.ENERGY_INCOME:       return "Energy Income";
-                case BonusType.ENERGY_CAPACITY:     return "Energy Capacity";
-                case BonusType.GOLD_RUSH_BONUS:     return "Gold Rush Bonus";
-                case BonusType.GOLD_RUSH_DURATION:  return "Gold Rush Duration";
-                case BonusType.AUTO_CLICK_BONUS:    return "Auto Click Damage";
-                case BonusType.AUTO_CLICK_DURATION: return "Auto Click Duration";
-                case BonusType.BOSS_TIMER_DURATION: return "Boss Timer Duration";
-
-                default:
-                    return "<missing name>";
-            }
-        }
-    }
-
     public class Lerp
     {
         public static IEnumerator Local(GameObject o, Vector3 start, Vector3 end, float dur)

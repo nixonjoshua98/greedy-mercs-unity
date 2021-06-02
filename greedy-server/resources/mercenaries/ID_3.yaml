@@ -19,7 +19,7 @@ passives:
 - bonusType: 4
   bonusValue: 0.001
   unlockLevel: 100
-- bonusType: 10
+- bonusType: 301
   bonusValue: 1.5
   unlockLevel: 125
 - bonusType: 1

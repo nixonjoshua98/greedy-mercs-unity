@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace GreedyMercs
 {
+   
     public class SkillRow : MonoBehaviour
     {
         [SerializeField] protected SkillID SkillID;
@@ -70,7 +71,7 @@ namespace GreedyMercs
                 return "Locked";
 
             string effect       = Utils.Format.FormatNumber(StatsCache.Skills.SkillBonus(SkillID) * 100);
-            string bonusType    = Utils.Generic.BonusToString(StaticData.SkillList.Get(SkillID).bonusType);
+            string bonusType    = Funcs.BonusString(StaticData.SkillList.Get(SkillID).bonusType);
 
             double duration     = StatsCache.Skills.SkillDuration(SkillID);
 
@@ -124,7 +125,7 @@ namespace GreedyMercs
 
                 GameState.Player.gold -= skillLevel.UpgradeCost;
 
-                GameState.Player.currentEnergy = Math.Min(StatsCache.PlayerMaxEnergy(), GameState.Player.currentEnergy + scriptable.EnergyGainedOnUnlock);
+                GameState.Player.currentEnergy = Math.Min(StatsCache.MaxEnergyCapacity(), GameState.Player.currentEnergy + scriptable.EnergyGainedOnUnlock);
             }
 
             UpdateUI();

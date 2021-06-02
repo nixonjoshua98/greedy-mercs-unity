@@ -6,9 +6,27 @@ using UnityEngine;
 
 namespace GM.Characters
 {
+    using StatsCache = GreedyMercs.StatsCache;
+    using Formulas = GreedyMercs.Formulas;
+
     public class MercState
     {
+        public CharacterID ID;
+
         public int Level;
+
+        public MercData svrData { get { return StaticData.Mercs.GetMerc(ID); } }
+
+        public BigDouble CostToUpgrade(int levels)
+        {
+            return Formulas.MercLevelUpCost(Level, levels, svrData.UnlockCost);
+        }
+
+        public BigDouble TotalDamage()
+        {
+            return StatsCache.TotalMercDamage(ID);
+        }
+
     }
 
     public class MercenaryManager
@@ -63,7 +81,7 @@ namespace GM.Characters
         // = = = Set Methods = = = //
         public void SetState(CharacterID chara)
         {
-            states[chara] = new MercState() { Level = 1 };
+            states[chara] = new MercState() { ID = chara, Level = 1 };
         }
 
         public void SetState(CharacterID chara, MercState state)

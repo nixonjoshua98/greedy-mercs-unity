@@ -37,7 +37,7 @@ namespace GreedyMercs.Characters
 
         protected virtual void OnAttackHit(float timeSinceAttack)
         {
-            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character) * timeSinceAttack);
+            GameManager.TryDealDamageToEnemy(StatsCache.TotalMercDamage(character) * timeSinceAttack);
         }
 
         void GetInitialComponents()

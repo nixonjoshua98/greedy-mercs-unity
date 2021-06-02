@@ -43,7 +43,7 @@ namespace GreedyMercs
                         {
                             if (passive.Type == BonusType.CHAR_TAP_DAMAGE_ADD)
                             {
-                                val += passive.Value * StatsCache.CharacterDamage(hero);
+                                val += passive.Value * StatsCache.TotalMercDamage(hero);
                             }
                         }
                     }

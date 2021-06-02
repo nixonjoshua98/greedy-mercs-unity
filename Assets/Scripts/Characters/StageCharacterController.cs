@@ -47,7 +47,7 @@ namespace GreedyMercs.Characters
 
         protected override void OnAttackHit(float timeSinceAttack)
         {
-            GameManager.TryDealDamageToEnemy(StatsCache.CharacterDamage(character) * timeSinceAttack);
+            GameManager.TryDealDamageToEnemy(StatsCache.TotalMercDamage(character) * timeSinceAttack);
         }
     }
 }

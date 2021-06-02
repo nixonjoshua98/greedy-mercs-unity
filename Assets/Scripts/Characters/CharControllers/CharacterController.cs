@@ -36,7 +36,7 @@ namespace GM.Characters
         // = = = Callback = = = //
         public override void OnAttack()
         {
-            GreedyMercs.GameManager.TryDealDamageToEnemy(GreedyMercs.StatsCache.CharacterDamage(characterId));
+            GreedyMercs.GameManager.TryDealDamageToEnemy(GreedyMercs.StatsCache.TotalMercDamage(characterId));
         }
 
         protected override bool CanAttack(GameObject obj)

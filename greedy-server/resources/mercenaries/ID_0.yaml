@@ -8,8 +8,8 @@ prefabString: Mercs/Prefabs/stone_golem
 iconString: Mercs/Icons/stone_golem
 
 passives:
-- bonusType: 4
-  bonusValue: 0.001
+- bonusType: 100
+  bonusValue: 10
   unlockLevel: 25
 - bonusType: 0
   bonusValue: 1.25
@@ -23,7 +23,7 @@ passives:
 - bonusType: 0
   bonusValue: 1.15
   unlockLevel: 125
-- bonusType: 8
+- bonusType: 300
   bonusValue: 0.01
   unlockLevel: 150
 - bonusType: 2
@@ -41,7 +41,7 @@ passives:
 - bonusType: 1
   bonusValue: 1.1
   unlockLevel: 400
-- bonusType: 10
+- bonusType: 301
   bonusValue: 1.5
   unlockLevel: 450
 - bonusType: 3

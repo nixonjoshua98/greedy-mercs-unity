@@ -21,10 +21,6 @@ namespace GreedyMercs
         const float BASE_CRIT_CHANCE = 0.01f;
         const float BASE_CRIT_MULTIPLIER = 2.5f;
 
-        static Dictionary<string, float> CacheTimers                            = new Dictionary<string, float>();
-        static Dictionary<string, BigDouble> CachedDoubles                      = new Dictionary<string, BigDouble>();
-        static Dictionary<string, Dictionary<BonusType, double>> CachedBonuses  = new Dictionary<string, Dictionary<BonusType, double>>();
-
         public static BigDouble ArmouryDamageMultiplier
         {
             get
@@ -33,38 +29,14 @@ namespace GreedyMercs
             }
         }
 
-        static Dictionary<BonusType, double> BonusFromArmoury { get { return ArmouryManager.Instance.CalculateBonuses(); } }
-        static Dictionary<BonusType, double> BonusFromArtefacts { get { return ArtefactManager.Instance.CalculateBonuses(); } }
-        static Dictionary<BonusType, double> BonusFromCharacterPassives { get { return MercenaryManager.Instance.CalculateBonuses(); } }
-        static Dictionary<BonusType, double> BonusFromSkills { get { return GameState.Skills.CalculateBonuses(); } }
-
-        public static BigDouble TotalCharacterDPS
-        {
-            get
-            {
-                BigDouble total = 0;
-
-                foreach (CharacterID chara in MercenaryManager.Instance.Unlocked)
-                {                   
-                    total += TotalMercDamage(chara);
-                }
-
-                return total;
-            }
-        }
-
-        public static void Clear()
-        {
-            CacheTimers.Clear();
-
-            CachedDoubles.Clear();
-
-            CachedBonuses.Clear();
-        }
+        static List<KeyValuePair<BonusType, double>> SkillBonus { get { return SkillsManager.Instance.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return ArmouryManager.Instance.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return ArtefactManager.Instance.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> CharacterBonus { get { return MercenaryManager.Instance.Bonuses(); } }
 
         public static class StageEnemy
         {
-            public static float BossTimer => 15.0f + (float)BonusFromArtefacts.Get(BonusType.BOSS_TIMER_DURATION, 0);
+            public static float BossTimer => 15.0f + (float)AddAllSources(BonusType.BOSS_TIMER_DURATION);
 
             public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * AddAllSources(BonusType.ENEMY_GOLD) * AddAllSources(BonusType.ALL_GOLD);
 
@@ -78,10 +50,10 @@ namespace GreedyMercs
                 switch (skill)
                 {
                     case SkillID.GOLD_RUSH:
-                        return GameState.Skills.Get(SkillID.GOLD_RUSH).LevelData.BonusValue * MultiplyAllSources(BonusType.GOLD_RUSH_BONUS);
+                        return SkillsManager.Instance.Get(SkillID.GOLD_RUSH).LevelData.BonusValue * MultiplyAllSources(BonusType.GOLD_RUSH_BONUS);
 
                     case SkillID.AUTO_CLICK:
-                        return GameState.Skills.Get(SkillID.AUTO_CLICK).LevelData.BonusValue * MultiplyAllSources(BonusType.AUTO_CLICK_BONUS);
+                        return SkillsManager.Instance.Get(SkillID.AUTO_CLICK).LevelData.BonusValue * MultiplyAllSources(BonusType.AUTO_CLICK_BONUS);
 
                     default:
                         Debug.Break();
@@ -94,29 +66,25 @@ namespace GreedyMercs
 
             public static double SkillDuration(SkillID skill)
             {
+                SkillSO skillSo = StaticData.SkillList.Get(skill);
+
+                return skillSo.Duration;
+
                 switch (skill)
                 {
                     case SkillID.GOLD_RUSH:
-                        return StaticData.SkillList.Get(SkillID.GOLD_RUSH).Duration + AddAllSources(BonusType.GOLD_RUSH_DURATION);
+                        return skillSo.Duration + AddAllSources(BonusType.GOLD_RUSH_DURATION);
 
                     case SkillID.AUTO_CLICK:
-                        return StaticData.SkillList.Get(SkillID.AUTO_CLICK).Duration + AddAllSources(BonusType.AUTO_CLICK_DURATION);
-
-                    default:
-                        Debug.Break();
-
-                        Debug.Log("Error: Skill not found");
-
-                        return 0;
+                        return skillSo.Duration + AddAllSources(BonusType.AUTO_CLICK_DURATION);
                 }
+
+                return 0;
             }
 
             public static BigDouble AutoClickDamage()
             {
-                if (IsCacheOutdated("AUTO_CLICK_DMG", CachedDoubles))
-                    CachedDoubles["AUTO_CLICK_DMG"] = GetTapDamage() * SkillBonus(SkillID.AUTO_CLICK);
-
-                return CachedDoubles["AUTO_CLICK_DMG"];
+                return GetTapDamage() * SkillBonus(SkillID.AUTO_CLICK);
             }
         }
 
@@ -124,15 +92,15 @@ namespace GreedyMercs
         // # === Energy === #
         public static double EnergyPerMinute()
         {
-            double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_INCOME, 0);
-            double percentExtraCapacity = MultiplyAllSources(BonusType.PERCENT_ENERGY_INCOME, 1);
+            double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_INCOME);
+            double percentExtraCapacity = MultiplyAllSources(BonusType.PERCENT_ENERGY_INCOME);
 
             return (BASE_ENERGY_MIN + flatExtraCapacity) * percentExtraCapacity;
         }
 
         public static double MaxEnergyCapacity()
         {
-            int energyFromSkills = GameState.Skills.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
+            int energyFromSkills = SkillsManager.Instance.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
 
             double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_CAPACITY);
             double percentExtraCapacity = MultiplyAllSources(BonusType.PERCENT_ENERGY_CAPACITY);
@@ -150,7 +118,6 @@ namespace GreedyMercs
         {
             return BASE_CRIT_MULTIPLIER + MultiplyAllSources(BonusType.FLAT_CRIT_DMG_MULT);
         }
-
 
         public static bool ApplyCritHit(ref BigDouble val)
         {
@@ -189,6 +156,16 @@ namespace GreedyMercs
             return val;
         }
 
+        public static BigDouble TotalMercDamage()
+        {
+            BigDouble total = 0;
+
+            foreach (CharacterID chara in MercenaryManager.Instance.Unlocked)
+                total += TotalMercDamage(chara);
+
+            return total;
+        }
+
         public static BigInteger GetPrestigePoints(int stage)
         {
             BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyAllSources(BonusType.CASH_OUT_BONUS);
@@ -198,24 +175,7 @@ namespace GreedyMercs
 
         public static BigDouble GetTapDamage()
         {
-            string key = "TAP_DAMAGE";
-
-            if (IsCacheOutdated(key, CachedDoubles))
-                CachedDoubles[key] = (Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
-
-            return CachedDoubles[key];
-        }
-
-        static bool IsCacheOutdated<TVal>(string key, Dictionary<string, TVal> valueCache)
-        {
-            if (!valueCache.ContainsKey(key) || !CacheTimers.ContainsKey(key) || (Time.realtimeSinceStartup - CacheTimers[key]) >= 0.5f)
-            {
-                CacheTimers[key] = Time.realtimeSinceStartup;
-
-                return true;
-            }
-
-            return false;
+            return (Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
         }
 
 
@@ -224,31 +184,51 @@ namespace GreedyMercs
         static double MultiplyAllSources(BonusType type)
         {
             return (
-                BonusFromCharacterPassives.Get(type, 1) * 
-                BonusFromArtefacts.Get(type, 1) *
-                BonusFromSkills.Get(type, 1) *
-                BonusFromArmoury.Get(type, 1)
+                MultiplySource(type, SkillBonus) *
+                MultiplySource(type, ArmouryBonus) *
+                MultiplySource(type, ArtefactBonus) *
+                MultiplySource(type, CharacterBonus)
                 );
         }
 
-        static double MultiplyAllSources(BonusType type, double defaultGetValue = 1)
+        static double AddAllSources(BonusType type)
         {
             return (
-                BonusFromSkills.Get(type, defaultGetValue) *
-                BonusFromArmoury.Get(type, defaultGetValue) *
-                BonusFromArtefacts.Get(type, defaultGetValue) *
-                BonusFromCharacterPassives.Get(type, defaultGetValue)
+                AddSource(type, SkillBonus) +
+                AddSource(type, ArmouryBonus) +
+                AddSource(type, ArtefactBonus) +
+                AddSource(type, CharacterBonus)
                 );
         }
 
-        static double AddAllSources(BonusType type, double defaultGetValue = 0)
+        static double AddSource(BonusType type, List<KeyValuePair<BonusType, double>> ls)
         {
-            return (
-                BonusFromSkills.Get(type, defaultGetValue) +
-                BonusFromArmoury.Get(type, defaultGetValue) +
-                BonusFromArtefacts.Get(type, defaultGetValue) +
-                BonusFromCharacterPassives.Get(type, defaultGetValue)
-                );
+            double val = 0;
+
+            foreach (KeyValuePair<BonusType, double> pair in ls)
+            {
+                if (pair.Key == type)
+                {
+                    val += pair.Value;
+                }
+            }
+
+            return val;
+        }
+
+        static double MultiplySource(BonusType type, List<KeyValuePair<BonusType, double>> ls)
+        {
+            double val = 1;
+
+            foreach (KeyValuePair<BonusType, double> pair in ls)
+            {
+                if (pair.Key == type)
+                {
+                    val *= pair.Value;
+                }
+            }
+
+            return val;
         }
     }
 }

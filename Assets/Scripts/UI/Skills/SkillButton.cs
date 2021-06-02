@@ -11,7 +11,7 @@ namespace GreedyMercs.Skills.UI
 
         public void OnClick()
         {
-            SkillState state = GameState.Skills.Get(skill);
+            SkillState state = SkillsManager.Instance.Get(skill);
 
             if (!state.IsActive)
             {
@@ -21,7 +21,7 @@ namespace GreedyMercs.Skills.UI
                 {
                     GameState.Player.currentEnergy -= levelData.EnergyCost;
 
-                    GameState.Skills.ActivateSkill(skill);
+                    SkillsManager.Instance.ActivateSkill(skill);
 
                     Events.OnSkillActivated.Invoke();
 

@@ -25,7 +25,7 @@ namespace GM.Armoury
         }
     }
 
-    public class ArmouryManager
+    public class ArmouryManager : IBonusManager
     {
         public static ArmouryManager Instance = null;
 
@@ -82,33 +82,7 @@ namespace GM.Armoury
         }
 
 
-        // 
-        public double DamageBonus()
-        {
-            double val = 0;
-
-            foreach (var w in states)
-            {
-                ArmouryItemState state = GetItem(w.Key);
-
-                if (state.level > 0)
-                    val += Formulas.Armoury.WeaponDamage(w.Key);
-            }
-
-            return val;
-        }
-
-
         // = = = GET = = =
-        public Dictionary<BonusType, double> CalculateBonuses()
-        {
-            Dictionary<BonusType, double> dict = new Dictionary<BonusType, double>();
-
-            dict[BonusType.MERC_DAMAGE] = DamageBonus();
-
-            return dict;
-        }
-
         public List<ArmouryItemState> GetOwned()
         {
             List<ArmouryItemState> ls = new List<ArmouryItemState>();
@@ -161,6 +135,32 @@ namespace GM.Armoury
             node["itemId"] = itemId;
 
             return node;
+        }
+
+        // = = = Special Methods = = = //
+        public double DamageBonus()
+        {
+            double val = 0;
+
+            foreach (var w in states)
+            {
+                ArmouryItemState state = GetItem(w.Key);
+
+                if (state.level > 0)
+                    val += Formulas.Armoury.WeaponDamage(w.Key);
+            }
+
+            return val;
+        }
+
+        public List<KeyValuePair<BonusType, double>> Bonuses()
+        {
+            List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>
+            {
+                new KeyValuePair<BonusType, double>(BonusType.MERC_DAMAGE, DamageBonus())
+            };
+
+            return ls;
         }
     }
 }

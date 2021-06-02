@@ -9,6 +9,8 @@ using SimpleJSON;
 
 namespace GreedyMercs
 {
+    using GM;
+
     public class SkillState
     {
         SkillID SkillID;
@@ -40,15 +42,20 @@ namespace GreedyMercs
 
 
 
-    public class SkillsState
+    public class SkillsManager : IBonusManager
     {
+        public static SkillsManager Instance = null;
+
         Dictionary<SkillID, SkillState> skills;
 
-        public SkillsState(JSONNode node)
+        public static void Create(JSONNode node)
+        {
+            Instance = new SkillsManager(node);
+        }
+
+        SkillsManager(JSONNode node)
         {
             skills = new Dictionary<SkillID, SkillState>();
-
-            node = node["skills"];
 
             foreach (string key in node.Keys)
             {
@@ -59,41 +66,6 @@ namespace GreedyMercs
                 skills.Add(skill, new SkillState(skill) { level = restoredState.level });
             }
         }
-
-        public void Clear()
-        {
-            skills = new Dictionary<SkillID, SkillState>();
-        }
-
-        public JSONNode ToJson()
-        {
-            JSONNode node = new JSONObject();
-
-            foreach (var entry in skills)
-            {
-                node.Add(((int)entry.Key).ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
-            }
-
-            return node;
-        }
-
-        public Dictionary<BonusType, double> CalculateBonuses()
-        {
-            Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
-
-            foreach (var entry in skills)
-            {
-                if (entry.Value.IsActive)
-                {
-                    SkillSO data = StaticData.SkillList.Get(entry.Key);
-
-                    bonuses[data.bonusType] = bonuses.Get(data.bonusType, 1) * entry.Value.LevelData.BonusValue;
-                }
-            }
-
-            return bonuses;
-        }
-
 
         public void UpgradeSkill(SkillID skill)
         {
@@ -130,6 +102,24 @@ namespace GreedyMercs
             }
 
             return unlocked;
+        }
+
+        // = = = Special methods = = = //
+        public List<KeyValuePair<BonusType, double>> Bonuses()
+        {
+            List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
+
+            foreach (var entry in skills)
+            {
+                if (entry.Value.IsActive)
+                {
+                    SkillSO data = StaticData.SkillList.Get(entry.Key);
+
+                    ls.Add(new KeyValuePair<BonusType, double>(data.bonusType, entry.Value.LevelData.BonusValue));
+                }
+            }
+
+            return ls;
         }
     }
 }

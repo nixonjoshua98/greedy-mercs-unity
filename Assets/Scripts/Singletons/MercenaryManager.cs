@@ -29,7 +29,7 @@ namespace GM.Characters
 
     }
 
-    public class MercenaryManager
+    public class MercenaryManager : IBonusManager
     {
         public static MercenaryManager Instance = null;
 
@@ -99,34 +99,28 @@ namespace GM.Characters
         }
 
         // = = = Special Methods = = = //
-        public Dictionary<BonusType, double> CalculateBonuses()
+        public List<KeyValuePair<BonusType, double>> Bonuses()
         {
-            Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
+            List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
 
             foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
             {
                 if (Contains(hero))
                 {
                     MercState state = GetState(hero);
-                    MercData data   = StaticData.Mercs.GetMerc(hero);
+                    MercData data = StaticData.Mercs.GetMerc(hero);
 
                     foreach (MercPassiveData passive in data.Passives)
                     {
                         if (state.Level >= passive.UnlockLevel)
                         {
-                            if (passive.Value < 1)
-                            {
-                                bonuses[passive.Type] = bonuses.Get(passive.Type, 0) + passive.Value;
-                            }
-
-                            else
-                                bonuses[passive.Type] = bonuses.Get(passive.Type, 1) * passive.Value;
+                            ls.Add(new KeyValuePair<BonusType, double>(passive.Type, passive.Value));
                         }
                     }
                 }
             }
-
-            return bonuses;
+            
+            return ls;
         }
     }
 }

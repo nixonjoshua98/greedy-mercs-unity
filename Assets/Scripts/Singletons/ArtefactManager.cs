@@ -42,7 +42,7 @@ namespace GM.Artefacts
     }
 
 
-    public class ArtefactManager
+    public class ArtefactManager : IBonusManager
     {
         public static ArtefactManager Instance = null;
 
@@ -111,33 +111,6 @@ namespace GM.Artefacts
             Server.Put("artefacts", "purchaseArtefact", node, Callback);
         }
 
-        // = = =
-
-        public Dictionary<BonusType, double> CalculateBonuses()
-        {
-            Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
-
-            foreach (ArtefactState state in StatesList)
-            {
-                ArtefactData data = StaticData.Artefacts.Get(state.ID);
-
-                double effect = state.Effect();
-
-                switch (data.valueType)
-                {
-                    case ValueType.MULTIPLY:
-                        bonuses[data.bonusType] = bonuses.Get(data.bonusType, 1) * effect;
-                        break;
-
-                    default:
-                        bonuses[data.bonusType] = bonuses.Get(data.bonusType, 0) + effect;
-                        break;
-                }
-            }
-
-            return bonuses;
-        }
-
         // = = = Internal Methods = = =
         void SetArtefactStates(JSONNode node)
         {
@@ -164,6 +137,21 @@ namespace GM.Artefacts
             SetArtefactStates(node["userArtefacts"]);
 
             InventoryManager.Instance.SetItems(node["userItems"]);
+        }
+
+        // = = = Special Methods = = = //
+        public List<KeyValuePair<BonusType, double>> Bonuses()
+        {
+            List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
+
+            foreach (ArtefactState state in StatesList)
+            {
+                ArtefactData data = StaticData.Artefacts.Get(state.ID);
+
+                ls.Add(new KeyValuePair<BonusType, double>(data.bonusType, state.Effect()));
+            }
+
+            return ls;
         }
     }
 }

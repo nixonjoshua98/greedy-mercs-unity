@@ -77,6 +77,7 @@ namespace GreedyMercs
             InventoryManager.Create(node["inventory"]);
             BountyShopManager.Create(node["bountyShop"]);
             ArtefactManager.Create(node["artefacts"]);
+            SkillsManager.Create(node["skills"]);
         }
 
         void InstantiateServerData(JSONNode node)

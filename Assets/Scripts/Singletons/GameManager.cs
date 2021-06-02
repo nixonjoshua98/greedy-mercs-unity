@@ -27,8 +27,6 @@ namespace GreedyMercs
         void Awake()
         {
             Instance = this;
-
-            StatsCache.Clear();
         }
 
         void Start()

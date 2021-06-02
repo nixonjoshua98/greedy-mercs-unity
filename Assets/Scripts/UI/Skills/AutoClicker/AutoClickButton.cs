@@ -26,7 +26,7 @@ namespace GreedyMercs.Skills.UI
 
             ActivateButton.interactable = false;
 
-            while (GameState.Skills.IsUnlocked(skill) && GameState.Skills.Get(skill).IsActive)
+            while (SkillsManager.Instance.IsUnlocked(skill) && SkillsManager.Instance.Get(skill).IsActive)
             {
                 float seconds = Mathf.Min(1, (Time.timeSinceLevelLoad - lastTap) / 0.1f);
 

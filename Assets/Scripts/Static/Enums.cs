@@ -1,11 +1,4 @@
 ﻿
-public enum ValueType
-{
-    MULTIPLY = 0,
-    PERCENTAGE = 1,
-    ADDITIVE = 2
-}
-
 public enum BonusType
 {
     NONE = -1,

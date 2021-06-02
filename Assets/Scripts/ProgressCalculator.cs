@@ -36,7 +36,7 @@ namespace GreedyMercs
 
         int Process(double progressTimeLeft, int maxStages)
         {
-            BigDouble dps = StatsCache.TotalCharacterDPS;
+            BigDouble dps = StatsCache.TotalMercDamage();
 
             int stagesGained = 0;
 

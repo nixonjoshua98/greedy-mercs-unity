@@ -13,7 +13,6 @@ namespace GM.Artefacts
         public string Name;
 
         public BonusType bonusType;
-        public ValueType valueType;
 
         public int MaxLevel;
 
@@ -31,7 +30,6 @@ namespace GM.Artefacts
             Name = node.GetValueOrDefault("name", "Artefact Name");
 
             bonusType = (BonusType)node["bonusType"].AsInt;
-            valueType = (ValueType)node["valueType"].AsInt;
 
             MaxLevel = node.GetValueOrDefault("maxLevel", 1_000).AsInt;
 

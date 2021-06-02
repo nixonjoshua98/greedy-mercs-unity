@@ -8,7 +8,6 @@ namespace GreedyMercs
     {
         public static StageState Stage;
         public static PlayerState Player;
-        public static SkillsState Skills;
 
         public static UpgradesContainer Upgrades;
         public static CharacterContainer Characters;
@@ -18,7 +17,6 @@ namespace GreedyMercs
         public static void Restore(JSONNode node)
         {
             Stage           = new StageState(node);
-            Skills          = new SkillsState(node);
             Player          = new PlayerState(node["player"]);
 
             Upgrades    = new UpgradesContainer(node);
@@ -32,7 +30,6 @@ namespace GreedyMercs
             Stage.Reset();
             Player.Reset();
 
-            Skills.Clear();
             Upgrades.Clear();
             Characters.Clear();
         }

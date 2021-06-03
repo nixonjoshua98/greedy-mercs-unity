@@ -21,26 +21,36 @@ namespace GM
         const float BASE_CRIT_CHANCE = 0.01f;
         const float BASE_CRIT_MULTIPLIER = 2.5f;
 
-        public static BigDouble ArmouryDamageMultiplier
-        {
-            get
-            {
-                return Math.Max(1.0f, ArmouryManager.Instance.DamageBonus());
-            }
-        }
+        const float BASE_BOSS_TIMER = 15.0f;
 
         static List<KeyValuePair<BonusType, double>> SkillBonus { get { return SkillsManager.Instance.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return ArmouryManager.Instance.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return ArtefactManager.Instance.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> CharacterBonus { get { return MercenaryManager.Instance.Bonuses(); } }
 
+        public static BigDouble ArmouryMercDamageMultiplier { get { return AddSource(BonusType.MERC_DAMAGE, ArmouryBonus); } }
+
         public static class StageEnemy
         {
-            public static float BossTimer => 15.0f + (float)AddAllSources(BonusType.BOSS_TIMER_DURATION);
+            public static BigDouble GetEnemyGold(int stage)
+            {
+                return (
+                    Formulas.CalcEnemyGold(stage) *
 
-            public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * AddAllSources(BonusType.ENEMY_GOLD) * AddAllSources(BonusType.ALL_GOLD);
+                    MultiplyAllSources(BonusType.ENEMY_GOLD) * 
+                    MultiplyAllSources(BonusType.ALL_GOLD)
+                    );
+            }
 
-            public static BigDouble GetBossGold(int stage) => Formulas.CalcBossGold(stage) * AddAllSources(BonusType.BOSS_GOLD) * AddAllSources(BonusType.ALL_GOLD);
+            public static BigDouble GetBossGold(int stage)
+            {
+                return (
+                    Formulas.CalcBossGold(stage) *
+
+                    MultiplyAllSources(BonusType.BOSS_GOLD) *
+                    MultiplyAllSources(BonusType.ALL_GOLD)
+                    );
+            }
         }
 
         public static class Skills
@@ -88,6 +98,12 @@ namespace GM
             {
                 return GetTapDamage() * SkillBonus(SkillID.AUTO_CLICK);
             }
+        }
+
+        // = = = Enemies = = = //
+        public static float BossTimer()
+        {
+            return BASE_BOSS_TIMER + (float) AddAllSources(BonusType.BOSS_TIMER_DURATION);
         }
 
 
@@ -224,6 +240,25 @@ namespace GM
 
             foreach (KeyValuePair<BonusType, double> pair in ls)
             {
+                if (pair.Key == type)
+                {
+                    val *= pair.Value;
+                }
+            }
+
+            return val;
+        }
+
+        static double MultiplySource(BonusType type, List<KeyValuePair<BonusType, double>> ls, string name)
+        {
+            double val = 1;
+
+            Debug.Log(name);
+
+            foreach (KeyValuePair<BonusType, double> pair in ls)
+            {
+                Debug.Log(pair.Key + " " + pair.Value);
+
                 if (pair.Key == type)
                 {
                     val *= pair.Value;

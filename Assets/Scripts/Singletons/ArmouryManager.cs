@@ -155,9 +155,13 @@ namespace GM.Armoury
 
         public List<KeyValuePair<BonusType, double>> Bonuses()
         {
+            double dmgBonus = DamageBonus();
+
+            dmgBonus = dmgBonus > 0 ? dmgBonus : 1;
+
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>
             {
-                new KeyValuePair<BonusType, double>(BonusType.MERC_DAMAGE, DamageBonus())
+                new KeyValuePair<BonusType, double>(BonusType.MERC_DAMAGE, dmgBonus)
             };
 
             return ls;

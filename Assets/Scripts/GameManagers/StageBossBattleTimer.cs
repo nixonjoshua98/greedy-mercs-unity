@@ -57,7 +57,7 @@ namespace GM
 
         IEnumerator BossLoop()
         {
-            float maxTimer = StatsCache.StageEnemy.BossTimer;
+            float maxTimer = StatsCache.BossTimer();
 
             float timer = maxTimer;
 

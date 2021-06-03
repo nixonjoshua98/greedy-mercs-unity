@@ -56,7 +56,7 @@ namespace GM
                     if (isBoss)
                     {
                         // Takes too long to kill the boss
-                        if (secondsToKillEnemy > StatsCache.StageEnemy.BossTimer)
+                        if (secondsToKillEnemy > StatsCache.BossTimer())
                             break;
 
                         stagesGained++;

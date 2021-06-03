@@ -9,7 +9,7 @@ using SimpleJSON;
 
 namespace GM.Artefacts
 {
-    using GreedyMercs;
+    using GM;
     using GM.Inventory;
 
     public class ArtefactState
@@ -76,7 +76,7 @@ namespace GM.Artefacts
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
+                    JSONNode resp = GM.Utils.Json.Decompress(body);
 
                     OnAnyServerRequestCallback(resp);
                 }
@@ -98,7 +98,7 @@ namespace GM.Artefacts
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
+                    JSONNode resp = GM.Utils.Json.Decompress(body);
 
                     OnAnyServerRequestCallback(resp);
                 }
@@ -106,7 +106,7 @@ namespace GM.Artefacts
                 call.Invoke(code == 200);
             }
 
-            JSONNode node = GreedyMercs.Utils.Json.GetDeviceInfo();
+            JSONNode node = GM.Utils.Json.GetDeviceInfo();
 
             Server.Put("artefacts", "purchaseArtefact", node, Callback);
         }

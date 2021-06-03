@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     public class StageTapController : TapController
     {
@@ -13,7 +13,7 @@ namespace GreedyMercs
 
             GameManager.TryDealDamageToEnemy(StatsCache.GetTapDamage());
 
-            Events.OnPlayerClick.Invoke();
+            GlobalEvents.OnPlayerClick.Invoke();
         }
     }
 }

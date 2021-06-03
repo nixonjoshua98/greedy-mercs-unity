@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM
 {
     public class HUD : MonoBehaviour
     {
@@ -13,9 +13,10 @@ namespace GreedyMercs
 
         void Start()
         {
-            Events.OnStageUpdate.AddListener(OnStageUpdate);
+            GlobalEvents.OnStageUpdate.AddListener(OnStageUpdate);
 
-            BossBattleManager.Instance.OnBossSpawn.AddListener(OnBossSpawned);
+            // Temp. Derived events do not show in the inspector
+            FindObjectOfType<StageBossController>().OnBossSpawn.AddListener(OnBossSpawn);
 
             UpdateStageText();
         }
@@ -35,7 +36,8 @@ namespace GreedyMercs
             UpdateStageText();
         }
 
-        void OnBossSpawned(GameObject _)
+        // Event
+        public void OnBossSpawn(GameObject obj)
         {
             StageText.text = "BOSS";
         }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 using GM.Armoury;
 
-namespace GreedyMercs.Armoury.UI
+namespace GM.Armoury.UI
 {
     using GM.Armoury;
     using GM.Inventory;

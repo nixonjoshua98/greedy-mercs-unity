@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.Skills.UI
+namespace GM.Skills.UI
 {
     public class GoldRushButton : SkillButton
     {

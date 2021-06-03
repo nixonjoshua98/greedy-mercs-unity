@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace GreedyMercs
+namespace GM
 {
-    using GreedyMercs.StageDM.Prestige;
+    using GM.StageDM.Prestige;
 
     public class PrestigePanel : MonoBehaviour
     {

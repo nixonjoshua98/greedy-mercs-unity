@@ -77,7 +77,7 @@ public class StringFormatting : MonoBehaviour
 
     public static JSONNode DecryptServerJSON(string data)
     {
-        return JSON.Parse(GreedyMercs.Utils.GZip.Unzip(Convert.FromBase64String(data)));
+        return JSON.Parse(GM.Utils.GZip.Unzip(Convert.FromBase64String(data)));
     }
 
     public static class Format
@@ -124,7 +124,7 @@ public class StringFormatting : MonoBehaviour
 
 }
 
-namespace GreedyMercs.Utils
+namespace GM.Utils
 {
     public class Lerp
     {

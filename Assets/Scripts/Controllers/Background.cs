@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM
 {
     public class Background : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace GreedyMercs
 
         void Awake()
         {
-            Events.OnNewStageStarted.AddListener(OnNewStageStarted);
+            GlobalEvents.OnNewStageStarted.AddListener(OnNewStageStarted);
         }
 
         void Start()

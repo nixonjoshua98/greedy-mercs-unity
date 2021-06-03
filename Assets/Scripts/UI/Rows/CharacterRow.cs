@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 namespace GM.Characters
 {
-    using Utils = GreedyMercs.Utils;
+    using Utils = GM.Utils;
 
-    using GreedyMercs;
-    using GreedyMercs.UI;
+    using GM;
+    using GM.UI;
 
     using GM.UI;
 
@@ -95,7 +95,7 @@ namespace GM.Characters
 
                 GameState.Player.gold -= cost;
 
-                Events.OnCharacterLevelUp.Invoke(_mercId);
+                GlobalEvents.OnCharacterLevelUp.Invoke(_mercId);
             }
         }
 

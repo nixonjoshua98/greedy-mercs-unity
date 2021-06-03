@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-namespace GreedyMercs.Armoury.UI
+namespace GM.Armoury.UI
 {
     using GM.Armoury;
 

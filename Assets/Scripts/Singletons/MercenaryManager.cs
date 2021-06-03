@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace GM.Characters
 {
-    using StatsCache = GreedyMercs.StatsCache;
-    using Formulas = GreedyMercs.Formulas;
+    using StatsCache = GM.StatsCache;
+    using Formulas = GM.Formulas;
 
     public class MercState
     {

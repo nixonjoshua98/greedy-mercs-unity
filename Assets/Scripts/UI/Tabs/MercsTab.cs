@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace GM.UI
 {
-    using GreedyMercs;
+    using GM.Events;
 
 
     using GM.Characters;
@@ -22,7 +22,7 @@ namespace GM.UI
 
         void Awake()
         {
-            Events.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
+            GlobalEvents.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
         void AddRow(CharacterID chara)

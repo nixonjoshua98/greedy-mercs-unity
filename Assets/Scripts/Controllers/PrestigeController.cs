@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 using SimpleJSON;
 
-namespace GreedyMercs.StageDM.Prestige
+namespace GM.StageDM.Prestige
 {    
     public class PrestigeController : MonoBehaviour
     {
@@ -35,7 +35,7 @@ namespace GreedyMercs.StageDM.Prestige
         {
             if (code == 200)
             {
-                Events.OnPlayerPrestige.Invoke();
+                GlobalEvents.OnPlayerPrestige.Invoke();
 
                 RunPrestigeAnimation();
             }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 using GM.Events;
 
-namespace GreedyMercs
+namespace GM
 {
     public abstract class Health : MonoBehaviour
     {

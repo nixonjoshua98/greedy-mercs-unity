@@ -79,7 +79,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
+                    JSONNode resp = GM.Utils.Json.Decompress(body);
 
                     // Update the store items pulled from the server
                     ServerData.UpdateAll(resp["serverData"]);
@@ -94,7 +94,7 @@ namespace GM.BountyShop
                 }
             }
 
-            JSONNode node = GreedyMercs.Utils.Json.GetDeviceInfo();
+            JSONNode node = GM.Utils.Json.GetDeviceInfo();
 
             Server.Put("bountyshop", "refreshShop", node, Callback);
         }
@@ -105,7 +105,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
+                    JSONNode resp = GM.Utils.Json.Decompress(body);
 
                     OnPurchaseAnyItem(resp);
                 }
@@ -122,7 +122,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GreedyMercs.Utils.Json.Decompress(body);
+                    JSONNode resp = GM.Utils.Json.Decompress(body);
 
                     ArmouryManager.Instance.SetArmouryItems(resp["userArmouryItems"]);
 
@@ -138,7 +138,7 @@ namespace GM.BountyShop
         // = = = Helper = = =
         JSONNode CreateJson(int itemId)
         {
-            JSONNode node = GreedyMercs.Utils.Json.GetDeviceInfo();
+            JSONNode node = GM.Utils.Json.GetDeviceInfo();
 
             node["itemId"] = itemId;
 

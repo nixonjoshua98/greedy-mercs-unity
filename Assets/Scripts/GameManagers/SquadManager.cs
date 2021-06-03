@@ -5,7 +5,7 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     using GM.Characters;
 
@@ -20,7 +20,7 @@ namespace GreedyMercs
             for (int i = 0; i < transform.childCount; ++i)
                 characterSpots.Add(transform.GetChild(i));
 
-            Events.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
+            GlobalEvents.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
         }
 
         void AddCharacter(CharacterID chara)

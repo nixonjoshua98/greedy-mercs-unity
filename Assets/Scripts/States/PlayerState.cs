@@ -5,7 +5,7 @@ using SimpleJSON;
 using UnityEngine;
 
 
-namespace GreedyMercs
+namespace GM
 {
     [System.Serializable]
     public class PlayerState

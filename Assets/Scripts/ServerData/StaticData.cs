@@ -8,7 +8,7 @@ using SimpleJSON;
    using GM.Artefacts;
    using GM.Characters;
 
-using GreedyMercs;
+using GM;
 
 public static class StaticData
 {

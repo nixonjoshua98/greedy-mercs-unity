@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     public class CoinDropController : MonoBehaviour
     {
@@ -9,9 +9,9 @@ namespace GreedyMercs
 
         public void Start()
         {
-            Events.OnKillEnemy.AddListener(PlayCoinParticles);
+            GlobalEvents.OnKillEnemy.AddListener(PlayCoinParticles);
 
-            BossBattleManager.Instance.OnBossDeath.AddListener(PlayCoinParticles);
+            //BossBattleManager.Instance.OnBossDeath.AddListener(PlayCoinParticles);
         }
 
 

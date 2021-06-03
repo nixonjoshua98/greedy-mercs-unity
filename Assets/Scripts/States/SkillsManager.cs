@@ -7,7 +7,7 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace GreedyMercs
+namespace GM
 {
     using GM;
 

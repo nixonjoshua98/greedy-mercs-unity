@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {    
     public class EnemyLoot : LootDrop
     {

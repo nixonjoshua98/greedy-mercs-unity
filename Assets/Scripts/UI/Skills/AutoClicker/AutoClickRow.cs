@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs.Skills.UI
+namespace GM.Skills.UI
 {
     public class AutoClickRow : SkillRow
     {

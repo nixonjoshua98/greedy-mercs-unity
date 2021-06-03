@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.Armoury.UI
+namespace GM.Armoury.UI
 {
     using GM.Armoury;
 

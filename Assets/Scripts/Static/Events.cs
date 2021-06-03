@@ -8,22 +8,17 @@ namespace GM.Events
     public class IntegerEvent : UnityEvent<int> { }
 
     public class GameObjectEvent : UnityEvent<GameObject> { }
-}
-
-namespace GreedyMercs.CustomEvents
-{
-    public class GameObjectEvent : UnityEvent<GameObject> { }
 
     public class HealthEvent : UnityEvent<Health> { }
 
     public class CharacterEvent : UnityEvent<CharacterID> { }
 }
 
-namespace GreedyMercs
+namespace GM
 {
-    using CustomEvents;
+    using GM.Events;
 
-    public class Events : MonoBehaviour
+    public static class GlobalEvents
     {
         public static HealthEvent OnEnemyHurt = new HealthEvent();
 

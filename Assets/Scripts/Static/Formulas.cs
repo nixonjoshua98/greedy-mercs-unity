@@ -3,7 +3,7 @@ using System.Numerics;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     using GM.Armoury;
     using GM.Characters;

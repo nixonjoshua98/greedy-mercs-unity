@@ -12,7 +12,7 @@ namespace GM.Bounty
 {
     using GM.Inventory;
 
-    using Utils = GreedyMercs.Utils;
+    using Utils = GM.Utils;
 
     public class BountyState
     {

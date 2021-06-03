@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
-    using GreedyMercs.UI.Messages;
+    using GM.UI.Messages;
 
     public class ProgressCalculator : MonoBehaviour
     {

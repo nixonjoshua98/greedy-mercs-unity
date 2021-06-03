@@ -7,9 +7,9 @@ using SimpleJSON;
 
 namespace GM.Armoury
 {
-    using Utils = GreedyMercs.Utils;
+    using Utils = GM.Utils;
 
-    using Formulas = GreedyMercs.Formulas;
+    using Formulas = GM.Formulas;
 
     public class ArmouryItemState
     {

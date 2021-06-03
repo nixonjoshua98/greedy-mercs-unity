@@ -7,7 +7,7 @@ namespace GM.Artefacts
     using GM.UI;
     using GM.Inventory;
 
-    using Utils = GreedyMercs.Utils;
+    using Utils = GM.Utils;
 
     public class ArtefactRow : ExtendedMonoBehaviour
     {

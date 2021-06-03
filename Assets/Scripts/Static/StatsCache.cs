@@ -7,7 +7,7 @@ using UnityEngine;
 
 using Random = UnityEngine.Random;
 
-namespace GreedyMercs
+namespace GM
 {
     using GM.Armoury;
     using GM.Artefacts;
@@ -36,7 +36,7 @@ namespace GreedyMercs
 
         public static class StageEnemy
         {
-            public static float BossTimer => 15.0f + (float)AddAllSources(BonusType.BOSS_TIMER_DURATION);
+            public static float BossTimer => 5;// 15.0f + (float)AddAllSources(BonusType.BOSS_TIMER_DURATION);
 
             public static BigDouble GetEnemyGold(int stage) => Formulas.CalcEnemyGold(stage) * AddAllSources(BonusType.ENEMY_GOLD) * AddAllSources(BonusType.ALL_GOLD);
 

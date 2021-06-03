@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
-namespace GreedyMercs
+namespace GM
 {
     public class GameManager : MonoBehaviour
     {
@@ -16,12 +17,14 @@ namespace GreedyMercs
         [Space]
         [SerializeField] DamageNumbers damageNumbers;
 
+        [Header("Controllers")]
+        [SerializeField] StageBossController bossSpawner;
+
         GameObject currentEnemy;
-        Health enemyHealth;   
+        Health enemyHealth;
 
         public static Health CurrentEnemyHealth { get { return Instance.enemyHealth; } }
 
-        public bool IsEnemyAvailable { get { return Instance.currentEnemy != null; } }
         public bool IsAllStageEnemiesKilled { get { return GameState.Stage.isStageCompleted; } }
 
         void Awake()
@@ -33,14 +36,12 @@ namespace GreedyMercs
         {
             SubscribeToEvents();
 
-            SpawnNextEnemy();
+            Invoke("SpawnNextEnemy", 0.5f);
         }
 
         void SubscribeToEvents()
         {
-            BossBattleManager.Instance.OnBossSpawn.AddListener(OnBossSpawn);
-
-            BossBattleManager.Instance.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
+            bossSpawner.OnBossSpawn.AddListener(OnBossSpawn);
         }
 
         public static void TryDealDamageToEnemy(BigDouble amount)
@@ -55,16 +56,26 @@ namespace GreedyMercs
 
                     CurrentEnemyHealth.TakeDamage(amount);
 
-                    Events.OnEnemyHurt.Invoke(CurrentEnemyHealth);
+                    GlobalEvents.OnEnemyHurt.Invoke(CurrentEnemyHealth);
                 }
             }
         }
 
+        // Called once ANY enemy has been killed 
+        void OnAfterEnemyDeath()
+        {
+            Destroy(currentEnemy);
+
+            SpawnNextEnemy();
+        }
+
+        // Event
         public void OnFailedToKillBoss()
         {
             SpawnNextEnemy();
         }
 
+        // Event
         void OnBossSpawn(GameObject boss)
         {
             if (currentEnemy)
@@ -77,6 +88,7 @@ namespace GreedyMercs
             enemyHealth.OnDeath.AddListener((_) => { OnBossEnemyDeath(); });
         }
 
+        // Event
         void OnEnemyDeath()
         {
             if (Instance.currentEnemy.TryGetComponent(out LootDrop loot))
@@ -85,20 +97,14 @@ namespace GreedyMercs
             }
         }
 
-        void OnAfterEnemyDeath()
-        {
-            Destroy(currentEnemy);
-
-            SpawnNextEnemy();
-        }
-
+        // Event
         void OnNormalEnemyDeath()
         {
             OnEnemyDeath();
 
             GameState.Stage.AddKill();
 
-            Events.OnKillEnemy.Invoke();
+            GlobalEvents.OnKillEnemy.Invoke();
 
             OnAfterEnemyDeath();
         }
@@ -109,7 +115,7 @@ namespace GreedyMercs
 
             GameState.Stage.AdvanceStage();
 
-            Events.OnNewStageStarted.Invoke();
+            GlobalEvents.OnNewStageStarted.Invoke();
 
             OnAfterEnemyDeath();
         }
@@ -120,16 +126,16 @@ namespace GreedyMercs
             {
                 yield return new WaitForSeconds(Formulas.StageEnemy.SpawnDelay);
 
-                bool isAvoidingBoss = BossBattleManager.Instance.isAvoidingBoss;
+                bool isAvoidingBoss = bossSpawner.isAvoidingBoss;
 
                 if (!isAvoidingBoss && GameState.Stage.isStageCompleted)
                 {
-                    BossBattleManager.StartBossBattle();
+                    bossSpawner.Spawn();
                 }
 
                 else
                 {
-                    Events.OnStageUpdate.Invoke();
+                    GlobalEvents.OnStageUpdate.Invoke();
 
                     SpawnEnemy();
                 }
@@ -146,7 +152,7 @@ namespace GreedyMercs
 
             enemyHealth.OnDeath.AddListener((_) => { OnNormalEnemyDeath(); });
 
-            Events.OnEnemySpawned.Invoke();
+            GlobalEvents.OnEnemySpawned.Invoke();
         }
     }
 }

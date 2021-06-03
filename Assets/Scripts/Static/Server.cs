@@ -8,8 +8,8 @@ using UnityEngine.Networking;
 
 using SimpleJSON;
 
-using Utils = GreedyMercs.Utils;
-using PersistentMono = GreedyMercs.PersistentMono;
+using Utils = GM.Utils;
+using PersistentMono = GM.PersistentMono;
 
 
 public static class Server

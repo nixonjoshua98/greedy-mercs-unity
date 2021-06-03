@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM
 {
     using GM.Characters;
 
@@ -40,7 +40,7 @@ namespace GreedyMercs
 
                     MercenaryManager.Instance.SetState(chara);
 
-                    Events.OnCharacterUnlocked.Invoke(chara);
+                    GlobalEvents.OnCharacterUnlocked.Invoke(chara);
                 }
 
                 UpdatePanel();

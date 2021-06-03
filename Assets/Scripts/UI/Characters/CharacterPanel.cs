@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     public class CharacterPanel : MonoBehaviour
     {

@@ -11,9 +11,9 @@ namespace GM.Artefacts
 {
     using GM.Inventory;
 
-    using GreedyMercs;
+    using GM;
 
-    using Utils = GreedyMercs.Utils;
+    using Utils = GM.Utils;
 
     public class LootTab : MonoBehaviour
     {

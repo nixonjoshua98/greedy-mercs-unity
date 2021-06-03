@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace GreedyMercs
+namespace GM
 {
     using GM.Characters;
 

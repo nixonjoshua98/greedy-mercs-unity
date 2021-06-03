@@ -960,11 +960,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 560970523}
-    - target: {fileID: 1070199806482650179, guid: 8fe97b2e4a66f5a459e32aedef167e7f,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnFightBossButton
-      objectReference: {fileID: 0}
     - target: {fileID: 1070199806482650188, guid: 8fe97b2e4a66f5a459e32aedef167e7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1075,12 +1070,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossButton
       objectReference: {fileID: 0}
-    - target: {fileID: 1070199807069493704, guid: 8fe97b2e4a66f5a459e32aedef167e7f,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a0b89c37c10effb438a02d6b30dc0bca,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fe97b2e4a66f5a459e32aedef167e7f, type: 3}
 --- !u!224 &94065577 stripped
@@ -4245,7 +4234,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &560970521
 GameObject:
@@ -4257,8 +4246,9 @@ GameObject:
   m_Component:
   - component: {fileID: 560970522}
   - component: {fileID: 560970523}
+  - component: {fileID: 560970524}
   m_Layer: 0
-  m_Name: === BossBattleManager ===
+  m_Name: '[ Boss Battle ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4276,7 +4266,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &560970523
 MonoBehaviour:
@@ -4287,25 +4277,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 560970521}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a2545fb1a6b874e882b08646d189b1, type: 3}
+  m_Script: {fileID: 11500000, guid: eaab615e7f23eac40b5cf24c8044048a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossAnimObject: {fileID: 751416876}
-  BossSlider: {fileID: 1001024606}
   BossButton: {fileID: 94065578}
-  BossTimerText: {fileID: 1001024605}
   bossNameText: {fileID: 751416878}
   BossSpawnPoint: {fileID: 1162191959}
   BossObjects:
   - {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
-  - {fileID: 5799380237597311610, guid: 7727b43d97be31a498925e4ac622404e, type: 3}
   - {fileID: 8235730012151374199, guid: f64bb41d447e2624b8cf303609619b0f, type: 3}
-  OnBossDeath:
+  - {fileID: 5799380237597311610, guid: 7727b43d97be31a498925e4ac622404e, type: 3}
+--- !u!114 &560970524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560970521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c04d2f3832294bc4abcca1325eb10ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossEntryAnimation: {fileID: 751416876}
+  timerSlider: {fileID: 1001024606}
+  timerText: {fileID: 1001024605}
+  OnTimerHitZero:
     m_PersistentCalls:
-      m_Calls: []
-  OnFailedToKillBoss:
-    m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 560970523}
+        m_MethodName: OnTimerHitZero
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 857823500}
+        m_MethodName: OnFailedToKillBoss
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &561736284
 GameObject:
   m_ObjectHideFlags: 0
@@ -4941,7 +4962,7 @@ Transform:
   - {fileID: 423954762}
   - {fileID: 75807065}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &653920327
 MonoBehaviour:
@@ -5980,7 +6001,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &824469539
 GameObject:
@@ -6063,7 +6084,7 @@ GameObject:
   - component: {fileID: 857823499}
   - component: {fileID: 857823500}
   m_Layer: 0
-  m_Name: === GameManager ===
+  m_Name: '[ Game Manager ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6081,7 +6102,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &857823500
 MonoBehaviour:
@@ -6101,6 +6122,7 @@ MonoBehaviour:
   - {fileID: 8012721505089177118, guid: 0b3bb586c31f11b4492359a26c37cbaf, type: 3}
   - {fileID: 4921165014578054583, guid: 3d6b020e0ed38b547a644b7e6d96ac2a, type: 3}
   damageNumbers: {fileID: 1604481248}
+  bossSpawner: {fileID: 560970523}
 --- !u!1 &862606235
 GameObject:
   m_ObjectHideFlags: 0
@@ -7386,7 +7408,7 @@ Transform:
   m_Children:
   - {fileID: 609444193}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1165727854
 GameObject:
@@ -8046,7 +8068,7 @@ RectTransform:
   - {fileID: 133646476}
   - {fileID: 137138299}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10395,7 +10417,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1760972570
 GameObject:
@@ -10937,7 +10959,7 @@ Transform:
   m_LocalScale: {x: 100, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1882108138
 GameObject:
@@ -11555,7 +11577,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1990268721
 GameObject:

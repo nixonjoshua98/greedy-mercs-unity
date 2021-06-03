@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GreedyMercs
+namespace GM
 {
     public class AnimationCallback : MonoBehaviour
     {

@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.Skills.UI
+namespace GM.Skills.UI
 {
     public abstract class SkillButton : MonoBehaviour
     {
@@ -23,7 +23,7 @@ namespace GreedyMercs.Skills.UI
 
                     SkillsManager.Instance.ActivateSkill(skill);
 
-                    Events.OnSkillActivated.Invoke();
+                    GlobalEvents.OnSkillActivated.Invoke();
 
                     Activate();
                 }

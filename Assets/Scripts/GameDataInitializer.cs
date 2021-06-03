@@ -9,7 +9,7 @@ public class UpgradeState
     public int level = 1;
 }
 
-namespace GreedyMercs
+namespace GM
 {
     using GM.Bounty;
     using GM.Armoury;

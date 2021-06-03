@@ -2,7 +2,7 @@
 
 using SimpleJSON;
 
-namespace GreedyMercs
+namespace GM
 {
     public static class GameState
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
 	public class FPSDisplay : MonoBehaviour
 	{

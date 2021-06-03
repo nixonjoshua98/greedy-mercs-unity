@@ -8,7 +8,7 @@ namespace GM.Bounty
 {
     using GM.Inventory;
 
-    using GameState = GreedyMercs.GameState;
+    using GameState = GM.GameState;
 
     public class BountyTab : MonoBehaviour
     {

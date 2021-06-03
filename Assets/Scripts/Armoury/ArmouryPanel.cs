@@ -44,13 +44,8 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            InventoryManager inv = InventoryManager.Instance;
-
-            weaponPointText.text = inv.ArmouryPoints.ToString();
-
-            BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
-
-            damageBonusText.text = string.Format("{0}% Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
+            weaponPointText.text = InventoryManager.Instance.ArmouryPoints.ToString();
+            damageBonusText.text = string.Format("{0}% Mercenary Damage", Utils.Format.FormatNumber(StatsCache.ArmouryMercDamageMultiplier * 100));
         }
 
         void InstantiateItem(ArmouryItemState state)

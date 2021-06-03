@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
-    using GreedyMercs.UI.Messages;
+    using GM.UI.Messages;
 
     public class ProgressCalculator : MonoBehaviour
     {
@@ -36,7 +36,7 @@ namespace GreedyMercs
 
         int Process(double progressTimeLeft, int maxStages)
         {
-            BigDouble dps = StatsCache.TotalCharacterDPS;
+            BigDouble dps = StatsCache.TotalMercDamage();
 
             int stagesGained = 0;
 

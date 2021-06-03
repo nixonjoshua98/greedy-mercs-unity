@@ -1,0 +1,217 @@
+{
+  "0": {
+    "name": "Guantlet of Tap",
+    "iconString": "ArtefactIcons/gloves",
+    "bonusType": 2,
+    "costCoeff": 0.7,
+    "costExpo": 1.2,
+    "baseEffect": 2.0,
+    "levelEffect": 1.0
+  },
+  "1": {
+    "name": "Rusty Sword",
+    "iconString": "ArtefactIcons/sword",
+    "bonusType": 0,
+    "costCoeff": 0.5,
+    "costExpo": 1.6,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "2": {
+    "name": "Golden Ring",
+    "iconString": "ArtefactIcons/ring",
+    "bonusType": 1,
+    "costCoeff": 1.0,
+    "costExpo": 1.4,
+    "baseEffect": 1.6,
+    "levelEffect": 0.6
+  },
+  "3": {
+    "bonusType": 0,
+    "costCoeff": 0.7,
+    "costExpo": 1.6,
+    "baseEffect": 1.8,
+    "levelEffect": 0.8
+  },
+  "4": {
+    "name": "Blue Gem of Fortune",
+    "iconString": "ArtefactIcons/gem",
+    "bonusType": 3,
+    "costCoeff": 0.8,
+    "costExpo": 1.5,
+    "baseEffect": 1.4,
+    "levelEffect": 0.4
+  },
+  "5": {
+    "name": "Weightless Cloak",
+    "iconString": "ArtefactIcons/cloak",
+    "bonusType": 2,
+    "costCoeff": 0.4,
+    "costExpo": 1.2,
+    "baseEffect": 2.0,
+    "levelEffect": 1.0
+  },
+  "6": {
+    "name": "Dragon Meat",
+    "iconString": "ArtefactIcons/meat",
+    "bonusType": 0,
+    "costCoeff": 0.6,
+    "costExpo": 1.6,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "7": {
+    "name": "Cursed Coins",
+    "iconString": "GenericIcons/coins",
+    "bonusType": 9,
+    "costCoeff": 1.0,
+    "costExpo": 1.4,
+    "baseEffect": 1.3,
+    "levelEffect": 0.3
+  },
+  "8": {
+    "name": "Berserker Axe",
+    "iconString": "ArtefactIcons/axe",
+    "bonusType": 5,
+    "costCoeff": 0.6,
+    "costExpo": 1.4,
+    "baseEffect": 1.75,
+    "levelEffect": 0.75
+  },
+  "9": {
+    "name": "Critical Touch",
+    "iconString": "ArtefactIcons/necklace",
+    "bonusType": 300,
+    "maxLevel": 10,
+    "costCoeff": 1.0,
+    "costExpo": 3.0,
+    "baseEffect": 0.005,
+    "levelEffect": 0.005
+  },
+  "10": {
+    "bonusType": 9,
+    "costCoeff": 0.7,
+    "costExpo": 1.4,
+    "baseEffect": 1.4,
+    "levelEffect": 0.4
+  },
+  "11": {
+    "name": "Artemis Bow",
+    "iconString": "ArtefactIcons/bow",
+    "bonusType": 7,
+    "costCoeff": 0.6,
+    "costExpo": 1.4,
+    "baseEffect": 1.75,
+    "levelEffect": 0.75
+  },
+  "12": {
+    "name": "Book of Mystery",
+    "iconString": "ArtefactIcons/book",
+    "bonusType": 11,
+    "costCoeff": 0.5,
+    "costExpo": 1.7,
+    "baseEffect": 1.05,
+    "levelEffect": 0.05
+  },
+  "13": {
+    "bonusType": 1,
+    "costCoeff": 0.9,
+    "costExpo": 1.4,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "14": {
+    "bonusType": 301,
+    "costCoeff": 0.6,
+    "costExpo": 1.4,
+    "baseEffect": 1.25,
+    "levelEffect": 0.25
+  },
+  "15": {
+    "name": "Charm of The New Beginning",
+    "bonusType": 100,
+    "maxLevel": 40,
+    "costCoeff": 0.5,
+    "costExpo": 2.5,
+    "baseEffect": 1,
+    "levelEffect": 1
+  },
+  "16": {
+    "name": "Liquid Energy",
+    "bonusType": 200,
+    "maxLevel": 25,
+    "costCoeff": 0.5,
+    "costExpo": 2.5,
+    "baseEffect": 0.1,
+    "levelEffect": 0.1
+  },
+  "17": {
+    "bonusType": 5,
+    "costCoeff": 0.6,
+    "costExpo": 1.4,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "18": {
+    "bonusType": 0,
+    "costCoeff": 0.8,
+    "costExpo": 1.4,
+    "baseEffect": 1.4,
+    "levelEffect": 0.4
+  },
+  "19": {
+    "bonusType": 7,
+    "costCoeff": 0.6,
+    "costExpo": 1.4,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "20": {
+    "bonusType": 15,
+    "valueType": 2,
+    "maxLevel": 30,
+    "costCoeff": 1.0,
+    "costExpo": 2.0,
+    "baseEffect": 1.0,
+    "levelEffect": 1.0
+  },
+  "21": {
+    "bonusType": 14,
+    "costCoeff": 0.6,
+    "costExpo": 1.5,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "22": {
+    "bonusType": 16,
+    "costCoeff": 0.6,
+    "costExpo": 1.5,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  },
+  "23": {
+    "bonusType": 18,
+    "maxLevel": 30,
+    "valueType": 2,
+    "costCoeff": 1.0,
+    "costExpo": 2.0,
+    "baseEffect": 0.5,
+    "levelEffect": 0.5
+  },
+  "24": {
+    "bonusType": 17,
+    "valueType": 2,
+    "maxLevel": 30,
+    "costCoeff": 1.0,
+    "costExpo": 2.0,
+    "baseEffect": 1.0,
+    "levelEffect": 1.0
+  },
+  "25": {
+    "bonusType": 3,
+    "costCoeff": 0.7,
+    "costExpo": 1.6,
+    "baseEffect": 1.5,
+    "levelEffect": 0.5
+  }
+}

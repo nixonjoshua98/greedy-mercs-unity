@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+using GM.Events;
+
+namespace GM
 {
     public abstract class Health : MonoBehaviour
     {
@@ -17,8 +19,12 @@ namespace GreedyMercs
 
         public bool IsDead { get { return currentHealth <= 0.0f; } }
 
+        public GameObjectEvent OnDeath;
+
         void Awake()
         {
+            OnDeath = new GameObjectEvent();
+
             maxHealth = currentHealth = GetIntialHealth();
         }
 
@@ -31,6 +37,11 @@ namespace GreedyMercs
                 currentHealth -= amount;
 
                 anim.Play("Hurt");
+
+                if (currentHealth <= 0.0f)
+                {
+                    OnDeath.Invoke(gameObject);
+                }
             }
 
             currentHealth = currentHealth < 0 ? 0 : currentHealth;

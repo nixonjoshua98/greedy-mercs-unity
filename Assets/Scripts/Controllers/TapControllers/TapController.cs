@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GreedyMercs
+namespace GM
 {
     public abstract class TapController : MonoBehaviour, IPointerDownHandler
     {

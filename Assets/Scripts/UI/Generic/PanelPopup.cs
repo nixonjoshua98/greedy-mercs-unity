@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     [RequireComponent(typeof(RectTransform))]
     public class PanelPopup : MonoBehaviour
@@ -18,11 +18,11 @@ namespace GreedyMercs
         {
             RectTransform rt = GetComponent<RectTransform>();
 
-            yield return Utils.Lerp.RectTransform(rt, Vector3.zero, Vector3.one, 0.1f);
+            yield return Utils.Lerp.RectTransform(rt, Vector3.zero, Vector3.one, 0.075f);
 
-            yield return Utils.Lerp.RectTransform(rt, Vector3.one, Vector3.one * 1.1f, 0.1f);
+            yield return Utils.Lerp.RectTransform(rt, Vector3.one, Vector3.one * 1.1f, 0.075f);
 
-            yield return Utils.Lerp.RectTransform(rt, Vector3.one * 1.1f, Vector3.one, 0.1f);
+            yield return Utils.Lerp.RectTransform(rt, Vector3.one * 1.1f, Vector3.one, 0.075f);
         }
     }
 }

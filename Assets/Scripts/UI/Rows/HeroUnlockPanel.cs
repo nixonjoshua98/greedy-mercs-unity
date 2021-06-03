@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM
 {
+    using GM.Characters;
+
     public class HeroUnlockPanel : MonoBehaviour
     {
         [SerializeField] Text CostText;
@@ -14,28 +16,31 @@ namespace GreedyMercs
 
         void UpdatePanel()
         {
-            if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
-            {
-                CostText.text = Utils.Format.FormatNumber(chara.unlockCost);
-            }
+            CostText.text = "-";
 
-            else
-                Destroy(gameObject);
+            if (MercenaryManager.Instance.GetNextHero(out CharacterID chara))
+            {
+                MercData mercData = StaticData.Mercs.GetMerc(chara);
+
+                CostText.text = Utils.Format.FormatNumber(mercData.UnlockCost);
+            }
         }
 
         // === Button Callbacks ===
 
         public void OnUnlockButton()
         {
-            if (StaticData.CharacterList.GetNextHero(out CharacterSO chara))
+            if (MercenaryManager.Instance.GetNextHero(out CharacterID chara))
             {
-                if (GameState.Player.gold >= chara.unlockCost)
+                MercData mercData = StaticData.Mercs.GetMerc(chara);
+
+                if (GameState.Player.gold >= mercData.UnlockCost)
                 {
-                    GameState.Player.gold -= chara.unlockCost;
+                    GameState.Player.gold -= mercData.UnlockCost;
 
-                    GameState.Characters.Add(chara.CharacterID);
+                    MercenaryManager.Instance.SetState(chara);
 
-                    Events.OnCharacterUnlocked.Invoke(chara.CharacterID);
+                    GlobalEvents.OnCharacterUnlocked.Invoke(chara);
                 }
 
                 UpdatePanel();

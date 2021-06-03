@@ -6,11 +6,10 @@ using UnityEngine.UI;
 
 using GM.Armoury;
 
-namespace GreedyMercs.Armoury.UI
+namespace GM.Armoury.UI
 {
     using GM.Armoury;
-
-    using GreedyMercs.Armoury.Data;
+    using GM.Inventory;
 
     public class ArmouryPanel : MonoBehaviour
     {
@@ -36,7 +35,7 @@ namespace GreedyMercs.Armoury.UI
         {
             foreach (ArmouryItemState state in ArmouryManager.Instance.GetOwned())
             {
-                if (!itemObjects.ContainsKey(state.WeaponIndex))
+                if (!itemObjects.ContainsKey(state.ID))
                 {
                     InstantiateItem(state);
                 }
@@ -45,31 +44,33 @@ namespace GreedyMercs.Armoury.UI
 
         void FixedUpdate()
         {
-            weaponPointText.text = GameState.Inventory.armouryPoints.ToString();
+            InventoryManager inv = InventoryManager.Instance;
+
+            weaponPointText.text = inv.ArmouryPoints.ToString();
 
             BigDouble dmg = StatsCache.ArmouryDamageMultiplier == 1.0 ? 0 : StatsCache.ArmouryDamageMultiplier;
 
-            damageBonusText.text = string.Format("{0}% Bonus Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
+            damageBonusText.text = string.Format("{0}% Mercenary Damage", Utils.Format.FormatNumber(dmg * 100));
         }
 
         void InstantiateItem(ArmouryItemState state)
         {
-            var serverData = StaticData.Armoury.GetWeapon(state.WeaponIndex);
+            ArmouryItemData serverItemData = StaticData.Armoury.Get(state.ID);
 
             ArmouryItem item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItem>();
 
-            item.Init(serverData);
+            item.Init(serverItemData);
 
-            item.SetButtonCallback(() => { OnIconClick(serverData); });
+            item.SetButtonCallback(() => { OnIconClick(serverItemData); });
 
-            itemObjects[state.WeaponIndex] = item;
+            itemObjects[state.ID] = item;
         }
 
         // === Button Callback ===
 
-        void OnIconClick(ArmouryItemSO item)
+        void OnIconClick(ArmouryItemData item)
         {
-            GameObject obj = Funcs.UI.Instantiate(ItemPopupObject, gameObject);
+            GameObject obj = Funcs.UI.Instantiate(ItemPopupObject);
 
             ArmouryItemPopup panel = obj.GetComponent<ArmouryItemPopup>();
 

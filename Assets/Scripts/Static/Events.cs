@@ -6,27 +6,18 @@ namespace GM.Events
 {
     [System.Serializable]
     public class IntegerEvent : UnityEvent<int> { }
-}
 
-namespace GreedyMercs.CustomEvents
-{
     public class GameObjectEvent : UnityEvent<GameObject> { }
-
-    public class HealthEvent : UnityEvent<Health> { }
 
     public class CharacterEvent : UnityEvent<CharacterID> { }
 }
 
-namespace GreedyMercs
+namespace GM
 {
-    using CustomEvents;
+    using GM.Events;
 
-    public class Events : MonoBehaviour
+    public static class GlobalEvents
     {
-        public static GameObjectEvent OnBossSpawned = new GameObjectEvent();
-
-        public static HealthEvent OnEnemyHurt = new HealthEvent();
-
         public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
 
         public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();
@@ -41,13 +32,5 @@ namespace GreedyMercs
         public static UnityEvent OnStageUpdate = new UnityEvent();
 
         public static UnityEvent OnNewStageStarted = new UnityEvent();
-
-        public static UnityEvent OnFailedToKillBoss = new UnityEvent();
-
-        public static UnityEvent OnEnemySpawned = new UnityEvent();
-
-        public static UnityEvent OnKilledBoss = new UnityEvent();
-
-        public static UnityEvent OnKillEnemy = new UnityEvent();
     }
 }

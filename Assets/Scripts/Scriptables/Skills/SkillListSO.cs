@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     [PreferBinarySerialization]
     [CreateAssetMenu(menuName = "Scriptables/Container/SkillList")]

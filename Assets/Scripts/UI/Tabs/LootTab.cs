@@ -5,21 +5,20 @@ using UnityEngine.Events;
 using System.Numerics;
 using System.Collections.Generic;
 
-using SimpleJSON;
-
 using Vector3 = UnityEngine.Vector3;
 
-namespace GreedyMercs
+namespace GM.Artefacts
 {
+    using GM.Inventory;
+
+    using GM;
+
+    using Utils = GM.Utils;
+
     public class LootTab : MonoBehaviour
     {
-        static LootTab Instance = null;
-
         [Header("GameObjects")]
         [SerializeField] GameObject rowParent;
-
-        [Space]
-        [SerializeField] BuyAmountController buyAmount;
 
         [Header("Components")]
         [SerializeField] Button buyLootButton;
@@ -31,90 +30,73 @@ namespace GreedyMercs
         [Header("Prefabs")]
         [SerializeField] GameObject LootRowObject;
 
-        public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
-
-        List<LootUpgradeRow> rows;
+        List<GameObject> rows;
 
         void Awake()
         {
-            Instance = this;
+            rows = new List<GameObject>();
         }
 
         void Start()
         {
-            rows = new List<LootUpgradeRow>();
-
-            foreach (var relic in GameState.Loot.Unlocked())
-            {
-                AddRow(relic.Key);
-            }
-
-            InvokeRepeating("UpdateUI", 0.0f, 0.1f);
+            InstantiateRows();
         }
 
-        void AddRow(LootID item)
+        void InstantiateRows()
         {
-            LootItemSO scriptable = StaticData.LootList.Get(item);
+            Clear();
 
-            GameObject inst = Utils.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
+            foreach (ArtefactState state in ArtefactManager.Instance.StatesList)
+            {
+                GameObject inst = Funcs.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
 
-            LootUpgradeRow row = inst.GetComponent<LootUpgradeRow>();
+                ArtefactRow row = inst.GetComponent<ArtefactRow>();
 
-            row.Init(scriptable);
+                row.Init(state.ID);
 
-            rows.Add(row);
+                rows.Add(inst);
+            }
         }
 
-        void UpdateUI()
+        void Clear()
         {
-            prestigePointText.text      = Utils.Format.FormatNumber(GameState.Inventory.prestigePoints);
-            buyLootButton.interactable  = GameState.Loot.Count < StaticData.LootList.Count;
-
-            if (GameState.Loot.Count < StaticData.LootList.Count)
+            foreach (GameObject r in rows)
             {
-                lootCostText.text = string.Format("Buy Loot\n{0}", Utils.Format.FormatNumber(Formulas.CalcNextLootCost(GameState.Loot.Count)));
+                Destroy(r);
             }
 
-            else
-                lootCostText.text = "All Loot\nObtained";
+            rows.Clear();
+        }
+
+        void FixedUpdate()
+        {
+            InventoryManager inv = InventoryManager.Instance;
+            ArtefactManager arts = ArtefactManager.Instance;
+
+            prestigePointText.text      = Utils.Format.FormatNumber(inv.PrestigePoints);
+            buyLootButton.interactable  = arts.Count < StaticData.Artefacts.Count;
+
+            lootCostText.text = "-";
+
+            if (arts.Count < StaticData.Artefacts.Count)
+            {
+                lootCostText.text = string.Format("{0}", Utils.Format.FormatNumber(Formulas.CalcNextLootCost(arts.Count)));
+            }
         }
 
         // === Button Callbacks ===
 
-        public void OnBuyLoot()
+        public void OnPurchaseArtefactBtn()
         {
-            if (GameState.Inventory.prestigePoints < Formulas.CalcNextLootCost(GameState.Loot.Count))
+            void ServerCallback(bool purchased)
             {
-                Utils.UI.ShowMessage("Poor Player Alert", "You cannot afford to buy a new item");
+                if (purchased)
+                {
+                    InstantiateRows();
+                }
             }
 
-            else if (GameState.Loot.Count < StaticData.LootList.Count)
-            {
-                Server.BuyLootItem(OnBuyCallback, Utils.Json.GetDeviceNode());
-            }
-        }
-
-        public void OnBuyCallback(long code, string data)
-        {
-            if (code == 200)
-            {
-                JSONNode node = Utils.Json.Decompress(data);
-
-                LootID item = (LootID)node["newLootId"].AsInt;
-
-                GameState.Inventory.prestigePoints = BigInteger.Parse(node["remainingPoints"].Value);
-
-                GameState.Loot.Add(item);
-
-                AddRow(item);
-            }
-
-            else
-            {
-                Utils.UI.ShowMessage("Purchase Loot", "Failed to buy item :(");
-            }
-
-            UpdateUI();
+            ArtefactManager.Instance.PurchaseNewArtefact(ServerCallback);
         }
     }
 }

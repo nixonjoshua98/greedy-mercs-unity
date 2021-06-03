@@ -1,7 +1,7 @@
 ﻿
 using SimpleJSON;
 
-namespace GreedyMercs
+namespace GM
 {
 
     public class StageState

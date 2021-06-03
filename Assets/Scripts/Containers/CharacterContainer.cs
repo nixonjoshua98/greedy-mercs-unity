@@ -6,8 +6,9 @@ using SimpleJSON;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
+    using GM.Characters;
     public class CharacterContainer
     {
         Dictionary<CharacterID, UpgradeState> characters;
@@ -15,73 +16,16 @@ namespace GreedyMercs
         public CharacterContainer(JSONNode node)
         {
             characters = new Dictionary<CharacterID, UpgradeState>();
-
-            foreach (JSONNode chara in node["characters"].AsArray)
-            {
-                characters[(CharacterID)int.Parse(chara["characterId"])] = JsonUtility.FromJson<UpgradeState>(chara.ToString());
-            }
         }
 
         public void Clear()
         {
             characters = new Dictionary<CharacterID, UpgradeState>();
         }
-
-        public JSONNode ToJson()
-        {
-            return Utils.Json.CreateJSONArray("characterId", characters);
-        }
-
+        
         // === Helper Methods ===
 
-        public UpgradeState Get(CharacterID chara) => characters[chara];
-
-        public List<CharacterPassive> GetUnlockedPassives(CharacterID chara)
-        {
-            UpgradeState state = Get(chara);
-
-            return StaticData.CharacterList.Get(chara).passives.Where(e => state.level >= e.unlockLevel).ToList();        
-        }
-
-        public List<CharacterID> Unlocked() => characters.Keys.ToList();
-
-        public bool Contains(CharacterID chara) => characters.ContainsKey(chara);
-
         public bool TryGetState(CharacterID chara, out UpgradeState result) => characters.TryGetValue(chara, out result);
-
-        public void Add(CharacterID charaId)
-        {
-            characters[charaId] = new UpgradeState { level = 1 };
-        }
-
-        public Dictionary<BonusType, double> CalcBonuses()
-        {
-            Dictionary<BonusType, double> bonuses = new Dictionary<BonusType, double>();
-
-            foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
-            {
-                if (GameState.Characters.TryGetState(hero, out var state))
-                {
-                    List<CharacterPassive> passives = StaticData.CharacterList.Get(hero).passives;
-
-                    foreach (CharacterPassive passive in passives)
-                    {
-                        if (state.level >= passive.unlockLevel)
-                        {
-                            if (passive.value < 1)
-                            {
-                                bonuses[passive.bonusType] = bonuses.GetOrVal(passive.bonusType, 0) + passive.value;
-                            }
-
-                            else
-                                bonuses[passive.bonusType] = bonuses.GetOrVal(passive.bonusType, 1) * passive.value;
-                        }
-                    }
-                }
-            }
-
-            return bonuses;
-        }
 
         public BigDouble CalcTapDamageBonus()
         {
@@ -91,15 +35,15 @@ namespace GreedyMercs
             {
                 if (GameState.Characters.TryGetState(hero, out var state))
                 {
-                    List<CharacterPassive> passives = StaticData.CharacterList.Get(hero).passives;
+                    MercData data = StaticData.Mercs.GetMerc(hero);
 
-                    foreach (CharacterPassive passive in passives)
+                    foreach (MercPassiveData passive in data.Passives)
                     {
-                        if (state.level >= passive.unlockLevel)
+                        if (state.level >= passive.UnlockLevel)
                         {
-                            if (passive.bonusType == BonusType.CHAR_TAP_DAMAGE_ADD)
+                            if (passive.Type == BonusType.CHAR_TAP_DAMAGE_ADD)
                             {
-                                val += passive.value * StatsCache.GetCharacterDamage(hero);
+                                val += passive.Value * StatsCache.TotalMercDamage(hero);
                             }
                         }
                     }

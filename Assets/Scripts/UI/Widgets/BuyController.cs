@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Interface
+namespace GM.UI
 {
     public class BuyController : ToggleController
     {

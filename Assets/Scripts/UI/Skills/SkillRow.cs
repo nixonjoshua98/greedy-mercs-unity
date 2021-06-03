@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM
 {
+   
     public class SkillRow : MonoBehaviour
     {
         [SerializeField] protected SkillID SkillID;
@@ -28,13 +29,13 @@ namespace GreedyMercs
         [Header("Prefabs")]
         [SerializeField] GameObject SkillButtonObject;
 
-        protected SkillState State { get { return GameState.Skills.Get(SkillID);} }
+        protected SkillState State { get { return SkillsManager.Instance.Get(SkillID);} }
 
         void Start()
         {
             UpdateUI();
 
-            if (GameState.Skills.IsUnlocked(SkillID))
+            if (SkillsManager.Instance.IsUnlocked(SkillID))
             {
                 Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
             }
@@ -54,7 +55,7 @@ namespace GreedyMercs
             energyCostText.text     = "";
             buyButton.interactable  = true;
 
-            if (GameState.Skills.IsUnlocked(SkillID))
+            if (SkillsManager.Instance.IsUnlocked(SkillID))
             {
                 SkillSO scriptable = StaticData.SkillList.Get(SkillID);
 
@@ -66,11 +67,11 @@ namespace GreedyMercs
 
         protected virtual string GetDescription()
         {
-            if (!GameState.Skills.IsUnlocked(SkillID))
+            if (!SkillsManager.Instance.IsUnlocked(SkillID))
                 return "Locked";
 
             string effect       = Utils.Format.FormatNumber(StatsCache.Skills.SkillBonus(SkillID) * 100);
-            string bonusType    = Utils.Generic.BonusToString(StaticData.SkillList.Get(SkillID).bonusType);
+            string bonusType    = Funcs.BonusString(StaticData.SkillList.Get(SkillID).bonusType);
 
             double duration     = StatsCache.Skills.SkillDuration(SkillID);
 
@@ -79,14 +80,14 @@ namespace GreedyMercs
 
         void UpdateButtonText()
         {
-            if (GameState.Skills.IsUnlocked(SkillID))
+            if (SkillsManager.Instance.IsUnlocked(SkillID))
             {
-                buttonTopText.text = "MAX LEVEL";
+                buttonTopText.text = "MAX";
                 buttonBtmText.text = "-";
 
                 if (!State.IsMaxLevel)
                 {
-                    SkillLevel nextLevel = GameState.Skills.GetSkillLevel(SkillID, State.level + 1);
+                    SkillLevel nextLevel = SkillsManager.Instance.GetSkillLevel(SkillID, State.level + 1);
 
                     buttonTopText.text  = string.Format("Level {0} -> {1}", State.level, State.level + 1);
                     buttonBtmText.text  = Utils.Format.FormatNumber(nextLevel.UpgradeCost);
@@ -95,7 +96,7 @@ namespace GreedyMercs
 
             else
             {
-                SkillLevel skillLevel = GameState.Skills.GetSkillLevel(SkillID, 1);
+                SkillLevel skillLevel = SkillsManager.Instance.GetSkillLevel(SkillID, 1);
 
                 buttonTopText.text = "LOCKED";
                 buttonBtmText.text = Utils.Format.FormatNumber(skillLevel.UpgradeCost);
@@ -108,23 +109,23 @@ namespace GreedyMercs
 
             SkillSO scriptable = StaticData.SkillList.Get(SkillID);
 
-            if (GameState.Skills.IsUnlocked(SkillID))
-                skillLevel = GameState.Skills.GetSkillLevel(SkillID, GameState.Skills.Get(SkillID).level + 1);
+            if (SkillsManager.Instance.IsUnlocked(SkillID))
+                skillLevel = SkillsManager.Instance.GetSkillLevel(SkillID, SkillsManager.Instance.Get(SkillID).level + 1);
 
             else
-                skillLevel = GameState.Skills.GetSkillLevel(SkillID, 1);
+                skillLevel = SkillsManager.Instance.GetSkillLevel(SkillID, 1);
 
 
             if (GameState.Player.gold >= skillLevel.UpgradeCost)
             {
-                if (!GameState.Skills.IsUnlocked(SkillID))
+                if (!SkillsManager.Instance.IsUnlocked(SkillID))
                     Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
 
-                GameState.Skills.UpgradeSkill(SkillID);
+                SkillsManager.Instance.UpgradeSkill(SkillID);
 
                 GameState.Player.gold -= skillLevel.UpgradeCost;
 
-                GameState.Player.currentEnergy = Math.Min(StatsCache.PlayerMaxEnergy(), GameState.Player.currentEnergy + scriptable.EnergyGainedOnUnlock);
+                GameState.Player.currentEnergy += scriptable.EnergyGainedOnUnlock;
             }
 
             UpdateUI();

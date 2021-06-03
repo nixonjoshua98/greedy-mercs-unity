@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GreedyMercs._Debug
+namespace GM._Debug
 {
     public class Stage1000 : MonoBehaviour
     {

@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.Armoury.UI
+namespace GM.Armoury.UI
 {
     using GM.Armoury;
 
-    using GreedyMercs.UI;
-
-    using GreedyMercs.Armoury.Data;
+    using GM.UI;
 
     public class ArmouryItemPopup : MonoBehaviour
     {
@@ -28,52 +26,45 @@ namespace GreedyMercs.Armoury.UI
         [Header("References")]
         [SerializeField] StarRatingController stars;
 
-        ArmouryItemSO armouryItem;
+        ArmouryItemData serverItemData;
 
-        public void Init(ArmouryItemSO item)
+
+        public void Init(ArmouryItemData item)
         {
-            armouryItem = item;
+            serverItemData = item;
 
-            colouredWeapon.sprite   = item.icon;
-            shadowWeapon.sprite     = item.icon;
+            colouredWeapon.sprite = shadowWeapon.sprite = serverItemData.Icon;
 
-            stars.SetRating(armouryItem.itemTier);
-        }
+            stars.Show(serverItemData.Tier);
 
-        void FixedUpdate()
-        {
-            if (armouryItem)
-            {
-                UpdateUI();
-            }
+            UpdateUI();
         }
 
 
         void UpdateUI()
         {
-            ArmouryItemState state  = ArmouryManager.Instance.GetItem(armouryItem.ItemID);
-            ArmouryItemSO data      = StaticData.Armoury.GetWeapon(armouryItem.ItemID);
+            ArmouryItemState state  = ArmouryManager.Instance.GetItem(serverItemData.ID);
 
-            string StringyLevelDamage(int lvl) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(armouryItem.ItemID, lvl) * 100) + "%";
-            string StringyEvoLevelDamage(int evo) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(armouryItem.ItemID, state.level, evo) * 100) + "%";
+            string StringyLevelDamage(int lvl) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(serverItemData.ID, lvl) * 100) + "%";
+            string StringyEvoLevelDamage(int evo) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(serverItemData.ID, state.level, evo) * 100) + "%";
 
             upgradeDamageText.text  = string.Format("{0} -> {1}", StringyLevelDamage(state.level), StringyLevelDamage(state.level + 1));
             evoDamageText.text      = string.Format("{0} -> {1}", StringyEvoLevelDamage(state.evoLevel), StringyEvoLevelDamage(state.evoLevel + 1));
 
-            evolveSlider.maxValue   = data.evoUpgradeCost;
+            evolveSlider.maxValue = 5;
             evolveSlider.value      = state.owned;
         }
 
 
         void UpgradeItem()
         {
-            ArmouryManager.Instance.UpgradeItem(armouryItem.ItemID, (code, body) => { });
+            ArmouryManager.Instance.UpgradeItem(serverItemData.ID, (code, body) => { UpdateUI(); });
         }
 
 
         public void EvolveItem()
         {
-            ArmouryManager.Instance.EvolveItem(armouryItem.ItemID, (code, body) => { });
+            ArmouryManager.Instance.EvolveItem(serverItemData.ID, (code, body) => { UpdateUI(); });
         }
 
 

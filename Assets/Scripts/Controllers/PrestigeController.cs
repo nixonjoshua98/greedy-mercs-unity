@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using SimpleJSON;
 
-namespace GreedyMercs.StageDM.Prestige
+namespace GM.StageDM.Prestige
 {    
     public class PrestigeController : MonoBehaviour
     {
@@ -25,11 +24,9 @@ namespace GreedyMercs.StageDM.Prestige
 
         public void Prestige(Action<bool> callback)
         {
-            JSONNode node = Utils.Json.GetDeviceNode();
+            JSONNode node = Utils.Json.GetDeviceInfo();
 
             node.Add("prestigeStage", GameState.Stage.stage);
-
-            SquadManager.ToggleAttacking(false);
 
             Server.Prestige(this, (code, compressed) => { OnPrestigeCallback(code, compressed, callback); }, node);
         }
@@ -38,41 +35,24 @@ namespace GreedyMercs.StageDM.Prestige
         {
             if (code == 200)
             {
-                DataManager.IsPaused = true;
+                GlobalEvents.OnPlayerPrestige.Invoke();
 
-                Events.OnPlayerPrestige.Invoke();
-
-                GameState.SaveLocalDataOnly();
-
-                Utils.File.WriteJson(DataManager.DATA_FILE, Utils.Json.Decompress(compressed));
-
-                StartCoroutine(RunPrestigeAnimation());
+                RunPrestigeAnimation();
             }
 
             else
             {
                 Utils.UI.ShowMessage("Server Connection", "Failed to contact the server :(");
-
-                SquadManager.ToggleAttacking(true);
             }
 
             callback(code == 200);
         }
 
-        IEnumerator RunPrestigeAnimation()
+        void RunPrestigeAnimation()
         {
             CancelInvoke("UpdatePanel");
 
-            yield return SquadManager.MoveOut(1.0f);
-
-            bool _ = Utils.File.ReadJson(DataManager.DATA_FILE, out JSONNode node);
-
-            // The server data is stored locally to avoid prestige exploting
-            GameState.UpdateWithServerData(node);
-
             GameState.Prestige();
-
-            GameState.Save();
 
             SceneManager.LoadSceneAsync("GameScene");
         }

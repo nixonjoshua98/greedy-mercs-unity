@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 993344753}
   - component: {fileID: 993344752}
   m_Layer: 0
-  m_Name: '[GameDataInitializer]'
+  m_Name: = = = GameDataInitializer = = =
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,11 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f69ee3a17d74de438354747cc05251c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Armoury: {fileID: 11400000, guid: f8a28976699026e418854f096d7ff71c, type: 2}
-  RelicList: {fileID: 11400000, guid: 451cc5e88d92a4d4c8ae77b3f0e37181, type: 2}
   SkillList: {fileID: 11400000, guid: a358a2c4699477142a6572e08d3113a4, type: 2}
-  BountyList: {fileID: 11400000, guid: a4189d8736398f243bc8283ca9c72c93, type: 2}
-  CharacterList: {fileID: 11400000, guid: 5193cbc189730d24086b48017c922fc1, type: 2}
 --- !u!4 &993344753
 Transform:
   m_ObjectHideFlags: 0
@@ -411,7 +407,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993344751}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1080.0273, y: 1127.3185, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -163,7 +163,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: OnFightBossButton
+        m_MethodName: OnSkipToBoss
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f85fd511de3ad96428c6918e32894b49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a0b89c37c10effb438a02d6b30dc0bca, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

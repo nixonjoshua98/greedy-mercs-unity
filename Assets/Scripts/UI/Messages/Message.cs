@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM
 {
     public class Message : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM
 {
     public class CharacterPanel : MonoBehaviour
     {
@@ -10,11 +10,6 @@ namespace GreedyMercs
         public void SetHero(CharacterID chara)
         {
             skillsPanel.SetHero(chara);
-        }
-
-        public void OnClose()
-        {
-            Destroy(gameObject);
         }
     }
 }

@@ -3,83 +3,81 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GreedyMercs
+[System.Serializable]
+public class UpgradeState
 {
+    public int level = 1;
+}
+
+namespace GM
+{
+    using GM.Bounty;
     using GM.Armoury;
-
-    using GreedyMercs.Armoury.Data;
-
-    [System.Serializable]
-    public class UpgradeState
-    {
-        public int level = 1;
-    }
+    using GM.Inventory;
+    using GM.BountyShop;
+    using GM.Artefacts;
+    using GM.Characters;
 
     public class GameDataInitializer : MonoBehaviour
     {
-        [Header("Scriptables")]
-        [SerializeField] ArmourySO Armoury;
-
-        [SerializeField] LootItemListSO RelicList;
         [SerializeField] SkillListSO SkillList;
-        [SerializeField] BountyListSO BountyList;
-        [SerializeField] CharacterListSO CharacterList;
 
         void Awake()
         {
-            StaticData.AssignScriptables(SkillList, BountyList, CharacterList, RelicList, Armoury);
+            StaticData.AssignScriptables(SkillList);
         }
 
         void Start()
         {
-            Debug.Log(Application.persistentDataPath);
-
             Server.GetGameData(ServerGameDataCallback);
         }
 
         void ServerLoginCallback(long code, string body)
         {
-            JSONNode node;
-
             if (code == 200)
-                node = Utils.Json.Decompress(body);
+            {
+                JSONNode node = Funcs.DecryptServerJSON(body);
+
+                InstantiatePlayerData(node);
+
+                SceneManager.LoadScene("GameScene");
+            }
 
             else
             {
                 Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required to play.");
-
-                return;
             }
-
-            InstantiatePlayerData(node);
-
-            SceneManager.LoadScene("GameScene");
         }
 
         void ServerGameDataCallback(long code, string compressedJson)
         {
-            JSONNode node;
-
             if (code == 200)
-                node = Utils.Json.Decompress(compressedJson);
+            {
+                JSONNode node = Funcs.DecryptServerJSON(compressedJson);
+
+                InstantiateServerData(node);
+
+                Server.Login(ServerLoginCallback, Utils.Json.GetDeviceInfo());
+            }
 
             else
             {
                 Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
-
-                return;
             }
-
-            InstantiateServerData(node);
-
-            Server.Login(ServerLoginCallback, Utils.Json.GetDeviceNode());
         }
 
         void InstantiatePlayerData(JSONNode node)
         {
             GameState.Restore(node);
 
+            MercenaryManager.Create();
+
             ArmouryManager.Create(node["armoury"]);
+            BountyManager.Create(node["bounties"]);
+            InventoryManager.Create(node["inventory"]);
+            BountyShopManager.Create(node["bountyShop"]);
+            ArtefactManager.Create(node["artefacts"]);
+            SkillsManager.Create(node["skills"]);
         }
 
         void InstantiateServerData(JSONNode node)

@@ -5,53 +5,35 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace GreedyMercs.UI
+namespace GM.UI
 {
+    using GM.Events;
+
+
+    using GM.Characters;
+
     public class MercsTab : MonoBehaviour
     {
-        static MercsTab Instance = null;
-
         [Header("Transforms")]
         [SerializeField] Transform scrollContent;
-
-        [Header("Controllers")]
-        [SerializeField] BuyAmountController buyAmount;
 
         [Header("Prefabs")]
         [SerializeField] GameObject characterRowObject;
 
-        public static int BuyAmount { get { return Instance.buyAmount.BuyAmount; } }
-
         void Awake()
         {
-            Instance = this;
-
-            Events.OnCharacterUnlocked.AddListener(OnCharacterUnlocked);
+            GlobalEvents.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
-        void Start()
-        {
-            foreach (var chara in StaticData.CharacterList.CharacterList)
-            {
-                if (GameState.Characters.TryGetState(chara.CharacterID, out UpgradeState _))
-                    AddRow(chara);
-            }
-        }
-
-        void AddRow(CharacterSO chara)
+        void AddRow(CharacterID chara)
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
-            spawnedRow.transform.SetSiblingIndex(1);
+            spawnedRow.transform.SetSiblingIndex(0);
 
             CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 
             row.SetCharacter(chara);
-        }
-
-        void OnCharacterUnlocked(CharacterID chara)
-        {
-            AddRow(StaticData.CharacterList.Get(chara));
         }
     }
 }

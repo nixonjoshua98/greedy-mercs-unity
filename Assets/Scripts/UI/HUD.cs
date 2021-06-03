@@ -4,17 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs
+namespace GM
 {
     public class HUD : MonoBehaviour
     {
         [SerializeField] Text StageText;
         [SerializeField] Text GoldText;
 
-        void Awake()
+        void Start()
         {
-            Events.OnStageUpdate.AddListener(OnStageUpdate);
-            Events.OnBossSpawned.AddListener(OnBossSpawned);
+            GlobalEvents.OnStageUpdate.AddListener(OnStageUpdate);
+
+            // Temp. Derived events do not show in the inspector
+            FindObjectOfType<StageBossController>().OnBossSpawn.AddListener(OnBossSpawn);
 
             UpdateStageText();
         }
@@ -34,7 +36,8 @@ namespace GreedyMercs
             UpdateStageText();
         }
 
-        void OnBossSpawned(GameObject _)
+        // Event
+        public void OnBossSpawn(GameObject obj)
         {
             StageText.text = "BOSS";
         }

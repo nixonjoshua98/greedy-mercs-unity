@@ -2,11 +2,18 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GreedyMercs
+namespace GM
 {
     public class AnimationCallback : MonoBehaviour
     {
-        [SerializeField] public UnityEvent OnAnimationEventCallback;
+        public UnityEvent OnAnimationEventCallback;
+
+        public UnityEvent E_Attack;
+
+        public void InvokeAttackEvent()
+        {
+            E_Attack.Invoke();
+        }
 
         public void OnAnimationEvent()
         {

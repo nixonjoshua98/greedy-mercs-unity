@@ -1,0 +1,50 @@
+name: Lightning Wraith
+
+attackType: 0
+
+unlockCost: '10000'
+
+iconString: Mercs/Icons/wraith
+prefabString: Mercs/Prefabs/wraith
+
+
+passives:
+- bonusType: 7
+  bonusValue: 1.25
+  unlockLevel: 25
+- bonusType: 1
+  bonusValue: 1.1
+  unlockLevel: 50
+- bonusType: 2
+  bonusValue: 2.0
+  unlockLevel: 75
+- bonusType: 3
+  bonusValue: 1.1
+  unlockLevel: 100
+- bonusType: 7
+  bonusValue: 1.25
+  unlockLevel: 125
+- bonusType: 2
+  bonusValue: 2.0
+  unlockLevel: 150
+- bonusType: 300
+  bonusValue: 0.01
+  unlockLevel: 200
+- bonusType: 3
+  bonusValue: 1.1
+  unlockLevel: 250
+- bonusType: 7
+  bonusValue: 1.25
+  unlockLevel: 300
+- bonusType: 1
+  bonusValue: 1.1
+  unlockLevel: 350
+- bonusType: 301
+  bonusValue: 1.5
+  unlockLevel: 400
+- bonusType: 3
+  bonusValue: 1.1
+  unlockLevel: 450
+- bonusType: 7
+  bonusValue: 1.25
+  unlockLevel: 500

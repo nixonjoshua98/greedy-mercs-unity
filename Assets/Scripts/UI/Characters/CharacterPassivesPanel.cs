@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace GreedyMercs
+namespace GM
 {
+    using GM.Characters;
+
     public class CharacterPassivesPanel : MonoBehaviour
     {
         [SerializeField] GameObject SkillRow;
@@ -20,15 +22,14 @@ namespace GreedyMercs
 
         IEnumerator Create(CharacterID chara)
         {
-            List<CharacterPassive> passives = StaticData.CharacterList.Get(chara).passives;
+            MercData data   = StaticData.Mercs.GetMerc(chara);
+            MercState state = MercenaryManager.Instance.GetState(chara);
 
-            UpgradeState heroState = GameState.Characters.Get(chara);
-
-            foreach (CharacterPassive passive in passives)
+            foreach (MercPassiveData passive in data.Passives)
             {
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 
-                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(heroState, passive);
+                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(state, passive);
 
                 yield return new WaitForFixedUpdate();
             }

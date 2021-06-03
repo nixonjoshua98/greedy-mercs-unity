@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs.Skills.UI
+namespace GM.Skills.UI
 {
     public class AutoClickRow : SkillRow
     {
@@ -14,7 +14,7 @@ namespace GreedyMercs.Skills.UI
 
         protected override string GetDescription()
         {
-            if (!GameState.Skills.IsUnlocked(SkillID))
+            if (!SkillsManager.Instance.IsUnlocked(SkillID))
                 return base.GetDescription();
 
             string effect   = Utils.Format.FormatNumber(StatsCache.Skills.AutoClickDamage());

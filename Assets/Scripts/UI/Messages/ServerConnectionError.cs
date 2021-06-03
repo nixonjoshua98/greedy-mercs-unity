@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GreedyMercs
+namespace GM
 {
     public class ServerConnectionError : Message
     {

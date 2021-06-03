@@ -5,34 +5,109 @@ using System.Numerics;
 using System.Collections;
 using System.IO.Compression;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
-using UnityEngine.Events;
 
 using SimpleJSON;
 
-using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-using SysFile = System.IO.File;
-
-public static class Funcs
+public static class DictionaryExtensions
 {
-    public static JSONNode SerializeDictionary<TKey, TVal>(Dictionary<TKey, TVal> dict)
+    public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
     {
-        JSONNode node = new JSONObject();
+        return dict.TryGetValue(key, out var value) ? value : fallback;
+    }
+}
 
-        foreach (KeyValuePair<TKey, TVal> entry in dict)
+public static class Extensions
+{
+
+    public static BigDouble ToBigDouble(this BigInteger val)
+    {
+        return BigDouble.Parse(val.ToString());
+    }
+
+    public static BigInteger ToBigInteger(this BigDouble val)
+    {
+        return BigInteger.Parse(val.Ceiling().ToString("F0"));
+    }
+
+    public static DateTime ToUnixDatetime(this long val)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
+    }
+}
+
+public class StringFormatting : MonoBehaviour
+{
+    static Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
+
+    public static string Number(double val)
+    {
+        if (val < 1d)
+            return Math.Round(val, 3).ToString();
+
+        int n = (int)Math.Log(val, 1000);
+
+        float m = (float)(val / Mathf.Pow(1000.0f, n));
+
+        if (n < unitsTable.Count)
+            return m.ToString("F") + unitsTable[n];
+
+        return val.ToString("e2").Replace("+", "");
+    }
+}
+
+    public static class Funcs
+{
+    public static string BonusString(BonusType bonusType)
+    {
+        return bonusType.ToString();
+    }
+
+    public static string BonusString(BonusType bonusType, double val)
+    {
+        return string.Format("{0} {1}", val, BonusString(bonusType));
+    }
+
+    // = = = Time = = = //
+    public static DateTime ToDateTime(long timestamp) => DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
+    public static TimeSpan TimeUntil(DateTime date) => date - DateTime.UtcNow;
+
+    public static JSONNode DecryptServerJSON(string data)
+    {
+        return JSON.Parse(GM.Utils.GZip.Unzip(Convert.FromBase64String(data)));
+    }
+
+    public static class Format
+    {
+        public static string Seconds(double seconds) { return Seconds((long)seconds); }
+        public static string Seconds(long seconds)
         {
-            node.Add(entry.Key.ToString(), JSON.Parse(JsonUtility.ToJson(entry.Value)));
-        }
+            long hours = seconds / 3_600;            
+            seconds -= (3_600 * hours);
 
-        return node;
+            long mins = seconds / 60;
+            seconds -= (60 * mins);
+
+            return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
+        }
     }
 
     public static class UI
     {
+        public static GameObject Instantiate(GameObject o, Transform parent) { return Instantiate(o, parent.gameObject); }
+
+        public static GameObject Instantiate(GameObject o, Transform parent, Vector3 pos)
+        {
+            GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
+
+            createdObject.transform.SetParent(parent, false);
+
+            return createdObject;
+        }
+
         public static GameObject MainCanvas { get { return GameObject.FindGameObjectWithTag("MainCanvas"); } }
         public static GameObject Instantiate(GameObject obj, GameObject parent = null)
         {
@@ -49,70 +124,8 @@ public static class Funcs
 
 }
 
-
-public static class Extensions
-{    
-    public static TValue GetOrVal<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
-    {
-        return dict.TryGetValue(key, out var value) ? value : fallback;
-    }
-
-    public static BigDouble ToBigDouble(this BigInteger val)
-    {
-        return BigDouble.Parse(val.ToString());
-    }
-
-    public static BigInteger ToBigInteger(this BigDouble val)
-    {
-        return BigInteger.Parse(val.Ceiling().ToString("F0"));
-    }
-
-    public static long ToUnixMilliseconds(this DateTime dt)
-    {
-        return (new DateTimeOffset(dt)).ToUnixTimeMilliseconds();
-    }
-
-    public static DateTime ToUnixDatetime(this long val)
-    {
-        return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
-    }
-}
-
-namespace GreedyMercs.Utils
+namespace GM.Utils
 {
-    using GreedyMercs.UI.Messages;
-
-    public class Generic
-    {
-        public static string BonusToString(BonusType skill)
-        {
-            switch (skill)
-            {
-                case BonusType.MERC_DAMAGE:         return "Merc Damage";
-                case BonusType.TAP_DAMAGE:          return "Tap Damage";
-                case BonusType.CHAR_TAP_DAMAGE_ADD: return "Bonus to Tap Damage";
-                case BonusType.ENEMY_GOLD:          return "Enemy Gold";
-                case BonusType.BOSS_GOLD:           return "Boss Gold";
-                case BonusType.MELEE_DAMAGE:        return "Melee Damage";
-                case BonusType.CRIT_CHANCE:         return "Critical Hit Chance";
-                case BonusType.RANGED_DAMAGE:       return "Ranged Damage";
-                case BonusType.ALL_GOLD:            return "All Gold";
-                case BonusType.CRIT_DAMAGE:         return "Critical Hit Damage";
-                case BonusType.CASH_OUT_BONUS:      return "Cash Out Bonus";
-                case BonusType.ENERGY_INCOME:       return "Energy Income";
-                case BonusType.ENERGY_CAPACITY:     return "Energy Capacity";
-                case BonusType.GOLD_RUSH_BONUS:     return "Gold Rush Bonus";
-                case BonusType.GOLD_RUSH_DURATION:  return "Gold Rush Duration";
-                case BonusType.AUTO_CLICK_BONUS:    return "Auto Click Damage";
-                case BonusType.AUTO_CLICK_DURATION: return "Auto Click Duration";
-                case BonusType.BOSS_TIMER_DURATION: return "Boss Timer Duration";
-
-                default:
-                    return "<missing name>";
-            }
-        }
-    }
-
     public class Lerp
     {
         public static IEnumerator Local(GameObject o, Vector3 start, Vector3 end, float dur)
@@ -145,6 +158,8 @@ namespace GreedyMercs.Utils
 
                 yield return new WaitForEndOfFrame();
             }
+
+            rt.localScale = Vector3.one;
         }
     }
 
@@ -169,15 +184,10 @@ namespace GreedyMercs.Utils
 
         public static JSONNode Decompress(string data)
         {
-            return JSON.Parse(File.Decompress(data));
+            return Funcs.DecryptServerJSON(data);
         }
 
-        public static string Compress(JSONNode node)
-        {
-            return File.Compress(node.ToString());
-        }
-
-        public static JSONNode GetDeviceNode()
+        public static JSONNode GetDeviceInfo()
         {
             JSONObject node = new JSONObject();
 
@@ -226,16 +236,8 @@ namespace GreedyMercs.Utils
 
             msg.Init(title, desc);
         }
-
-        public static void ShowYesNoPrompt(string title, UnityAction callback)
-        {
-            GameObject o = Resources.Load<GameObject>("YesNoPrompt");
-
-            YesNoPrompt prompt = Instantiate(o, Vector3.zero).GetComponent<YesNoPrompt>();
-
-            prompt.Init(title, "", callback);
-        }
     }
+
     public class GZip
     {
         // Given by William at Tier 9 Studios (Auto Battles Online)
@@ -282,92 +284,6 @@ namespace GreedyMercs.Utils
             }
 
             return unzippedStr;
-        }
-    }
-
-    public class File
-    {
-        static string GetPath(string filename) { return Application.persistentDataPath + "/" + filename; }
-
-        public static string Compress(string data) =>  Convert.ToBase64String(GZip.Zip(data));
-        public static string Decompress(string data) => GZip.Unzip(Convert.FromBase64String(data));
-
-        public static void SecureWrite(string filename, string obj)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-
-            using (FileStream file = SysFile.Open(GetPath(filename), FileMode.OpenOrCreate))
-            {
-                bf.Serialize(file, Compress(obj));
-            }
-        }
-
-        public static bool SecureRead(string filename, out string result)
-        {
-            result = default;
-
-            string path = GetPath(filename);
-
-            if (SysFile.Exists(path))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-
-                using (FileStream file = SysFile.Open(GetPath(filename), FileMode.Open))
-                {
-                    result = Decompress((string)bf.Deserialize(file));
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool Read(string filename, out string content)
-        {
-            string path = GetPath(filename);
-
-            content = "";
-
-            if (SysFile.Exists(path))
-            {
-                using (StreamReader file = new StreamReader(GetPath(filename)))
-                {
-                    content = file.ReadToEnd();
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static void Write(string filename, string content)
-        {
-            using (StreamWriter file = new StreamWriter(GetPath(filename)))
-            {
-                file.Write(content);
-            }
-        }
-
-
-        public static void WriteJson(string filename, JSONNode node)
-        {
-            Write(filename, node.ToString());
-        }
-
-        public static bool ReadJson(string filename, out JSONNode node)
-        {
-            node = null;
-
-            if (Read(filename, out string content))
-            {
-                node = JSON.Parse(content);
-
-                return true;
-            }
-
-            return false;
         }
     }
 
@@ -433,14 +349,6 @@ namespace GreedyMercs.Utils
                 return m.ToString("F") + unitsTable[n];
             
             return val.ToString("e2").Replace("+", "");
-        }
-
-        public static string FormatSeconds(int seconds)
-        {
-            int hours = seconds / 3_600; seconds -= (3_600 * hours);
-            int mins = seconds / 60; seconds -= (60 * mins);
-
-            return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
         }
     }
 }

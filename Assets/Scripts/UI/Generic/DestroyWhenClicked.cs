@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-namespace GreedyMercs
+namespace GM
 {
     public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
     {

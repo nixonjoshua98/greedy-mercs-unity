@@ -30,7 +30,7 @@ Transform:
   - {fileID: 4512657377414902}
   m_Father: {fileID: 4820803247068842}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -95.46909}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -100.22602}
 --- !u!1 &1076449123715516
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ Transform:
   - {fileID: 4113764444782428}
   m_Father: {fileID: 4664990242067774}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -171.54616}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -151.85223}
 --- !u!1 &1201681384045894
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: d8dd94c0d8f2dc34c80ac4c53d348666, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -213,7 +213,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 3c299a60449c8b24eb8bd21c5826f879, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -561,7 +561,7 @@ Transform:
   - {fileID: 4378887568653908}
   m_Father: {fileID: 4664990242067774}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 169.59958}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 124.13533}
 --- !u!1 &1419832169376028
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,7 +593,7 @@ Transform:
   - {fileID: 4293316408603430}
   m_Father: {fileID: 4664990242067774}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.320167}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -17.518646}
 --- !u!1 &1420800668765750
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +705,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4820803247068842}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.937661}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.937659}
 --- !u!212 &212168925770977038
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -745,7 +745,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e2a204cc738900541907da80e7a61aaa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f2d67eda5136acb4eb7989d1657ea16e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -753,7 +753,7 @@ SpriteRenderer:
   m_Size: {x: 4.96, y: 4.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1485468545831226
@@ -825,7 +825,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 95877f25d4fda5a499d812fd3a855b06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1068,7 +1068,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: dde228dd3c2a0974f8af6ffab91dba32, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1089,8 +1089,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4820803247068842}
+  - component: {fileID: 5618015060016328109}
   - component: {fileID: 95854159302373372}
-  - component: {fileID: 668092448973186122}
+  - component: {fileID: 7664621298871383556}
   m_Layer: 0
   m_Name: ReaperManAvatar
   m_TagString: Untagged
@@ -1107,7 +1108,7 @@ Transform:
   m_GameObject: {fileID: 1808018432986172}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4153160654726988}
   - {fileID: 4342177650660970}
@@ -1117,6 +1118,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5618015060016328109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808018432986172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &95854159302373372
 Animator:
   serializedVersion: 3
@@ -1136,32 +1149,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &668092448973186122
-MonoBehaviour:
+--- !u!210 &7664621298871383556
+SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808018432986172}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f63d338aca697dd45bf70770233f99c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnAnimationEventCallback:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnAttackAnimationEnd
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &1933520965609426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,7 +1191,7 @@ Transform:
   - {fileID: 4614192776152382}
   m_Father: {fileID: 4199542582667950}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 6.5346675}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -13.250527}
 --- !u!1 &1942224031709796
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,7 +1225,7 @@ Transform:
   - {fileID: 4948590262098944}
   m_Father: {fileID: 4820803247068842}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 95.367325}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 80.373726}
 --- !u!1 &6080877072513100088
 GameObject:
   m_ObjectHideFlags: 0
@@ -13645,8 +13643,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.13333334
-    functionName: OnAnimationEvent
+  - time: 0.15
+    functionName: InvokeAttackEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

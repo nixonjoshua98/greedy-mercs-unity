@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GreedyMercs.Skills.UI
+namespace GM.Skills.UI
 {
     public class GoldRushButton : SkillButton
     {
@@ -29,7 +29,7 @@ namespace GreedyMercs.Skills.UI
 
             ParticleSystem ps = Instantiate(CoinShowerPS).GetComponent<ParticleSystem>();
 
-            yield return new WaitWhile(() => { return GameState.Skills.IsUnlocked(skill) && GameState.Skills.Get(skill).IsActive; });
+            yield return new WaitWhile(() => { return SkillsManager.Instance.IsUnlocked(skill) && SkillsManager.Instance.Get(skill).IsActive; });
 
             ps.Stop();
 

@@ -9,8 +9,6 @@ using GM.Events;
 
 namespace GreedyMercs
 {
-    using GM.Bounty;
-
     public class BossBattleManager : MonoBehaviour
     {
         public static BossBattleManager Instance = null;
@@ -46,9 +44,7 @@ namespace GreedyMercs
         {
             Instance = this;
 
-            OnBossDeath = new UnityEvent();
             OnBossSpawn = new GameObjectEvent();
-            OnFailedToKillBoss = new UnityEvent();
 
             SetUIActive(false);
 

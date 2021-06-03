@@ -47,6 +47,8 @@ namespace GreedyMercs
         {
             public static double SkillBonus(SkillID skill)
             {
+                return SkillsManager.Instance.Get(skill).LevelData.BonusValue;
+
                 switch (skill)
                 {
                     case SkillID.GOLD_RUSH:
@@ -146,12 +148,12 @@ namespace GreedyMercs
 
         public static BigDouble TotalMercDamage(CharacterID chara)
         {
-            MercState state = MercenaryManager.Instance.GetState(chara);
+            MercData data = StaticData.Mercs.GetMerc(chara);
 
             BigDouble val = BaseMercDamage(chara);
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(state.svrData.AttackType);
+            val *= MultiplyAllSources(data.AttackType);
 
             return val;
         }

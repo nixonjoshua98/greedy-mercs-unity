@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM.Projectiles
 {
     public class StraightProjectile : MonoBehaviour
     {

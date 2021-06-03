@@ -3,21 +3,30 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM.Characters
 {
-    public class CharacterProjectileAttack : CharacterAttack
+    using GM.Projectiles;
+
+    public class ProjectileCharacterAttack : AbstractCharacterAttack
     {
         [Header("Prefabs")]
-        [SerializeField] protected GameObject ProjectileObject;
+        [SerializeField] GameObject ProjectileObject;
 
         [Header("References")]
-        [SerializeField] protected Transform startPosition;
+        [SerializeField] Transform startPosition;
 
         [Header("Projectile Behaviour")]
         [SerializeField] float distance;
         [SerializeField] float speed;
 
-        public override void OnAttackAnimationFinished()
+        public override void Attack(GameObject obj)
+        {
+            base.Attack(obj);
+
+            anim.Play(AttackAnimation);
+        }
+
+        public override void OnAttackAnimationEvent()
         {
             CreateProjectile();
         }

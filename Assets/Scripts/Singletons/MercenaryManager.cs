@@ -14,12 +14,14 @@ namespace GM.Characters
         public CharacterID ID;
 
         public int Level;
+        public MercPassiveData[] UnlockedPassives { get { return _svrData.Passives.Where(passive => Level >= passive.UnlockLevel).ToArray(); } }
 
-        public MercData svrData { get { return StaticData.Mercs.GetMerc(ID); } }
+        MercData _svrData { get { return StaticData.Mercs.GetMerc(ID); } }  // Quick, dirty reference
+
 
         public BigDouble CostToUpgrade(int levels)
         {
-            return Formulas.MercLevelUpCost(Level, levels, svrData.UnlockCost);
+            return Formulas.MercLevelUpCost(Level, levels, _svrData.UnlockCost);
         }
 
         public BigDouble TotalDamage()
@@ -103,20 +105,13 @@ namespace GM.Characters
         {
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
 
-            foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
+            foreach (CharacterID chara in Unlocked)
             {
-                if (Contains(hero))
-                {
-                    MercState state = GetState(hero);
-                    MercData data = StaticData.Mercs.GetMerc(hero);
+                MercState state = GetState(chara);
 
-                    foreach (MercPassiveData passive in data.Passives)
-                    {
-                        if (state.Level >= passive.UnlockLevel)
-                        {
-                            ls.Add(new KeyValuePair<BonusType, double>(passive.Type, passive.Value));
-                        }
-                    }
+                foreach (MercPassiveData passive in state.UnlockedPassives)
+                {
+                    ls.Add(new KeyValuePair<BonusType, double>(passive.Type, passive.Value));
                 }
             }
             

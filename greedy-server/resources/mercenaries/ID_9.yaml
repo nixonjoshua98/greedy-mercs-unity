@@ -1,9 +1,12 @@
-name: '9'
+name: Fire Satyr
 
 attackType: 0
 
 baseDamage: 1.5e20
 unlockCost: 5e22
+
+iconString: Mercs/Icons/stone_golem
+prefabString: Mercs/Prefabs/fire_satyr
 
 passives:
 - bonusType: 7

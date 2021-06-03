@@ -43,7 +43,6 @@ namespace GreedyMercs
             BossBattleManager.Instance.OnFailedToKillBoss.AddListener(OnFailedToKillBoss);
         }
 
-        // This is the only method which should be dealing damage to the enemy
         public static void TryDealDamageToEnemy(BigDouble amount)
         {
             if (Instance.currentEnemy != null)

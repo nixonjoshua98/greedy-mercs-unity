@@ -1,10 +1,11 @@
-name: Minotaur
+name: Skeleton Archer
 
 attackType: 0
 
 unlockCost: 2.5e6
 
-prefabString: Mercs/Prefabs/minotaur
+prefabString: Mercs/Prefabs/skeleton_archer
+iconString: Mercs/Icons/stone_golem
 
 passives:
 - bonusType: 2

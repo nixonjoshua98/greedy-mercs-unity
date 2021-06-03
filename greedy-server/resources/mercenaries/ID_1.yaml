@@ -5,6 +5,7 @@ attackType: 0
 unlockCost: '750'
 
 prefabString: Mercs/Prefabs/reaper
+iconString: Mercs/Icons/stone_golem
 
 passives:
 - bonusType: 1

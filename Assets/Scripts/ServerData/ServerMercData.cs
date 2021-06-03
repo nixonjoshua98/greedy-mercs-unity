@@ -26,12 +26,49 @@ namespace GM.Characters
 
         public MercPassiveData[] Passives;
 
-        // Making it Public for {...} creation. Value should not be changed
-        public string _prefabString;
-        public string _iconString;
+        // Private attributes
+        string _iconString;
+        string _prefabString;
+        // = = = = = = = = =
 
         public Sprite Icon { get { return ResourceManager.LoadSprite(_iconString); } }
         public GameObject Prefab { get { return ResourceManager.LoadPrefab(_prefabString); } }
+
+        public static MercData FromJson(JSONNode node)
+        {
+            return new MercData()
+            {
+                Name = node["name"],
+
+                AttackType = (BonusType)node["attackType"].AsInt,
+                BaseDamage = new BigDouble(node["baseDamage"]),
+                UnlockCost = node["unlockCost"],
+
+                Passives = ParsePassives(node["passives"].AsArray),
+
+                _prefabString   = node["prefabString"],
+                _iconString     = node["iconString"],
+            };
+        }
+
+        static MercPassiveData[] ParsePassives(JSONArray node)
+        {
+            List<MercPassiveData> passives = new List<MercPassiveData>();
+
+            foreach (JSONNode passive in node.AsArray)
+            {
+                MercPassiveData data = new MercPassiveData()
+                {
+                    Type        = (BonusType)passive["bonusType"].AsInt,
+                    Value       = passive["bonusValue"].AsFloat,
+                    UnlockLevel = passive["unlockLevel"].AsInt,
+                };
+
+                passives.Add(data);
+            }
+
+            return passives.ToArray();
+        }
     }
 
     public class ServerMercData
@@ -59,39 +96,10 @@ namespace GM.Characters
 
                 CharacterID id = (CharacterID)int.Parse(key);
 
-                MercData inst = new MercData()
-                {
-                    Name = current["name"],
-                    BaseDamage = new BigDouble(current["baseDamage"]),
-                    AttackType = (BonusType)current["attackType"].AsInt,
-                    UnlockCost = current["unlockCost"],
-                    Passives = ParsePassives(current["passives"].AsArray),
-
-                    _prefabString = current.GetValueOrDefault("prefabString", "Mercs/Prefabs/stone_golem"),
-                    _iconString = current.GetValueOrDefault("iconString", "Mercs/Icons/wraith")
-                };
+                MercData inst = MercData.FromJson(current);
 
                 mercs[id] = inst;
             }
-        }
-
-        MercPassiveData[] ParsePassives(JSONArray node)
-        {
-            List<MercPassiveData> passives = new List<MercPassiveData>();
-
-            foreach (JSONNode passive in node.AsArray)
-            {
-                MercPassiveData data = new MercPassiveData()
-                {
-                    Type = (BonusType)passive["bonusType"].AsInt,
-                    Value = passive["bonusValue"].AsFloat,
-                    UnlockLevel = passive["unlockLevel"].AsInt,
-                };
-
-                passives.Add(data);
-            }
-
-            return passives.ToArray();
         }
     }
 }

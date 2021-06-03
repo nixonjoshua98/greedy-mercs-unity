@@ -4,6 +4,9 @@ attackType: 0
 
 unlockCost: 7.5e7
 
+prefabString: Mercs/Prefabs/minotaur
+iconString: Mercs/Icons/stone_golem
+
 passives:
 - bonusType: 1
   bonusValue: 1.1

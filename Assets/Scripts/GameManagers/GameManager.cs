@@ -1,9 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 
 namespace GM
 {
@@ -24,8 +21,6 @@ namespace GM
         Health enemyHealth;
 
         public static Health CurrentEnemyHealth { get { return Instance.enemyHealth; } }
-
-        public bool IsAllStageEnemiesKilled { get { return GameState.Stage.isStageCompleted; } }
 
         void Awake()
         {
@@ -55,8 +50,6 @@ namespace GM
                     Instance.damageNumbers.Add(amount, col);
 
                     CurrentEnemyHealth.TakeDamage(amount);
-
-                    GlobalEvents.OnEnemyHurt.Invoke(CurrentEnemyHealth);
                 }
             }
         }
@@ -104,8 +97,6 @@ namespace GM
 
             GameState.Stage.AddKill();
 
-            GlobalEvents.OnKillEnemy.Invoke();
-
             OnAfterEnemyDeath();
         }
 
@@ -151,8 +142,6 @@ namespace GM
             enemyHealth = currentEnemy.GetComponent<Health>();
 
             enemyHealth.OnDeath.AddListener((_) => { OnNormalEnemyDeath(); });
-
-            GlobalEvents.OnEnemySpawned.Invoke();
         }
     }
 }

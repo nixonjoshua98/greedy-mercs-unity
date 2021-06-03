@@ -9,8 +9,6 @@ namespace GM.Events
 
     public class GameObjectEvent : UnityEvent<GameObject> { }
 
-    public class HealthEvent : UnityEvent<Health> { }
-
     public class CharacterEvent : UnityEvent<CharacterID> { }
 }
 
@@ -20,8 +18,6 @@ namespace GM
 
     public static class GlobalEvents
     {
-        public static HealthEvent OnEnemyHurt = new HealthEvent();
-
         public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
 
         public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();
@@ -36,9 +32,5 @@ namespace GM
         public static UnityEvent OnStageUpdate = new UnityEvent();
 
         public static UnityEvent OnNewStageStarted = new UnityEvent();
-
-        public static UnityEvent OnEnemySpawned = new UnityEvent();
-
-        public static UnityEvent OnKillEnemy = new UnityEvent();
     }
 }

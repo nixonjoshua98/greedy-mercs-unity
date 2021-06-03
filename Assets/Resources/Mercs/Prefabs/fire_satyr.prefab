@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6102498267299210618}
   - component: {fileID: 2031871773439707438}
   m_Layer: 0
-  m_Name: 9_SatyrFire
+  m_Name: fire_satyr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,6 +168,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 2404084112694329216, guid: 7c23600df3afacc45a70aca48c01c25a,
         type: 3}

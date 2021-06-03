@@ -17,7 +17,7 @@ namespace GM
         [SerializeField] Text timerText;
 
         // Events
-        public UnityEvent OnTimerHitZero;
+        public UnityEvent E_OnTimerHitZero;
 
         bool _isBossAlive;
 
@@ -83,7 +83,7 @@ namespace GM
 
             HideWidgets();
 
-            OnTimerHitZero.Invoke();
+            E_OnTimerHitZero.Invoke();
         }
     }
 }

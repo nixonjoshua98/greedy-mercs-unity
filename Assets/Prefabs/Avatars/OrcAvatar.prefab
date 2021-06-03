@@ -615,6 +615,9 @@ MonoBehaviour:
   OnAnimationEventCallback:
     m_PersistentCalls:
       m_Calls: []
+  E_Attack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &95565752440815076
 Animator:
   serializedVersion: 3

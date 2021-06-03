@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5282882372251109409}
   - component: {fileID: 794912062598917158}
   m_Layer: 0
-  m_Name: 1_ReaperMan
+  m_Name: reaper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   periodicUpdateDelay: 0.1
   characterId: 1
-  attackController: {fileID: 794912062598917158}
 --- !u!114 &794912062598917158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   periodicUpdateDelay: 0.1
-  characterController: {fileID: 5282882372251109409}
   anim: {fileID: 3820480451276261416}
   AttackAnimation: Slashing
   attackCooldown: 1
@@ -119,6 +117,14 @@ PrefabInstance:
     - target: {fileID: 4820803247068842, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820803247068842, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820803247068842, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 212168925770977038, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30,
         type: 3}

@@ -20,7 +20,7 @@
       "purchaseCost": 50,
       "dailyPurchaseLimit": 25,
       "quantityPerPurchase": 10000000,
-      "iconString": "GenericIcons/rune"
+      "iconString": "GenericIcons/runestone"
     }
   },
   "armouryItems": {

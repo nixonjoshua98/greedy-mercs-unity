@@ -18,8 +18,8 @@ namespace GM.Characters
         [Header("Properties")]
         [SerializeField] float attackCooldown = 1.0f;
 
-        public bool isAttacking = false;
-        public bool isOnCooldown = false;
+        bool isAttacking = false;
+        bool isOnCooldown = false;
 
         // Private Flags
         float _spawnTime;

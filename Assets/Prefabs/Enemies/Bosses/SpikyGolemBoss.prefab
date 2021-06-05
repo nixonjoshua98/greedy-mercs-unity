@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 435642855137935926}
   - component: {fileID: -1336043473028703109}
   - component: {fileID: 7250331673673915432}
+  - component: {fileID: 9127322413697969577}
   m_Layer: 0
   m_Name: SpikyGolemBoss
   m_TagString: Enemy
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5799380237597311610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.4841307, y: 8.0700035, z: 1}
-  m_LocalScale: {x: -1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5797668702796361102}
   m_Father: {fileID: 0}
@@ -74,6 +75,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 5848587180861331256}
+--- !u!114 &9127322413697969577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5799380237597311610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09723dc7bbb119249ae7848333508739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarObject: {fileID: 5294143185684844642, guid: 0f142208660cd584db26f1ea18246edd,
+    type: 3}
+  _TargetTransform: {fileID: 0}
 --- !u!1001 &5799380238605304174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91,11 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -0.75
       objectReference: {fileID: 0}
     - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -136,6 +152,11 @@ PrefabInstance:
     - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852943163979330607, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}

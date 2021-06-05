@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.UI
 {
+    [RequireComponent(typeof(AbstractHealthController))]
     public class HealthBarTarget : MonoBehaviour
     {
         [SerializeField] Slider HealthBarObject;
@@ -34,7 +35,8 @@ namespace GM.UI
 
         void OnDestroy()
         {
-            Destroy(slider.gameObject);
+            if (slider)
+                Destroy(slider.gameObject);
         }
 
         void SubscribeToEvents()

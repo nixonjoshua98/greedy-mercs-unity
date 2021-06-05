@@ -32,27 +32,18 @@ namespace GM
             return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f) * (1 - 0.035f);
         }
 
-
-        public static class StageEnemy
+        // = = = Enemies = = = //
+        public static BigDouble EnemyHealth(int stage)
         {
-            #region Health
-            public static BigDouble CalcEnemyHealth(int stage)
-            {
-                BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
-                BigDouble y = BigDouble.Pow(1.16, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
+            BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
+            BigDouble y = BigDouble.Pow(1.16, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
 
-                return 15 * x * y;
-            }
+            return 10.5 * x * y;
+        }
 
-            public static BigDouble CalcBossHealth(int stage) => CalcEnemyHealth(stage) * (stage % 5 == 0 ? 5.0f : 3.0f);
-            #endregion
-
-            #region Gold
-            public static BigDouble CalcEnemyGold(int stage) => 10.0f * CalcEnemyHealth(stage) * (0.0075 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
-
-            public static BigDouble CalcBossGold(int stage) => CalcEnemyGold(stage) * 5.0f;
-
-            #endregion
+        public static BigDouble BossHealth(int stage)
+        {
+            return EnemyHealth(stage) * (stage % 5 == 0 ? 5.5f : 3.5f);
         }
 
         public static class Armoury
@@ -87,17 +78,13 @@ namespace GM
 
         public static BigDouble CalcEnemyGold(int stage)
         {
-            return 10.0f * StageEnemy.CalcEnemyHealth(stage) * (0.008 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
+            return 10.0f * EnemyHealth(stage) * (0.01 + (0.0005 * Mathf.Max(0, 100 - (stage - 1))));
         }
 
         public static BigDouble CalcBossGold(int stage)
         {
-            return CalcEnemyGold(stage) * 5.0f;
+            return CalcEnemyGold(stage) * 7.3f;
         }
-
-        // ===
-
-        // ===
 
         public static int AffordCharacterLevels(CharacterID chara)
         {

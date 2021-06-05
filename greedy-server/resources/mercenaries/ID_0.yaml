@@ -2,7 +2,8 @@ name: Stone Golem
 
 attackType: 0
 
-unlockCost: '50'
+unlockCost: 50
+baseDamage: 10
 
 prefabString: Mercs/Prefabs/stone_golem
 iconString: Mercs/Icons/stone_golem

@@ -8,12 +8,14 @@ namespace GM.Characters
     {
         [SerializeField] Animator anim;
 
+        AbstractHealthController healthController;
+
         void Awake()
         {
-            AbstractHealthController hp = GetComponent<AbstractHealthController>();
+            healthController = GetComponent<AbstractHealthController>();
 
-            hp.E_OnDeath.AddListener(OnZeroHealth);
-            hp.E_OnDamageTaken.AddListener(OnDamageTaken);
+            healthController.E_OnDeath.AddListener(OnZeroHealth);
+            healthController.E_OnDamageTaken.AddListener(OnDamageTaken);
         }
 
         public void OnZeroHealth(GameObject obj)

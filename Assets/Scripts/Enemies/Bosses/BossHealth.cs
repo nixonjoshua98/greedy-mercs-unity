@@ -12,7 +12,7 @@ namespace GM
         {
             C_GameState state = GameManager.Instance.GetState();
 
-            return Formulas.StageEnemy.CalcBossHealth(state.currentStage);
+            return Formulas.BossHealth(state.currentStage);
         }
     }
 }

@@ -10,6 +10,7 @@ using UnityEngine;
 namespace GM
 {
     using GM.Events;
+    using GM.Characters;
 
     public class C_GameState
     {
@@ -103,6 +104,7 @@ namespace GM
 
                 foreach (GameObject o in spawnedEnemies)
                 {
+                    // Grab components
                     AbstractHealthController hp = o.GetComponent<AbstractHealthController>();
 
                     hp.E_OnDeath.AddListener(OnEnemyZeroHealth);
@@ -118,12 +120,16 @@ namespace GM
             {
                 yield return new WaitForSeconds(0.25f);
 
+                // Spawn the object
                 GameObject o = bossSpawner.Spawn();
 
+                // Grab components
                 AbstractHealthController hp = o.GetComponent<AbstractHealthController>();
 
+                // Events
                 hp.E_OnDeath.AddListener(OnBossZeroHealth);
 
+                // Setup
                 spawnedEnemies.Add(o);
             }
 

@@ -10,7 +10,8 @@ namespace GM
 {
     public abstract class AbstractHealthController : MonoBehaviour
     {
-        BigDouble maxHealth;
+        public BigDouble MaxHealth { get; private set; }
+
         BigDouble currentHealth;
 
         // Events
@@ -21,7 +22,7 @@ namespace GM
         {
             E_OnDeath = new GameObjectEvent();
 
-            maxHealth = currentHealth = GetIntialHealth();
+            MaxHealth = currentHealth = GetIntialHealth();
         }
 
         public abstract BigDouble GetIntialHealth();
@@ -44,7 +45,7 @@ namespace GM
 
         public float Percent()
         {
-            return (float)(currentHealth / maxHealth).ToDouble();
+            return (float)(currentHealth / MaxHealth).ToDouble();
         }
     }
 }

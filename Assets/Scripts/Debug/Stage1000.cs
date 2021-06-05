@@ -8,12 +8,12 @@ namespace GM._Debug
     {
         public void OnClick()
         {
-            GameState.Stage.currentStage += 1000;
+            GameManager.Instance.state.currentStage += 100;
         }
 
         public void AddGold()
         {
-            GameState.Player.gold += BigDouble.Parse("1e5000");
+            GameState.Player.gold += BigDouble.Parse("1e500");
         }
     }
 }

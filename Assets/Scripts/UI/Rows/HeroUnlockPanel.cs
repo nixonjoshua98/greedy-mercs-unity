@@ -4,6 +4,7 @@ using UnityEngine.UI;
 namespace GM
 {
     using GM.Characters;
+    using GM.Events;
 
     public class HeroUnlockPanel : MonoBehaviour
     {

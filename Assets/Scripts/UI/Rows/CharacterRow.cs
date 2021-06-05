@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 namespace GM.Characters
 {
+    using GM.Events;
+
     using Utils = GM.Utils;
 
     using GM;
-    using GM.UI;
-
     using GM.UI;
 
     public class CharacterRow : ExtendedMonoBehaviour

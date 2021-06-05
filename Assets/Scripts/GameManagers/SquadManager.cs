@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Events;
+
     using GM.Characters;
 
     public class SquadManager : MonoBehaviour

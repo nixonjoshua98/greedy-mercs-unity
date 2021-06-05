@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    public class BossHealth : Health
+    public class BossHealth : AbstractHealthController
     {
         public override BigDouble GetIntialHealth()
         {
-            return Formulas.StageEnemy.CalcBossHealth(GameState.Stage.currentStage);
+            C_GameState state = GameManager.Instance.GetState();
+
+            return Formulas.StageEnemy.CalcBossHealth(state.currentStage);
         }
     }
 }

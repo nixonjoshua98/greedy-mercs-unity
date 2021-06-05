@@ -10,14 +10,16 @@ namespace GM.Events
     public class GameObjectEvent : UnityEvent<GameObject> { }
 
     public class CharacterEvent : UnityEvent<CharacterID> { }
+
+    public class GameStateEvent : UnityEvent<C_GameState> { }
 }
 
-namespace GM
+namespace GM.Events
 {
-    using GM.Events;
-
     public static class GlobalEvents
     {
+        public static GameStateEvent E_OnWaveClear  = new GameStateEvent();
+
         public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
 
         public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();

@@ -1,127 +1,133 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 
+/*
+ * 
+ */
+
 namespace GM
 {
+    using GM.Events;
+
+    public class C_GameState
+    {
+        public int currentStage = 1;
+
+        public C_GameState Copy()
+        {
+            return new C_GameState()
+            {
+                currentStage = currentStage
+            };
+        }
+    }
+
+
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance = null;
 
         [Header("Controllers")]
-        [SerializeField] StageBossController bossSpawner;
-        [SerializeField] EnemyWaveController enemySpawner;
+        [SerializeField] EnemySpawnController enemySpawner;
+        [SerializeField] BossSpawnController bossSpawner;
 
-        GameObject prevEnemySpawn;
-        Health enemyHealth;
+        public C_GameState state;
 
-        public static Health CurrentEnemyHealth { get { return Instance.enemyHealth; } }
+        List<GameObject> spawnedEnemies;
 
         void Awake()
         {
             Instance = this;
+
+            state           = new C_GameState();
+            spawnedEnemies  = new List<GameObject>();
         }
 
         void Start()
         {
-            SubscribeToEvents();
-
-            Invoke("SpawnNextEnemy", 0.25f);
+            SpawnEnemyWave();
         }
 
-        void SubscribeToEvents()
+        // Public method used to get the current state
+        // We create a copy to avoid accidental changes
+        public C_GameState GetState()
         {
-            bossSpawner.OnBossSpawn.AddListener(OnBossSpawn);
+            return state.Copy();
         }
 
-        // Called once ANY enemy has been killed 
-        void OnAfterEnemyDeath()
-        {
-            SpawnNextEnemy();
-        }
-
-        // Event
-        public void OnFailedToKillBoss()
-        {
-            SpawnNextEnemy();
-        }
-
-        // UnityEvent - Called from the Boss Controller/Spawner
-        // Setup the callbacks required to continue the stage after death
-        void OnBossSpawn(GameObject boss)
-        {
-            if (prevEnemySpawn)
-                Destroy(prevEnemySpawn);
-
-            prevEnemySpawn = boss;
-
-            Health hp = boss.GetComponent<Health>();
-
-            hp.OnDeath.AddListener(OnBossEnemyDeath);
-        }
-
-        // Event
-        void OnEnemyDeath(GameObject obj)
+        void ProcessEnemyDeath(GameObject obj)
         {
             if (obj.TryGetComponent(out LootDrop loot))
             {
                 loot.Process();
             }
+
+            spawnedEnemies.Remove(obj);
         }
 
-        // Event
-        void OnNormalEnemyDeath(GameObject obj)
+        void OnEnemyZeroHealth(GameObject obj)
         {
-            OnEnemyDeath(obj);
+            ProcessEnemyDeath(obj);
 
-            GameState.Stage.AddKill();
+            if (spawnedEnemies.Count == 0)
+            {
+                OnWaveCleared();
 
-            OnAfterEnemyDeath();
+                GlobalEvents.E_OnWaveClear.Invoke(state.Copy());
+            }
         }
 
-        // UnityEvent - Called internally based off Health.OnDeath
-        void OnBossEnemyDeath(GameObject obj)
+        void OnBossZeroHealth(GameObject obj)
         {
-            OnEnemyDeath(obj);
+            ProcessEnemyDeath(obj);
 
-            GameState.Stage.AdvanceStage();
+            state.currentStage++;
 
-            GlobalEvents.OnNewStageStarted.Invoke();
-
-            OnAfterEnemyDeath();
+            SpawnEnemyWave();
         }
 
-        void SpawnNextEnemy()
+        void OnWaveCleared()
+        {
+            SpawnBoss();
+        }
+
+        void SpawnEnemyWave()
         {
             IEnumerator ISpawnNextEnemy()
             {
-                yield return new WaitForSeconds(Formulas.StageEnemy.SpawnDelay);
+                yield return new WaitForSeconds(0.25f);
 
-                bool isAvoidingBoss = bossSpawner.isAvoidingBoss;
+                spawnedEnemies = enemySpawner.SpawnMultiple(3);
 
-                if (!isAvoidingBoss && GameState.Stage.isStageCompleted)
+                foreach (GameObject o in spawnedEnemies)
                 {
-                    bossSpawner.Spawn();
-                }
+                    AbstractHealthController hp = o.GetComponent<AbstractHealthController>();
 
-                else
-                {
-                    GlobalEvents.OnStageUpdate.Invoke();
-
-                    SpawnEnemy();
+                    hp.E_OnDeath.AddListener(OnEnemyZeroHealth);
                 }
             }
 
             StartCoroutine(ISpawnNextEnemy());
         }
 
-        void SpawnEnemy()
+        void SpawnBoss()
         {
-            prevEnemySpawn = enemySpawner.Spawn();
+            IEnumerator ISpawnNextEnemy()
+            {
+                yield return new WaitForSeconds(0.25f);
 
-            enemyHealth = prevEnemySpawn.GetComponent<Health>();
+                GameObject o = bossSpawner.Spawn();
 
-            enemyHealth.OnDeath.AddListener(OnNormalEnemyDeath);
+                AbstractHealthController hp = o.GetComponent<AbstractHealthController>();
+
+                hp.E_OnDeath.AddListener(OnBossZeroHealth);
+
+                spawnedEnemies.Add(o);
+            }
+
+            StartCoroutine(ISpawnNextEnemy());
         }
     }
 }

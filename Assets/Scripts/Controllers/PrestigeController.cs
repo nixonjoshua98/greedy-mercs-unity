@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 using SimpleJSON;
 
 namespace GM.StageDM.Prestige
-{    
+{
+    using GM.Events;
+
     public class PrestigeController : MonoBehaviour
     {
         void Awake()
@@ -24,9 +26,11 @@ namespace GM.StageDM.Prestige
 
         public void Prestige(Action<bool> callback)
         {
+            C_GameState state = GameManager.Instance.GetState();
+
             JSONNode node = Utils.Json.GetDeviceInfo();
 
-            node.Add("prestigeStage", GameState.Stage.currentStage);
+            node.Add("prestigeStage", state.currentStage);
 
             Server.Prestige(this, (code, compressed) => { OnPrestigeCallback(code, compressed, callback); }, node);
         }

@@ -11,35 +11,13 @@ namespace GM
         [SerializeField] Text StageText;
         [SerializeField] Text GoldText;
 
-        void Start()
-        {
-            GlobalEvents.OnStageUpdate.AddListener(OnStageUpdate);
-
-            // Temp. Derived events do not show in the inspector
-            FindObjectOfType<StageBossController>().OnBossSpawn.AddListener(OnBossSpawn);
-
-            UpdateStageText();
-        }
-
         void FixedUpdate()
         {
+            C_GameState state = GameManager.Instance.GetState();
+
             GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
-        }
 
-        void UpdateStageText()
-        {
-            StageText.text = GameState.Stage.currentStage.ToString() + " | " + GameState.Stage.currentEnemy.ToString();
-        }
-
-        void OnStageUpdate()
-        {
-            UpdateStageText();
-        }
-
-        // Event
-        public void OnBossSpawn(GameObject obj)
-        {
-            StageText.text = "BOSS";
+            StageText.text = "Stage " + state.currentStage.ToString();
         }
     }
 }

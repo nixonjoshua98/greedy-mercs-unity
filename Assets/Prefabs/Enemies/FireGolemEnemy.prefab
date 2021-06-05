@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3981222253818409769}
   - component: {fileID: 5255366067590678038}
   - component: {fileID: -3622656533863664534}
+  - component: {fileID: 7049458548551430393}
   m_Layer: 0
   m_Name: FireGolemEnemy
   m_TagString: Enemy
@@ -58,7 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730eab6f76692b64394469dcd27dd969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 3632701012789557088}
+  E_OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-3622656533863664534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +74,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae660fc2863a404c87f57dd079cd16d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 3632701012789557088}
+--- !u!114 &7049458548551430393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921165014578054583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09723dc7bbb119249ae7848333508739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarObject: {fileID: 5294143185684844642, guid: 0f142208660cd584db26f1ea18246edd,
+    type: 3}
+  _TargetTransform: {fileID: 0}
 --- !u!1001 &3690773663432617308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81,6 +100,18 @@ PrefabInstance:
     - target: {fileID: 1632069410589986, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_Name
       value: FireGolemAvatar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_LocalPosition.x
@@ -95,6 +126,10 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -107,14 +142,6 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -125,14 +152,6 @@ PrefabInstance:
     - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd96c89408de2c944865a800062ab087, type: 3}

@@ -36,7 +36,7 @@ namespace GM.Skills.UI
 
                 GameObject target = targetter.GetTarget();
 
-                if (target && target.TryGetComponent(out Health hp))
+                if (target && target.TryGetComponent(out AbstractHealthController hp))
                 {
                     BigDouble dmg = StatsCache.Skills.AutoClickDamage() * seconds;
 

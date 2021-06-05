@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Events;
+
     using GM.Targetting;
     public class StageTapController : TapController
     {
@@ -16,7 +18,7 @@ namespace GM
 
             GameObject target = enemyTargetter.GetTarget();
 
-            if (target && target.TryGetComponent(out Health hp))
+            if (target && target.TryGetComponent(out AbstractHealthController hp))
             {
                 BigDouble dmg = StatsCache.GetTapDamage();
 

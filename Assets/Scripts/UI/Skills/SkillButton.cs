@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 namespace GM.Skills.UI
 {
+    using GM.Events;
+
     public abstract class SkillButton : MonoBehaviour
     {
         protected SkillID skill;

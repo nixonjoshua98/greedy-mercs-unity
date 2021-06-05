@@ -12,6 +12,8 @@ using GM;
 
 public static class StaticData
 {
+    public const int MIN_PRESTIGE_STAGE = 60;
+
     public const int MAX_CHAR_LEVEL = 1_000;
     public const int MAX_TAP_UPGRADE_LEVEL = 1_000;
     public const int MAX_AUTO_TAP_LEVEL = 1_000;

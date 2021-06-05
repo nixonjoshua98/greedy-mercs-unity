@@ -6,7 +6,6 @@ namespace GM
 {
     public static class GameState
     {
-        public static StageState Stage;
         public static PlayerState Player;
 
         public static UpgradesContainer Upgrades;
@@ -16,7 +15,6 @@ namespace GM
 
         public static void Restore(JSONNode node)
         {
-            Stage           = new StageState(node);
             Player          = new PlayerState(node["player"]);
 
             Upgrades    = new UpgradesContainer(node);
@@ -27,7 +25,6 @@ namespace GM
 
         public static void Prestige()
         {
-            Stage.Reset();
             Player.Reset();
 
             Upgrades.Clear();

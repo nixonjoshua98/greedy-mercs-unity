@@ -35,14 +35,6 @@ namespace GM
 
         public static class StageEnemy
         {
-            public static float SpawnDelay
-            {
-                get
-                {
-                    return 0.25f;
-                }
-            }
-
             #region Health
             public static BigDouble CalcEnemyHealth(int stage)
             {
@@ -147,9 +139,6 @@ namespace GM
 
         public static BigInteger CalcPrestigePoints(int stage)
         {
-            if (stage < StageState.MIN_PRESTIGE_STAGE)
-                return 0;
-
             BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2.2);
 
             return BigInteger.Parse(big.Ceiling().ToString("F0"));

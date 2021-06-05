@@ -49,7 +49,7 @@ namespace GM.Characters
         // obj may be Null under some cases such as an attack being delayed
         public override void OnAttackHit(GameObject obj)
         {
-            if (obj && obj.TryGetComponent(out Health hp))
+            if (obj && obj.TryGetComponent(out AbstractHealthController hp))
             {
                 BigDouble dmg = StatsCache.TotalMercDamage(characterId);
 

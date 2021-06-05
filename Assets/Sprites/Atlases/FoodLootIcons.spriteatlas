@@ -40,11 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 7e12287176477f044ba06f2835eeb059, type: 3}
     totalSpriteSurfaceArea: 8949680
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 96c23e002460e5f42ace5148ed25e185, type: 3}
@@ -532,5 +535,6 @@ SpriteAtlas:
   - ChristmasCandy
   - NightmareClaw
   - Torch
+  m_RenderDataMap: {}
   m_Tag: FoodLootIcons
   m_IsVariant: 0

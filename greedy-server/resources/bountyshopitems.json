@@ -13,14 +13,6 @@
       "dailyPurchaseLimit": 25,
       "quantityPerPurchase": 5,
       "iconString": "GenericIcons/iron"
-    },
-
-    "1002": {
-      "itemType": 300,
-      "purchaseCost": 50,
-      "dailyPurchaseLimit": 25,
-      "quantityPerPurchase": 10000000,
-      "iconString": "GenericIcons/runestone"
     }
   },
   "armouryItems": {

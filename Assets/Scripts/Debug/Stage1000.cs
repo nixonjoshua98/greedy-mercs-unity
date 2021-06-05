@@ -8,7 +8,7 @@ namespace GM._Debug
     {
         public void OnClick()
         {
-            GameState.Stage.stage += 1000;
+            GameState.Stage.currentStage += 1000;
         }
 
         public void AddGold()

@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 297949869682758584}
   - component: {fileID: 7807952434480717476}
   - component: {fileID: 222116384477472437}
+  - component: {fileID: -6947600663474954760}
   m_Layer: 0
   m_Name: necromancer
   m_TagString: Untagged
@@ -94,11 +95,38 @@ MonoBehaviour:
   anim: {fileID: 3406886386821934156}
   AttackAnimation: Casting Spells
   attackCooldown: 1
+  E_OnAttackHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7807952434480717476}
+        m_MethodName: OnAttackHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ProjectileObject: {fileID: 5539170736593296594, guid: 1c7d9610b3ba08d46818a67f47ab0331,
     type: 3}
   startPosition: {fileID: 297949869582887568}
   distance: 6
   speed: 3
+--- !u!114 &-6947600663474954760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297949869682758585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Enemy
 --- !u!1001 &297949869594014040
 PrefabInstance:
   m_ObjectHideFlags: 0

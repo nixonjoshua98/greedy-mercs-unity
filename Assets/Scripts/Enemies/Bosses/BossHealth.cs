@@ -10,7 +10,7 @@ namespace GM
     {
         public override BigDouble GetIntialHealth()
         {
-            return Formulas.StageEnemy.CalcBossHealth(GameState.Stage.stage);
+            return Formulas.StageEnemy.CalcBossHealth(GameState.Stage.currentStage);
         }
     }
 }

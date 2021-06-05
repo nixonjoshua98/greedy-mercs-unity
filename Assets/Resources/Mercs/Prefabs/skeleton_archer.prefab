@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 4094388374024800129}
   - component: {fileID: 1206313509546457553}
   - component: {fileID: 1944662107672066468}
+  - component: {fileID: 7333052779783210931}
   m_Layer: 0
   m_Name: skeleton_archer
   m_TagString: Untagged
@@ -94,11 +95,38 @@ MonoBehaviour:
   anim: {fileID: 7853488261254182188}
   AttackAnimation: Shooting
   attackCooldown: 1
+  E_OnAttackHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1206313509546457553}
+        m_MethodName: OnAttackHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ProjectileObject: {fileID: 7866306757776874252, guid: 3853805b2a209b84a99c194796246558,
     type: 3}
   startPosition: {fileID: 4094388373413155881}
   distance: 2.5
   speed: 12
+--- !u!114 &7333052779783210931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4094388374024800128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Enemy
 --- !u!1001 &4094388373761363263
 PrefabInstance:
   m_ObjectHideFlags: 0

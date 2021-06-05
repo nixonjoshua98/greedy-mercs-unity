@@ -9,7 +9,7 @@ namespace GM
     {
         public override void OnClick()
         {
-            if (GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE)
+            if (GameState.Stage.currentStage >= StageState.MIN_PRESTIGE_STAGE)
                 base.OnClick();
 
             else

@@ -26,7 +26,7 @@ namespace GM.StageDM.Prestige
         {
             JSONNode node = Utils.Json.GetDeviceInfo();
 
-            node.Add("prestigeStage", GameState.Stage.stage);
+            node.Add("prestigeStage", GameState.Stage.currentStage);
 
             Server.Prestige(this, (code, compressed) => { OnPrestigeCallback(code, compressed, callback); }, node);
         }

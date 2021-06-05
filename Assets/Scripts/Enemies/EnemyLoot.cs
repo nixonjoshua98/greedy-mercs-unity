@@ -10,7 +10,7 @@ namespace GM
 
         void Awake()
         {
-            stageSpawned = GameState.Stage.stage;
+            stageSpawned = GameState.Stage.currentStage;
         }
 
         public override void Process()

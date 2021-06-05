@@ -28,12 +28,12 @@ namespace GM
 
         void FixedUpdate()
         {
-            prestigePointText.text = Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage));
+            prestigePointText.text = Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.currentStage));
         }
 
         public void Prestige()
         {
-            if (currentlyPrestiging || GameState.Stage.stage < StageState.MIN_PRESTIGE_STAGE)
+            if (currentlyPrestiging || GameState.Stage.currentStage < StageState.MIN_PRESTIGE_STAGE)
                 return;
 
             currentlyPrestiging = true;

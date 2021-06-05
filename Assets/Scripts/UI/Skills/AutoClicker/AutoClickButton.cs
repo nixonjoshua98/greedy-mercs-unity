@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 namespace GM.Skills.UI
 {
+    using GM.Targetting;
+
     public class AutoClickButton : SkillButton
     {
         [Header("Components")]
         [SerializeField] Button ActivateButton;
+
+        [SerializeField] FriendlyTargetter targetter;
 
         void Awake()
         {
@@ -30,7 +34,14 @@ namespace GM.Skills.UI
             {
                 float seconds = Mathf.Min(1, (Time.timeSinceLevelLoad - lastTap) / 0.1f);
 
-                GameManager.TryDealDamageToEnemy(StatsCache.Skills.AutoClickDamage() * seconds);
+                GameObject target = targetter.GetTarget();
+
+                if (target && target.TryGetComponent(out Health hp))
+                {
+                    BigDouble dmg = StatsCache.Skills.AutoClickDamage() * seconds;
+
+                    hp.TakeDamage(dmg);
+                }
 
                 lastTap = Time.timeSinceLevelLoad;
 

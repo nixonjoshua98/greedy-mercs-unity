@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 3337314362774319968}
   - component: {fileID: 3981222253818409769}
   - component: {fileID: 5255366067590678038}
+  - component: {fileID: -3622656533863664534}
   m_Layer: 0
   m_Name: FireGolemEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,6 +59,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3632701012789557088}
+--- !u!114 &-3622656533863664534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921165014578054583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae660fc2863a404c87f57dd079cd16d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3690773663432617308
 PrefabInstance:
   m_ObjectHideFlags: 0

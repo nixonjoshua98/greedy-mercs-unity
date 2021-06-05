@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 8969905729317384548}
   - component: {fileID: 5164828442868335321}
   - component: {fileID: 8969905729317384549}
+  - component: {fileID: 2737757969756116690}
   m_Layer: 5
   m_Name: AutoClickButton
   m_TagString: Untagged
@@ -344,6 +345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActivateButton: {fileID: 8969905727816874728}
+  targetter: {fileID: 2737757969756116690}
 --- !u!222 &8969905729317384549
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -352,3 +354,15 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8969905729317384551}
   m_CullTransparentMesh: 0
+--- !u!114 &2737757969756116690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8969905729317384551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -38,7 +38,7 @@ namespace GM
         {
             isAvoidingBoss = false;
 
-            bool isBountyBoss = StaticData.Bounty.IsBountyBoss(GameState.Stage.stage, out var boss);
+            bool isBountyBoss = StaticData.Bounty.IsBountyBoss(GameState.Stage.currentStage, out var boss);
 
             // Grab the boss which we are going to nstantiate later
             GameObject bossToSpawn = isBountyBoss ? StaticData.Bounty.Get(boss.ID).EnemyPrefab : BossObjects[Random.Range(0, BossObjects.Length)];

@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 4212931060154188391}
   - component: {fileID: 6102498267299210618}
   - component: {fileID: 2031871773439707438}
+  - component: {fileID: 9142831925000063040}
   m_Layer: 0
   m_Name: fire_satyr
   m_TagString: Untagged
@@ -94,11 +95,38 @@ MonoBehaviour:
   anim: {fileID: 2828557145166165476}
   AttackAnimation: Attacking
   attackCooldown: 1
+  E_OnAttackHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6102498267299210618}
+        m_MethodName: OnAttackHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ProjectileObject: {fileID: 892358329798779585, guid: cb280996a128c434a9838ee89aee0817,
     type: 3}
   startPosition: {fileID: 7637163329336135085}
   distance: 5
   speed: 3
+--- !u!114 &9142831925000063040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212931060154188390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTag: Enemy
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0

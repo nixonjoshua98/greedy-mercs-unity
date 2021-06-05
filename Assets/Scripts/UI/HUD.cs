@@ -28,7 +28,7 @@ namespace GM
 
         void UpdateStageText()
         {
-            StageText.text = GameState.Stage.stage.ToString() + " | " + GameState.Stage.enemy.ToString();
+            StageText.text = GameState.Stage.currentStage.ToString() + " | " + GameState.Stage.currentEnemy.ToString();
         }
 
         void OnStageUpdate()

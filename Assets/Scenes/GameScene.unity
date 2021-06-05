@@ -1993,6 +1993,7 @@ GameObject:
   - component: {fileID: 284735158}
   - component: {fileID: 284735156}
   - component: {fileID: 284735157}
+  - component: {fileID: 284735159}
   m_Layer: 5
   m_Name: Tap Area
   m_TagString: Untagged
@@ -2061,9 +2062,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 796d7dacff194cb4a8db8e25e3260f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
+  _cam: {fileID: 0}
   ps: {fileID: 1323535497}
   maxClicksPerSecond: 20
+  enemyTargetter: {fileID: 284735159}
 --- !u!222 &284735158
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2072,6 +2074,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284735154}
   m_CullTransparentMesh: 0
+--- !u!114 &284735159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284735154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &292464293
 GameObject:
   m_ObjectHideFlags: 0
@@ -4191,51 +4205,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!1 &554657736
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 554657738}
-  - component: {fileID: 554657737}
-  m_Layer: 0
-  m_Name: ProgressCalculator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &554657737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 554657736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a98e73ec65fed4fa80d8de5b3617fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProgressMessageObject: {fileID: 7731971417384862787, guid: 045fbfd721655894e9b26e34990da78e,
-    type: 3}
---- !u!4 &554657738
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 554657736}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &560970521
 GameObject:
   m_ObjectHideFlags: 0
@@ -4247,6 +4216,7 @@ GameObject:
   - component: {fileID: 560970522}
   - component: {fileID: 560970523}
   - component: {fileID: 560970524}
+  - component: {fileID: 560970525}
   m_Layer: 0
   m_Name: '[ Boss Battle ]'
   m_TagString: Untagged
@@ -4266,7 +4236,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &560970523
 MonoBehaviour:
@@ -4327,6 +4297,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &560970525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560970521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084154e1099c9404ab84e636b3463233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnPoint: {fileID: 1162191959}
+  EnemyObjects:
+  - {fileID: 4921165014578054583, guid: 3d6b020e0ed38b547a644b7e6d96ac2a, type: 3}
+  - {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4, type: 3}
+  - {fileID: 8012721505089177118, guid: 0b3bb586c31f11b4492359a26c37cbaf, type: 3}
 --- !u!1 &561736284
 GameObject:
   m_ObjectHideFlags: 0
@@ -6022,7 +6009,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &857823500
 MonoBehaviour:
@@ -6043,6 +6030,7 @@ MonoBehaviour:
   - {fileID: 4921165014578054583, guid: 3d6b020e0ed38b547a644b7e6d96ac2a, type: 3}
   damageNumbers: {fileID: 1604481248}
   bossSpawner: {fileID: 560970523}
+  enemySpawner: {fileID: 560970525}
 --- !u!1 &862606235
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,63 +10,40 @@ namespace GM
 
         const int ENEMIES_PER_STAGE = 6;
 
-        public int stage;
-        public int enemy;
+        public int currentStage;
+        public int currentEnemy;
 
         public bool isStageCompleted;
 
         public StageState(JSONNode node)
         {
-            if (node.HasKey("stage"))
-            {
-                node = node["stage"];
-
-                stage               = node["stage"].AsInt;
-                enemy               = node["enemy"].AsInt;
-                isStageCompleted    = node["isStageCompleted"].AsBool;
-            }
-
-            else
-            {
-                Reset();
-            }
-        }
-
-        public JSONNode ToJson()
-        {
-            JSONNode node = new JSONObject();
-
-            node.Add("stage", stage);
-            node.Add("enemy", enemy);
-            node.Add("isStageCompleted", isStageCompleted);
-
-            return node;
+            Reset();
         }
 
         public void Reset()
         {
-            stage = enemy = 1;
+            currentStage = currentEnemy = 1;
 
             isStageCompleted = false;
         }
 
         public void AddKill()
         {
-            if (enemy + 1 > ENEMIES_PER_STAGE)
+            if (currentEnemy + 1 > ENEMIES_PER_STAGE)
             {
                 isStageCompleted = true;
             }
             else
             {
-                enemy++;
+                currentEnemy++;
             }
         }
 
         public void AdvanceStage()
         {
-            enemy = 1;
+            currentEnemy = 1;
 
-            stage++;
+            currentStage++;
 
             isStageCompleted = false;
         }

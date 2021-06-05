@@ -8,16 +8,11 @@ namespace GM
     {
         public static GameManager Instance = null;
 
-        [SerializeField] Transform SpawnPoint;
-        [Space]
-        [SerializeField] GameObject[] EnemyObjects;
-        [Space]
-        [SerializeField] DamageNumbers damageNumbers;
-
         [Header("Controllers")]
         [SerializeField] StageBossController bossSpawner;
+        [SerializeField] EnemyWaveController enemySpawner;
 
-        GameObject currentEnemy;
+        GameObject prevEnemySpawn;
         Health enemyHealth;
 
         public static Health CurrentEnemyHealth { get { return Instance.enemyHealth; } }
@@ -31,7 +26,7 @@ namespace GM
         {
             SubscribeToEvents();
 
-            Invoke("SpawnNextEnemy", 0.5f);
+            Invoke("SpawnNextEnemy", 0.25f);
         }
 
         void SubscribeToEvents()
@@ -39,26 +34,9 @@ namespace GM
             bossSpawner.OnBossSpawn.AddListener(OnBossSpawn);
         }
 
-        public static void TryDealDamageToEnemy(BigDouble amount)
-        {
-            if (Instance.currentEnemy != null)
-            {
-                if (!CurrentEnemyHealth.IsDead)
-                {
-                    Color col = StatsCache.ApplyCritHit(ref amount) ? Color.red : Color.white;
-
-                    Instance.damageNumbers.Add(amount, col);
-
-                    CurrentEnemyHealth.TakeDamage(amount);
-                }
-            }
-        }
-
         // Called once ANY enemy has been killed 
         void OnAfterEnemyDeath()
         {
-            Destroy(currentEnemy);
-
             SpawnNextEnemy();
         }
 
@@ -68,41 +46,43 @@ namespace GM
             SpawnNextEnemy();
         }
 
-        // Event
+        // UnityEvent - Called from the Boss Controller/Spawner
+        // Setup the callbacks required to continue the stage after death
         void OnBossSpawn(GameObject boss)
         {
-            if (currentEnemy)
-                Destroy(currentEnemy);
+            if (prevEnemySpawn)
+                Destroy(prevEnemySpawn);
 
-            currentEnemy = boss;
+            prevEnemySpawn = boss;
 
-            enemyHealth = currentEnemy.GetComponent<Health>();
+            Health hp = boss.GetComponent<Health>();
 
-            enemyHealth.OnDeath.AddListener((_) => { OnBossEnemyDeath(); });
+            hp.OnDeath.AddListener(OnBossEnemyDeath);
         }
 
         // Event
-        void OnEnemyDeath()
+        void OnEnemyDeath(GameObject obj)
         {
-            if (Instance.currentEnemy.TryGetComponent(out LootDrop loot))
+            if (obj.TryGetComponent(out LootDrop loot))
             {
                 loot.Process();
             }
         }
 
         // Event
-        void OnNormalEnemyDeath()
+        void OnNormalEnemyDeath(GameObject obj)
         {
-            OnEnemyDeath();
+            OnEnemyDeath(obj);
 
             GameState.Stage.AddKill();
 
             OnAfterEnemyDeath();
         }
 
-        void OnBossEnemyDeath()
+        // UnityEvent - Called internally based off Health.OnDeath
+        void OnBossEnemyDeath(GameObject obj)
         {
-            OnEnemyDeath();
+            OnEnemyDeath(obj);
 
             GameState.Stage.AdvanceStage();
 
@@ -137,11 +117,11 @@ namespace GM
 
         void SpawnEnemy()
         {
-            currentEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], SpawnPoint.position, Quaternion.identity, SpawnPoint);
+            prevEnemySpawn = enemySpawner.Spawn();
 
-            enemyHealth = currentEnemy.GetComponent<Health>();
+            enemyHealth = prevEnemySpawn.GetComponent<Health>();
 
-            enemyHealth.OnDeath.AddListener((_) => { OnNormalEnemyDeath(); });
+            enemyHealth.OnDeath.AddListener(OnNormalEnemyDeath);
         }
     }
 }

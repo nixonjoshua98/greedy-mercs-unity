@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Characters
 {
+    using GM.Events;
+
     public abstract class AbstractCharacterAttack : ExtendedMonoBehaviour
     {
         [Header("Components")]
@@ -15,22 +18,22 @@ namespace GM.Characters
         [Header("Properties")]
         [SerializeField] float attackCooldown = 1.0f;
 
-        bool isAttacking = false;
-        bool isOnCooldown = false;
+        public bool isAttacking = false;
+        public bool isOnCooldown = false;
+
+        // Private Flags
+        float _spawnTime;
 
         protected GameObject AttackTarget { get; private set; }
 
-        // Components
-        AbstractCharacterController characterController;
+        // Events
+        public GameObjectEvent E_OnAttackHit;
 
         void Awake()
         {
-            GetComponents();
-        }
+            _spawnTime = Time.time;
 
-        void GetComponents()
-        {
-            characterController = GetComponent<AbstractCharacterController>();
+            E_OnAttackHit = new GameObjectEvent();
         }
 
         public virtual void Attack(GameObject obj)
@@ -46,9 +49,9 @@ namespace GM.Characters
             OnAttackHit();
         }
 
-        protected virtual void OnAttackHit()
+        public virtual void OnAttackHit()
         {
-            characterController.OnAttack();
+            E_OnAttackHit.Invoke(AttackTarget);
 
             isAttacking = false;
 
@@ -57,21 +60,31 @@ namespace GM.Characters
 
         public virtual bool IsAvailable()
         {
-            return !isAttacking && !isOnCooldown;
+            bool timeFlag = (Time.time - _spawnTime) >= 3.0f;
+
+            return timeFlag && (!isAttacking && !isOnCooldown);
         }
 
+
+        public virtual bool CanAttack(GameObject obj)
+        {
+            return IsAvailable();
+        }
+
+
+        // Trigger the cooldown, and wait out the duration
         void StartCooldown()
         {
+            IEnumerator WaitForCooldown()
+            {
+                yield return new WaitForSecondsRealtime(attackCooldown);
+
+                isOnCooldown = false;
+            }
+
             isOnCooldown = true;
 
             StartCoroutine(WaitForCooldown());
-        }
-
-        IEnumerator WaitForCooldown()
-        {
-            yield return new WaitForSecondsRealtime(attackCooldown);
-
-            isOnCooldown = false;
         }
     }
 }

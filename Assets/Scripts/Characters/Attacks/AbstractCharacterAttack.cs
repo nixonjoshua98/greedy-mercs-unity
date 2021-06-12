@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GM.Characters
 {
@@ -18,16 +17,34 @@ namespace GM.Characters
         [Header("Properties")]
         [SerializeField] float attackCooldown = 1.0f;
 
-        bool isAttacking = false;
-        bool isOnCooldown = false;
+
+        // Public accessors
+        public bool IsAttacking { get; private set; } = false;
+        public bool HasAttackTarget { get { return AttackTarget != null; } }
+        public bool IsAvailable
+        { 
+            get 
+            {
+                bool timeFlag = (Time.time - _spawnTime) >= 1.0f;
+
+                return timeFlag && (!IsAttacking && !IsOnCooldown);
+            } 
+        }
+
+        public bool IsOnCooldown { get; private set; } = false;
+        
 
         // Private Flags
         float _spawnTime;
 
+
+        // Currently target
         protected GameObject AttackTarget { get; private set; }
+
 
         // Events
         public GameObjectEvent E_OnAttackHit;
+
 
         void Awake()
         {
@@ -36,12 +53,54 @@ namespace GM.Characters
             E_OnAttackHit = new GameObjectEvent();
         }
 
+        void FixedUpdate()
+        {
+            // We have no target to attack
+            if (!HasAttackTarget)
+                return;
+
+
+            // Attack is available and we are within range
+            if (IsAvailable && WithinValidAttackRange())
+            {
+                PerformAttack();
+            }
+
+            // We are currently not attacking, and we are outside attack range
+            // so we need to move towards the target
+            else if (!IsAttacking && !WithinValidAttackRange())
+            {
+                MoveTowardsValidAttackRange();
+            }
+        }
+
+
+        protected virtual void PerformAttack()
+        {
+            Attack(AttackTarget);
+
+            anim.Play(AttackAnimation);
+        }
+
+
+        protected abstract void MoveTowardsValidAttackRange();
+
+        protected abstract bool WithinValidAttackRange();
+
         public virtual void Attack(GameObject obj)
         {
-            isAttacking = true;
+            IsAttacking = true;
 
-            AttackTarget = obj;
+            SetAttackTarget(obj);
         }
+
+
+        // = = = Public Methods = = = //
+        public void SetAttackTarget(GameObject target)
+        {
+            AttackTarget = target;
+        }
+
 
         // = = = Animation Event = = = //
         public virtual void OnAttackAnimationEvent()
@@ -53,22 +112,15 @@ namespace GM.Characters
         {
             E_OnAttackHit.Invoke(AttackTarget);
 
-            isAttacking = false;
+            IsAttacking = false;
 
             StartCooldown();
-        }
-
-        public virtual bool IsAvailable()
-        {
-            bool timeFlag = (Time.time - _spawnTime) >= 3.0f;
-
-            return timeFlag && (!isAttacking && !isOnCooldown);
         }
 
 
         public virtual bool CanAttack(GameObject obj)
         {
-            return IsAvailable();
+            return IsAvailable;
         }
 
 
@@ -79,10 +131,10 @@ namespace GM.Characters
             {
                 yield return new WaitForSecondsRealtime(attackCooldown);
 
-                isOnCooldown = false;
+                IsOnCooldown = false;
             }
 
-            isOnCooldown = true;
+            IsOnCooldown = true;
 
             StartCoroutine(WaitForCooldown());
         }

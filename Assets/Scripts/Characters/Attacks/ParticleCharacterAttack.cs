@@ -10,6 +10,18 @@ namespace GM.Characters
         [Header("Components")]
         [SerializeField] ParticleSystem ps;
 
+
+        protected override void MoveTowardsValidAttackRange()
+        {
+
+        }
+
+        protected override bool WithinValidAttackRange()
+        {
+            return true;
+        }
+
+
         public override void Attack(GameObject obj)
         {
             base.Attack(obj);

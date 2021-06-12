@@ -10,7 +10,7 @@ namespace GM
     {
         public override BigDouble GetIntialHealth()
         {
-            C_GameState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.GetState();
 
             return Formulas.EnemyHealth(state.currentStage);
         }

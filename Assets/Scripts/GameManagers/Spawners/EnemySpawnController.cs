@@ -13,13 +13,9 @@ namespace GM
         {
             List<GameObject> ls = new List<GameObject>();
 
-            Vector3 pos = new Vector3(3.6f, 4.6f);
-
             for (int i = 0; i < n; ++i)
             {
-                ls.Add(Spawn(pos));
-
-                pos.y -= 1;
+                ls.Add(Spawn(new Vector3(Random.Range(-3, 3), Random.Range(5, 2))));
             }
 
             return ls;

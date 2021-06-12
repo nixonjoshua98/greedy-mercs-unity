@@ -26,7 +26,7 @@ namespace GM.StageDM.Prestige
 
         public void Prestige(Action<bool> callback)
         {
-            C_GameState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.GetState();
 
             JSONNode node = Utils.Json.GetDeviceInfo();
 

@@ -11,7 +11,7 @@ namespace GM.Events
 
     public class CharacterEvent : UnityEvent<CharacterID> { }
 
-    public class GameStateEvent : UnityEvent<C_GameState> { }
+    public class GameStateEvent : UnityEvent<CurrentStageState> { }
 }
 
 namespace GM.Events

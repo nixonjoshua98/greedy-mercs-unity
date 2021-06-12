@@ -9,7 +9,7 @@ namespace GM
     {
         public override void OnClick()
         {
-            C_GameState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.GetState();
 
             if (state.currentStage >= StaticData.MIN_PRESTIGE_STAGE)
                 base.OnClick();

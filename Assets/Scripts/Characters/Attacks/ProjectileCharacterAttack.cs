@@ -26,6 +26,16 @@ namespace GM.Characters
             anim.Play(AttackAnimation);
         }
 
+        protected override void MoveTowardsValidAttackRange()
+        {
+
+        }
+
+        protected override bool WithinValidAttackRange()
+        {
+            return true;
+        }
+
         public override void OnAttackAnimationEvent()
         {
             CreateProjectile();

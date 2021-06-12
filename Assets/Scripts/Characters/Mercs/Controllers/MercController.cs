@@ -30,7 +30,7 @@ namespace GM.Characters
 
         protected override void PeriodicUpdate()
         {
-            if (attackController.IsAvailable())
+            if (attackController.IsAvailable)
             {
                 GameObject obj = attackTargetter.GetTarget();
 

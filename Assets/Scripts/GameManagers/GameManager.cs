@@ -10,15 +10,14 @@ using UnityEngine;
 namespace GM
 {
     using GM.Events;
-    using GM.Characters;
 
-    public class C_GameState
+    public class CurrentStageState
     {
         public int currentStage = 1;
 
-        public C_GameState Copy()
+        public CurrentStageState Copy()
         {
-            return new C_GameState()
+            return new CurrentStageState()
             {
                 currentStage = currentStage
             };
@@ -34,7 +33,7 @@ namespace GM
         [SerializeField] EnemySpawnController enemySpawner;
         [SerializeField] BossSpawnController bossSpawner;
 
-        public C_GameState state;
+        public CurrentStageState state;
 
         List<GameObject> spawnedEnemies;
 
@@ -42,7 +41,7 @@ namespace GM
         {
             Instance = this;
 
-            state           = new C_GameState();
+            state           = new CurrentStageState();
             spawnedEnemies  = new List<GameObject>();
         }
 
@@ -53,7 +52,7 @@ namespace GM
 
         // Public method used to get the current state
         // We create a copy to avoid accidental changes
-        public C_GameState GetState()
+        public CurrentStageState GetState()
         {
             return state.Copy();
         }

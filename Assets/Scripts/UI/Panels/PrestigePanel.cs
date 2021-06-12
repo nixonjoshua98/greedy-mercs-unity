@@ -28,14 +28,14 @@ namespace GM
 
         void FixedUpdate()
         {
-            C_GameState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.GetState();
 
             prestigePointText.text = Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(state.currentStage));
         }
 
         public void Prestige()
         {
-            C_GameState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.GetState();
 
             if (currentlyPrestiging || state.currentStage < StaticData.MIN_PRESTIGE_STAGE)
                 return;

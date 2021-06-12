@@ -25,7 +25,7 @@ namespace GM
 
         public GameObject Spawn()
         {
-            C_GameState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.GetState();
 
             // Check if Boss is a bounty target
             bool isBountyBoss = StaticData.Bounty.IsBountyBoss(state.currentStage, out var boss);

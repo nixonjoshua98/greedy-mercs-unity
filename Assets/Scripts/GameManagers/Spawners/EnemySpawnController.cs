@@ -15,7 +15,7 @@ namespace GM
 
             List<GameObject> ls = new List<GameObject>();
 
-            Vector3 pos = new Vector3(4.0f, 5.4f);
+            Vector3 pos = new Vector3(2.5f, 7.4f);
 
             if (unitPositions.Count >= 1)
             {
@@ -29,7 +29,7 @@ namespace GM
             {
                 ls.Add(Spawn(pos));
                 
-                pos.y += 1.0f;
+                pos.y -= 1.5f;
             }
 
             return ls;

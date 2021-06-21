@@ -10,6 +10,7 @@ using UnityEngine;
 
 using SimpleJSON;
 
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public static class DictionaryExtensions
@@ -39,6 +40,21 @@ public static class Extensions
     }
 }
 
+public static class CameraExtensions
+{
+    public static Vector2 MinBounds(this Camera camera)
+    {
+        Vector2 v2 = camera.Extents();
+
+        return camera.transform.position - new Vector3(v2.x, v2.y);
+    }
+
+    public static Vector2 Extents(this Camera camera)
+    {
+        return new Vector2(camera.orthographicSize * Screen.width / Screen.height, camera.orthographicSize);
+    }
+}
+
 public class StringFormatting : MonoBehaviour
 {
     static Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
@@ -59,16 +75,22 @@ public class StringFormatting : MonoBehaviour
     }
 }
 
-    public static class Funcs
+public static class Funcs
 {
+    public static Vector3 AveragePosition(List<Vector3> ls)
+    {
+        Vector3 avg = Vector3.zero;
+
+        foreach (Vector3 pos in ls)
+            avg += pos;
+
+        return avg / ls.Count;
+    }
+
+
     public static string BonusString(BonusType bonusType)
     {
         return bonusType.ToString();
-    }
-
-    public static string BonusString(BonusType bonusType, double val)
-    {
-        return string.Format("{0} {1}", val, BonusString(bonusType));
     }
 
     // = = = Time = = = //
@@ -128,22 +150,6 @@ namespace GM.Utils
 {
     public class Lerp
     {
-        public static IEnumerator Local(GameObject o, Vector3 start, Vector3 end, float dur)
-        {
-            float progress = 0.0f;
-
-            o.transform.localPosition = start;
-
-            while (progress < 1.0f)
-            {
-                progress += (Time.deltaTime / dur);
-
-                o.transform.localPosition = Vector3.Lerp(start, end, progress);
-
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
         public static IEnumerator RectTransform(RectTransform rt, Vector3 start, Vector3 end, float dur)
         {
             float progress = 0.0f;

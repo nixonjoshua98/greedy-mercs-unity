@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b2f7486d623f14086c55a9d8d0e608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.25
+  moveSpeed: 1.5
   avatar: {fileID: 7830280867725703765}
 --- !u!114 &8699438743057255768
 MonoBehaviour:
@@ -78,7 +78,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.1
   anim: {fileID: 1791531129569585673}
   AttackAnimation: Attacking
-  attackCooldown: 1
+  attackCooldown: 0.5
 --- !u!114 &4261212423968102536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPriority: 1
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0

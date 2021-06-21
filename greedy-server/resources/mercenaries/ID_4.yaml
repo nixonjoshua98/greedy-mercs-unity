@@ -4,7 +4,8 @@ attackType: 0
 
 unlockCost: 2.5e6
 
-prefabString: Mercs/Prefabs/skeleton_archer
+prefabString: Mercs/Prefabs/stone_golem
+#prefabString: Mercs/Prefabs/skeleton_archer
 iconString: Mercs/Icons/stone_golem
 
 passives:

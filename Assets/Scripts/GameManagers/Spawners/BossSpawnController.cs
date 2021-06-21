@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    using GM.Events;
-    using GM.Bounty;
 
     public class BossSpawnController : MonoBehaviour
     {
@@ -37,7 +35,7 @@ namespace GM
             bossTitleText.text = isBountyBoss ? boss.Name.ToUpper() : "BOSS BATTLE";
 
             // Instantiate the boss enemy
-            GameObject o = Spawn(bossToSpawn, new Vector3(3.6f, 2.3f));
+            GameObject o = Spawn(bossToSpawn, BossSpawnPosition());
 
             // Listen to Events
             o.GetComponent<AbstractHealthController>().E_OnDeath.AddListener(OnBossDeath);
@@ -51,6 +49,22 @@ namespace GM
         GameObject Spawn(GameObject o, Vector3 pos)
         {
             return Instantiate(o, pos, Quaternion.identity);
+        }
+
+        Vector3 BossSpawnPosition()
+        {
+            List<Vector3> unitPositions = SquadManager.Instance.UnitPositions();
+
+            Vector3 pos = new Vector3(3.6f, 6.5f);
+
+            if (unitPositions.Count >= 1)
+            {
+                Vector3 averageUnitPosition = Funcs.AveragePosition(unitPositions);
+
+                pos.x = averageUnitPosition.x + 2.0f;
+            }
+
+            return pos;
         }
 
         // = = = Events = = = //

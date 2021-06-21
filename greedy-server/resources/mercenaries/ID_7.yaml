@@ -5,7 +5,8 @@ attackType: 0
 baseDamage: 2.5e12
 unlockCost: 2.5e14
 
-prefabString: Mercs/Prefabs/necromancer
+prefabString: Mercs/Prefabs/stone_golem
+#prefabString: Mercs/Prefabs/necromancer
 iconString: Mercs/Icons/stone_golem
 
 passives:

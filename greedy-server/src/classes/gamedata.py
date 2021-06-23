@@ -12,8 +12,6 @@ def read_data_file(name) -> dict:
 class GameDataMeta(type):
 	lookup = {
 		"quests": "quests.json",
-		"characters": "characters.json",
-		"characterPassives": "characterPassives.json"
 	}
 
 	@property

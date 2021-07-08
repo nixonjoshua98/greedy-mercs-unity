@@ -23,7 +23,7 @@ namespace GM
 
         public GameObject Spawn()
         {
-            CurrentStageState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.State();
 
             // Check if Boss is a bounty target
             bool isBountyBoss = StaticData.Bounty.IsBountyBoss(state.currentStage, out var boss);
@@ -35,7 +35,7 @@ namespace GM
             bossTitleText.text = isBountyBoss ? boss.Name.ToUpper() : "BOSS BATTLE";
 
             // Instantiate the boss enemy
-            GameObject o = Spawn(bossToSpawn, BossSpawnPosition());
+            GameObject o = Spawn(bossToSpawn, SpawnPosition());
 
             // Listen to Events
             o.GetComponent<AbstractHealthController>().E_OnDeath.AddListener(OnBossDeath);
@@ -51,23 +51,20 @@ namespace GM
             return Instantiate(o, pos, Quaternion.identity);
         }
 
-        Vector3 BossSpawnPosition()
+        Vector3 SpawnPosition()
         {
-            List<Vector3> unitPositions = SquadManager.Instance.UnitPositions();
+            List<Vector3> positions = SquadManager.Instance.UnitPositions();
 
-            Vector3 pos = new Vector3(3.6f, 6.5f);
+            if (positions.Count == 0)
+                return new Vector3(0.0f, 5.5f);
 
-            if (unitPositions.Count >= 1)
-            {
-                Vector3 averageUnitPosition = Funcs.AveragePosition(unitPositions);
+            Vector3 centerPos = Funcs.AveragePosition(positions);
 
-                pos.x = averageUnitPosition.x + 2.0f;
-            }
-
-            return pos;
+            return new Vector3(centerPos.x + 5.0f, 5.5f);
         }
 
         // = = = Events = = = //
+
         void OnBossDeath(GameObject o)
         {
             bossEntryAnimationObject.SetActive(false);

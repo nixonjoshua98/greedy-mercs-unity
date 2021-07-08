@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace GM.Backgrounds
+namespace GM.Background
 {
     public class BackgroundSpriteMask : ExtendedMonoBehaviour
     {

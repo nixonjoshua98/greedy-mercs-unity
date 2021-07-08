@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1758560970}
   - component: {fileID: -1697175500980154090}
   - component: {fileID: -990658773020019077}
+  - component: {fileID: 6826891269305875915}
   m_Layer: 0
   m_Name: SpikyGolem
   m_TagString: Enemy
@@ -90,6 +91,19 @@ MonoBehaviour:
   HealthBarObject: {fileID: 5294143185684844642, guid: 0f142208660cd584db26f1ea18246edd,
     type: 3}
   _TargetTransform: {fileID: 0}
+--- !u!114 &6826891269305875915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012721505089177118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7207332ad14b84181ef28d48859560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maskInteraction: 1
 --- !u!1001 &8012721504484361482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,14 +118,6 @@ PrefabInstance:
     - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.225
-      objectReference: {fileID: 0}
-    - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.225
       objectReference: {fileID: 0}
     - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -153,8 +159,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114367065884605742, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
 --- !u!4 &8015310776573258218 stripped
 Transform:

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5255366067590678038}
   - component: {fileID: -3622656533863664534}
   - component: {fileID: 7049458548551430393}
+  - component: {fileID: 639385591546178106}
   m_Layer: 0
   m_Name: FireGolemEnemy
   m_TagString: Enemy
@@ -90,6 +91,19 @@ MonoBehaviour:
   HealthBarObject: {fileID: 5294143185684844642, guid: 0f142208660cd584db26f1ea18246edd,
     type: 3}
   _TargetTransform: {fileID: 0}
+--- !u!114 &639385591546178106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921165014578054583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7207332ad14b84181ef28d48859560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maskInteraction: 1
 --- !u!1001 &3690773663432617308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,14 +118,6 @@ PrefabInstance:
     - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.225
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.225
       objectReference: {fileID: 0}
     - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_LocalPosition.x

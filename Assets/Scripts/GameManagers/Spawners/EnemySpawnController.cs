@@ -5,42 +5,51 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Formations;
+
     public class EnemySpawnController : MonoBehaviour
     {
         [SerializeField] GameObject[] EnemyObjects;
 
+        [SerializeField] StandardUnitFormation unitFormation;
+
         public List<GameObject> SpawnMultiple(int n)
         {
-            List<Vector3> unitPositions = SquadManager.Instance.UnitPositions();
+            Vector3 centerPos = GetCenterPosition();
 
-            List<GameObject> ls = new List<GameObject>();
-
-            Vector3 pos = new Vector3(2.5f, 7.4f);
-
-            if (unitPositions.Count >= 1)
-            {
-                Vector3 averageUnitPosition = Funcs.AveragePosition(unitPositions);
-
-                pos.x = averageUnitPosition.x + 2.0f;
-            }
-
+            List<GameObject> spawnedObjects = new List<GameObject>();
 
             for (int i = 0; i < n; ++i)
             {
-                ls.Add(Spawn(pos));
-                
-                pos.y -= 1.5f;
+                Vector3 spawnPos = centerPos;
+
+                if (i < unitFormation.numPositions)
+                    spawnPos += unitFormation.GetPosition(i);
+
+                spawnedObjects.Add(Spawn(spawnPos));
             }
 
-            return ls;
+            return spawnedObjects;
+        }
 
+        // Calculate the center point for the formation, the actual position used
+        // will be the center point returned from here + the relative position from
+        // the current formation
+        Vector3 GetCenterPosition()
+        {
+            List<Vector3> positions = SquadManager.Instance.UnitPositions();
+
+            if (positions.Count == 0)
+                return new Vector3(0.0f, 5.5f);
+
+            Vector3 centerPos = Funcs.AveragePosition(positions);
+
+            return new Vector3(centerPos.x + 5.0f, 5.5f);
         }
 
         GameObject Spawn(Vector3 pos)
         {
-            GameObject o = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], pos, Quaternion.identity);
-
-            return o;
+            return Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], pos, Quaternion.identity);
         }
     }
 }

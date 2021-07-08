@@ -8,6 +8,8 @@ from src.common import checks
 
 from src.classes import ServerResponse
 
+from src.classes.userdata import UserArmouryData
+
 
 class ArmouryView(View):
 
@@ -24,15 +26,15 @@ class ArmouryView(View):
 		return "400", 400
 
 	def upgrade_item(self, uid, data):
-		iid = data["itemId"]
+		armoury = UserArmouryData(uid)
 
-		dbutils.armoury.update_item(uid, iid, inc={"level": 10})
+		armoury.update(data["itemId"], inc_={"level": 1})
 
-		return ServerResponse({"levelsGained": 10})
+		return ServerResponse({"levelsGained": 1})
 
 	def evolve_item(self, uid, data):
-		iid = data["itemId"]
+		armoury = UserArmouryData(uid)
 
-		dbutils.armoury.update_item(uid, iid, inc={"evoLevel": 10})
+		armoury.update(data["itemId"], inc_={"evoLevel": 1})
 
-		return ServerResponse({"evoLevelsGained": 10})
+		return ServerResponse({"evoLevelsGained": 1})

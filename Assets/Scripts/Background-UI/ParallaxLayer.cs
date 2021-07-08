@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GM.Backgrounds
+namespace GM.Background
 {
     public class ParallaxLayer : MonoBehaviour
     {

@@ -8,6 +8,8 @@ from src import dynamicdata, dbutils
 from src.common import mongo, checks
 from src.classes import ServerResponse
 
+from src.classes.userdata import UserArmouryData
+
 
 class BountyShopView(View):
 
@@ -57,6 +59,8 @@ class BountyShopView(View):
 		return ServerResponse({"userItems": items, "dailyPurchases": dbutils.bs.get_daily_purchases(uid)})
 
 	def purchase_armoury_item(self, uid, data):
+		user_armoury = UserArmouryData(uid)
+
 		shop_items = dynamicdata.get_bounty_shop(uid)
 
 		item = shop_items.armoury_items.get((iid := data["itemId"]))
@@ -64,7 +68,7 @@ class BountyShopView(View):
 		if item is None or not self._can_purchase_item(uid, item=item):
 			return "400", 400
 
-		armoury = dbutils.armoury.update_item(uid, item.armoury_item_id, inc={"owned": item.quantity_per_purchase})
+		user_armoury.update(item.armoury_item_id, inc_={"owned": item.quantity_per_purchase}, upsert=True)
 
 		items = dbutils.inventory.update_items(uid, inc={"bountyPoints": -item.purchase_cost})
 
@@ -73,7 +77,7 @@ class BountyShopView(View):
 		return ServerResponse(
 			{
 				"userItems": items,
-				"userArmouryItems": armoury,
+				"userArmouryItems": user_armoury.as_list(),
 				"dailyPurchases": dbutils.bs.get_daily_purchases(uid)
 			}
 		)

@@ -10,7 +10,7 @@ namespace GM
 
         void Awake()
         {
-            CurrentStageState state = GameManager.Instance.GetState();
+            CurrentStageState state = GameManager.Instance.State();
 
             stageSpawned = state.currentStage;
         }

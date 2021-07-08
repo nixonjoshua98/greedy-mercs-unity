@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
-
-using GM.Armoury;
 
 namespace GM.Armoury.UI
 {
@@ -25,6 +22,7 @@ namespace GM.Armoury.UI
 
         // ===
         Dictionary<int, ArmouryItem> itemObjects;
+
 
         void Awake()
         {

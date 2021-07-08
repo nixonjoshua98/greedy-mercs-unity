@@ -70,6 +70,8 @@ namespace GM
         {
             GameState.Restore(node);
 
+            PT_PlayerData.CreateInstance();
+
             MercenaryManager.Create();
 
             ArmouryManager.Create(node["armoury"]);

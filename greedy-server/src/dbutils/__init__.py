@@ -1,7 +1,9 @@
 
-from . import bs, armoury, artefacts, inventory
+from . import bs, artefacts, inventory
 
 from src.common import mongo
+
+from src.classes.userdata import CompleteUserData
 
 import datetime as dt
 
@@ -17,6 +19,8 @@ def last_daily_reset():
 
 def get_player_data(uid):
 
+	user_data = CompleteUserData(uid)
+
 	return {
 		"player": {"username": "Rogue Mercenary"},
 
@@ -26,6 +30,6 @@ def get_player_data(uid):
 
 		"artefacts": artefacts.get(uid),
 
-		"armoury": armoury.get_armoury(uid),
+		"armoury": user_data.armoury.as_list(),
 		"bounties": list(mongo.db["userBounties"].find({"userId": uid})),
 	}

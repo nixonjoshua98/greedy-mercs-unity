@@ -37,12 +37,9 @@ namespace GM
             List<Vector3> ls = new List<Vector3>();
 
             foreach (GameObject o in spawnedUnits)
-            {
                 ls.Add(o.transform.position);
-            }
 
             return ls;
-
         }
 
         void AddCharacter(CharacterID chara)

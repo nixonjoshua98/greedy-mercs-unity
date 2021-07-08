@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * 
- */
+
 
 namespace GM
 {
@@ -50,9 +48,8 @@ namespace GM
             SpawnEnemyWave();
         }
 
-        // Public method used to get the current state
         // We create a copy to avoid accidental changes
-        public CurrentStageState GetState()
+        public CurrentStageState State()
         {
             return state.Copy();
         }

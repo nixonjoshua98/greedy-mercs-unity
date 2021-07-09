@@ -5,13 +5,13 @@ from typing import Optional
 
 
 class UserIdentifier(BaseModel):
+    """ Authentication Data Model (can be inherited from) """
+
     device_id: str
     user_id: Optional[str] = None
 
 
-class UserLoginModel(BaseModel):
-    device_id: str
-
-
 class ItemPurchaseModel(UserIdentifier):
+    """ Bounty Shop """
+
     item_id: int

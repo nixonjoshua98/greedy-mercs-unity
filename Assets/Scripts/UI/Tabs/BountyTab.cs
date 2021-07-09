@@ -8,9 +8,8 @@ namespace GM.Bounty
 {
     using GM.Inventory;
 
-    using GameState = GM.GameState;
 
-    public class BountyTab : MonoBehaviour
+    public class BountyTab : ExtendedMonoBehaviour
     {
         [Header("Prefabs")]
         [SerializeField] GameObject BountyObjectSlot;
@@ -30,20 +29,20 @@ namespace GM.Bounty
             InstantiateIcons();
         }
 
-        void FixedUpdate()
+        protected override void PeriodicUpdate()
         {
-            InventoryManager inv = InventoryManager.Instance;
+            BountySnapshot snapshot = UserData.Get().Bounties.CreateSnapshot();
 
-            bountyPointsText.text   = inv.BountyPoints.ToString();
-            bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", BountyManager.Instance.MaxHourlyIncome, BountyManager.Instance.TotalCapacity);
-            unclaimedTotalText.text = string.Format("Collect ({0})", BountyManager.Instance.UnclaimedTotal);
+            bountyPointsText.text   = InventoryManager.Instance.BountyPoints.ToString();
+            bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", snapshot.HourlyIncome, snapshot.Capacity);
+            unclaimedTotalText.text = string.Format("Collect ({0})", snapshot.Unclaimed);
 
-            bountySlider.value = BountyManager.Instance.PercentFilled;
+            bountySlider.value = snapshot.PercentFilled;
         }
 
         void InstantiateIcons()
         {
-            foreach (BountyState bounty in BountyManager.Instance.Bounties)
+            foreach (BountyState bounty in UserData.Get().Bounties.StatesList)
             {
                 GameObject inst = Funcs.UI.Instantiate(BountyObjectSlot, bountySlotsParent, Vector3.zero);
 
@@ -57,7 +56,7 @@ namespace GM.Bounty
         // = = = Button Callbacks = = =
         public void OnClaimPoints()
         {
-            BountyManager.Instance.ClaimPoints((code, data) => { });
+            UserData.Get().Bounties.ClaimPoints(() => { });
         }
     }
 }

@@ -66,10 +66,13 @@ namespace GM
         {
             GameState.Restore(node);
 
+            UserData inst = UserData.CreateInstance();
+
+            inst.UpdateWithServerUserData(node);
+
             MercenaryManager.Create();
 
             ArmouryManager.Create(node["armoury"]);
-            BountyManager.Create(node["bounties"]);
             InventoryManager.Create(node["inventory"]);
             BountyShopManager.Create(node["bountyShop"]);
             ArtefactManager.Create(node["artefacts"]);

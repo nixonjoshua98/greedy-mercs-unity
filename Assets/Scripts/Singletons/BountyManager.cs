@@ -12,25 +12,34 @@ namespace GM.Bounty
 {
     using GM.Inventory;
 
-    using Utils = GM.Utils;
-
     public class BountyState
     {
         public readonly int ID;
 
         public DateTime LastClaimTime;
 
-        public BountyState(int questId)
+        public BountyState(int bountyId)
         {
-            ID = questId;
+            ID = bountyId;
         }
     }
 
+    public struct BountySnapshot
+    {
+        public int Capacity;
+        public int Unclaimed;
+        public int HourlyIncome;
+
+        public float PercentFilled;
+    }
+
+
     public class BountyManager
     {
-        public static BountyManager Instance = null;
-
         Dictionary<int, BountyState> states;
+
+        public List<BountyState> StatesList { get { return states.Values.ToList(); } }
+
 
         public BountyManager(JSONNode node)
         {
@@ -39,97 +48,62 @@ namespace GM.Bounty
             SetBounties(node);
         }
 
-        public static BountyManager Create(JSONNode node)
-        {
-            Instance = new BountyManager(node);
-
-            return Instance;
-        }
 
         // = = = Server Methods = = =
-        public void ClaimPoints(Action<long, string> call)
+        public void ClaimPoints(Action action)
         {
-            void Callback(long code, string body)
+            void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
+                    long ts = resp["claimTime"].AsLong;
 
-                    SetAllClaimTimes(Funcs.ToDateTime(resp["claimTime"].AsLong));
+                    SetAllClaimTimes(Funcs.ToDateTime(ts));
 
-                    InventoryManager.Instance.SetItems(resp["inventoryItems"]);
+                    InventoryManager.Instance.SetItems(resp["userItems"]);
                 }
 
-                call(code, body);
+                action();
             }
 
-            Server.Put("bounty", "claimPoints", Callback);
+            Server.Post("bounty/claimpoints", Callback);
         }
 
 
-        // = = = GET = = =
-        public float PercentFilled { get { return UnclaimedTotal / (float)TotalCapacity; } }
-
-        public List<BountyState> Bounties { get { return states.Values.ToList(); } }
-
-        public int MaxHourlyIncome
-        { 
-            get
-            {
-                int income = 0;
-
-                foreach (BountyState state in states.Values)
-                {
-                    income += StaticData.Bounty.Get(state.ID).HourlyIncome;
-                }
-
-                return income;
-            }
-        }
-
-        public int UnclaimedTotal
+        public BountySnapshot CreateSnapshot()
         {
-            get
+            int capacity = 0;
+            int unclaimed = 0;
+            int hourlyIncome = 0;
+
+            // Calculate the attributes we want for the snapshot
+            foreach (BountyState state in StatesList)
             {
-                int unclaimed = 0;
+                // Grab the static data for the struct
+                BountyDataStruct dataStruct = StaticData.Bounty.Get(state.ID);
 
-                DateTime now = DateTime.UtcNow;
+                // We cap the hours since claim to the value returned from the server
+                float hoursSinceClaim = Math.Min(StaticData.Bounty.MaxUnclaimedHours, (float)(DateTime.UtcNow - state.LastClaimTime).TotalHours);
 
-                foreach (BountyState state in states.Values)
-                {
-                    float hoursSinceClaim = Math.Min(StaticData.Bounty.MaxUnclaimedHours, (float)(now - state.LastClaimTime).TotalHours);
-
-                    int hourlyIncome = StaticData.Bounty.Get(state.ID).HourlyIncome;
-
-                    unclaimed += Mathf.FloorToInt(hoursSinceClaim * hourlyIncome);
-                }
-
-                return unclaimed;
+                capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * StaticData.Bounty.MaxUnclaimedHours);
+                unclaimed += Mathf.FloorToInt(dataStruct.HourlyIncome * hoursSinceClaim);
+                hourlyIncome += dataStruct.HourlyIncome;
             }
-        }
 
-        public int TotalCapacity
-        {
-            get
+            // Create and return a new snapshot structure
+            return new BountySnapshot
             {
-                int capacity = 0;
-
-                foreach (BountyState state in states.Values)
-                {
-                    int hourlyIncome = StaticData.Bounty.Get(state.ID).HourlyIncome;
-
-                    capacity += Mathf.FloorToInt(hourlyIncome * StaticData.Bounty.MaxUnclaimedHours);
-                }
-
-                return capacity;
-            }
+                Capacity = capacity,
+                Unclaimed = unclaimed,
+                HourlyIncome = hourlyIncome,
+                PercentFilled = unclaimed / (float)capacity // Cast to float to allow for a decimal answer
+            };
         }
 
 
-        // = = = SET = = =
         void SetAllClaimTimes(DateTime date)
         {
-            foreach (BountyState state in states.Values)
+            foreach (BountyState state in StatesList)
             {
                 state.LastClaimTime = date;
             }
@@ -144,12 +118,10 @@ namespace GM.Bounty
                 // Ignore 'disabled' bounties which are not in the server data
                 if (StaticData.Bounty.Contains(id))
                 {
-                    BountyState state = new BountyState(id)
+                    states[id] = new BountyState(id)
                     {
                         LastClaimTime = Funcs.ToDateTime(bounty["lastClaimTime"].AsLong)
                     };
-
-                    states[id] = state;
                 }
                 else
                 {

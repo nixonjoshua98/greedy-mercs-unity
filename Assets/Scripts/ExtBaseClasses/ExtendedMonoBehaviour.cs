@@ -1,7 +1,4 @@
 ﻿
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace GM
@@ -9,7 +6,7 @@ namespace GM
     public abstract class ExtendedMonoBehaviour : MonoBehaviour
     {
         [Header("Extended MonoBehaviour")]
-        [Range(0.0f, 1.0f)] public float periodicUpdateDelay = 0.1f;
+        [Range(0.0f, 5.0f)] public float periodicUpdateDelay = 0.1f;
 
         void Start()
         {

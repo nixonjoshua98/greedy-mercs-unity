@@ -13039,6 +13039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c13474c12c50f4cba668e6c5574d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.5
   BountyObjectSlot: {fileID: 1426325047700601188, guid: 66bbe82d105b1084799edac4b3709e56,
     type: 3}
   bountySlotsParent: {fileID: 76168345}

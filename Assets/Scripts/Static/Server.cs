@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 
 using SimpleJSON;
 
-using Utils = GM.Utils;
 using PersistentMono = GM.PersistentMono;
 
 
@@ -46,11 +45,6 @@ public static class Server
         }
 
         StartCoroutine(_Put());
-    }
-
-    public static void Put(string endpoint, string purpose, Action<long, string> callback)
-    { 
-        Put(endpoint, purpose, new JSONObject(), callback); 
     }
 
     static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
@@ -97,17 +91,6 @@ public static class Server
         Post(endpoint, "", node, callback);
     }
 
-    // PUT
-    static void Put(string endpoint, string purpose, JSONNode node, Action<long, JSONNode> callback)
-    {
-        IEnumerator Send()
-        {
-            yield return SendRequestV2(UnityWebRequest.Put(GetUrl(endpoint), PrepareBody(node, purpose)), callback);
-        }
-
-        StartCoroutine(Send());
-    }
-
 
     // Requests
     static void SendGet(string endpoint, Action<long, string> callback)
@@ -115,16 +98,6 @@ public static class Server
         IEnumerator Send()
         {
             yield return SendRequest(UnityWebRequest.Get(GetUrl(endpoint)), callback);
-        }
-
-        StartCoroutine(Send());
-    }
-
-    static void SendPut(string endpoint, string purpose, JSONNode node, Action<long, string> callback)
-    {
-        IEnumerator Send()
-        {
-            yield return SendRequest(UnityWebRequest.Put(GetUrl(endpoint), PrepareBody(node, purpose)), callback);
         }
 
         StartCoroutine(Send());

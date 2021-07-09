@@ -7,10 +7,6 @@ using SimpleJSON;
 
 namespace GM.Armoury
 {
-    using Utils = GM.Utils;
-
-    using Formulas = GM.Formulas;
-
     public class ArmouryItemState
     {
         public int ID;

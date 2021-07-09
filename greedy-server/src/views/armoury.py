@@ -4,6 +4,7 @@ from flask.views import View
 
 from src.common import checks, mongo
 
+
 class ArmouryView(View):
 
 	@checks.login_check

@@ -4,14 +4,11 @@ import datetime as dt
 
 from fastapi import APIRouter
 
-from src.common import mongo, resources
-
-from src.routing import CustomRoute, ServerResponse
-
-from src.checks import user_or_raise
-from src.basemodels import UserIdentifier
-
 from src import svrdata
+from src.checks import user_or_raise
+from src.common import mongo, resources
+from src.routing import CustomRoute, ServerResponse
+from src.basemodels import UserIdentifier
 
 router = APIRouter(prefix="/api/bounty", route_class=CustomRoute)
 
@@ -33,6 +30,7 @@ def claim_points(user: UserIdentifier):
 
 def calc_unclaimed_total(uid, now) -> int:
 
+    # bounties.json file
     bounty_data_file = resources.get("bounties")
 
     bounties_svr_data = bounty_data_file["bounties"]
@@ -45,6 +43,8 @@ def calc_unclaimed_total(uid, now) -> int:
 
     # Interate over each bounty available
     for key, bounty_data in bounties_svr_data.items():
+
+        # User has not unlocked this bounty
         if (bounty_entry := user_bounties.get(key)) is None:
             continue
 

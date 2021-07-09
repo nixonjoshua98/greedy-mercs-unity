@@ -185,7 +185,7 @@ namespace GM.Utils
 
     public class Format : MonoBehaviour
     {
-        static Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
+        static readonly Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
 
         public static string FormatNumber(BigInteger val)
         {

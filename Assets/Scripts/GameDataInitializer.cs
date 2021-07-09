@@ -11,7 +11,6 @@ public class UpgradeState
 
 namespace GM
 {
-    using GM.Bounty;
     using GM.Armoury;
     using GM.Inventory;
     using GM.BountyShop;
@@ -24,6 +23,8 @@ namespace GM
 
         void Awake()
         {
+            UserData.CreateInstance();
+
             StaticData.AssignScriptables(SkillList);
         }
 
@@ -66,9 +67,7 @@ namespace GM
         {
             GameState.Restore(node);
 
-            UserData inst = UserData.CreateInstance();
-
-            inst.UpdateWithServerUserData(node);
+            UserData.Get().UpdateWithServerUserData(node);
 
             MercenaryManager.Create();
 

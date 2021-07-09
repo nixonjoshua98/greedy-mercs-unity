@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using UnityEngine;
 
 using SimpleJSON;
 
@@ -13,11 +13,11 @@ namespace GM
         public BountyManager Bounties;
 
         // = = = Static Methods = = = //
-        public static UserData CreateInstance()
+        public static void CreateInstance()
         {
             Instance = new UserData();
 
-            return Instance;
+            Debug.Log("Created: UserData");
         }
 
         public static UserData Get()

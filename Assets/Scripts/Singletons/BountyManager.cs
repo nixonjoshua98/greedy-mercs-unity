@@ -109,6 +109,7 @@ namespace GM.Bounty
             }
         }
 
+
         void SetBounties(JSONNode node)
         {
             foreach (JSONNode bounty in node.AsArray)

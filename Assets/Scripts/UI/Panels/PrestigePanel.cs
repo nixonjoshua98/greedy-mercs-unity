@@ -33,6 +33,7 @@ namespace GM
             prestigePointText.text = Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(state.currentStage));
         }
 
+
         public void Prestige()
         {
             CurrentStageState state = GameManager.Instance.State();
@@ -46,21 +47,8 @@ namespace GM
 
             if (o.TryGetComponent(out PrestigeController controller))
             {
-                controller.Prestige(OnPrestige);
+                controller.Prestige((_) => { });
             }
-        }
-
-        void OnPrestige(bool success)
-        {
-            if (success)
-            {
-                Animation(1.0f);
-            }
-        }
-
-        void Animation(float duration)
-        {
-            StartCoroutine(Utils.Lerp.RectTransform(lootBagRect, lootBagRect.localScale, lootBagRect.localScale * 2, duration));
         }
     }
 }

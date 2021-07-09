@@ -132,7 +132,7 @@ namespace GM.BountyShop
         // = = = Helper = = =
         JSONNode CreateJson(int itemId)
         {
-            JSONNode node = Utils.Json.GetDeviceInfo();
+            JSONNode node = new JSONObject();
 
             node["itemId"] = itemId;
 

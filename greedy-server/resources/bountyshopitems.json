@@ -3,14 +3,14 @@
     "1000": {
       "itemType": 100,
       "purchaseCost": 25,
-      "dailyPurchaseLimit": 5,
+      "dailyPurchaseLimit": 500,
       "quantityPerPurchase": 10,
       "iconString": "GenericIcons/blue_gem"
     },
     "1001": {
       "itemType": 200,
       "purchaseCost": 50,
-      "dailyPurchaseLimit": 25,
+      "dailyPurchaseLimit": 2500,
       "quantityPerPurchase": 5,
       "iconString": "GenericIcons/iron"
     }

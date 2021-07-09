@@ -52,8 +52,15 @@ public static class Funcs
     }
 
     // = = = Time = = = //
-    public static DateTime ToDateTime(long timestamp) => DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
-    public static TimeSpan TimeUntil(DateTime date) => date - DateTime.UtcNow;
+    public static DateTime ToDateTime(long ts)
+    {
+        return DateTimeOffset.FromUnixTimeMilliseconds(ts).UtcDateTime;
+    }
+
+    public static TimeSpan TimeUntil(DateTime date)
+    {
+        return date - DateTime.UtcNow;
+    }
 
     public static class Format
     {

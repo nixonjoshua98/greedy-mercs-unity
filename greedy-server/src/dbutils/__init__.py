@@ -1,9 +1,9 @@
 
 from . import bs, artefacts, inventory
 
-from src.common import mongo
+from src import svrdata
 
-from src.classes.userdata import CompleteUserData
+from src.common import mongo
 
 import datetime as dt
 
@@ -19,17 +19,15 @@ def last_daily_reset():
 
 def get_player_data(uid):
 
-	user_data = CompleteUserData(uid)
-
 	return {
 		"player": {"username": "Rogue Mercenary"},
 
 		"inventory": {"items": inventory.get_items(uid)},
 
-		"bountyShop": {"dailyPurchases": user_data.bounty_shop.daily_purchases()},
+		"bountyShop": {"dailyPurchases": svrdata.bountyshop.daily_purchases(uid)},
 
 		"artefacts": artefacts.get(uid),
 
-		"armoury": user_data.armoury.as_list(),
+		"armoury": svrdata.armoury.get_user_armoury(uid=uid),
 		"bounties": list(mongo.db["userBounties"].find({"userId": uid})),
 	}

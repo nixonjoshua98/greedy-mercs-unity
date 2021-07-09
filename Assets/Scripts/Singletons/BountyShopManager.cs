@@ -75,17 +75,17 @@ namespace GM.BountyShop
         // = = = Server Methods ===
         public void Refresh(UnityAction action)
         {
-            void Callback(long code, string body)
+            void InternalCallback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
+                    long ts = resp["nextDailyResetTime"].AsLong;
 
                     // Update the store items pulled from the server
-                    ServerData.UpdateAll(resp["serverData"]);
-                       
+                    ServerData.UpdateAll(resp["bountyShopItems"]);
+
                     // Updates the next daily reset time
-                    StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);
+                    StaticData.NextDailyReset = Funcs.ToDateTime(ts);
 
                     // Updates the users purchases
                     SetDailyPurchases(resp["dailyPurchases"]);
@@ -94,36 +94,30 @@ namespace GM.BountyShop
                 }
             }
 
-            JSONNode node = GM.Utils.Json.GetDeviceInfo();
-
-            Server.Put("bountyshop", "refreshShop", node, Callback);
+            Server.Post("bountyshop/refresh", InternalCallback);
         }
 
         public void PurchaseItem(int itemId, UnityAction<bool> action)
         {
-            void Callback(long code, string body)
+            void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
-
                     OnPurchaseAnyItem(resp);
                 }
 
                 action.Invoke(code == 200);
             }
 
-            Server.Put("bountyshop", "purchaseItem", CreateJson(itemId), Callback);
+            Server.Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
         }
 
         public void PurchaseArmouryItem(int itemId, UnityAction<bool> action)
         {
-            void Callback(long code, string body)
+            void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
-
                     ArmouryManager.Instance.SetArmouryItems(resp["userArmouryItems"]);
 
                     OnPurchaseAnyItem(resp);
@@ -132,13 +126,13 @@ namespace GM.BountyShop
                 action.Invoke(code == 200);
             }
 
-            Server.Put("bountyshop", "purchaseArmouryItem", CreateJson(itemId), Callback);
+            Server.Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
         }
 
         // = = = Helper = = =
         JSONNode CreateJson(int itemId)
         {
-            JSONNode node = GM.Utils.Json.GetDeviceInfo();
+            JSONNode node = Utils.Json.GetDeviceInfo();
 
             node["itemId"] = itemId;
 

@@ -90,6 +90,13 @@ public static class Server
         Post(endpoint, "", DefaultJson(), callback);
     }
 
+    public static void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback)
+    {
+        node.Update(DefaultJson());
+
+        Post(endpoint, "", node, callback);
+    }
+
     // PUT
     static void Put(string endpoint, string purpose, JSONNode node, Action<long, JSONNode> callback)
     {

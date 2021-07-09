@@ -2,6 +2,8 @@ import re
 import json
 import bson
 
+import datetime as dt
+
 import urllib.parse
 
 from fastapi import Request
@@ -34,6 +36,9 @@ class ServerResponse(Response):
     def default(o):
         if isinstance(o, bson.ObjectId):
             return str(o)
+
+        elif isinstance(o, (dt.datetime, dt.datetime)):
+            return int(o.timestamp() * 1000.0)
 
         return jsonable_encoder(o)
 

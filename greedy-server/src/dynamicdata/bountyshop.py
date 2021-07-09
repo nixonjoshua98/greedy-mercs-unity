@@ -41,8 +41,8 @@ class BountyShopItems:
 
 	def to_dict(self):
 		return {
-			"items": {k: v.to_dict() for k, v in self.normal_items.items()},
-			"armouryItems": {k: v.to_dict() for k, v in self.armoury_items.items()}
+			"items": {k: v.as_dict() for k, v in self.normal_items.items()},
+			"armouryItems": {k: v.as_dict() for k, v in self.armoury_items.items()}
 		}
 
 

@@ -8,8 +8,8 @@ from src.classes.gamedata import GameData
 
 from src.common import mongo
 
-from fastapi_src.basemodels import UserLoginModel
-from fastapi_src.routing import CustomRoute, ServerResponse
+from src.basemodels import UserLoginModel
+from src.routing import CustomRoute, ServerResponse
 
 router = APIRouter(prefix="/api", route_class=CustomRoute)
 
@@ -32,9 +32,8 @@ def get_game_data():
 @router.post("/login")
 def player_login(data: UserLoginModel):
 
-    # - New login detected
-    if (row := mongo.db.userLogins.find_one({"deviceId": data.device_id})) is None:
-        result = mongo.db.userLogins.insert_one({"deviceId": data.device_id})
+    if (row := mongo.db["userLogins"].find_one({"deviceId": data.device_id})) is None:
+        result = mongo.db["userLogins"].insert_one({"deviceId": data.device_id})
 
         uid = result.inserted_id
 

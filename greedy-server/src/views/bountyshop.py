@@ -3,11 +3,9 @@ from flask.views import View
 
 import datetime as dt
 
-from src import dynamicdata, dbutils
+from src import dynamicdata, dbutils, svrdata
 
 from src.common import mongo, checks
-
-from src.classes.userdata import UserArmouryData
 
 
 class BountyShopView(View):
@@ -47,8 +45,6 @@ class BountyShopView(View):
 		return {"userItems": items, "dailyPurchases": dbutils.bs.get_daily_purchases(uid)}
 
 	def purchase_armoury_item(self, uid, data):
-		user_armoury = UserArmouryData(uid)
-
 		shop_items = dynamicdata.get_bounty_shop(uid)
 
 		item = shop_items.armoury_items.get((iid := data["itemId"]))
@@ -56,7 +52,7 @@ class BountyShopView(View):
 		if item is None or not self._can_purchase_item(uid, item=item):
 			return "400", 400
 
-		user_armoury.update(item.armoury_item_id, inc_={"owned": item.quantity_per_purchase}, upsert=True)
+		svrdata.armoury.update_one_item(uid, item.armoury_item_id, inc={"owned": item.quantity_per_purchase})
 
 		items = dbutils.inventory.update_items(uid, inc={"bountyPoints": -item.purchase_cost})
 
@@ -64,7 +60,7 @@ class BountyShopView(View):
 
 		return {
 			"userItems": items,
-			"userArmouryItems": user_armoury.as_list(),
+			"userArmouryItems": svrdata.armoury.get_user_armoury(uid=uid),
 			"dailyPurchases": dbutils.bs.get_daily_purchases(uid)
 		}
 

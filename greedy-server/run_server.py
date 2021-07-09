@@ -1,13 +1,14 @@
 
 import uvicorn
 
-import fastapi_src
+import src
 
-from fastapi_src.routers import data
+from src.routers import bountyshop, data
 
-app = fastapi_src.create_app()
+app = src.create_fastapp()
 
 app.include_router(data.router)
+app.include_router(bountyshop.router)
 
 if __name__ == '__main__':
     uvicorn.run("run_server:app", host="0.0.0.0", port=2122)

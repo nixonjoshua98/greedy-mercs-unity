@@ -2,10 +2,7 @@ from flask import request
 
 from flask.views import View
 
-from src.common import checks
-
-from src.classes.userdata import UserArmouryData
-
+from src.common import checks, mongo
 
 class ArmouryView(View):
 
@@ -22,15 +19,18 @@ class ArmouryView(View):
 		return "400", 400
 
 	def upgrade_item(self, uid, data):
-		armoury = UserArmouryData(uid)
-
-		armoury.update(data["itemId"], inc_={"level": 1})
+		update_one_armoury_item(uid, data["itemId"], inc={"level": 1})
 
 		return {"levelsGained": 1}
 
 	def evolve_item(self, uid, data):
-		armoury = UserArmouryData(uid)
-
-		armoury.update(data["itemId"], inc_={"evoLevel": 1})
+		update_one_armoury_item(uid, data["itemId"], inc={"evoLevel": 1})
 
 		return {"evoLevelsGained": 1}
+
+
+def update_one_armoury_item(uid, iid, inc):
+	mongo.db["userArmouryItems"].update_one(
+		{"userId": uid, "itemId": iid},
+		{"$inc": inc}
+	)

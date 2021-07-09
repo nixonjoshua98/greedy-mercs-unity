@@ -34,8 +34,6 @@ namespace GM
 
         void ServerLoginCallback(long code, JSONNode resp)
         {
-            Debug.Log(resp);
-
             if (code == 200)
             {
                 InstantiatePlayerData(resp);

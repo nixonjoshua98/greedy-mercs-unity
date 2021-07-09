@@ -26,7 +26,7 @@ def get_player_data(uid):
 
 		"inventory": {"items": inventory.get_items(uid)},
 
-		"bountyShop": {"dailyPurchases": bs.get_daily_purchases(uid)},
+		"bountyShop": {"dailyPurchases": user_data.bounty_shop.daily_purchases()},
 
 		"artefacts": artefacts.get(uid),
 

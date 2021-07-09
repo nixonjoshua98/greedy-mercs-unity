@@ -58,22 +58,6 @@ namespace GM
             public static double SkillBonus(SkillID skill)
             {
                 return SkillsManager.Instance.Get(skill).LevelData.BonusValue;
-
-                switch (skill)
-                {
-                    case SkillID.GOLD_RUSH:
-                        return SkillsManager.Instance.Get(SkillID.GOLD_RUSH).LevelData.BonusValue * MultiplyAllSources(BonusType.GOLD_RUSH_BONUS);
-
-                    case SkillID.AUTO_CLICK:
-                        return SkillsManager.Instance.Get(SkillID.AUTO_CLICK).LevelData.BonusValue * MultiplyAllSources(BonusType.AUTO_CLICK_BONUS);
-
-                    default:
-                        Debug.Break();
-
-                        Debug.Log("Error: Skill not found");
-
-                        return 0;
-                }
             }
 
             public static double SkillDuration(SkillID skill)
@@ -81,17 +65,6 @@ namespace GM
                 SkillSO skillSo = StaticData.SkillList.Get(skill);
 
                 return skillSo.Duration;
-
-                switch (skill)
-                {
-                    case SkillID.GOLD_RUSH:
-                        return skillSo.Duration + AddAllSources(BonusType.GOLD_RUSH_DURATION);
-
-                    case SkillID.AUTO_CLICK:
-                        return skillSo.Duration + AddAllSources(BonusType.AUTO_CLICK_DURATION);
-                }
-
-                return 0;
             }
 
             public static BigDouble AutoClickDamage()

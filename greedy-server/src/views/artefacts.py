@@ -7,8 +7,6 @@ from src import dbutils
 
 from src.common import checks, resources, formulas
 
-from src.classes import ServerResponse
-
 
 class ArtefactsView(View):
 
@@ -48,7 +46,7 @@ class ArtefactsView(View):
 		items = dbutils.inventory.update_items(uid, inc={"prestigePoints": -cost})
 		arts = dbutils.artefacts.update(uid, iid, inc={"level": levels})
 
-		return ServerResponse({"userItems": items, "userArtefacts": arts})
+		return {"userItems": items, "userArtefacts": arts}
 
 	def purchase_artefact(self, uid, _):
 
@@ -71,7 +69,7 @@ class ArtefactsView(View):
 		items = dbutils.inventory.update_items(uid, inc={"prestigePoints": -cost})
 		arts = dbutils.artefacts.update(uid, new_art_id, set_={"level": 1})
 
-		return ServerResponse({"userItems": items, "userArtefacts": arts, "newArtefactId": new_art_id})
+		return {"userItems": items, "userArtefacts": arts, "newArtefactId": new_art_id}
 
 
 

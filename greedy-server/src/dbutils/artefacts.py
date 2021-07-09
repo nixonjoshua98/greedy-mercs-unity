@@ -11,8 +11,11 @@ def get(uid):
 def update(uid, iid, *, inc: dict = None, set_: dict = None):
 	query = dict()
 
-	if inc: query["$inc"] = inc
-	if set_: query["$set"] = set_
+	if inc:
+		query["$inc"] = inc
+
+	if set_:
+		query["$set"] = set_
 
 	mongo.db["userArtefacts"].update_one({"userId": uid, "artefactId": iid}, query, upsert=True)
 

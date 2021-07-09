@@ -10,50 +10,8 @@ using UnityEngine;
 
 using SimpleJSON;
 
-using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public static class DictionaryExtensions
-{
-    public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
-    {
-        return dict.TryGetValue(key, out var value) ? value : fallback;
-    }
-}
-
-public static class Extensions
-{
-
-    public static BigDouble ToBigDouble(this BigInteger val)
-    {
-        return BigDouble.Parse(val.ToString());
-    }
-
-    public static BigInteger ToBigInteger(this BigDouble val)
-    {
-        return BigInteger.Parse(val.Ceiling().ToString("F0"));
-    }
-
-    public static DateTime ToUnixDatetime(this long val)
-    {
-        return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
-    }
-}
-
-public static class CameraExtensions
-{
-    public static Vector2 MinBounds(this Camera camera)
-    {
-        Vector2 v2 = camera.Extents();
-
-        return camera.transform.position - new Vector3(v2.x, v2.y);
-    }
-
-    public static Vector2 Extents(this Camera camera)
-    {
-        return new Vector2(camera.orthographicSize * Screen.width / Screen.height, camera.orthographicSize);
-    }
-}
 
 public class StringFormatting : MonoBehaviour
 {
@@ -96,11 +54,6 @@ public static class Funcs
     // = = = Time = = = //
     public static DateTime ToDateTime(long timestamp) => DateTimeOffset.FromUnixTimeMilliseconds(timestamp).DateTime;
     public static TimeSpan TimeUntil(DateTime date) => date - DateTime.UtcNow;
-
-    public static JSONNode DecryptServerJSON(string data)
-    {
-        return JSON.Parse(GM.Utils.GZip.Unzip(Convert.FromBase64String(data)));
-    }
 
     public static class Format
     {
@@ -172,27 +125,6 @@ namespace GM.Utils
 
     public class Json
     {
-        public static JSONArray CreateJSONArray<TKey, TValue>(string key, Dictionary<TKey, TValue> dict)
-        {
-            JSONArray array = new JSONArray();
-
-            foreach (var entry in dict)
-            {
-                JSONNode parsedValue = JSON.Parse(JsonUtility.ToJson(entry.Value));
-
-                parsedValue.Add(key, (int)(object)entry.Key);
-
-                array.Add(parsedValue);
-            }
-
-            return array;
-        }
-
-        public static JSONNode Decompress(string data)
-        {
-            return Funcs.DecryptServerJSON(data);
-        }
-
         public static JSONNode GetDeviceInfo()
         {
             JSONObject node = new JSONObject();
@@ -244,55 +176,6 @@ namespace GM.Utils
         }
     }
 
-    public class GZip
-    {
-        // Given by William at Tier 9 Studios (Auto Battles Online)
-
-        public static byte[] Zip(byte[] bytes)
-        {
-            byte[] zippedBytes = null;
-
-            using (MemoryStream msi = new MemoryStream(bytes))
-            {
-                using (MemoryStream mso = new MemoryStream())
-                {
-                    using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                    {
-                        msi.CopyTo(gs);
-                    }
-
-                    zippedBytes = mso.ToArray();
-
-                }
-            }
-            return zippedBytes;
-        }
-
-        public static byte[] Zip(string str)
-        {
-            return Zip(Encoding.UTF8.GetBytes(str));
-        }
-
-        public static string Unzip(byte[] bytes)
-        {
-            string unzippedStr = null;
-
-            using (MemoryStream msi = new MemoryStream(bytes))
-            {
-                using (MemoryStream mso = new MemoryStream())
-                {
-                    using (var gs = new GZipStream(msi, CompressionMode.Decompress))
-                    {
-                        gs.CopyTo(mso);
-                    }
-                    unzippedStr = Encoding.UTF8.GetString(mso.ToArray());
-                }
-            }
-
-            return unzippedStr;
-        }
-    }
-
     public class Format : MonoBehaviour
     {
         static Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
@@ -305,21 +188,6 @@ namespace GM.Utils
             int n = (int)BigInteger.Log(val, 1000);
 
             BigDouble m = val.ToBigDouble() / BigInteger.Pow(1000, n).ToBigDouble();
-
-            if (n < unitsTable.Count)
-                return m.ToString("F2") + unitsTable[n];
-
-            return val.ToString("E2").Replace("+", "").Replace("E", "e");
-        }
-
-        public static string FormatNumber(long val)
-        {
-            if (val <= 1_000)
-                return val.ToString();
-
-            int n = (int)Mathf.Log(val, 1000);
-
-            double m = val / Mathf.Pow(1000, n);
 
             if (n < unitsTable.Count)
                 return m.ToString("F2") + unitsTable[n];

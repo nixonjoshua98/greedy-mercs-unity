@@ -2,16 +2,15 @@ from flask import request
 
 from flask.views import View
 
-from src import utils, dbutils
+from src import dbutils
 from src.common import mongo, checks
-
-from src.classes import ServerResponse
 
 
 class PlayerLogin(View):
 
 	def dispatch_request(self):
-		data = utils.decompress(request.data)
+
+		data = request.get_json()
 
 		# - New login detected
 		if (row := mongo.db.userLogins.find_one({"deviceId": data["deviceId"]})) is None:
@@ -22,15 +21,13 @@ class PlayerLogin(View):
 		else:
 			uid = row["_id"]
 
-		return ServerResponse(dbutils.get_player_data(uid))
+		return dbutils.get_player_data(uid)
 
 
 class ChangeUsername(View):
 
 	@checks.login_check
-	def dispatch_request(self, uid):
-
-		data = utils.decompress(request.data)
+	def dispatch_request(self, uid, data):
 
 		mongo.db.userInfo.update_one({"userId": uid}, {"$set": {"username": data["newUsername"]}}, upsert=True)
 

@@ -29,16 +29,16 @@ namespace GM
 
         void Start()
         {
-            Server.GetGameData(ServerGameDataCallback);
+            Server.Get("gamedata", ServerGameDataCallback);
         }
 
-        void ServerLoginCallback(long code, string body)
+        void ServerLoginCallback(long code, JSONNode resp)
         {
+            Debug.Log(resp);
+
             if (code == 200)
             {
-                JSONNode node = Funcs.DecryptServerJSON(body);
-
-                InstantiatePlayerData(node);
+                InstantiatePlayerData(resp);
 
                 SceneManager.LoadScene("GameScene");
             }
@@ -49,15 +49,13 @@ namespace GM
             }
         }
 
-        void ServerGameDataCallback(long code, string compressedJson)
+        void ServerGameDataCallback(long code, JSONNode resp)
         {
             if (code == 200)
             {
-                JSONNode node = Funcs.DecryptServerJSON(compressedJson);
+                InstantiateServerData(resp);
 
-                InstantiateServerData(node);
-
-                Server.Login(ServerLoginCallback, Utils.Json.GetDeviceInfo());
+                Server.Post("login", ServerLoginCallback);
             }
 
             else
@@ -69,8 +67,6 @@ namespace GM
         void InstantiatePlayerData(JSONNode node)
         {
             GameState.Restore(node);
-
-            PT_PlayerData.CreateInstance();
 
             MercenaryManager.Create();
 

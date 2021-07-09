@@ -48,7 +48,7 @@ namespace GM.Armoury
             {
                 if (code == 200)
                 {
-                    JSONNode resp = Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
                     int levelsGained = resp["levelsGained"].AsInt;
 
@@ -68,7 +68,7 @@ namespace GM.Armoury
             {
                 if (code == 200)
                 {
-                    JSONNode resp = Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
                     int evoLevelsGained = resp["evoLevelsGained"];
 

@@ -7,8 +7,6 @@ from flask.views import View, request
 from src import dbutils
 from src.common import mongo, resources, checks
 
-from src.classes import ServerResponse
-
 
 class BountyView(View):
 
@@ -26,7 +24,7 @@ class BountyView(View):
 
 		bounty_data_file = resources.get("bounties")
 
-		bounties_svr_data 	= bounty_data_file["bounties"]
+		bounties_svr_data = bounty_data_file["bounties"]
 		max_unclaimed_hours = bounty_data_file["maxUnclaimedHours"]
 
 		# Load the users bounties into a List
@@ -54,4 +52,4 @@ class BountyView(View):
 		# Add the bounty points to the users inventory
 		inv = dbutils.inventory.update_items(uid, inc={"bountyPoints": points})
 
-		return ServerResponse({"claimTime": now, "inventoryItems": inv})
+		return {"claimTime": now, "inventoryItems": inv}

@@ -53,11 +53,11 @@ namespace GM.Bounty
             {
                 if (code == 200)
                 {
-                    JSONNode returnData = Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
-                    SetAllClaimTimes(Funcs.ToDateTime(returnData["claimTime"].AsLong));
+                    SetAllClaimTimes(Funcs.ToDateTime(resp["claimTime"].AsLong));
 
-                    InventoryManager.Instance.SetItems(returnData["inventoryItems"]);
+                    InventoryManager.Instance.SetItems(resp["inventoryItems"]);
                 }
 
                 call(code, body);

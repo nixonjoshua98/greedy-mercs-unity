@@ -76,7 +76,7 @@ namespace GM.Artefacts
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GM.Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
                     OnAnyServerRequestCallback(resp);
                 }
@@ -98,7 +98,7 @@ namespace GM.Artefacts
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GM.Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
                     OnAnyServerRequestCallback(resp);
                 }

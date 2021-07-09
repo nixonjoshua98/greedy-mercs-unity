@@ -1,10 +1,24 @@
 from flask import Flask
 
+from flask.json import JSONEncoder
+
 from .views import *
+
+from bson import ObjectId
+
+
+class MyJsonEncoder(JSONEncoder):
+	def default(self, o):
+		if isinstance(o, ObjectId):
+			return str(o)
+
+		return super(MyJsonEncoder, self).default(o)
 
 
 def create_app():
 	app = Flask(__name__)
+
+	app.json_encoder = MyJsonEncoder
 
 	app.add_url_rule("/api/bounty", view_func=BountyView.as_view("bounty"), methods=["PUT"])
 	app.add_url_rule("/api/armoury", view_func=ArmouryView.as_view("armoury"), methods=["PUT"])

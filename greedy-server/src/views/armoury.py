@@ -2,11 +2,7 @@ from flask import request
 
 from flask.views import View
 
-from src import dbutils
-
 from src.common import checks
-
-from src.classes import ServerResponse
 
 from src.classes.userdata import UserArmouryData
 
@@ -30,11 +26,11 @@ class ArmouryView(View):
 
 		armoury.update(data["itemId"], inc_={"level": 1})
 
-		return ServerResponse({"levelsGained": 1})
+		return {"levelsGained": 1}
 
 	def evolve_item(self, uid, data):
 		armoury = UserArmouryData(uid)
 
 		armoury.update(data["itemId"], inc_={"evoLevel": 1})
 
-		return ServerResponse({"evoLevelsGained": 1})
+		return {"evoLevelsGained": 1}

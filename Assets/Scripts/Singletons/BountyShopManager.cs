@@ -79,7 +79,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GM.Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
                     // Update the store items pulled from the server
                     ServerData.UpdateAll(resp["serverData"]);
@@ -105,7 +105,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GM.Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
                     OnPurchaseAnyItem(resp);
                 }
@@ -122,7 +122,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    JSONNode resp = GM.Utils.Json.Decompress(body);
+                    JSONNode resp = JSON.Parse(body);
 
                     ArmouryManager.Instance.SetArmouryItems(resp["userArmouryItems"]);
 

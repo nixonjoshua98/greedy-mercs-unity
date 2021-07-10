@@ -2,13 +2,16 @@
 from src.common import mongo
 
 
-def get_armoury(uid):
-    """ Fetch and return all armoury items belonging to the user. """
-    return list(mongo.db["userArmouryItems"].find({"userId": uid}))
+def get_armoury(uid, *, iid=None):
+
+    if iid is None:
+        return list(mongo.db["userArmouryItems"].find({"userId": uid}))
+
+    return mongo.db["userArmouryItems"].find_one({"userId": uid, "itemId": iid})
 
 
 def update_one_item(uid, iid, inc, *, upsert: bool = True) -> bool:
-    """ Update a single armoury item
+    """ Update a single armoury item document
 
     Update a single document which shares the same owner and item identifier
     and return whether a document was modified.
@@ -22,6 +25,7 @@ def update_one_item(uid, iid, inc, *, upsert: bool = True) -> bool:
     Returns:
         bool: Whether a document was modified
     """
+
     result = mongo.db["userArmouryItems"].update_one(
         {"userId": uid, "itemId": iid},
         {"$inc": inc},

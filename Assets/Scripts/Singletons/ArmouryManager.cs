@@ -23,17 +23,11 @@ namespace GM.Armoury
 
     public class ArmouryManager : IBonusManager
     {
-        public static ArmouryManager Instance = null;
-
         Dictionary<int, ArmouryItemState> states;
 
-        public static ArmouryManager Create(JSONNode node)
+        public ArmouryManager(JSONNode node)
         {
-            Instance = new ArmouryManager();
-
-            Instance.SetArmouryItems(node);
-
-            return Instance;
+            SetArmouryItems(node);
         }
 
 
@@ -71,6 +65,7 @@ namespace GM.Armoury
 
 
         // = = = GET = = =
+
         public List<ArmouryItemState> GetOwned()
         {
             List<ArmouryItemState> ls = new List<ArmouryItemState>();
@@ -92,6 +87,9 @@ namespace GM.Armoury
             return states[index];
         }
 
+
+        // = = = SET = = = //
+
         public void SetArmouryItems(JSONNode node)
         {
             states = new Dictionary<int, ArmouryItemState>();
@@ -111,7 +109,34 @@ namespace GM.Armoury
             }
         }
 
-        // = = = Internal = = =
+        // = = = Calculations = = = //
+
+        public double WeaponDamage(int itemId)
+        {
+            ArmouryItemState state = GetItem(itemId);
+
+            return WeaponDamage(itemId, state.level, state.evoLevel);
+        }
+
+        public double WeaponDamage(int itemId, int level)
+        {
+            ArmouryItemState state = GetItem(itemId);
+
+            return WeaponDamage(itemId, level, state.evoLevel);
+        }
+
+        public double WeaponDamage(int itemId, int level, int evoLevel)
+        {
+            ArmouryItemData itemData = StaticData.Armoury.Get(itemId);
+
+            double val = ((evoLevel + 1) * ((itemData.BaseDamageMultiplier) - 1) * level) + 1;
+
+            return val > 1 ? val : 0;
+        }
+
+
+        // = = = Internal = = = //
+
         JSONNode CreateJson(int itemId)
         {
             JSONNode node = Utils.Json.GetDeviceInfo();
@@ -122,6 +147,7 @@ namespace GM.Armoury
         }
 
         // = = = Special Methods = = = //
+
         public double DamageBonus()
         {
             double val = 0;

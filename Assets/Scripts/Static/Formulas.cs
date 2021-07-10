@@ -50,14 +50,14 @@ namespace GM
         {
             public static double WeaponDamage(int index)
             {
-                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
+                ArmouryItemState state = UserData.Get().Armoury.GetItem(index);
 
                 return WeaponDamage(index, state.level, state.evoLevel);
             }
 
             public static double WeaponDamage(int index, int level)
             {
-                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
+                ArmouryItemState state = UserData.Get().Armoury.GetItem(index);
 
                 return WeaponDamage(index, level, state.evoLevel);
             }

@@ -31,7 +31,7 @@ namespace GM.Armoury.UI
 
         void OnEnable()
         {
-            foreach (ArmouryItemState state in ArmouryManager.Instance.GetOwned())
+            foreach (ArmouryItemState state in UserData.Get().Armoury.GetOwned())
             {
                 if (!itemObjects.ContainsKey(state.ID))
                 {

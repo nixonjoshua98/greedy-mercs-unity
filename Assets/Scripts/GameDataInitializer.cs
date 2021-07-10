@@ -71,7 +71,6 @@ namespace GM
 
             MercenaryManager.Create();
 
-            ArmouryManager.Create(node["armoury"]);
             InventoryManager.Create(node["inventory"]);
             BountyShopManager.Create(node["bountyShop"]);
             ArtefactManager.Create(node["artefacts"]);

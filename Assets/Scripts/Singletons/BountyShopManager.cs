@@ -118,7 +118,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    ArmouryManager.Instance.SetArmouryItems(resp["userArmouryItems"]);
+                    UserData.Get().Armoury.SetArmouryItems(resp["userArmouryItems"]);
 
                     OnPurchaseAnyItem(resp);
                 }

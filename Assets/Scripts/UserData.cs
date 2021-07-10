@@ -6,11 +6,14 @@ using SimpleJSON;
 namespace GM
 {
     using GM.Bounty;
+    using GM.Armoury;
+
     public class UserData
     {
         static UserData Instance = null;
 
         public BountyManager Bounties;
+        public ArmouryManager Armoury;
 
         // = = = Static Methods = = = //
         public static void CreateInstance()
@@ -29,6 +32,7 @@ namespace GM
         public void UpdateWithServerUserData(JSONNode json)
         {
             Bounties = new BountyManager(json["bounties"]);
+            Armoury = new ArmouryManager(json["armoury"]);
         }
     }
 }

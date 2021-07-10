@@ -24,7 +24,7 @@ namespace GM
         const float BASE_BOSS_TIMER = 15.0f;
 
         static List<KeyValuePair<BonusType, double>> SkillBonus { get { return SkillsManager.Instance.Bonuses(); } }
-        static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return ArmouryManager.Instance.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get().Armoury.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return ArtefactManager.Instance.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> CharacterBonus { get { return MercenaryManager.Instance.Bonuses(); } }
 

@@ -13,26 +13,6 @@ using SimpleJSON;
 using Vector3 = UnityEngine.Vector3;
 
 
-public class StringFormatting : MonoBehaviour
-{
-    static Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
-
-    public static string Number(double val)
-    {
-        if (val < 1d)
-            return Math.Round(val, 3).ToString();
-
-        int n = (int)Math.Log(val, 1000);
-
-        float m = (float)(val / Mathf.Pow(1000.0f, n));
-
-        if (n < unitsTable.Count)
-            return m.ToString("F") + unitsTable[n];
-
-        return val.ToString("e2").Replace("+", "");
-    }
-}
-
 public static class Funcs
 {
     public static Vector3 AveragePosition(List<Vector3> ls)

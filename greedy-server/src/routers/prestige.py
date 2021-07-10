@@ -3,7 +3,7 @@ from fastapi import APIRouter
 
 import datetime as dt
 
-from src import dbutils, svrdata
+from src import svrdata
 from src.common import resources, formulas
 from src.checks import user_or_raise
 from src.routing import CustomRoute, ServerResponse

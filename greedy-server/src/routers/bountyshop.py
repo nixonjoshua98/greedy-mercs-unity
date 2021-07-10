@@ -10,7 +10,7 @@ from src.routing import CustomRoute, ServerResponse
 from src.checks import user_or_raise
 from src.basemodels import UserIdentifier
 
-from src import dbutils, svrdata
+from src import svrdata
 
 router = APIRouter(prefix="/api/bountyshop", route_class=CustomRoute)
 
@@ -28,7 +28,7 @@ def refresh(user: UserIdentifier):
         {
             "bountyShopItems":      svrdata.bountyshop.all_current_shop_items(as_dict=True),
             "dailyPurchases":       svrdata.bountyshop.daily_purchases(uid),
-            "nextDailyResetTime":   dbutils.next_daily_reset()
+            "nextDailyResetTime":   svrdata.next_daily_reset()
         }
     )
 

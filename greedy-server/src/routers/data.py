@@ -2,7 +2,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from src import dbutils
+from src import svrdata
 from src.common import mongo, resources
 from src.routing import CustomRoute, ServerResponse
 from src.classes.gamedata import GameData
@@ -22,7 +22,7 @@ def get_game_data():
         "artefacts": resources.get("artefacts"),
         "bounties": resources.get("bounties"),
         "armouryItems": resources.get("armouryitems"),
-        "nextDailyReset": dbutils.next_daily_reset()}
+        "nextDailyReset": svrdata.next_daily_reset()}
 
     data.update(GameData.data)
 
@@ -40,4 +40,4 @@ def player_login(data: UserLoginData):
     else:
         uid = row["_id"]
 
-    return ServerResponse(dbutils.get_player_data(uid))
+    return ServerResponse(svrdata.get_player_data(uid))

@@ -2,15 +2,14 @@ import random
 
 import datetime as dt
 
-from src import dbutils
-from src.common import mongo
-from src.common import resources
+from src import svrdata
+from src.common import mongo, resources
 from src.common.enums import EnumBase
 
 
 def daily_purchases(uid, iid: int = None):
     """ Count the number of purchase made for an item (if provided) by a user since the previous reset. """
-    filter_ = {"userId": uid, "purchaseTime": {"$gte": dbutils.last_daily_reset()}}
+    filter_ = {"userId": uid, "purchaseTime": {"$gte": svrdata.last_daily_reset()}}
 
     if iid is not None:
         filter_["itemId"] = iid
@@ -32,7 +31,7 @@ def current_items():
 
 def current_armoury_items():
     """ Return a 'dict' of the current armoury shop items. """
-    last_reset = dbutils.last_daily_reset()
+    last_reset = svrdata.last_daily_reset()
 
     with RandomContext(last_reset.timestamp()):
         return _generate_armoury_items()
@@ -93,7 +92,7 @@ class BsArmouryItem(BsShopItemBase):
 # # # Shop Generation # # #
 
 def _generate_armoury_items() -> dict:
-    last_reset = dbutils.last_daily_reset()
+    last_reset = svrdata.last_daily_reset()
 
     all_items, selected_items = resources.get("armouryitems"), {}
 

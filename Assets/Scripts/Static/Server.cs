@@ -26,32 +26,15 @@ public static class Server
         return string.Format("http://{0}:{1}/api/{2}", IP, PORT, endpoint);
     }
 
-    static void StartCoroutine(IEnumerator f) => PersistentMono.Inst.StartCoroutine(f);
-
-    public static void Prestige(MonoBehaviour mono, Action<long, string> callback, JSONNode node)
-    {
-        mono.StartCoroutine(Put("prestige", callback, node));
-    }
-
-    static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
-    {
-        UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:{1}/api/{2}", IP, PORT, endpoint), PrepareBody(json, ""));
-
-        yield return SendRequest(www, callback);
-    }
-
-
     // GET
     public static void Get(string endpoint, Action<long, JSONNode> callback)
     {
-        void Callback(long code, string body)
+        IEnumerator Send()
         {
-            bool _ = TryParseJSON(body, out JSONNode resp);
-
-            callback(code, resp);
+            yield return SendRequest(UnityWebRequest.Get(GetUrl(endpoint)), callback);
         }
 
-        SendGet(endpoint, Callback);
+        PersistentMono.Inst.StartCoroutine(Send());
     }
 
     // POST
@@ -59,49 +42,27 @@ public static class Server
     {
         IEnumerator Send()
         {
-            yield return SendRequestV2(UnityWebRequest.Post(GetUrl(endpoint), PrepareBody(node, purpose)), callback);
+            yield return SendRequest(UnityWebRequest.Post(GetUrl(endpoint), PrepareBody(node)), callback);
         }
 
-        StartCoroutine(Send());
+        PersistentMono.Inst.StartCoroutine(Send());
     }
 
     public static void Post(string endpoint, Action<long, JSONNode> callback)
     {
-        Post(endpoint, "", DefaultJson(), callback);
+        Post(endpoint, DefaultJson(), callback);
     }
 
     public static void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback)
     {
         node.Update(DefaultJson());
 
-        Post(endpoint, "", node, callback);
+        Post(endpoint, node, callback);
     }
 
 
     // Requests
-    static void SendGet(string endpoint, Action<long, string> callback)
-    {
-        IEnumerator Send()
-        {
-            yield return SendRequest(UnityWebRequest.Get(GetUrl(endpoint)), callback);
-        }
-
-        StartCoroutine(Send());
-    }
-
-    static IEnumerator SendRequest(UnityWebRequest www, Action<long, string> callback)
-    {
-        www.timeout = 3;
-
-        www.SetRequestHeader("Content-Type", "application/json");
-        www.SetRequestHeader("Accept", "application/json");
-
-        yield return www.SendWebRequest();
-
-        callback.Invoke(www.responseCode, www.downloadHandler.text);
-    }
-
-    static IEnumerator SendRequestV2(UnityWebRequest www, Action<long, JSONNode> callback)
+    static IEnumerator SendRequest(UnityWebRequest www, Action<long, JSONNode> callback)
     {
         www.timeout = 3;
 
@@ -115,10 +76,9 @@ public static class Server
         callback.Invoke(www.responseCode, resp);
     }
 
-    static string PrepareBody(JSONNode node, string purpose)
+    static string PrepareBody(JSONNode node)
     {
-        node["purpose"]     = purpose;
-        node["deviceId"]    = SystemInfo.deviceUniqueIdentifier;
+        node["deviceId"] = SystemInfo.deviceUniqueIdentifier;
 
         return node.ToString();
     }

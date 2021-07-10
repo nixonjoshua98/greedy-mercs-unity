@@ -38,7 +38,7 @@ class ArtefactsView(View):
 
 		prestige_points = dbutils.inventory.get_items(uid).get("prestigePoints", 0)
 
-		cost = formulas.loot_levelup_cost(art_data, user_artefact["level"], levels)
+		cost = formulas.artefact_levelup_cost(art_data, user_artefact["level"], levels)
 
 		if cost > prestige_points:
 			return "Cannot afford", 400
@@ -56,7 +56,7 @@ class ArtefactsView(View):
 
 		prestige_points = dbutils.inventory.get_items(uid).get("prestigePoints", 0)
 
-		cost = formulas.next_loot_item_cost(len(arts))
+		cost = formulas.next_artefact_cost(len(arts))
 
 		if len(arts) >= len(all_arts_data):
 			return "All owned", 400

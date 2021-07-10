@@ -4,9 +4,14 @@ from fastapi import APIRouter, HTTPException
 from src import svrdata
 from src.checks import user_or_raise
 from src.routing import CustomRoute, ServerResponse
-from src.basemodels import ItemPurchaseModel
+from src.basemodels import UserIdentifier
 
 router = APIRouter(prefix="/api/armoury", route_class=CustomRoute)
+
+
+# Models
+class ItemPurchaseModel(UserIdentifier):
+    item_id: int
 
 
 @router.post("/upgrade")

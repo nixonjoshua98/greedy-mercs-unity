@@ -16,12 +16,12 @@ namespace GM.BountyShop
         [Space]
         [SerializeField] protected Text purchaseCostText;
 
-        protected int _itemId;
+        protected string _itemId;
         protected bool _isUpdatingUi = false;
 
         protected AbstractBountyShopData ShopItemData { get { return BountyShopManager.Instance.ServerData.Get(_itemId); } }
 
-        public virtual void SetID(int itemId)
+        public virtual void SetID(string itemId)
         {
             _itemId = itemId;
             _isUpdatingUi = true;

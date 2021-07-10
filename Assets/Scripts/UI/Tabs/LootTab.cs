@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
-using System.Numerics;
 using System.Collections.Generic;
 
 using Vector3 = UnityEngine.Vector3;
@@ -12,8 +10,6 @@ namespace GM.Artefacts
     using GM.Inventory;
 
     using GM;
-
-    using Utils = GM.Utils;
 
     public class LootTab : MonoBehaviour
     {
@@ -96,7 +92,7 @@ namespace GM.Artefacts
                 }
             }
 
-            ArtefactManager.Instance.PurchaseNewArtefact(ServerCallback);
+            ArtefactManager.Instance.UnlockArtefact(ServerCallback);
         }
     }
 }

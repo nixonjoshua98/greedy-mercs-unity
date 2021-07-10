@@ -72,12 +72,10 @@ namespace GM.Artefacts
         // = = = Server Methods = = = //
         public void UpgradeArtefact(int artefactId, int levelsBuying, UnityAction<bool> call)
         {
-            void Callback(long code, string body)
+            void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
-
                     OnAnyServerRequestCallback(resp);
                 }
 
@@ -87,29 +85,26 @@ namespace GM.Artefacts
             JSONNode node = new JSONObject();
 
             node["artefactId"] = artefactId;
-            node["totalLevelsBuying"] = levelsBuying;
+            node["purchaseLevels"] = levelsBuying;
 
-            Server.Put("artefacts", "upgradeArtefact", node, Callback);
+            Server.Post("artefact/upgrade", node, Callback);
         }
 
-        public void PurchaseNewArtefact(UnityAction<bool> call)
+        public void UnlockArtefact(UnityAction<bool> call)
         {
-            void Callback(long code, string body)
+            void InternalCallback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
-
                     OnAnyServerRequestCallback(resp);
                 }
 
                 call.Invoke(code == 200);
             }
 
-            JSONNode node = GM.Utils.Json.GetDeviceInfo();
-
-            Server.Put("artefacts", "purchaseArtefact", node, Callback);
+            Server.Post("artefact/unlock", InternalCallback);
         }
+
 
         // = = = Internal Methods = = =
         void SetArtefactStates(JSONNode node)
@@ -131,7 +126,9 @@ namespace GM.Artefacts
             }
         }
 
-        // = = = Server Callbacks = = =
+
+        // = = = Server Callbacks = = = //
+
         void OnAnyServerRequestCallback(JSONNode node)
         {
             SetArtefactStates(node["userArtefacts"]);
@@ -139,7 +136,9 @@ namespace GM.Artefacts
             InventoryManager.Instance.SetItems(node["userItems"]);
         }
 
+
         // = = = Special Methods = = = //
+
         public List<KeyValuePair<BonusType, double>> Bonuses()
         {
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();

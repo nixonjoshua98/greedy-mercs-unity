@@ -5,14 +5,18 @@ from src.common.enums import BonusType
 from src.common import resources
 
 
-# === Loot Formulas === #
+# === Artefacts Formulas === #
 
-def loot_levelup_cost(item: dict, start, buying):
+def artefact_levelup_cost(item: dict, start, buying):
 	return math.ceil(item["costCoeff"] * sum_non_int_power_seq(start, buying, item["costExpo"]))
 
 
-def next_loot_item_cost(numrelics: int):
-	return math.floor(max(1, numrelics - 2) * math.pow(1.35, numrelics))
+def levelup_artefact_cost(cooeff, expo, current, buying):
+	return math.ceil(cooeff * sum_non_int_power_seq(current, buying, expo))
+
+
+def next_artefact_cost(num_owned: int):
+	return math.floor(max(1, num_owned - 2) * math.pow(1.35, num_owned))
 
 
 def loot_effect(item, level):

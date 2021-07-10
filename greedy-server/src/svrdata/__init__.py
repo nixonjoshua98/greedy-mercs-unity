@@ -1,2 +1,2 @@
 
-from . import armoury, bountyshop, items
+from . import armoury, bountyshop, items, artefacts

@@ -9,7 +9,3 @@ class UserIdentifier(BaseModel):
 
     device_id: str
     user_id: Optional[str] = None
-
-
-class ItemPurchaseModel(UserIdentifier):
-    item_id: int

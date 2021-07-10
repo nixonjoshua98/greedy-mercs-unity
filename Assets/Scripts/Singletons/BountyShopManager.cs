@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM.BountyShop
 {
-    using GM.Armoury;
     using GM.Inventory;
 
     using SimpleJSON;
@@ -26,7 +24,7 @@ namespace GM.BountyShop
     {
         public static BountyShopManager Instance = null;
 
-        Dictionary<int, BountyShopPurchaseData> purchases;
+        Dictionary<string, BountyShopPurchaseData> purchases;
 
         public ServerBountyShopData ServerData;
 
@@ -37,6 +35,7 @@ namespace GM.BountyShop
             return Instance;
         }
 
+
         BountyShopManager(JSONNode node)
         {
             SetDailyPurchases(node["dailyPurchases"]);
@@ -46,31 +45,33 @@ namespace GM.BountyShop
             Refresh(() => { });
         }
 
+
         public void SetDailyPurchases(JSONNode node)
         {
-            purchases = new Dictionary<int, BountyShopPurchaseData>();
+            purchases = new Dictionary<string, BountyShopPurchaseData>();
 
             // {0: 0, 1: 3}
             foreach (string key in node.Keys)
             {
-                int id = int.Parse(key);
-
                 BountyShopPurchaseData inst = new BountyShopPurchaseData(node[key].AsInt);
 
-                purchases.Add(id, inst);
+                purchases.Add(key, inst);
             }
         }
 
-        // = = = Quick Helper = = =
-        public bool InStock(int iid)
+
+        // = = = Quick Helper = = = //
+
+        public bool InStock(string itemId)
         {
             int dailyPurchases = 0;
 
-            if (purchases.TryGetValue(iid, out BountyShopPurchaseData data))
+            if (purchases.TryGetValue(itemId, out BountyShopPurchaseData data))
                 dailyPurchases = data.TotalDailyPurchases;
 
-            return ServerData.Get(iid).DailyPurchaseLimit > dailyPurchases;
+            return ServerData.Get(itemId).DailyPurchaseLimit > dailyPurchases;
         }
+
 
         // = = = Server Methods ===
         public void Refresh(UnityAction action)
@@ -97,13 +98,14 @@ namespace GM.BountyShop
             Server.Post("bountyshop/refresh", InternalCallback);
         }
 
-        public void PurchaseItem(int itemId, UnityAction<bool> action)
+
+        public void PurchaseItem(string itemId, UnityAction<bool> action)
         {
             void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    OnPurchaseAnyItem(resp);
+                    OnServerPurchaseItem(resp);
                 }
 
                 action.Invoke(code == 200);
@@ -112,7 +114,7 @@ namespace GM.BountyShop
             Server.Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
         }
 
-        public void PurchaseArmouryItem(int itemId, UnityAction<bool> action)
+        public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
         {
             void Callback(long code, JSONNode resp)
             {
@@ -120,7 +122,7 @@ namespace GM.BountyShop
                 {
                     UserData.Get().Armoury.SetArmouryItems(resp["userArmouryItems"]);
 
-                    OnPurchaseAnyItem(resp);
+                    OnServerPurchaseItem(resp);
                 }
 
                 action.Invoke(code == 200);
@@ -129,8 +131,9 @@ namespace GM.BountyShop
             Server.Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
         }
 
-        // = = = Helper = = =
-        JSONNode CreateJson(int itemId)
+        // = = = Helper = = = //
+
+        JSONNode CreateJson(string itemId)
         {
             JSONNode node = new JSONObject();
 
@@ -139,13 +142,12 @@ namespace GM.BountyShop
             return node;
         }
 
-        // = = = Callbacks = = =
 
-        void OnPurchaseAnyItem(JSONNode resp)
+        // = = = Callbacks = = = //
+
+        void OnServerPurchaseItem(JSONNode resp)
         {
-            JSONNode userItems = resp["userItems"];
-
-            InventoryManager.Instance.SetItems(userItems);
+            InventoryManager.Instance.SetItems(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
         }

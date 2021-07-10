@@ -8,11 +8,16 @@ from src.common import mongo
 from src.routing import CustomRoute, ServerResponse
 
 from src.checks import user_or_raise
-from src.basemodels import UserIdentifier, ItemPurchaseModel
+from src.basemodels import UserIdentifier
 
 from src import dbutils, svrdata
 
 router = APIRouter(prefix="/api/bountyshop", route_class=CustomRoute)
+
+
+# Models
+class ItemData(UserIdentifier):
+    item_id: str
 
 
 @router.post("/refresh")
@@ -29,7 +34,7 @@ def refresh(user: UserIdentifier):
 
 
 @router.post("/purchase/item")
-def purchase_item(data: ItemPurchaseModel):
+def purchase_item(data: ItemData):
     uid = user_or_raise(data)
 
     items = svrdata.bountyshop.current_items()
@@ -55,7 +60,7 @@ def purchase_item(data: ItemPurchaseModel):
 
 
 @router.post("/purchase/armouryitem")
-def purchase_armoury_item(data: ItemPurchaseModel):
+def purchase_armoury_item(data: ItemData):
     uid = user_or_raise(data)
 
     items = svrdata.bountyshop.current_armoury_items()

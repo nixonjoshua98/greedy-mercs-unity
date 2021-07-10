@@ -33,20 +33,6 @@ public static class Server
         mono.StartCoroutine(Put("prestige", callback, node));
     }
 
-
-
-    public static void Put(string endpoint, string purpose, JSONNode node, Action<long, string> callback)
-    {
-        IEnumerator _Put()
-        {
-            UnityWebRequest www = UnityWebRequest.Put(GetUrl(endpoint) + string.Format("?purpose={0}", purpose), PrepareBody(node, purpose));
-
-            yield return SendRequest(www, callback);
-        }
-
-        StartCoroutine(_Put());
-    }
-
     static IEnumerator Put(string endpoint, Action<long, string> callback, JSONNode json)
     {
         UnityWebRequest www = UnityWebRequest.Put(string.Format("http://{0}:{1}/api/{2}", IP, PORT, endpoint), PrepareBody(json, ""));

@@ -19,15 +19,15 @@ namespace GM.BountyShop
 
     public abstract class AbstractBountyShopData
     {
-        public int ID;
+        public string ID;
 
         public int QuantityPerPurchase;
         public int DailyPurchaseLimit;
         public int PurchaseCost;
 
-        public AbstractBountyShopData(int id, JSONNode node)
+        public AbstractBountyShopData(string itemId, JSONNode node)
         {
-            ID = id;
+            ID = itemId;
 
             PurchaseCost        = node["purchaseCost"].AsInt;
             DailyPurchaseLimit  = node["dailyPurchaseLimit"].AsInt;
@@ -44,7 +44,7 @@ namespace GM.BountyShop
 
         string _IconString;
 
-        public BsItemData(int id, JSONNode node) : base(id, node)
+        public BsItemData(string id, JSONNode node) : base(id, node)
         {
             ItemType = (BsItemType)node["itemType"].AsInt;
 
@@ -58,7 +58,7 @@ namespace GM.BountyShop
     {
         public int ArmouryItemID;
 
-        public BsArmouryItemData(int id, JSONNode node) : base(id, node)
+        public BsArmouryItemData(string itemId, JSONNode node) : base(itemId, node)
         {
             ArmouryItemID = node["armouryItemId"].AsInt;
         }
@@ -70,24 +70,24 @@ namespace GM.BountyShop
 
     public class ServerBountyShopData
     {
-        Dictionary<int, BsItemData> normalItems;
-        Dictionary<int, BsArmouryItemData> armouryItems;
+        Dictionary<string, BsItemData> normalItems;
+        Dictionary<string, BsArmouryItemData> armouryItems;
 
         // = = = GET = = =
         public List<BsItemData> NormalItems { get { return normalItems.Values.ToList(); } }
         public List<BsArmouryItemData> ArmouryItems { get { return armouryItems.Values.ToList(); } }
 
-        public AbstractBountyShopData Get(int id)
+        public AbstractBountyShopData Get(string itemId)
         {
-            if (normalItems.ContainsKey(id))
-                return normalItems[id];
+            if (normalItems.ContainsKey(itemId))
+                return normalItems[itemId];
 
-            return armouryItems[id];
+            return armouryItems[itemId];
         }
 
-        public BsArmouryItemData GetArmouryItem(int id)
+        public BsArmouryItemData GetArmouryItem(string itemId)
         {
-            return armouryItems[id];
+            return armouryItems[itemId];
         }
 
         public void UpdateAll(JSONNode node)
@@ -98,18 +98,16 @@ namespace GM.BountyShop
 
 
         // = = = Private Methods = = =
-        void Set<TVal>(ref Dictionary<int, TVal> dict, JSONNode node)
+        void Set<TVal>(ref Dictionary<string, TVal> dict, JSONNode node)
         {
-            dict = new Dictionary<int, TVal>();
+            dict = new Dictionary<string, TVal>();
 
             foreach (string key in node.Keys)
             {
-                int id = int.Parse(key);
-
                 // Smelly code to create an instance of the shop item from a generic
-                TVal instance = (TVal)Activator.CreateInstance(typeof(TVal), new object[] { id, node[key] });
+                TVal instance = (TVal)Activator.CreateInstance(typeof(TVal), new object[] { key, node[key] });
 
-                dict.Add(id, instance);
+                dict.Add(key, instance);
             }
         }
     }

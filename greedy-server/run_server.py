@@ -3,13 +3,14 @@ import uvicorn
 
 import src
 
-from src.routers import bountyshop, bounty, data, armoury
+from src.routers import bountyshop, bounty, data, armoury, artefacts
 
 app = src.create_fastapp()
 
 app.include_router(data.router)
 app.include_router(bounty.router)
 app.include_router(armoury.router)
+app.include_router(artefacts.router)
 app.include_router(bountyshop.router)
 
 if __name__ == '__main__':

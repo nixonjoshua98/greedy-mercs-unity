@@ -56,13 +56,13 @@ class ItemType(EnumBase):
 
 
 class BsShopItemBase:
-    def __init__(self, id_: int, data: dict):
+    def __init__(self, id_: str, data: dict):
         self._dict = data
 
-        self.id = id_
+        self.id: str = id_
 
-        self.purchase_cost = data["purchaseCost"]
-        self.daily_purchase_limit = data["dailyPurchaseLimit"]
+        self.purchase_cost: int = data["purchaseCost"]
+        self.daily_purchase_limit: int = data["dailyPurchaseLimit"]
         self.quantity_per_purchase = data["quantityPerPurchase"]
 
     def as_dict(self):
@@ -70,10 +70,10 @@ class BsShopItemBase:
 
 
 class BsItem(BsShopItemBase):
-    def __init__(self, id_: int, data: dict):
+    def __init__(self, id_: str, data: dict):
         super(BsItem, self).__init__(id_, data)
 
-        self.item_type = ItemType.get_val(data["itemType"])
+        self.item_type: ItemType = ItemType.get_val(data["itemType"])
 
     def get_db_key(self):
         return {
@@ -84,10 +84,10 @@ class BsItem(BsShopItemBase):
 
 
 class BsArmouryItem(BsShopItemBase):
-    def __init__(self, id_: int, data: dict):
+    def __init__(self, id_: str, data: dict):
         super(BsArmouryItem, self).__init__(id_, data)
 
-        self.armoury_item_id = data["armouryItemId"]
+        self.armoury_item_id: int = data["armouryItemId"]
 
 
 # # # Shop Generation # # #
@@ -104,7 +104,7 @@ def _generate_armoury_items() -> dict:
     for i, key in enumerate(keys):
         item_data = all_items[key]
 
-        id_ = (days_since_epoch * 1_000) - (i * 500) - (key * 25)
+        _id = f"AW-{days_since_epoch}-{key}-{i}"
 
         entry = {
             "armouryItemId": key,
@@ -113,7 +113,7 @@ def _generate_armoury_items() -> dict:
             "quantityPerPurchase": 1
         }
 
-        selected_items[id_] = BsArmouryItem(id_, entry)
+        selected_items[_id] = BsArmouryItem(_id, entry)
 
     return selected_items
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
     public class ParticleCharacterAttack : AbstractCharacterAttack
     {
@@ -11,7 +11,7 @@ namespace GM.Characters
         [SerializeField] ParticleSystem ps;
 
 
-        protected override void MoveTowardsValidAttackRange()
+        protected override void MoveTowardsValidAttackPosition()
         {
 
         }

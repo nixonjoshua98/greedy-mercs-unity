@@ -8,30 +8,30 @@ using UnityEngine;
 
 namespace GM
 {
-    using GM.Characters;
+    using GM.Units;
     public class CharacterContainer
     {
-        Dictionary<CharacterID, UpgradeState> characters;
+        Dictionary<UnitID, UpgradeState> characters;
 
         public CharacterContainer(JSONNode node)
         {
-            characters = new Dictionary<CharacterID, UpgradeState>();
+            characters = new Dictionary<UnitID, UpgradeState>();
         }
 
         public void Clear()
         {
-            characters = new Dictionary<CharacterID, UpgradeState>();
+            characters = new Dictionary<UnitID, UpgradeState>();
         }
         
         // === Helper Methods ===
 
-        public bool TryGetState(CharacterID chara, out UpgradeState result) => characters.TryGetValue(chara, out result);
+        public bool TryGetState(UnitID chara, out UpgradeState result) => characters.TryGetValue(chara, out result);
 
         public BigDouble CalcTapDamageBonus()
         {
             BigDouble val = 0;
 
-            foreach (CharacterID hero in Enum.GetValues(typeof(CharacterID)))
+            foreach (UnitID hero in Enum.GetValues(typeof(UnitID)))
             {
                 if (GameState.Characters.TryGetState(hero, out var state))
                 {

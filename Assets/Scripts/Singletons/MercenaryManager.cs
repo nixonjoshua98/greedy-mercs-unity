@@ -4,14 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
     using StatsCache = GM.StatsCache;
     using Formulas = GM.Formulas;
 
     public class MercState
     {
-        public CharacterID ID;
+        public UnitID ID;
 
         public int Level;
         public MercPassiveData[] UnlockedPassives { get { return _svrData.Passives.Where(passive => Level >= passive.UnlockLevel).ToArray(); } }
@@ -35,7 +35,7 @@ namespace GM.Characters
     {
         public static MercenaryManager Instance = null;
 
-        Dictionary<CharacterID, MercState> states;
+        Dictionary<UnitID, MercState> states;
 
         public static void Create()
         {
@@ -44,13 +44,13 @@ namespace GM.Characters
 
         MercenaryManager()
         {
-            states = new Dictionary<CharacterID, MercState>();
+            states = new Dictionary<UnitID, MercState>();
         }
 
         // = = = Get Methods = = = //
-        public List<CharacterID> Unlocked { get { return states.Keys.ToList(); } }
+        public List<UnitID> Unlocked { get { return states.Keys.ToList(); } }
 
-        public MercState GetState(CharacterID chara)
+        public MercState GetState(UnitID chara)
         {
             if (!Contains(chara))
                 SetState(chara);
@@ -58,16 +58,16 @@ namespace GM.Characters
             return states[chara];
         }
 
-        public bool Contains(CharacterID chara)
+        public bool Contains(UnitID chara)
         {
             return states.ContainsKey(chara);
         }
 
-        public bool GetNextHero(out CharacterID result)
+        public bool GetNextHero(out UnitID result)
         {
-            result = (CharacterID)(-1);
+            result = (UnitID)(-1);
 
-            foreach (CharacterID chara in Enum.GetValues(typeof(CharacterID)))
+            foreach (UnitID chara in Enum.GetValues(typeof(UnitID)))
             {
                 if ((int)chara >= 0 && !Contains(chara))
                 {
@@ -81,17 +81,17 @@ namespace GM.Characters
         }
 
         // = = = Set Methods = = = //
-        public void SetState(CharacterID chara)
+        public void SetState(UnitID chara)
         {
             states[chara] = new MercState() { ID = chara, Level = 1 };
         }
 
-        public void SetState(CharacterID chara, MercState state)
+        public void SetState(UnitID chara, MercState state)
         {
             states[chara] = state;
         }
 
-        public void AddLevels(CharacterID chara, int levels)
+        public void AddLevels(UnitID chara, int levels)
         {
             MercState state = GetState(chara);
 
@@ -105,7 +105,7 @@ namespace GM.Characters
         {
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
 
-            foreach (CharacterID chara in Unlocked)
+            foreach (UnitID chara in Unlocked)
             {
                 MercState state = GetState(chara);
 

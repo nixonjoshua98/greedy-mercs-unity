@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
     using GM.Projectiles;
 
@@ -26,7 +26,7 @@ namespace GM.Characters
             anim.Play(AttackAnimation);
         }
 
-        protected override void MoveTowardsValidAttackRange()
+        protected override void MoveTowardsValidAttackPosition()
         {
 
         }

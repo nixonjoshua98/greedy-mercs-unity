@@ -3,7 +3,7 @@
 using UnityEngine;
 
 
-namespace GM.Characters
+namespace GM.Units
 {
     public abstract class AbstractMercController : ExtendedMonoBehaviour
     {

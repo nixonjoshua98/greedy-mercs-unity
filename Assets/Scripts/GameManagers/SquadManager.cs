@@ -9,7 +9,7 @@ namespace GM
 {
     using GM.Events;
 
-    using GM.Characters;
+    using GM.Units;
 
     public class SquadManager : MonoBehaviour
     {
@@ -42,9 +42,9 @@ namespace GM
             return ls;
         }
 
-        void AddCharacter(CharacterID chara)
+        void AddCharacter(UnitID unitId)
         {
-            MercData data = StaticData.Mercs.GetMerc(chara);
+            MercData data = StaticData.Mercs.GetMerc(unitId);
 
             GameObject character = Instantiate(data.Prefab, transform);
 
@@ -57,7 +57,7 @@ namespace GM
             spawnedUnits.Add(character);
         }
 
-        void OnHeroUnlocked(CharacterID chara)
+        void OnHeroUnlocked(UnitID chara)
         {
             AddCharacter(chara);
         }

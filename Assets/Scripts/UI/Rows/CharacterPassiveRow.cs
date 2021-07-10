@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Characters
+namespace GM.Units
 {
     public class CharacterPassiveRow : MonoBehaviour
     {

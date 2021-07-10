@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Characters
+namespace GM.Units
 {
     using GM.Events;
 
@@ -27,7 +27,7 @@ namespace GM.Characters
         [Header("Prefabs")]
         [SerializeField] GameObject CharacterPanelObject;
 
-        CharacterID _mercId;
+        UnitID _mercId;
 
         int _buyAmount;
         bool _updatingUi;
@@ -53,7 +53,7 @@ namespace GM.Characters
             }
         }
 
-        public void SetCharacter(CharacterID chara)
+        public void SetCharacter(UnitID chara)
         {
             _mercId = chara;
 

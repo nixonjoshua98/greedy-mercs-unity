@@ -13,7 +13,7 @@ namespace GM
 {
     using GM.Inventory;
     using GM.Artefacts;
-    using GM.Characters;
+    using GM.Units;
 
     public class GameDataInitializer : MonoBehaviour
     {

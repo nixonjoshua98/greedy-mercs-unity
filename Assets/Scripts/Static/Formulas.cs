@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GM
 {
     using GM.Armoury;
-    using GM.Characters;
+    using GM.Units;
     
     public static class Formulas
     {
@@ -86,7 +86,7 @@ namespace GM
             return CalcEnemyGold(stage) * 7.3f;
         }
 
-        public static int AffordCharacterLevels(CharacterID chara)
+        public static int AffordCharacterLevels(UnitID chara)
         {
             MercState state = MercenaryManager.Instance.GetState(chara);
 

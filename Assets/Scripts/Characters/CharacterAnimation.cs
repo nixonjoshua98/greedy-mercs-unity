@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
     public class CharacterAnimation : MonoBehaviour
     {

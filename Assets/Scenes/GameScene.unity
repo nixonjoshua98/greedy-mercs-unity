@@ -4812,6 +4812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9854a9650506c1a40b007bf94cfe10a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allHeroCollection: {fileID: 0}
 --- !u!1 &670878785
 GameObject:
   m_ObjectHideFlags: 0

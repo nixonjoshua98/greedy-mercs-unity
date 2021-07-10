@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3769961914306909962}
-  - component: {fileID: 1071975079809097040}
   - component: {fileID: 2210828492515107722}
   - component: {fileID: 794912062598917158}
   - component: {fileID: -494069267592035887}
+  - component: {fileID: 6567664136876693953}
   m_Layer: 0
   m_Name: reaper
   m_TagString: Untagged
@@ -35,20 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1071975079809097040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769961914306909961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01a5ae4835f7a814fad370fd4c8b4565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  assignedCharacterId: 1
 --- !u!114 &2210828492515107722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +78,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPriority: 0
+--- !u!114 &6567664136876693953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769961914306909961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331641f74b8ebcf43be0642ddd5ddc52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.1
+  assignedUnitId: 4
 --- !u!1001 &3769961914370844628
 PrefabInstance:
   m_ObjectHideFlags: 0

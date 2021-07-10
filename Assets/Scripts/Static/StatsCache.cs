@@ -11,7 +11,7 @@ namespace GM
 {
     using GM.Armoury;
     using GM.Artefacts;
-    using GM.Characters;
+    using GM.Units;
 
     public class StatsCache : MonoBehaviour
     {
@@ -125,7 +125,7 @@ namespace GM
         }
 
         // = = = Mercs = = = //
-        public static BigDouble BaseMercDamage(CharacterID chara)
+        public static BigDouble BaseMercDamage(UnitID chara)
         {
             MercState state = MercenaryManager.Instance.GetState(chara);
             MercData data   = StaticData.Mercs.GetMerc(chara);
@@ -135,7 +135,7 @@ namespace GM
             return Formulas.MercBaseDamage(baseDamage, state.Level);
         }
 
-        public static BigDouble TotalMercDamage(CharacterID chara)
+        public static BigDouble TotalMercDamage(UnitID chara)
         {
             MercData data = StaticData.Mercs.GetMerc(chara);
 
@@ -151,7 +151,7 @@ namespace GM
         {
             BigDouble total = 0;
 
-            foreach (CharacterID chara in MercenaryManager.Instance.Unlocked)
+            foreach (UnitID chara in MercenaryManager.Instance.Unlocked)
                 total += TotalMercDamage(chara);
 
             return total;

@@ -10,7 +10,7 @@ namespace GM.UI
     using GM.Events;
 
 
-    using GM.Characters;
+    using GM.Units;
 
     public class MercsTab : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace GM.UI
             GlobalEvents.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
-        void AddRow(CharacterID chara)
+        void AddRow(UnitID chara)
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 

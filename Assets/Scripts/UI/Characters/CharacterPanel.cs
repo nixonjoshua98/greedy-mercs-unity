@@ -7,7 +7,7 @@ namespace GM
     {
         [SerializeField] CharacterPassivesPanel skillsPanel;
 
-        public void SetHero(CharacterID chara)
+        public void SetHero(UnitID chara)
         {
             skillsPanel.SetHero(chara);
         }

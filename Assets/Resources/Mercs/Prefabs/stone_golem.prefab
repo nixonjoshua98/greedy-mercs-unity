@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5097099789489235669}
-  - component: {fileID: 2767216660454837209}
   - component: {fileID: 2313316825155188514}
   - component: {fileID: 8699438743057255768}
   - component: {fileID: 4261212423968102536}
+  - component: {fileID: 1633947074774215813}
   m_Layer: 0
   m_Name: stone_golem
   m_TagString: Untagged
@@ -35,20 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2767216660454837209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5097099789489235668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01a5ae4835f7a814fad370fd4c8b4565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  assignedCharacterId: 0
 --- !u!114 &2313316825155188514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +78,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPriority: 1
+--- !u!114 &1633947074774215813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5097099789489235668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331641f74b8ebcf43be0642ddd5ddc52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.1
+  assignedUnitId: 8
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0

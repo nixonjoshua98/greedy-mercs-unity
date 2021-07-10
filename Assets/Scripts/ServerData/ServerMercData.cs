@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
     public struct MercPassiveData
     {
@@ -16,7 +16,7 @@ namespace GM.Characters
 
     public struct MercData
     {
-        public string Name;
+        public string Name { get; set; }
 
         public BonusType AttackType;
 
@@ -73,14 +73,14 @@ namespace GM.Characters
 
     public class ServerMercData
     {
-        Dictionary<CharacterID, MercData> mercs;
+        Dictionary<UnitID, MercData> mercs;
 
         public ServerMercData(JSONNode node)
         {
             ParseNode(node);
         }
 
-        public MercData GetMerc(CharacterID merc)
+        public MercData GetMerc(UnitID merc)
         {
             return mercs[merc];
         }
@@ -88,13 +88,13 @@ namespace GM.Characters
 
         void ParseNode(JSONNode node)
         {
-            mercs = new Dictionary<CharacterID, MercData>();
+            mercs = new Dictionary<UnitID, MercData>();
 
             foreach (string key in node.Keys)
             {
                 JSONNode current = node[key];
 
-                CharacterID id = (CharacterID)int.Parse(key);
+                UnitID id = (UnitID)int.Parse(key);
 
                 MercData inst = MercData.FromJson(current);
 

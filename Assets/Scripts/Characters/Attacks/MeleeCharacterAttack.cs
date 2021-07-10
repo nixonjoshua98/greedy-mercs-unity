@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace GM.Characters
+namespace GM.Units
 {
     using GM.Movement;
     
@@ -21,7 +21,7 @@ namespace GM.Characters
         }
 
 
-        protected override void MoveTowardsValidAttackRange()
+        protected override void MoveTowardsValidAttackPosition()
         {
             move.MoveTowards(AttackTarget.transform.position);
         }

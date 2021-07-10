@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
     using GM.Events;
 
@@ -53,27 +53,24 @@ namespace GM.Characters
             E_OnAttackHit = new GameObjectEvent();
         }
 
-        void FixedUpdate()
+        public void Process()
         {
-            // We have no target to attack
-            if (!HasAttackTarget)
-                return;
-
-
-            // Attack is available and we are within range
-            if (IsAvailable && WithinValidAttackRange())
+            if (HasAttackTarget)
             {
-                PerformAttack();
-            }
+                // Attack is available and we are within range
+                if (AvailableToStartAttack())
+                {
+                    PerformAttack();
+                }
 
-            // We are currently not attacking, and we are outside attack range
-            // so we need to move towards the target
-            else if (!IsAttacking && !WithinValidAttackRange())
-            {
-                MoveTowardsValidAttackRange();
+                // We are currently not attacking, and we are outside attack range
+                // so we need to move towards the target
+                else if (!IsAttacking && !WithinValidAttackRange())
+                {
+                    MoveTowardsValidAttackPosition();
+                }
             }
         }
-
 
         protected virtual void PerformAttack()
         {
@@ -83,7 +80,7 @@ namespace GM.Characters
         }
 
 
-        protected abstract void MoveTowardsValidAttackRange();
+        protected abstract void MoveTowardsValidAttackPosition();
 
         protected abstract bool WithinValidAttackRange();
 
@@ -101,12 +98,17 @@ namespace GM.Characters
             AttackTarget = target;
         }
 
+        public bool AvailableToStartAttack()
+        {
+            return IsAvailable && WithinValidAttackRange();
+        }
 
         // = = = Animation Event = = = //
         public virtual void OnAttackAnimationEvent()
         {
             OnAttackHit();
         }
+        // = = = ^
 
         public virtual void OnAttackHit()
         {

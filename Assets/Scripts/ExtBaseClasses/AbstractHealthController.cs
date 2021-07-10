@@ -8,7 +8,13 @@ using GM.Events;
 
 namespace GM
 {
-    public abstract class AbstractHealthController : MonoBehaviour
+    public interface IHealthController
+    {
+        public void TakeDamage(BigDouble amount);
+    }
+
+
+    public abstract class AbstractHealthController : MonoBehaviour, IHealthController
     {
         public BigDouble MaxHealth { get; private set; }
 

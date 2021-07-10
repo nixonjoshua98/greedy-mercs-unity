@@ -1,12 +1,12 @@
 ﻿
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
     using GM.Targetting;
     public class MercController : AbstractMercController
     {
-        [SerializeField] CharacterID characterId;
+        [SerializeField] UnitID characterId;
 
         // Components
         AbstractCharacterAttack attackController;

@@ -6,7 +6,7 @@ using SimpleJSON;
     using GM.Bounty;
     using GM.Armoury;
    using GM.Artefacts;
-   using GM.Characters;
+   using GM.Units;
 
 using GM;
 

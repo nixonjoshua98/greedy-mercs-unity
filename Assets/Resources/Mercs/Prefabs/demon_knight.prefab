@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7015768926983395932}
-  - component: {fileID: 9104525463837557883}
   - component: {fileID: 610015535923528851}
   - component: {fileID: 4391391293505865883}
   - component: {fileID: 2487448206983539146}
+  - component: {fileID: 2017297258967212684}
   m_Layer: 0
   m_Name: demon_knight
   m_TagString: Untagged
@@ -35,20 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9104525463837557883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7015768926983395933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01a5ae4835f7a814fad370fd4c8b4565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  assignedCharacterId: 8
 --- !u!114 &610015535923528851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +78,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPriority: 1
+--- !u!114 &2017297258967212684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7015768926983395933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331641f74b8ebcf43be0642ddd5ddc52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.1
+  assignedUnitId: 8
 --- !u!114 &8051748642073657332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,17 +142,17 @@ PrefabInstance:
     - target: {fileID: 7763815038440110930, guid: 5b82ecc9ac0f9374c823057fd7eafafc,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.15
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7763815038440110930, guid: 5b82ecc9ac0f9374c823057fd7eafafc,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.15
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7763815038440110930, guid: 5b82ecc9ac0f9374c823057fd7eafafc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.025
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7763815038440110930, guid: 5b82ecc9ac0f9374c823057fd7eafafc,
         type: 3}

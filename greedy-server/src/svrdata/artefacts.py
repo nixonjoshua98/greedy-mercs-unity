@@ -1,14 +1,13 @@
 from src.common import mongo
 
 
-def get_all_artefacts(uid, *, iid=None, as_dict: bool = False):
-    if iid is None:
-        result = list(mongo.db["userArtefacts"].find({"userId": uid}))
+def get_all_artefacts(uid, *, as_dict: bool = False):
+    result = list(mongo.db["userArtefacts"].find({"userId": uid}))
 
-        if as_dict:
-            return {ele["artefactId"]: ele for ele in result}
+    if as_dict:
+        return {ele["artefactId"]: ele for ele in result}
 
-        return result
+    return result
 
 
 def get_one_artefact(uid, iid):

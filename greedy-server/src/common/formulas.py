@@ -22,20 +22,21 @@ def next_artefact_cost(num_owned: int):
 def loot_effect(item, level):
 	return item["baseEffect"] + (item["levelEffect"] * (level - 1))
 
-
 # === Prestige Formulas === #
 
-def stage_prestige_points(stage, userloot):
-	return math.ceil(math.pow(math.ceil((max(stage, 75) - 75) / 10.0), 2.2) * prestige_bonus(userloot))
+
+def stage_prestige_points(stage, user_arts: dict):
+	return math.ceil(math.pow(math.ceil((max(stage, 75) - 75) / 10.0), 2.2) * prestige_bonus(user_arts))
 
 
-def prestige_bonus(artefacts):
+def prestige_bonus(user_arts):
+
 	bonus = 1
 
-	artefacts_data = resources.get("artefacts")
+	static_arts = resources.get("artefacts")
 
-	for key, data in artefacts.items():
-		item = artefacts_data[key]
+	for key, data in user_arts.items():
+		item = static_arts[key]
 
 		level = data["level"]
 

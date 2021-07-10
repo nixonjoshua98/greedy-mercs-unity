@@ -12,33 +12,23 @@ namespace GM.StageDM.Prestige
 
     public class PrestigeController : MonoBehaviour
     {
-        void Awake()
-        {
-            PrestigeController[] controllers = FindObjectsOfType<PrestigeController>();
-
-            if (controllers.Length > 1)
-            {
-                Debug.LogError("Attempted to spawn duplicate prestige controller object");
-
-                Destroy(gameObject);
-            }
-        }
-
         public void Prestige(Action<bool> callback)
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            JSONNode node = Utils.Json.GetDeviceInfo();
+            JSONNode node = new JSONObject();
 
             node.Add("prestigeStage", state.currentStage);
 
-            Server.Prestige(this, (code, compressed) => { OnPrestigeCallback(code, compressed, callback); }, node);
+            Server.Post("prestige", node, (code, resp) => { OnPrestigeCallback(code, resp, callback); });
         }
 
-        void OnPrestigeCallback(long code, string compressed, Action<bool> callback)
+        void OnPrestigeCallback(long code, JSONNode resp, Action<bool> callback)
         {
             if (code == 200)
             {
+                UserData.Get().UpdateWithServerUserData(resp["completeUserData"]);
+
                 GlobalEvents.OnPlayerPrestige.Invoke();
 
                 RunPrestigeAnimation();

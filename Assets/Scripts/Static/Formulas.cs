@@ -86,7 +86,7 @@ namespace GM
             return CalcEnemyGold(stage) * 7.3f;
         }
 
-        public static int AffordCharacterLevels(UnitID chara)
+        public static int AffordCharacterLevels(MercID chara)
         {
             MercState state = MercenaryManager.Instance.GetState(chara);
 

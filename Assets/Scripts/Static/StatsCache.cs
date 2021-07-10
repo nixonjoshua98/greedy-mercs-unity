@@ -125,7 +125,7 @@ namespace GM
         }
 
         // = = = Mercs = = = //
-        public static BigDouble BaseMercDamage(UnitID chara)
+        public static BigDouble BaseMercDamage(MercID chara)
         {
             MercState state = MercenaryManager.Instance.GetState(chara);
             MercData data   = StaticData.Mercs.GetMerc(chara);
@@ -135,7 +135,7 @@ namespace GM
             return Formulas.MercBaseDamage(baseDamage, state.Level);
         }
 
-        public static BigDouble TotalMercDamage(UnitID chara)
+        public static BigDouble TotalMercDamage(MercID chara)
         {
             MercData data = StaticData.Mercs.GetMerc(chara);
 
@@ -151,7 +151,7 @@ namespace GM
         {
             BigDouble total = 0;
 
-            foreach (UnitID chara in MercenaryManager.Instance.Unlocked)
+            foreach (MercID chara in MercenaryManager.Instance.Unlocked)
                 total += TotalMercDamage(chara);
 
             return total;

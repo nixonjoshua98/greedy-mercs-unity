@@ -42,7 +42,7 @@ namespace GM
             return ls;
         }
 
-        void AddCharacter(UnitID unitId)
+        void AddCharacter(MercID unitId)
         {
             MercData data = StaticData.Mercs.GetMerc(unitId);
 
@@ -57,7 +57,7 @@ namespace GM
             spawnedUnits.Add(character);
         }
 
-        void OnHeroUnlocked(UnitID chara)
+        void OnHeroUnlocked(MercID chara)
         {
             AddCharacter(chara);
         }

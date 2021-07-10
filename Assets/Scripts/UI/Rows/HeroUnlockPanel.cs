@@ -19,7 +19,7 @@ namespace GM
         {
             CostText.text = "-";
 
-            if (MercenaryManager.Instance.GetNextHero(out UnitID chara))
+            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
                 MercData mercData = StaticData.Mercs.GetMerc(chara);
 
@@ -31,7 +31,7 @@ namespace GM
 
         public void OnUnlockButton()
         {
-            if (MercenaryManager.Instance.GetNextHero(out UnitID chara))
+            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
                 MercData mercData = StaticData.Mercs.GetMerc(chara);
 

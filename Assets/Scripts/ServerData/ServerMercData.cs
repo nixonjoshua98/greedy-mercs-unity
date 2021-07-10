@@ -73,14 +73,14 @@ namespace GM.Units
 
     public class ServerMercData
     {
-        Dictionary<UnitID, MercData> mercs;
+        Dictionary<MercID, MercData> mercs;
 
         public ServerMercData(JSONNode node)
         {
             ParseNode(node);
         }
 
-        public MercData GetMerc(UnitID merc)
+        public MercData GetMerc(MercID merc)
         {
             return mercs[merc];
         }
@@ -88,13 +88,13 @@ namespace GM.Units
 
         void ParseNode(JSONNode node)
         {
-            mercs = new Dictionary<UnitID, MercData>();
+            mercs = new Dictionary<MercID, MercData>();
 
             foreach (string key in node.Keys)
             {
                 JSONNode current = node[key];
 
-                UnitID id = (UnitID)int.Parse(key);
+                MercID id = (MercID)int.Parse(key);
 
                 MercData inst = MercData.FromJson(current);
 

@@ -27,7 +27,7 @@ namespace GM.Units
         [Header("Prefabs")]
         [SerializeField] GameObject CharacterPanelObject;
 
-        UnitID _mercId;
+        MercID _mercId;
 
         int _buyAmount;
         bool _updatingUi;
@@ -53,7 +53,7 @@ namespace GM.Units
             }
         }
 
-        public void SetCharacter(UnitID chara)
+        public void SetCharacter(MercID chara)
         {
             _mercId = chara;
 

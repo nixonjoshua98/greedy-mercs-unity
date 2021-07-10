@@ -6,7 +6,7 @@ namespace GM.Units
     using GM.Targetting;
     public class MercController : AbstractMercController
     {
-        [SerializeField] UnitID characterId;
+        [SerializeField] MercID characterId;
 
         // Components
         AbstractCharacterAttack attackController;

@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5097099789489235669}
-  - component: {fileID: 2313316825155188514}
-  - component: {fileID: 8699438743057255768}
-  - component: {fileID: 4261212423968102536}
-  - component: {fileID: 1633947074774215813}
+  - component: {fileID: 207400344905536334}
+  - component: {fileID: -695417745537748710}
+  - component: {fileID: 6352438820634131962}
   m_Layer: 0
   m_Name: stone_golem
   m_TagString: Untagged
@@ -35,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2313316825155188514
+--- !u!114 &207400344905536334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,28 +43,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19b2f7486d623f14086c55a9d8d0e608, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1.5
-  avatar: {fileID: 7830280867725703765}
---- !u!114 &8699438743057255768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5097099789489235668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c10724a6a32e5c94fa7a4e94550b3381, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   periodicUpdateDelay: 0.1
   anim: {fileID: 1791531129569585673}
-  AttackAnimation: Attacking
-  attackCooldown: 0.5
---- !u!114 &4261212423968102536
+  movement: {fileID: 6352438820634131962}
+  attack: {fileID: -695417745537748710}
+--- !u!114 &-695417745537748710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,11 +59,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
+  m_Script: {fileID: 11500000, guid: fed35b9e587e6d547beb99dfabedf61f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPriority: 1
---- !u!114 &1633947074774215813
+  anim: {fileID: 1791531129569585673}
+  attackAnimString: Attacking
+--- !u!114 &6352438820634131962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,11 +73,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 331641f74b8ebcf43be0642ddd5ddc52, type: 3}
+  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  assignedUnitId: 8
+  moveSpeed: 1
+  avatar: {fileID: 7830280867725703765}
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +85,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5097099789489235669}
     m_Modifications:
+    - target: {fileID: 763627710669983125, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 763627710669983125, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 763627710669983125, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -695417745537748710}
+    - target: {fileID: 763627710669983125, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 763627710669983125, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAttackAnimationEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 763627710669983125, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GM.Units.ATS_Attack, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 763627710669983125, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3032672657413112226, guid: ce9de6eff68268441bd3dbe5c5b088c9,
         type: 3}
       propertyPath: m_Name

@@ -11,27 +11,27 @@ namespace GM
     using GM.Units;
     public class CharacterContainer
     {
-        Dictionary<UnitID, UpgradeState> characters;
+        Dictionary<MercID, UpgradeState> characters;
 
         public CharacterContainer(JSONNode node)
         {
-            characters = new Dictionary<UnitID, UpgradeState>();
+            characters = new Dictionary<MercID, UpgradeState>();
         }
 
         public void Clear()
         {
-            characters = new Dictionary<UnitID, UpgradeState>();
+            characters = new Dictionary<MercID, UpgradeState>();
         }
         
         // === Helper Methods ===
 
-        public bool TryGetState(UnitID chara, out UpgradeState result) => characters.TryGetValue(chara, out result);
+        public bool TryGetState(MercID chara, out UpgradeState result) => characters.TryGetValue(chara, out result);
 
         public BigDouble CalcTapDamageBonus()
         {
             BigDouble val = 0;
 
-            foreach (UnitID hero in Enum.GetValues(typeof(UnitID)))
+            foreach (MercID hero in Enum.GetValues(typeof(MercID)))
             {
                 if (GameState.Characters.TryGetState(hero, out var state))
                 {

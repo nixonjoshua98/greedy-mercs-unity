@@ -15,12 +15,12 @@ namespace GM
         [SerializeField] GameObject ScrollContent;
 
 
-        public void SetHero(UnitID chara)
+        public void SetHero(MercID chara)
         {
             StartCoroutine(Create(chara));
         }
 
-        IEnumerator Create(UnitID chara)
+        IEnumerator Create(MercID chara)
         {
             MercData data   = StaticData.Mercs.GetMerc(chara);
             MercState state = MercenaryManager.Instance.GetState(chara);

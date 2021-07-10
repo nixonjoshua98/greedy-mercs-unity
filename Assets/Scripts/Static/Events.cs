@@ -9,7 +9,7 @@ namespace GM.Events
 
     public class GameObjectEvent : UnityEvent<GameObject> { }
 
-    public class CharacterEvent : UnityEvent<UnitID> { }
+    public class CharacterEvent : UnityEvent<MercID> { }
 
     public class GameStateEvent : UnityEvent<CurrentStageState> { }
 }

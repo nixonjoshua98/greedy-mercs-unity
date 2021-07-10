@@ -6,7 +6,7 @@ namespace GM.Units
 {
     public class FriendlyUnitController : AbstractUnitController
     {
-        [SerializeField] UnitID assignedUnitId;
+        [SerializeField] MercID assignedUnitId;
 
         protected override void OnAttackImpact(GameObject target)
         {

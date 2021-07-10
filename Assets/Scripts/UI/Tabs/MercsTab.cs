@@ -25,7 +25,7 @@ namespace GM.UI
             GlobalEvents.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
-        void AddRow(UnitID chara)
+        void AddRow(MercID chara)
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 

@@ -2,6 +2,8 @@
 using System.Numerics;
 using System.Collections.Generic;
 
+using UnityEngine;
+
 
 public static class FormatString
 {
@@ -9,8 +11,10 @@ public static class FormatString
 
     public static string Number(BigDouble val, string prefix = "")
     {
-        if (val < 1d) // Value is less than 1.0 so we just return it rounded
-            return string.Format("{0}{1}", val.ToString("F0"), prefix);
+        if (BigDouble.Abs(val) < 1) // Value is less than 1.0 so we just return it rounded
+        {
+            return string.Format("{0}{1}", val.ToString("F2"), prefix);
+        }
 
         int n = (int)BigDouble.Log(val, 1000);
 
@@ -18,9 +22,7 @@ public static class FormatString
 
         if (n < units.Count) // Value is within the stored units
         {
-            string result = BigDouble.Floor(m * 100.0f / 100.0f).ToString("F2");
-
-            return string.Format("{0}{1}{2}", result, units[n], prefix);
+            return string.Format("{0}{1}{2}", m.ToString("F2"), units[n], prefix);
         }
 
         string toStringResult = val.ToString("E2").Replace("+", "").Replace("E", "e");

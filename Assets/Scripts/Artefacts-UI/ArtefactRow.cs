@@ -80,12 +80,7 @@ namespace GM.Artefacts
         // = = = Button Callbacks = = = //
         public void OnUpgradeArtefactBtn()
         {
-            void ServerCallback(bool purchased)
-            {
-
-            }
-
-            ArtefactManager.Instance.UpgradeArtefact(_artefactId, BuyAmount, ServerCallback);
+            ArtefactManager.Instance.UpgradeArtefact(_artefactId, BuyAmount, (_) => { });
         }
     }
 }

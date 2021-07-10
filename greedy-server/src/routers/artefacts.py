@@ -101,7 +101,7 @@ def can_purchase_artefact(uid, user_arts, all_static_arts, cost):
 
 # Database
 def update_artefact(uid, iid, *, inc: dict, upsert: bool = True) -> bool:
-    result = mongo.db["userArtefacts"].update_one({"userId": uid, "artefactId": iid}, {"$set": inc}, upsert=upsert)
+    result = mongo.db["userArtefacts"].update_one({"userId": uid, "artefactId": iid}, {"$inc": inc}, upsert=upsert)
 
     return result.modified_count == 1
 
@@ -111,5 +111,5 @@ def unlock_artefact(uid, iid):
     if svrdata.artefacts.get_one_artefact(uid, iid) is not None:
         raise HTTPException(400, {"error": "Artefact already unlocked"})
 
-    mongo.db["userArtefacts"].insert_one({"userId": uid, "artefactId": iid}, {"$set": {"level": 1}})
+    mongo.db["userArtefacts"].insert_one({"userId": uid, "artefactId": iid, "level": 1})
 

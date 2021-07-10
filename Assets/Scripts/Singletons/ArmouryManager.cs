@@ -66,7 +66,7 @@ namespace GM.Armoury
 
         // = = = GET = = =
 
-        public List<ArmouryItemState> GetOwned()
+        public List<ArmouryItemState> OwnedItems()
         {
             List<ArmouryItemState> ls = new List<ArmouryItemState>();
 
@@ -79,12 +79,16 @@ namespace GM.Armoury
             return ls;
         }
 
-        public ArmouryItemState GetItem(int index)
+        public ArmouryItemState GetItem(int itemId)
         {
-            if (!states.ContainsKey(index))
-                states[index] = new ArmouryItemState(index);
+            if (!states.ContainsKey(itemId))
+            {
+                UnityEngine.Debug.LogError(string.Format("ArmouryManager.GetItem({0}) - KeyError", itemId));
 
-            return states[index];
+                states[itemId] = new ArmouryItemState(itemId);
+            }
+
+            return states[itemId];
         }
 
 

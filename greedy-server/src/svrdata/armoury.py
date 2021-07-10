@@ -26,10 +26,6 @@ def update_one_item(uid, iid, inc, *, upsert: bool = True) -> bool:
         bool: Whether a document was modified
     """
 
-    result = mongo.db["userArmouryItems"].update_one(
-        {"userId": uid, "itemId": iid},
-        {"$inc": inc},
-        upsert=upsert
-    )
+    result = mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": iid}, {"$inc": inc}, upsert=upsert)
 
     return result.modified_count > 0

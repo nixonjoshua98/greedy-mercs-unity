@@ -55,9 +55,9 @@ namespace GM.Armoury.UI
             double nextEvoDamage    = armoury.WeaponDamage(serverItemData.ID, state.level, state.evoLevel + 1);
 
             // Format the above values as strings
-            string currentDmgString = FormatString.Number(currentDamage);
-            string nextLvlDmgString = FormatString.Number(nextLevelDamage);
-            string nextEvoDmgString = FormatString.Number(nextEvoDamage);
+            string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
+            string nextEvoDmgString = FormatString.Number(nextEvoDamage * 100, prefix: "%");
+            string nextLvlDmgString = FormatString.Number(nextLevelDamage * 100, prefix: "%");
 
             // Set the text widgets
             upgradeDamageText.text  = string.Format("{0} -> {1}", currentDmgString, nextLvlDmgString);
@@ -69,7 +69,8 @@ namespace GM.Armoury.UI
         }
 
 
-        // = = = Button Callbacks = = =
+        // = = = Button Callbacks = = = //
+
         public void OnEvolveButton()
         {
             UserData.Get().Armoury.EvolveItem(serverItemData.ID, () => { UpdateUI(); });

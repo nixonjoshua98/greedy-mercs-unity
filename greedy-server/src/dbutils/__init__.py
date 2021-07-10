@@ -28,6 +28,6 @@ def get_player_data(uid):
 
 		"artefacts": artefacts.get(uid),
 
-		"armoury": svrdata.armoury.get_user_armoury(uid=uid),
+		"armoury": svrdata.armoury.get_armoury(uid=uid),
 		"bounties": list(mongo.db["userBounties"].find({"userId": uid})),
 	}

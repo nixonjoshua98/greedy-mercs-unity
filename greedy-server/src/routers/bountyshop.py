@@ -72,7 +72,7 @@ def purchase_armoury_item(data: ItemPurchaseModel):
     return ServerResponse(
         {
             "userItems":        svrdata.items.get_items(uid),
-            "userArmouryItems": svrdata.armoury.get_user_armoury(uid=uid),
+            "userArmouryItems": svrdata.armoury.get_armoury(uid=uid),
             "dailyPurchases":   svrdata.bountyshop.daily_purchases(uid)
         }
     )

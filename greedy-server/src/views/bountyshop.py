@@ -60,7 +60,7 @@ class BountyShopView(View):
 
 		return {
 			"userItems": items,
-			"userArmouryItems": svrdata.armoury.get_user_armoury(uid=uid),
+			"userArmouryItems": svrdata.armoury.get_armoury(uid=uid),
 			"dailyPurchases": dbutils.bs.get_daily_purchases(uid)
 		}
 

@@ -38,43 +38,35 @@ namespace GM.Armoury
 
 
         // = = = Server Methods = = =
-        public void UpgradeItem(int itemId, Action<long, string> call)
+        public void UpgradeItem(int itemId, Action call)
         {
-            void Callback(long code, string body)
+            void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
-
-                    int levelsGained = resp["levelsGained"].AsInt;
-
-                    AddUpgradeLevel(itemId, levelsGained);
+                    SetArmouryItems(resp["userArmouryItems"]);
                 }
 
-                call(code, body);
+                call();
             }
 
-            Server.Put("armoury", "upgradeItem", CreateJson(itemId), Callback);
+            Server.Post("armoury/upgrade", CreateJson(itemId), Callback);
         }
 
 
-        public void EvolveItem(int itemId, Action<long, string> call)
+        public void EvolveItem(int itemId, Action call)
         {
-            void Callback(long code, string body)
+            void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    JSONNode resp = JSON.Parse(body);
-
-                    int evoLevelsGained = resp["evoLevelsGained"];
-
-                    AddEvolveLevel(itemId, evoLevelsGained);
+                    SetArmouryItems(resp["userArmouryItems"]);
                 }
 
-                call(code, body);
+                call();
             }
 
-            Server.Put("armoury", "evolveItem", CreateJson(itemId), Callback);
+            Server.Post("armoury/evolve", CreateJson(itemId), Callback);
         }
 
 
@@ -99,10 +91,6 @@ namespace GM.Armoury
 
             return states[index];
         }
-
-        // = = = Shorthand GET Methods = = = 
-        void AddUpgradeLevel(int index, int levels) { GetItem(index).level += levels; }
-        void AddEvolveLevel(int index, int levels) { GetItem(index).evoLevel += levels; }
 
         public void SetArmouryItems(JSONNode node)
         {

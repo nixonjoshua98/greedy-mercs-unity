@@ -58,13 +58,13 @@ namespace GM.Armoury.UI
 
         void UpgradeItem()
         {
-            ArmouryManager.Instance.UpgradeItem(serverItemData.ID, (code, body) => { UpdateUI(); });
+            ArmouryManager.Instance.UpgradeItem(serverItemData.ID, () => { UpdateUI(); });
         }
 
 
         public void EvolveItem()
         {
-            ArmouryManager.Instance.EvolveItem(serverItemData.ID, (code, body) => { UpdateUI(); });
+            ArmouryManager.Instance.EvolveItem(serverItemData.ID, () => { UpdateUI(); });
         }
 
 

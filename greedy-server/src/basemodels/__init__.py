@@ -12,6 +12,4 @@ class UserIdentifier(BaseModel):
 
 
 class ItemPurchaseModel(UserIdentifier):
-    """ Bounty Shop """
-
     item_id: int

@@ -15,7 +15,7 @@ namespace GM.BountyShop
         [SerializeField] StarRatingController starController;
 
         ArmouryItemData ArmouryItemData { get { return StaticData.Armoury.Get(ShopItemData.ArmouryItemID); } }
-        new BsArmouryItemData ShopItemData { get { return BountyShopManager.Instance.ServerData.GetArmouryItem(_itemId); } }
+        new BsArmouryItemData ShopItemData { get { return UserData.Get().BountyShop.ServerData.GetArmouryItem(_itemId); } }
 
         void Awake()
         {
@@ -35,7 +35,7 @@ namespace GM.BountyShop
             if (!_isUpdatingUi)
                 return;
 
-            outStockObject.SetActive(!BountyShopManager.Instance.InStock(ShopItemData.ID));
+            outStockObject.SetActive(!UserData.Get().BountyShop.InStock(ShopItemData.ID));
 
             purchaseCostText.text = ShopItemData.PurchaseCost.ToString();
         }
@@ -44,7 +44,7 @@ namespace GM.BountyShop
         // = = = Button Callbacks ===
         public void OnPurchaseButton()
         {
-            BountyShopManager.Instance.PurchaseArmouryItem(ShopItemData.ID, (_) => { });
+            UserData.Get().BountyShop.PurchaseArmouryItem(ShopItemData.ID, (_) => { });
         }
     }
 }

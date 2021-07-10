@@ -1,14 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Numerics;
 using System.Collections;
-using System.IO.Compression;
 using System.Collections.Generic;
 
 using UnityEngine;
-
-using SimpleJSON;
 
 using Vector3 = UnityEngine.Vector3;
 
@@ -37,25 +31,6 @@ public static class Funcs
         return DateTimeOffset.FromUnixTimeMilliseconds(ts).UtcDateTime;
     }
 
-    public static TimeSpan TimeUntil(DateTime date)
-    {
-        return date - DateTime.UtcNow;
-    }
-
-    public static class Format
-    {
-        public static string Seconds(double seconds) { return Seconds((long)seconds); }
-        public static string Seconds(long seconds)
-        {
-            long hours = seconds / 3_600;            
-            seconds -= (3_600 * hours);
-
-            long mins = seconds / 60;
-            seconds -= (60 * mins);
-
-            return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
-        }
-    }
 
     public static class UI
     {
@@ -109,19 +84,6 @@ namespace GM.Utils
         }
     }
 
-
-    public class Json
-    {
-        public static JSONNode GetDeviceInfo()
-        {
-            JSONObject node = new JSONObject();
-
-            node.Add("deviceId", SystemInfo.deviceUniqueIdentifier);
-
-            return node;
-        }
-    }
-
     public class UI
     {
         public static GameObject Instantiate(GameObject o, Vector3 pos)
@@ -160,56 +122,6 @@ namespace GM.Utils
             Message msg = Instantiate(o, Vector3.zero).GetComponent<Message>();
 
             msg.Init(title, desc);
-        }
-    }
-
-    public class Format : MonoBehaviour
-    {
-        static readonly Dictionary<int, string> unitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" } };
-
-        public static string FormatNumber(BigInteger val)
-        {
-            if (val <= 1_000)
-                return val.ToString();
-
-            int n = (int)BigInteger.Log(val, 1000);
-
-            BigDouble m = val.ToBigDouble() / BigInteger.Pow(1000, n).ToBigDouble();
-
-            if (n < unitsTable.Count)
-                return m.ToString("F2") + unitsTable[n];
-
-            return val.ToString("E2").Replace("+", "").Replace("E", "e");
-        }
-
-        public static string FormatNumber(BigDouble val)
-        {
-            if (val < 1d)
-                return val.ToString("F0");
-            
-            int n = (int)BigDouble.Log(val, 1000);
-
-            BigDouble m = val / BigDouble.Pow(1000.0f, n);
-
-            if (n < unitsTable.Count)
-                return (BigDouble.Floor(m * 100.0f) / 100.0f).ToString("F2") + unitsTable[n];
-
-            return val.ToString("E2").Replace("+", "").Replace("E", "e");
-        }
-
-        public static string FormatNumber(double val)
-        {
-            if (val < 1d)
-                return Math.Round(val, 3).ToString();
-
-            int n = (int)Math.Log(val, 1000);
-
-            float m = (float)(val / Mathf.Pow(1000.0f, n));
-
-            if (n < unitsTable.Count)
-                return m.ToString("F") + unitsTable[n];
-            
-            return val.ToString("e2").Replace("+", "");
         }
     }
 }

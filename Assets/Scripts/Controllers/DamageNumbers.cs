@@ -79,7 +79,7 @@ namespace GM
                 current.Text.transform.position = transform.position;
             }
 
-            current.Text.text = Utils.Format.FormatNumber(number);
+            current.Text.text = FormatString.Number(number);
             current.Text.color = col;
         }
 

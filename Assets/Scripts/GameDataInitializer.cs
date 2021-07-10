@@ -11,9 +11,7 @@ public class UpgradeState
 
 namespace GM
 {
-    using GM.Armoury;
     using GM.Inventory;
-    using GM.BountyShop;
     using GM.Artefacts;
     using GM.Characters;
 
@@ -72,7 +70,6 @@ namespace GM
             MercenaryManager.Create();
 
             InventoryManager.Create(node["inventory"]);
-            BountyShopManager.Create(node["bountyShop"]);
             ArtefactManager.Create(node["artefacts"]);
             SkillsManager.Create(node["skills"]);
         }

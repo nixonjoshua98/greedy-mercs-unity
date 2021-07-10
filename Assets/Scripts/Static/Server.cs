@@ -38,26 +38,22 @@ public static class Server
     }
 
     // POST
-    static void Post(string endpoint, string purpose, JSONNode node, Action<long, JSONNode> callback)
+    public static void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback)
     {
         IEnumerator Send()
         {
             yield return SendRequest(UnityWebRequest.Post(GetUrl(endpoint), PrepareBody(node)), callback);
         }
 
+        node.Update(DefaultJson());
+
         PersistentMono.Inst.StartCoroutine(Send());
     }
 
+
     public static void Post(string endpoint, Action<long, JSONNode> callback)
     {
-        Post(endpoint, DefaultJson(), callback);
-    }
-
-    public static void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback)
-    {
-        node.Update(DefaultJson());
-
-        Post(endpoint, node, callback);
+        Post(endpoint, new JSONObject(), callback);
     }
 
 

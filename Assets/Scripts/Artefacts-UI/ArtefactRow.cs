@@ -64,7 +64,7 @@ namespace GM.Artefacts
 
             if (!ArtState.IsMaxLevel())
             {
-                string cost = Utils.Format.FormatNumber(ArtState.CostToUpgrade(BuyAmount));
+                string cost = FormatString.Number(ArtState.CostToUpgrade(BuyAmount));
 
                 stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }

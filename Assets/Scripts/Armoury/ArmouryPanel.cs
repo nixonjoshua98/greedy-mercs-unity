@@ -43,7 +43,7 @@ namespace GM.Armoury.UI
         void FixedUpdate()
         {
             weaponPointText.text = InventoryManager.Instance.ArmouryPoints.ToString();
-            damageBonusText.text = string.Format("{0}% Mercenary Damage", Utils.Format.FormatNumber(StatsCache.ArmouryMercDamageMultiplier * 100));
+            damageBonusText.text = string.Format("{0}% Mercenary Damage", FormatString.Number(StatsCache.ArmouryMercDamageMultiplier * 100));
         }
 
         void InstantiateItem(ArmouryItemState state)

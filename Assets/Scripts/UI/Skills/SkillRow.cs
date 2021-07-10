@@ -70,7 +70,7 @@ namespace GM
             if (!SkillsManager.Instance.IsUnlocked(SkillID))
                 return "Locked";
 
-            string effect       = Utils.Format.FormatNumber(StatsCache.Skills.SkillBonus(SkillID) * 100);
+            string effect       = FormatString.Number(StatsCache.Skills.SkillBonus(SkillID) * 100);
             string bonusType    = Funcs.BonusString(StaticData.SkillList.Get(SkillID).bonusType);
 
             double duration     = StatsCache.Skills.SkillDuration(SkillID);
@@ -90,7 +90,7 @@ namespace GM
                     SkillLevel nextLevel = SkillsManager.Instance.GetSkillLevel(SkillID, State.level + 1);
 
                     buttonTopText.text  = string.Format("Level {0} -> {1}", State.level, State.level + 1);
-                    buttonBtmText.text  = Utils.Format.FormatNumber(nextLevel.UpgradeCost);
+                    buttonBtmText.text  = FormatString.Number(nextLevel.UpgradeCost);
                 }
             }
 
@@ -99,7 +99,7 @@ namespace GM
                 SkillLevel skillLevel = SkillsManager.Instance.GetSkillLevel(SkillID, 1);
 
                 buttonTopText.text = "LOCKED";
-                buttonBtmText.text = Utils.Format.FormatNumber(skillLevel.UpgradeCost);
+                buttonBtmText.text = FormatString.Number(skillLevel.UpgradeCost);
             }
         }
 

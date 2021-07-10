@@ -7,6 +7,7 @@ namespace GM
 {
     using GM.Bounty;
     using GM.Armoury;
+    using GM.BountyShop;
 
     public class UserData
     {
@@ -14,6 +15,7 @@ namespace GM
 
         public BountyManager Bounties;
         public ArmouryManager Armoury;
+        public BountyShopManager BountyShop;
 
         // = = = Static Methods = = = //
         public static void CreateInstance()
@@ -31,8 +33,9 @@ namespace GM
         // = = = Public Methods = = = //
         public void UpdateWithServerUserData(JSONNode json)
         {
-            Bounties = new BountyManager(json["bounties"]);
-            Armoury = new ArmouryManager(json["armoury"]);
+            Bounties    = new BountyManager(json["bounties"]);
+            Armoury     = new ArmouryManager(json["armoury"]);
+            BountyShop  = new BountyShopManager(json["bountyShop"]);
         }
     }
 }

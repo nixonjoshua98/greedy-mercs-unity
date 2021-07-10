@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 namespace GM.BountyShop
 {
     public class BountyShopUIController : MonoBehaviour
@@ -27,24 +28,26 @@ namespace GM.BountyShop
 
         void OnEnable()
         {
-            BountyShopManager.Instance.Refresh(() => { InstantiateItemSlots(); });
+            UserData.Get().BountyShop.Refresh(() => { InstantiateItemSlots(); });
         }
 
         void FixedUpdate()
         {
-            TimeSpan timeUntilReset = Funcs.TimeUntil(StaticData.NextDailyReset);
+            TimeSpan timeUntilReset = StaticData.NextDailyReset - DateTime.UtcNow;
 
-            shopRefreshText.text = string.Format("Refreshes in {0}", Funcs.Format.Seconds(timeUntilReset.TotalSeconds));
+            shopRefreshText.text = string.Format("Refreshes in {0}", FormatString.Seconds(timeUntilReset.TotalSeconds));
         }
 
         void InstantiateItemSlots()
         {
             DestroyAllSlots();
-            
-            foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.NormalItems)
+
+            BountyShopManager shop = UserData.Get().BountyShop;
+
+            foreach (AbstractBountyShopData itemData in shop.ServerData.NormalItems)
                 items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
 
-            foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.ArmouryItems)
+            foreach (AbstractBountyShopData itemData in shop.ServerData.ArmouryItems)
                 items.Add(InstantiateSlot(ArmouryItemSlot, armouryItemsParent, itemData));
         }
 

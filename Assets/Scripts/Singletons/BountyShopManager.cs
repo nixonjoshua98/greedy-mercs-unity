@@ -22,21 +22,12 @@ namespace GM.BountyShop
 
     public class BountyShopManager
     {
-        public static BountyShopManager Instance = null;
-
         Dictionary<string, BountyShopPurchaseData> purchases;
 
         public ServerBountyShopData ServerData;
 
-        public static BountyShopManager Create(JSONNode node)
-        {
-            Instance = new BountyShopManager(node);
 
-            return Instance;
-        }
-
-
-        BountyShopManager(JSONNode node)
+        public BountyShopManager(JSONNode node)
         {
             SetDailyPurchases(node["dailyPurchases"]);
 

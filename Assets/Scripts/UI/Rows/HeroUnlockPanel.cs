@@ -23,7 +23,7 @@ namespace GM
             {
                 MercData mercData = StaticData.Mercs.GetMerc(chara);
 
-                CostText.text = Utils.Format.FormatNumber(mercData.UnlockCost);
+                CostText.text = FormatString.Number(mercData.UnlockCost);
             }
         }
 

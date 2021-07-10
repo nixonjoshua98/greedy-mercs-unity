@@ -69,14 +69,14 @@ namespace GM.Artefacts
             InventoryManager inv = InventoryManager.Instance;
             ArtefactManager arts = ArtefactManager.Instance;
 
-            prestigePointText.text      = Utils.Format.FormatNumber(inv.PrestigePoints);
+            prestigePointText.text      = FormatString.Number(inv.PrestigePoints);
             buyLootButton.interactable  = arts.Count < StaticData.Artefacts.Count;
 
             lootCostText.text = "-";
 
             if (arts.Count < StaticData.Artefacts.Count)
             {
-                lootCostText.text = string.Format("{0}", Utils.Format.FormatNumber(Formulas.CalcNextLootCost(arts.Count)));
+                lootCostText.text = string.Format("{0}", FormatString.Number(Formulas.CalcNextLootCost(arts.Count)));
             }
         }
 

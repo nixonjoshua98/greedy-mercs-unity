@@ -44,7 +44,7 @@ def upgrade(data: ArtefactUpgradeModel):
     return ServerResponse(
         {
             "userItems": svrdata.items.get_items(uid),
-            "userArtefacts": svrdata.artefacts.get_all_artefacts(uid)
+            "userArtefacts": svrdata.artefacts.get_all_artefacts(uid, as_dict=True)
         }
     )
 
@@ -72,7 +72,7 @@ def unlock(data: UserIdentifier):
     return ServerResponse(
         {
             "userItems": svrdata.items.get_items(uid),
-            "userArtefacts": svrdata.artefacts.get_all_artefacts(uid),
+            "userArtefacts": svrdata.artefacts.get_all_artefacts(uid, as_dict=True),
             "newArtefactId": new_art_id
          }
     )

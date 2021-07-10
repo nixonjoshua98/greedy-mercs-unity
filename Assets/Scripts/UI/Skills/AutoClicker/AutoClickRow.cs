@@ -17,7 +17,7 @@ namespace GM.Skills.UI
             if (!SkillsManager.Instance.IsUnlocked(SkillID))
                 return base.GetDescription();
 
-            string effect   = Utils.Format.FormatNumber(StatsCache.Skills.AutoClickDamage());
+            string effect   = FormatString.Number(StatsCache.Skills.AutoClickDamage());
             double duration = StatsCache.Skills.SkillDuration(SkillID);
 
             return string.Format("Duration <color=orange>{0}s</color>\nDeal <color=orange>{1}</color> damage every <color=orange>0.1</color> seconds", duration, effect);

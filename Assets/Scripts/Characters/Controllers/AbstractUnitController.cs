@@ -25,7 +25,7 @@ namespace GM.Units
             autoAttack = GetComponent<AbstractCharacterAttack>();
 
             attackTargetter = GetComponent<IAttackTarget>();
-
+            
         }
 
         void SubscribeToEvents()

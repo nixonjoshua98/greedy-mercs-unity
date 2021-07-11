@@ -29,7 +29,7 @@ def prestige(data: PrestigeData):
 
     svrdata.items.update_items(uid, inc={"prestigePoints": points_gained})
 
-    return ServerResponse({"completeUserData": dbutils.get_player_data(uid)})
+    return ServerResponse({"completeUserData": svrdata.get_player_data(uid)})
 
 
 def process_new_bounties(uid, stage):

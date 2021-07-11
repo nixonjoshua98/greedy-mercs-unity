@@ -25,6 +25,7 @@ namespace GM.Units
         float attackRange = 1.25f;
         float attackCooldown = 1.25f;
 
+
         private void Awake()
         {
             E_OnAttackImpact = new GameObjectEvent();
@@ -36,16 +37,11 @@ namespace GM.Units
         {
             if (IsAvailable())
             {
-                if (IsInAttackPosition(target))
+                if (InAttackPosition(target))
                 {
                     StartAttack(target);
                 }
             }
-        }
-
-        public bool IsAvailable()
-        {
-            return isReady && !onCooldown;
         }
 
 
@@ -61,7 +57,7 @@ namespace GM.Units
         }
 
 
-        public bool IsInAttackPosition(GameObject target)
+        public bool InAttackPosition(GameObject target)
         {
             float dist = Vector3.Distance(transform.position, target.transform.position);
 
@@ -88,6 +84,11 @@ namespace GM.Units
         }
 
         // = = = ^
+
+        bool IsAvailable()
+        {
+            return isReady && !onCooldown;
+        }
 
 
         void StartAttack(GameObject target)

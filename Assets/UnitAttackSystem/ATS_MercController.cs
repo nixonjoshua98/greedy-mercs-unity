@@ -37,17 +37,14 @@ namespace GM.Units
             {
                 // We have a target and an attack is available so we
                 // process it (eg. move towards a valid attack position)
-                if (attack.IsAvailable())
-                {
-                    attack.TryAttack(currentFocusTarget);
-                }
+                attack.TryAttack(currentFocusTarget);
 
 
                 // Attack is currently not active and unavailable
                 // eg. We are currently free to move etc.
                 if (!attack.IsAttacking())
                 {
-                    if (!attack.IsInAttackPosition(currentFocusTarget))
+                    if (!attack.InAttackPosition(currentFocusTarget))
                     {
                         Vector3 moveVector = attack.GetMoveVector(currentFocusTarget);
 

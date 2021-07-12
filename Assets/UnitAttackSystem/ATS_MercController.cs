@@ -93,7 +93,7 @@ namespace GM.Units
             if (targets.Length == 0)
                 return null;
 
-            return targets[0];
+            return targets[Random.Range(0, targets.Length)];
         }
     }
 }

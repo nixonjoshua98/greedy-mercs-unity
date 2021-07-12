@@ -1,12 +1,8 @@
-name: Demon Knight
 
 attackType: 0
 
 baseDamage: 1e16
 unlockCost: 1e18
-
-prefabString: Mercs/Prefabs/demon_knight
-iconString: Mercs/Icons/stone_golem
 
 passives:
 - bonusType: 7

@@ -11,6 +11,8 @@ public class UpgradeState
 
 namespace GM
 {
+    using GM.Data;
+
     using GM.Inventory;
     using GM.Artefacts;
     using GM.Units;
@@ -22,6 +24,7 @@ namespace GM
         void Awake()
         {
             UserData.CreateInstance();
+            GameData.CreateInstance();
 
             StaticData.AssignScriptables(SkillList);
         }

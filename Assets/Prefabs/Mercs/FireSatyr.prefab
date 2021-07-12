@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2031871773439707438}
   - component: {fileID: 9142831925000063040}
   m_Layer: 0
-  m_Name: fire_satyr
+  m_Name: FireSatyr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

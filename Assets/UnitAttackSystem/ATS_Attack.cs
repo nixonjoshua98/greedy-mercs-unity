@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GM.Units
 {
     using GM.Events;
-    public class ATS_Attack : MonoBehaviour
+    public abstract class ATS_Attack : MonoBehaviour
     {
         [Header("Components")]
         public Animator anim;
@@ -22,8 +22,8 @@ namespace GM.Units
 
         GameObject currentTarget;
 
-        float attackRange = 1.25f;
-        float attackCooldown = 1.25f;
+        protected float attackRange = 1.25f;
+        protected float attackCooldown = 1.25f;
 
 
         private void Awake()
@@ -51,18 +51,10 @@ namespace GM.Units
         }
 
 
-        public Vector3 GetMoveVector(GameObject target)
-        {
-            return target.transform.position;
-        }
+        public abstract Vector3 GetMoveVector(GameObject target);
 
 
-        public bool InAttackPosition(GameObject target)
-        {
-            float dist = Vector3.Distance(transform.position, target.transform.position);
-
-            return dist <= attackRange;
-        }
+        public abstract bool InAttackPosition(GameObject target);
 
         // = = = ^
 

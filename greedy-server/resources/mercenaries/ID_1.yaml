@@ -1,11 +1,7 @@
-name: Reaper Man
 
 attackType: 0
 
 unlockCost: 500
-
-prefabString: Mercs/Prefabs/reaper
-iconString: Mercs/Icons/stone_golem
 
 passives:
 - bonusType: 1

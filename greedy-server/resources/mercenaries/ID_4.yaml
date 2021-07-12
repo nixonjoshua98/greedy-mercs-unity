@@ -1,11 +1,8 @@
-name: Skeleton Archer
 
 attackType: 0
 
 unlockCost: 2.5e6
 
-prefabString: Mercs/Prefabs/reaper
-iconString: Mercs/Icons/stone_golem
 
 passives:
 - bonusType: 2

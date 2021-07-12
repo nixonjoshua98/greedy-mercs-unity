@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Data;
+
     using GM.Events;
 
     using GM.Units;
@@ -15,8 +17,6 @@ namespace GM
     {
         public static SquadManager Instance = null;
 
-        List<Transform> characterSpots;
-
         List<GameObject> spawnedUnits;
 
         void Awake()
@@ -24,13 +24,10 @@ namespace GM
             Instance = this;
 
             spawnedUnits = new List<GameObject>();
-            characterSpots = new List<Transform>();
-
-            for (int i = 0; i < transform.childCount; ++i)
-                characterSpots.Add(transform.GetChild(i));
 
             GlobalEvents.OnCharacterUnlocked.AddListener(OnHeroUnlocked);
         }
+
 
         public List<Vector3> UnitPositions()
         {
@@ -42,20 +39,51 @@ namespace GM
             return ls;
         }
 
-        void AddCharacter(MercID unitId)
+
+        public Vector3 AveragePosition()
         {
-            MercData data = StaticData.Mercs.GetMerc(unitId);
+            return Funcs.AveragePosition(UnitPositions());
+        }
 
-            GameObject character = Instantiate(data.Prefab, transform);
 
-            character.transform.position = characterSpots[0].position;
+        void AddCharacter(MercID mercId)
+        {
+            Vector3 spawnPos = SpawnPosition();
 
-            Destroy(characterSpots[0].gameObject);
+            MercDescription mercDescription = GameData.Get().Mercs.GetDescription(mercId);
 
-            characterSpots.RemoveAt(0);
+            GameObject character = InstantiateMerc(mercDescription.Prefab, spawnPos);
 
             spawnedUnits.Add(character);
         }
+
+
+        Vector3 SpawnPosition()
+        {
+            Vector3 spawnPos;
+
+            if (spawnedUnits.Count == 0)
+            {
+                Vector3 temp = Camera.main.transform.position;
+
+                spawnPos = new Vector3(temp.x, 6.0f);
+            }
+            else
+            {
+                spawnPos = AveragePosition();
+            }
+
+            spawnPos.x -= 2.5f;
+
+            return spawnPos;
+        }
+
+
+        GameObject InstantiateMerc(GameObject prefab, Vector3 pos)
+        {
+            return Instantiate(prefab, pos, Quaternion.identity);
+        }
+
 
         void OnHeroUnlocked(MercID chara)
         {

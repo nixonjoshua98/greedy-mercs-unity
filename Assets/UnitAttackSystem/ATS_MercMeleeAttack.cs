@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM.Units
 {
-    public class ATS_MercMeleeAttack : MonoBehaviour
+    public class ATS_MercMeleeAttack : ATS_Attack
     {
-        // Start is called before the first frame update
-        void Start()
+        public override Vector3 GetMoveVector(GameObject target)
         {
-        
+            return target.transform.position;
         }
 
-        // Update is called once per frame
-        void Update()
+
+        public override bool InAttackPosition(GameObject target)
         {
-        
+            float dist = Vector3.Distance(transform.position, target.transform.position);
+
+            return dist <= attackRange;
         }
+
     }
 }

@@ -13,7 +13,7 @@ namespace GM.Background
 
             if (unitPositions.Count >= 1)
             {
-                UpdateCamera(Funcs.AveragePosition(unitPositions));
+                UpdateCamera(SquadManager.Instance.AveragePosition());
             }
         }
 

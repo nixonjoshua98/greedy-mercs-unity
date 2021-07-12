@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 namespace GM.Units
 {
-    using GM.Events;
+    using GM.Data;
 
-    using Utils = GM.Utils;
+    using GM.Events;
 
     using GM;
     using GM.UI;
@@ -33,7 +33,8 @@ namespace GM.Units
         bool _updatingUi;
 
         protected MercState State { get { return MercenaryManager.Instance.GetState(_mercId); } }
-        protected MercData Data { get { return StaticData.Mercs.GetMerc(_mercId); } }
+
+        public MercDescription _MercDescription { get { return GameData.Get().Mercs.GetDescription(_mercId); } }
 
         void Awake()
         {
@@ -53,12 +54,12 @@ namespace GM.Units
             }
         }
 
-        public void SetCharacter(MercID chara)
+        public void SetCharacter(MercID mercId)
         {
-            _mercId = chara;
+            _mercId = mercId;
 
-            nameText.text = Data.Name;
-            iconImage.sprite = Data.Icon;
+            nameText.text       = _MercDescription.Name;
+            iconImage.sprite    = _MercDescription.Icon;
 
             _updatingUi = true;
         }
@@ -69,7 +70,7 @@ namespace GM.Units
                 return;
 
             DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(_mercId)) + " DPS";
-            nameText.text   = string.Format("(Lvl. {0}) {1}", State.Level, Data.Name);
+            nameText.text   = string.Format("(Lvl. {0}) {1}", State.Level, _MercDescription.Name);
 
             upgradeButton.SetText("MAX", "-");
 

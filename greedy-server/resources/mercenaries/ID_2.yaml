@@ -1,12 +1,7 @@
-name: Lightning Wraith
 
 attackType: 0
 
 unlockCost: 10000
-
-iconString: Mercs/Icons/wraith
-prefabString: Mercs/Prefabs/stone_golem
-#prefabString: Mercs/Prefabs/wraith
 
 
 passives:

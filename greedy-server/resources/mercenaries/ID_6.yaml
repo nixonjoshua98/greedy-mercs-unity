@@ -1,11 +1,7 @@
-name: Fire Golem
 
 attackType: 0
 
 unlockCost: 8.0e8
-
-prefabString: Mercs/Prefabs/fire_golem
-iconString: Mercs/Icons/stone_golem
 
 passives:
 - bonusType: 5

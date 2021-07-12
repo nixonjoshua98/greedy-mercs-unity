@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8557769989454440824}
   - component: {fileID: -3266181714136692718}
   m_Layer: 0
-  m_Name: wraith
+  m_Name: Wraith
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

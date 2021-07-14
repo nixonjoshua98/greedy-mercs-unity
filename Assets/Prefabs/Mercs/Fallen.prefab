@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 4140710708500218812}
+  movement: {fileID: 6519972741627699075}
   attackAnimString: Slashing
 --- !u!114 &6519972741627699075
 MonoBehaviour:

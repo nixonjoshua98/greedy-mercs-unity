@@ -39,9 +39,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4094388374024800129}
-  - component: {fileID: 1206313509546457553}
-  - component: {fileID: 1944662107672066468}
-  - component: {fileID: 7333052779783210931}
   m_Layer: 0
   m_Name: SkeletonArcher
   m_TagString: Untagged
@@ -65,54 +62,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1206313509546457553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094388374024800128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e484834c2d75494db980da17c4513ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  characterId: 4
---- !u!114 &1944662107672066468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094388374024800128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8c9adaa975a36441b8e295d9aae5003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  anim: {fileID: 7853488261254182188}
-  AttackAnimation: Shooting
-  attackCooldown: 1
-  ProjectileObject: {fileID: 7866306757776874252, guid: 3853805b2a209b84a99c194796246558,
-    type: 3}
-  startPosition: {fileID: 4094388373413155881}
-  distance: 2.5
-  speed: 12
---- !u!114 &7333052779783210931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094388374024800128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPriority: 2
 --- !u!1001 &4094388373761363263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237,12 +186,6 @@ PrefabInstance:
 --- !u!4 &1532741219340224477 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3285187416848501474, guid: f36d3b6206b1d6b4bb56e91c9a2ba836,
-    type: 3}
-  m_PrefabInstance: {fileID: 4094388373761363263}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7853488261254182188 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6066068866541844499, guid: f36d3b6206b1d6b4bb56e91c9a2ba836,
     type: 3}
   m_PrefabInstance: {fileID: 4094388373761363263}
   m_PrefabAsset: {fileID: 0}

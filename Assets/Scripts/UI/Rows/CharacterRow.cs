@@ -34,7 +34,7 @@ namespace GM.Units
 
         protected MercState State { get { return MercenaryManager.Instance.GetState(_mercId); } }
 
-        public MercDescription _MercDescription { get { return GameData.Get().Mercs.GetDescription(_mercId); } }
+        public LocalMercData _MercDescription { get { return GameData.Get().Mercs.GetDescription(_mercId); } }
 
         void Awake()
         {

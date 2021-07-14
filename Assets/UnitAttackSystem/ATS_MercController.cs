@@ -50,6 +50,12 @@ namespace GM.Units
 
                         movement.MoveTowards(moveVector);
                     }
+
+                    // Avoid the 'moving while idle' issue
+                    else if (movement.IsCurrentAnimationWalk())
+                    {
+                        anim.Play("Idle");
+                    }
                 }
             }
         }
@@ -68,12 +74,7 @@ namespace GM.Units
 
         void OnAttackImpact(GameObject target)
         {
-            // Target is already dead
-            if (!target)
-                return;
-
-
-            if (target.TryGetComponent(out AbstractHealthController hp))
+            if (target && target.TryGetComponent(out AbstractHealthController hp))
             {
                 BigDouble dmg = StatsCache.TotalMercDamage(ID);
 

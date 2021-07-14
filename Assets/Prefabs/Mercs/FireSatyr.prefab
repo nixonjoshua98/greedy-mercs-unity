@@ -39,9 +39,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4212931060154188391}
-  - component: {fileID: 6102498267299210618}
-  - component: {fileID: 2031871773439707438}
-  - component: {fileID: 9142831925000063040}
   m_Layer: 0
   m_Name: FireSatyr
   m_TagString: Untagged
@@ -65,54 +62,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6102498267299210618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e484834c2d75494db980da17c4513ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  characterId: 9
---- !u!114 &2031871773439707438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8c9adaa975a36441b8e295d9aae5003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
-  anim: {fileID: 2828557145166165476}
-  AttackAnimation: Attacking
-  attackCooldown: 1
-  ProjectileObject: {fileID: 892358329798779585, guid: cb280996a128c434a9838ee89aee0817,
-    type: 3}
-  startPosition: {fileID: 7637163329336135085}
-  distance: 5
-  speed: 3
---- !u!114 &9142831925000063040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPriority: 0
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,12 +163,6 @@ PrefabInstance:
 --- !u!4 &4152767962883369001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4212931058609886445}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2828557145166165476 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2104970784809328905, guid: 7c23600df3afacc45a70aca48c01c25a,
     type: 3}
   m_PrefabInstance: {fileID: 4212931058609886445}
   m_PrefabAsset: {fileID: 0}

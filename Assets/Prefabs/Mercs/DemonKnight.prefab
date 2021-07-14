@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 8854224553034560540}
+  movement: {fileID: 8491084058397117312}
   attackAnimString: Attacking
 --- !u!114 &8491084058397117312
 MonoBehaviour:

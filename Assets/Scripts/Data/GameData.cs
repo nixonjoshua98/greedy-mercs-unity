@@ -6,7 +6,7 @@ namespace GM.Data
 {
     public class MercDataContainer
     {
-        Dictionary<MercID, MercDescription> descriptions;
+        Dictionary<MercID, LocalMercData> descriptions;
 
         public MercDataContainer()
         {
@@ -14,7 +14,7 @@ namespace GM.Data
         }
 
 
-        public MercDescription GetDescription(MercID merc)
+        public LocalMercData GetDescription(MercID merc)
         {
             return descriptions[merc];
         }
@@ -22,11 +22,11 @@ namespace GM.Data
 
         void InitialiseMercDescriptions()
         {
-            MercDescription[] fromResources = Resources.LoadAll<MercDescription>("MercDescriptions");
+            LocalMercData[] fromResources = Resources.LoadAll<LocalMercData>("Mercs");
 
-            descriptions = new Dictionary<MercID, MercDescription>();
+            descriptions = new Dictionary<MercID, LocalMercData>();
 
-            foreach (MercDescription desc in fromResources)
+            foreach (LocalMercData desc in fromResources)
             {
                 if (descriptions.ContainsKey(desc.ID))
                 {

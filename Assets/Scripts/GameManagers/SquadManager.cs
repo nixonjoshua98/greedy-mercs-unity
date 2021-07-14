@@ -50,7 +50,7 @@ namespace GM
         {
             Vector3 spawnPos = SpawnPosition();
 
-            MercDescription mercDescription = GameData.Get().Mercs.GetDescription(mercId);
+            LocalMercData mercDescription = GameData.Get().Mercs.GetDescription(mercId);
 
             GameObject character = InstantiateMerc(mercDescription.Prefab, spawnPos);
 

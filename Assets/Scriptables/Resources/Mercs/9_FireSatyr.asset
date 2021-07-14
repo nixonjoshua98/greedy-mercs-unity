@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
-  m_Name: 5_Minotaur
+  m_Name: 9_FireSatyr
   m_EditorClassIdentifier: 
-  ID: 5
+  ID: 9
   Name: <Missing Name>
   Prefab: {fileID: 5097099789489235668, guid: 53919c009bfaf934da524f433d75d1df, type: 3}
-  Icon: {fileID: 21300000, guid: 5d9ba4e7d0964044ea54abe409d81dfd, type: 3}
+  Icon: {fileID: 21300000, guid: 37a60f98c5f525f40ac9ddacf9388f47, type: 3}

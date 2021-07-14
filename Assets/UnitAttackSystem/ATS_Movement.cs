@@ -37,6 +37,8 @@ namespace GM.Units
             return distanceTravelled;
         }
 
+        public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }
+
         public void FaceTowardsTarget(Vector3 pos)
         {
             // Flip the avatar x scale to face the target position
@@ -52,6 +54,13 @@ namespace GM.Units
 
                 avatar.transform.localScale = scale;
             }
+        }
+
+        // = = = Methods = = = //
+
+        public bool IsCurrentAnimationWalk()
+        {
+            return anim.GetCurrentAnimatorStateInfo(0).IsName("Walk");
         }
     }
 }

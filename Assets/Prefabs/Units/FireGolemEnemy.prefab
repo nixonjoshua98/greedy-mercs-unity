@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3981222253818409769}
   - component: {fileID: 5255366067590678038}
   - component: {fileID: -3622656533863664534}
-  - component: {fileID: 7049458548551430393}
   - component: {fileID: 639385591546178106}
+  - component: {fileID: -665555187122581628}
   m_Layer: 0
   m_Name: FireGolemEnemy
   m_TagString: Enemy
@@ -76,21 +76,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3632701012789557088}
---- !u!114 &7049458548551430393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4921165014578054583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09723dc7bbb119249ae7848333508739, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthBarObject: {fileID: 5294143185684844642, guid: 0f142208660cd584db26f1ea18246edd,
-    type: 3}
-  _TargetTransform: {fileID: 0}
 --- !u!114 &639385591546178106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +89,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskInteraction: 1
+--- !u!61 &-665555187122581628
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921165014578054583}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1.15}
+  m_EdgeRadius: 0
 --- !u!1001 &3690773663432617308
 PrefabInstance:
   m_ObjectHideFlags: 0

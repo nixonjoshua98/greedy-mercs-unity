@@ -10,6 +10,8 @@ namespace GM.Units
     {
         [Header("Components")]
         public Animator anim;
+        [Space]
+        public ATS_Movement movement;
 
         [Header("Animations")]
         public string attackAnimString = "Attacking";
@@ -22,7 +24,6 @@ namespace GM.Units
 
         GameObject currentTarget;
 
-        protected float attackRange = 1.25f;
         protected float attackCooldown = 1.25f;
 
 
@@ -77,6 +78,14 @@ namespace GM.Units
 
         // = = = ^
 
+        void MoveToIdle()
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+            {
+
+            }
+        }
+
         bool IsAvailable()
         {
             return isReady && !onCooldown;
@@ -88,6 +97,8 @@ namespace GM.Units
             isAttacking = true;
 
             currentTarget = target;
+
+            movement.FaceTowards(target);
 
             anim.Play(attackAnimString);
         }

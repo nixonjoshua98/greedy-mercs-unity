@@ -34,7 +34,6 @@ namespace GM
         public static Sprite LoadSprite(string path) { return Instance._LoadSprite(path); }
 
         public static GameObject LoadPrefab(string path) { return Instance._LoadPrefab(path); }
-        public static GameObject LoadPrefab(string path, string name) { return Instance._LoadPrefab(CreatePath(path, name)); }
         
 
         // = = = Private Methods = = = 

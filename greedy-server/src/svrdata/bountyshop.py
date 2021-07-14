@@ -103,7 +103,7 @@ def _generate_armoury_items() -> dict:
     for i, key in enumerate(keys):
         item_data = all_items[key]
 
-        _id = f"AW-{days_since_epoch}-{key}-{i}"
+        _id = f"AI-{days_since_epoch}-{key}-{i}"
 
         entry = {
             "armouryItemId": key,

@@ -14,8 +14,8 @@ namespace GM.Units
 
         [Space]
 
-        public ATS_Movement movement;
-        public ATS_Attack attack;
+        public UnitMovement movement;
+        public AbstractUnitAttack attack;
 
         GameObject currentFocusTarget;
 

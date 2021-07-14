@@ -6,7 +6,7 @@ namespace GM.Data
 {
     public class MercDataContainer
     {
-        Dictionary<MercID, LocalMercData> descriptions;
+        Dictionary<MercID, LocalMercData> mercData;
 
         public MercDataContainer()
         {
@@ -14,9 +14,9 @@ namespace GM.Data
         }
 
 
-        public LocalMercData GetDescription(MercID merc)
+        public LocalMercData GetMerc(MercID merc)
         {
-            return descriptions[merc];
+            return mercData[merc];
         }
 
 
@@ -24,17 +24,17 @@ namespace GM.Data
         {
             LocalMercData[] fromResources = Resources.LoadAll<LocalMercData>("Mercs");
 
-            descriptions = new Dictionary<MercID, LocalMercData>();
+            mercData = new Dictionary<MercID, LocalMercData>();
 
             foreach (LocalMercData desc in fromResources)
             {
-                if (descriptions.ContainsKey(desc.ID))
+                if (mercData.ContainsKey(desc.ID))
                 {
-                    Debug.LogError($"Merc descriptions contain duplicate keys!");
+                    Debug.LogError($"Merc data contain duplicate keys!");
                     Debug.Break();
                 }
 
-                descriptions[desc.ID] = desc;
+                mercData[desc.ID] = desc;
             }
         }
     }
@@ -63,6 +63,5 @@ namespace GM.Data
         {
             Mercs = new MercDataContainer();
         }
-
     }
 }

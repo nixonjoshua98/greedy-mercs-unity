@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace GM.Units
 {
-    public class ATS_Movement : MonoBehaviour
+    public class UnitMovement : MonoBehaviour
     {
         [Header("Properties")]
         [SerializeField] float moveSpeed = 1.0f;
 
-        [Header("References")]
+        [Header("Components")]
         [SerializeField] GameObject avatar;
 
         Animator anim;
@@ -20,21 +20,13 @@ namespace GM.Units
             anim = avatar.GetComponentInChildren<Animator>();
         }
 
-        public float MoveTowards(Vector3 target)
+        public void MoveTowards(Vector3 target)
         {
-            Vector3 originalPosition = transform.position;
-
-            Vector3 targetPosition = new Vector3(target.x, target.y, transform.position.z);
-
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * moveSpeed);
-
-            float distanceTravelled = Vector3.Distance(originalPosition, transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
 
             anim.Play("Walk");
 
             FaceTowardsTarget(target);
-
-            return distanceTravelled;
         }
 
         public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }

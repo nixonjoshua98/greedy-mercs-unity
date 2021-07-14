@@ -12,12 +12,12 @@ namespace GM.Units
     {
         float attackRange = 0.75f;
 
-        UnitMovement move;
+        Movement.UnitMovement move;
 
 
         void Start()
         {
-            move = GetComponent<UnitMovement>();
+            move = GetComponent<Movement.UnitMovement>();
         }
 
 

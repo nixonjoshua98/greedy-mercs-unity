@@ -17,5 +17,5 @@ app.include_router(bountyshop.router)
 if __name__ == '__main__':
     for route in app.router.routes:
         print(f": {route.path}")
-        
+
     uvicorn.run("run_server:app", host="0.0.0.0", port=2122)

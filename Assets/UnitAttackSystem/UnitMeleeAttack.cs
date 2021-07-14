@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GM.Units
 {
-    public class ATS_MercMeleeAttack : ATS_Attack
+    public class UnitMeleeAttack : AbstractUnitAttack
     {
         float attackRange = 0.75f;
 
@@ -51,12 +51,10 @@ namespace GM.Units
                         current         = targetPosition;
                         currentDistance = dist;
                     }
-
-                    Debug.DrawRay(transform.position, dir, Color.green);
                 }
             }
 
-            Debug.DrawLine(transform.position, current, Color.red);
+            Debug.DrawLine(transform.position, current, Color.green);
 
             return current;
         }

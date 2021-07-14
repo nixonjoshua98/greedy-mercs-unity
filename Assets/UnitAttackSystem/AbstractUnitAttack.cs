@@ -6,12 +6,12 @@ using UnityEngine;
 namespace GM.Units
 {
     using GM.Events;
-    public abstract class ATS_Attack : MonoBehaviour
+    public abstract class AbstractUnitAttack : MonoBehaviour
     {
         [Header("Components")]
         public Animator anim;
         [Space]
-        public ATS_Movement movement;
+        public UnitMovement movement;
 
         [Header("Animations")]
         public string attackAnimString = "Attacking";
@@ -24,7 +24,7 @@ namespace GM.Units
 
         GameObject currentTarget;
 
-        protected float attackCooldown = 1.25f;
+        protected float attackCooldown = 1.0f;
 
 
         private void Awake()
@@ -77,14 +77,6 @@ namespace GM.Units
         }
 
         // = = = ^
-
-        void MoveToIdle()
-        {
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
-            {
-
-            }
-        }
 
         bool IsAvailable()
         {

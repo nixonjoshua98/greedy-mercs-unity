@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GM.Units
 {
     using GM.Events;
-    public abstract class AbstractUnitAttack : MonoBehaviour
+    public abstract class UnitAttack : MonoBehaviour
     {
         [Header("Components")]
         public Animator anim;
@@ -14,7 +14,7 @@ namespace GM.Units
         public UnitMovement movement;
 
         [Header("Animations")]
-        public string attackAnimString = "Attacking";
+        public string attackAnimation = "Attacking";
 
         public GameObjectEvent E_OnAttackImpact;
 
@@ -92,7 +92,7 @@ namespace GM.Units
 
             movement.FaceTowards(target);
 
-            anim.Play(attackAnimString);
+            anim.Play(attackAnimation);
         }
 
 

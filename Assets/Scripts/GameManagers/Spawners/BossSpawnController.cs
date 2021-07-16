@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 namespace GM
 {
+    using GM.Data;
+    using GM.Bounty;
 
     public class BossSpawnController : MonoBehaviour
     {
@@ -25,20 +27,30 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            // Check if Boss is a bounty target
-            bool isBountyBoss = StaticData.Bounty.IsBountyBoss(state.currentStage, out var boss);
+            GameObject bossToSpawn;
 
-            // Grab the prefab for the target boss
-            GameObject bossToSpawn = isBountyBoss ? StaticData.Bounty.Get(boss.ID).EnemyPrefab : BossObjects[Random.Range(0, BossObjects.Length)];
+            bossTitleText.text = "BOSS";
 
-            // Update the title text
-            bossTitleText.text = isBountyBoss ? boss.Name.ToUpper() : "BOSS BATTLE";
+            if (GameData.Get().Bounties.GetStageBounty(state.currentStage, out BountyData result))
+            {
+                // Grab the prefab for the target boss
+                bossToSpawn = result.Prefab;
+
+                // Update the title text
+                bossTitleText.text = result.Name.ToUpper();
+            }
+
+            else
+            {
+                // Grab the prefab for the target boss
+                bossToSpawn = BossObjects[Random.Range(0, BossObjects.Length)];
+            }
 
             // Instantiate the boss enemy
             GameObject o = Spawn(bossToSpawn, SpawnPosition());
 
             // Listen to Events
-            o.GetComponent<AbstractHealthController>().E_OnDeath.AddListener(OnBossDeath);
+            o.GetComponent<HealthController>().E_OnDeath.AddListener(() => { OnBossDeath(o); });
 
             // Enable UI
             bossEntryAnimationObject.SetActive(true);

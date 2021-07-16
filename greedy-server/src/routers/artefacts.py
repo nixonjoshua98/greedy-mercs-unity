@@ -6,7 +6,7 @@ from src import svrdata
 from src.checks import user_or_raise
 from src.common import formulas, resources, mongo
 from src.routing import CustomRoute, ServerResponse
-from src.basemodels import UserIdentifier
+from src.models import UserIdentifier
 
 router = APIRouter(prefix="/api/artefact", route_class=CustomRoute)
 

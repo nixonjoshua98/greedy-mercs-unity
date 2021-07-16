@@ -101,9 +101,9 @@ namespace GM
                 foreach (GameObject o in spawnedEnemies)
                 {
                     // Grab components
-                    AbstractHealthController hp = o.GetComponent<AbstractHealthController>();
+                    HealthController hp = o.GetComponent<HealthController>();
 
-                    hp.E_OnDeath.AddListener(OnEnemyZeroHealth);
+                    hp.E_OnDeath.AddListener(() => { OnEnemyZeroHealth(o); });
                 }
             }
 
@@ -120,10 +120,10 @@ namespace GM
                 GameObject o = bossSpawner.Spawn();
 
                 // Grab components
-                AbstractHealthController hp = o.GetComponent<AbstractHealthController>();
+                HealthController hp = o.GetComponent<HealthController>();
 
                 // Events
-                hp.E_OnDeath.AddListener(OnBossZeroHealth);
+                hp.E_OnDeath.AddListener(() => { OnBossZeroHealth(o); });
 
                 // Setup
                 spawnedEnemies.Add(o);

@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5637605409151643758}
+  - component: {fileID: 962432613323236324}
   - component: {fileID: 6905948521193110798}
   - component: {fileID: 7600980639178808005}
-  - component: {fileID: -5285079800185571878}
   - component: {fileID: 2361071309377402826}
   m_Layer: 0
   m_Name: GoblinBoss
@@ -35,6 +35,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &962432613323236324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5637605409151643745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3789d6111a386a48bea792241503612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.1
+  anim: {fileID: 5723617685034668125}
+  health: {fileID: 6905948521193110798}
+  hurtAnimation: Hurt
+  deathAnimation: Dying
 --- !u!114 &6905948521193110798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +64,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9532bd5af22dace4cb8f6c4278b9a9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  E_OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   E_OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -62,19 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d0defddd3dbcf4fbaf02f593c57696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-5285079800185571878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5637605409151643745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ae660fc2863a404c87f57dd079cd16d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 5723617685034668125}
 --- !u!114 &2361071309377402826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +353,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayerID
       value: 945060131
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722234715259516547, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722234715259516547, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722234715259516547, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 962432613323236324}
+    - target: {fileID: 2722234715259516547, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722234715259516547, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeathAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722234715259516547, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GM.Units.EnemyUnitController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722234715259516547, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3143080377047432469, guid: 1578dbbf01f3e2242923e22c1af2c7b6,
         type: 3}

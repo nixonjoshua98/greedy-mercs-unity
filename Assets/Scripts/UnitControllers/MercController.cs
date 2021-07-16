@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GM.Units
 {
-    public class ATS_MercController : ExtendedMonoBehaviour
+    public class MercController : UnitController
     {
         [SerializeField] MercID ID;
 
@@ -15,7 +15,7 @@ namespace GM.Units
         [Space]
 
         public UnitMovement movement;
-        public AbstractUnitAttack attack;
+        public UnitAttack attack;
 
         GameObject currentFocusTarget;
 
@@ -64,7 +64,7 @@ namespace GM.Units
         protected override void PeriodicUpdate()
         {
             // Attempt to focus onto a new target
-            if (currentFocusTarget == null)
+            if (!IsValidTarget())
             {
                 currentFocusTarget = GetNewFocusTarget();
             }
@@ -74,7 +74,7 @@ namespace GM.Units
 
         void OnAttackImpact(GameObject target)
         {
-            if (target && target.TryGetComponent(out AbstractHealthController hp))
+            if (target && target.TryGetComponent(out HealthController hp))
             {
                 BigDouble dmg = StatsCache.TotalMercDamage(ID);
 
@@ -85,6 +85,11 @@ namespace GM.Units
         }
 
         // = = = ^
+
+        bool IsValidTarget()
+        {
+            return currentFocusTarget && currentFocusTarget.CompareTag("Enemy");
+        }
 
 
         GameObject GetNewFocusTarget()

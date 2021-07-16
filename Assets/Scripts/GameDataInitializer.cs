@@ -24,7 +24,6 @@ namespace GM
         void Awake()
         {
             UserData.CreateInstance();
-            GameData.CreateInstance();
 
             StaticData.AssignScriptables(SkillList);
         }
@@ -80,6 +79,8 @@ namespace GM
         void InstantiateServerData(JSONNode node)
         {
             StaticData.Restore(node);
+
+            GameData.CreateInstance(node);
         }
     }
 }

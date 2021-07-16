@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8012721505089177117}
+  - component: {fileID: -3032225355866051872}
   - component: {fileID: 4335732126892948791}
   - component: {fileID: 1758560970}
-  - component: {fileID: -1697175500980154090}
   - component: {fileID: 6826891269305875915}
   - component: {fileID: 2960933755698091061}
   m_Layer: 0
@@ -36,6 +36,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3032225355866051872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8012721505089177118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346fad81289c45746aeea59a4a24c037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.1
+  anim: {fileID: 7954260007006327644}
+  health: {fileID: 4335732126892948791}
 --- !u!114 &4335732126892948791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,19 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac71c9890eea7264da406c9d3ed6baed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1697175500980154090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8012721505089177118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ae660fc2863a404c87f57dd079cd16d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 7954260007006327644}
 --- !u!114 &6826891269305875915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +171,41 @@ PrefabInstance:
     - target: {fileID: 4219300658212064, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406980921464904188, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 406980921464904188, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 406980921464904188, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -3032225355866051872}
+    - target: {fileID: 406980921464904188, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 406980921464904188, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeathAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 406980921464904188, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GM.Units.EnemyUnitController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 406980921464904188, guid: 6d0265f627f732c4e8c257e2f4bd0ca0,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d0265f627f732c4e8c257e2f4bd0ca0, type: 3}

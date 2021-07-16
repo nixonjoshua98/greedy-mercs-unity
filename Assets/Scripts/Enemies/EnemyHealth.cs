@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    public class EnemyHealth : AbstractHealthController
+    public class EnemyHealth : HealthController
     {
         public override BigDouble GetIntialHealth()
         {

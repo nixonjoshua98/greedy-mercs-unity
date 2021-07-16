@@ -1,27 +1,13 @@
 {
   "maxUnclaimedHours": 0.01,
-
   "bounties": {
     "0": {
       "hourlyIncome": 100000,
-      "name": "Little Jimmy",
-      "prefabString": "Bounties/Prefabs/little_jimmy",
-      "iconString": "Bounties/Icons/little_jimmy",
       "unlockStage": 1
     },
     "1": {
       "hourlyIncome": 200000,
-      "name": "Block Head",
-      "prefabString": "Bounties/Prefabs/block_head",
-      "iconString": "Bounties/Icons/block_head",
       "unlockStage": 2
-    },
-    "2": {
-      "hourlyIncome": 300000,
-      "name": "Stealth Orc",
-      "prefabString": "Bounties/Prefabs/stealth_orc",
-      "iconString": "Bounties/Icons/stealth_orc",
-      "unlockStage": 3
     }
   }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.UI
 {
-    [RequireComponent(typeof(AbstractHealthController))]
+    [RequireComponent(typeof(HealthController))]
     public class HealthBarTarget : MonoBehaviour
     {
         [SerializeField] Slider HealthBarObject;
@@ -19,11 +19,11 @@ namespace GM.UI
         Slider slider;
 
         // - Components
-        AbstractHealthController health;
+        HealthController health;
 
         void Awake()
         {
-            health = GetComponent<AbstractHealthController>();
+            health = GetComponent<HealthController>();
         }
 
         void Start()

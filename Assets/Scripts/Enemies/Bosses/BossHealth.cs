@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    public class BossHealth : AbstractHealthController
+    public class BossHealth : HealthController
     {
         public override BigDouble GetIntialHealth()
         {

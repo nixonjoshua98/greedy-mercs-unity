@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8235730012151374155}
+  - component: {fileID: -7865839748009897881}
   - component: {fileID: 8235730012151374198}
   - component: {fileID: -5158873325266011346}
-  - component: {fileID: 7244708712823605664}
   - component: {fileID: 9120517010976280068}
   m_Layer: 0
   m_Name: OrcBoss
@@ -35,6 +35,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-7865839748009897881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235730012151374199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3789d6111a386a48bea792241503612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  periodicUpdateDelay: 0.1
+  anim: {fileID: 8293576919859700723}
+  health: {fileID: 8235730012151374198}
+  hurtAnimation: Hurt
+  deathAnimation: Dying
 --- !u!114 &8235730012151374198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +64,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9532bd5af22dace4cb8f6c4278b9a9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  E_OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   E_OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -62,19 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d0defddd3dbcf4fbaf02f593c57696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7244708712823605664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8235730012151374199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ae660fc2863a404c87f57dd079cd16d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 8293576919859700723}
 --- !u!114 &9120517010976280068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,14 +111,6 @@ PrefabInstance:
     - target: {fileID: 4236512666804958, guid: 09586fe188718df4f94dd29a764fab9b, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236512666804958, guid: 09586fe188718df4f94dd29a764fab9b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236512666804958, guid: 09586fe188718df4f94dd29a764fab9b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4236512666804958, guid: 09586fe188718df4f94dd29a764fab9b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -152,6 +151,41 @@ PrefabInstance:
     - target: {fileID: 4236512666804958, guid: 09586fe188718df4f94dd29a764fab9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 995980508367382922, guid: 09586fe188718df4f94dd29a764fab9b,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 995980508367382922, guid: 09586fe188718df4f94dd29a764fab9b,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 995980508367382922, guid: 09586fe188718df4f94dd29a764fab9b,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -7865839748009897881}
+    - target: {fileID: 995980508367382922, guid: 09586fe188718df4f94dd29a764fab9b,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 995980508367382922, guid: 09586fe188718df4f94dd29a764fab9b,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeathAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 995980508367382922, guid: 09586fe188718df4f94dd29a764fab9b,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GM.Units.EnemyUnitController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 995980508367382922, guid: 09586fe188718df4f94dd29a764fab9b,
+        type: 3}
+      propertyPath: E_OnDeathAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09586fe188718df4f94dd29a764fab9b, type: 3}

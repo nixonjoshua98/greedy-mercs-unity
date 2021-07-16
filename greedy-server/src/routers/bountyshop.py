@@ -4,11 +4,10 @@ import datetime as dt
 from fastapi import APIRouter, HTTPException
 
 from src.common import mongo
-
 from src.routing import CustomRoute, ServerResponse
-
+from src.svrdata import Armoury
 from src.checks import user_or_raise
-from src.basemodels import UserIdentifier
+from src.models import UserIdentifier
 
 from src import svrdata
 
@@ -45,7 +44,8 @@ def purchase_item(data: ItemData):
     svrdata.items.update_items(
         uid,
         inc={
-            "bountyPoints": -item.purchase_cost, item.get_db_key():  item.quantity_per_purchase
+            "bountyPoints": -item.purchase_cost,
+            item.get_db_key():  item.quantity_per_purchase
         }
     )
 
@@ -68,7 +68,11 @@ def purchase_armoury_item(data: ItemData):
     if (item := items.get(data.item_id)) is None or not _can_purchase_item(uid, item):
         raise HTTPException(400)
 
-    svrdata.armoury.update_one_item(uid, item.armoury_item_id, inc={"owned": item.quantity_per_purchase})
+    Armoury.update_one(
+        {"userId": uid, "itemId": data.item_id},
+        {"$inc": {"owned": item.quantity_per_purchase}},
+        upsert=True
+    )
 
     svrdata.items.update_items(uid, inc={"bountyPoints": -item.purchase_cost})
 
@@ -77,7 +81,7 @@ def purchase_armoury_item(data: ItemData):
     return ServerResponse(
         {
             "userItems":        svrdata.items.get_items(uid),
-            "userArmouryItems": svrdata.armoury.get_armoury(uid=uid),
+            "userArmouryItems": Armoury.find({"userId": uid}),
             "dailyPurchases":   svrdata.bountyshop.daily_purchases(uid)
         }
     )

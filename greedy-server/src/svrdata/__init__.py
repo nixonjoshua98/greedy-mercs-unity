@@ -1,4 +1,6 @@
-from . import armoury, bountyshop, items, artefacts, bounty
+from . import bountyshop, items, artefacts, bounty
+
+from . import armoury as Armoury
 
 import datetime as dt
 
@@ -22,6 +24,6 @@ def get_player_data(uid):
 
         "artefacts": artefacts.get_all_artefacts(uid, as_dict=True),
 
-        "armoury": armoury.get_armoury(uid),
+        "armoury": Armoury.find({"userId": uid}),
         "bounties": bounty.get_bounties(uid),
     }

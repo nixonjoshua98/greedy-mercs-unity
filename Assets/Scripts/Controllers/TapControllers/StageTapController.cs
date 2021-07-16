@@ -18,7 +18,7 @@ namespace GM
 
             GameObject target = enemyTargetter.GetTarget();
 
-            if (target && target.TryGetComponent(out AbstractHealthController hp))
+            if (target && target.TryGetComponent(out HealthController hp))
             {
                 BigDouble dmg = StatsCache.GetTapDamage();
 

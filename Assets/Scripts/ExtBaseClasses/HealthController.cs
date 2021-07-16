@@ -14,19 +14,20 @@ namespace GM
     }
 
 
-    public abstract class AbstractHealthController : MonoBehaviour, IHealthController
+    public abstract class HealthController : MonoBehaviour, IHealthController
     {
         public BigDouble MaxHealth { get; private set; }
 
         BigDouble currentHealth;
 
         // Events
-        [HideInInspector] public GameObjectEvent E_OnDeath;
+        [HideInInspector] public UnityEvent E_OnDeath;
         [HideInInspector] public UnityEvent E_OnDamageTaken;
 
         void Awake()
         {
-            E_OnDeath = new GameObjectEvent();
+            E_OnDeath       = new UnityEvent();
+            E_OnDamageTaken = new UnityEvent();
 
             MaxHealth = currentHealth = GetIntialHealth();
         }
@@ -39,14 +40,11 @@ namespace GM
             {
                 currentHealth -= amount;
 
+                E_OnDamageTaken.Invoke();
+
                 if (currentHealth <= 0.0f)
-                    E_OnDeath.Invoke(gameObject);
-
-                else
-                    E_OnDamageTaken.Invoke();
+                    E_OnDeath.Invoke();
             }
-
-            currentHealth = BigDouble.Max(0, currentHealth);
         }
 
         public float Percent()

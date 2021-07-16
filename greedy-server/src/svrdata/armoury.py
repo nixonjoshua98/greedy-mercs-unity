@@ -1,31 +1,29 @@
 
+from typing import Union
+
 from src.common import mongo
 
 
-def get_armoury(uid, *, iid=None):
-
-    if iid is None:
-        return list(mongo.db["userArmouryItems"].find({"userId": uid}))
-
-    return mongo.db["userArmouryItems"].find_one({"userId": uid, "itemId": iid})
-
-
-def update_one_item(uid, iid, inc, *, upsert: bool = True) -> bool:
-    """ Update a single armoury item document
-
-    Update a single document which shares the same owner and item identifier
-    and return whether a document was modified.
+def update_one(search: dict, update: dict, *, upsert: bool) -> bool:
+    """ Update one document
 
     Args:
-        uid (bson.ObjectId): Mongo User ID
-        iid (int/str): Item Id
-        inc (dict): The '$inc' section of the mongo query
+        search (dict): Search query
+        update (dict): Update query
         upsert (bool): Whether to upsert the document
 
-    Returns:
+    returns:
         bool: Whether a document was modified
     """
 
-    result = mongo.db["userArmouryItems"].update_one({"userId": uid, "itemId": iid}, {"$inc": inc}, upsert=upsert)
+    result = mongo.db["userArmouryItems"].update_one(search, update, upsert=upsert)
 
     return result.modified_count > 0
+
+
+def find(search) -> list[dict]:
+    return list(mongo.db["userArmouryItems"].find(search))
+
+
+def find_one(search) -> Union[dict, None]:
+    return mongo.db["userArmouryItems"].find_one(search)

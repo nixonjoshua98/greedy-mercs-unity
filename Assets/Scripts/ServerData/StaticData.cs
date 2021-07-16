@@ -3,7 +3,6 @@
 using SimpleJSON;
 
 
-    using GM.Bounty;
     using GM.Armoury;
    using GM.Artefacts;
    using GM.Units;
@@ -24,7 +23,6 @@ public static class StaticData
     public static SkillListSO SkillList;
 
     public static ServerMercData Mercs;
-    public static ServerBountyData Bounty;
     public static ServerArmouryData Armoury;
     public static ServerArtefactData Artefacts;
 
@@ -35,7 +33,6 @@ public static class StaticData
         SkillList.Init();
 
         Mercs = new ServerMercData(node["mercData"]);
-        Bounty = new ServerBountyData(node["bounties"]);
         Armoury = new ServerArmouryData(node["armouryItems"]);
         Artefacts = new ServerArtefactData(node["artefacts"]);
 

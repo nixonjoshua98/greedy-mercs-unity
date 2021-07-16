@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GM.Data
 {
-    [CreateAssetMenu(menuName = "Scriptables/MercDescription")]
+    [CreateAssetMenu(menuName = "Scriptables/LocalMercData")]
     public class LocalMercData : ScriptableObject
     {
         public MercID ID;

@@ -3,7 +3,7 @@ from src.common import mongo
 
 from fastapi import HTTPException
 
-from src.basemodels import UserIdentifier
+from src.models import UserIdentifier
 
 
 def user_or_raise(user: UserIdentifier):

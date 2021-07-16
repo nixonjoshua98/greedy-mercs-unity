@@ -8,6 +8,7 @@ namespace GM.Units
     public class CharacterAnimation : MonoBehaviour
     {
         public UnityEvent E_OnAttackAnimation;
+        public UnityEvent E_OnDeathAnimation;
 
         public void InvokeAttackEvent()
         {
@@ -20,5 +21,7 @@ namespace GM.Units
                 controller.OnAttackAnimationEvent();
             }
         }
+
+        public void InvokeDeathEvent() => E_OnDeathAnimation.Invoke();
     }
 }

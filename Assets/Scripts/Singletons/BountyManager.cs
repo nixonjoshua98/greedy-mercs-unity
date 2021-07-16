@@ -10,6 +10,8 @@ using SimpleJSON;
 
 namespace GM.Bounty
 {
+    using GM.Data;
+
     using GM.Inventory;
 
     public class BountyState
@@ -76,16 +78,18 @@ namespace GM.Bounty
             int unclaimed = 0;
             int hourlyIncome = 0;
 
+            GameBountyData bountyGameData = GameData.Get().Bounties;
+
             // Calculate the attributes we want for the snapshot
             foreach (BountyState state in StatesList)
             {
                 // Grab the static data for the struct
-                BountyDataStruct dataStruct = StaticData.Bounty.Get(state.ID);
+                BountyData dataStruct = bountyGameData.Get(state.ID);
 
                 // We cap the hours since claim to the value returned from the server
-                float hoursSinceClaim = Math.Min(StaticData.Bounty.MaxUnclaimedHours, (float)(DateTime.UtcNow - state.LastClaimTime).TotalHours);
+                float hoursSinceClaim = Math.Min(bountyGameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - state.LastClaimTime).TotalHours);
 
-                capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * StaticData.Bounty.MaxUnclaimedHours);
+                capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * bountyGameData.MaxUnclaimedHours);
                 unclaimed += Mathf.FloorToInt(dataStruct.HourlyIncome * hoursSinceClaim);
                 hourlyIncome += dataStruct.HourlyIncome;
             }
@@ -117,7 +121,7 @@ namespace GM.Bounty
                 int id = bounty["bountyId"].AsInt;
 
                 // Ignore 'disabled' bounties which are not in the server data
-                if (StaticData.Bounty.Contains(id))
+                if (GameData.Get().Bounties.Contains(id))
                 {
                     states[id] = new BountyState(id)
                     {

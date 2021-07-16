@@ -1,10 +1,10 @@
 
 from fastapi import APIRouter, HTTPException
 
-from src import svrdata
 from src.checks import user_or_raise
+from src.svrdata import Armoury
 from src.routing import CustomRoute, ServerResponse
-from src.basemodels import UserIdentifier
+from src.models import UserIdentifier
 
 router = APIRouter(prefix="/api/armoury", route_class=CustomRoute)
 
@@ -18,21 +18,23 @@ class ItemPurchaseModel(UserIdentifier):
 def upgrade(data: ItemPurchaseModel):
     uid = user_or_raise(data)
 
-    doc_changed = svrdata.armoury.update_one_item(uid, data.item_id, inc={"level": 1}, upsert=False)
+    modified = Armoury.update_one({"userId": uid, "itemId": data.item_id}, {"$inc": {"level": 1}}, upsert=False)
 
-    if not doc_changed:  # Return an error if a document was not modified
+    # Return an error if a document was not modified
+    if not modified:
         raise HTTPException(400)
 
-    return ServerResponse({"userArmouryItems": svrdata.armoury.get_armoury(uid)})
+    return ServerResponse({"userArmouryItems": Armoury.find({"userId": uid})})
 
 
 @router.post("/evolve")
 def evolve(data: ItemPurchaseModel):
     uid = user_or_raise(data)
 
-    doc_changed = svrdata.armoury.update_one_item(uid, data.item_id, inc={"evoLevel": 1}, upsert=False)
+    modified = Armoury.update_one({"userId": uid, "itemId": data.item_id}, {"$inc": {"evoLevel": 1}}, upsert=False)
 
-    if not doc_changed:  # Return an error if a document was not modified
+    # Return an error if a document was not modified
+    if not modified:
         raise HTTPException(400)
 
-    return ServerResponse({"userArmouryItems": svrdata.armoury.get_armoury(uid)})
+    return ServerResponse({"userArmouryItems": Armoury.find({"userId": uid})})

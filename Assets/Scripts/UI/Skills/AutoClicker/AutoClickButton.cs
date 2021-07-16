@@ -5,14 +5,10 @@ using UnityEngine.UI;
 
 namespace GM.Skills.UI
 {
-    using GM.Targetting;
-
     public class AutoClickButton : SkillButton
     {
         [Header("Components")]
         [SerializeField] Button ActivateButton;
-
-        [SerializeField] FriendlyTargetter targetter;
 
         void Awake()
         {
@@ -34,7 +30,7 @@ namespace GM.Skills.UI
             {
                 float seconds = Mathf.Min(1, (Time.timeSinceLevelLoad - lastTap) / 0.1f);
 
-                GameObject target = targetter.GetTarget();
+                GameObject target = GetNewFocusTarget();
 
                 if (target && target.TryGetComponent(out HealthController hp))
                 {
@@ -49,6 +45,16 @@ namespace GM.Skills.UI
             }
 
             ActivateButton.interactable = true;
+        }
+
+        GameObject GetNewFocusTarget()
+        {
+            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
+
+            if (targets.Length == 0)
+                return null;
+
+            return targets[Random.Range(0, targets.Length)];
         }
     }
 }

@@ -15,8 +15,7 @@ namespace GM.Data
         public MercDataContainer Mercs;
         public GameBountyData Bounties;
 
-
-        public GameData(JSONNode node)
+        GameData(JSONNode node)
         {
             Mercs       = new MercDataContainer();
             Bounties    = new GameBountyData(node["bounties"]);

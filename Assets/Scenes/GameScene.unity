@@ -1897,7 +1897,6 @@ GameObject:
   - component: {fileID: 284735158}
   - component: {fileID: 284735156}
   - component: {fileID: 284735157}
-  - component: {fileID: 284735159}
   m_Layer: 5
   m_Name: Tap Area
   m_TagString: Untagged
@@ -1970,7 +1969,6 @@ MonoBehaviour:
   _cam: {fileID: 0}
   ps: {fileID: 1323535497}
   maxClicksPerSecond: 20
-  enemyTargetter: {fileID: 284735159}
 --- !u!222 &284735158
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1979,19 +1977,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284735154}
   m_CullTransparentMesh: 0
---- !u!114 &284735159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284735154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27e8eddef3c4ad549960ea4f60a1cf71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPriority: 2
 --- !u!1 &292464293
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ from pydantic import BaseModel
 from src import svrdata
 from src.common import mongo, resources
 from src.routing import CustomRoute, ServerResponse
-from src.classes.gamedata import GameData
 
 router = APIRouter(prefix="/api", route_class=CustomRoute)
 
@@ -17,7 +16,7 @@ class UserLoginData(BaseModel):
 @router.get("/gamedata")
 def get_game_data():
 
-    data = {
+    return {
         "mercResources":    resources.get_mercs(),
         "armouryResources": resources.get("armouryitems"),
 
@@ -25,10 +24,6 @@ def get_game_data():
         "bounties": resources.get("bounties"),
         "nextDailyReset": svrdata.next_daily_reset()
     }
-
-    data.update(GameData.data)
-
-    return data
 
 
 @router.post("/login")

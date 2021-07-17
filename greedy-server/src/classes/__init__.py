@@ -1,2 +1,0 @@
-
-from .gamedata import GameData

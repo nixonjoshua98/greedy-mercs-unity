@@ -128,7 +128,7 @@ namespace GM.BountyShop
         {
             JSONNode node = new JSONObject();
 
-            node["shop_item"] = itemId;
+            node["shopItem"] = itemId;
 
             return node;
         }

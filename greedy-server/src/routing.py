@@ -13,7 +13,6 @@ from fastapi.encoders import jsonable_encoder
 
 
 def camel_to_snake(data: dict) -> dict:
-
     regex_pattern = re.compile(r'(?<!^)(?=[A-Z])')
 
     new_dict = dict()
@@ -28,9 +27,7 @@ def camel_to_snake(data: dict) -> dict:
 
 class ServerResponse(Response):
     def __init__(self, content, *args, **kwargs):
-        content = json.dumps(content, default=self.default)
-
-        super(ServerResponse, self).__init__(content, *args, **kwargs)
+        super(ServerResponse, self).__init__(json.dumps(content, default=self.default), *args, **kwargs)
 
     @staticmethod
     def default(o):

@@ -142,19 +142,9 @@ namespace GM
             BigDouble val = BaseMercDamage(merc);
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(data.AttackType);
+            val *= MultiplyAllSources(data.Attack.ToBonusType());
 
             return val;
-        }
-
-        public static BigDouble TotalMercDamage()
-        {
-            BigDouble total = 0;
-
-            foreach (MercID chara in MercenaryManager.Instance.Unlocked)
-                total += TotalMercDamage(chara);
-
-            return total;
         }
 
         public static BigInteger GetPrestigePoints(int stage)
@@ -213,25 +203,6 @@ namespace GM
 
             foreach (KeyValuePair<BonusType, double> pair in ls)
             {
-                if (pair.Key == type)
-                {
-                    val *= pair.Value;
-                }
-            }
-
-            return val;
-        }
-
-        static double MultiplySource(BonusType type, List<KeyValuePair<BonusType, double>> ls, string name)
-        {
-            double val = 1;
-
-            Debug.Log(name);
-
-            foreach (KeyValuePair<BonusType, double> pair in ls)
-            {
-                Debug.Log(pair.Key + " " + pair.Value);
-
                 if (pair.Key == type)
                 {
                     val *= pair.Value;

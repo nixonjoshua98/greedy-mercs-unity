@@ -3,11 +3,11 @@ public enum BonusType
 {
     NONE = -1,
 
-    // Energy Income (Per Minute)
+    // Energy Capacity
     FLAT_ENERGY_CAPACITY = 100,
     PERCENT_ENERGY_CAPACITY = 101,
 
-    // Energy Capacity
+    // Energy Income (Per Minute)
     FLAT_ENERGY_INCOME = 200,
     PERCENT_ENERGY_INCOME = 201,
 

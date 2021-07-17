@@ -22,12 +22,12 @@ namespace GM
 
         // Events
         [HideInInspector] public UnityEvent E_OnDeath;
-        [HideInInspector] public UnityEvent E_OnDamageTaken;
+        [HideInInspector] public BigDoubleEvent E_OnDamageTaken;
 
         void Awake()
         {
             E_OnDeath       = new UnityEvent();
-            E_OnDamageTaken = new UnityEvent();
+            E_OnDamageTaken = new BigDoubleEvent();
 
             MaxHealth = currentHealth = GetIntialHealth();
         }
@@ -40,7 +40,7 @@ namespace GM
             {
                 currentHealth -= amount;
 
-                E_OnDamageTaken.Invoke();
+                E_OnDamageTaken.Invoke(amount);
 
                 if (currentHealth <= 0.0f)
                     E_OnDeath.Invoke();

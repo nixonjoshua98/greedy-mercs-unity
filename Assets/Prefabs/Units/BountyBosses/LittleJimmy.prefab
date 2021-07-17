@@ -66,9 +66,6 @@ MonoBehaviour:
   E_OnDeath:
     m_PersistentCalls:
       m_Calls: []
-  E_OnDamageTaken:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7600980639178808005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +179,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4950480674301596, guid: 1578dbbf01f3e2242923e22c1af2c7b6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4950480674301596, guid: 1578dbbf01f3e2242923e22c1af2c7b6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 9.3
       objectReference: {fileID: 0}
     - target: {fileID: 4950480674301596, guid: 1578dbbf01f3e2242923e22c1af2c7b6, type: 3}
       propertyPath: m_LocalPosition.x

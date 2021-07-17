@@ -7,6 +7,13 @@ using SimpleJSON;
 
 namespace GM.Data
 {
+    public enum AttackType
+    {
+        MELEE = 0,
+        RANGED = 1
+    }
+
+
     public struct MercPassiveData
     {
         public BonusType Type;
@@ -20,7 +27,7 @@ namespace GM.Data
     public struct MercData
     {
         public MercID Id;
-        public BonusType AttackType;
+        public AttackType Attack;
 
         public string Name;
 
@@ -56,7 +63,7 @@ namespace GM.Data
                     Icon=desc.Icon,
                     Prefab=desc.Prefab,
 
-                    AttackType = (BonusType)current["attackType"].AsInt,
+                    Attack = (AttackType)current["attackType"].AsInt,
                     BaseDamage = current["baseDamage"].AsDouble,
                     UnlockCost = current["unlockCost"].AsDouble,
 

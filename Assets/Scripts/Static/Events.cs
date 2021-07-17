@@ -4,6 +4,9 @@ using UnityEngine.Events;
 
 namespace GM.Events
 {
+    public class BigDoubleEvent : UnityEvent<BigDouble> { }
+
+
     [System.Serializable]
     public class IntegerEvent : UnityEvent<int> { }
 

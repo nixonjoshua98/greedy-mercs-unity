@@ -12,18 +12,14 @@ public static class FormatString
     public static string Number(BigDouble val, string prefix = "")
     {
         if (BigDouble.Abs(val) < 1) // Value is less than 1.0 so we just return it rounded
-        {
             return string.Format("{0}{1}", val.ToString("F2"), prefix);
-        }
 
         int n = (int)BigDouble.Log(val, 1000);
 
         BigDouble m = val / BigDouble.Pow(1000.0f, n);
 
         if (n < units.Count) // Value is within the stored units
-        {
             return string.Format("{0}{1}{2}", m.ToString("F2"), units[n], prefix);
-        }
 
         string toStringResult = val.ToString("E2").Replace("+", "").Replace("E", "e");
 
@@ -60,6 +56,6 @@ public static class FormatString
         long mins = seconds / 60;
         seconds -= (60 * mins);
 
-        return string.Format("{0}:{1}:{2}", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
+        return string.Format("{0}h {1}m {2}s", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
     }
 }

@@ -9,6 +9,34 @@ using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
+
+namespace GM
+{
+    using GM.Data;
+
+    public static class Enum_Extensions
+    {
+        public static BonusType ToBonusType(this AttackType val)
+        {
+            switch (val)
+            {
+                case AttackType.MELEE:
+                    return BonusType.MELEE_DAMAGE;
+
+                case AttackType.RANGED:
+                    return BonusType.RANGED_DAMAGE;
+
+                default:
+                    Debug.LogError($"Invalid AttackType - Defaulting to Melee.");
+
+                    return BonusType.MELEE_DAMAGE;
+            }
+        }
+    }
+}
+
+
+
 public static class DictionaryExtensions
 {
     public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)

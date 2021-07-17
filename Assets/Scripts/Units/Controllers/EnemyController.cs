@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace GM.Units
 {
+    using GM.UI;
+
     public class EnemyController : UnitController
     {
         [SerializeField] Animator anim;
@@ -37,9 +39,11 @@ namespace GM.Units
         }
 
 
-        public void OnDamageTaken()
+        public void OnDamageTaken(BigDouble damageTaken)
         {
             anim.Play(hurtAnimation);
+
+            DamagePopup.Create(transform.position, FormatString.Number(damageTaken), worldPosition: true);
         }
 
 

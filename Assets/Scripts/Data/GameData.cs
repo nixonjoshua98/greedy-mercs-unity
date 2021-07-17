@@ -12,12 +12,12 @@ namespace GM.Data
     {
         static GameData Instance = null;
 
-        public MercDataContainer Mercs;
+        public GameMercData Mercs;
         public GameBountyData Bounties;
 
         GameData(JSONNode node)
         {
-            Mercs       = new MercDataContainer();
+            Mercs       = new GameMercData(node["mercResources"]);
             Bounties    = new GameBountyData(node["bounties"]);
         }
 

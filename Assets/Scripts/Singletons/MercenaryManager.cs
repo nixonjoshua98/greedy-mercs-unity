@@ -6,17 +6,19 @@ using UnityEngine;
 
 namespace GM.Units
 {
+    using GM.Data;
+
     using StatsCache = GM.StatsCache;
     using Formulas = GM.Formulas;
 
     public class MercState
     {
-        public MercID ID;
+        public MercID Id;
 
         public int Level;
         public MercPassiveData[] UnlockedPassives { get { return _svrData.Passives.Where(passive => Level >= passive.UnlockLevel).ToArray(); } }
 
-        MercData _svrData { get { return StaticData.Mercs.GetMerc(ID); } }  // Quick, dirty reference
+        MercData _svrData { get { return GameData.Get().Mercs.Get(Id); } }  // Quick, dirty reference
 
 
         public BigDouble CostToUpgrade(int levels)
@@ -26,7 +28,7 @@ namespace GM.Units
 
         public BigDouble TotalDamage()
         {
-            return StatsCache.TotalMercDamage(ID);
+            return StatsCache.TotalMercDamage(Id);
         }
 
     }
@@ -83,7 +85,7 @@ namespace GM.Units
         // = = = Set Methods = = = //
         public void SetState(MercID chara)
         {
-            states[chara] = new MercState() { ID = chara, Level = 1 };
+            states[chara] = new MercState() { Id = chara, Level = 1 };
         }
 
         public void SetState(MercID chara, MercState state)

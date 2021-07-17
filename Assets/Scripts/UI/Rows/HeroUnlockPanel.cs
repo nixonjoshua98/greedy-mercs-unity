@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace GM
 {
+    using GM.Data;
     using GM.Units;
     using GM.Events;
 
@@ -21,7 +22,7 @@ namespace GM
 
             if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = StaticData.Mercs.GetMerc(chara);
+                MercData mercData = GameData.Get().Mercs.Get(chara);
 
                 CostText.text = FormatString.Number(mercData.UnlockCost);
             }
@@ -33,7 +34,7 @@ namespace GM
         {
             if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = StaticData.Mercs.GetMerc(chara);
+                MercData mercData = GameData.Get().Mercs.Get(chara);
 
                 if (GameState.Player.gold >= mercData.UnlockCost)
                 {

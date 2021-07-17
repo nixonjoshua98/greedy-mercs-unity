@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Data;
     using GM.Armoury;
     using GM.Units;
     
@@ -46,34 +47,6 @@ namespace GM
             return EnemyHealth(stage) * (stage % 5 == 0 ? 5.5f : 3.5f);
         }
 
-        public static class Armoury
-        {
-            public static double WeaponDamage(int index)
-            {
-                ArmouryItemState state = UserData.Get().Armoury.GetItem(index);
-
-                return WeaponDamage(index, state.level, state.evoLevel);
-            }
-
-            public static double WeaponDamage(int index, int level)
-            {
-                ArmouryItemState state = UserData.Get().Armoury.GetItem(index);
-
-                return WeaponDamage(index, level, state.evoLevel);
-            }
-
-            public static double WeaponDamage(int index, int level, int evoLevel)
-            {
-                ArmouryItemData itemData = StaticData.Armoury.Get(index);
-
-                double val = (evoLevel + 1) * ((itemData.BaseDamageMultiplier) - 1) * level;
-
-                val += 1;
-
-                return val > 1 ? val : 0;
-            }
-        }
-
         // =====
 
         public static BigDouble CalcEnemyGold(int stage)
@@ -86,13 +59,13 @@ namespace GM
             return CalcEnemyGold(stage) * 7.3f;
         }
 
-        public static int AffordCharacterLevels(MercID chara)
+        public static int AffordCharacterLevels(MercID merc)
         {
-            MercState state = MercenaryManager.Instance.GetState(chara);
+            MercState state = MercenaryManager.Instance.GetState(merc);
 
-            MercData data = StaticData.Mercs.GetMerc(chara);
+            MercData data = GameData.Get().Mercs.Get(merc);
 
-            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)chara / 1000.0), state.Level);
+            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
 
             return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
         }

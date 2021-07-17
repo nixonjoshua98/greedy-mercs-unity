@@ -161,7 +161,7 @@ namespace GM.Armoury
                 ArmouryItemState state = GetItem(w.Key);
 
                 if (state.level > 0)
-                    val += Formulas.Armoury.WeaponDamage(w.Key);
+                    val += WeaponDamage(w.Key);
             }
 
             return val;

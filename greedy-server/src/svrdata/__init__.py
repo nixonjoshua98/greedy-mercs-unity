@@ -1,5 +1,6 @@
 from . import bountyshop, items, artefacts, bounty
 
+# Pretend it is a class
 from . import armoury as Armoury
 
 import datetime as dt

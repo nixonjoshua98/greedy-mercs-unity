@@ -1,5 +1,5 @@
 {
-  "maxUnclaimedHours": 0.01,
+  "maxUnclaimedHours": 1,
   "bounties": {
     "0": {
       "hourlyIncome": 100000,

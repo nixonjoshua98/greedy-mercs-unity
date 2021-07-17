@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 namespace GM.Units
 {
+    using GM.Data;
+
     public class CharacterPassiveRow : MonoBehaviour
     {
         public Text UnlockText;

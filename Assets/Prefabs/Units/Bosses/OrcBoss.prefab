@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: -7865839748009897881}
   - component: {fileID: 8235730012151374198}
   - component: {fileID: -5158873325266011346}
-  - component: {fileID: 9120517010976280068}
   m_Layer: 0
   m_Name: OrcBoss
   m_TagString: Enemy
@@ -82,21 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d0defddd3dbcf4fbaf02f593c57696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9120517010976280068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8235730012151374199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09723dc7bbb119249ae7848333508739, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthBarObject: {fileID: 5294143185684844642, guid: 0f142208660cd584db26f1ea18246edd,
-    type: 3}
-  _TargetTransform: {fileID: 0}
 --- !u!1001 &8235730012807945751
 PrefabInstance:
   m_ObjectHideFlags: 0

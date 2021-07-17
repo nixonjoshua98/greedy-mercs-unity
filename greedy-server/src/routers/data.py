@@ -18,11 +18,12 @@ class UserLoginData(BaseModel):
 def get_game_data():
 
     data = {
-        "mercData": resources.get_mercs(),
+        "mercResources": resources.get_mercs(),
         "artefacts": resources.get("artefacts"),
         "bounties": resources.get("bounties"),
         "armouryItems": resources.get("armouryitems"),
-        "nextDailyReset": svrdata.next_daily_reset()}
+        "nextDailyReset": svrdata.next_daily_reset()
+    }
 
     data.update(GameData.data)
 

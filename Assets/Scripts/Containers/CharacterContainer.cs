@@ -8,6 +8,8 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Data;
+
     using GM.Units;
     public class CharacterContainer
     {
@@ -31,11 +33,12 @@ namespace GM
         {
             BigDouble val = 0;
 
-            foreach (MercID hero in Enum.GetValues(typeof(MercID)))
+            foreach (MercID merc in Enum.GetValues(typeof(MercID)))
             {
-                if (GameState.Characters.TryGetState(hero, out var state))
+                if (GameState.Characters.TryGetState(merc, out var state))
                 {
-                    MercData data = StaticData.Mercs.GetMerc(hero);
+
+                    MercData data = GameData.Get().Mercs.Get(merc);
 
                     foreach (MercPassiveData passive in data.Passives)
                     {
@@ -43,7 +46,7 @@ namespace GM
                         {
                             if (passive.Type == BonusType.CHAR_TAP_DAMAGE_ADD)
                             {
-                                val += passive.Value * StatsCache.TotalMercDamage(hero);
+                                val += passive.Value * StatsCache.TotalMercDamage(merc);
                             }
                         }
                     }

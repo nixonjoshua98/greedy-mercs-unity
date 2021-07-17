@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace GM
 {
-    using GM.Armoury;
+    using GM.Data;
     using GM.Artefacts;
     using GM.Units;
 
@@ -125,21 +125,21 @@ namespace GM
         }
 
         // = = = Mercs = = = //
-        public static BigDouble BaseMercDamage(MercID chara)
+        public static BigDouble BaseMercDamage(MercID merc)
         {
-            MercState state = MercenaryManager.Instance.GetState(chara);
-            MercData data   = StaticData.Mercs.GetMerc(chara);
+            MercState state = MercenaryManager.Instance.GetState(merc);
+            MercData data = GameData.Get().Mercs.Get(merc);
 
             BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
 
             return Formulas.MercBaseDamage(baseDamage, state.Level);
         }
 
-        public static BigDouble TotalMercDamage(MercID chara)
+        public static BigDouble TotalMercDamage(MercID merc)
         {
-            MercData data = StaticData.Mercs.GetMerc(chara);
+            MercData data = GameData.Get().Mercs.Get(merc);
 
-            BigDouble val = BaseMercDamage(chara);
+            BigDouble val = BaseMercDamage(merc);
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
             val *= MultiplyAllSources(data.AttackType);

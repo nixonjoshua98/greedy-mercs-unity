@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Data;
+
     using GM.Units;
 
     public class CharacterPassivesPanel : MonoBehaviour
@@ -20,10 +22,10 @@ namespace GM
             StartCoroutine(Create(chara));
         }
 
-        IEnumerator Create(MercID chara)
+        IEnumerator Create(MercID merc)
         {
-            MercData data   = StaticData.Mercs.GetMerc(chara);
-            MercState state = MercenaryManager.Instance.GetState(chara);
+            MercData data = GameData.Get().Mercs.Get(merc);
+            MercState state = MercenaryManager.Instance.GetState(merc);
 
             foreach (MercPassiveData passive in data.Passives)
             {

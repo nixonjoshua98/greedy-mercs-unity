@@ -5811,6 +5811,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyObjects:
   - {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4, type: 3}
+  - {fileID: 4921165014578054583, guid: 3d6b020e0ed38b547a644b7e6d96ac2a, type: 3}
+  - {fileID: 8012721505089177118, guid: 0b3bb586c31f11b4492359a26c37cbaf, type: 3}
   unitFormation: {fileID: 11400000, guid: a04007c063df68a4fab9252f13f3bd1d, type: 2}
 --- !u!114 &857823502
 MonoBehaviour:

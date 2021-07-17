@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: 7_Sword_02
   m_EditorClassIdentifier: 
   Id: 7
+  Name: Broken Sword
   Icon: {fileID: 21300000, guid: 171a243266e03a94eb0d9b04a48614b0, type: 3}

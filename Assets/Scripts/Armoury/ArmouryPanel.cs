@@ -23,12 +23,12 @@ namespace GM.Armoury.UI
         [SerializeField] GameObject ItemPopupObject;
 
         // ===
-        Dictionary<int, ArmouryItem> itemObjects;
+        Dictionary<int, ArmouryItemSlot> itemObjects;
 
 
         void Awake()
         {
-            itemObjects = new Dictionary<int, ArmouryItem>();
+            itemObjects = new Dictionary<int, ArmouryItemSlot>();
         }
 
         void OnEnable()
@@ -42,17 +42,19 @@ namespace GM.Armoury.UI
             }
         }
 
+
         void FixedUpdate()
         {
             weaponPointText.text = InventoryManager.Instance.ArmouryPoints.ToString();
             damageBonusText.text = string.Format("{0}% Mercenary Damage", FormatString.Number(StatsCache.ArmouryMercDamageMultiplier * 100));
         }
 
+
         void InstantiateItem(ArmouryItemState state)
         {
-            Data.ArmouryItemData data = GameData.Get().Armoury.Get(state.ID);
+            ArmouryItemData data = GameData.Get().Armoury.Get(state.ID);
 
-            ArmouryItem item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItem>();
+            ArmouryItemSlot item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItemSlot>();
 
             item.Init(state.ID);
             

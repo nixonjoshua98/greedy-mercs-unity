@@ -9,11 +9,11 @@ namespace GM.Armoury.UI
 
     using GM.UI;
 
-    public class ArmouryItem : MonoBehaviour
+    public class ArmouryItemSlot : MonoBehaviour
     {
         [Header("Components")]
+        [SerializeField] Text nameText;
         [SerializeField] Image itemImage;
-        [Space]
         [SerializeField] Button button;
 
         [Header("References")]
@@ -24,14 +24,14 @@ namespace GM.Armoury.UI
             ArmouryItemData data = GameData.Get().Armoury.Get(itemId);
 
             itemImage.sprite = data.Icon;
+            nameText.text = data.Name;
 
             stars.Show(data.Tier);
         }
 
+
         public void SetButtonCallback(UnityAction e)
         {
-            button.onClick.RemoveAllListeners();
-
             button.onClick.AddListener(e);
         }
     }

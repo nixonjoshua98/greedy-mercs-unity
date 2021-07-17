@@ -25,20 +25,13 @@ namespace GM.UI
         public static GameObject Create(Vector2 position, string value, bool worldPosition)
         {
             if (worldPosition)
-                position = WorldToScreen(position);
+                position = Camera.main.WorldToScreenPoint(position);
 
             GameObject o = CanvasUtils.Instantiate(PopupObject, position);
 
             o.GetComponent<DamagePopup>().Setup(value);
 
             return o;
-        }
-
-        static Vector2 WorldToScreen(Vector2 pos)
-        {
-            Vector3 temp = Camera.main.WorldToScreenPoint(pos);
-
-            return new Vector2(temp.x, temp.y);
         }
         #endregion
 
@@ -66,7 +59,7 @@ namespace GM.UI
 
         void Update()
         {
-            transform.position += new Vector3(0, 50.0f) * Time.deltaTime;
+            transform.position += new Vector3(25, 75) * Time.deltaTime;
 
             lifetime -= Time.deltaTime;
 

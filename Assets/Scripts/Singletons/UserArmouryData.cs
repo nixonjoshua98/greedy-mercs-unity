@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 
 using System.Collections.Generic;
 
@@ -68,18 +69,7 @@ namespace GM.Armoury
 
         // = = = GET = = =
 
-        public List<ArmouryItemState> OwnedItems()
-        {
-            List<ArmouryItemState> ls = new List<ArmouryItemState>();
-
-            foreach (ArmouryItemState state in states.Values)
-            {
-                if (state.owned > 0)
-                    ls.Add(state);
-            }
-
-            return ls;
-        }
+        public List<ArmouryItemState> OwnedItems() => states.Values.Where(ele => ele.owned > 0).OrderBy(ele => ele.ID).ToList();
 
         public ArmouryItemState GetItem(int itemId)
         {

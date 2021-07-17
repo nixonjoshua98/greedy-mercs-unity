@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 8_DemonKnight
   m_EditorClassIdentifier: 
   ID: 8
-  Name: <Missing Name>
+  Name: Demon Knight
   Prefab: {fileID: 7015768926983395933, guid: 5cc99374617b03f4c8041e4d46fb4144, type: 3}
   Icon: {fileID: 21300000, guid: 3ddf3627972893b4ca4799a30a2209c1, type: 3}

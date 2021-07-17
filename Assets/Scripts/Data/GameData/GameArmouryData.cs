@@ -13,6 +13,8 @@ namespace GM.Data
 
         public int Tier;
 
+        public string Name;
+
         public float BaseDamageMultiplier;
 
         public Sprite Icon;
@@ -34,7 +36,7 @@ namespace GM.Data
                     items[ele.Id] = new ArmouryItemData()
                     {
                         Id = ele.Id,
-
+                        Name = ele.Name,
                         Icon = ele.Icon,
 
                         Tier = svrItemData["itemTier"].AsInt,

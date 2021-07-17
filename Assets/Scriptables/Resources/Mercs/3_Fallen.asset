@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 3_Fallen
   m_EditorClassIdentifier: 
   ID: 3
-  Name: <Missing Name>
+  Name: Fallen
   Prefab: {fileID: 4044917154262169182, guid: 3f92fb98b45d54a498005a527d7f0852, type: 3}
   Icon: {fileID: 21300000, guid: 8981acd73b083464fb81f5cfc3f35073, type: 3}

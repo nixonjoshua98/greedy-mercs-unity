@@ -32,7 +32,7 @@
     "baseDamageMultiplier": 1.25
   },
   "8": {
-    "itemTier": 2,
-    "baseDamageMultiplier": 1.25
+    "itemTier": 3,
+    "baseDamageMultiplier": 1.5
   }
 }

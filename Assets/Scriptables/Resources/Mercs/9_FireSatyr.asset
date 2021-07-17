@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 9_FireSatyr
   m_EditorClassIdentifier: 
   ID: 9
-  Name: <Missing Name>
+  Name: Satyr
   Prefab: {fileID: 5097099789489235668, guid: 53919c009bfaf934da524f433d75d1df, type: 3}
   Icon: {fileID: 21300000, guid: 37a60f98c5f525f40ac9ddacf9388f47, type: 3}

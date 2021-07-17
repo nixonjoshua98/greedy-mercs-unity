@@ -13,6 +13,8 @@ namespace GM.Data
 
         [Space]
 
+        public string Name = "<Missing Name>";
+
         public Sprite Icon;
     }
 }

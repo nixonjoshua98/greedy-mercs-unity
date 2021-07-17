@@ -34,7 +34,7 @@ namespace GM.Armoury.UI
         {
             _itemId = itemId;
 
-            Data.ArmouryItemData data = GetData();
+            ArmouryItemData data = GameData.Get().Armoury.Get(_itemId);
 
             colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
 
@@ -70,9 +70,6 @@ namespace GM.Armoury.UI
             evolveSlider.maxValue   = 5;
             evolveSlider.value      = state.owned;
         }
-
-
-        Data.ArmouryItemData GetData() => GameData.Get().Armoury.Get(_itemId);
 
 
         // = = = Button Callbacks = = = //

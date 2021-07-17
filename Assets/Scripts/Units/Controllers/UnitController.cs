@@ -13,7 +13,7 @@ namespace GM.Units
     }
 
 
-    public abstract class UnitController : ExtendedMonoBehaviour, IUnitController
+    public abstract class UnitController : MonoBehaviour, IUnitController
     {
 
         protected void FadeOut(float duration, UnityAction action)

@@ -24,10 +24,10 @@ namespace GM.Units
 
         GameObject currentTarget;
 
-        protected float attackCooldown = 1.0f;
+        protected float attackCooldown = 0.75f;
 
 
-        private void Awake()
+        void Awake()
         {
             E_OnAttackImpact = new GameObjectEvent();
         }

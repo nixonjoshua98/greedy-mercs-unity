@@ -31,7 +31,22 @@ public enum BonusType
     BOSS_TIMER_DURATION = 18,
 }
 
-public enum MercID { ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE }
+public enum MercID
+{ 
+    NONE = -1,
+
+    STONE_GOLEM, 
+    REAPER_MAN, 
+    WRAITH, 
+    FALLEN, 
+    SKELETON_ARCHER, 
+    MINOTAUR, 
+    FIRE_GOLEM, 
+    NECROMANCER, 
+    DEMON_KNIGHT, 
+    FIRE_SATYR 
+}
+
 
 public enum GoldUpgradeID
 {

@@ -24,7 +24,7 @@ namespace GM.Data
     }
 
 
-    public struct MercData
+    public class MercData
     {
         public MercID Id;
         public AttackType Attack;
@@ -36,8 +36,43 @@ namespace GM.Data
 
         public MercPassiveData[] Passives;
 
-        public GameObject Prefab;
         public Sprite Icon;
+
+        public GameObject Prefab;
+
+        public MercData(LocalMercData local, JSONNode node)
+        {
+            Id      = local.ID;
+            Name    = local.Name;
+            Icon    = local.Icon;
+            Prefab  = local.Prefab;
+
+            Attack      = (AttackType)node["attackType"].AsInt;
+            BaseDamage  = node["baseDamage"].AsDouble;
+            UnlockCost  = node["unlockCost"].AsDouble;
+
+            Passives = ParsePassives(node["passives"].AsArray);
+        }
+
+
+       static MercPassiveData[] ParsePassives(JSONArray arr)
+        {
+            List<MercPassiveData> passives = new List<MercPassiveData>();
+
+            foreach (JSONNode ele in arr)
+            {
+                MercPassiveData data = new MercPassiveData()
+                {
+                    Type        = (BonusType)ele["bonusType"].AsInt,
+                    Value       = ele["bonusValue"].AsFloat,
+                    UnlockLevel = ele["unlockLevel"].AsInt,
+                };
+
+                passives.Add(data);
+            }
+
+            return passives.ToArray();
+        }
     }
 
 
@@ -52,50 +87,13 @@ namespace GM.Data
             mercData = new Dictionary<MercID, MercData>();
 
             foreach (LocalMercData desc in local)
-            {
-                JSONNode current = node[(int)desc.ID];
-
-                mercData[desc.ID] = new MercData()
-                {
-                    Id = desc.ID,
-                    Name = desc.Name,
-
-                    Icon=desc.Icon,
-                    Prefab=desc.Prefab,
-
-                    Attack = (AttackType)current["attackType"].AsInt,
-                    BaseDamage = current["baseDamage"].AsDouble,
-                    UnlockCost = current["unlockCost"].AsDouble,
-
-                    Passives = ParsePassives(current["passives"].AsArray),
-                };
-            }
+                mercData[desc.ID] = new MercData(desc, node[(int)desc.ID]);
         }
 
 
         public MercData Get(MercID merc)
         {
             return mercData[merc];
-        }
-
-
-        MercPassiveData[] ParsePassives(JSONArray arr)
-        {
-            List<MercPassiveData> passives = new List<MercPassiveData>();
-
-            foreach (JSONNode element in arr)
-            {
-                MercPassiveData data = new MercPassiveData()
-                {
-                    Type = (BonusType)element["bonusType"].AsInt,
-                    Value = element["bonusValue"].AsFloat,
-                    UnlockLevel = element["unlockLevel"].AsInt,
-                };
-
-                passives.Add(data);
-            }
-
-            return passives.ToArray();
         }
 
 

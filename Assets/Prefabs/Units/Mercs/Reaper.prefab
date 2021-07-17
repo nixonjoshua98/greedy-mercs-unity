@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   periodicUpdateDelay: 0.1
-  ID: 4
+  mercId: 1
   anim: {fileID: 3820480451276261416}
   movement: {fileID: 4656428320273357231}
   attack: {fileID: 323789663}
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 1.25
   avatar: {fileID: 3771751498256575464}
 --- !u!1001 &3769961914370844628
 PrefabInstance:

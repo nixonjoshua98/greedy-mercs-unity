@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   periodicUpdateDelay: 0.1
-  ID: 8
+  mercId: 8
   anim: {fileID: 8854224553034560540}
   movement: {fileID: 8491084058397117312}
   attack: {fileID: 2122214419}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 8854224553034560540}
   movement: {fileID: 8491084058397117312}
-  attackAnimString: Attacking
+  attackAnimation: Attacking
 --- !u!114 &8491084058397117312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,38 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 1.25
   avatar: {fileID: 9010225572121570709}
---- !u!114 &8051748642073657332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010225572121570709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f63d338aca697dd45bf70770233f99c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnAnimationEventCallback:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnAttackAnimationFinished
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  E_Attack:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &7015768925567700684
 PrefabInstance:
   m_ObjectHideFlags: 0

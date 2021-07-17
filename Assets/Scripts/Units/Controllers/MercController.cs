@@ -7,7 +7,8 @@ namespace GM.Units
 {
     public class MercController : UnitController
     {
-        [SerializeField] MercID ID;
+        [SerializeField] MercID mercId;
+        public MercID MercId { get { return mercId; } }
 
         [Header("Components")]
         public Animator anim;
@@ -17,11 +18,16 @@ namespace GM.Units
         public UnitMovement movement;
         public UnitAttack attack;
 
-        GameObject currentFocusTarget;
+        GameObject currentTarget;
+
+        bool _setupCalled = false;
 
         void Start()
         {
             SubscribeToEvents();
+
+            if (!_setupCalled)
+                Debug.LogError($"Setup not called on {name}");
         }
 
 
@@ -33,22 +39,20 @@ namespace GM.Units
 
         void FixedUpdate()
         {
-            if (currentFocusTarget)
+            if (IsValidTarget())
             {
                 // We have a target and an attack is available so we
                 // process it (eg. move towards a valid attack position)
-                attack.TryAttack(currentFocusTarget);
+                attack.TryAttack(currentTarget);
 
 
                 // Attack is currently not active and unavailable
                 // eg. We are currently free to move etc.
                 if (!attack.IsAttacking())
                 {
-                    if (!attack.InAttackPosition(currentFocusTarget))
+                    if (!attack.InAttackPosition(currentTarget))
                     {
-                        Vector3 moveVector = attack.GetMoveVector(currentFocusTarget);
-
-                        movement.MoveTowards(moveVector);
+                        movement.MoveTowards(attack.GetMoveVector(currentTarget));
                     }
 
                     // Avoid the 'moving while idle' issue
@@ -58,16 +62,21 @@ namespace GM.Units
                     }
                 }
             }
+            else if (!attack.IsAttacking())
+            {
+                currentTarget = GetNewFocusTarget();
+
+                movement.MoveDirection(Vector2.right);
+            }
         }
 
+        // = = = Public = = = //
 
-        protected override void PeriodicUpdate()
+        public void Setup(MercID _mercId)
         {
-            // Attempt to focus onto a new target
-            if (!IsValidTarget())
-            {
-                currentFocusTarget = GetNewFocusTarget();
-            }
+            _setupCalled = true;
+
+            mercId = _mercId;
         }
 
         // = = = Callbacks/Events = = = //
@@ -76,7 +85,7 @@ namespace GM.Units
         {
             if (target && target.TryGetComponent(out HealthController hp))
             {
-                BigDouble dmg = StatsCache.TotalMercDamage(ID);
+                BigDouble dmg = StatsCache.TotalMercDamage(mercId);
 
                 StatsCache.ApplyCritHit(ref dmg);
 
@@ -88,7 +97,7 @@ namespace GM.Units
 
         bool IsValidTarget()
         {
-            return currentFocusTarget && currentFocusTarget.CompareTag("Enemy");
+            return currentTarget && currentTarget.CompareTag("Enemy");
         }
 
 

@@ -8,7 +8,7 @@ namespace GM.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Properties")]
-        [SerializeField] float moveSpeed = 1.0f;
+        [SerializeField] float moveSpeed = 1.5f;
 
         [Header("Components")]
         [SerializeField] GameObject avatar;
@@ -27,6 +27,11 @@ namespace GM.Units
             anim.Play("Walk");
 
             FaceTowardsTarget(target);
+        }
+
+        public void MoveDirection(Vector3 dir)
+        {
+            MoveTowards(transform.position + (dir * 100.0f));
         }
 
         public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }

@@ -29,15 +29,7 @@ namespace GM
         }
 
 
-        public List<Vector3> UnitPositions()
-        {
-            List<Vector3> ls = new List<Vector3>();
-
-            foreach (GameObject o in spawnedUnits)
-                ls.Add(o.transform.position);
-
-            return ls;
-        }
+        public List<Vector3> UnitPositions() => spawnedUnits.Where(obj => obj != null).Select(obj => obj.transform.position).ToList();
 
 
         public Vector3 AveragePosition()
@@ -48,11 +40,9 @@ namespace GM
 
         void AddCharacter(MercID mercId)
         {
-            Vector3 spawnPos = SpawnPosition();
+            MercData data = GameData.Get().Mercs.Get(mercId);
 
-            Data.MercData mercDescription = GameData.Get().Mercs.Get(mercId);
-
-            GameObject character = InstantiateMerc(mercDescription.Prefab, spawnPos);
+            GameObject character = InstantiateAndSetupMerc(data, SpawnPosition());
 
             spawnedUnits.Add(character);
         }
@@ -79,9 +69,15 @@ namespace GM
         }
 
 
-        GameObject InstantiateMerc(GameObject prefab, Vector3 pos)
+        GameObject InstantiateAndSetupMerc(MercData merc, Vector2 position)
         {
-            return Instantiate(prefab, pos, Quaternion.identity);
+            GameObject o = GameObject.Instantiate(merc.Prefab, position, Quaternion.identity);
+
+            MercController controller = o.GetComponent<MercController>();
+
+            controller.Setup(merc.Id);
+
+            return o;
         }
 
 

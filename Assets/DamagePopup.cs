@@ -66,7 +66,7 @@ namespace GM.UI
 
         void Update()
         {
-            transform.position += new Vector3(0, 25.0f) * Time.deltaTime;
+            transform.position += new Vector3(0, 50.0f) * Time.deltaTime;
 
             lifetime -= Time.deltaTime;
 

@@ -44,10 +44,12 @@ namespace GM.Armoury.UI
         void UpdateUI()
         {
             // We use the manager a lot, so we cache it temporary
-            ArmouryManager armoury = UserData.Get().Armoury;
+            UserArmouryData armoury = UserData.Get().Armoury;
 
             // Grab the current state
             ArmouryItemState state  = armoury.GetItem(serverItemData.ID);
+
+            Debug.Log($"{state.ID} {state.owned} {state.level} {state.evoLevel}");
 
             // Calculate the values we need
             double currentDamage    = armoury.WeaponDamage(serverItemData.ID);

@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api/bountyshop", route_class=CustomRoute)
 
 # Models
 class ItemData(UserIdentifier):
-    item_id: str
+    shop_item: str
 
 
 @router.post("/refresh")
@@ -38,7 +38,7 @@ def purchase_item(data: ItemData):
 
     items = svrdata.bountyshop.current_items()
 
-    if (item := items.get(data.item_id)) is None or not _can_purchase_item(uid, item):
+    if (item := items.get(data.shop_item)) is None or not _can_purchase_item(uid, item):
         raise HTTPException(400)
 
     svrdata.items.update_items(
@@ -65,18 +65,18 @@ def purchase_armoury_item(data: ItemData):
 
     items = svrdata.bountyshop.current_armoury_items()
 
-    if (item := items.get(data.item_id)) is None or not _can_purchase_item(uid, item):
+    if (item := items.get(data.shop_item)) is None or not _can_purchase_item(uid, item):
         raise HTTPException(400)
 
     Armoury.update_one(
-        {"userId": uid, "itemId": data.item_id},
+        {"userId": uid, "itemId": item.armoury_item},
         {"$inc": {"owned": item.quantity_per_purchase}},
         upsert=True
     )
 
     svrdata.items.update_items(uid, inc={"bountyPoints": -item.purchase_cost})
 
-    _log_purchase(uid, data.item_id)
+    _log_purchase(uid, data.shop_item)
 
     return ServerResponse(
         {

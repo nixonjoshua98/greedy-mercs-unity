@@ -5828,7 +5828,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BossObjects:
   - {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
-  - {fileID: 8235730012151374199, guid: f64bb41d447e2624b8cf303609619b0f, type: 3}
   - {fileID: 5799380237597311610, guid: 7727b43d97be31a498925e4ac622404e, type: 3}
   bossTitleText: {fileID: 751416876}
   bossEntryAnimationObject: {fileID: 751416878}

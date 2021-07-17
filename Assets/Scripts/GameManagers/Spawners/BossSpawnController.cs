@@ -7,7 +7,6 @@ using UnityEngine.UI;
 namespace GM
 {
     using GM.Data;
-    using GM.Bounty;
 
     public class BossSpawnController : MonoBehaviour
     {

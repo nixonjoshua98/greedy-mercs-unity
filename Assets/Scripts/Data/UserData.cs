@@ -14,7 +14,7 @@ namespace GM
         static UserData Instance = null;
 
         public BountyManager Bounties;
-        public ArmouryManager Armoury;
+        public UserArmouryData Armoury;
         public BountyShopManager BountyShop;
 
         // = = = Static Methods = = = //
@@ -34,7 +34,7 @@ namespace GM
         public void UpdateWithServerUserData(JSONNode json)
         {
             Bounties    = new BountyManager(json["bounties"]);
-            Armoury     = new ArmouryManager(json["armoury"]);
+            Armoury     = new UserArmouryData(json["armoury"]);
             BountyShop  = new BountyShopManager(json["bountyShop"]);
         }
     }

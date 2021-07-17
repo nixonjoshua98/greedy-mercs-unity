@@ -29,7 +29,7 @@ def current_items():
     return {k: BsItem(k, v) for k, v in resources.get("bountyshopitems")["items"].items()}
 
 
-def current_armoury_items():
+def current_armoury_items() -> dict:
     """ Return a 'dict' of the current armoury shop items. """
     last_reset = svrdata.last_daily_reset()
 
@@ -86,7 +86,7 @@ class BsArmouryItem(BsShopItemBase):
     def __init__(self, id_: str, data: dict):
         super(BsArmouryItem, self).__init__(id_, data)
 
-        self.armoury_item_id: int = data["armouryItemId"]
+        self.armoury_item: int = data["armouryItemId"]
 
 
 # # # Shop Generation # # #

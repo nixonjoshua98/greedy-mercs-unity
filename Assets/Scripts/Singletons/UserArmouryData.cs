@@ -21,11 +21,11 @@ namespace GM.Armoury
         }
     }
 
-    public class ArmouryManager : IBonusManager
+    public class UserArmouryData : IBonusManager
     {
         Dictionary<int, ArmouryItemState> states;
 
-        public ArmouryManager(JSONNode node)
+        public UserArmouryData(JSONNode node)
         {
             SetArmouryItems(node);
         }

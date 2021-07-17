@@ -8,15 +8,15 @@ namespace GM.UI
 
     public class DamagePopup : MonoBehaviour
     {
+        #region Static
         static GameObject _PopupObject;
 
-        #region Static Methods
         public static GameObject PopupObject
         {
             get
             {
                 if (_PopupObject == null)
-                    _PopupObject = Resources.Load<GameObject>("DamagePopup");
+                    _PopupObject = Resources.Load<GameObject>("DamagePopup_DEFAULT");
 
                 return _PopupObject;
             }
@@ -66,7 +66,7 @@ namespace GM.UI
 
         void Update()
         {
-            transform.position += new Vector3(0, 20.0f) * Time.deltaTime;
+            transform.position += new Vector3(0, 25.0f) * Time.deltaTime;
 
             lifetime -= Time.deltaTime;
 

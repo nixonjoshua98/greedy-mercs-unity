@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
+    using GM.Data;
     using GM.UI;
     using GM.Armoury;
 
@@ -14,7 +15,7 @@ namespace GM.BountyShop
         [Header("Components - Scripts")]
         [SerializeField] StarRatingController starController;
 
-        ArmouryItemData ArmouryItemData { get { return StaticData.Armoury.Get(ShopItemData.ArmouryItemID); } }
+        Data.ArmouryItemData ArmouryItemData { get { return GameData.Get().Armoury.Get(ShopItemData.ArmouryItemID); } }
         new BsArmouryItemData ShopItemData { get { return UserData.Get().BountyShop.ServerData.GetArmouryItem(_itemId); } }
 
         void Awake()

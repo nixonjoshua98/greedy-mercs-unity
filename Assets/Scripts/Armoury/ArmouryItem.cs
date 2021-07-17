@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace GM.Armoury.UI
 {
-    using GM.Armoury;
+    using GM.Data;
 
     using GM.UI;
 
@@ -19,11 +19,13 @@ namespace GM.Armoury.UI
         [Header("References")]
         [SerializeField] StarRatingController stars;
 
-        public void Init(ArmouryItemData itemData)
+        public void Init(int itemId)
         {
-            itemImage.sprite = itemData.Icon;
+            ArmouryItemData data = GameData.Get().Armoury.Get(itemId);
 
-            stars.Show(itemData.Tier);
+            itemImage.sprite = data.Icon;
+
+            stars.Show(data.Tier);
         }
 
         public void SetButtonCallback(UnityAction e)

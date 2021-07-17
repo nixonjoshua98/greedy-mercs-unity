@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 1791531129569585673}
   movement: {fileID: 6352438820634131962}
-  attackAnimString: Attacking
+  attackAnimation: Attacking
 --- !u!114 &6352438820634131962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +191,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472289899418401043, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cc9dec265a0f20340998715c89b2947c,
+        type: 3}
+    - target: {fileID: 8472289899418401043, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce9de6eff68268441bd3dbe5c5b088c9, type: 3}

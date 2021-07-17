@@ -64,6 +64,13 @@ public static class CameraExtensions
 
 public static class JSONNodeExtensions
 {
+    public static bool TryGet(this JSONNode node, string key, out JSONNode result)
+    {
+        result = node.HasKey(key) ? node[key] : default;
+
+        return node.HasKey(key);
+    }
+
     public static void Update(this JSONNode original, JSONNode updateNode)
     {
         foreach (string key in updateNode.Keys)

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 namespace GM.Armoury.UI
 {
+    using GM.Data;
+
     using GM.Armoury;
     using GM.Inventory;
 
@@ -48,26 +50,26 @@ namespace GM.Armoury.UI
 
         void InstantiateItem(ArmouryItemState state)
         {
-            ArmouryItemData serverItemData = StaticData.Armoury.Get(state.ID);
+            Data.ArmouryItemData data = GameData.Get().Armoury.Get(state.ID);
 
             ArmouryItem item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItem>();
 
-            item.Init(serverItemData);
-
-            item.SetButtonCallback(() => { OnIconClick(serverItemData); });
+            item.Init(state.ID);
+            
+            item.SetButtonCallback(() => { OnIconClick(state.ID); });
 
             itemObjects[state.ID] = item;
         }
 
         // === Button Callback ===
 
-        void OnIconClick(ArmouryItemData item)
+        void OnIconClick(int itemId)
         {
             GameObject obj = Funcs.UI.Instantiate(ItemPopupObject);
 
             ArmouryItemPopup panel = obj.GetComponent<ArmouryItemPopup>();
 
-            panel.Init(item);
+            panel.Init(itemId);
         }
     }
 }

@@ -13,10 +13,12 @@ namespace GM.Data
         static GameData Instance = null;
 
         public GameMercData Mercs;
+        public GameArmouryData Armoury;
         public GameBountyData Bounties;
 
         GameData(JSONNode node)
         {
+            Armoury     = new GameArmouryData(node["armouryResources"]);
             Mercs       = new GameMercData(node["mercResources"]);
             Bounties    = new GameBountyData(node["bounties"]);
         }

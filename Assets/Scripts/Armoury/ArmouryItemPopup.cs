@@ -9,6 +9,7 @@ namespace GM.Armoury.UI
     using GM.Armoury;
 
     using GM.UI;
+    using GM.Data;
 
     public class ArmouryItemPopup : MonoBehaviour
     {
@@ -26,16 +27,18 @@ namespace GM.Armoury.UI
         [Header("References")]
         [SerializeField] StarRatingController stars;
 
-        ArmouryItemData serverItemData;
+        int _itemId;
 
 
-        public void Init(ArmouryItemData item)
+        public void Init(int itemId)
         {
-            serverItemData = item;
+            _itemId = itemId;
 
-            colouredWeapon.sprite = shadowWeapon.sprite = serverItemData.Icon;
+            Data.ArmouryItemData data = GetData();
 
-            stars.Show(serverItemData.Tier);
+            colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
+
+            stars.Show(data.Tier);
 
             UpdateUI();
         }
@@ -47,14 +50,12 @@ namespace GM.Armoury.UI
             UserArmouryData armoury = UserData.Get().Armoury;
 
             // Grab the current state
-            ArmouryItemState state  = armoury.GetItem(serverItemData.ID);
-
-            Debug.Log($"{state.ID} {state.owned} {state.level} {state.evoLevel}");
+            ArmouryItemState state  = armoury.GetItem(_itemId);
 
             // Calculate the values we need
-            double currentDamage    = armoury.WeaponDamage(serverItemData.ID);
-            double nextLevelDamage  = armoury.WeaponDamage(serverItemData.ID, state.level + 1);
-            double nextEvoDamage    = armoury.WeaponDamage(serverItemData.ID, state.level, state.evoLevel + 1);
+            double currentDamage    = armoury.WeaponDamage(_itemId);
+            double nextLevelDamage  = armoury.WeaponDamage(_itemId, state.level + 1);
+            double nextEvoDamage    = armoury.WeaponDamage(_itemId, state.level, state.evoLevel + 1);
 
             // Format the above values as strings
             string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
@@ -71,17 +72,20 @@ namespace GM.Armoury.UI
         }
 
 
+        Data.ArmouryItemData GetData() => GameData.Get().Armoury.Get(_itemId);
+
+
         // = = = Button Callbacks = = = //
 
         public void OnEvolveButton()
         {
-            UserData.Get().Armoury.EvolveItem(serverItemData.ID, () => { UpdateUI(); });
+            UserData.Get().Armoury.EvolveItem(_itemId, () => { UpdateUI(); });
         }
 
 
         public void OnUpgradeButton()
         {
-            UserData.Get().Armoury.UpgradeItem(serverItemData.ID, () => { UpdateUI(); });
+            UserData.Get().Armoury.UpgradeItem(_itemId, () => { UpdateUI(); });
         }
 
 

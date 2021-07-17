@@ -1,41 +1,37 @@
 {
   "0": {
-    "iconString": "axe_01",
     "itemTier": 1,
     "baseDamageMultiplier": 1.1
   },
   "1": {
-    "iconString": "club_01",
     "itemTier": 2,
     "baseDamageMultiplier": 1.25
   },
   "2": {
-    "iconString": "sword_02",
     "itemTier": 3,
     "baseDamageMultiplier": 1.5
   },
   "3": {
-    "iconString": "bow_01",
     "itemTier": 1,
     "baseDamageMultiplier": 1.1
   },
   "4": {
-    "iconString": "staff_01",
     "itemTier": 2,
     "baseDamageMultiplier": 1.25
   },
   "5": {
-    "iconString": "sword_01",
     "itemTier": 3,
     "baseDamageMultiplier": 1.5
   },
   "6": {
-    "iconString": "staff_02",
     "itemTier": 1,
     "baseDamageMultiplier": 1.1
   },
   "7": {
-    "iconString": "short_staff_01",
+    "itemTier": 2,
+    "baseDamageMultiplier": 1.25
+  },
+  "8": {
     "itemTier": 2,
     "baseDamageMultiplier": 1.25
   }

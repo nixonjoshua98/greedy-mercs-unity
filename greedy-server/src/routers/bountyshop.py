@@ -70,7 +70,7 @@ def purchase_armoury_item(data: ItemData):
 
     Armoury.update_one(
         {"userId": uid, "itemId": item.armoury_item},
-        {"$inc": {"owned": item.quantity_per_purchase}},
+        {"$inc": {"owned": item.quantity_per_purchase}, "$setOnInsert": {"level": 1}},
         upsert=True
     )
 

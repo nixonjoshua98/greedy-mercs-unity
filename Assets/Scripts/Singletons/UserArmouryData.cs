@@ -7,6 +7,8 @@ using SimpleJSON;
 
 namespace GM.Armoury
 {
+    using GM.Data;
+
     public class ArmouryItemState
     {
         public int ID;
@@ -131,9 +133,9 @@ namespace GM.Armoury
 
         public double WeaponDamage(int itemId, int level, int evoLevel)
         {
-            ArmouryItemData itemData = StaticData.Armoury.Get(itemId);
+            Data.ArmouryItemData item = GameData.Get().Armoury.Get(itemId);
 
-            double val = ((evoLevel + 1) * ((itemData.BaseDamageMultiplier) - 1) * level) + 1;
+            double val = ((evoLevel + 1) * ((item.BaseDamageMultiplier) - 1) * level) + 1;
 
             return val > 1 ? val : 0;
         }

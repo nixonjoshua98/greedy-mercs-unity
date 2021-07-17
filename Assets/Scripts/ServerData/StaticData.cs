@@ -22,8 +22,6 @@ public static class StaticData
 
     public static SkillListSO SkillList;
 
-   // public static ServerMercData Mercs;
-    public static ServerArmouryData Armoury;
     public static ServerArtefactData Artefacts;
 
     public static DateTime NextDailyReset;
@@ -32,8 +30,6 @@ public static class StaticData
     {
         SkillList.Init();
 
-       // Mercs = new ServerMercData(node["mercData"]);
-        Armoury = new ServerArmouryData(node["armouryItems"]);
         Artefacts = new ServerArtefactData(node["artefacts"]);
 
         NextDailyReset = Funcs.ToDateTime(node["nextDailyReset"]);

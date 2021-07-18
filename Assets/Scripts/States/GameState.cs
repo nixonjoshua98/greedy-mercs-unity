@@ -15,7 +15,7 @@ namespace GM
 
         public static void Restore(JSONNode node)
         {
-            Player          = new PlayerState(node["player"]);
+            Player = new PlayerState();
 
             Upgrades    = new UpgradesContainer(node);
             Characters  = new CharacterContainer(node);

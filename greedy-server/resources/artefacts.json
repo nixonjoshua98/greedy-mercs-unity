@@ -190,12 +190,11 @@
     "levelEffect": 0.5
   },
   "23": {
-    "bonusType": 18,
-    "maxLevel": 30,
-    "valueType": 2,
-    "costCoeff": 1.0,
-    "costExpo": 2.0,
-    "baseEffect": 0.5,
+    "name": "NUMBER 23",
+    "bonusType": 3,
+    "costCoeff": 0.7,
+    "costExpo": 1.6,
+    "baseEffect": 1.5,
     "levelEffect": 0.5
   },
   "24": {

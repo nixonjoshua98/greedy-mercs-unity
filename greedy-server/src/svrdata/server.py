@@ -17,8 +17,6 @@ def last_daily_reset():
 
 def get_player_data(uid):
     return {
-        "player": {"username": "Rogue Mercenary"},
-
         "inventory": {"items": items.get_items(uid)},
 
         "bountyShop": {"dailyPurchases": bountyshop.daily_purchases(uid)},

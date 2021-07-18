@@ -23,8 +23,8 @@ namespace GM.Armoury.UI
         {
             ArmouryItemData data = GameData.Get().Armoury.Get(itemId);
 
-            itemImage.sprite = data.Icon;
-            nameText.text = data.Name;
+            itemImage.sprite    = data.Icon;
+            nameText.text       = data.Name.ToUpper();
 
             stars.Show(data.Tier);
         }

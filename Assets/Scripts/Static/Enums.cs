@@ -27,8 +27,7 @@ public enum BonusType
     GOLD_RUSH_BONUS = 14,
     GOLD_RUSH_DURATION = 15,
     AUTO_CLICK_BONUS = 16,
-    AUTO_CLICK_DURATION = 17,
-    BOSS_TIMER_DURATION = 18,
+    AUTO_CLICK_DURATION = 17
 }
 
 public enum MercID

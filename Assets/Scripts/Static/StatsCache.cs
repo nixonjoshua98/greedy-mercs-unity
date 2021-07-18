@@ -73,12 +73,6 @@ namespace GM
             }
         }
 
-        // = = = Enemies = = = //
-        public static float BossTimer()
-        {
-            return BASE_BOSS_TIMER + (float) AddAllSources(BonusType.BOSS_TIMER_DURATION);
-        }
-
 
         // # === Energy === #
         public static double EnergyPerMinute()

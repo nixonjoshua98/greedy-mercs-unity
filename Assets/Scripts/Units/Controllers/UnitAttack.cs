@@ -16,15 +16,18 @@ namespace GM.Units
         [Header("Animations")]
         public string attackAnimation = "Attacking";
 
+        [Header("Events")]
         public GameObjectEvent E_OnAttackImpact;
 
+        // Properties
+        float attackCooldown = 1.0f;
+
+        // Flags/States
         bool isReady = true;
         bool onCooldown = false;
         bool isAttacking = false;
 
-        GameObject currentTarget;
-
-        protected float attackCooldown = 0.75f;
+        protected GameObject currentTarget;
 
 
         void Awake()
@@ -61,18 +64,18 @@ namespace GM.Units
 
         // = = = Callbacks/Events = = = //
 
-        public virtual void OnAttackAnimationEvent()
+        public void OnAttackAnimationEvent()
         {
             isAttacking = false;
 
-            OnAttackHit();
+            StartCooldown();
+
+            OnAttackAnimation();
         }
 
 
-        void OnAttackHit()
+        protected virtual void OnAttackAnimation()
         {
-            StartCooldown();
-
             E_OnAttackImpact.Invoke(currentTarget);
         }
 

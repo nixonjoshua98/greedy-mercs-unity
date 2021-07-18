@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace GM.Artefacts
 {
     using GM.UI;
-    using GM.Inventory;
+    using GM.Data;
 
     using Utils = GM.Utils;
 
@@ -54,7 +54,7 @@ namespace GM.Artefacts
             if (!_updatingUi)
                 return;
 
-            InventoryManager inv = InventoryManager.Instance;
+            int pp = UserData.Get().Inventory.PrestigePoints;
 
             UpdateEffectText();
 
@@ -69,7 +69,7 @@ namespace GM.Artefacts
                 stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }
 
-            buyButton.interactable = !ArtState.IsMaxLevel() && inv.PrestigePoints >= ArtState.CostToUpgrade(BuyAmount);
+            buyButton.interactable = !ArtState.IsMaxLevel() && pp >= ArtState.CostToUpgrade(BuyAmount);
         }
 
         void UpdateEffectText()

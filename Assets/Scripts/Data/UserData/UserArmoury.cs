@@ -22,11 +22,11 @@ namespace GM.Data
         }
     }
 
-    public class UserArmouryData : IBonusManager
+    public class UserArmoury : IBonusManager
     {
         Dictionary<int, ArmouryItemState> states;
 
-        public UserArmouryData(JSONNode node)
+        public UserArmoury(JSONNode node)
         {
             SetArmouryItems(node);
         }
@@ -40,8 +40,7 @@ namespace GM.Data
                 if (code == 200)
                 {
                     SetArmouryItems(resp["userArmouryItems"]);
-
-                    Inventory.InventoryManager.Instance.SetItems(resp["userItems"]);
+                    UserData.Get().Inventory.SetItems(resp["userItems"]);
                 }
 
                 call();

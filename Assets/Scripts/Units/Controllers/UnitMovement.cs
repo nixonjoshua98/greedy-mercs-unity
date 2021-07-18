@@ -8,10 +8,13 @@ namespace GM.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Properties")]
-        [SerializeField] float moveSpeed = 1.5f;
+        [SerializeField] float moveSpeed = 1.25f;
 
         [Header("Components")]
         [SerializeField] GameObject avatar;
+
+        [Header("Animations")]
+        [SerializeField] string walkAnimation = "Walk";
 
         Animator anim;
 
@@ -24,7 +27,7 @@ namespace GM.Units
         {
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
 
-            anim.Play("Walk");
+            anim.Play(walkAnimation);
 
             FaceTowardsTarget(target);
         }
@@ -57,7 +60,7 @@ namespace GM.Units
 
         public bool IsCurrentAnimationWalk()
         {
-            return anim.GetCurrentAnimatorStateInfo(0).IsName("Walk");
+            return anim.GetCurrentAnimatorStateInfo(0).IsName(walkAnimation);
         }
     }
 }

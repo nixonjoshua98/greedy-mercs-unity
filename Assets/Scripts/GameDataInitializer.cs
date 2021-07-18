@@ -13,7 +13,6 @@ namespace GM
 {
     using GM.Data;
 
-    using GM.Inventory;
     using GM.Artefacts;
     using GM.Units;
 
@@ -23,8 +22,6 @@ namespace GM
 
         void Awake()
         {
-            UserData.CreateInstance();
-
             StaticData.AssignScriptables(SkillList);
         }
 
@@ -67,11 +64,10 @@ namespace GM
         {
             GameState.Restore(node);
 
-            UserData.Get().UpdateWithServerUserData(node);
+            UserData.CreateInstance().UpdateWithServerUserData(node);
 
             MercenaryManager.Create();
 
-            InventoryManager.Create(node["inventory"]);
             ArtefactManager.Create(node["artefacts"]);
             SkillsManager.Create(node["skills"]);
         }

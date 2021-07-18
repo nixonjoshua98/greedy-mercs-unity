@@ -13,6 +13,9 @@ namespace GM.Units
         [Header("Components")]
         public Animator anim;
 
+        [Header("Animations")]
+        [SerializeField] string idleAnimation = "Idle";
+
         [Space]
 
         public UnitMovement movement;
@@ -58,7 +61,7 @@ namespace GM.Units
                     // Avoid the 'moving while idle' issue
                     else if (movement.IsCurrentAnimationWalk())
                     {
-                        anim.Play("Idle");
+                        anim.Play(idleAnimation);
                     }
                 }
             }

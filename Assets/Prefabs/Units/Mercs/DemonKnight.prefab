@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
   mercId: 8
   anim: {fileID: 8854224553034560540}
+  idleAnimation: Idle
   movement: {fileID: 8491084058397117312}
   attack: {fileID: 2122214419}
 --- !u!114 &2122214419
@@ -80,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1.25
   avatar: {fileID: 9010225572121570709}
+  walkAnimation: Walk
 --- !u!1001 &7015768925567700684
 PrefabInstance:
   m_ObjectHideFlags: 0

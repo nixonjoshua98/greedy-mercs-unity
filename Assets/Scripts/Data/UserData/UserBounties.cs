@@ -12,8 +12,6 @@ namespace GM.Bounty
 {
     using GM.Data;
 
-    using GM.Inventory;
-
     public class BountyState
     {
         public readonly int ID;
@@ -36,14 +34,14 @@ namespace GM.Bounty
     }
 
 
-    public class BountyManager
+    public class UserBounties
     {
         Dictionary<int, BountyState> states;
 
         public List<BountyState> StatesList { get { return states.Values.ToList(); } }
 
 
-        public BountyManager(JSONNode node)
+        public UserBounties(JSONNode node)
         {
             states = new Dictionary<int, BountyState>();
 
@@ -58,11 +56,8 @@ namespace GM.Bounty
             {
                 if (code == 200)
                 {
-                    long ts = resp["claimTime"].AsLong;
-
-                    SetAllClaimTimes(Funcs.ToDateTime(ts));
-
-                    InventoryManager.Instance.SetItems(resp["userItems"]);
+                    SetAllClaimTimes(Funcs.ToDateTime(resp["claimTime"].AsLong));
+                    UserData.Get().Inventory.SetItems(resp["userItems"]);
                 }
 
                 action();

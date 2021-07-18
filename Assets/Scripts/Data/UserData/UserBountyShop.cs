@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace GM.BountyShop
 {
-    using GM.Inventory;
+    using GM.Data;
 
     using SimpleJSON;
 
@@ -20,14 +20,14 @@ namespace GM.BountyShop
     }
 
 
-    public class BountyShopManager
+    public class UserBountyShop
     {
         Dictionary<string, BountyShopPurchaseData> purchases;
 
         public ServerBountyShopData ServerData;
 
 
-        public BountyShopManager(JSONNode node)
+        public UserBountyShop(JSONNode node)
         {
             SetDailyPurchases(node["dailyPurchases"]);
 
@@ -71,16 +71,13 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    long ts = resp["nextDailyResetTime"].AsLong;
-
                     // Update the store items pulled from the server
                     ServerData.UpdateAll(resp["bountyShopItems"]);
 
                     // Updates the next daily reset time
-                    StaticData.NextDailyReset = Funcs.ToDateTime(ts);
+                    StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);
 
-                    // Updates the users purchases
-                    SetDailyPurchases(resp["dailyPurchases"]);
+                    OnServerResponse(resp);
 
                     action.Invoke();
                 }
@@ -96,7 +93,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    OnServerPurchaseItem(resp);
+                    OnServerResponse(resp);
                 }
 
                 action.Invoke(code == 200);
@@ -113,7 +110,7 @@ namespace GM.BountyShop
                 {
                     UserData.Get().Armoury.SetArmouryItems(resp["userArmouryItems"]);
 
-                    OnServerPurchaseItem(resp);
+                    OnServerResponse(resp);
                 }
 
                 action.Invoke(code == 200);
@@ -136,9 +133,9 @@ namespace GM.BountyShop
 
         // = = = Callbacks = = = //
 
-        void OnServerPurchaseItem(JSONNode resp)
+        void OnServerResponse(JSONNode resp)
         {
-            InventoryManager.Instance.SetItems(resp["userItems"]);
+            UserData.Get().Inventory.SetItems(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
         }

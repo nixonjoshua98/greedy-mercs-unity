@@ -14,16 +14,19 @@ namespace GM
     {
         static UserData Instance = null;
 
-        public BountyManager Bounties;
-        public UserArmouryData Armoury;
-        public BountyShopManager BountyShop;
+        public UserArmoury Armoury;
+        public UserBounties Bounties;
+        public UserInventory Inventory;
+        public UserBountyShop BountyShop;
 
         // = = = Static Methods = = = //
-        public static void CreateInstance()
+        public static UserData CreateInstance()
         {
             Instance = new UserData();
 
             Debug.Log("Created: UserData");
+
+            return Instance;
         }
 
         public static UserData Get()
@@ -34,9 +37,11 @@ namespace GM
         // = = = Public Methods = = = //
         public void UpdateWithServerUserData(JSONNode json)
         {
-            Bounties    = new BountyManager(json["bounties"]);
-            Armoury     = new UserArmouryData(json["armoury"]);
-            BountyShop  = new BountyShopManager(json["bountyShop"]);
+
+            Bounties    = new UserBounties(json["bounties"]);
+            Armoury     = new UserArmoury(json["armoury"]);
+            BountyShop  = new UserBountyShop(json["bountyShop"]);
+            Inventory   = new UserInventory(json["inventory"]);
         }
     }
 }

@@ -10,7 +10,7 @@ using SimpleJSON;
 namespace GM.Artefacts
 {
     using GM;
-    using GM.Inventory;
+    using GM.Data;
 
     public class ArtefactState
     {
@@ -133,7 +133,7 @@ namespace GM.Artefacts
         {
             SetArtefactStates(node["userArtefacts"]);
 
-            InventoryManager.Instance.SetItems(node["userItems"]);
+            UserData.Get().Inventory.SetItems(node["userItems"]);
         }
 
 

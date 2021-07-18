@@ -7,9 +7,6 @@ namespace GM.Armoury.UI
 {
     using GM.Data;
 
-    using GM.Armoury;
-    using GM.Inventory;
-
     public class ArmouryPanel : MonoBehaviour
     {
         [Header("Compoents")]
@@ -45,7 +42,7 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            weaponPointText.text = InventoryManager.Instance.IronIngots.ToString();
+            weaponPointText.text = UserData.Get().Inventory.IronIngots.ToString();
             damageBonusText.text = string.Format("{0}% Mercenary Damage", FormatString.Number(StatsCache.ArmouryMercDamageMultiplier * 100));
         }
 

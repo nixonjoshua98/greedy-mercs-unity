@@ -7,7 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GM.Artefacts
 {
-    using GM.Inventory;
+    using GM.Data;
 
     using GM;
 
@@ -66,10 +66,11 @@ namespace GM.Artefacts
 
         void FixedUpdate()
         {
-            InventoryManager inv = InventoryManager.Instance;
+            int pp = UserData.Get().Inventory.PrestigePoints;
+
             ArtefactManager arts = ArtefactManager.Instance;
 
-            prestigePointText.text      = FormatString.Number(inv.PrestigePoints);
+            prestigePointText.text      = FormatString.Number(pp);
             buyLootButton.interactable  = arts.Count < StaticData.Artefacts.Count;
 
             lootCostText.text = "-";

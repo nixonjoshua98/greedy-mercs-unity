@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 
 from src.common import mongo
 from src.routing import CustomRoute, ServerResponse
-from src.svrdata import Armoury
+from src.svrdata import Armoury, Items
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
@@ -27,7 +27,8 @@ def refresh(user: UserIdentifier):
         {
             "bountyShopItems":      svrdata.bountyshop.all_current_shop_items(as_dict=True),
             "dailyPurchases":       svrdata.bountyshop.daily_purchases(uid),
-            "nextDailyResetTime":   svrdata.next_daily_reset()
+            "nextDailyResetTime":   svrdata.next_daily_reset(),
+            "userItems":            Items.find_one({"userId": uid})
         }
     )
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
-    using GM.Inventory;
+    using GM.Data;
 
 
     public class BountyTab : ExtendedMonoBehaviour
@@ -33,7 +33,7 @@ namespace GM.Bounty
         {
             BountySnapshot snapshot = UserData.Get().Bounties.CreateSnapshot();
 
-            bountyPointsText.text   = InventoryManager.Instance.BountyPoints.ToString();
+            bountyPointsText.text   = UserData.Get().Inventory.BountyPoints.ToString();
             bountyIncomeText.text   = string.Format("{0} / hour (Max {1})", snapshot.HourlyIncome, snapshot.Capacity);
             unclaimedTotalText.text = string.Format("Collect ({0})", snapshot.Unclaimed);
 

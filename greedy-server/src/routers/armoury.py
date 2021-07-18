@@ -42,11 +42,13 @@ def upgrade(data: ItemPurchaseModel):
 def evolve(data: ItemPurchaseModel):
     uid = user_or_raise(data)
 
-    if not can_evolve(uid, data.item_id):
+    cost, can_level = can_evolve(uid, data.item_id)
+
+    if not can_level:
         raise HTTPException(400, {"error": "Cannot evolve item"})
 
     modified = Armoury.update_one(
-        {"userId": uid, "itemId": data.item_id}, {"$inc": {"evoLevel": 1, "owned": -1}}, upsert=False
+        {"userId": uid, "itemId": data.item_id}, {"$inc": {"evoLevel": 1, "owned": -cost}}, upsert=False
     )
 
     if not modified:  # Return an error if a document was not modified
@@ -55,16 +57,16 @@ def evolve(data: ItemPurchaseModel):
     return ServerResponse({"userArmouryItems": Armoury.find({"userId": uid})})
 
 
-def can_evolve(uid, iid) -> bool:
+def can_evolve(uid, iid) -> Tuple[int, bool]:
     armoury = resources.get_armoury()
 
     if (item := Armoury.find_one({"userId": uid, "itemId": iid})) is None:
-        return False
+        return -1, False
 
     within_max_level = item.get("evoLevel", 0) < armoury.max_evo_level
     enough_copies = item.get("owned", 0) >= (armoury.evo_level_cost + 1)
 
-    return within_max_level and enough_copies
+    return armoury.evo_level_cost, within_max_level and enough_copies
 
 
 def can_levelup(uid, iid) -> Tuple[int, bool]:

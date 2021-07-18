@@ -34,6 +34,8 @@ def player_login(data: UserLoginData):
 
         uid = result.inserted_id
 
+        svrdata.Items.update_one({"userId": uid}, {"$inc": {"bountyPoints": 100_000}})
+
     else:
         uid = row["_id"]
 

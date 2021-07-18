@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 namespace GM.Armoury.UI
 {
-    using GM.Armoury;
-
     using GM.UI;
     using GM.Data;
 
@@ -16,15 +14,13 @@ namespace GM.Armoury.UI
         [SerializeField] Text nameText;
         [SerializeField] Text damageText;
         [SerializeField] Text levelCostText;
-
         [Space]
-
         [SerializeField] Slider evolveSlider;
-
+        [Space]
         [SerializeField] Button evolveButton;
         [SerializeField] Button levelButton;
 
-        [Header("Item Components")]
+        [Header("Weapon")]
         [SerializeField] Image colouredWeapon;
         [SerializeField] Image shadowWeapon;
 
@@ -40,7 +36,7 @@ namespace GM.Armoury.UI
 
             ArmouryItemData data = GameData.Get().Armoury.Get(_itemId);
 
-            nameText.text = data.Name;
+            nameText.text = data.Name.ToUpper();
 
             colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
 
@@ -54,7 +50,6 @@ namespace GM.Armoury.UI
         {
             int maxEvoLevel     = GameData.Get().Armoury.MaxEvolveLevel;
             int evoLevelCost    = GameData.Get().Armoury.EvoLevelCost;
-
             int armouryPoints   = Inventory.InventoryManager.Instance.ArmouryPoints;
             int levelCost       = GameData.Get().Armoury.LevelCost(_itemId);
 
@@ -66,13 +61,14 @@ namespace GM.Armoury.UI
             string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
 
             // Text 
-            damageText.text     = $"<color=white>Current Merc Damage:</color> {currentDmgString}";
+            damageText.text     = $"<color=white>Mercenary Damage:</color> {currentDmgString}";
             levelCostText.text  = levelCost.ToString();
 
             // Update the evolve level slider
             evolveSlider.maxValue   = evoLevelCost;
             evolveSlider.value      = (state.owned - 1);
 
+            // Buttons
             evolveButton.interactable   = state.owned >= (evoLevelCost + 1) && state.evoLevel < maxEvoLevel;
             levelButton.interactable    = armouryPoints >= GameData.Get().Armoury.LevelCost(_itemId);
         }

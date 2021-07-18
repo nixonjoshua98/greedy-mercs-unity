@@ -16,7 +16,7 @@ namespace GM.UI
             get
             {
                 if (_PopupObject == null)
-                    _PopupObject = Resources.Load<GameObject>("DamagePopup_DEFAULT");
+                    _PopupObject = Resources.Load<GameObject>("DamagePopup");
 
                 return _PopupObject;
             }
@@ -57,6 +57,7 @@ namespace GM.UI
             text.SetText(val);
         }
 
+
         void Update()
         {
             transform.position += new Vector3(25, 75) * Time.deltaTime;
@@ -71,6 +72,7 @@ namespace GM.UI
                     Destroy(gameObject);
             }
         }
+
 
         float ProcessFade()
         {

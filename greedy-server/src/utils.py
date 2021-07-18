@@ -7,8 +7,9 @@ def load_resource(fp):
 
 
 def load_json(fp):
+
     def hook(d):
-        return {int(k) if k.lstrip("-").isdigit() else k: v for k, v in d.items()}
+        return {int(k) if k.isdigit() else k: v for k, v in d.items()}
 
     with open(fp, "r") as fh:
         return json.loads(fh.read(), object_hook=hook)

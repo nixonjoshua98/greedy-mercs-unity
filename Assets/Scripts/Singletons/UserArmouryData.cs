@@ -41,7 +41,7 @@ namespace GM.Data
                 {
                     SetArmouryItems(resp["userArmouryItems"]);
 
-                    Inventory.InventoryManager.Instance.ArmouryPoints = resp["userArmouryPoints"].AsInt;
+                    Inventory.InventoryManager.Instance.SetItems(resp["userItems"]);
                 }
 
                 call();

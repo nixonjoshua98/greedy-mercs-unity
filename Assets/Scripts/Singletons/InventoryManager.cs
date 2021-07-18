@@ -16,7 +16,7 @@ namespace GM.Inventory
         public int BlueGems;
 
         public int BountyPoints;
-        public int ArmouryPoints;
+        public int IronIngots;
 
         public BigInteger PrestigePoints;
 
@@ -36,8 +36,8 @@ namespace GM.Inventory
         {
             BlueGems = node.GetValueOrDefault("blueGems", 0).AsInt;
 
-            BountyPoints = node.GetValueOrDefault("bountyPoints", 0).AsInt;
-            ArmouryPoints = node.GetValueOrDefault("armouryPoints", 0).AsInt;
+            BountyPoints    = node.GetValueOrDefault("bountyPoints", 0).AsInt;
+            IronIngots      = node.GetValueOrDefault("ironIngots", 0).AsInt;
 
             if (node.HasKey("prestigePoints"))
             {

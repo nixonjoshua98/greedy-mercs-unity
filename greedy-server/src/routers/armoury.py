@@ -5,7 +5,9 @@ from typing import Tuple
 
 from src import resources
 from src.checks import user_or_raise
+
 from src.svrdata import Armoury, Items
+
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
 
@@ -31,10 +33,10 @@ def upgrade(data: ItemPurchaseModel):
     if not modified:  # Return an error if a document was not modified
         raise HTTPException(400)
 
-    u_items = Items.find_and_update_one({"userId": uid}, {"$inc": {"armouryPoints": -cost}})
+    u_items = Items.find_and_update_one({"userId": uid}, {"$inc": {Items.IRON_INGOTS: -cost}})
 
     return ServerResponse({
-            "userArmouryItems": Armoury.find({"userId": uid}), "userArmouryPoints": u_items["armouryPoints"]
+            "userArmouryItems": Armoury.find({"userId": uid}), "userItems": u_items
         })
 
 

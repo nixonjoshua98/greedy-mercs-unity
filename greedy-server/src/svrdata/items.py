@@ -5,6 +5,9 @@ from src.common import mongo
 
 class Items:
 
+    # Database Keys
+    IRON_INGOTS = "ironIngots"
+
     @staticmethod
     def find_one(search) -> dict:
         return mongo.db["userItems"].find_one(search) or dict()

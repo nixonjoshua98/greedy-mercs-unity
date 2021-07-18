@@ -2,6 +2,8 @@ import random
 
 import datetime as dt
 
+from .items import Items
+
 from src import svrdata
 from src.common import mongo, resources
 from src.common.enums import EnumBase
@@ -50,7 +52,7 @@ def all_current_shop_items(*, as_dict: bool):
 
 class ItemType(EnumBase):
     BLUE_GEMS = 100
-    ARMOURY_POINTS = 200
+    IRON_INGOTS = 200
     PRESTIGE_POINTS = 300
 
 
@@ -77,7 +79,7 @@ class BsItem(BsShopItemBase):
     def get_db_key(self):
         return {
             ItemType.BLUE_GEMS: "blueGems",
-            ItemType.ARMOURY_POINTS: "armouryPoints",
+            ItemType.IRON_INGOTS: Items.IRON_INGOTS,
             ItemType.PRESTIGE_POINTS: "prestigePoints"
         }[self.item_type]
 
@@ -96,7 +98,7 @@ def _generate_armoury_items() -> dict:
 
     all_items, selected_items = resources.get(resources.ARMOURY)["items"], {}
 
-    keys = list(all_items.keys())#random.choices(list(all_items.keys()), k=9)
+    keys = random.choices(list(all_items.keys()), k=9)
 
     days_since_epoch = (last_reset - dt.datetime.fromtimestamp(0)).days
 
@@ -108,7 +110,7 @@ def _generate_armoury_items() -> dict:
         entry = {
             "armouryItemId": key,
             "purchaseCost": 100 + (item_data["itemTier"] * 125),
-            "dailyPurchaseLimit": 100,#max(1, 3 - (item_data["itemTier"] - 1)),
+            "dailyPurchaseLimit": max(1, 3 - (item_data["itemTier"] - 1)),
             "quantityPerPurchase": 1
         }
 

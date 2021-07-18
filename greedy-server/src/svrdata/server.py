@@ -17,9 +17,13 @@ def last_daily_reset():
 
 def get_player_data(uid):
     return {
-        "inventory": {"items": items.get_items(uid)},
+        "inventory": {
+            "items": items.get_items(uid)
+        },
 
-        "bountyShop": {"dailyPurchases": bountyshop.daily_purchases(uid)},
+        "bountyShop": {
+            "dailyPurchases": bountyshop.daily_purchases(uid)
+        },
 
         "artefacts": artefacts.get_all_artefacts(uid, as_dict=True),
 

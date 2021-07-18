@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 
 from src import svrdata
+from src import resources as res2
 from src.common import mongo, resources
 from src.routing import CustomRoute, ServerResponse
 
@@ -18,7 +19,7 @@ def get_game_data():
 
     return {
         "mercResources":    resources.get_mercs(),
-        "armouryResources": resources.get("armoury"),
+        "armouryResources": res2.get_armoury().as_dict(),
 
         "artefacts": resources.get("artefacts"),
         "bounties": resources.get("bounties"),

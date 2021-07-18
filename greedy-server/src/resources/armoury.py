@@ -8,7 +8,7 @@ def get_armoury() -> "ArmouryResource":
 
 class ArmouryResource:
     def __init__(self, data: dict):
-        self.__dict = dict
+        self.__dict = data
 
         self.max_evo_level = data["maxEvoLevel"]
         self.evo_level_cost = data["evoLevelCost"]

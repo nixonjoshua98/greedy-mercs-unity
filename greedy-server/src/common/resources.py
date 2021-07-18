@@ -2,6 +2,9 @@ import os
 import json
 
 
+ARMOURY = "armoury"
+
+
 def get(file_name):
 	return _load_json(_res_path(f"{file_name}.json"))
 

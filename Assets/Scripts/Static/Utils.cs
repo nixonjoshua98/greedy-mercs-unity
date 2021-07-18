@@ -31,34 +31,6 @@ public static class Funcs
         return DateTimeOffset.FromUnixTimeMilliseconds(ts).UtcDateTime;
     }
 
-
-    public static class UI
-    {
-        public static GameObject Instantiate(GameObject o, Transform parent) { return Instantiate(o, parent.gameObject); }
-
-        public static GameObject Instantiate(GameObject o, Transform parent, Vector3 pos)
-        {
-            GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
-
-            createdObject.transform.SetParent(parent, false);
-
-            return createdObject;
-        }
-
-        public static GameObject MainCanvas { get { return GameObject.FindGameObjectWithTag("MainCanvas"); } }
-        public static GameObject Instantiate(GameObject obj, GameObject parent = null)
-        {
-            if (parent == null)
-                parent = MainCanvas;
-
-            GameObject createdObject = GameObject.Instantiate(obj);
-
-            createdObject.transform.SetParent(parent.transform, false);
-
-            return createdObject;
-        }
-    }
-
 }
 
 namespace GM.Utils
@@ -86,31 +58,11 @@ namespace GM.Utils
 
     public class UI
     {
-        public static GameObject Instantiate(GameObject o, Vector3 pos)
-        {
-            GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
-
-            GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
-
-            createdObject.transform.SetParent(canvas.transform, false);
-
-            return createdObject;
-        }
-
-        public static GameObject Instantiate(GameObject o, Transform parent, Vector3 pos)
-        {
-            GameObject createdObject = GameObject.Instantiate(o, pos, UnityEngine.Quaternion.identity);
-
-            createdObject.transform.SetParent(parent, false);
-
-            return createdObject;
-        }
-
         public static void ShowMessage(string title, string desc)
         {
             GameObject o = Resources.Load<GameObject>("Message");
 
-            Message msg = Instantiate(o, Vector3.zero).GetComponent<Message>();
+            Message msg = CanvasUtils.Instantiate(o).GetComponent<Message>();
 
             msg.Init(title, desc);
         }
@@ -119,7 +71,7 @@ namespace GM.Utils
         {
             GameObject o = Resources.Load<GameObject>(name);
 
-            Message msg = Instantiate(o, Vector3.zero).GetComponent<Message>();
+            Message msg = CanvasUtils.Instantiate(o).GetComponent<Message>();
 
             msg.Init(title, desc);
         }

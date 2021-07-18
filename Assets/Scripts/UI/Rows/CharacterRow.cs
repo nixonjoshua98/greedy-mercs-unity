@@ -102,7 +102,7 @@ namespace GM.Units
 
         public void OnShowInfo()
         {
-            GameObject panel = Utils.UI.Instantiate(CharacterPanelObject, Vector3.zero);
+            GameObject panel = CanvasUtils.Instantiate(CharacterPanelObject);
 
             panel.GetComponent<CharacterPanel>().SetHero(_mercId);
         }

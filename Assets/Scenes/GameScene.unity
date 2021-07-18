@@ -2952,7 +2952,7 @@ MonoBehaviour:
   itemsParent: {fileID: 2055073114}
   ArmouryItemObject: {fileID: 5607391794047674885, guid: 74ccd15a0eb10484d8a8acac53a61de5,
     type: 3}
-  ItemPopupObject: {fileID: 7945577384110736907, guid: cd5a1ff395c44a340be12662163da5e9,
+  ItemPopupObject: {fileID: 3745386715176821240, guid: 7dab10c74a39f204ba9b0985554237ac,
     type: 3}
 --- !u!222 &390209228
 CanvasRenderer:

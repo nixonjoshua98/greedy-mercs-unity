@@ -9,7 +9,7 @@ namespace GM
 
         public virtual void OnClick()
         {
-            Utils.UI.Instantiate(PanelObject, Vector3.zero);
+            CanvasUtils.Instantiate(PanelObject);
         }
     }
 }

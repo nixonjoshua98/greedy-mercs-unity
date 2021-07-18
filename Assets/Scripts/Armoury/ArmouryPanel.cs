@@ -54,7 +54,7 @@ namespace GM.Armoury.UI
         {
             ArmouryItemData data = GameData.Get().Armoury.Get(state.ID);
 
-            ArmouryItemSlot item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItemSlot>();
+            ArmouryItemSlot item = CanvasUtils.Instantiate(ArmouryItemObject, itemsParent).GetComponent<ArmouryItemSlot>();
 
             item.Init(state.ID);
             
@@ -67,7 +67,7 @@ namespace GM.Armoury.UI
 
         void OnIconClick(int itemId)
         {
-            GameObject obj = Funcs.UI.Instantiate(ItemPopupObject);
+            GameObject obj = CanvasUtils.Instantiate(ItemPopupObject);
 
             ArmouryItemPopup panel = obj.GetComponent<ArmouryItemPopup>();
 

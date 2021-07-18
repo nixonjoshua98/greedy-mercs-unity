@@ -44,7 +44,7 @@ namespace GM.Bounty
         {
             foreach (BountyState bounty in UserData.Get().Bounties.StatesList)
             {
-                GameObject inst = Funcs.UI.Instantiate(BountyObjectSlot, bountySlotsParent, Vector3.zero);
+                GameObject inst = CanvasUtils.Instantiate(BountyObjectSlot, bountySlotsParent);
 
                 BountyObject obj = inst.GetComponent<BountyObject>();
 

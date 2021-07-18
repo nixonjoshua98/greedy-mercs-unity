@@ -2,6 +2,7 @@ from . import bountyshop, items, artefacts, bounty
 
 # Pretend it is a class
 from . import armoury as Armoury
+from .items import Items
 
 import datetime as dt
 

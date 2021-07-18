@@ -94,9 +94,9 @@ class BsArmouryItem(BsShopItemBase):
 def _generate_armoury_items() -> dict:
     last_reset = svrdata.last_daily_reset()
 
-    all_items, selected_items = resources.get("armouryitems"), {}
+    all_items, selected_items = resources.get(resources.ARMOURY)["items"], {}
 
-    keys = random.choices(list(all_items.keys()), k=9)
+    keys = list(all_items.keys())#random.choices(list(all_items.keys()), k=9)
 
     days_since_epoch = (last_reset - dt.datetime.fromtimestamp(0)).days
 
@@ -108,7 +108,7 @@ def _generate_armoury_items() -> dict:
         entry = {
             "armouryItemId": key,
             "purchaseCost": 100 + (item_data["itemTier"] * 125),
-            "dailyPurchaseLimit": max(1, 3 - (item_data["itemTier"] - 1)),
+            "dailyPurchaseLimit": 100,#max(1, 3 - (item_data["itemTier"] - 1)),
             "quantityPerPurchase": 1
         }
 

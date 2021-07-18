@@ -37,7 +37,7 @@ namespace GM
 
             if (SkillsManager.Instance.IsUnlocked(SkillID))
             {
-                Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
+                CanvasUtils.Instantiate(SkillButtonObject, SkillButtonsParent);
             }
         }
 
@@ -119,7 +119,7 @@ namespace GM
             if (GameState.Player.gold >= skillLevel.UpgradeCost)
             {
                 if (!SkillsManager.Instance.IsUnlocked(SkillID))
-                    Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
+                    CanvasUtils.Instantiate(SkillButtonObject, SkillButtonsParent);
 
                 SkillsManager.Instance.UpgradeSkill(SkillID);
 

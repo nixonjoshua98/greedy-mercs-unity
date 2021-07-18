@@ -44,7 +44,7 @@ namespace GM.Artefacts
 
             foreach (ArtefactState state in ArtefactManager.Instance.StatesList)
             {
-                GameObject inst = Funcs.UI.Instantiate(LootRowObject, rowParent.transform, Vector3.zero);
+                GameObject inst = CanvasUtils.Instantiate(LootRowObject, rowParent.transform);
 
                 ArtefactRow row = inst.GetComponent<ArtefactRow>();
 

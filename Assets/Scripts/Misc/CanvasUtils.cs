@@ -6,17 +6,28 @@ namespace GM
 {
     public class CanvasUtils
     {
-        static GameObject MainCanvas { get { return GameObject.FindGameObjectWithTag("MainCanvas"); } }
+        public static GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
+
+        public static GameObject Instantiate(GameObject o) => Instantiate(o, MainCanvas);
+        public static GameObject Instantiate(GameObject o, Transform parent) => Instantiate(o, parent.gameObject);
+
+        public static GameObject Instantiate(GameObject o, GameObject parent)
+        {
+            GameObject inst = GameObject.Instantiate(o);
+
+            inst.transform.SetParent(parent.transform, false);
+
+            return inst;
+        }
+
 
         public static GameObject Instantiate(GameObject o, Vector3 pos)
         {
-            GameObject createdObject = GameObject.Instantiate(o);
+            GameObject inst = Instantiate(o, MainCanvas);
 
-            createdObject.transform.SetParent(MainCanvas.transform, false);
+            inst.transform.position = pos;
 
-            createdObject.transform.position = pos;
-
-            return createdObject;
+            return inst;
         }
     }
 }

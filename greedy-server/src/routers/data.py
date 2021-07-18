@@ -18,7 +18,7 @@ def get_game_data():
 
     return {
         "mercResources":    resources.get_mercs(),
-        "armouryResources": resources.get("armouryitems"),
+        "armouryResources": resources.get("armoury"),
 
         "artefacts": resources.get("artefacts"),
         "bounties": resources.get("bounties"),

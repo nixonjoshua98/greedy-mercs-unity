@@ -25,7 +25,30 @@ namespace GM.Data
     {
         Dictionary<int, ArmouryItemData> items;
 
+        public readonly int MaxEvolveLevel;
+        public readonly int EvoLevelCost;
+
         public GameArmouryData(JSONNode node)
+        {
+            MaxEvolveLevel = node["maxEvoLevel"].AsInt;
+            EvoLevelCost = node["evoLevelCost"].AsInt;
+
+            ParseItems(node["items"]);
+        }
+
+        public int LevelCost(int itemId)
+        {
+            ArmouryItemData item    = Get(itemId);
+            ArmouryItemState state  = UserData.Get().Armoury.Get(itemId);
+
+            return 5 + item.Tier + state.level;
+        }
+
+
+        public ArmouryItemData Get(int item) => items[item];
+
+
+        void ParseItems(JSONNode node)
         {
             items = new Dictionary<int, ArmouryItemData>();
 
@@ -46,7 +69,6 @@ namespace GM.Data
             }
         }
 
-        public ArmouryItemData Get(int item) => items[item];
 
         LocalArmouryItemData[] LoadLocalData() => Resources.LoadAll<LocalArmouryItemData>("Armoury/Items");
     }

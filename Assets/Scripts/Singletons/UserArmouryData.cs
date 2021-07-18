@@ -6,10 +6,8 @@ using System.Collections.Generic;
 
 using SimpleJSON;
 
-namespace GM.Armoury
+namespace GM.Data
 {
-    using GM.Data;
-
     public class ArmouryItemState
     {
         public int ID;
@@ -42,6 +40,8 @@ namespace GM.Armoury
                 if (code == 200)
                 {
                     SetArmouryItems(resp["userArmouryItems"]);
+
+                    Inventory.InventoryManager.Instance.ArmouryPoints = resp["userArmouryPoints"].AsInt;
                 }
 
                 call();
@@ -71,7 +71,7 @@ namespace GM.Armoury
 
         public List<ArmouryItemState> OwnedItems() => states.Values.Where(ele => ele.owned > 0).OrderBy(ele => ele.ID).ToList();
 
-        public ArmouryItemState GetItem(int itemId)
+        public ArmouryItemState Get(int itemId)
         {
             if (!states.ContainsKey(itemId))
             {
@@ -109,14 +109,14 @@ namespace GM.Armoury
 
         public double WeaponDamage(int itemId)
         {
-            ArmouryItemState state = GetItem(itemId);
+            ArmouryItemState state = Get(itemId);
 
             return WeaponDamage(itemId, state.level, state.evoLevel);
         }
 
         public double WeaponDamage(int itemId, int level)
         {
-            ArmouryItemState state = GetItem(itemId);
+            ArmouryItemState state = Get(itemId);
 
             return WeaponDamage(itemId, level, state.evoLevel);
         }
@@ -150,7 +150,7 @@ namespace GM.Armoury
 
             foreach (var w in states)
             {
-                ArmouryItemState state = GetItem(w.Key);
+                ArmouryItemState state = Get(w.Key);
 
                 if (state.level > 0)
                     val += WeaponDamage(w.Key);

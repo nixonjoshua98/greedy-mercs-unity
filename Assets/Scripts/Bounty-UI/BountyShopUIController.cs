@@ -53,7 +53,7 @@ namespace GM.BountyShop
 
         GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopData itemData)
         {
-            GameObject o = Funcs.UI.Instantiate(prefab, parent);
+            GameObject o = CanvasUtils.Instantiate(prefab, parent);
 
             AbstractBountyShopSlot slot = o.GetComponent<AbstractBountyShopSlot>();
 

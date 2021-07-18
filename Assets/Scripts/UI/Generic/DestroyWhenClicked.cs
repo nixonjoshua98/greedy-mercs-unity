@@ -9,7 +9,7 @@ namespace GM
     {
         public void OnPointerDown(PointerEventData eventData)
         {
-            GraphicRaycaster raycaster = Funcs.UI.MainCanvas.GetComponent<GraphicRaycaster>();
+            GraphicRaycaster raycaster = CanvasUtils.MainCanvas.GetComponent<GraphicRaycaster>();
 
             List<RaycastResult> results = new List<RaycastResult>();
 

@@ -13,12 +13,16 @@ namespace GM.Armoury.UI
 
     public class ArmouryItemPopup : MonoBehaviour
     {
-        [Header("Upgrade Components")]
-        [SerializeField] Text upgradeDamageText;
+        [SerializeField] Text nameText;
+        [SerializeField] Text damageText;
+        [SerializeField] Text levelCostText;
 
-        [Header("Evolve Components")]
-        [SerializeField] Text evoDamageText;
+        [Space]
+
         [SerializeField] Slider evolveSlider;
+
+        [SerializeField] Button evolveButton;
+        [SerializeField] Button levelButton;
 
         [Header("Item Components")]
         [SerializeField] Image colouredWeapon;
@@ -36,6 +40,8 @@ namespace GM.Armoury.UI
 
             ArmouryItemData data = GameData.Get().Armoury.Get(_itemId);
 
+            nameText.text = data.Name;
+
             colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
 
             stars.Show(data.Tier);
@@ -46,29 +52,29 @@ namespace GM.Armoury.UI
 
         void UpdateUI()
         {
-            // We use the manager a lot, so we cache it temporary
-            UserArmouryData armoury = UserData.Get().Armoury;
+            int maxEvoLevel     = GameData.Get().Armoury.MaxEvolveLevel;
+            int evoLevelCost    = GameData.Get().Armoury.EvoLevelCost;
+
+            int armouryPoints   = Inventory.InventoryManager.Instance.ArmouryPoints;
+            int levelCost       = GameData.Get().Armoury.LevelCost(_itemId);
 
             // Grab the current state
-            ArmouryItemState state  = armoury.GetItem(_itemId);
+            ArmouryItemState state = UserData.Get().Armoury.Get(_itemId);
 
-            // Calculate the values we need
-            double currentDamage    = armoury.WeaponDamage(_itemId);
-            double nextLevelDamage  = armoury.WeaponDamage(_itemId, state.level + 1);
-            double nextEvoDamage    = armoury.WeaponDamage(_itemId, state.level, state.evoLevel + 1);
-
-            // Format the above values as strings
+            // Formatting
+            double currentDamage    = UserData.Get().Armoury.WeaponDamage(_itemId);
             string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
-            string nextEvoDmgString = FormatString.Number(nextEvoDamage * 100, prefix: "%");
-            string nextLvlDmgString = FormatString.Number(nextLevelDamage * 100, prefix: "%");
 
-            // Set the text widgets
-            upgradeDamageText.text  = string.Format("{0} -> {1}", currentDmgString, nextLvlDmgString);
-            evoDamageText.text      = string.Format("{0} -> {1}", currentDmgString, nextEvoDmgString);
+            // Text 
+            damageText.text     = $"<color=white>Current Merc Damage:</color> {currentDmgString}";
+            levelCostText.text  = levelCost.ToString();
 
             // Update the evolve level slider
-            evolveSlider.maxValue   = 5;
-            evolveSlider.value      = state.owned;
+            evolveSlider.maxValue   = evoLevelCost;
+            evolveSlider.value      = (state.owned - 1);
+
+            evolveButton.interactable   = state.owned >= (evoLevelCost + 1) && state.evoLevel < maxEvoLevel;
+            levelButton.interactable    = armouryPoints >= GameData.Get().Armoury.LevelCost(_itemId);
         }
 
 
@@ -90,5 +96,7 @@ namespace GM.Armoury.UI
         { 
             Destroy(gameObject); 
         }
+
+        // = = = ^
     }
 }

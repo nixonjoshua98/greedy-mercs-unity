@@ -5,8 +5,9 @@ using SimpleJSON;
 
 namespace GM
 {
+    using GM.Data;
+
     using GM.Bounty;
-    using GM.Armoury;
     using GM.BountyShop;
 
     public class UserData

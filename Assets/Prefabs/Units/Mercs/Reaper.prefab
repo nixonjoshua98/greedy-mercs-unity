@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mercId: 1
+  _MercID: 1
   anim: {fileID: 3820480451276261416}
   idleAnimation: Idle
   movement: {fileID: 4656428320273357231}

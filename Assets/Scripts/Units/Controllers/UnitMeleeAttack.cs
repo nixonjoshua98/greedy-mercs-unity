@@ -7,27 +7,17 @@ namespace GM.Units
 {
     public class UnitMeleeAttack : UnitAttack
     {
-        float AttackRange = 0.5f;
+        float attackRange = 0.5f;
 
-        public override Vector3 GetMoveVector(GameObject target)
+        public override Vector3 GetTargetPosition(GameObject target)
         {
-            return GetTargetMovePosition(target);
+            return target.transform.position + (Vector3.left * attackRange);
         }
 
 
         public override bool InAttackPosition(GameObject target)
         {
-            Vector3 targetMovePosition = GetTargetMovePosition(target);
-
-            float dist = Vector3.Distance(transform.position, targetMovePosition);
-
-            return dist <= AttackRange;
-        }
-
-
-        Vector3 GetTargetMovePosition(GameObject target)
-        {
-            return target.transform.position;
+            return Vector3.Distance(transform.position, GetTargetPosition(target)) == 0.0f;
         }
     }
 }

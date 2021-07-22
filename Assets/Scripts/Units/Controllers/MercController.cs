@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,8 +8,9 @@ namespace GM.Units
 {
     public class MercController : UnitController
     {
-        [SerializeField] MercID mercId;
-        public MercID MercId { get { return mercId; } }
+        [SerializeField] MercID _MercID;
+
+        public MercID ID { get { return _MercID; } }
 
         [Header("Components")]
         public Animator anim;
@@ -27,16 +29,25 @@ namespace GM.Units
 
         void Start()
         {
+            GetComponents();
+
             SubscribeToEvents();
 
             if (!_setupCalled)
+            {
                 Debug.LogError($"Setup not called on {name}");
+            }
         }
 
 
         void SubscribeToEvents()
         {
             attack.E_OnAttackImpact.AddListener(OnAttackImpact);
+        }
+
+        void GetComponents()
+        {
+
         }
 
 
@@ -55,7 +66,7 @@ namespace GM.Units
                 {
                     if (!attack.InAttackPosition(currentTarget))
                     {
-                        movement.MoveTowards(attack.GetMoveVector(currentTarget));
+                        movement.MoveTowards(attack.GetTargetPosition(currentTarget));
                     }
 
                     // Avoid the 'moving while idle' issue
@@ -67,9 +78,9 @@ namespace GM.Units
             }
             else if (!attack.IsAttacking())
             {
-                currentTarget = GetNewFocusTarget();
+                currentTarget = GetTarget();
 
-                movement.MoveDirection(Vector2.right);
+                //movement.MoveDirection(Vector2.right);
             }
         }
 
@@ -79,7 +90,7 @@ namespace GM.Units
         {
             _setupCalled = true;
 
-            mercId = _mercId;
+            _MercID = _mercId;
         }
 
         // = = = Callbacks/Events = = = //
@@ -88,7 +99,7 @@ namespace GM.Units
         {
             if (target && target.TryGetComponent(out HealthController hp))
             {
-                BigDouble dmg = StatsCache.TotalMercDamage(mercId);
+                BigDouble dmg = StatsCache.TotalMercDamage(_MercID);
 
                 StatsCache.ApplyCritHit(ref dmg);
 
@@ -104,14 +115,9 @@ namespace GM.Units
         }
 
 
-        GameObject GetNewFocusTarget()
+        GameObject GetTarget()
         {
-            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
-
-            if (targets.Length == 0)
-                return null;
-
-            return targets[Random.Range(0, targets.Length)];
+            return MercTargetManager.Instance.GetTarget(_MercID);
         }
     }
 }

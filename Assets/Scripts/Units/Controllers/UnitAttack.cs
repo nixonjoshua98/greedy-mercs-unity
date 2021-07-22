@@ -55,7 +55,7 @@ namespace GM.Units
         }
 
 
-        public abstract Vector3 GetMoveVector(GameObject target);
+        public abstract Vector3 GetTargetPosition(GameObject target);
 
 
         public abstract bool InAttackPosition(GameObject target);

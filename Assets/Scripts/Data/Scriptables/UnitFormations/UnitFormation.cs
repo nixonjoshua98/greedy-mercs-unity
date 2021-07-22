@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace GM.Formations
 {
-    [CreateAssetMenu(menuName = "Scriptables/StandardUnitFormation")]
-    public class StandardUnitFormation : ScriptableObject
+    [CreateAssetMenu(menuName = "Scriptables/UnitFormation")]
+    public class UnitFormation : ScriptableObject
     {
         [SerializeField] List<Vector3> positions;
 

@@ -96,7 +96,7 @@ namespace GM
             {
                 yield return new WaitForSeconds(0.25f);
 
-                spawnedEnemies = enemySpawner.SpawnMultiple(3);
+                spawnedEnemies = enemySpawner.SpawnMultiple();
 
                 foreach (GameObject o in spawnedEnemies)
                 {

@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
-  m_Name: 9_FireSatyr
+  m_Script: {fileID: 11500000, guid: ed987d51ea79d254e96c72290fb9f090, type: 3}
+  m_Name: Line4-Formation
   m_EditorClassIdentifier: 
-  ID: 9
-  Name: Satyr
-  Prefab: {fileID: 4212931060154188390, guid: df452a08b65b01d40877b57dd8926bc3, type: 3}
-  Icon: {fileID: 21300000, guid: 37a60f98c5f525f40ac9ddacf9388f47, type: 3}
+  positions:
+  - {x: 0, y: 0.5, z: 0}
+  - {x: 1.5, y: -0.5, z: 0}
+  - {x: 3, y: 0.5, z: 0}
+  - {x: 4.5, y: -0.5, z: 0}

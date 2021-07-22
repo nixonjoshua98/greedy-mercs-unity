@@ -10,19 +10,7 @@ namespace GM.Units
         float attackRangeY = 0.25f;
         float attackRangeX = 2.5f;
 
-        public override Vector3 GetMoveVector(GameObject target)
-        {
-            return GetTargetPosition(target);
-        }
-
-
-        public override bool InAttackPosition(GameObject target)
-        {
-            return WithinYRange(target) && WithinXRange(target);
-        }
-
-
-        Vector3 GetTargetPosition(GameObject target)
+        public override Vector3 GetTargetPosition(GameObject target)
         {
             bool inXRange = WithinXRange(target);
             bool inYRange = WithinYRange(target);
@@ -34,6 +22,12 @@ namespace GM.Units
                 return new Vector3(transform.position.x, target.transform.position.y);
 
             return new Vector3(target.transform.position.x, transform.position.y);
+        }
+
+
+        public override bool InAttackPosition(GameObject target)
+        {
+            return WithinYRange(target) && WithinXRange(target);
         }
 
 

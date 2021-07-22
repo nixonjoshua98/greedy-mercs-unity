@@ -13,7 +13,7 @@ public static class Server
 {
     const int PORT = 2122;
 
-    const string LOCAL_IP = "109.158.45.6";
+    const string LOCAL_IP = "86.140.161.85";
 
 #if UNITY_EDITOR
     const string IP = LOCAL_IP;

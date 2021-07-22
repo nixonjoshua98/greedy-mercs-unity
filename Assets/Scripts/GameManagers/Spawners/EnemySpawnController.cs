@@ -11,20 +11,19 @@ namespace GM
     {
         [SerializeField] GameObject[] EnemyObjects;
 
-        [SerializeField] StandardUnitFormation unitFormation;
+        [SerializeField] UnitFormation[] unitFormations;
 
-        public List<GameObject> SpawnMultiple(int n)
+        public List<GameObject> SpawnMultiple()
         {
             Vector3 centerPos = GetCenterPosition();
 
             List<GameObject> spawnedObjects = new List<GameObject>();
 
-            for (int i = 0; i < n; ++i)
-            {
-                Vector3 spawnPos = centerPos;
+            UnitFormation formation = unitFormations[Random.Range(0, unitFormations.Length)];
 
-                if (i < unitFormation.numPositions)
-                    spawnPos += unitFormation.GetPosition(i);
+            for (int i = 0; i < formation.numPositions; ++i)
+            {
+                Vector3 spawnPos = centerPos + formation.GetPosition(i);
 
                 spawnedObjects.Add(Spawn(spawnPos));
             }
@@ -37,14 +36,9 @@ namespace GM
         // the current formation
         Vector3 GetCenterPosition()
         {
-            List<Vector3> positions = SquadManager.Instance.UnitPositions();
+            Vector3 pos = Camera.main.MaxBounds();
 
-            if (positions.Count == 0)
-                return new Vector3(0.0f, 5.5f);
-
-            Vector3 centerPos = Funcs.AveragePosition(positions);
-
-            return new Vector3(centerPos.x + 5.0f, 5.5f);
+            return new Vector3(pos.x, 5.5f);
         }
 
         GameObject Spawn(Vector3 pos)

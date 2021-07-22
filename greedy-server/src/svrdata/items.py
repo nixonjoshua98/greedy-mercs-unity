@@ -5,7 +5,6 @@ from src.common import mongo
 
 class Items:
 
-    # Database Keys
     IRON_INGOTS = "ironIngots"
 
     @staticmethod

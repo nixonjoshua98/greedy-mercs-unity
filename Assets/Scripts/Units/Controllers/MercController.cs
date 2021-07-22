@@ -80,7 +80,7 @@ namespace GM.Units
             {
                 currentTarget = GetTarget();
 
-                //movement.MoveDirection(Vector2.right);
+                movement.MoveDirection(Vector2.right);
             }
         }
 
@@ -117,7 +117,9 @@ namespace GM.Units
 
         GameObject GetTarget()
         {
-            return MercTargetManager.Instance.GetTarget(_MercID);
+            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
+
+            return targets.Length == 0 ? null : targets[Random.Range(0, targets.Length)];
         }
     }
 }

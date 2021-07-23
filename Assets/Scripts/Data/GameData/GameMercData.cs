@@ -5,14 +5,19 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace GM.Data
+namespace GM.Units
 {
     public enum AttackType
     {
         MELEE = 0,
         RANGED = 1
     }
+}
 
+
+namespace GM.Data
+{
+    using AttackType = Units.AttackType;
 
     public struct MercPassiveData
     {

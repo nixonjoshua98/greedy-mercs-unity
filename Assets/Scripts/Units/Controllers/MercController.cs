@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace GM.Units
 {
+
     public class MercController : UnitController
     {
         [SerializeField] MercID _MercID;
@@ -29,8 +30,6 @@ namespace GM.Units
 
         void Start()
         {
-            GetComponents();
-
             SubscribeToEvents();
 
             if (!_setupCalled)
@@ -43,11 +42,6 @@ namespace GM.Units
         void SubscribeToEvents()
         {
             attack.E_OnAttackImpact.AddListener(OnAttackImpact);
-        }
-
-        void GetComponents()
-        {
-
         }
 
 

@@ -7,43 +7,43 @@ using UnityEngine.Events;
 
 namespace GM.Units
 {
-    public interface IUnitController
+    public abstract class UnitController : MonoBehaviour
     {
+        /*
+         * UnitController is the base class for Mercs, Bosses, and Enemies.
+         * Methods should have a generic cross-class purpose
+         */
 
-    }
-
-
-    public abstract class UnitController : MonoBehaviour, IUnitController
-    {
 
         protected void FadeOut(float duration, UnityAction action)
         {
-            StartCoroutine(ActualSpriteFade(duration, action));
-        }
+            // Slowly fade out (with a callback) all the attached sprite renderers
 
-
-        IEnumerator ActualSpriteFade(float duration, UnityAction action)
-        {
-            SpriteRenderer[] renderers  = GetComponentsInChildren<SpriteRenderer>();
-            Color[] colors              = renderers.Select(sr => sr.color).ToArray();
-
-            float progress = 0.0f;
-
-            while (progress < 1.0f)
+            IEnumerator _FadeOut(float duration, UnityAction action)
             {
-                yield return new WaitForFixedUpdate();
+                SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+                Color[] colors = renderers.Select(sr => sr.color).ToArray();
 
-                for (int i = 0; i < renderers.Length; ++i)
+                float progress = 0.0f;
+
+                while (progress < 1.0f)
                 {
-                    SpriteRenderer sr = renderers[i];
+                    yield return new WaitForFixedUpdate();
 
-                    sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, colors[i].a * (1 - progress));
+                    for (int i = 0; i < renderers.Length; ++i)
+                    {
+                        SpriteRenderer sr = renderers[i];
+
+                        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, colors[i].a * (1 - progress));
+                    }
+
+                    progress += Time.fixedDeltaTime / duration;
                 }
 
-                progress += Time.fixedDeltaTime / duration;
+                action.Invoke();
             }
 
-            action.Invoke();
+            StartCoroutine(_FadeOut(duration, action));
         }
     }
 }

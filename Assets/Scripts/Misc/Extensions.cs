@@ -12,7 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GM
 {
-    using GM.Data;
+    using AttackType = Units.AttackType;
 
     public static class Enum_Extensions
     {

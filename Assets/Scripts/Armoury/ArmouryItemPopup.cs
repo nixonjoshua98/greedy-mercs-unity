@@ -87,12 +87,6 @@ namespace GM.Armoury.UI
             UserData.Get().Armoury.UpgradeItem(_itemId, () => { UpdateUI(); });
         }
 
-
-        public void OnClosePopup() 
-        { 
-            Destroy(gameObject); 
-        }
-
         // = = = ^
     }
 }

@@ -16,7 +16,7 @@ namespace GM
 
             else
             {
-                Utils.UI.ShowMessage("Cashing Out", string.Format("Unlocks at stage {0}", StaticData.MIN_PRESTIGE_STAGE));
+                CanvasUtils.ShowInfo("Prestige", "You have not unlocked this yet");
             }
         }
     }

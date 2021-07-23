@@ -8,6 +8,7 @@ namespace GM
     {
         public static GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
 
+        // = = = Instantiate = = = //
         public static GameObject Instantiate(GameObject o) => Instantiate(o, MainCanvas);
         public static GameObject Instantiate(GameObject o, Transform parent) => Instantiate(o, parent.gameObject);
 
@@ -28,6 +29,17 @@ namespace GM
             inst.transform.position = pos;
 
             return inst;
+        }
+
+
+        // = = = Popups = = = //
+        public static void ShowInfo(string title, string desc)
+        {
+            GameObject o = Resources.Load<GameObject>("Popups/Info");
+
+            Message msg = Instantiate(o).GetComponent<Message>();
+
+            msg.Init(title.ToUpper(), desc);
         }
     }
 }

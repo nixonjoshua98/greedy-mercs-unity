@@ -41,7 +41,7 @@ namespace GM
 
             else
             {
-                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required to play.");
+                CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
             }
         }
 
@@ -56,7 +56,7 @@ namespace GM
 
             else
             {
-                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
+                CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
             }
         }
 

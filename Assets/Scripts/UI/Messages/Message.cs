@@ -14,5 +14,11 @@ namespace GM
             Title.text = t;
             Description.text = d;
         }
+
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
+        }
     }
 }

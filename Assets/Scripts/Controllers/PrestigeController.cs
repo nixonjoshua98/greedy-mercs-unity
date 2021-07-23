@@ -36,7 +36,7 @@ namespace GM.StageDM.Prestige
 
             else
             {
-                Utils.UI.ShowMessage("Server Connection", "Failed to contact the server :(");
+                CanvasUtils.ShowInfo("Server Connection", code.ToString());
             }
 
             callback(code == 200);

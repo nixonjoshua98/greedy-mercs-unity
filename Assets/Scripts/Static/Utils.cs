@@ -53,25 +53,4 @@ namespace GM.Utils
             rt.localScale = Vector3.one;
         }
     }
-
-    public class UI
-    {
-        public static void ShowMessage(string title, string desc)
-        {
-            GameObject o = Resources.Load<GameObject>("Message");
-
-            Message msg = CanvasUtils.Instantiate(o).GetComponent<Message>();
-
-            msg.Init(title, desc);
-        }
-
-        public static void ShowMessage(string name, string title, string desc)
-        {
-            GameObject o = Resources.Load<GameObject>(name);
-
-            Message msg = CanvasUtils.Instantiate(o).GetComponent<Message>();
-
-            msg.Init(title, desc);
-        }
-    }
 }

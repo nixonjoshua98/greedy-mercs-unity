@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GM.Units
 {
     using GM.Data;
-
     using GM.Events;
-
-    using GM;
     using GM.UI;
 
     public class CharacterRow : ExtendedMonoBehaviour
@@ -34,15 +29,6 @@ namespace GM.Units
 
         protected MercState State { get { return MercenaryManager.Instance.GetState(_mercId); } }
 
-        public Data.MercData _MercDescription { get { return GameData.Get().Mercs.Get(_mercId); } }
-
-        void Awake()
-        {
-            BuyController buyController = FindObjectOfType<MercsTab>().GetComponentInChildren<BuyController>();
-
-            buyController.AddListener((val) => { _buyAmount = val; });
-        }
-
         protected int TargetBuyAmount
         {
             get
@@ -54,23 +40,39 @@ namespace GM.Units
             }
         }
 
-        public void SetCharacter(MercID mercId)
+        public void Setup(MercID mercId, BuyController buyController)
         {
             _mercId = mercId;
-
-            nameText.text       = _MercDescription.Name;
-            iconImage.sprite    = _MercDescription.Icon;
-
             _updatingUi = true;
+
+            buyController.AddListener((val) => { _buyAmount = val; });
+
+            SetInterfaceElements();
+            UpdateInterfaceElements();
         }
         
+
         protected override void PeriodicUpdate()
         {
-            if (!_updatingUi)
-                return;
+            if (_updatingUi)
+                UpdateInterfaceElements();
+        }
 
-            DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(_mercId)) + " DPS";
-            nameText.text   = string.Format("(Lvl. {0}) {1}", State.Level, _MercDescription.Name);
+
+        void SetInterfaceElements()
+        {
+            MercData mercData = GameData.Get().Mercs.Get(_mercId);
+
+            iconImage.sprite = mercData.Icon;
+        }
+
+
+        void UpdateInterfaceElements()
+        {
+            MercData mercData = GameData.Get().Mercs.Get(_mercId);
+
+            DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(_mercId), prefix: " ATK");
+            nameText.text   = string.Format("(Lvl. {0}) {1}", State.Level, mercData.Name);
 
             upgradeButton.SetText("MAX", "-");
 
@@ -78,9 +80,10 @@ namespace GM.Units
             {
                 BigDouble cost = State.CostToUpgrade(TargetBuyAmount);
 
-                upgradeButton.SetText(string.Format("x{0}", TargetBuyAmount), FormatString.Number(cost));
+                upgradeButton.SetText($"x{TargetBuyAmount}", FormatString.Number(cost));
             }
         }
+
 
         // === Button Callbacks ===
 
@@ -99,6 +102,7 @@ namespace GM.Units
                 GlobalEvents.E_OnMercLevelUp.Invoke(_mercId);
             }
         }
+
 
         public void OnShowInfo()
         {

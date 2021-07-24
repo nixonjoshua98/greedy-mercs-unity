@@ -4811,8 +4811,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 75}
-  m_SizeDelta: {x: -50, y: -200}
+  m_AnchoredPosition: {x: 0, y: 87.5}
+  m_SizeDelta: {x: -50, y: -225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &683950958
 CanvasRenderer:
@@ -7205,6 +7205,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.1
   toggleType: 0
   canvasToToggle: {fileID: 0}
+  buyAmountController: {fileID: 2121145477}
   scrollContent: {fileID: 1995700563}
   characterRowObject: {fileID: 3980334094800979715, guid: 522335a6c5910dc4bb1524ee712b7945,
     type: 3}
@@ -12489,6 +12490,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2121145475}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2121145477 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7432547295093481443, guid: 2842bc39e0119e145a721ae0401d51a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121145475}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300e31a5c64ada44e87edab4d413ed86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2124881552
 GameObject:
   m_ObjectHideFlags: 0

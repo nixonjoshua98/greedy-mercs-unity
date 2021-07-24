@@ -11,6 +11,8 @@ namespace GM.UI
 
     public class MercsTab : CloseablePanel
     {
+        [SerializeField] BuyController buyAmountController;
+
         [Header("Transforms")]
         [SerializeField] Transform scrollContent;
 
@@ -30,7 +32,7 @@ namespace GM.UI
 
             CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 
-            row.SetCharacter(chara);
+            row.Setup(chara, buyAmountController);
         }
     }
 }

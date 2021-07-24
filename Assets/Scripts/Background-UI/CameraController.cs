@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,11 +12,12 @@ namespace GM.Background
         {
             List<Vector3> unitPositions = SquadManager.Instance.UnitPositions();
 
-            if (unitPositions.Count >= 1)
+            if (unitPositions.Count > 0)
             {
-                UpdateCamera(SquadManager.Instance.AveragePosition());
+                UpdateCamera(unitPositions.OrderByDescending(ele => ele.x).First());
             }
         }
+
 
         void UpdateCamera(Vector3 pos)
         {

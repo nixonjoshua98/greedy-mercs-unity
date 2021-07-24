@@ -96,7 +96,7 @@ namespace GM.Units
 
                 GameState.Player.gold -= cost;
 
-                GlobalEvents.OnCharacterLevelUp.Invoke(_mercId);
+                GlobalEvents.E_OnMercLevelUp.Invoke(_mercId);
             }
         }
 

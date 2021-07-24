@@ -23,9 +23,9 @@ namespace GM.Events
     {
         public static GameStateEvent E_OnWaveClear  = new GameStateEvent();
 
-        public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
+        public static CharacterEvent E_OnMercUnlocked = new CharacterEvent();
 
-        public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();
+        public static CharacterEvent E_OnMercLevelUp = new CharacterEvent();
 
         // === Standard Events ===
 

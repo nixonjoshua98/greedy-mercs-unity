@@ -42,7 +42,7 @@ namespace GM
 
                     MercenaryManager.Instance.SetState(chara);
 
-                    GlobalEvents.OnCharacterUnlocked.Invoke(chara);
+                    GlobalEvents.E_OnMercUnlocked.Invoke(chara);
                 }
 
                 UpdatePanel();

@@ -22,7 +22,7 @@ namespace GM.UI
 
         void Awake()
         {
-            GlobalEvents.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
+            GlobalEvents.E_OnMercUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
         void AddRow(MercID chara)

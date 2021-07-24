@@ -7,7 +7,7 @@ namespace GM
 {
     using GM.Data;
 
-    using GM.Bounty;
+    using GM.Bounties;
     using GM.BountyShop;
 
     public class UserData

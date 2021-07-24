@@ -9,7 +9,7 @@ namespace GM.UI
 
     public class ToggleController : MonoBehaviour
     {
-        [HideInInspector] protected IntegerEvent OnValueChanged;
+        protected IntegerEvent OnValueChanged;
 
         int currentIndex;
 

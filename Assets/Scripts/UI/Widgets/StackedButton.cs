@@ -11,10 +11,18 @@ namespace GM.UI
         public Text TextOne;
         public Text TextTwo;
 
+        [SerializeField] Button button;
+
         public void SetText(string s1, string s2)
         {
             TextOne.text = s1;
             TextTwo.text = s2;
+        }
+
+
+        public void Toggle(bool val)
+        {
+            button.interactable = val;
         }
     }
 }

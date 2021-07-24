@@ -42,13 +42,12 @@ def purchase_item(data: ItemData):
     if (item := items.get(data.shop_item)) is None or not _can_purchase_item(uid, item):
         raise HTTPException(400)
 
-    svrdata.items.update_items(
-        uid,
-        inc={
-            "bountyPoints": -item.purchase_cost,
-            item.get_db_key():  item.quantity_per_purchase
+    Items.update_one({"userId": uid}, {
+        "$inc": {
+            Items.BOUNTY_POINTS: -item.purchase_cost,
+            item.get_db_key(): item.quantity_per_purchase
         }
-    )
+    })
 
     _log_purchase(uid, item.id)
 
@@ -75,13 +74,17 @@ def purchase_armoury_item(data: ItemData):
         upsert=True
     )
 
-    svrdata.items.update_items(uid, inc={"bountyPoints": -item.purchase_cost})
+    Items.update_one({"userId": uid}, {
+        "$inc": {
+            Items.BOUNTY_POINTS: -item.purchase_cost,
+        }
+    })
 
     _log_purchase(uid, data.shop_item)
 
     return ServerResponse(
         {
-            "userItems":        svrdata.items.get_items(uid),
+            "userItems":        Items.find_one({"userId": uid}),
             "userArmouryItems": Armoury.find({"userId": uid}),
             "dailyPurchases":   svrdata.bountyshop.daily_purchases(uid)
         }

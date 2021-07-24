@@ -8,14 +8,11 @@ namespace GM
         [Header("Extended MonoBehaviour")]
         [Range(0.0f, 5.0f)] public float periodicUpdateDelay = 0.1f;
 
-        void Start()
+        void OnEnable()
         {
             PeriodicUpdate();
-        }
 
-        void OnEnable()
-        {           
-            InvokeRepeating("OnPeriodicUpdate", 0.0f, periodicUpdateDelay);
+            InvokeRepeating("OnPeriodicUpdate", periodicUpdateDelay, periodicUpdateDelay);
         }
 
         void OnDisable()

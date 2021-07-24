@@ -30,27 +30,3 @@ public static class Funcs
     }
 
 }
-
-namespace GM.Utils
-{
-    public class Lerp
-    {
-        public static IEnumerator RectTransform(RectTransform rt, Vector3 start, Vector3 end, float dur)
-        {
-            float progress = 0.0f;
-
-            rt.localScale = start;
-
-            while (progress < 1.0f)
-            {
-                progress += (Time.deltaTime / dur);
-
-                rt.localScale = Vector3.Lerp(start, end, progress);
-
-                yield return new WaitForEndOfFrame();
-            }
-
-            rt.localScale = Vector3.one;
-        }
-    }
-}

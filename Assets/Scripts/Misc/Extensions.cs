@@ -1,4 +1,4 @@
-using System;
+
 using System.Numerics;
 using System.Collections.Generic;
 
@@ -14,7 +14,7 @@ namespace GM
 {
     using AttackType = Units.AttackType;
 
-    public static class Enum_Extensions
+    public static class AttackTypeExtensions
     {
         public static BonusType ToBonusType(this AttackType val)
         {
@@ -99,14 +99,5 @@ public static class BigNumberExtensions
     public static BigInteger ToBigInteger(this BigDouble val)
     {
         return BigInteger.Parse(val.Ceiling().ToString("F0"));
-    }
-}
-
-
-public static class Extensions
-{
-    public static DateTime ToUnixDatetime(this long val)
-    {
-        return DateTimeOffset.FromUnixTimeMilliseconds(val).DateTime;
     }
 }

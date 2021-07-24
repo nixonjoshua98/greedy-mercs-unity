@@ -9,6 +9,7 @@ public static class FormatString
 {
     readonly static Dictionary<int, string> units = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
 
+    // Number
     public static string Number(BigDouble val, string prefix = "")
     {
         if (BigDouble.Abs(val) < 1) // Value is less than 1.0 so we just return it rounded
@@ -47,6 +48,8 @@ public static class FormatString
         return Number(new BigDouble(val), prefix: prefix);
     }
 
+
+    // Seconds
     public static string Seconds(double seconds) { return Seconds((long)seconds); }
     public static string Seconds(long seconds)
     {
@@ -57,5 +60,12 @@ public static class FormatString
         seconds -= (60 * mins);
 
         return string.Format("{0}h {1}m {2}s", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
+    }
+
+
+    // BonusType
+    public static string Bonus(BonusType bonusType, double value)
+    {
+        return $"{Number(value)} {bonusType}";
     }
 }

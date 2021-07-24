@@ -6,6 +6,7 @@ from src.common import mongo
 class Items:
 
     IRON_INGOTS = "ironIngots"
+    BOUNTY_POINTS = "bountyPoints"
 
     @staticmethod
     def find_one(search) -> dict:

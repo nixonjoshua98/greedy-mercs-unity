@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-
+﻿
 using UnityEngine;
-using UnityEngine.Events;
 
 
 namespace GM.UI
@@ -12,7 +9,7 @@ namespace GM.UI
 
     using GM.Units;
 
-    public class MercsTab : MonoBehaviour
+    public class MercsTab : CloseablePanel
     {
         [Header("Transforms")]
         [SerializeField] Transform scrollContent;

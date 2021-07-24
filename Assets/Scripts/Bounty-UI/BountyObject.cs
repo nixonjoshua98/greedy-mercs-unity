@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     using GM.Data;
 

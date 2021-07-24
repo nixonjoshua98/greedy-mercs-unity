@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 10_Artefact
   m_EditorClassIdentifier: 
   ID: 10
-  Name: Deagon Meat
-  Icon: {fileID: 21300000, guid: 4a39cb4b272639541b7bd5ac0649acf7, type: 3}
+  Name: Poison Antidote
+  Icon: {fileID: 21300000, guid: bd6b3b0259035344db5644eab9e874c2, type: 3}

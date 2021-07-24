@@ -6,8 +6,9 @@ using UnityEngine.UI;
 namespace GM.Armoury.UI
 {
     using GM.Data;
+    using GM.UI;
 
-    public class ArmouryPanel : MonoBehaviour
+    public class ArmouryPanel : CloseablePanel
     {
         [Header("Compoents")]
         [SerializeField] Text damageBonusText;

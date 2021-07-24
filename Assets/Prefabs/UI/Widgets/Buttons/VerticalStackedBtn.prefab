@@ -286,6 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextOne: {fileID: 8760536882171162402}
   TextTwo: {fileID: 8760536883236067670}
+  button: {fileID: 8760536882837736431}
 --- !u!222 &8760536882837736425
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 9_Artefact
   m_EditorClassIdentifier: 
   ID: 9
-  Name: Wizardry
-  Icon: {fileID: 21300000, guid: db427fab3e94daf4caa704d9314a77a1, type: 3}
+  Name: Godly Spoon
+  Icon: {fileID: 21300000, guid: badfefd20210ab7418f907e4e14eb51b, type: 3}

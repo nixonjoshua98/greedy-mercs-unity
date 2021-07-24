@@ -8,7 +8,7 @@ using UnityEngine;
 using SimpleJSON;
 
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     using GM.Data;
 

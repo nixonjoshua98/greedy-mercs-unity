@@ -15,8 +15,7 @@ class ArmouryResource:
 
         self.items: dict["ArmouryItem"] = {k: ArmouryItem.from_dict(v) for k, v in data["items"].items()}
 
-    def as_dict(self):
-        return self.__dict
+    def as_dict(self): return self.__dict
 
 
 class ArmouryItem:

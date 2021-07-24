@@ -54,7 +54,7 @@ namespace GM.Data
 
             foreach (LocalArmouryItemData ele in LoadLocalData())
             {
-                if (node.TryGet(ele.Id.ToString(), out JSONNode svrItemData))
+                if (node.TryGetKey(ele.Id, out JSONNode svrItemData))
                 {
                     items[ele.Id] = new ArmouryItemData()
                     {

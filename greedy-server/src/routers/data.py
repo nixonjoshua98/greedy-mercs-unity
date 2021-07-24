@@ -18,10 +18,10 @@ class UserLoginData(BaseModel):
 def get_game_data():
 
     return {
-        "mercResources":    resources.get_mercs(),
-        "armouryResources": res2.get_armoury().as_dict(),
+        "artefactResources":    res2.get_artefacts().as_dict(),
+        "mercResources":        resources.get_mercs(),
+        "armouryResources":     res2.get_armoury().as_dict(),
 
-        "artefacts": resources.get("artefacts"),
         "bounties": resources.get("bounties"),
         "nextDailyReset": svrdata.next_daily_reset()
     }

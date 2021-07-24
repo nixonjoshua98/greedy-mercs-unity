@@ -18,26 +18,27 @@ namespace GM.Artefacts
 
         public int Level;
 
-        // Quick dirty reference to the server 'static' data for the artefact
-        ArtefactData _svrData { get { return StaticData.Artefacts.Get(ID); } }
-
         public ArtefactState(int id)
         {
             ID = id;
         }
 
-        public bool IsMaxLevel() { return Level >= _svrData.MaxLevel; }
+        public bool IsMaxLevel() { return Level >= GameData.Get().Artefacts.Get(ID).MaxLevel; }
 
         // Formula shortcut
         public BigInteger CostToUpgrade(int levels)
         {
-            return Formulas.ArtefactLevelUpCost(Level, levels, _svrData.costExpo, _svrData.costCoeff);
+            ArtefactData data = GameData.Get().Artefacts.Get(ID);
+
+            return Formulas.ArtefactLevelUpCost(Level, levels, data.CostExpo, data.CostCoeff);
         }
 
         // Formula shortcut
         public double Effect()
         {
-            return Formulas.ArtefactEffect(Level, _svrData.baseEffect, _svrData.levelEffect);
+            ArtefactData data = GameData.Get().Artefacts.Get(ID);
+
+            return Formulas.ArtefactEffect(Level, data.BaseEffect, data.LevelEffect);
         }
     }
 
@@ -145,9 +146,9 @@ namespace GM.Artefacts
 
             foreach (ArtefactState state in StatesList)
             {
-                ArtefactData data = StaticData.Artefacts.Get(state.ID);
+                ArtefactData data = GameData.Get().Artefacts.Get(state.ID);
 
-                ls.Add(new KeyValuePair<BonusType, double>(data.bonusType, state.Effect()));
+                ls.Add(new KeyValuePair<BonusType, double>(data.Bonus, state.Effect()));
             }
 
             return ls;

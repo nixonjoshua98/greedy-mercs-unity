@@ -7,31 +7,17 @@ namespace GM.Units
 {
     public class UnitRangedAttack : UnitAttack
     {
-        float attackRangeY = 0.25f;
-        float attackRangeX = 2.5f;
+        float attackRange = 2.5f;
 
         public override Vector3 GetTargetPosition(GameObject target)
         {
-            bool inXRange = WithinXRange(target);
-            bool inYRange = WithinYRange(target);
-
-            if (!inXRange && !inYRange)
-                return target.transform.position;
-
-            else if (!inYRange)
-                return new Vector3(transform.position.x, target.transform.position.y);
-
-            return new Vector3(target.transform.position.x, transform.position.y);
+            return target.transform.position + (Vector3.left * attackRange);
         }
 
 
         public override bool InAttackPosition(GameObject target)
         {
-            return WithinYRange(target) && WithinXRange(target);
+            return Vector3.Distance(transform.position, GetTargetPosition(target)) == 0.0f;
         }
-
-
-        bool WithinYRange(GameObject target) => Mathf.Abs(transform.position.y - target.transform.position.y) <= attackRangeY;
-        bool WithinXRange(GameObject target) => Mathf.Abs(transform.position.x - target.transform.position.x) <= attackRangeX;
     }
 }

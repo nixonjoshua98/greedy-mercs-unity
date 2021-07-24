@@ -11,14 +11,14 @@ def get(file_name):
 
 def get_mercs(*, id_: int = None):
 	if id_ is not None:
-		return _load_yaml(_res_path("mercenaries", f"ID_{id_}.yaml"))
+		return _load_json(_res_path("mercs", f"merc_{id_}.json"))
 
 	d = dict()
 
-	for file in os.listdir(_res_path("mercenaries")):
-		id_ = int(file[file.find("ID_")+3: file.find(".yaml")])
+	for file in os.listdir(_res_path("mercs")):
+		id_ = int(file[file.find("merc_")+5: file.find(".json")])
 
-		d[id_] = _load_yaml(_res_path("mercenaries", file))
+		d[id_] = _load_json(_res_path("mercs", file))
 
 	return d
 

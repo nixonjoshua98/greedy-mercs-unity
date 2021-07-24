@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 using System.Collections.Generic;
 
-using Vector3 = UnityEngine.Vector3;
 
 namespace GM.Artefacts
 {
@@ -11,7 +10,7 @@ namespace GM.Artefacts
 
     using GM;
 
-    public class LootTab : MonoBehaviour
+    public class LootTab : ExtendedMonoBehaviour
     {
         [Header("GameObjects")]
         [SerializeField] GameObject rowParent;
@@ -64,20 +63,21 @@ namespace GM.Artefacts
             rows.Clear();
         }
 
-        void FixedUpdate()
+        protected override void PeriodicUpdate()
         {
             int pp = UserData.Get().Inventory.PrestigePoints;
 
-            ArtefactManager arts = ArtefactManager.Instance;
+            int numUnlockedArtefacts    = ArtefactManager.Instance.Count;
+            int maxUnlockableArts       = GameData.Get().Artefacts.Count;
 
             prestigePointText.text      = FormatString.Number(pp);
-            buyLootButton.interactable  = arts.Count < StaticData.Artefacts.Count;
+            buyLootButton.interactable  = numUnlockedArtefacts < maxUnlockableArts;
 
             lootCostText.text = "-";
 
-            if (arts.Count < StaticData.Artefacts.Count)
+            if (numUnlockedArtefacts < maxUnlockableArts)
             {
-                lootCostText.text = string.Format("{0}", FormatString.Number(Formulas.CalcNextLootCost(arts.Count)));
+                lootCostText.text = string.Format("{0}", FormatString.Number(Formulas.CalcNextLootCost(numUnlockedArtefacts)));
             }
         }
 

@@ -32,13 +32,14 @@ namespace GM.Units
             FaceTowardsTarget(target);
         }
 
+
         public void MoveDirection(Vector3 dir)
         {
-            MoveTowards(transform.position + (dir * 100.0f));
+            MoveTowards(transform.position + (dir * moveSpeed));
         }
 
-        public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }
 
+        public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }
         public void FaceTowardsTarget(Vector3 pos)
         {
             // Flip the avatar x scale to face the target position

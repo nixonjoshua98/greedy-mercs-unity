@@ -1,0 +1,71 @@
+{
+  "attackType": 0,
+  "unlockCost": 2.5e6,
+  "passives": [
+    {
+      "bonusType": 2,
+      "bonusValue": 2.0,
+      "unlockLevel": 25
+    },
+    {
+      "bonusType": 3,
+      "bonusValue": 1.1,
+      "unlockLevel": 50
+    },
+    {
+      "bonusType": 1,
+      "bonusValue": 1.1,
+      "unlockLevel": 75
+    },
+    {
+      "bonusType": 3,
+      "bonusValue": 1.15,
+      "unlockLevel": 100
+    },
+    {
+      "bonusType": 1,
+      "bonusValue": 1.1,
+      "unlockLevel": 125
+    },
+    {
+      "bonusType": 1,
+      "bonusValue": 1.1,
+      "unlockLevel": 150
+    },
+    {
+      "bonusType": 2,
+      "bonusValue": 2.0,
+      "unlockLevel": 200
+    },
+    {
+      "bonusType": 3,
+      "bonusValue": 1.1,
+      "unlockLevel": 250
+    },
+    {
+      "bonusType": 2,
+      "bonusValue": 2.0,
+      "unlockLevel": 300
+    },
+    {
+      "bonusType": 0,
+      "bonusValue": 1.15,
+      "unlockLevel": 350
+    },
+    {
+      "bonusType": 0,
+      "bonusValue": 1.25,
+      "unlockLevel": 400
+    },
+    {
+      "bonusType": 1,
+      "bonusValue": 1.1,
+      "unlockLevel": 450
+    },
+    {
+      "bonusType": 0,
+      "bonusValue": 1.25,
+      "unlockLevel": 500
+    }
+  ]
+}

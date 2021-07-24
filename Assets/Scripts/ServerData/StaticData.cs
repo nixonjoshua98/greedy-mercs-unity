@@ -2,11 +2,6 @@
 
 using SimpleJSON;
 
-
-    using GM.Armoury;
-   using GM.Artefacts;
-   using GM.Units;
-
 using GM;
 
 public static class StaticData
@@ -22,15 +17,11 @@ public static class StaticData
 
     public static SkillListSO SkillList;
 
-    public static ServerArtefactData Artefacts;
-
     public static DateTime NextDailyReset;
 
     public static void Restore(JSONNode node)
     {
         SkillList.Init();
-
-        Artefacts = new ServerArtefactData(node["artefacts"]);
 
         NextDailyReset = Funcs.ToDateTime(node["nextDailyReset"]);
     }

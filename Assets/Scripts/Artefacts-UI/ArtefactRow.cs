@@ -19,6 +19,7 @@ namespace GM.Artefacts
         [SerializeField] Button buyButton;
         [Space]
         [SerializeField] Text nameText;
+        [SerializeField] Text levelText;
         [SerializeField] Text effectText;
         
         [Header("Components - Scripts")]
@@ -27,10 +28,16 @@ namespace GM.Artefacts
         int _buyAmount;
         bool _updatingUi;
 
-        ArtefactData ServerData { get { return StaticData.Artefacts.Get(_artefactId); } }
-        ArtefactState ArtState { get { return ArtefactManager.Instance.Get(_artefactId); } }
+        int BuyAmount
+        { 
+            get 
+            {
+                ArtefactData artData = GameData.Get().Artefacts.Get(_artefactId);
+                ArtefactState artState = ArtefactManager.Instance.Get(_artefactId);
 
-        int BuyAmount { get {  return Mathf.Min(_buyAmount, ServerData.MaxLevel - ArtState.Level); } }
+                return Mathf.Min(_buyAmount, artData.MaxLevel - artState.Level); 
+            } 
+        }
 
         void Awake()
         {
@@ -39,43 +46,50 @@ namespace GM.Artefacts
             buyController.AddListener((val) => { _buyAmount = val; });
         }
 
+
         public void Init(int id)
         {
             _artefactId = id;
-
-            nameText.text = ServerData.Name;
-            icon.sprite = ServerData.Icon;
-
             _updatingUi = true;
+
+            UpdateInterfacElements();
         }
+
 
         protected override void PeriodicUpdate()
         {
-            if (!_updatingUi)
-                return;
+            if (_updatingUi)
+            {
+                UpdateInterfacElements();
+            }
+        }
+
+
+        void UpdateInterfacElements()
+        {
+            ArtefactData artData = GameData.Get().Artefacts.Get(_artefactId);
+            ArtefactState artState = ArtefactManager.Instance.Get(_artefactId);
 
             int pp = UserData.Get().Inventory.PrestigePoints;
 
-            UpdateEffectText();
+            icon.sprite = artData.Icon;
 
-            nameText.text = string.Format("(Lvl. {0}) {1}", ArtState.Level, ServerData.Name);
+            levelText.text  = $"Lvl. {artState.Level}";
+            effectText.text = $"{FormatString.Number(artState.Effect())} {artData.Bonus}";
+            nameText.text   = artData.Name;
 
             stackedButton.SetText("MAX", "-");
 
-            if (!ArtState.IsMaxLevel())
+            if (!artState.IsMaxLevel())
             {
-                string cost = FormatString.Number(ArtState.CostToUpgrade(BuyAmount));
+                string cost = FormatString.Number(artState.CostToUpgrade(BuyAmount));
 
                 stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }
 
-            buyButton.interactable = !ArtState.IsMaxLevel() && pp >= ArtState.CostToUpgrade(BuyAmount);
+            buyButton.interactable = !artState.IsMaxLevel() && pp >= artState.CostToUpgrade(BuyAmount);
         }
 
-        void UpdateEffectText()
-        {
-            effectText.text = string.Format("{0} {1}", FormatString.Number(ArtState.Effect()), Funcs.BonusString(ServerData.bonusType));
-        }
 
         // = = = Button Callbacks = = = //
         public void OnUpgradeArtefactBtn()

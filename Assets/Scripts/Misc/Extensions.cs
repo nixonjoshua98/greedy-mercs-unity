@@ -71,7 +71,8 @@ public static class CameraExtensions
 
 public static class JSONNodeExtensions
 {
-    public static bool TryGet(this JSONNode node, string key, out JSONNode result)
+    public static bool TryGetKey(this JSONNode node, int key, out JSONNode result) => node.TryGetKey(key.ToString(), out result);
+    public static bool TryGetKey(this JSONNode node, string key, out JSONNode result)
     {
         result = node.HasKey(key) ? node[key] : default;
 

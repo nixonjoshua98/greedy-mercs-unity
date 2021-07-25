@@ -2,7 +2,7 @@ import random
 
 import datetime as dt
 
-from .items import Items
+from . import items as Items
 
 from src import svrdata
 from src.common import mongo, resources

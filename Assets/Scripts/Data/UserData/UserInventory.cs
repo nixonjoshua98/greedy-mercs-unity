@@ -1,10 +1,5 @@
-﻿using System.Numerics;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using SimpleJSON;
+﻿using SimpleJSON;
+using System.Numerics;
 
 
 namespace GM.Data

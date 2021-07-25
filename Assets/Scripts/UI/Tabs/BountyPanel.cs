@@ -28,11 +28,23 @@ namespace GM.Bounties.UI
 
         protected override void PeriodicUpdate()
         {
+            UpdatePointsCollection();
+        }
+
+
+        protected override void OnShown()
+        {
+            UpdatePointsCollection();
+        }
+
+
+        void UpdatePointsCollection()
+        {
             BountySnapshot snapshot = UserData.Get().Bounties.CreateSnapshot();
 
-            bountyPointsText.text   = UserData.Get().Inventory.BountyPoints.ToString();
+            bountyPointsText.text   = FormatString.Number(UserData.Get().Inventory.BountyPoints);
             bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";
-            unclaimedTotalText.text = string.Format("Collect ({0})", snapshot.Unclaimed);
+            unclaimedTotalText.text = $"Collect ({snapshot.Unclaimed})";
 
             bountySlider.value = snapshot.PercentFilled;
         }
@@ -52,10 +64,11 @@ namespace GM.Bounties.UI
         }
 
 
-        // = = = Button Callbacks = = =
+        // = = = Button Callbacks = = = //
+
         public void OnClaimPoints()
         {
-            UserData.Get().Bounties.ClaimPoints(() => { });
+            UserData.Get().Bounties.ClaimPoints(() => { UpdatePointsCollection(); });
         }
     }
 }

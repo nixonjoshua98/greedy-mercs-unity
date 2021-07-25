@@ -4,6 +4,7 @@ from fastapi import APIRouter
 import datetime as dt
 
 from src import svrdata
+from src.svrdata import Items
 from src.common import resources, formulas
 from src.checks import user_or_raise
 from src.routing import CustomRoute, ServerResponse
@@ -27,7 +28,7 @@ def prestige(data: PrestigeData):
 
     points_gained = formulas.stage_prestige_points(data.prestige_stage, user_artefacts)
 
-    svrdata.items.update_items(uid, inc={"prestigePoints": points_gained})
+    Items.update_one({"userId": uid}, {"$inc": {Items.PRESTIGE_POINTS: points_gained}})
 
     return ServerResponse({"completeUserData": svrdata.get_player_data(uid)})
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Numerics;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -10,7 +11,8 @@ namespace GM.Data
 {
     public class UserInventory
     {
-        public int PrestigePoints;
+        public BigInteger PrestigePoints;
+
         public int BountyPoints;
         public int IronIngots;
         public int BlueGems;
@@ -25,7 +27,8 @@ namespace GM.Data
             BlueGems        = node.GetValueOrDefault("blueGems", 0).AsInt;
             IronIngots      = node.GetValueOrDefault("ironIngots", 0).AsInt;
             BountyPoints    = node.GetValueOrDefault("bountyPoints", 0).AsInt;
-            PrestigePoints  = node.GetValueOrDefault("prestigePoints", 0).AsInt;
+
+            PrestigePoints = BigInteger.Parse(node.GetValueOrDefault("prestigePoints", 0), System.Globalization.NumberStyles.Any);
         }
     }
 }

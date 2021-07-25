@@ -1,8 +1,8 @@
-from . import bountyshop, items, artefacts, bounty
+from . import bountyshop, artefacts, bounty
 
 # Pretend it is a class
 from . import armoury as Armoury
-
+from .items import Items
 import datetime as dt
 
 
@@ -16,9 +16,10 @@ def last_daily_reset():
 
 
 def get_player_data(uid):
+
     return {
         "inventory": {
-            "items": items.get_items(uid)
+            "items": Items.find_one({"userId": uid}, post_process=False)
         },
 
         "bountyShop": {

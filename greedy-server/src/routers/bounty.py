@@ -4,7 +4,7 @@ import datetime as dt
 
 from fastapi import APIRouter
 
-from src import svrdata
+from src.svrdata import Items
 from src.checks import user_or_raise
 from src.common import mongo, resources
 from src.routing import CustomRoute, ServerResponse
@@ -23,9 +23,9 @@ def claim_points(user: UserIdentifier):
     mongo.db["userBounties"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
 
     # Add the bounty points to the users inventory
-    svrdata.items.update_items(uid, inc={"bountyPoints": unclaimed})
+    items = Items.find_and_update_one({"userId": uid}, {"$inc": {"bountyPoints": unclaimed}})
 
-    return ServerResponse({"claimTime": now, "userItems": svrdata.items.get_items(uid)})
+    return ServerResponse({"claimTime": now, "userItems": items})
 
 
 def calc_unclaimed_total(uid, now) -> int:

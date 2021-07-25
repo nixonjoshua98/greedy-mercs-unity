@@ -1,11 +1,12 @@
 ﻿
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GM.Artefacts
 {
-    using GM.UI;
     using GM.Data;
+    using GM.UI;
 
     public class ArtefactSlot : MonoBehaviour
     {
@@ -23,14 +24,15 @@ namespace GM.Artefacts
         int _buyAmount;
         bool _updatingUi;
 
+        ArtefactData artGameData { get { return GameData.Get().Artefacts.Get(_artefactId); } }
+
         int BuyAmount
         { 
             get 
             {
-                ArtefactData artData    = GameData.Get().Artefacts.Get(_artefactId);
                 ArtefactState artState  = ArtefactManager.Instance.Get(_artefactId);
 
-                return MathUtils.NextMultipleMax(artState.Level, _buyAmount, artData.MaxLevel);
+                return MathUtils.NextMultipleMax(artState.Level, _buyAmount, artGameData.MaxLevel);
             } 
         }
 
@@ -51,7 +53,17 @@ namespace GM.Artefacts
                 UpdateInterfacElements();
             });
 
+            SetInterfaceElements();
+
             UpdateInterfacElements();
+        }
+
+
+        void SetInterfaceElements()
+        {
+            nameText.text = artGameData.Name;
+
+            icon.sprite = artGameData.Icon;
         }
 
 
@@ -63,13 +75,10 @@ namespace GM.Artefacts
             ArtefactData artData = GameData.Get().Artefacts.Get(_artefactId);
             ArtefactState artState = ArtefactManager.Instance.Get(_artefactId);
 
-            int pp = UserData.Get().Inventory.PrestigePoints;
-
-            icon.sprite = artData.Icon;
+            BigInteger pp = UserData.Get().Inventory.PrestigePoints;
 
             levelText.text  = $"Lvl. {artState.Level}";
             effectText.text = FormatString.Bonus(artData.Bonus, artState.Effect());
-            nameText.text   = artData.Name;
 
             stackedButton.SetText("MAX", "-");
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using System.Numerics;
 using System.Collections.Generic;
 
 
@@ -70,7 +71,7 @@ namespace GM.Artefacts
 
         protected override void PeriodicUpdate()
         {
-            int pp = UserData.Get().Inventory.PrestigePoints;
+            BigInteger pp = UserData.Get().Inventory.PrestigePoints;
 
             int numUnlockedArtefacts    = ArtefactManager.Instance.Count;
             int maxUnlockableArts       = GameData.Get().Artefacts.Count;

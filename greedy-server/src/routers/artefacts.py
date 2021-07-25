@@ -3,6 +3,7 @@ import random
 from fastapi import APIRouter, HTTPException
 
 from src import svrdata
+from src.svrdata import Items
 from src.checks import user_or_raise
 from src.common import formulas, resources, mongo
 from src.routing import CustomRoute, ServerResponse
@@ -37,13 +38,13 @@ def upgrade(data: ArtefactUpgradeModel):
     if not can_upgrade_artefact(uid, static_art, user_art, cost, data.purchase_levels):
         raise HTTPException(400)
 
-    svrdata.items.update_items(uid, inc={"prestigePoints": -cost})
+    items = Items.find_and_update_one({"userId": uid}, {"$inc": {"prestigePoints": -cost}})
 
     update_artefact(uid, data.artefact_id, inc={"level": data.purchase_levels})
 
     return ServerResponse(
         {
-            "userItems": svrdata.items.get_items(uid),
+            "userItems": items,
             "userArtefacts": svrdata.artefacts.get_all_artefacts(uid, as_dict=True)
         }
     )
@@ -67,11 +68,11 @@ def unlock(data: UserIdentifier):
 
     unlock_artefact(uid, new_art_id)  # Unlock the artefact, may throw an error if the artefact already exists
 
-    svrdata.items.update_items(uid, inc={"prestigePoints": -cost})
+    items = Items.find_and_update_one({"userId": uid}, {"$inc": {"prestigePoints": -cost}})
 
     return ServerResponse(
         {
-            "userItems": svrdata.items.get_items(uid),
+            "userItems": items,
             "userArtefacts": svrdata.artefacts.get_all_artefacts(uid, as_dict=True),
             "newArtefactId": new_art_id
          }
@@ -84,14 +85,14 @@ def can_upgrade_artefact(uid, static_art, user_art, cost, levels):
     if user_art is None or (user_art["level"] + levels) > static_art.get("maxLevel", float("inf")):
         return False
 
-    points = svrdata.items.get_items(uid).get("prestigePoints", 0)
+    points = Items.find_one({"userId": uid}).get(Items.PRESTIGE_POINTS, 0)
 
     return points >= cost
 
 
 def can_purchase_artefact(uid, user_arts, all_static_arts, cost):
 
-    points = svrdata.items.get_items(uid).get("prestigePoints", 0)
+    points = Items.find_one({"userId": uid}).get(Items.PRESTIGE_POINTS, 0)
 
     if len(user_arts) >= len(all_static_arts) or (cost > points):
         return False

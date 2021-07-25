@@ -42,7 +42,7 @@ def purchase_item(data: ItemData):
     if (item := items.get(data.shop_item)) is None or not _can_purchase_item(uid, item):
         raise HTTPException(400)
 
-    Items.update_one({"userId": uid}, {
+    items = Items.find_and_update_one({"userId": uid}, {
         "$inc": {
             Items.BOUNTY_POINTS: -item.purchase_cost,
             item.get_db_key(): item.quantity_per_purchase
@@ -51,12 +51,7 @@ def purchase_item(data: ItemData):
 
     _log_purchase(uid, item.id)
 
-    return ServerResponse(
-        {
-            "userItems": svrdata.items.get_items(uid),
-            "dailyPurchases": svrdata.bountyshop.daily_purchases(uid)
-        }
-    )
+    return ServerResponse({"userItems": items, "dailyPurchases": svrdata.bountyshop.daily_purchases(uid)})
 
 
 @router.post("/purchase/armouryitem")
@@ -74,7 +69,7 @@ def purchase_armoury_item(data: ItemData):
         upsert=True
     )
 
-    Items.update_one({"userId": uid}, {
+    items = Items.find_and_update_one({"userId": uid}, {
         "$inc": {
             Items.BOUNTY_POINTS: -item.purchase_cost,
         }
@@ -84,7 +79,7 @@ def purchase_armoury_item(data: ItemData):
 
     return ServerResponse(
         {
-            "userItems":        Items.find_one({"userId": uid}),
+            "userItems":        items,
             "userArmouryItems": Armoury.find({"userId": uid}),
             "dailyPurchases":   svrdata.bountyshop.daily_purchases(uid)
         }
@@ -99,9 +94,9 @@ def _can_purchase_item(uid, item):
 
     num_daily_purchases = svrdata.bountyshop.daily_purchases(uid, item.id)
 
-    items = svrdata.items.get_items(uid)
+    items = Items.find_one({"userId": uid})
 
     is_daily_limited = num_daily_purchases >= item.daily_purchase_limit
-    can_afford_purchase = items.get("bountyPoints", 0) >= item.purchase_cost
+    can_afford_purchase = items.get(Items.BOUNTY_POINTS, 0) >= item.purchase_cost
 
     return (not is_daily_limited) and can_afford_purchase

@@ -8,7 +8,7 @@ namespace GM.Units
     public class UnitMovement : MonoBehaviour
     {
         [Header("Properties")]
-        [SerializeField] float moveSpeed = 1.25f;
+        [SerializeField] float moveSpeed = 1.5f;
 
         [Header("Components")]
         [SerializeField] GameObject avatar;

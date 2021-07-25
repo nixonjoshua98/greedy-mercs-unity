@@ -1,4 +1,4 @@
-
+using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -16,5 +16,7 @@ namespace GM.Formations
         {
             return positions[i];
         }
+
+        public Vector3 MinBounds() => positions.OrderBy(v => v.x).First();
     }
 }

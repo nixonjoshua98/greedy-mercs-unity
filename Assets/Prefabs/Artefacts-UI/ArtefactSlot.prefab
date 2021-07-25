@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 172774604c1bee84185a69041576525b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eb2c96bf1d63f624694448d7076e8db3, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 32, y: 32}
-  m_SizeDelta: {x: 175, y: 175}
+  m_SizeDelta: {x: 165, y: 165}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &2155760090790871797
 CanvasRenderer:
@@ -184,11 +184,11 @@ RectTransform:
   m_Father: {fileID: 6556160891709198742}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -30, y: 132}
-  m_SizeDelta: {x: -245, y: 88}
-  m_Pivot: {x: 1, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -35, y: -103}
+  m_SizeDelta: {x: -240, y: 45}
+  m_Pivot: {x: 1, y: 1}
 --- !u!222 &4173495294229615892
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5090085, b: 0.0141509175, a: 1}
+  m_Color: {r: 1, g: 1, b: 0.0141509175, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -219,18 +219,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: f493aed684a4f2248bb10d6b8fdbfa81, type: 3}
-    m_FontSize: 14
+    m_FontSize: 39
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 12
-    m_MaxSize: 42
-    m_Alignment: 0
+    m_MinSize: 3
+    m_MaxSize: 48
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 200% Default Damage
+  m_Text: +3.5% Criticads Hits Chancexdd
 --- !u!1 &4455083382655467991
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,7 +364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a046d08f112afa4a83548008b61e0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.1
   icon: {fileID: 6994512779527777040}
   nameText: {fileID: 6037129067583879915}
   levelText: {fileID: 4572803318312514306}

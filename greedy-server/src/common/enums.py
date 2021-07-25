@@ -14,4 +14,4 @@ class EnumBase(enum.IntEnum):
 
 
 class BonusType(EnumBase):
-    CASH_OUT_BONUS = 11
+    CASH_OUT_BONUS = 500

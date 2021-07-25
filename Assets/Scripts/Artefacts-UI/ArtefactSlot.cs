@@ -27,10 +27,10 @@ namespace GM.Artefacts
         { 
             get 
             {
-                ArtefactData artData = GameData.Get().Artefacts.Get(_artefactId);
-                ArtefactState artState = ArtefactManager.Instance.Get(_artefactId);
+                ArtefactData artData    = GameData.Get().Artefacts.Get(_artefactId);
+                ArtefactState artState  = ArtefactManager.Instance.Get(_artefactId);
 
-                return Mathf.Min(_buyAmount, artData.MaxLevel - artState.Level); 
+                return MathUtils.NextMultipleMax(artState.Level, _buyAmount, artData.MaxLevel);
             } 
         }
 

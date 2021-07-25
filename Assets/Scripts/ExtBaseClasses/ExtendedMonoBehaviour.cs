@@ -10,8 +10,6 @@ namespace GM
 
         void OnEnable()
         {
-            PeriodicUpdate();
-
             InvokeRepeating("OnPeriodicUpdate", periodicUpdateDelay, periodicUpdateDelay);
         }
 

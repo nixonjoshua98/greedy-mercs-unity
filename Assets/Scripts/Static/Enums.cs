@@ -1,19 +1,22 @@
 ﻿
 public enum BonusType
 {
-    NONE = -1,
+    NONE = 0,
 
     // Energy Capacity
     FLAT_ENERGY_CAPACITY = 100,
-    PERCENT_ENERGY_CAPACITY = 101,
 
     // Energy Income (Per Minute)
     FLAT_ENERGY_INCOME = 200,
-    PERCENT_ENERGY_INCOME = 201,
 
-    // Critical Hits
+    // Critical Chance
     FLAT_CRIT_CHANCE = 300,
-    FLAT_CRIT_DMG_MULT = 301,
+
+    // Critical Damage
+    FLAT_CRIT_DMG = 400,
+
+    // Prestige
+    PERCENT_PRESTIGE_BONUS = 500,
 
     MERC_DAMAGE = 0,
     ENEMY_GOLD = 1,
@@ -23,7 +26,6 @@ public enum BonusType
     MELEE_DAMAGE = 5,
     RANGED_DAMAGE = 7,
     ALL_GOLD = 9,
-    CASH_OUT_BONUS = 11,
     GOLD_RUSH_BONUS = 14,
     GOLD_RUSH_DURATION = 15,
     AUTO_CLICK_BONUS = 16,

@@ -1,16 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Collections.Generic;
-
 using UnityEngine;
-
 using Random = UnityEngine.Random;
 
 namespace GM
 {
-    using GM.Data;
     using GM.Artefacts;
+    using GM.Data;
     using GM.Units;
 
     public class StatsCache : MonoBehaviour
@@ -20,8 +17,6 @@ namespace GM
 
         const float BASE_CRIT_CHANCE = 0.01f;
         const float BASE_CRIT_MULTIPLIER = 2.5f;
-
-        const float BASE_BOSS_TIMER = 15.0f;
 
         static List<KeyValuePair<BonusType, double>> SkillBonus { get { return SkillsManager.Instance.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get().Armoury.Bonuses(); } }
@@ -78,9 +73,8 @@ namespace GM
         public static double EnergyPerMinute()
         {
             double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_INCOME);
-            double percentExtraCapacity = MultiplyAllSources(BonusType.PERCENT_ENERGY_INCOME);
 
-            return (BASE_ENERGY_MIN + flatExtraCapacity) * percentExtraCapacity;
+            return BASE_ENERGY_MIN + flatExtraCapacity;
         }
 
         public static double MaxEnergyCapacity()
@@ -88,20 +82,21 @@ namespace GM
             int energyFromSkills = SkillsManager.Instance.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
 
             double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_CAPACITY);
-            double percentExtraCapacity = MultiplyAllSources(BonusType.PERCENT_ENERGY_CAPACITY);
 
-            return (BASE_ENERGY_CAP + energyFromSkills + flatExtraCapacity) * percentExtraCapacity;
+            return BASE_ENERGY_CAP + energyFromSkills + flatExtraCapacity;
         }
 
         // = = = Critical Hits = = = //
         public static BigDouble CriticalHitChance()
         {
-            return BASE_CRIT_CHANCE + AddAllSources(BonusType.FLAT_CRIT_CHANCE);
+            return BASE_CRIT_CHANCE + 
+                AddAllSources(BonusType.FLAT_CRIT_CHANCE);
         }
 
         public static BigDouble CriticalHitMultiplier()
         {
-            return BASE_CRIT_MULTIPLIER + MultiplyAllSources(BonusType.FLAT_CRIT_DMG_MULT);
+            return BASE_CRIT_MULTIPLIER + 
+                MultiplyAllSources(BonusType.FLAT_CRIT_DMG);
         }
 
         public static bool ApplyCritHit(ref BigDouble val)
@@ -143,7 +138,7 @@ namespace GM
 
         public static BigInteger GetPrestigePoints(int stage)
         {
-            BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyAllSources(BonusType.CASH_OUT_BONUS);
+            BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyAllSources(BonusType.PERCENT_PRESTIGE_BONUS);
 
             return BigInteger.Parse(big.Ceiling().ToString("F0"));
         }

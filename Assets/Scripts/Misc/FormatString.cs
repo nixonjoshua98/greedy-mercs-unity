@@ -1,15 +1,13 @@
 
-using System.Numerics;
 using System.Collections.Generic;
-
-using UnityEngine;
+using System.Numerics;
 
 
 public static class FormatString
 {
     readonly static Dictionary<int, string> units = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
 
-    // Number
+    #region Number
     public static string Number(BigDouble val, string prefix = "")
     {
         if (BigDouble.Abs(val) < 1) // Value is less than 1.0 so we just return it rounded
@@ -47,10 +45,11 @@ public static class FormatString
     {
         return Number(new BigDouble(val), prefix: prefix);
     }
+    #endregion
 
 
-    // Seconds
-    public static string Seconds(double seconds) { return Seconds((long)seconds); }
+    #region Seconds
+    public static string Seconds(double seconds) => Seconds((long)seconds);
     public static string Seconds(long seconds)
     {
         long hours = seconds / 3_600;
@@ -61,11 +60,53 @@ public static class FormatString
 
         return string.Format("{0}h {1}m {2}s", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
     }
+    #endregion
 
 
     // BonusType
     public static string Bonus(BonusType bonusType, double value)
     {
-        return $"{Number(value)} {bonusType}";
+        switch (bonusType)
+        {
+                // Energy Capacity
+            case BonusType.FLAT_ENERGY_CAPACITY:    return $"+{value} Energy Capacity";
+
+                // Energy Income
+            case BonusType.FLAT_ENERGY_INCOME:      return $"+{Number(value)} Energy";
+
+                // Critical Hit Chance
+            case BonusType.FLAT_CRIT_CHANCE:        return $"+{Number(value * 100)}% Critical Hit Chance";
+
+                // Critical Hit Damage
+            case BonusType.FLAT_CRIT_DMG:      return $"{Number(value * 100)}% Critical Hit Damage";
+
+                // Prestige Bonus
+            case BonusType.PERCENT_PRESTIGE_BONUS:  return $"{Number(value * 100)}% Runestones";
+
+                // Damage
+            case BonusType.TAP_DAMAGE:      return $"{Number(value * 100)}% Tap Damage";
+            case BonusType.MERC_DAMAGE:     return $"{Number(value * 100)}% Merc Damage";
+            case BonusType.MELEE_DAMAGE:    return $"{Number(value * 100)}% Melee Damage";
+            case BonusType.RANGED_DAMAGE:   return $"{Number(value * 100)}% Ranged Damage";
+
+                // Gold
+            case BonusType.ENEMY_GOLD:  return $"{Number(value * 100)}% Enemy Gold";
+            case BonusType.BOSS_GOLD:   return $"{Number(value * 100)}% Boss Gold";
+            case BonusType.ALL_GOLD:    return $"{Number(value * 100)}% All Gold";
+
+                // ...
+            case BonusType.CHAR_TAP_DAMAGE_ADD: return $"{Number(value * 100)}% Damage From Merc";
+
+                // Gold Rush
+            case BonusType.GOLD_RUSH_BONUS:     return $"{Number(value * 100)}% Gold Rush Bonus";
+            case BonusType.GOLD_RUSH_DURATION:  return $"+{value}s Gold Rush Duration";
+
+                // Auto Click
+            case BonusType.AUTO_CLICK_BONUS:    return $"{Number(value * 100)}% Auto Click Bonus";
+            case BonusType.AUTO_CLICK_DURATION: return $"+{value}s Auto Click Duration";
+
+            default: 
+                return $"{Number(value)} {bonusType}";
+        }
     }
 }

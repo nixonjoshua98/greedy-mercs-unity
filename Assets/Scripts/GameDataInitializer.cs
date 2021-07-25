@@ -25,10 +25,12 @@ namespace GM
             StaticData.AssignScriptables(SkillList);
         }
 
+
         void Start()
         {
             Server.Get("gamedata", ServerGameDataCallback);
         }
+
 
         void ServerLoginCallback(long code, JSONNode resp)
         {

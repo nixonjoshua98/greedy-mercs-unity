@@ -85,7 +85,7 @@
     "levelEffect": 0.75
   },
   "12": {
-    "bonusType": 11,
+    "bonusType": 500,
     "costCoeff": 0.5,
     "costExpo": 1.7,
     "baseEffect": 1.05,
@@ -99,7 +99,7 @@
     "levelEffect": 0.5
   },
   "14": {
-    "bonusType": 301,
+    "bonusType": 400,
     "costCoeff": 0.6,
     "costExpo": 1.4,
     "baseEffect": 1.25,

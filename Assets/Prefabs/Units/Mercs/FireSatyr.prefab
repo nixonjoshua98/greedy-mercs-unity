@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.25
+  moveSpeed: 1.5
   avatar: {fileID: 1957469043437415277}
   walkAnimation: Walking
 --- !u!1001 &4212931058609886445

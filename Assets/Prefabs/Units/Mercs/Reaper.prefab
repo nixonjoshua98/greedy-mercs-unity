@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 323789664}
   - component: {fileID: 323789663}
   - component: {fileID: 4656428320273357231}
+  - component: {fileID: -908362879198784769}
   m_Layer: 0
   m_Name: Reaper
   m_TagString: Untagged
@@ -48,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MercID: 1
   anim: {fileID: 3820480451276261416}
-  idleAnimation: Idle
   movement: {fileID: 4656428320273357231}
   attack: {fileID: 323789663}
 --- !u!114 &323789663
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3820480451276261416}
+  animations: {fileID: 0}
   movement: {fileID: 4656428320273357231}
   attackAnimation: Slashing
 --- !u!114 &4656428320273357231
@@ -78,9 +79,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: 5
   avatar: {fileID: 3771751498256575464}
   walkAnimation: Walk
+--- !u!114 &-908362879198784769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769961914306909961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Idle: Idle
+  Walk: Walk
+  Attack: Slashing
 --- !u!1001 &3769961914370844628
 PrefabInstance:
   m_ObjectHideFlags: 0

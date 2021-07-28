@@ -8,6 +8,8 @@ using SimpleJSON;
 
 namespace GM.Data
 {
+    using GM.Server;
+
     public class ArmouryItemState
     {
         public int ID;
@@ -46,7 +48,7 @@ namespace GM.Data
                 call();
             }
 
-            Server.Post("armoury/upgrade", CreateJson(itemId), Callback);
+            HTTPClient.Get().Post("armoury/upgrade", CreateJson(itemId), Callback);
         }
 
 
@@ -62,7 +64,7 @@ namespace GM.Data
                 call();
             }
 
-            Server.Post("armoury/evolve", CreateJson(itemId), Callback);
+            HTTPClient.Get().Post("armoury/evolve", CreateJson(itemId), Callback);
         }
 
 

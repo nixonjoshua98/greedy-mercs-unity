@@ -36,6 +36,7 @@ namespace GM.Data
             ParseItems(node["items"]);
         }
 
+
         public int LevelCost(int itemId)
         {
             ArmouryItemData item    = Get(itemId);

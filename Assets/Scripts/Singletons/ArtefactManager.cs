@@ -11,6 +11,7 @@ namespace GM.Artefacts
 {
     using GM;
     using GM.Data;
+    using Server;
 
     public class ArtefactState
     {
@@ -88,7 +89,7 @@ namespace GM.Artefacts
             node["artefactId"] = artefactId;
             node["purchaseLevels"] = levelsBuying;
 
-            Server.Post("artefact/upgrade", node, Callback);
+            HTTPClient.Get().Post("artefact/upgrade", node, Callback);
         }
 
         public void UnlockArtefact(UnityAction<bool> call)
@@ -103,7 +104,7 @@ namespace GM.Artefacts
                 call.Invoke(code == 200);
             }
 
-            Server.Post("artefact/unlock", InternalCallback);
+            HTTPClient.Get().Post("artefact/unlock", InternalCallback);
         }
 
 

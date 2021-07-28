@@ -30,7 +30,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            prestigePointText.text = FormatString.Number(StatsCache.GetPrestigePoints(state.currentStage));
+            prestigePointText.text = FormatString.Number(StatsCache.GetPrestigePoints(state.Stage));
         }
 
 
@@ -38,7 +38,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            if (currentlyPrestiging || state.currentStage < StaticData.MIN_PRESTIGE_STAGE)
+            if (currentlyPrestiging || state.Stage < StaticData.MIN_PRESTIGE_STAGE)
                 return;
 
             currentlyPrestiging = true;

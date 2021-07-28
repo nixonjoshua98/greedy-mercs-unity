@@ -6,15 +6,11 @@ using UnityEngine;
 namespace GM.Units
 {
     using GM.Events;
+
     public abstract class UnitAttack : MonoBehaviour
     {
         [Header("Components")]
         public Animator anim;
-        [Space]
-        public UnitMovement movement;
-
-        [Header("Animations")]
-        public string attackAnimation = "Attacking";
 
         [Header("Events")]
         public GameObjectEvent E_OnAttackImpact;
@@ -23,9 +19,13 @@ namespace GM.Units
         float attackCooldown = 1.0f;
 
         // Flags/States
-        bool isReady = true;
         bool onCooldown = false;
-        bool isAttacking = false;
+        public bool IsAttacking { get; private set; } = false;
+        public bool IsAvailable { get { return !onCooldown; } }
+
+        // Components
+        UnitMovement movement;
+        AnimationStrings animations;
 
         protected GameObject currentTarget;
 
@@ -33,30 +33,50 @@ namespace GM.Units
         void Awake()
         {
             E_OnAttackImpact = new GameObjectEvent();
+
+            GetComponents();
         }
 
 
-        // = = = Public Methods = = = //
-        public void TryAttack(GameObject target)
+        void GetComponents()
         {
-            if (IsAvailable())
+            animations  = GetComponent<AnimationStrings>();
+            movement    = GetComponent<UnitMovement>();
+        }
+
+
+        public void Process(GameObject newTarget)
+        {
+            // We have a target and an attack is available so we
+            // process it (eg. move towards a valid attack position)
+            if (IsAvailable && InAttackPosition(newTarget))
             {
-                if (InAttackPosition(target))
+                StartAttack(newTarget);
+            }
+
+            // Attack is currently not active and unavailable
+            // eg. We are currently free to move etc.
+            else if (!IsAttacking)
+            {
+                if (!InAttackPosition(newTarget))
                 {
-                    StartAttack(target);
+                    MoveTowardsTargetNewTarget(newTarget);
+                }
+
+                // Avoid the 'moving while idle' issue
+                else if (anim.IsName(animations.Idle))
+                {
+                    anim.Play(animations.Walk);
                 }
             }
         }
 
-
-        public bool IsAttacking()
+        void MoveTowardsTargetNewTarget(GameObject target)
         {
-            return isAttacking;
+            movement.MoveTowards(GetTargetPosition(target));
         }
 
-
         public abstract Vector3 GetTargetPosition(GameObject target);
-
 
         public abstract bool InAttackPosition(GameObject target);
 
@@ -66,9 +86,9 @@ namespace GM.Units
 
         public void OnAttackAnimationEvent()
         {
-            isAttacking = false;
+            IsAttacking = false;
 
-            StartCooldown();
+            Cooldown();
 
             OnAttackAnimation();
         }
@@ -81,25 +101,19 @@ namespace GM.Units
 
         // = = = ^
 
-        bool IsAvailable()
-        {
-            return isReady && !onCooldown;
-        }
-
-
         void StartAttack(GameObject target)
         {
-            isAttacking = true;
+            IsAttacking = true;
 
             currentTarget = target;
 
             movement.FaceTowards(target);
 
-            anim.Play(attackAnimation);
+            anim.Play(animations.Attack);
         }
 
 
-        void StartCooldown()
+        void Cooldown()
         {
             IEnumerator WaitForCooldown()
             {

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace GM.BountyShop
 {
-    using GM.Data;
+    using GM.Server;
 
     using SimpleJSON;
 
@@ -83,7 +83,7 @@ namespace GM.BountyShop
                 }
             }
 
-            Server.Post("bountyshop/refresh", InternalCallback);
+            HTTPClient.Get().Post("bountyshop/refresh", InternalCallback);
         }
 
 
@@ -99,7 +99,7 @@ namespace GM.BountyShop
                 action.Invoke(code == 200);
             }
 
-            Server.Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
+            HTTPClient.Get().Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
         }
 
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
@@ -116,7 +116,7 @@ namespace GM.BountyShop
                 action.Invoke(code == 200);
             }
 
-            Server.Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
+            HTTPClient.Get().Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
         }
 
         // = = = Helper = = = //

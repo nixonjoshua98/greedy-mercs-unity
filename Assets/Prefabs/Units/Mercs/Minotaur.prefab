@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 119037146}
   - component: {fileID: 119037145}
   - component: {fileID: 6866313923960825707}
+  - component: {fileID: -8545864283643907343}
   m_Layer: 0
   m_Name: Minotaur
   m_TagString: Untagged
@@ -48,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MercID: 5
   anim: {fileID: 4196962537881791945}
-  idleAnimation: Idle
   movement: {fileID: 6866313923960825707}
   attack: {fileID: 119037145}
 --- !u!114 &119037145
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 4196962537881791945}
+  animations: {fileID: 0}
   movement: {fileID: 6866313923960825707}
   attackAnimation: Attacking
 --- !u!114 &6866313923960825707
@@ -78,9 +79,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: 5
   avatar: {fileID: 6798069837887539908}
   walkAnimation: Walk
+--- !u!114 &-8545864283643907343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552994621044990532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Idle: Idle
+  Walk: Walk
+  Attack: Attacking
 --- !u!1001 &8552994619959746910
 PrefabInstance:
   m_ObjectHideFlags: 0

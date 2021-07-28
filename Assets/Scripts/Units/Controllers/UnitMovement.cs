@@ -56,12 +56,5 @@ namespace GM.Units
                 avatar.transform.localScale = scale;
             }
         }
-
-        // = = = Methods = = = //
-
-        public bool IsCurrentAnimationWalk()
-        {
-            return anim.GetCurrentAnimatorStateInfo(0).IsName(walkAnimation);
-        }
     }
 }

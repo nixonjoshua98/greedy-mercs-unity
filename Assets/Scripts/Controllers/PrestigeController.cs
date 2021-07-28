@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,8 +7,7 @@ using SimpleJSON;
 
 namespace GM.StageDM.Prestige
 {
-    using GM.Events;
-
+    using GM.Server;
     public class PrestigeController : MonoBehaviour
     {
         public void Prestige(Action<bool> callback)
@@ -18,9 +16,9 @@ namespace GM.StageDM.Prestige
 
             JSONNode node = new JSONObject();
 
-            node.Add("prestigeStage", state.currentStage);
+            node.Add("prestigeStage", state.Stage);
 
-            Server.Post("prestige", node, (code, resp) => { OnPrestigeCallback(code, resp, callback); });
+            HTTPClient.Get().Post("prestige", node, (code, resp) => { OnPrestigeCallback(code, resp, callback); });
         }
 
         void OnPrestigeCallback(long code, JSONNode resp, Action<bool> callback)
@@ -28,8 +26,6 @@ namespace GM.StageDM.Prestige
             if (code == 200)
             {
                 UserData.Get().UpdateWithServerUserData(resp["completeUserData"]);
-
-                GlobalEvents.OnPlayerPrestige.Invoke();
 
                 RunPrestigeAnimation();
             }

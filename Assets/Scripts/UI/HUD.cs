@@ -17,7 +17,7 @@ namespace GM
 
             GoldText.text = FormatString.Number(GameState.Player.gold);
 
-            StageText.text = "Stage " + state.currentStage.ToString();
+            StageText.text = "Stage " + state.Stage.ToString();
         }
     }
 }

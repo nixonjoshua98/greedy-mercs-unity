@@ -15,14 +15,12 @@ namespace GM
 
             GameObject target = GetNewFocusTarget();
 
-            if (target && target.TryGetComponent(out HealthController hp))
+            if (target && target.TryGetComponent(out IHealthController hp))
             {
                 BigDouble dmg = StatsCache.GetTapDamage();
 
                 hp.TakeDamage(dmg);
             }
-
-            GlobalEvents.OnPlayerClick.Invoke();
         }
 
         GameObject GetNewFocusTarget()

@@ -25,8 +25,6 @@ namespace GM.Skills.UI
 
                     SkillsManager.Instance.ActivateSkill(skill);
 
-                    GlobalEvents.OnSkillActivated.Invoke();
-
                     Activate();
                 }
             }

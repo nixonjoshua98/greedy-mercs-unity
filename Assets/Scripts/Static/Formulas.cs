@@ -39,12 +39,12 @@ namespace GM
             BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
             BigDouble y = BigDouble.Pow(1.16, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
 
-            return 10.5 * x * y;
+            return 15.0 * x * y;
         }
 
         public static BigDouble BossHealth(int stage)
         {
-            return EnemyHealth(stage) * (stage % 5 == 0 ? 5.5f : 3.5f);
+            return EnemyHealth(stage) * 5.5f;
         }
 
         // =====

@@ -3,11 +3,11 @@
   "bounties": {
     "0": {
       "hourlyIncome": 1000000,
-      "unlockStage": 1
+      "unlockStage": 5
     },
     "1": {
       "hourlyIncome": 2000000,
-      "unlockStage": 2
+      "unlockStage": 10
     }
   }
 }

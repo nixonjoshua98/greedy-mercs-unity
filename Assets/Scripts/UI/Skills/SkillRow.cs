@@ -70,12 +70,11 @@ namespace GM
             if (!SkillsManager.Instance.IsUnlocked(SkillID))
                 return "Locked";
 
-            string effect       = FormatString.Number(StatsCache.Skills.SkillBonus(SkillID) * 100);
-            string bonusType    = Funcs.BonusString(StaticData.SkillList.Get(SkillID).bonusType);
+            string s = FormatString.Bonus(StaticData.SkillList.Get(SkillID).bonusType, StatsCache.Skills.SkillBonus(SkillID) * 100);
 
             double duration     = StatsCache.Skills.SkillDuration(SkillID);
 
-            return string.Format("Duration <color=orange>{0}s</color>\nMultiply <color=orange>{1}</color> by <color=orange>{2}%</color>", duration, bonusType, effect);
+            return string.Format("Duration <color=orange>{0}s</color>\n<color=orange>{1}</color>", duration, s);
         }
 
         void UpdateButtonText()

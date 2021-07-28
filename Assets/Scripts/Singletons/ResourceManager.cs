@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -28,7 +26,9 @@ namespace GM
             CachedSprites = new Dictionary<string, Sprite>();
         }
 
+
         public static Sprite LoadSprite(string path) { return Instance._LoadSprite(path); }
+
 
         Sprite _LoadSprite(string path)
         {

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 5574591075783641451}
   - component: {fileID: 835276921968062385}
   - component: {fileID: 808432405995419994}
+  - component: {fileID: -9188891963427553911}
   m_Layer: 0
   m_Name: Necromancer
   m_TagString: Untagged
@@ -79,7 +80,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MercID: 7
   anim: {fileID: 3406886386821934156}
-  idleAnimation: Idle
   movement: {fileID: 808432405995419994}
   attack: {fileID: 835276921968062385}
 --- !u!114 &835276921968062385
@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3406886386821934156}
+  animations: {fileID: 0}
   movement: {fileID: 808432405995419994}
   attackAnimation: Casting Spells
   projectile: {fileID: 5539170736593296594, guid: 1c7d9610b3ba08d46818a67f47ab0331,
@@ -112,9 +113,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: 5
   avatar: {fileID: 226229575171099740}
   walkAnimation: Walk
+--- !u!114 &-9188891963427553911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297949869682758585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Idle: Idle
+  Walk: Walk
+  Attack: Casting Spells
 --- !u!1001 &297949869594014040
 PrefabInstance:
   m_ObjectHideFlags: 0

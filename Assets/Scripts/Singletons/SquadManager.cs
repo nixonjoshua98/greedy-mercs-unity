@@ -8,10 +8,10 @@ using UnityEngine;
 namespace GM
 {
     using GM.Data;
-
     using GM.Events;
 
     using GM.Units;
+    using GM.Units.Formations;
 
     struct SpawnedUnit
     {
@@ -26,6 +26,8 @@ namespace GM
         public static SquadManager Instance = null;
 
         List<SpawnedUnit> mercs;
+
+        [SerializeField] UnitFormation formation;
 
         void Awake()
         {

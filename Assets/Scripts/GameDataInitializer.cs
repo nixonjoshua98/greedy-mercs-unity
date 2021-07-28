@@ -11,6 +11,7 @@ public class UpgradeState
 
 namespace GM
 {
+    using GM.Server;
     using GM.Data;
 
     using GM.Artefacts;
@@ -28,7 +29,7 @@ namespace GM
 
         void Start()
         {
-            Server.Get("gamedata", ServerGameDataCallback);
+            HTTPClient.Get().Get("gamedata", ServerGameDataCallback);
         }
 
 
@@ -53,7 +54,7 @@ namespace GM
             {
                 InstantiateServerData(resp);
 
-                Server.Post("login", ServerLoginCallback);
+                HTTPClient.Get().Post("login", ServerLoginCallback);
             }
 
             else

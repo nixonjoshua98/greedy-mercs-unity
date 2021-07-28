@@ -11,6 +11,7 @@ using SimpleJSON;
 namespace GM.Bounties
 {
     using GM.Data;
+    using GM.Server;
 
     public class BountyState
     {
@@ -63,7 +64,7 @@ namespace GM.Bounties
                 action();
             }
 
-            Server.Post("bounty/claimpoints", Callback);
+            HTTPClient.Get().Post("bounty/claimpoints", Callback);
         }
 
 

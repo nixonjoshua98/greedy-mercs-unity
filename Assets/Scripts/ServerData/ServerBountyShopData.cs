@@ -56,6 +56,7 @@ namespace GM.BountyShop
         public override Sprite Icon { get { return ResourceManager.LoadSprite(_IconString); } }
     }
 
+
     public class BsArmouryItemData : AbstractBountyShopData
     {
         public int ArmouryItemID;
@@ -87,10 +88,12 @@ namespace GM.BountyShop
             return armouryItems[itemId];
         }
 
+
         public BsArmouryItemData GetArmouryItem(string itemId)
         {
             return armouryItems[itemId];
         }
+
 
         public void UpdateAll(JSONNode node)
         {

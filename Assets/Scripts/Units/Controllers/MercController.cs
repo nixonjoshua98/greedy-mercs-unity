@@ -16,9 +16,6 @@ namespace GM.Units
         [Header("Components")]
         public Animator anim;
 
-        [Header("Animations")]
-        [SerializeField] string idleAnimation = "Idle";
-
         [Space]
 
         public UnitMovement movement;
@@ -47,30 +44,25 @@ namespace GM.Units
 
         void FixedUpdate()
         {
-            if (IsValidTarget())
+            switch (currentTarget == null ? "..." : currentTarget.tag)
             {
-                // We have a target and an attack is available so we
-                // process it (eg. move towards a valid attack position)
-                attack.TryAttack(currentTarget);
+                case Tags.Enemy:
+                    attack.Process(currentTarget);
+                    break;
 
+                case Tags.Boss:
+                    break;
 
-                // Attack is currently not active and unavailable
-                // eg. We are currently free to move etc.
-                if (!attack.IsAttacking())
-                {
-                    if (!attack.InAttackPosition(currentTarget))
-                    {
-                        movement.MoveTowards(attack.GetTargetPosition(currentTarget));
-                    }
-
-                    // Avoid the 'moving while idle' issue
-                    else if (movement.IsCurrentAnimationWalk())
-                    {
-                        anim.Play(idleAnimation);
-                    }
-                }
+                default:
+                    WhileMissingTarget();
+                    break;
             }
-            else if (!attack.IsAttacking())
+        }
+
+
+        void WhileMissingTarget()
+        {
+            if (!attack.IsAttacking)
             {
                 currentTarget = GetTarget();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GM.Formations
+namespace GM.Units.Formations
 {
     [CreateAssetMenu(menuName = "Scriptables/UnitFormation")]
     public class UnitFormation : ScriptableObject

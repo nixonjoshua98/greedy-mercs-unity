@@ -17,33 +17,39 @@ namespace GM.Units
 
         protected void FadeOut(float duration, UnityAction action)
         {
-            // Slowly fade out (with a callback) all the attached sprite renderers
+            StartCoroutine(Fade(duration, action, fadeIn: false));
+        }
 
-            IEnumerator _FadeOut(float duration, UnityAction action)
+
+        protected void FadeIn(float duration, UnityAction action)
+        {
+            StartCoroutine(Fade(duration, action, fadeIn: true));
+        }
+
+
+        IEnumerator Fade(float duration, UnityAction action, bool fadeIn)
+        {
+            SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+
+            Color[] colors = renderers.Select(sr => sr.color).ToArray();
+
+            float progress = 0.0f;
+
+            while (progress < 1.0f)
             {
-                SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
-                Color[] colors = renderers.Select(sr => sr.color).ToArray();
-
-                float progress = 0.0f;
-
-                while (progress < 1.0f)
+                for (int i = 0; i < renderers.Length; ++i)
                 {
-                    yield return new WaitForFixedUpdate();
+                    SpriteRenderer sr = renderers[i];
 
-                    for (int i = 0; i < renderers.Length; ++i)
-                    {
-                        SpriteRenderer sr = renderers[i];
-
-                        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, colors[i].a * (1 - progress));
-                    }
-
-                    progress += Time.fixedDeltaTime / duration;
+                    sr.color = new Color(colors[i].r, colors[i].g, colors[i].b, colors[i].a * (fadeIn ? progress : 1 - progress));
                 }
 
-                action.Invoke();
+                progress += Time.fixedDeltaTime / duration;
+
+                yield return new WaitForFixedUpdate();
             }
 
-            StartCoroutine(_FadeOut(duration, action));
+            action.Invoke();
         }
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 207400344905536334}
   - component: {fileID: 7501316038029376880}
   - component: {fileID: 6352438820634131962}
+  - component: {fileID: 3759831828803563127}
   m_Layer: 0
   m_Name: StoneGolem
   m_TagString: Untagged
@@ -48,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MercID: 0
   anim: {fileID: 1791531129569585673}
-  idleAnimation: Idle
   movement: {fileID: 6352438820634131962}
   attack: {fileID: 7501316038029376880}
 --- !u!114 &7501316038029376880
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1791531129569585673}
+  animations: {fileID: 0}
   movement: {fileID: 6352438820634131962}
   attackAnimation: Attacking
 --- !u!114 &6352438820634131962
@@ -78,9 +79,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: 5
   avatar: {fileID: 7830280867725703765}
   walkAnimation: Walk
+--- !u!114 &3759831828803563127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5097099789489235668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Idle: Idle
+  Walk: Walk
+  Attack: Attacking
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0

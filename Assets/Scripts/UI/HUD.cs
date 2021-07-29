@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 namespace GM
 {
+    using TMPro;
+
     public class HUD : MonoBehaviour
     {
-        [SerializeField] Text StageText;
         [SerializeField] Text GoldText;
+
+        [SerializeField] TMP_Text stageWaveText;
 
         void FixedUpdate()
         {
@@ -17,7 +20,7 @@ namespace GM
 
             GoldText.text = FormatString.Number(GameState.Player.gold);
 
-            StageText.text = "Stage " + state.Stage.ToString();
+            stageWaveText.SetText($"Stage {state.Stage} | Wave {state.Wave} / {state.WavesPerStage}");
         }
     }
 }

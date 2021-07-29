@@ -20,6 +20,7 @@ namespace GM.Units
 
         // Flags/States
         bool onCooldown = false;
+
         public bool IsAttacking { get; private set; } = false;
         public bool IsAvailable { get { return !onCooldown; } }
 
@@ -45,6 +46,15 @@ namespace GM.Units
         }
 
 
+        public void Stop()
+        {
+            IsAttacking = false;
+            currentTarget = null;
+
+            anim.Play(animations.Idle);
+        }
+
+
         public void Process(GameObject newTarget)
         {
             // We have a target and an attack is available so we
@@ -58,27 +68,30 @@ namespace GM.Units
             // eg. We are currently free to move etc.
             else if (!IsAttacking)
             {
+                movement.FaceTowards(newTarget);
+
                 if (!InAttackPosition(newTarget))
                 {
                     MoveTowardsTargetNewTarget(newTarget);
                 }
 
                 // Avoid the 'moving while idle' issue
-                else if (anim.IsName(animations.Idle))
+                else if (anim.IsName(animations.Walk))
                 {
-                    anim.Play(animations.Walk);
+                    anim.Play(animations.Idle);
                 }
             }
         }
+
 
         void MoveTowardsTargetNewTarget(GameObject target)
         {
             movement.MoveTowards(GetTargetPosition(target));
         }
 
-        public abstract Vector3 GetTargetPosition(GameObject target);
 
-        public abstract bool InAttackPosition(GameObject target);
+        protected abstract Vector3 GetTargetPosition(GameObject target);
+        protected abstract bool InAttackPosition(GameObject target);
 
         // = = = ^
 
@@ -96,7 +109,10 @@ namespace GM.Units
 
         protected virtual void OnAttackAnimation()
         {
-            E_OnAttackImpact.Invoke(currentTarget);
+            if (currentTarget != null)
+            {
+                E_OnAttackImpact.Invoke(currentTarget);
+            }
         }
 
         // = = = ^

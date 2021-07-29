@@ -34,11 +34,20 @@ namespace GM
             Instance = this;
 
             mercs = new List<SpawnedUnit>();
+        }
 
+
+        void Start()
+        {
+            SubscribeToEvents();
+        }
+
+
+        void SubscribeToEvents()
+        {
             GlobalEvents.E_OnMercUnlocked.AddListener(OnHeroUnlocked);
             GlobalEvents.E_OnMercLevelUp.AddListener(OnMercLeveledUp);
         }
-
 
         public List<Vector3> UnitPositions() => mercs.Where(obj => obj.Object != null).Select(obj => obj.Object.transform.position).ToList();
 

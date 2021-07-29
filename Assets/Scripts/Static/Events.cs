@@ -1,4 +1,6 @@
-﻿
+﻿using System.Collections;
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +11,7 @@ namespace GM.Events
     public class IntegerEvent : UnityEvent<int> { }
 
     public class GameObjectEvent : UnityEvent<GameObject> { }
+    public class ListEvent<T> : UnityEvent<List<T>> { }
 
     public class CharacterEvent : UnityEvent<MercID> { }
 }

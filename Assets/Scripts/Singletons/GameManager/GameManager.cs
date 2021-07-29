@@ -7,15 +7,24 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Events;
+
     public class CurrentStageState
     {
         public int Stage = 1;
+        public int Wave = 1;
+        public int WavesPerStage = 5;
+
+        [System.NonSerialized]
+        public bool IsBossAvailable = false;
 
         public CurrentStageState Copy()
         {
             return new CurrentStageState()
             {
-                Stage = Stage
+                Stage = Stage,
+                Wave = Wave,
+                WavesPerStage = WavesPerStage
             };
         }
     }
@@ -30,14 +39,20 @@ namespace GM
 
         public CurrentStageState state;
 
-        List<GameObject> enemiesRemaining;
+        public List<GameObject> WaveEnemies { get; private set; }
+        GameObject CurrentBossEenemy;
+
+        // Events
+        public GameObjectEvent E_OnBossSpawn;
 
         void Awake()
         {
             Instance = this;
 
+            E_OnBossSpawn = new GameObjectEvent();
+
             state = new CurrentStageState();
-            enemiesRemaining = new List<GameObject>();
+            WaveEnemies = new List<GameObject>();
         }
 
 
@@ -48,7 +63,16 @@ namespace GM
 
 
         // = = = Public Methods = = = //
+        public static GameManager Get => Instance;
         public CurrentStageState State() => state.Copy();
+
+        public bool TryGetBoss(out GameObject boss)
+        {
+            boss = CurrentBossEenemy;
+
+            return state.IsBossAvailable;
+        }
+
         // = = = ^ //
 
 
@@ -58,15 +82,15 @@ namespace GM
             {
                 yield return SpawnDelay();
 
-                enemiesRemaining = bossSpawner.SpawnWave();
+                WaveEnemies = bossSpawner.SpawnWave();
 
                 BigDouble combinedStageHealth = Formulas.EnemyHealth(state.Stage);
 
-                foreach (GameObject o in enemiesRemaining)
+                foreach (GameObject o in WaveEnemies)
                 {
                     HealthController hp = o.GetComponent<HealthController>();
 
-                    hp.Setup(combinedStageHealth / enemiesRemaining.Count);
+                    hp.Setup(combinedStageHealth / WaveEnemies.Count);
 
                     hp.E_OnZeroHealth.AddListener(() => {
                         OnEnemyZeroHealth(o);
@@ -85,16 +109,18 @@ namespace GM
                 yield return SpawnDelay();
 
                 // Spawn the object
-                GameObject boss = bossSpawner.SpawnBoss(state);
+                CurrentBossEenemy = bossSpawner.SpawnBoss(state);
 
                 // Grab components
-                HealthController hp = boss.GetComponent<HealthController>();
+                HealthController hp = CurrentBossEenemy.GetComponent<HealthController>();
 
                 hp.Setup(val: Formulas.BossHealth(state.Stage));
 
-                hp.E_OnZeroHealth.AddListener(() => { 
-                    OnBossZeroHealth(boss); 
-                });
+                hp.E_OnZeroHealth.AddListener(OnBossZeroHealth);
+
+                OnBossSpawn();
+
+                E_OnBossSpawn.Invoke(CurrentBossEenemy);
             }
 
             StartCoroutine(ISpawnNextEnemy());
@@ -102,20 +128,29 @@ namespace GM
 
 
         // = = = Events = = = //
+        void OnBossSpawn()
+        {
+            state.IsBossAvailable = true;
+        }
+
         void OnEnemyZeroHealth(GameObject obj)
         {
-            enemiesRemaining.Remove(obj);
+            WaveEnemies.Remove(obj);
 
-            if (enemiesRemaining.Count == 0)
+            if (WaveEnemies.Count == 0)
             {
                 OnWaveCleared();
             }
         }
 
 
-        void OnBossZeroHealth(GameObject boss)
+        void OnBossZeroHealth()
         {
+            CurrentBossEenemy = null;
+
             state.Stage++;
+            state.Wave = 1;
+            state.IsBossAvailable = false;
 
             SpawnWave();
         }
@@ -123,13 +158,15 @@ namespace GM
 
         void OnWaveCleared()
         {
-            state.Stage++;
-
-            if (state.Stage % 5 == 0)
+            if (state.Wave == state.WavesPerStage)
                 SpawnBoss();
 
             else
+            {
                 SpawnWave();
+
+                state.Wave++;
+            }
         }
         // = = = ^ //
 

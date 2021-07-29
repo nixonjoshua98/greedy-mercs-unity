@@ -9,13 +9,13 @@ namespace GM.Units
     {
         float attackRange = 0.5f;
 
-        public override Vector3 GetTargetPosition(GameObject target)
+        protected override Vector3 GetTargetPosition(GameObject target)
         {
             return target.transform.position + (Vector3.left * attackRange);
         }
 
 
-        public override bool InAttackPosition(GameObject target)
+        protected override bool InAttackPosition(GameObject target)
         {
             return Vector3.Distance(transform.position, GetTargetPosition(target)) == 0.0f;
         }

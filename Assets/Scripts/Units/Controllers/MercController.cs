@@ -6,12 +6,9 @@ using UnityEngine;
 
 namespace GM.Units
 {
-
     public class MercController : UnitController
     {
-        [SerializeField] MercID _MercID;
-
-        public MercID ID { get { return _MercID; } }
+        public MercID ID { get; private set; } = MercID.NONE;
 
         [Header("Components")]
         public Animator anim;
@@ -21,17 +18,27 @@ namespace GM.Units
         public UnitMovement movement;
         public UnitAttack attack;
 
-        GameObject currentTarget;
+        GameObject CurrentTarget;
 
         bool _setupCalled = false;
 
         void Start()
         {
             SubscribeToEvents();
+            GetInitialTarget();
 
             if (!_setupCalled)
-            {
                 Debug.LogError($"Setup not called on {name}");
+        }
+
+
+        // Attempt to grab a priority target. Useful when the Merc is hot-swapped
+        // and it has missed a Boss spawn event.
+        void GetInitialTarget()
+        {
+            if (GameManager.Get.TryGetBoss(out GameObject boss))
+            {
+                CurrentTarget = boss;
             }
         }
 
@@ -39,18 +46,25 @@ namespace GM.Units
         void SubscribeToEvents()
         {
             attack.E_OnAttackImpact.AddListener(OnAttackImpact);
+
+            GameManager.Get.E_OnBossSpawn.AddListener(boss => {
+                attack.Stop();
+
+                CurrentTarget = boss;
+            });
         }
 
 
         void FixedUpdate()
         {
-            switch (currentTarget == null ? "..." : currentTarget.tag)
+            switch (CurrentTarget == null ? "..." : CurrentTarget.tag)
             {
                 case Tags.Enemy:
-                    attack.Process(currentTarget);
+                    attack.Process(CurrentTarget);
                     break;
 
                 case Tags.Boss:
+                    attack.Process(CurrentTarget);
                     break;
 
                 default:
@@ -64,7 +78,7 @@ namespace GM.Units
         {
             if (!attack.IsAttacking)
             {
-                currentTarget = GetTarget();
+                CurrentTarget = GetTarget();
 
                 movement.MoveDirection(Vector2.right);
             }
@@ -76,7 +90,7 @@ namespace GM.Units
         {
             _setupCalled = true;
 
-            _MercID = _mercId;
+            ID = _mercId;
         }
 
         // = = = Callbacks/Events = = = //
@@ -85,7 +99,7 @@ namespace GM.Units
         {
             if (target && target.TryGetComponent(out HealthController hp))
             {
-                BigDouble dmg = StatsCache.TotalMercDamage(_MercID);
+                BigDouble dmg = StatsCache.TotalMercDamage(ID);
 
                 StatsCache.ApplyCritHit(ref dmg);
 
@@ -94,13 +108,6 @@ namespace GM.Units
         }
 
         // = = = ^
-
-        bool IsValidTarget()
-        {
-            return currentTarget && currentTarget.CompareTag("Enemy");
-        }
-
-
         GameObject GetTarget()
         {
             GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");

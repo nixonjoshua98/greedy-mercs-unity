@@ -8,15 +8,15 @@ namespace GM.Units.Formations
     [CreateAssetMenu(menuName = "Scriptables/UnitFormation")]
     public class UnitFormation : ScriptableObject
     {
-        [SerializeField] List<Vector3> positions;
+        [SerializeField] List<Vector2> positions;
 
         public int numPositions { get { return positions.Count; } }
 
-        public Vector3 GetPosition(int i)
+        public Vector2 GetPosition(int i)
         {
             return positions[i];
         }
 
-        public Vector3 MinBounds() => positions.OrderBy(v => v.x).First();
+        public Vector2 MinBounds() => positions.OrderBy(v => v.x).First();
     }
 }

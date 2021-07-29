@@ -13,7 +13,7 @@ namespace GM
     {
         public int Stage = 1;
         public int Wave = 1;
-        public int WavesPerStage = 5;
+        public int WavesPerStage = 3;
 
         [System.NonSerialized]
         public bool IsBossAvailable = false;

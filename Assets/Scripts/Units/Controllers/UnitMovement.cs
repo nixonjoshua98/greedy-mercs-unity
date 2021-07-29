@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Units
 {
@@ -33,10 +34,31 @@ namespace GM.Units
         }
 
 
+        public void MoveTowards(Vector3 target, UnityAction action)
+        {
+            IEnumerator _MoveTowards()
+            {
+                while (transform.position != target)
+                {
+                    MoveTowards(target);
+
+                    yield return new WaitForFixedUpdate();
+                }
+
+                action.Invoke();
+            }
+
+            StartCoroutine(_MoveTowards());
+        }
+
+
+
         public void MoveDirection(Vector3 dir)
         {
             MoveTowards(transform.position + (dir * moveSpeed));
         }
+
+        public void FaceDirection(Vector3 dir) => FaceTowardsTarget(transform.position + dir);
 
 
         public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }

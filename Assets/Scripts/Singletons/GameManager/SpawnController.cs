@@ -77,7 +77,7 @@ namespace GM
 
             for (int i = 0; i < formation.numPositions; ++i)
             {
-                Vector3 spawnPos = centerPos + formation.GetPosition(i);
+                Vector3 spawnPos = centerPos + formation.GetPosition(i).ToVector3();
 
                 GameObject spawnedEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], spawnPos, Quaternion.identity);
 
@@ -92,7 +92,7 @@ namespace GM
         {
             Vector3 pos = Camera.main.MaxBounds();
 
-            return new Vector3(pos.x + 1.0f, 5.5f);
+            return new Vector3(pos.x - 2.0f, Constants.CENTER_BATTLE_Y);
         }
 
 

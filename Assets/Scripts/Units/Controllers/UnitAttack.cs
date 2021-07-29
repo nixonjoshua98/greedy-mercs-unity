@@ -18,11 +18,11 @@ namespace GM.Units
         // Properties
         float attackCooldown = 1.0f;
 
-        // Flags/States
-        bool onCooldown = false;
 
         public bool IsAttacking { get; private set; } = false;
-        public bool IsAvailable { get { return !onCooldown; } }
+        public bool OnCooldown { get; private set; } = false;
+        public bool IsToggled { get; private set; } = true;
+
 
         // Components
         UnitMovement movement;
@@ -45,41 +45,56 @@ namespace GM.Units
             movement    = GetComponent<UnitMovement>();
         }
 
+        public void Enable()
+        {
+            IsToggled = true;
+            IsAttacking = false;
+        }
 
-        public void Stop()
+
+        public void Disable()
         {
             IsAttacking = false;
-            currentTarget = null;
+            IsToggled = false;
 
-            anim.Play(animations.Idle);
+            currentTarget = null;
         }
 
 
         public void Process(GameObject newTarget)
         {
-            // We have a target and an attack is available so we
-            // process it (eg. move towards a valid attack position)
-            if (IsAvailable && InAttackPosition(newTarget))
+            if (IsToggled)
+            {
+                if (!IsAttacking && !OnCooldown && InAttackPosition(newTarget))
+                {
+                    StartAttack(newTarget);
+                }
+
+                // Attack is currently not active and unavailable
+                // eg. We are currently free to move etc.
+                else if (!IsAttacking)
+                {
+                    if (!InAttackPosition(newTarget))
+                    {
+                        MoveTowardsTargetNewTarget(newTarget);
+                    }
+
+                    // Avoid the 'moving while idle' issue
+                    else if (anim.IsName(animations.Walk))
+                    {
+                        anim.Play(animations.Idle);
+                    }
+                }
+            }
+        }
+
+
+        // Can be used to bypass checks such as positioning
+        public void DirtyAttack(GameObject newTarget)
+        {
+            if (!OnCooldown && !IsAttacking)
             {
                 StartAttack(newTarget);
-            }
-
-            // Attack is currently not active and unavailable
-            // eg. We are currently free to move etc.
-            else if (!IsAttacking)
-            {
-                movement.FaceTowards(newTarget);
-
-                if (!InAttackPosition(newTarget))
-                {
-                    MoveTowardsTargetNewTarget(newTarget);
-                }
-
-                // Avoid the 'moving while idle' issue
-                else if (anim.IsName(animations.Walk))
-                {
-                    anim.Play(animations.Idle);
-                }
             }
         }
 
@@ -101,9 +116,9 @@ namespace GM.Units
         {
             IsAttacking = false;
 
-            Cooldown();
-
             OnAttackAnimation();
+
+            Cooldown();
         }
 
 
@@ -135,10 +150,10 @@ namespace GM.Units
             {
                 yield return new WaitForSecondsRealtime(attackCooldown);
 
-                onCooldown = false;
+                OnCooldown = false;
             }
 
-            onCooldown = true;
+            OnCooldown = true;
 
             StartCoroutine(WaitForCooldown());
         }

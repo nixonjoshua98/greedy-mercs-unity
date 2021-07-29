@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Units
 {
@@ -12,11 +13,9 @@ namespace GM.Units
 
         [Header("Components")]
         public Animator anim;
-
-        [Space]
-
-        public UnitMovement movement;
-        public UnitAttack attack;
+        
+        public UnitMovement Movement { get; private set; }
+        public UnitAttack Attack{ get; private set; }
 
         GameObject CurrentTarget;
 
@@ -24,6 +23,7 @@ namespace GM.Units
 
         void Start()
         {
+            GetComponents();
             SubscribeToEvents();
             GetInitialTarget();
 
@@ -45,13 +45,20 @@ namespace GM.Units
 
         void SubscribeToEvents()
         {
-            attack.E_OnAttackImpact.AddListener(OnAttackImpact);
+            Attack.E_OnAttackImpact.AddListener(OnAttackImpact);
 
             GameManager.Get.E_OnBossSpawn.AddListener(boss => {
-                attack.Stop();
+                Attack.Disable();
 
                 CurrentTarget = boss;
             });
+        }
+
+
+        void GetComponents()
+        {
+            Movement = GetComponent<UnitMovement>();
+            Attack = GetComponent<UnitAttack>();
         }
 
 
@@ -60,11 +67,11 @@ namespace GM.Units
             switch (CurrentTarget == null ? "..." : CurrentTarget.tag)
             {
                 case Tags.Enemy:
-                    attack.Process(CurrentTarget);
+                    Attack.Process(CurrentTarget);
                     break;
 
                 case Tags.Boss:
-                    attack.Process(CurrentTarget);
+                    Attack.DirtyAttack(CurrentTarget);
                     break;
 
                 default:
@@ -76,11 +83,11 @@ namespace GM.Units
 
         void WhileMissingTarget()
         {
-            if (!attack.IsAttacking)
+            if (!Attack.IsAttacking)
             {
                 CurrentTarget = GetTarget();
 
-                movement.MoveDirection(Vector2.right);
+                Movement.MoveDirection(Vector2.right);
             }
         }
 
@@ -93,11 +100,21 @@ namespace GM.Units
             ID = _mercId;
         }
 
+        public void PriorityMove(Vector3 position, UnityAction<MercController> action)
+        {
+            Attack.Disable();
+
+            Movement.MoveTowards(position, () =>
+            {
+                action.Invoke(this);
+            });
+        }
+
         // = = = Callbacks/Events = = = //
 
         void OnAttackImpact(GameObject target)
         {
-            if (target && target.TryGetComponent(out HealthController hp))
+            if (target.TryGetComponent(out HealthController hp))
             {
                 BigDouble dmg = StatsCache.TotalMercDamage(ID);
 

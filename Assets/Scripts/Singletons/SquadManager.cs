@@ -17,6 +17,7 @@ namespace GM
     {
         public MercID ID;
         public GameObject Object;
+        public MercController Controller;
     }
 
 
@@ -47,9 +48,14 @@ namespace GM
         {
             GlobalEvents.E_OnMercUnlocked.AddListener(OnHeroUnlocked);
             GlobalEvents.E_OnMercLevelUp.AddListener(OnMercLeveledUp);
+
+            GameManager.Get.E_OnBossSpawn.AddListener(OnBossSpawn);
         }
 
-        public List<Vector3> UnitPositions() => mercs.Where(obj => obj.Object != null).Select(obj => obj.Object.transform.position).ToList();
+
+        // = = = Public = = = //
+        public List<Vector3> UnitPositions => mercs.Where(obj => obj.Object != null).Select(obj => obj.Object.transform.position).ToList();
+        // = = = ^
 
 
         void InstantiateMerc(MercID merc) => InstantiateMerc(GameData.Get().Mercs.Get(merc));
@@ -57,9 +63,16 @@ namespace GM
         {
             GameObject o = Instantiate(merc.Prefab, new Vector3(Camera.main.MinBounds().x, 6.0f), Quaternion.identity);
 
-            o.GetComponent<MercController>().Setup(merc.Id);
+            MercController controller = o.GetComponent<MercController>();
 
-            mercs.Add(new SpawnedUnit() { ID = merc.Id, Object = o });
+            controller.Setup(merc.Id);
+
+            mercs.Add(new SpawnedUnit()
+            {
+                ID = merc.Id,
+                Object = o,
+                Controller = controller
+            });
         }
 
 
@@ -81,10 +94,31 @@ namespace GM
 
 
         SpawnedUnit GetWeakestUnit() => mercs.OrderBy(ele => StatsCache.TotalMercDamage(ele.ID)).First();
-
-
         bool MercInFormation(MercID mercId) => mercs.Where(ele => ele.ID == mercId).Count() == 1;
         bool MercIsStrongerThanWeakest(MercID mercid) => StatsCache.TotalMercDamage(mercid) > StatsCache.TotalMercDamage(GetWeakestUnit().ID);
+
+
+        // = = = Event Listeners = = = //
+        void OnBossSpawn(GameObject boss)
+        {
+            Vector3 cameraPosition = Camera.main.MinBounds();
+
+            float offsetX = Mathf.Abs(formation.MinBounds().x) + 1.0f;
+
+            for (int i = 0; i < mercs.Count; ++i)
+            {
+                SpawnedUnit unit = mercs[i];
+
+                Vector2 relPos = formation.GetPosition(i);
+
+                Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Constants.CENTER_BATTLE_Y);
+
+                unit.Controller.PriorityMove(targetPosition, (controller) =>
+                {
+                    controller.Attack.Enable();
+                });
+            }
+        }
 
 
         void OnHeroUnlocked(MercID merc)

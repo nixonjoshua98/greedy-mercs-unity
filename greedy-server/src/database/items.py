@@ -45,7 +45,7 @@ class Items:
             has_amount = self.get_item(uid, key)
 
             update["$set"] = update.get("$set", dict())
-            update["$set"] = {key: str(int(has_amount) + inc_amount)}
+            update["$set"][key] = str(has_amount + inc_amount)
 
             update["$inc"].pop(key)
 
@@ -61,5 +61,3 @@ class Items:
         result[ItemKeys.PRESTIGE_POINTS] = int(result.pop(ItemKeys.PRESTIGE_POINTS, 0))
 
         return result
-
-

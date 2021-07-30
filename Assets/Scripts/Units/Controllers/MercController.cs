@@ -114,7 +114,7 @@ namespace GM.Units
 
         void OnAttackImpact(GameObject target)
         {
-            if (target.TryGetComponent(out HealthController hp))
+            if (target != null && target.TryGetComponent(out HealthController hp))
             {
                 BigDouble dmg = StatsCache.TotalMercDamage(ID);
 

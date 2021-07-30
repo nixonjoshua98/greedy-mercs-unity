@@ -78,10 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MercID: 9
   anim: {fileID: 2828557145166165476}
-  movement: {fileID: 240715498}
-  attack: {fileID: 240715499}
 --- !u!114 &240715499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,9 +92,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 2828557145166165476}
-  animations: {fileID: 0}
-  movement: {fileID: 240715498}
-  attackAnimation: Attacking
   projectile: {fileID: 892358329798779585, guid: cb280996a128c434a9838ee89aee0817,
     type: 3}
   projectileSpawn: {fileID: 7637163329336135085}
@@ -113,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 3
   avatar: {fileID: 1957469043437415277}
   walkAnimation: Walking
 --- !u!114 &-5036646759382943492

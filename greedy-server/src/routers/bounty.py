@@ -4,11 +4,12 @@ import datetime as dt
 
 from fastapi import APIRouter
 
-from src.svrdata import Items
 from src.checks import user_or_raise
 from src.common import mongo, resources
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
+
+from src.database import mongo, ItemKeys
 
 router = APIRouter(prefix="/api/bounty", route_class=CustomRoute)
 
@@ -23,7 +24,7 @@ def claim_points(user: UserIdentifier):
     mongo.db["userBounties"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
 
     # Add the bounty points to the users inventory
-    items = Items.find_and_update_one({"userId": uid}, {"$inc": {"bountyPoints": unclaimed}})
+    items = mongo.items.update_and_find(uid, {"$inc": {ItemKeys.BOUNTY_POINTS: unclaimed}})
 
     return ServerResponse({"claimTime": now, "userItems": items})
 

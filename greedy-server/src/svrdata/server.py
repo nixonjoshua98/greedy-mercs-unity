@@ -3,8 +3,9 @@ from . import bountyshop, bounty
 from . import (
     artefacts as Artefacts,
     armoury as Armoury,
-    items as Items,
 )
+
+from src.database import mongo
 
 import datetime as dt
 
@@ -22,7 +23,7 @@ def get_player_data(uid):
 
     return {
         "inventory": {
-            "items": Items.find_one({"userId": uid}, post_process=False)
+            "items": mongo.items.get_items(uid, post_process=False)
         },
 
         "bountyShop": {

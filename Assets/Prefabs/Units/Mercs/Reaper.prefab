@@ -47,10 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MercID: 1
   anim: {fileID: 3820480451276261416}
-  movement: {fileID: 4656428320273357231}
-  attack: {fileID: 323789663}
 --- !u!114 &323789663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,9 +61,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3820480451276261416}
-  animations: {fileID: 0}
-  movement: {fileID: 4656428320273357231}
-  attackAnimation: Slashing
 --- !u!114 &4656428320273357231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 3
   avatar: {fileID: 3771751498256575464}
   walkAnimation: Walk
 --- !u!114 &-908362879198784769

@@ -4,11 +4,13 @@ from fastapi import APIRouter, HTTPException
 
 from src import resources
 from src.resources import ArtefactData
-from src.svrdata import Items, Artefacts
+from src.svrdata import Artefacts
 from src.checks import user_or_raise
 from src.common import formulas
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
+
+from src.database import mongo, ItemKeys
 
 router = APIRouter(prefix="/api/artefact", route_class=CustomRoute)
 
@@ -36,14 +38,14 @@ def upgrade(data: ArtefactUpgradeModel):
 
     # Calculate the upgrade cost, and pull the currency from the database
     cost = _artefact_upgrade_cost(artefact, art["level"], data.purchase_levels)
-    points = Items.find_one2(uid).get(Items.PRESTIGE_POINTS, 0)
+    points = mongo.items.get_item(uid, ItemKeys.PRESTIGE_POINTS)
 
     # Perform the upgrade check (and calculate the upgrade cost)
     if cost > points:  # Raise a HTTP error so the request is aborted
         raise HTTPException(400, {"error": "Cannot afford upgrade cost"})
 
     # Update the artefact (and pull the new artefact data)
-    items = Items.find_and_update_one({"userId": uid}, {"$inc": {Items.PRESTIGE_POINTS: -cost}})
+    items = mongo.items.update_and_find(uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: -cost}})
 
     Artefacts.update_one(uid, data.artefact_id, {"$inc": {"level": data.purchase_levels}})
 
@@ -57,7 +59,7 @@ def unlock(data: UserIdentifier):
     artefacts = resources.get_artefacts().artefacts
 
     # Pull user data from the database
-    points = Items.find_one2(uid).get(Items.PRESTIGE_POINTS, 0)
+    points = mongo.items.get_item(uid, ItemKeys.PRESTIGE_POINTS)
     user_arts = Artefacts.find(uid)
 
     # Calculate unlock cost
@@ -77,7 +79,7 @@ def unlock(data: UserIdentifier):
     Artefacts.insert_one({"userId": uid, "artefactId": new_art_id, "level": 1})
 
     # Update the purchase currency
-    items = Items.find_and_update_one2(uid, {"$inc": {Items.PRESTIGE_POINTS: -unlock_cost}})
+    items = mongo.items.update_and_find(uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: -unlock_cost}})
 
     return ServerResponse({
             "userItems": items,

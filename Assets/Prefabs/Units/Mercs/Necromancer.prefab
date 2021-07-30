@@ -78,10 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MercID: 7
   anim: {fileID: 3406886386821934156}
-  movement: {fileID: 808432405995419994}
-  attack: {fileID: 835276921968062385}
 --- !u!114 &835276921968062385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,9 +92,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3406886386821934156}
-  animations: {fileID: 0}
-  movement: {fileID: 808432405995419994}
-  attackAnimation: Casting Spells
   projectile: {fileID: 5539170736593296594, guid: 1c7d9610b3ba08d46818a67f47ab0331,
     type: 3}
   projectileSpawn: {fileID: 297949869582887568}
@@ -113,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 3
   avatar: {fileID: 226229575171099740}
   walkAnimation: Walk
 --- !u!114 &-9188891963427553911

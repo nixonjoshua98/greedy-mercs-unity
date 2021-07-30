@@ -1,8 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
-using System.Collections;
-
 using UnityEngine;
 
 namespace GM
@@ -57,45 +54,41 @@ namespace GM
         public List<Vector3> UnitPositions => mercs.Where(obj => obj.Object != null).Select(obj => obj.Object.transform.position).ToList();
         // = = = ^
 
-
-        void InstantiateMerc(MercID merc) => InstantiateMerc(GameData.Get().Mercs.Get(merc));
-        void InstantiateMerc(MercData merc)
-        {
-            GameObject o = Instantiate(merc.Prefab, new Vector3(Camera.main.MinBounds().x, 6.0f), Quaternion.identity);
-
-            MercController controller = o.GetComponent<MercController>();
-
-            controller.Setup(merc.Id);
-
-            mercs.Add(new SpawnedUnit()
-            {
-                ID = merc.Id,
-                Object = o,
-                Controller = controller
-            });
-        }
-
-
-        void RotateMerc(MercID merc) => RotateMerc(GameData.Get().Mercs.Get(merc));
-        void RotateMerc(MercData merc)
+        void ReplaceWeakestMerc(MercID merc)
         {
             SpawnedUnit weakest = GetWeakestUnit();
 
-            Destroy(weakest.Object);
-
             mercs.Remove(weakest);
 
-            GameObject o = Instantiate(merc.Prefab, weakest.Object.transform.position, Quaternion.identity);
+            InstantiateAndSetupMerc(merc, weakest.Object.transform.position);
 
-            o.GetComponent<MercController>().Setup(merc.Id);
-
-            mercs.Add(new SpawnedUnit() { ID = merc.Id, Object = o });
+            Destroy(weakest.Object);
         }
+
 
 
         SpawnedUnit GetWeakestUnit() => mercs.OrderBy(ele => StatsCache.TotalMercDamage(ele.ID)).First();
         bool MercInFormation(MercID mercId) => mercs.Where(ele => ele.ID == mercId).Count() == 1;
         bool MercIsStrongerThanWeakest(MercID mercid) => StatsCache.TotalMercDamage(mercid) > StatsCache.TotalMercDamage(GetWeakestUnit().ID);
+
+
+        void InstantiateAndSetupMerc(MercID merc, Vector2 pos)
+        {
+            MercData data = GameData.Get().Mercs.Get(merc);
+
+            GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
+
+            MercController controller = o.GetComponent<MercController>();
+
+            controller.Setup(merc);
+
+            mercs.Add(new SpawnedUnit()
+            {
+                ID = merc,
+                Object = o,
+                Controller = controller
+            });
+        }
 
 
         // = = = Event Listeners = = = //
@@ -124,10 +117,16 @@ namespace GM
         void OnHeroUnlocked(MercID merc)
         {
             if (mercs.Count < 5)
-                InstantiateMerc(merc);
+            {
+                Vector2 pos = new Vector2(Camera.main.MinBounds().x, Constants.CENTER_BATTLE_Y);
+
+                InstantiateAndSetupMerc(merc, pos);
+            }
 
             else
-                RotateMerc(merc);        
+            {
+                ReplaceWeakestMerc(merc);
+            }
         }
 
 
@@ -135,7 +134,7 @@ namespace GM
         {
             if (!MercInFormation(merc) && MercIsStrongerThanWeakest(merc))
             {
-                RotateMerc(merc);
+                ReplaceWeakestMerc(merc);
             }
         }
     }

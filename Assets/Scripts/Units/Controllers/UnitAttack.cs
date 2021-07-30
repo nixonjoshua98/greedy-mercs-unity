@@ -124,10 +124,8 @@ namespace GM.Units
 
         protected virtual void OnAttackAnimation()
         {
-            if (currentTarget != null)
-            {
+            if (currentTarget)
                 E_OnAttackImpact.Invoke(currentTarget);
-            }
         }
 
         // = = = ^

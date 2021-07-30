@@ -13,19 +13,9 @@ namespace GM
 
         void Start()
         {
-            for (int i = 0; i < 5; ++i)
-            {
-                if (MercenaryManager.Instance.GetNextHero(out MercID chara))
-                {
-                    MercenaryManager.Instance.SetState(chara);
-
-                    GlobalEvents.E_OnMercUnlocked.Invoke(chara);
-                }
-            }
-
-
             UpdatePanel();
         }
+
 
         void UpdatePanel()
         {

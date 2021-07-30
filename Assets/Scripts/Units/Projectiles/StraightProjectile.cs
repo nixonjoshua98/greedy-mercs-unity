@@ -20,9 +20,9 @@ namespace GM.Projectiles
 
         protected override void UpdatePosition()
         {
-            transform.position += (targetPosition - transform.position) * speed;
-            
-            if (Vector3.Distance(transform.position, targetPosition) <= 0.25f)
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
+           
+            if (Vector3.Distance(transform.position, targetPosition) == 0.0f)
             {
                 OnProjectileConnected();
             }

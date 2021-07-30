@@ -4,3 +4,4 @@ dnspython~=2.1.0
 fastapi~=0.66.0
 pydantic~=1.8.2
 uvicorn~=0.14.0
+starlette~=0.14.2

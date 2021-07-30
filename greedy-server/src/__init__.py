@@ -1,8 +1,5 @@
-
-import fastapi
+from fastapi import FastAPI
 
 
 def create_app():
-    app = fastapi.FastAPI(openapi_url=None)
-
-    return app
+    return FastAPI(openapi_url=None)

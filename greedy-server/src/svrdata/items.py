@@ -2,9 +2,15 @@ from pymongo import ReturnDocument
 
 from src.common import mongo
 
-IRON_INGOTS = "ironIngots"
 BOUNTY_POINTS = "bountyPoints"
+ARMOURY_POINTS = "ironIngots"
 PRESTIGE_POINTS = "prestigePoints"
+
+
+def find_one2(uid, *, post_process: bool = True) -> dict:
+    result = mongo.db["userItems"].find_one({"userId": uid}) or dict()
+
+    return _after_find(result) if post_process else result
 
 
 def find_one(search, *, post_process: bool = True) -> dict:
@@ -22,6 +28,16 @@ def update_one(search: dict, update: dict, *, upsert: bool = True) -> bool:
 
 
 def find_and_update_one(search: dict, update: dict) -> dict:
+    return _after_find(
+        mongo.db["userItems"].find_one_and_update(
+            search, _before_update(search, update), upsert=True, return_document=ReturnDocument.AFTER
+        )
+    )
+
+
+def find_and_update_one2(uid, update: dict) -> dict:
+    search = {"userId": uid}
+
     return _after_find(
         mongo.db["userItems"].find_one_and_update(
             search, _before_update(search, update), upsert=True, return_document=ReturnDocument.AFTER

@@ -79,7 +79,7 @@ class BsItem(BsShopItemBase):
     def get_db_key(self):
         return {
             ItemType.BLUE_GEMS: "blueGems",
-            ItemType.IRON_INGOTS: Items.IRON_INGOTS,
+            ItemType.IRON_INGOTS: Items.ARMOURY_POINTS,
             ItemType.PRESTIGE_POINTS: "prestigePoints"
         }[self.item_type]
 

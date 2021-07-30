@@ -3,9 +3,13 @@ import uvicorn
 
 import src
 
+from src.database import mongo
+
 from src.routers import bountyshop, bounty, data, armoury, artefacts, prestige
 
 app = src.create_app()
+
+mongo.connect()
 
 app.include_router(data.router)
 app.include_router(bounty.router)

@@ -4,11 +4,13 @@ from fastapi import APIRouter
 import datetime as dt
 
 from src import svrdata
-from src.svrdata import Items
+from src.svrdata import Artefacts
 from src.common import resources, formulas
 from src.checks import user_or_raise
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
+
+from src.database import mongo, ItemKeys
 
 router = APIRouter(prefix="/api", route_class=CustomRoute)
 
@@ -22,13 +24,14 @@ class PrestigeData(UserIdentifier):
 def prestige(data: PrestigeData):
     uid = user_or_raise(data)
 
-    user_artefacts = svrdata.artefacts.get_all_artefacts(uid, as_dict=True)
+    user_artefacts = Artefacts.find(uid)
 
     process_new_bounties(uid, data.prestige_stage)
 
     points_gained = formulas.stage_prestige_points(data.prestige_stage, user_artefacts)
 
-    Items.update_one({"userId": uid}, {"$inc": {Items.PRESTIGE_POINTS: points_gained}})
+    # Increment the user points with the gained amount
+    mongo.items.update_one(uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: points_gained}})
 
     return ServerResponse({"completeUserData": svrdata.get_player_data(uid)})
 

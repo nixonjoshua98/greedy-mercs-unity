@@ -6,10 +6,12 @@ from typing import Tuple
 from src import resources
 from src.checks import user_or_raise
 
-from src.svrdata import Armoury, Items
+from src.svrdata import Armoury
 
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
+
+from src.database import mongo, ItemKeys
 
 router = APIRouter(prefix="/api/armoury", route_class=CustomRoute)
 
@@ -33,11 +35,9 @@ def upgrade(data: ItemPurchaseModel):
     if not modified:  # Return an error if a document was not modified
         raise HTTPException(400)
 
-    u_items = Items.find_and_update_one({"userId": uid}, {"$inc": {Items.IRON_INGOTS: -cost}})
+    u_items = mongo.items.update_and_find(uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: -cost}})
 
-    return ServerResponse({
-            "userArmouryItems": Armoury.find({"userId": uid}), "userItems": u_items
-        })
+    return ServerResponse({"userArmouryItems": Armoury.find({"userId": uid}), "userItems": u_items})
 
 
 @router.post("/evolve")
@@ -79,6 +79,6 @@ def can_levelup(uid, iid) -> Tuple[int, bool]:
 
     level_cost = armoury.items[iid].level_cost(item["level"])
 
-    ap_points = Items.find_one({"userId": uid}).get("armouryPoints", 0)
+    points = mongo.items.get_item(uid, ItemKeys.ARMOURY_POINTS)
 
-    return level_cost, ap_points >= level_cost
+    return level_cost, points >= level_cost

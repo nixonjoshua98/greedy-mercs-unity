@@ -2,10 +2,11 @@ import random
 
 from fastapi import APIRouter, HTTPException
 
-from src import svrdata
-from src.svrdata import Items
+from src import resources
+from src.resources import ArtefactData
+from src.svrdata import Items, Artefacts
 from src.checks import user_or_raise
-from src.common import formulas, resources, mongo
+from src.common import formulas
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
 
@@ -22,95 +23,78 @@ class ArtefactUpgradeModel(UserIdentifier):
 def upgrade(data: ArtefactUpgradeModel):
     uid = user_or_raise(data)
 
-    static_art = resources.get("artefacts")[data.artefact_id]
+    # Load the artefact resource
+    artefact: ArtefactData = resources.get_artefacts().artefacts[data.artefact_id]
 
-    user_art = svrdata.artefacts.get_one_artefact(uid, data.artefact_id)
+    # Pull the data and raise an error if it does not exist
+    if (art := Artefacts.find_one(uid, data.artefact_id)) is None:
+        raise HTTPException(400, {"error": "Artefact is not unlocked"})
 
-    # Calculate the level up cost
-    cost = formulas.levelup_artefact_cost(
-        static_art["costCoeff"],
-        static_art["costExpo"],
-        user_art["level"],
-        data.purchase_levels
-    )
+    # Upgrading will exceed the max level
+    elif (art["level"] + data.purchase_levels) > artefact.max_level:
+        raise HTTPException(400, {"error": "Level will exceed max level"})
 
-    # Generic all rounded check if the upgrade can go ahead
-    if not can_upgrade_artefact(uid, static_art, user_art, cost, data.purchase_levels):
-        raise HTTPException(400)
+    # Calculate the upgrade cost, and pull the currency from the database
+    cost = _artefact_upgrade_cost(artefact, art["level"], data.purchase_levels)
+    points = Items.find_one2(uid).get(Items.PRESTIGE_POINTS, 0)
 
-    items = Items.find_and_update_one({"userId": uid}, {"$inc": {"prestigePoints": -cost}})
+    # Perform the upgrade check (and calculate the upgrade cost)
+    if cost > points:  # Raise a HTTP error so the request is aborted
+        raise HTTPException(400, {"error": "Cannot afford upgrade cost"})
 
-    update_artefact(uid, data.artefact_id, inc={"level": data.purchase_levels})
+    # Update the artefact (and pull the new artefact data)
+    items = Items.find_and_update_one({"userId": uid}, {"$inc": {Items.PRESTIGE_POINTS: -cost}})
 
-    return ServerResponse(
-        {
-            "userItems": items,
-            "userArtefacts": svrdata.artefacts.get_all_artefacts(uid, as_dict=True)
-        }
-    )
+    Artefacts.update_one(uid, data.artefact_id, {"$inc": {"level": data.purchase_levels}})
+
+    return ServerResponse({"userItems": items, "userArtefacts": Artefacts.find(uid)})
 
 
 @router.post("/unlock")
 def unlock(data: UserIdentifier):
     uid = user_or_raise(data)
 
-    static_arts = resources.get("artefacts")
+    artefacts = resources.get_artefacts().artefacts
 
-    user_arts = svrdata.artefacts.get_all_artefacts(uid, as_dict=True)
+    # Pull user data from the database
+    points = Items.find_one2(uid).get(Items.PRESTIGE_POINTS, 0)
+    user_arts = Artefacts.find(uid)
 
-    cost = formulas.next_artefact_cost(len(user_arts))
+    # Calculate unlock cost
+    unlock_cost = formulas.next_artefact_cost(len(user_arts))
 
-    # Simple purchase check
-    if not can_purchase_artefact(uid, user_arts, static_arts, cost):
-        raise HTTPException(400)
+    # Cannot afford the artefact, or limit has been reached
+    if len(user_arts) >= len(artefacts) or (unlock_cost > points):
+        raise HTTPException(400, {"error": "Max artefacts reached or cannot afford cost"})
 
-    new_art_id = random.choice(list(set(list(static_arts.keys())) - set(list(user_arts.keys()))))
+    # Use sets to get a random new artefact id
+    new_art_id = random.choice(list(set(list(artefacts.keys())) - set(list(user_arts.keys()))))
 
-    unlock_artefact(uid, new_art_id)  # Unlock the artefact, may throw an error if the artefact already exists
-
-    items = Items.find_and_update_one({"userId": uid}, {"$inc": {"prestigePoints": -cost}})
-
-    return ServerResponse(
-        {
-            "userItems": items,
-            "userArtefacts": svrdata.artefacts.get_all_artefacts(uid, as_dict=True),
-            "newArtefactId": new_art_id
-         }
-    )
-
-
-def can_upgrade_artefact(uid, static_art, user_art, cost, levels):
-
-    # User does not own the artefact or the level will exceeed the max level
-    if user_art is None or (user_art["level"] + levels) > static_art.get("maxLevel", float("inf")):
-        return False
-
-    points = Items.find_one({"userId": uid}).get(Items.PRESTIGE_POINTS, 0)
-
-    return points >= cost
-
-
-def can_purchase_artefact(uid, user_arts, all_static_arts, cost):
-
-    points = Items.find_one({"userId": uid}).get(Items.PRESTIGE_POINTS, 0)
-
-    if len(user_arts) >= len(all_static_arts) or (cost > points):
-        return False
-
-    return True
-
-
-# Database
-def update_artefact(uid, iid, *, inc: dict, upsert: bool = True) -> bool:
-    result = mongo.db["userArtefacts"].update_one({"userId": uid, "artefactId": iid}, {"$inc": inc}, upsert=upsert)
-
-    return result.modified_count == 1
-
-
-def unlock_artefact(uid, iid):
-
-    if svrdata.artefacts.get_one_artefact(uid, iid) is not None:
+    if Artefacts.find_one(uid, new_art_id) is not None:
         raise HTTPException(400, {"error": "Artefact already unlocked"})
 
-    mongo.db["userArtefacts"].insert_one({"userId": uid, "artefactId": iid, "level": 1})
+    # Insert the new artefact document
+    Artefacts.insert_one({"userId": uid, "artefactId": new_art_id, "level": 1})
 
+    # Update the purchase currency
+    items = Items.find_and_update_one2(uid, {"$inc": {Items.PRESTIGE_POINTS: -unlock_cost}})
+
+    return ServerResponse({
+            "userItems": items,
+            "userArtefacts": Artefacts.find(uid),
+            "newArtefactId": new_art_id
+         })
+
+
+def _artefact_upgrade_cost(art: ArtefactData, level: int, buying: int):
+    """ Calculate the upgrade cost
+
+    Args:
+        art (ArtefactData): Static game data for the artefact
+        level (int): Current artefact level
+        buying (int): Levels the user intended to upgrade
+
+    Returns:
+        int: Upgrade cost
+    """
+    return formulas.levelup_artefact_cost(art.cost_coeff, art.cost_expo, level, buying)

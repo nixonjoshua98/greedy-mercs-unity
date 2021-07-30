@@ -1,14 +1,24 @@
+from typing import Union
+
 from src.common import mongo
 
 
-def get_all_artefacts(uid, *, as_dict: bool = False):
+def find(uid) -> Union[dict, list]:
     result = list(mongo.db["userArtefacts"].find({"userId": uid}))
 
-    if as_dict:
-        return {ele["artefactId"]: ele for ele in result}
-
-    return result
+    return {ele["artefactId"]: ele for ele in result}
 
 
-def get_one_artefact(uid, iid):
-    return mongo.db["userArtefacts"].find_one({"userId": uid, "artefactId": iid})
+def find_one(uid, aid) -> dict:
+    return mongo.db["userArtefacts"].find_one({"userId": uid, "artefactId": aid})
+
+
+def insert_one(document: dict):
+    mongo.db["userArtefacts"].insert_one(document)
+
+
+def update_one(uid, aid, update: dict, *, upsert: bool = True) -> bool:
+    result = mongo.db["userArtefacts"].update_one({"userId": uid, "artefactId": aid}, update, upsert=upsert)
+
+    return result.modified_count == 1
+

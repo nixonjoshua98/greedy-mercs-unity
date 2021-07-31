@@ -18,14 +18,14 @@ namespace GM.StageDM.Prestige
 
             node.Add("prestigeStage", state.Stage);
 
-            HTTPClient.Get().Post("prestige", node, (code, resp) => { OnPrestigeCallback(code, resp, callback); });
+            HTTPClient.GetClient().Post("prestige", node, (code, resp) => { OnPrestigeCallback(code, resp, callback); });
         }
 
         void OnPrestigeCallback(long code, JSONNode resp, Action<bool> callback)
         {
             if (code == 200)
             {
-                UserData.Get().UpdateWithServerUserData(resp["completeUserData"]);
+                UserData.Get.UpdateWithServerUserData(resp["completeUserData"]);
 
                 RunPrestigeAnimation();
             }

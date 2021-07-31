@@ -7,7 +7,7 @@ from src.common import resources
 
 # === Artefacts Formulas === #
 
-def levelup_artefact_cost(cooeff, expo, current, buying):
+def upgrade_artefact_cost(cooeff, expo, current, buying):
 	return math.ceil(cooeff * sum_non_int_power_seq(current, buying, expo))
 
 
@@ -36,7 +36,7 @@ def prestige_bonus(user_arts):
 
 		level = data["level"]
 
-		if item["bonusType"] == BonusType.CASH_OUT_BONUS:
+		if item["bonusType"] == BonusType.PRESTIGE_BONUS:
 			bonus *= artefact_effect(item, level)
 
 	return bonus

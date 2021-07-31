@@ -11,7 +11,7 @@ namespace GM.Units
 
         protected override Vector3 GetTargetPosition(GameObject target)
         {
-            return target.transform.position + (Vector3.left * attackRange);
+            return target.transform.position + (Vector3.right * attackRange);
         }
 
 

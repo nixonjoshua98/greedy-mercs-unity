@@ -42,13 +42,13 @@ namespace GM.Data
                 if (code == 200)
                 {
                     SetArmouryItems(resp["userArmouryItems"]);
-                    UserData.Get().Inventory.SetItems(resp["userItems"]);
+                    UserData.Get.Inventory.SetItems(resp["userItems"]);
                 }
 
                 call();
             }
 
-            HTTPClient.Get().Post("armoury/upgrade", CreateJson(itemId), Callback);
+            HTTPClient.GetClient().Post("armoury/upgrade", CreateJson(itemId), Callback);
         }
 
 
@@ -64,7 +64,7 @@ namespace GM.Data
                 call();
             }
 
-            HTTPClient.Get().Post("armoury/evolve", CreateJson(itemId), Callback);
+            HTTPClient.GetClient().Post("armoury/evolve", CreateJson(itemId), Callback);
         }
 
 
@@ -124,7 +124,7 @@ namespace GM.Data
 
         public double WeaponDamage(int itemId, int level, int evoLevel)
         {
-            Data.ArmouryItemData item = GameData.Get().Armoury.Get(itemId);
+            Data.ArmouryItemData item = GameData.Get.Armoury.Get(itemId);
 
             double val = ((evoLevel + 1) * ((item.BaseDamageMultiplier) - 1) * level) + 1;
 

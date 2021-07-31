@@ -23,14 +23,14 @@ namespace GM.BountyShop
             if (!_isUpdatingUi)
                 return;
 
-            outStockObject.SetActive(!UserData.Get().BountyShop.InStock(ShopItemData.ID));
+            outStockObject.SetActive(!UserData.Get.BountyShop.InStock(ShopItemData.ID));
         }
 
 
         // = = = Button Callbacks ===
         public void OnPurchaseButton()
         {
-            UserData.Get().BountyShop.PurchaseItem(ShopItemData.ID, (_) => { });
+            UserData.Get.BountyShop.PurchaseItem(ShopItemData.ID, (_) => { });
         }
     }
 }

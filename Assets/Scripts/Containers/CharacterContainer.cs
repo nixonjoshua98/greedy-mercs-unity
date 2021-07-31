@@ -38,7 +38,7 @@ namespace GM
                 if (GameState.Characters.TryGetState(merc, out var state))
                 {
 
-                    MercData data = GameData.Get().Mercs.Get(merc);
+                    MercData data = GameData.Get.Mercs.Get(merc);
 
                     foreach (MercPassiveData passive in data.Passives)
                     {

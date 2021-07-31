@@ -18,7 +18,7 @@ namespace GM.Units
         public int Level;
         public MercPassiveData[] UnlockedPassives { get { return _svrData.Passives.Where(passive => Level >= passive.UnlockLevel).ToArray(); } }
 
-        MercData _svrData { get { return GameData.Get().Mercs.Get(Id); } }  // Quick, dirty reference
+        MercData _svrData { get { return GameData.Get.Mercs.Get(Id); } }  // Quick, dirty reference
 
 
         public BigDouble CostToUpgrade(int levels)

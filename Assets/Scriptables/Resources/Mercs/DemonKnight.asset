@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
-  m_Name: 7_Necromancer
+  m_Name: DemonKnight
   m_EditorClassIdentifier: 
-  ID: 7
-  Name: Necromancer
-  Prefab: {fileID: 297949869682758585, guid: 001e5023ee725754aac5c14b889e3987, type: 3}
-  Icon: {fileID: 21300000, guid: 975d7ac45911fa149ac31ee2afd06f89, type: 3}
+  ID: 8
+  Name: Demon Knight
+  Prefab: {fileID: 7015768926983395933, guid: 5cc99374617b03f4c8041e4d46fb4144, type: 3}
+  Icon: {fileID: 21300000, guid: 3ddf3627972893b4ca4799a30a2209c1, type: 3}

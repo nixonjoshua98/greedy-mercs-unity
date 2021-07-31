@@ -37,7 +37,7 @@ def upgrade(data: ArtefactUpgradeModel):
         raise HTTPException(400, {"error": "Level will exceed max level"})
 
     # Calculate the upgrade cost, and pull the currency from the database
-    cost = _artefact_upgrade_cost(artefact, art["level"], data.purchase_levels)
+    cost = artefact.upgrade_cost(art["level"], data.purchase_levels)
     points = mongo.items.get_item(uid, ItemKeys.PRESTIGE_POINTS)
 
     # Perform the upgrade check (and calculate the upgrade cost)
@@ -86,17 +86,3 @@ def unlock(data: UserIdentifier):
             "userArtefacts": Artefacts.find(uid),
             "newArtefactId": new_art_id
          })
-
-
-def _artefact_upgrade_cost(art: ArtefactData, level: int, buying: int):
-    """ Calculate the upgrade cost
-
-    Args:
-        art (ArtefactData): Static game data for the artefact
-        level (int): Current artefact level
-        buying (int): Levels the user intended to upgrade
-
-    Returns:
-        int: Upgrade cost
-    """
-    return formulas.levelup_artefact_cost(art.cost_coeff, art.cost_expo, level, buying)

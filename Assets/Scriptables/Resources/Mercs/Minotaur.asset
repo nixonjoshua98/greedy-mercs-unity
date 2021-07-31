@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
-  m_Name: 1_ReaperMan
+  m_Name: Minotaur
   m_EditorClassIdentifier: 
-  ID: 1
-  Name: Reaper Man
-  Prefab: {fileID: 3769961914306909961, guid: c6c55113bd9d76c48b1cf83d2f5d5c30, type: 3}
-  Icon: {fileID: 21300000, guid: 3c299a60449c8b24eb8bd21c5826f879, type: 3}
+  ID: 5
+  Name: Mini-taur
+  Prefab: {fileID: 8552994621044990532, guid: 9be7505e9cb8dea4fae11d94ff1406fa, type: 3}
+  Icon: {fileID: 21300000, guid: 7da75835c52cdfe449873865e9eb55a3, type: 3}

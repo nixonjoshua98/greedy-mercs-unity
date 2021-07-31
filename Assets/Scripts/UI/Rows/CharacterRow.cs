@@ -42,7 +42,7 @@ namespace GM.Units
 
         public void Setup(MercID merc, BuyController buyController)
         {
-            mercData = GameData.Get().Mercs.Get(merc);
+            mercData = GameData.Get.Mercs.Get(merc);
 
             buyController.AddListener((val) => { _buyAmount = val; });
 

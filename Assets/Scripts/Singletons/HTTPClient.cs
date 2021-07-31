@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -26,7 +27,7 @@ namespace GM.Server
         // = = = Static = = = //
         static HTTPClient _instance = null;
 
-        public static HTTPClient Get()
+        public static HTTPClient GetClient()
         {
             if (_instance == null)
             {

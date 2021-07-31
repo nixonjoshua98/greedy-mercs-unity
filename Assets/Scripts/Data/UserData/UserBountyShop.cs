@@ -83,7 +83,7 @@ namespace GM.BountyShop
                 }
             }
 
-            HTTPClient.Get().Post("bountyshop/refresh", InternalCallback);
+            HTTPClient.GetClient().Post("bountyshop/refresh", InternalCallback);
         }
 
 
@@ -99,7 +99,7 @@ namespace GM.BountyShop
                 action.Invoke(code == 200);
             }
 
-            HTTPClient.Get().Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
+            HTTPClient.GetClient().Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
         }
 
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
@@ -108,7 +108,7 @@ namespace GM.BountyShop
             {
                 if (code == 200)
                 {
-                    UserData.Get().Armoury.SetArmouryItems(resp["userArmouryItems"]);
+                    UserData.Get.Armoury.SetArmouryItems(resp["userArmouryItems"]);
 
                     OnServerResponse(resp);
                 }
@@ -116,7 +116,7 @@ namespace GM.BountyShop
                 action.Invoke(code == 200);
             }
 
-            HTTPClient.Get().Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
+            HTTPClient.GetClient().Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
         }
 
         // = = = Helper = = = //
@@ -135,7 +135,7 @@ namespace GM.BountyShop
 
         void OnServerResponse(JSONNode resp)
         {
-            UserData.Get().Inventory.SetItems(resp["userItems"]);
+            UserData.Get.Inventory.SetItems(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
         }

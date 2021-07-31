@@ -8,7 +8,7 @@ class MongoController:
     def __init__(self):
         self._client = None
 
-        self.db = None
+        self.db = None  # Default database
 
         self.items = None
 

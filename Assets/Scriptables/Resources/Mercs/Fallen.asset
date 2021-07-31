@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
-  m_Name: 4_SkeletonArcher
+  m_Name: Fallen
   m_EditorClassIdentifier: 
-  ID: 4
-  Name: Skelly
-  Prefab: {fileID: 4094388374024800128, guid: 367f67bc5766ed44d8d98a01ac9f6551, type: 3}
-  Icon: {fileID: 21300000, guid: 9cc55442f0ca13542a1c62967f95c2f2, type: 3}
+  ID: 3
+  Name: Fallen
+  Prefab: {fileID: 4044917154262169182, guid: 3f92fb98b45d54a498005a527d7f0852, type: 3}
+  Icon: {fileID: 21300000, guid: 8981acd73b083464fb81f5cfc3f35073, type: 3}

@@ -17,7 +17,7 @@ namespace GM
             return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
         }
 
-        public static double ArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
+        public static double BaseArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
         {
             return baseEffect + (levelEffect * (currentLevel - 1));
         }
@@ -63,7 +63,7 @@ namespace GM
         {
             MercState state = MercenaryManager.Instance.GetState(merc);
 
-            MercData data = GameData.Get().Mercs.Get(merc);
+            MercData data = GameData.Get.Mercs.Get(merc);
 
             BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
 

@@ -24,17 +24,10 @@ namespace GM.Artefacts
         int _buyAmount;
         bool _updatingUi;
 
-        ArtefactData artGameData { get { return GameData.Get().Artefacts.Get(_artefactId); } }
+        ArtefactData artefactData => GameData.Get.Artefacts.Get(_artefactId);
+        ArtefactState2 artefactState => UserData.Get.Artefacts.Get(_artefactId);
 
-        int BuyAmount
-        { 
-            get 
-            {
-                ArtefactState artState  = ArtefactManager.Instance.Get(_artefactId);
-
-                return MathUtils.NextMultipleMax(artState.Level, _buyAmount, artGameData.MaxLevel);
-            } 
-        }
+        int BuyAmount => MathUtils.NextMultipleMax(artefactState.Level, _buyAmount, artefactData.MaxLevel);
 
         void OnEnable()
         {
@@ -61,9 +54,9 @@ namespace GM.Artefacts
 
         void SetInterfaceElements()
         {
-            nameText.text = artGameData.Name;
+            nameText.text = artefactData.Name;
 
-            icon.sprite = artGameData.Icon;
+            icon.sprite = artefactData.Icon;
         }
 
 
@@ -71,32 +64,32 @@ namespace GM.Artefacts
         {
             if (!_updatingUi)
                 return;
+            
+            BigInteger pp = UserData.Get.Inventory.PrestigePoints;
 
-            ArtefactData artData = GameData.Get().Artefacts.Get(_artefactId);
-            ArtefactState artState = ArtefactManager.Instance.Get(_artefactId);
-
-            BigInteger pp = UserData.Get().Inventory.PrestigePoints;
-
-            levelText.text  = $"Lvl. {artState.Level}";
-            effectText.text = FormatString.Bonus(artData.Bonus, artState.Effect());
+            levelText.text  = $"Lvl. {artefactState.Level}";
+            effectText.text = FormatString.Bonus(artefactData.Bonus, artefactState.Effect());
 
             stackedButton.SetText("MAX", "-");
 
-            if (!artState.IsMaxLevel())
+            if (!artefactState.IsMaxLevel())
             {
-                string cost = FormatString.Number(artState.CostToUpgrade(BuyAmount));
+                string cost = FormatString.Number(artefactState.CostToUpgrade(BuyAmount));
 
                 stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
             }
 
-            stackedButton.Toggle(!artState.IsMaxLevel() && pp >= artState.CostToUpgrade(BuyAmount));
+            stackedButton.Toggle(!artefactState.IsMaxLevel() && pp >= artefactState.CostToUpgrade(BuyAmount));
         }
 
 
         // = = = Button Callbacks = = = //
         public void OnUpgradeArtefactBtn()
         {
-            ArtefactManager.Instance.UpgradeArtefact(_artefactId, BuyAmount, (_) => { UpdateInterfacElements(); });
+            UserData.Get.Artefacts.UpgradeArtefact(_artefactId, BuyAmount, (_) => 
+            {
+                UpdateInterfacElements(); 
+            });
         }
     }
 }

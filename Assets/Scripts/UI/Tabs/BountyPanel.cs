@@ -40,9 +40,9 @@ namespace GM.Bounties.UI
 
         void UpdatePointsCollection()
         {
-            BountySnapshot snapshot = UserData.Get().Bounties.CreateSnapshot();
+            BountySnapshot snapshot = UserData.Get.Bounties.CreateSnapshot();
 
-            bountyPointsText.text   = FormatString.Number(UserData.Get().Inventory.BountyPoints);
+            bountyPointsText.text   = FormatString.Number(UserData.Get.Inventory.BountyPoints);
             bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";
             unclaimedTotalText.text = $"Collect ({snapshot.Unclaimed})";
 
@@ -53,7 +53,7 @@ namespace GM.Bounties.UI
 
         void InstantiateIcons()
         {
-            foreach (BountyState bounty in UserData.Get().Bounties.StatesList)
+            foreach (BountyState bounty in UserData.Get.Bounties.StatesList)
             {
                 GameObject inst = CanvasUtils.Instantiate(BountyObjectSlot, bountySlotsParent);
 
@@ -68,7 +68,7 @@ namespace GM.Bounties.UI
 
         public void OnClaimPoints()
         {
-            UserData.Get().Bounties.ClaimPoints(() => { UpdatePointsCollection(); });
+            UserData.Get.Bounties.ClaimPoints(() => { UpdatePointsCollection(); });
         }
     }
 }

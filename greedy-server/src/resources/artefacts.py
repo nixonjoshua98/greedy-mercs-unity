@@ -1,5 +1,6 @@
 
 from src import utils
+from src.common import formulas
 
 
 def get_artefacts() -> "ArtefactResources":
@@ -30,3 +31,15 @@ class ArtefactData:
         inst.max_level = data.get("maxLevel", 1_000)
 
         return inst
+
+    def upgrade_cost(self, level: int, buying: int):
+        """ Calculate the upgrade cost
+
+        Args:
+            level (int): Current artefact level
+            buying (int): Levels the user intended to upgrade
+
+        Returns:
+            int: Upgrade cost
+        """
+        return formulas.upgrade_artefact_cost(self.cost_coeff, self.cost_expo, level, buying)

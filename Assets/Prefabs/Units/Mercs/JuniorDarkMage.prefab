@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 297949869582887568}
   m_Layer: 0
-  m_Name: ProjectileStart
+  m_Name: ProjectileSpawnPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 808432405995419994}
   - component: {fileID: -9188891963427553911}
   m_Layer: 0
-  m_Name: Necromancer
+  m_Name: JuniorDarkMage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,7 +135,7 @@ PrefabInstance:
     - target: {fileID: 504752023221353732, guid: 8e676b4079d30e74f978a69ddab2a80c,
         type: 3}
       propertyPath: m_Name
-      value: NecromancerAvatar
+      value: Avatar
       objectReference: {fileID: 0}
     - target: {fileID: 6962462161718172802, guid: 8e676b4079d30e74f978a69ddab2a80c,
         type: 3}

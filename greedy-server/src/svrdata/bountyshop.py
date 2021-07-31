@@ -2,11 +2,11 @@ import random
 
 import datetime as dt
 
-from . import items as Items
-
 from src import svrdata
 from src.common import mongo, resources
 from src.common.enums import EnumBase
+
+from src.database import ItemKeys
 
 
 def daily_purchases(uid, iid: int = None):
@@ -78,9 +78,9 @@ class BsItem(BsShopItemBase):
 
     def get_db_key(self):
         return {
-            ItemType.BLUE_GEMS: "blueGems",
-            ItemType.IRON_INGOTS: Items.ARMOURY_POINTS,
-            ItemType.PRESTIGE_POINTS: "prestigePoints"
+            ItemType.BLUE_GEMS: ItemKeys.BLUE_GEMS,
+            ItemType.IRON_INGOTS: ItemKeys.ARMOURY_POINTS,
+            ItemType.PRESTIGE_POINTS: ItemKeys.PRESTIGE_POINTS
         }[self.item_type]
 
 

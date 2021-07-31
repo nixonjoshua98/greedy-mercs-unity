@@ -36,11 +36,13 @@ namespace GM
 
         public virtual void TakeDamage(BigDouble amount)
         {
+            BigDouble damageTaken = amount > CurrentHealth ? CurrentHealth : amount;
+
             if (CurrentHealth > 0.0f)
             {
-                CurrentHealth -= amount;
+                CurrentHealth = BigDouble.Max(0, CurrentHealth - amount);
 
-                E_OnDamageTaken.Invoke(amount);
+                E_OnDamageTaken.Invoke(damageTaken);
 
                 if (CurrentHealth <= 0.0f)
                     E_OnZeroHealth.Invoke();

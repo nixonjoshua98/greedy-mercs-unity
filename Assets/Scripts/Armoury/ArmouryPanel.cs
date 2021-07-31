@@ -31,7 +31,7 @@ namespace GM.Armoury.UI
 
         void OnEnable()
         {
-            foreach (ArmouryItemState state in UserData.Get().Armoury.OwnedItems())
+            foreach (ArmouryItemState state in UserData.Get .Armoury.OwnedItems())
             {
                 if (!itemObjects.ContainsKey(state.ID))
                 {
@@ -43,14 +43,14 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            weaponPointText.text = UserData.Get().Inventory.IronIngots.ToString();
+            weaponPointText.text = UserData.Get.Inventory.IronIngots.ToString();
             damageBonusText.text = string.Format("{0}% Mercenary Damage", FormatString.Number(StatsCache.ArmouryMercDamageMultiplier * 100));
         }
 
 
         void InstantiateItem(ArmouryItemState state)
         {
-            ArmouryItemData data = GameData.Get().Armoury.Get(state.ID);
+            ArmouryItemData data = GameData.Get.Armoury.Get(state.ID);
 
             ArmouryItemSlot item = CanvasUtils.Instantiate(ArmouryItemObject, itemsParent).GetComponent<ArmouryItemSlot>();
 

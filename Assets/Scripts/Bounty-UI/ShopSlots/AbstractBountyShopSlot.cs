@@ -19,7 +19,7 @@ namespace GM.BountyShop
         protected string _itemId;
         protected bool _isUpdatingUi = false;
 
-        protected AbstractBountyShopData ShopItemData { get { return UserData.Get().BountyShop.ServerData.Get(_itemId); } }
+        protected AbstractBountyShopData ShopItemData { get { return UserData.Get.BountyShop.ServerData.Get(_itemId); } }
 
         public virtual void SetID(string itemId)
         {

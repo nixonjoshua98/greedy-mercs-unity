@@ -47,7 +47,7 @@ namespace GM.Artefacts
         {
             Clear();
 
-            foreach (ArtefactState state in ArtefactManager.Instance.StatesList)
+            foreach (ArtefactState2 state in UserData.Get .Artefacts.StatesList)
             {
                 GameObject inst = CanvasUtils.Instantiate(artefactSlotObject, slotParent);
 
@@ -71,10 +71,10 @@ namespace GM.Artefacts
 
         protected override void PeriodicUpdate()
         {
-            BigInteger pp = UserData.Get().Inventory.PrestigePoints;
+            BigInteger pp = UserData.Get.Inventory.PrestigePoints;
 
-            int numUnlockedArtefacts    = ArtefactManager.Instance.Count;
-            int maxUnlockableArts       = GameData.Get().Artefacts.Count;
+            int numUnlockedArtefacts    = UserData.Get.Artefacts.Count;
+            int maxUnlockableArts       = GameData.Get.Artefacts.Count;
 
             currencyText.text           = FormatString.Number(pp);
             unlockButton.interactable   = numUnlockedArtefacts < maxUnlockableArts;
@@ -91,15 +91,13 @@ namespace GM.Artefacts
 
         public void OnPurchaseArtefactBtn()
         {
-            void ServerCallback(bool purchased)
+            UserData.Get.Artefacts.UnlockArtefact((success) =>
             {
-                if (purchased)
+                if (success)
                 {
                     InstantiateRows();
                 }
-            }
-
-            ArtefactManager.Instance.UnlockArtefact(ServerCallback);
+            });
         }
     }
 }

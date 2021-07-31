@@ -8,6 +8,7 @@ namespace GM
     using GM.Data;
 
     using GM.Bounties;
+    using GM.Artefacts;
     using GM.BountyShop;
 
     public class UserData
@@ -16,6 +17,7 @@ namespace GM
 
         public UserArmoury Armoury;
         public UserBounties Bounties;
+        public UserArtefacts Artefacts;
         public UserInventory Inventory;
         public UserBountyShop BountyShop;
 
@@ -29,10 +31,7 @@ namespace GM
             return Instance;
         }
 
-        public static UserData Get()
-        {
-            return Instance;
-        }
+        public static UserData Get => Instance;
 
         // = = = Public Methods = = = //
         public void UpdateWithServerUserData(JSONNode json)
@@ -41,6 +40,7 @@ namespace GM
             Bounties    = new UserBounties(json["bounties"]);
             Armoury     = new UserArmoury(json["armoury"]);
             BountyShop  = new UserBountyShop(json["bountyShop"]);
+            Artefacts   = new UserArtefacts(json["artefacts"]);
             Inventory   = new UserInventory(json["inventory"]);
         }
     }

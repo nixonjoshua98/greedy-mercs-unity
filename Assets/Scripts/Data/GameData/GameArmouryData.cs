@@ -40,7 +40,7 @@ namespace GM.Data
         public int LevelCost(int itemId)
         {
             ArmouryItemData item    = Get(itemId);
-            ArmouryItemState state  = UserData.Get().Armoury.Get(itemId);
+            ArmouryItemState state  = UserData.Get.Armoury.Get(itemId);
 
             return 5 + item.Tier + state.level;
         }

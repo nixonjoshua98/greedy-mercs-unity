@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 
 
@@ -44,6 +45,8 @@ namespace GM
 
         // Events
         public GameObjectEvent E_OnBossSpawn;
+        public UnityEvent E_OnWaveCleared;
+        public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
 
         void Awake()
         {
@@ -84,18 +87,29 @@ namespace GM
 
                 WaveEnemies = bossSpawner.SpawnWave();
 
-                BigDouble combinedStageHealth = Formulas.EnemyHealth(state.Stage);
+                BigDouble combinedHealth = Formulas.EnemyHealth(state.Stage);
+
+                List<HealthController> healthControllers = new List<HealthController>();
 
                 foreach (GameObject o in WaveEnemies)
                 {
                     HealthController hp = o.GetComponent<HealthController>();
 
-                    hp.Setup(combinedStageHealth / WaveEnemies.Count);
+                    hp.Setup(combinedHealth / WaveEnemies.Count);
 
                     hp.E_OnZeroHealth.AddListener(() => {
                         OnEnemyZeroHealth(o);
                     });
+
+                    healthControllers.Add(hp);
                 }
+
+                E_OnWaveSpawn.Invoke(new WaveSpawnEventData()
+                {
+                    Objects = WaveEnemies,
+                    CombinedHealth = combinedHealth,
+                    HealthControllers = healthControllers
+                });
             }
 
             StartCoroutine(ISpawnNextEnemy());
@@ -158,6 +172,8 @@ namespace GM
 
         void OnWaveCleared()
         {
+            E_OnWaveCleared.Invoke();
+
             if (state.Wave == state.WavesPerStage)
                 SpawnBoss();
 

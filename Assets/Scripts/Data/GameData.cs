@@ -35,12 +35,7 @@ namespace GM.Data
 
 
         // = = = Public = = = //
-        public static GameData Get()
-        {
-            return Instance;
-        }
-
-
+        public static GameData Get => Instance;
         // = = = ^
     }
 }

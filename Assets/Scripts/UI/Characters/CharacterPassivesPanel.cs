@@ -24,7 +24,7 @@ namespace GM
 
         IEnumerator Create(MercID merc)
         {
-            MercData data = GameData.Get().Mercs.Get(merc);
+            MercData data = GameData.Get.Mercs.Get(merc);
             MercState state = MercenaryManager.Instance.GetState(merc);
 
             foreach (MercPassiveData passive in data.Passives)

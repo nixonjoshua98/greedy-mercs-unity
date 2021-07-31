@@ -27,6 +27,6 @@ namespace GM.Bounties
             icon.sprite = data.Icon;
         }
 
-        BountyData GetData() => GameData.Get().Bounties.Get(_bountyId);
+        BountyData GetData() => GameData.Get.Bounties.Get(_bountyId);
     }
 }

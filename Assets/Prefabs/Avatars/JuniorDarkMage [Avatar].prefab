@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6962462161718172802}
   - component: {fileID: 798535956608879412}
   m_Layer: 0
-  m_Name: NecromancerAvatar
+  m_Name: JuniorDarkMage [Avatar]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

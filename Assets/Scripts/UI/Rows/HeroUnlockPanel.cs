@@ -23,7 +23,7 @@ namespace GM
 
             if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = GameData.Get().Mercs.Get(chara);
+                MercData mercData = GameData.Get.Mercs.Get(chara);
 
                 CostText.text = FormatString.Number(mercData.UnlockCost);
             }
@@ -35,7 +35,7 @@ namespace GM
         {
             if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = GameData.Get().Mercs.Get(chara);
+                MercData mercData = GameData.Get.Mercs.Get(chara);
 
                 if (GameState.Player.gold >= mercData.UnlockCost)
                 {

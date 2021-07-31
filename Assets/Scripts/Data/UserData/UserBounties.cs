@@ -39,7 +39,7 @@ namespace GM.Bounties
     {
         Dictionary<int, BountyState> states;
 
-        public List<BountyState> StatesList { get { return states.Values.ToList(); } }
+        public List<BountyState> StatesList => states.Values.ToList();
 
 
         public UserBounties(JSONNode node)
@@ -58,13 +58,13 @@ namespace GM.Bounties
                 if (code == 200)
                 {
                     SetAllClaimTimes(Funcs.ToDateTime(resp["claimTime"].AsLong));
-                    UserData.Get().Inventory.SetItems(resp["userItems"]);
+                    UserData.Get.Inventory.SetItems(resp["userItems"]);
                 }
 
                 action();
             }
 
-            HTTPClient.Get().Post("bounty/claimpoints", Callback);
+            HTTPClient.GetClient().Post("bounty/claimpoints", Callback);
         }
 
 
@@ -74,7 +74,7 @@ namespace GM.Bounties
             int unclaimed = 0;
             int hourlyIncome = 0;
 
-            GameBountyData bountyGameData = GameData.Get().Bounties;
+            GameBountyData bountyGameData = GameData.Get.Bounties;
 
             // Calculate the attributes we want for the snapshot
             foreach (BountyState state in StatesList)
@@ -83,7 +83,7 @@ namespace GM.Bounties
                 BountyData dataStruct = bountyGameData.Get(state.ID);
 
                 // We cap the hours since claim to the value returned from the server
-                float hoursSinceClaim = Math.Min(bountyGameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - state.LastClaimTime).TotalHours);
+                float hoursSinceClaim = Math.Max(0, Math.Min(bountyGameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - state.LastClaimTime).TotalHours));
 
                 capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * bountyGameData.MaxUnclaimedHours);
                 unclaimed += Mathf.FloorToInt(dataStruct.HourlyIncome * hoursSinceClaim);
@@ -117,7 +117,7 @@ namespace GM.Bounties
                 int id = bounty["bountyId"].AsInt;
 
                 // Ignore 'disabled' bounties which are not in the server data
-                if (GameData.Get().Bounties.Contains(id))
+                if (GameData.Get.Bounties.Contains(id))
                 {
                     states[id] = new BountyState(id)
                     {

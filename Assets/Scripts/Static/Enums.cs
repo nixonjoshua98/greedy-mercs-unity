@@ -43,7 +43,7 @@ public enum MercID
     SKELETON_ARCHER, 
     MINOTAUR, 
     FIRE_GOLEM, 
-    NECROMANCER, 
+    JUNIOR_DARK_MAGE, 
     DEMON_KNIGHT, 
     FIRE_SATYR 
 }

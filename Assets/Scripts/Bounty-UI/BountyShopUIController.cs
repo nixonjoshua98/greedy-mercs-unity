@@ -28,7 +28,7 @@ namespace GM.BountyShop
 
         void OnEnable()
         {
-            UserData.Get().BountyShop.Refresh(() => { InstantiateItemSlots(); });
+            UserData.Get.BountyShop.Refresh(() => { InstantiateItemSlots(); });
         }
 
         void FixedUpdate()
@@ -42,7 +42,7 @@ namespace GM.BountyShop
         {
             DestroyAllSlots();
 
-            UserBountyShop shop = UserData.Get().BountyShop;
+            UserBountyShop shop = UserData.Get.BountyShop;
 
             foreach (AbstractBountyShopData itemData in shop.ServerData.NormalItems)
                 items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));

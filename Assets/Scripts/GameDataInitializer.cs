@@ -29,7 +29,7 @@ namespace GM
 
         void Start()
         {
-            HTTPClient.Get().Get("gamedata", ServerGameDataCallback);
+            HTTPClient.GetClient().Get("gamedata", ServerGameDataCallback);
         }
 
 
@@ -54,7 +54,7 @@ namespace GM
             {
                 InstantiateServerData(resp);
 
-                HTTPClient.Get().Post("login", ServerLoginCallback);
+                HTTPClient.GetClient().Post("login", ServerLoginCallback);
             }
 
             else
@@ -71,7 +71,6 @@ namespace GM
 
             MercenaryManager.Create();
 
-            ArtefactManager.Create(node["artefacts"]);
             SkillsManager.Create(node["skills"]);
         }
 

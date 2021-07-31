@@ -30,7 +30,7 @@ namespace GM
 
         public GameObject SpawnBoss(CurrentStageState state)
         {
-            if (GameData.Get().Bounties.GetStageBounty(state.Stage, out BountyData result))
+            if (GameData.Get.Bounties.GetStageBounty(state.Stage, out BountyData result))
                 return SpawnBountyBoss(result);
 
             else

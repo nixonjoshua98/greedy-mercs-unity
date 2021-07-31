@@ -19,8 +19,8 @@ namespace GM
         const float BASE_CRIT_MULTIPLIER = 2.5f;
 
         static List<KeyValuePair<BonusType, double>> SkillBonus { get { return SkillsManager.Instance.Bonuses(); } }
-        static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get().Armoury.Bonuses(); } }
-        static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return ArtefactManager.Instance.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get.Armoury.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return UserData.Get.Artefacts.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> CharacterBonus { get { return MercenaryManager.Instance.Bonuses(); } }
 
         public static BigDouble ArmouryMercDamageMultiplier { get { return AddSource(BonusType.MERC_DAMAGE, ArmouryBonus); } }
@@ -117,7 +117,7 @@ namespace GM
         public static BigDouble BaseMercDamage(MercID merc)
         {
             MercState state = MercenaryManager.Instance.GetState(merc);
-            MercData data = GameData.Get().Mercs.Get(merc);
+            MercData data = GameData.Get.Mercs.Get(merc);
 
             BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
 
@@ -126,7 +126,7 @@ namespace GM
 
         public static BigDouble TotalMercDamage(MercID merc)
         {
-            MercData data = GameData.Get().Mercs.Get(merc);
+            MercData data = GameData.Get.Mercs.Get(merc);
 
             BigDouble val = BaseMercDamage(merc);
 

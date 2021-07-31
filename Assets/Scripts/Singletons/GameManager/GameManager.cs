@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-
-
 namespace GM
 {
     using GM.Events;
@@ -36,7 +34,7 @@ namespace GM
         public static GameManager Instance = null;
 
         [Header("Controllers")]
-        [SerializeField] SpawnController bossSpawner;
+        [SerializeField] SpawnController spawner;
 
         public CurrentStageState state;
 
@@ -44,9 +42,9 @@ namespace GM
         GameObject CurrentBossEenemy;
 
         // Events
-        public GameObjectEvent E_OnBossSpawn;
-        public UnityEvent E_OnWaveCleared;
-        public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
+        [HideInInspector] public GameObjectEvent E_OnBossSpawn;
+        [HideInInspector] public UnityEvent E_OnWaveCleared;
+        [HideInInspector] public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
 
         void Awake()
         {
@@ -85,7 +83,7 @@ namespace GM
             {
                 yield return SpawnDelay();
 
-                WaveEnemies = bossSpawner.SpawnWave();
+                WaveEnemies = spawner.SpawnWave();
 
                 BigDouble combinedHealth = Formulas.EnemyHealth(state.Stage);
 
@@ -123,7 +121,7 @@ namespace GM
                 yield return SpawnDelay();
 
                 // Spawn the object
-                CurrentBossEenemy = bossSpawner.SpawnBoss(state);
+                CurrentBossEenemy = spawner.SpawnBoss(state);
 
                 // Grab components
                 HealthController hp = CurrentBossEenemy.GetComponent<HealthController>();

@@ -25,7 +25,7 @@ namespace GM.UI
         void Update()
         {
             primarySlider.value     = MathUtils.MoveTo(primarySlider.value, targetSliderValue, 1.25f * Time.unscaledDeltaTime);
-            secondarySlider.value   = Mathf.Max(primarySlider.value, MathUtils.MoveTo(secondarySlider.value, targetSliderValue, 0.25f * Time.unscaledDeltaTime));
+            secondarySlider.value   = Mathf.Max(primarySlider.value, MathUtils.MoveTo(secondarySlider.value, targetSliderValue, 0.5f * Time.unscaledDeltaTime));
         }
 
 
@@ -33,18 +33,21 @@ namespace GM.UI
         {
             GameManager.Get.E_OnBossSpawn.AddListener(boss =>
             {
-                targetSliderValue = 1.0f;
+                targetSliderValue = 1.0f; // Fill up the slider to 100%
 
                 HealthController hp = boss.GetComponent<HealthController>();
 
+                // Set the current health
                 healthValue.text = FormatString.Number(hp.CurrentHealth);
 
+                // Update the display upon the boss takign damage
                 hp.E_OnDamageTaken.AddListener(damageTaken =>
                 {
                     healthValue.text = FormatString.Number(hp.CurrentHealth);
                     targetSliderValue = hp.Percent();
                 });
 
+                // Display the boss has been defeated
                 hp.E_OnZeroHealth.AddListener(() =>
                 {
                     healthValue.text = "CLEAR";
@@ -65,6 +68,7 @@ namespace GM.UI
 
                 foreach (HealthController hp in payload.HealthControllers)
                 {
+                    // Update the slider/text upon the enemy taking damage
                     hp.E_OnDamageTaken.AddListener(damageTaken =>
                     {
                         current -= damageTaken;
@@ -75,7 +79,7 @@ namespace GM.UI
                 }
             });
 
-
+            // Display a wave clear message
             GameManager.Get.E_OnWaveCleared.AddListener(() =>
             {
                 healthValue.text = "CLEAR";

@@ -16,7 +16,7 @@ namespace GM.Units
         public GameObjectEvent E_OnAttackImpact;
 
         // Properties
-        float attackCooldown = 1.0f;
+        float attackCooldown = 0.5f;
 
 
         public bool IsAttacking { get; private set; } = false;

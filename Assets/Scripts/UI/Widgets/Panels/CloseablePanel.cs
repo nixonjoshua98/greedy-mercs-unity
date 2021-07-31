@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 namespace GM.UI
 {
     enum PanelToggleType
@@ -14,6 +15,7 @@ namespace GM.UI
         [Header("Closeable Panel")]
         [SerializeField] PanelToggleType toggleType = PanelToggleType.ACTIVE;
 
+        [ConditionalAttribute("toggleType", PanelToggleType.CANVAS)]
         public Canvas canvasToToggle;
 
         public void Toggle(bool val)

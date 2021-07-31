@@ -19,9 +19,9 @@ namespace GM
 
 
 
-    public class SquadManager : MonoBehaviour
+    public class MercManager : MonoBehaviour
     {
-        public static SquadManager Instance = null;
+        public static MercManager Instance { get; set; } = null;
 
         List<SpawnedUnit> mercs;
 

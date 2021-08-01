@@ -6,11 +6,12 @@ import datetime as dt
 from src import svrdata
 from src.svrdata import Artefacts
 from src.common import resources, formulas
+from src.common.enums import ItemKeys
 from src.checks import user_or_raise
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src.database import mongo, ItemKeys
+from src.database import mongo
 
 router = APIRouter(prefix="/api", route_class=CustomRoute)
 

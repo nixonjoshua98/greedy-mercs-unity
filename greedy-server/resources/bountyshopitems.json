@@ -3,18 +3,20 @@
     "ITEM-0": {
       "itemType": 100,
       "purchaseCost": 25,
-      "dailyPurchaseLimit": 500,
-      "quantityPerPurchase": 10,
-      "iconString": "GenericIcons/blue_gem"
+      "dailyPurchaseLimit": 50,
+      "quantityPerPurchase": 10
     },
     "ITEM-1": {
       "itemType": 200,
       "purchaseCost": 50,
-      "dailyPurchaseLimit": 250,
-      "quantityPerPurchase": 500,
-      "iconString": "GenericIcons/iron"
+      "dailyPurchaseLimit": 25,
+      "quantityPerPurchase": 500
+    },
+    "ITEM-2": {
+      "itemType": 400,
+      "purchaseCost": 0,
+      "dailyPurchaseLimit": 100,
+      "quantityPerPurchase": 5000
     }
-  },
-  "armouryItems": {
   }
 }

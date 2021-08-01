@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace GM.Bounty
 {
@@ -13,6 +12,9 @@ namespace GM.Bounty
         [SerializeField] Image itemIcon;
         [SerializeField] TMP_Text titleText;
         [SerializeField] TMP_Text quantityText;
+        [SerializeField] TMP_Text purchaseCostText;
+        [Space]
+        [SerializeField] Button purchaseButton;
 
         string _itemId;
 
@@ -23,13 +25,32 @@ namespace GM.Bounty
             _itemId = id;
 
             SetInterfaceElements();
+            UpdateInterfaceElements();
         }
+
 
         void SetInterfaceElements()
         {
-            titleText.text = $"Buy {ItemGameData.ItemData.DisplayName}?";
             itemIcon.sprite = ItemGameData.Icon;
+
+            titleText.text = ItemGameData.ItemData.DisplayName;
             quantityText.text = $"x{ItemGameData.QuantityPerPurchase}";
+            purchaseCostText.text = $"{ItemGameData.PurchaseCost}";
+        }
+
+
+        void UpdateInterfaceElements()
+        {
+            purchaseButton.interactable = UserData.Get.BountyShop.InStock(_itemId);
+        }
+
+
+        public void OnPurchaseButton()
+        {
+            UserData.Get.BountyShop.PurchaseItem(_itemId, (success) =>
+            {
+                UpdateInterfaceElements();
+            });
         }
     }
 }

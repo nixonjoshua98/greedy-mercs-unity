@@ -4,9 +4,7 @@ import datetime as dt
 
 from src import svrdata
 from src.common import mongo, resources
-from src.common.enums import EnumBase
-
-from src.database import ItemKeys
+from src.common.enums import ItemType
 
 
 def daily_purchases(uid, iid: int = None):
@@ -26,7 +24,7 @@ def daily_purchases(uid, iid: int = None):
     return data.get(iid, 0) if iid is not None else data
 
 
-def current_items():
+def current_items() -> dict[str, "BsItem"]:
     """ Return a 'dict' of the current normal shop items. """
     return {k: BsItem(k, v) for k, v in resources.get("bountyshopitems")["items"].items()}
 
@@ -46,14 +44,6 @@ def all_current_shop_items(*, as_dict: bool):
         d = {k: {k2: v2.as_dict() for k2, v2 in v.items()} for k, v in d.items()}
 
     return d
-
-
-# # # Item Objects # # #
-
-class ItemType(EnumBase):
-    BLUE_GEMS = 100
-    IRON_INGOTS = 200
-    PRESTIGE_POINTS = 300
 
 
 class BsShopItemBase:
@@ -76,13 +66,6 @@ class BsItem(BsShopItemBase):
         self.item_type: ItemType = ItemType.get_val(data["itemType"])
 
         self.quantity_per_purchase = data["quantityPerPurchase"]
-
-    def get_db_key(self):
-        return {
-            ItemType.BLUE_GEMS: ItemKeys.BLUE_GEMS,
-            ItemType.IRON_INGOTS: ItemKeys.ARMOURY_POINTS,
-            ItemType.PRESTIGE_POINTS: ItemKeys.PRESTIGE_POINTS
-        }[self.item_type]
 
 
 class BsArmouryItem(BsShopItemBase):

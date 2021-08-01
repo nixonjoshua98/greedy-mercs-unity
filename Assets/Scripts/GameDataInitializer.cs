@@ -77,22 +77,6 @@ namespace GM
             }
         }
 
-        void ServerGameDataCallback(long code, JSONNode resp)
-        {
-            if (code == 200)
-            {
-                InstantiateServerData(resp);
-
-
-                HTTPClient.GetClient().Post("login", ServerLoginCallback);
-            }
-
-            else
-            {
-                CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
-            }
-        }
-
         void InstantiatePlayerData(JSONNode node)
         {
             GameState.Restore(node);
@@ -102,13 +86,6 @@ namespace GM
             MercenaryManager.Create();
 
             SkillsManager.Create(node["skills"]);
-        }
-
-        void InstantiateServerData(JSONNode node)
-        {
-            StaticData.Restore(node);
-
-            GameData.CreateInstance(node);
         }
     }
 }

@@ -7,10 +7,11 @@ from src.resources import ArtefactData
 from src.svrdata import Artefacts
 from src.checks import user_or_raise
 from src.common import formulas
+from src.common.enums import ItemKeys
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src.database import mongo, ItemKeys
+from src.database import mongo
 
 router = APIRouter(prefix="/api/artefact", route_class=CustomRoute)
 

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BountyPoints
   m_EditorClassIdentifier: 
   Item: 400
-  Icon: {fileID: 21300000, guid: 0eba1945e05625a4e89735b2f19eb51d, type: 3}
-  DisplayName: Bone
+  Icon: {fileID: 21300000, guid: 2a8f74866ea2b364bb16d68171061261, type: 3}
+  DisplayName: BP

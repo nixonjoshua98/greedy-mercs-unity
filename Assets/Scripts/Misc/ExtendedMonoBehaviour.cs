@@ -5,7 +5,6 @@ namespace GM
 {
     public abstract class ExtendedMonoBehaviour : MonoBehaviour
     {
-        [Header("Extended MonoBehaviour")]
         [Range(0.0f, 5.0f)] public float periodicUpdateDelay = 0.1f;
 
         void OnEnable()

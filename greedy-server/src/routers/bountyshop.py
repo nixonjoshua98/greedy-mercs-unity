@@ -4,13 +4,15 @@ import datetime as dt
 from fastapi import APIRouter, HTTPException
 
 from src.common import mongo
+from src.common.enums import ItemKeys
+
 from src.routing import CustomRoute, ServerResponse
 from src.svrdata import Armoury
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
 from src import svrdata
-from src.database import mongo, ItemKeys
+from src.database import mongo
 
 router = APIRouter(prefix="/api/bountyshop", route_class=CustomRoute)
 
@@ -28,7 +30,6 @@ def refresh(user: UserIdentifier):
         {
             "bountyShopItems":      svrdata.bountyshop.all_current_shop_items(as_dict=True),
             "dailyPurchases":       svrdata.bountyshop.daily_purchases(uid),
-            "nextDailyResetTime":   svrdata.next_daily_reset(),
             "userItems":            mongo.items.get_items(uid, post_process=False)
         }
     )
@@ -46,7 +47,7 @@ def purchase_item(data: ItemData):
     items = mongo.items.update_and_find(uid, {
         "$inc": {
             ItemKeys.BOUNTY_POINTS: -item.purchase_cost,
-            item.get_db_key(): item.quantity_per_purchase
+            item.item_type.key: item.quantity_per_purchase
         }
     })
 

@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 namespace GM.Bounty
 {
-    using GM.Bounty;
+    using TMPro;
+
+    using GM.Data;
 
     using CloseablePanel = GM.UI.CloseablePanel;
 
@@ -14,10 +16,28 @@ namespace GM.Bounty
 
         [SerializeField] Transform bsItemsParent;
 
+        [Header("Elements")]
+        [SerializeField] TMP_Text refreshText;
+
         void Awake()
         {
             InstantiateItems();
         }
+
+
+        protected override void PeriodicUpdate()
+        {
+            UpdateRefreshText();
+        }
+
+
+        void UpdateRefreshText()
+        {
+            TimeSpan timeUntilReset = GameData.Get.NextDailyReset - DateTime.UtcNow;
+
+            refreshText.text = $"{FormatString.Seconds(timeUntilReset.TotalSeconds)}";
+        }
+
 
         void InstantiateItems()
         {

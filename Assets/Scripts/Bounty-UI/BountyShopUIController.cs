@@ -36,9 +36,9 @@ namespace GM.BountyShop
 
         void FixedUpdate()
         {
-            TimeSpan timeUntilReset = StaticData.NextDailyReset - DateTime.UtcNow;
+            //TimeSpan timeUntilReset = StaticData.NextDailyReset - DateTime.UtcNow;
 
-            shopRefreshText.text = string.Format("Refreshes in {0}", FormatString.Seconds(timeUntilReset.TotalSeconds));
+           // shopRefreshText.text = string.Format("Refreshes in {0}", FormatString.Seconds(timeUntilReset.TotalSeconds));
         }
 
         void InstantiateItemSlots()

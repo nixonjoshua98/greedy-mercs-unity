@@ -17,13 +17,9 @@ public static class StaticData
 
     public static SkillListSO SkillList;
 
-    public static DateTime NextDailyReset;
-
     public static void Restore(JSONNode node)
     {
         SkillList.Init();
-
-        NextDailyReset = Funcs.ToDateTime(node["nextDailyReset"]);
     }
 
     public static void AssignScriptables(SkillListSO skills)

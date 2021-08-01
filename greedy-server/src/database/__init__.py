@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from .items import Items as _Items, ItemKeys
+from .items import Items as _Items
 
 
 class MongoController:

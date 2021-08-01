@@ -35,7 +35,7 @@ class ServerResponse(Response):
             return str(o)
 
         elif isinstance(o, (dt.datetime, dt.datetime)):
-            return int(o.timestamp() * 1000.0)
+            return int(o.timestamp() * 1000)
 
         return jsonable_encoder(o)
 

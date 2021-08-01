@@ -8,12 +8,14 @@ namespace GM.Bounty
 {
     using TMPro;
 
-    public class BSItemSlot : MonoBehaviour
+    public class BSItemSlot : ExtendedMonoBehaviour
     {
         [SerializeField] Image itemIcon;
         [SerializeField] TMP_Text quantityText;
         [Space]
         [SerializeField] GameObject itemPopupObject;
+        [Space]
+        [SerializeField] GameObject soldOutChild;
 
         string _itemId;
 
@@ -24,7 +26,9 @@ namespace GM.Bounty
             _itemId = id;
 
             SetInterfaceElements();
+            UpdateInterfaceElements();
         }
+
 
         void SetInterfaceElements()
         {
@@ -32,13 +36,22 @@ namespace GM.Bounty
             quantityText.text   = $"x{ItemGameData.QuantityPerPurchase}";
         }
 
-        
+
+        void UpdateInterfaceElements()
+        {
+            soldOutChild.SetActive(!UserData.Get.BountyShop.InStock(_itemId));
+        }
+
+        protected override void PeriodicUpdate()
+        {
+            UpdateInterfaceElements();
+        }
+
+
         // = = = Callbacks = = = //
         public void OnButtonClick()
         {
-            GameObject o = CanvasUtils.Instantiate(itemPopupObject);
-
-            o.GetComponent<BsItemPopup>().Setup(_itemId);
+            CanvasUtils.Instantiate<BsItemPopup>(itemPopupObject).Setup(_itemId);
         }
 
     }

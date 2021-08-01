@@ -150,9 +150,6 @@ namespace GM.Bounty
                     // Update the store items pulled from the server
                     SetAvailableItems(resp["bountyShopItems"]);
 
-                    // Updates the next daily reset time
-                    StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);
-
                     OnServerResponse(resp);
 
                     action.Invoke();

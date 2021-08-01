@@ -58,7 +58,7 @@ namespace GM.Bounty
             {
                 if (code == 200)
                 {
-                    SetAllClaimTimes(Funcs.ToDateTime(resp["claimTime"].AsLong));
+                    SetAllClaimTimes(Funcs.FromUnixMs(resp["claimTime"].AsLong));
                     UserData.Get.Inventory.SetItems(resp["userItems"]);
                 }
 
@@ -122,7 +122,7 @@ namespace GM.Bounty
                 {
                     states[id] = new BountyState(id)
                     {
-                        LastClaimTime = Funcs.ToDateTime(bounty["lastClaimTime"].AsLong)
+                        LastClaimTime = Funcs.FromUnixMs(bounty["lastClaimTime"].AsLong)
                     };
                 }
                 else

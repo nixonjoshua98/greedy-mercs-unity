@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -16,20 +15,20 @@ class UserLoginData(BaseModel):
 
 @router.get("/gamedata")
 def get_game_data():
+    return ServerResponse(
+        {
+            "artefactResources": res2.get_artefacts().as_dict(),
+            "mercResources": resources.get_mercs(),
+            "armouryResources": res2.get_armoury().as_dict(),
 
-    return {
-        "artefactResources":    res2.get_artefacts().as_dict(),
-        "mercResources":        resources.get_mercs(),
-        "armouryResources":     res2.get_armoury().as_dict(),
-
-        "bounties": resources.get("bounties"),
-        "nextDailyReset": svrdata.next_daily_reset()
-    }
+            "bounties": resources.get("bounties"),
+            "nextDailyReset": svrdata.next_daily_reset()
+        }
+    )
 
 
 @router.post("/login")
 def player_login(data: UserLoginData):
-
     if (row := mongo.db["userLogins"].find_one({"deviceId": data.device_id})) is None:
         result = mongo.db["userLogins"].insert_one({"deviceId": data.device_id})
 

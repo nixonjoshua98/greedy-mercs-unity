@@ -1,11 +1,6 @@
 from pymongo import ReturnDocument
 
-
-class ItemKeys:
-    BLUE_GEMS = "blueGems"
-    BOUNTY_POINTS = "bountyPoints"
-    ARMOURY_POINTS = "ironIngots"
-    PRESTIGE_POINTS = "prestigePoints"
+from src.common.enums import ItemKeys
 
 
 class Items:

@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException
 from typing import Tuple
 
 from src import resources
+from src.common.enums import ItemKeys
 from src.checks import user_or_raise
 
 from src.svrdata import Armoury
@@ -11,7 +12,7 @@ from src.svrdata import Armoury
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src.database import mongo, ItemKeys
+from src.database import mongo
 
 router = APIRouter(prefix="/api/armoury", route_class=CustomRoute)
 

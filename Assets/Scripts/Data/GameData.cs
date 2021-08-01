@@ -1,4 +1,4 @@
-
+using System;
 using UnityEngine;
 
 using SimpleJSON;
@@ -18,6 +18,7 @@ namespace GM.Data
         public GameBountyData Bounties;
         public GameArtefactData Artefacts;
 
+        public DateTime NextDailyReset;
 
         GameData(JSONNode node)
         {
@@ -27,6 +28,8 @@ namespace GM.Data
             Armoury     = new GameArmouryData(node["armouryResources"]);
             Mercs       = new GameMercData(node["mercResources"]);
             Bounties    = new GameBountyData(node["bounties"]);
+
+            NextDailyReset = Funcs.FromUnixMs(node["nextDailyReset"].AsLong);
         }
 
 

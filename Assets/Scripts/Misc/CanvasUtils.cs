@@ -12,6 +12,13 @@ namespace GM
         public static GameObject Instantiate(GameObject o) => Instantiate(o, MainCanvas);
         public static GameObject Instantiate(GameObject o, Transform parent) => Instantiate(o, parent.gameObject);
 
+        public static T Instantiate<T>(GameObject o) where T: Component
+        {
+            GameObject inst = Instantiate(o, MainCanvas);
+
+            return inst.GetComponent<T>();            
+        }
+
         public static GameObject Instantiate(GameObject o, GameObject parent)
         {
             GameObject inst = GameObject.Instantiate(o);

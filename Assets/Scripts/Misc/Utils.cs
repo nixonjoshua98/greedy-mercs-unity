@@ -8,7 +8,7 @@ using UnityEngine;
 public static class Funcs
 {
     // = = = Time = = = //
-    public static DateTime ToDateTime(long ts)
+    public static DateTime FromUnixMs(long ts)
     {
         return DateTimeOffset.FromUnixTimeMilliseconds(ts).UtcDateTime;
     }

@@ -514,6 +514,7 @@ MonoBehaviour:
   quantityText: {fileID: 657929851707542181}
   itemPopupObject: {fileID: 2351277183880672633, guid: f95ecb5de00ed4444854666c3412ef2b,
     type: 3}
+  soldOutChild: {fileID: 6513841690650924089}
 --- !u!222 &8853302957228749038
 CanvasRenderer:
   m_ObjectHideFlags: 0

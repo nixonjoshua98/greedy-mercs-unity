@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 5574591075783641451}
   - component: {fileID: 835276921968062385}
   - component: {fileID: 808432405995419994}
-  - component: {fileID: -9188891963427553911}
   m_Layer: 0
   m_Name: JuniorDarkMage
   m_TagString: Untagged
@@ -109,22 +108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   avatar: {fileID: 226229575171099740}
-  walkAnimation: Walk
---- !u!114 &-9188891963427553911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297949869682758585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walk
-  Attack: Casting Spells
 --- !u!1001 &297949869594014040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,6 +115,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 297949869682758584}
     m_Modifications:
+    - target: {fileID: -920494045802396531, guid: 8e676b4079d30e74f978a69ddab2a80c,
+        type: 3}
+      propertyPath: Attack
+      value: Casting Spells
+      objectReference: {fileID: 0}
     - target: {fileID: 504752023221353732, guid: 8e676b4079d30e74f978a69ddab2a80c,
         type: 3}
       propertyPath: m_Name

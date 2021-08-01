@@ -27,7 +27,7 @@ def get_player_data(uid):
         },
 
         "bountyShop": {
-            "dailyPurchases": bountyshop.daily_purchases(uid)
+            "dailyPurchases": bountyshop.daily_purchases(uid),
         },
 
         "artefacts": Artefacts.find(uid),

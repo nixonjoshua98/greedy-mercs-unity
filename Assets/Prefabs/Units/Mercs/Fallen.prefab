@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 148428512}
   - component: {fileID: 148428511}
   - component: {fileID: 6519972741627699075}
-  - component: {fileID: -5547549650326226100}
   m_Layer: 0
   m_Name: Fallen
   m_TagString: Untagged
@@ -75,22 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   avatar: {fileID: 4045373435316502222}
-  walkAnimation: Walk
---- !u!114 &-5547549650326226100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4044917154262169182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walk
-  Attack: Slashing
 --- !u!1001 &4044917155986515208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199,6 +182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6384907979843923851, guid: e0bd3015af80d894da39ba968ceb587e,
+        type: 3}
+      propertyPath: Attack
+      value: Slashing
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}

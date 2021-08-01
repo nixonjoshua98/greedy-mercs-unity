@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 namespace GM.BountyShop
 {
+    using GM.Data;
+
     using GM.Server;
 
     using SimpleJSON;
@@ -24,14 +26,14 @@ namespace GM.BountyShop
     {
         Dictionary<string, BountyShopPurchaseData> purchases;
 
-        public ServerBountyShopData ServerData;
+        public GameBountyShopData ServerData;
 
 
         public UserBountyShop(JSONNode node)
         {
             SetDailyPurchases(node["dailyPurchases"]);
 
-            ServerData = new ServerBountyShopData();
+            ServerData = new GameBountyShopData();
 
             Refresh(() => { });
         }

@@ -8,21 +8,16 @@ namespace GM.BountyShop
 {
     using GM.Data;
     using GM.UI;
-    using GM.Armoury;
+
 
     public class BsArmouryItemSlot : AbstractBountyShopSlot
     {
         [Header("Components - Scripts")]
         [SerializeField] StarRatingController starController;
 
-        Data.ArmouryItemData ArmouryItemData { get { return GameData.Get.Armoury.Get(ShopItemData.ArmouryItemID); } }
-        new BsArmouryItemData ShopItemData { get { return UserData.Get.BountyShop.ServerData.GetArmouryItem(_itemId); } }
+        ArmouryItemData ArmouryItemData { get { return GameData.Get.Armoury.Get(ShopItemData.ArmouryItemID); } }
+        protected new BountyShopArmouryItem ShopItemData => UserData.Get.BountyShop.ServerData.GetArmouryItem(_itemId);
 
-        void Awake()
-        {
-            // WARNING: Do not assume that _itemId has been set here
-            // hours_wasted = 1
-        }
 
         protected override void OnItemAssigned()
         {

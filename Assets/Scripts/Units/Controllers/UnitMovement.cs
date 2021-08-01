@@ -14,21 +14,20 @@ namespace GM.Units
         [Header("Components")]
         [SerializeField] GameObject avatar;
 
-        [Header("Animations")]
-        [SerializeField] string walkAnimation = "Walk";
-
         Animator anim;
+        AnimationStrings avatarAnims;
 
         void Awake()
         {
             anim = avatar.GetComponentInChildren<Animator>();
+            avatarAnims = GetComponentInChildren<AnimationStrings>();
         }
 
         public void MoveTowards(Vector3 target)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
 
-            anim.Play(walkAnimation);
+            anim.Play(avatarAnims.Walk);
 
             FaceTowardsTarget(target);
         }

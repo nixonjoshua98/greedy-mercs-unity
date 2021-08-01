@@ -180,7 +180,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: WraithAvatar
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1124149203543241743, guid: 3d305abf938dfc84d8bf1b91d8a11a3a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d305abf938dfc84d8bf1b91d8a11a3a, type: 3}
 --- !u!4 &1375704892455663777 stripped
 Transform:

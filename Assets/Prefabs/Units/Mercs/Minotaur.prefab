@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 119037146}
   - component: {fileID: 119037145}
   - component: {fileID: 6866313923960825707}
-  - component: {fileID: -8545864283643907343}
   m_Layer: 0
   m_Name: Minotaur
   m_TagString: Untagged
@@ -75,22 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   avatar: {fileID: 6798069837887539908}
-  walkAnimation: Walk
---- !u!114 &-8545864283643907343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8552994621044990532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walk
-  Attack: Attacking
 --- !u!1001 &8552994619959746910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799281124101359693, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.234375
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799281124101359693, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.234375
       objectReference: {fileID: 0}
     - target: {fileID: 1799281124101359693, guid: f599d76226aa16e4b87e507fa32dd4b8,
         type: 3}
@@ -170,39 +143,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4677574372784852450, guid: f599d76226aa16e4b87e507fa32dd4b8,
         type: 3}
-      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4677574372784852450, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
-      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4677574372784852450, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 119037145}
-    - target: {fileID: 4677574372784852450, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
-      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4677574372784852450, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
-      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnAttackAnimationEvent
-      objectReference: {fileID: 0}
-    - target: {fileID: 4677574372784852450, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
-      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GM.Units.ATS_Attack, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4677574372784852450, guid: f599d76226aa16e4b87e507fa32dd4b8,
-        type: 3}
-      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f599d76226aa16e4b87e507fa32dd4b8, type: 3}
 --- !u!1 &6798069837887539908 stripped

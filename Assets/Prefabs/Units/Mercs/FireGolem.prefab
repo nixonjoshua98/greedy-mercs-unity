@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 783787924}
   - component: {fileID: 783787923}
   - component: {fileID: 1485978854306912863}
-  - component: {fileID: 6658930501770025581}
   m_Layer: 0
   m_Name: FireGolem
   m_TagString: Untagged
@@ -75,22 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   avatar: {fileID: 529133020641648494}
-  walkAnimation: Walk
---- !u!114 &6658930501770025581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527510453790322700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walk
-  Attack: Kicking
 --- !u!1001 &527510451738759756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,6 +148,11 @@ PrefabInstance:
     - target: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6381248292959818229, guid: fd96c89408de2c944865a800062ab087,
+        type: 3}
+      propertyPath: Attack
+      value: Kicking
       objectReference: {fileID: 0}
     - target: {fileID: 9138276407072606021, guid: fd96c89408de2c944865a800062ab087,
         type: 3}

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
+    using GM.Data;
+
     public class BountyShopUIController : MonoBehaviour
     {
         [Header("Prefabs - UI")]
@@ -26,10 +28,11 @@ namespace GM.BountyShop
             items = new List<GameObject>();
         }
 
-        void OnEnable()
+        void Start()
         {
-            UserData.Get.BountyShop.Refresh(() => { InstantiateItemSlots(); });
+            InstantiateItemSlots();
         }
+
 
         void FixedUpdate()
         {
@@ -44,20 +47,22 @@ namespace GM.BountyShop
 
             UserBountyShop shop = UserData.Get.BountyShop;
 
-            foreach (AbstractBountyShopData itemData in shop.ServerData.NormalItems)
+            foreach (BountyShopItem itemData in shop.ServerData.Items)
+            {
                 items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
+            }
 
-            foreach (AbstractBountyShopData itemData in shop.ServerData.ArmouryItems)
+            foreach (BountyShopArmouryItem itemData in shop.ServerData.ArmouryItems)
                 items.Add(InstantiateSlot(ArmouryItemSlot, armouryItemsParent, itemData));
         }
 
-        GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopData itemData)
+        GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopItem itemData)
         {
             GameObject o = CanvasUtils.Instantiate(prefab, parent);
 
             AbstractBountyShopSlot slot = o.GetComponent<AbstractBountyShopSlot>();
 
-            slot.SetID(itemData.ID);
+            slot.Setup(itemData.ID);
 
             return o;
         }

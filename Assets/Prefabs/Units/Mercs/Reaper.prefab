@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 323789664}
   - component: {fileID: 323789663}
   - component: {fileID: 4656428320273357231}
-  - component: {fileID: -908362879198784769}
   m_Layer: 0
   m_Name: Reaper
   m_TagString: Untagged
@@ -75,22 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   avatar: {fileID: 3771751498256575464}
-  walkAnimation: Walk
---- !u!114 &-908362879198784769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769961914306909961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walk
-  Attack: Slashing
 --- !u!1001 &3769961914370844628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,6 +81,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3769961914306909962}
     m_Modifications:
+    - target: {fileID: -1795298783847972475, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30,
+        type: 3}
+      propertyPath: Attack
+      value: Slashing
+      objectReference: {fileID: 0}
     - target: {fileID: 1808018432986172, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30, type: 3}
       propertyPath: m_Name
       value: ReaperManAvatar

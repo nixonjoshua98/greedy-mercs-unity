@@ -325,7 +325,7 @@ SpriteRenderer:
   m_Size: {x: 4, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1144027389340988
@@ -886,6 +886,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4301320719418220}
+  - component: {fileID: 6384907979843923851}
   - component: {fileID: 3513503610695780260}
   - component: {fileID: 95891482203547316}
   - component: {fileID: 7985129795591114447}
@@ -915,6 +916,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6384907979843923851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797753984441286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Idle: Idle
+  Walk: Walk
+  Attack: Attacking
 --- !u!114 &3513503610695780260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,6 +944,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   E_OnAttackAnimation:
+    m_PersistentCalls:
+      m_Calls: []
+  E_OnDeathAnimation:
     m_PersistentCalls:
       m_Calls: []
 --- !u!95 &95891482203547316

@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 240715500}
   - component: {fileID: 240715499}
   - component: {fileID: 240715498}
-  - component: {fileID: -5036646759382943492}
   m_Layer: 0
   m_Name: FireSatyr
   m_TagString: Untagged
@@ -109,22 +108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   avatar: {fileID: 1957469043437415277}
-  walkAnimation: Walking
---- !u!114 &-5036646759382943492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walking
-  Attack: Attacking
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,6 +179,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Avatar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7370397358551087851, guid: 7c23600df3afacc45a70aca48c01c25a,
+        type: 3}
+      propertyPath: Walk
+      value: Walking
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}

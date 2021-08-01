@@ -41,7 +41,7 @@ namespace GM.Units
 
         void GetComponents()
         {
-            animations  = GetComponent<AnimationStrings>();
+            animations  = GetComponentInChildren<AnimationStrings>();
             movement    = GetComponent<UnitMovement>();
         }
 

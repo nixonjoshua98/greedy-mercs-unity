@@ -64,7 +64,6 @@ class BsShopItemBase:
 
         self.purchase_cost: int = data["purchaseCost"]
         self.daily_purchase_limit: int = data["dailyPurchaseLimit"]
-        self.quantity_per_purchase = data["quantityPerPurchase"]
 
     def as_dict(self):
         return self._dict
@@ -75,6 +74,8 @@ class BsItem(BsShopItemBase):
         super(BsItem, self).__init__(id_, data)
 
         self.item_type: ItemType = ItemType.get_val(data["itemType"])
+
+        self.quantity_per_purchase = data["quantityPerPurchase"]
 
     def get_db_key(self):
         return {
@@ -111,7 +112,6 @@ def _generate_armoury_items() -> dict:
             "armouryItemId": key,
             "purchaseCost": 100 + (item_data["itemTier"] * 125),
             "dailyPurchaseLimit": max(1, 3 - (item_data["itemTier"] - 1)),
-            "quantityPerPurchase": 1
         }
 
         selected_items[_id] = BsArmouryItem(_id, entry)

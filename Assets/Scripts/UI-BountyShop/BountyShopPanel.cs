@@ -12,9 +12,13 @@ namespace GM.Bounty
 
     public class BountyShopPanel : CloseablePanel
     {
+        [Header("Items")]
         [SerializeField] GameObject bsItemObject;
-
         [SerializeField] Transform bsItemsParent;
+
+        [Header("Armoury Items")]
+        [SerializeField] GameObject bsArmouryItemObject;
+        [SerializeField] Transform bsArmouryItemsParent;
 
         [Header("Elements")]
         [SerializeField] TMP_Text refreshText;
@@ -22,6 +26,7 @@ namespace GM.Bounty
         void Awake()
         {
             InstantiateItems();
+            InstantiateArmouryItems();
         }
 
 
@@ -46,6 +51,19 @@ namespace GM.Bounty
                 GameObject o = Instantiate(bsItemObject, bsItemsParent);
 
                 BSItemSlot slot = o.GetComponent<BSItemSlot>();
+
+                slot.Setup(item.ID);
+            }
+        }
+
+
+        void InstantiateArmouryItems()
+        {
+            foreach (BountyShopArmouryItem item in UserData.Get.BountyShop.ArmouryItems)
+            {
+                GameObject o = Instantiate(bsArmouryItemObject, bsArmouryItemsParent);
+
+                BsArmouryItemSlot slot = o.GetComponent<BsArmouryItemSlot>();
 
                 slot.Setup(item.ID);
             }

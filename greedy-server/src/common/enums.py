@@ -31,5 +31,5 @@ class ItemType(EnumBase):
     BOUNTY_POINTS = 400
 
     @property
-    def key(self):
-        return getattr(ItemType, self.value)
+    def key(self) -> ItemKeys:
+        return getattr(ItemKeys, self.name)

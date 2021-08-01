@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
-    using TMPro;
-
     public class BsArmouryItemSlot : ExtendedMonoBehaviour
     {
         [SerializeField] Image itemIcon;
-        [SerializeField] TMP_Text tierText;
+        [SerializeField] Text tierText;
         [Space]
         [SerializeField] GameObject itemPopupObject;
         [Space]

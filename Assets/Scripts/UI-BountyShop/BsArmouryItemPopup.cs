@@ -1,13 +1,10 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 namespace GM.Bounty
 {
     using GM.UI;
-
-    using TMPro;
 
     [System.Serializable]
     struct ItemImagePair
@@ -23,8 +20,8 @@ namespace GM.Bounty
     {
         [SerializeField] ItemImagePair itemImages;
 
-        [SerializeField] TMP_Text titleText;
-        [SerializeField] TMP_Text purchaseCostText;
+        [SerializeField] Text titleText;
+        [SerializeField] Text purchaseCostText;
         [Space]
         [SerializeField] Button purchaseButton;
         [Space]
@@ -42,12 +39,12 @@ namespace GM.Bounty
             UpdateInterfaceElements();
         }
 
+
         void SetInterfaceElements()
         {
-            itemImages.sprite = ItemGameData.Icon;
-
-            titleText.text = ItemGameData.ArmouryItem.Name;
-            purchaseCostText.text = $"{ItemGameData.PurchaseCost}";
+            itemImages.sprite       = ItemGameData.Icon;
+            titleText.text          = ItemGameData.ArmouryItem.Name.ToUpper();
+            purchaseCostText.text   = $"{ItemGameData.PurchaseCost}";
 
             rating.Show(ItemGameData.ArmouryItem.Tier);
         }

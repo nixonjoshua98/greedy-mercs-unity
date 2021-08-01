@@ -6,12 +6,10 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
-    using TMPro;
-
     public class BSItemSlot : ExtendedMonoBehaviour
     {
         [SerializeField] Image itemIcon;
-        [SerializeField] TMP_Text quantityText;
+        [SerializeField] Text quantityText;
         [Space]
         [SerializeField] GameObject itemPopupObject;
         [Space]
@@ -33,7 +31,7 @@ namespace GM.Bounty
         void SetInterfaceElements()
         {
             itemIcon.sprite     = ItemGameData.Icon;
-            quantityText.text   = $"x{ItemGameData.QuantityPerPurchase}";
+            quantityText.text   = $"X{ItemGameData.QuantityPerPurchase}";
         }
 
 

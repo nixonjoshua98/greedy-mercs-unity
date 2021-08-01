@@ -1,11 +1,10 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 
 namespace GM.Bounty
 {
-    using TMPro;
-
     using GM.Data;
 
     using CloseablePanel = GM.UI.CloseablePanel;
@@ -21,7 +20,7 @@ namespace GM.Bounty
         [SerializeField] Transform bsArmouryItemsParent;
 
         [Header("Elements")]
-        [SerializeField] TMP_Text refreshText;
+        [SerializeField] Text refreshText;
 
         void Awake()
         {

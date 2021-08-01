@@ -1,19 +1,22 @@
 ﻿
 public enum BonusType
 {
-    NONE = -1,
-
-    // Energy Income (Per Minute)
-    FLAT_ENERGY_CAPACITY = 100,
-    PERCENT_ENERGY_CAPACITY = 101,
+    NONE = 0,
 
     // Energy Capacity
-    FLAT_ENERGY_INCOME = 200,
-    PERCENT_ENERGY_INCOME = 201,
+    FLAT_ENERGY_CAPACITY = 100,
 
-    // Critical Hits
+    // Energy Income (Per Minute)
+    FLAT_ENERGY_INCOME = 200,
+
+    // Critical Chance
     FLAT_CRIT_CHANCE = 300,
-    FLAT_CRIT_DMG_MULT = 301,
+
+    // Critical Damage
+    FLAT_CRIT_DMG = 400,
+
+    // Prestige
+    PERCENT_PRESTIGE_BONUS = 500,
 
     MERC_DAMAGE = 0,
     ENEMY_GOLD = 1,
@@ -23,15 +26,28 @@ public enum BonusType
     MELEE_DAMAGE = 5,
     RANGED_DAMAGE = 7,
     ALL_GOLD = 9,
-    CASH_OUT_BONUS = 11,
     GOLD_RUSH_BONUS = 14,
     GOLD_RUSH_DURATION = 15,
     AUTO_CLICK_BONUS = 16,
-    AUTO_CLICK_DURATION = 17,
-    BOSS_TIMER_DURATION = 18,
+    AUTO_CLICK_DURATION = 17
 }
 
-public enum CharacterID { ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE }
+public enum MercID
+{ 
+    NONE = -1,
+
+    STONE_GOLEM, 
+    REAPER_MAN, 
+    WRAITH, 
+    FALLEN, 
+    SKELETON_ARCHER, 
+    MINOTAUR, 
+    FIRE_GOLEM, 
+    JUNIOR_DARK_MAGE, 
+    DEMON_KNIGHT, 
+    FIRE_SATYR 
+}
+
 
 public enum GoldUpgradeID
 {

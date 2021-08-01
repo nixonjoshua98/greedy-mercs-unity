@@ -30,7 +30,14 @@ namespace GM.Skills.UI
             {
                 float seconds = Mathf.Min(1, (Time.timeSinceLevelLoad - lastTap) / 0.1f);
 
-                GameManager.TryDealDamageToEnemy(StatsCache.Skills.AutoClickDamage() * seconds);
+                GameObject target = GetNewFocusTarget();
+
+                if (target && target.TryGetComponent(out HealthController hp))
+                {
+                    BigDouble dmg = StatsCache.Skills.AutoClickDamage() * seconds;
+
+                    hp.TakeDamage(dmg);
+                }
 
                 lastTap = Time.timeSinceLevelLoad;
 
@@ -38,6 +45,16 @@ namespace GM.Skills.UI
             }
 
             ActivateButton.interactable = true;
+        }
+
+        GameObject GetNewFocusTarget()
+        {
+            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
+
+            if (targets.Length == 0)
+                return null;
+
+            return targets[Random.Range(0, targets.Length)];
         }
     }
 }

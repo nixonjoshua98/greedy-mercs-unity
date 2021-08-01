@@ -11,12 +11,11 @@ public class UpgradeState
 
 namespace GM
 {
-    using GM.Bounty;
-    using GM.Armoury;
-    using GM.Inventory;
-    using GM.BountyShop;
+    using GM.Server;
+    using GM.Data;
+
     using GM.Artefacts;
-    using GM.Characters;
+    using GM.Units;
 
     public class GameDataInitializer : MonoBehaviour
     {
@@ -27,42 +26,54 @@ namespace GM
             StaticData.AssignScriptables(SkillList);
         }
 
+
         void Start()
         {
-            Server.GetGameData(ServerGameDataCallback);
+            HTTPClient.GetClient().Get("gamedata", OnGameDataResponse);
         }
 
-        void ServerLoginCallback(long code, string body)
+
+
+
+
+        void OnGameDataResponse(long code, JSONNode resp)
         {
             if (code == 200)
             {
-                JSONNode node = Funcs.DecryptServerJSON(body);
+                StaticData.Restore(resp);
 
-                InstantiatePlayerData(node);
+                GameData.CreateInstance(resp);
+
+                HTTPClient.GetClient().Post("login", ServerLoginCallback);
+            }
+
+            else
+            {
+                CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        void ServerLoginCallback(long code, JSONNode resp)
+        {
+            if (code == 200)
+            {
+                InstantiatePlayerData(resp);
 
                 SceneManager.LoadScene("GameScene");
             }
 
             else
             {
-                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required to play.");
-            }
-        }
-
-        void ServerGameDataCallback(long code, string compressedJson)
-        {
-            if (code == 200)
-            {
-                JSONNode node = Funcs.DecryptServerJSON(compressedJson);
-
-                InstantiateServerData(node);
-
-                Server.Login(ServerLoginCallback, Utils.Json.GetDeviceInfo());
-            }
-
-            else
-            {
-                Utils.UI.ShowMessage("ServerError", "Server Connection", "A connection to the server is required.");
+                CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
             }
         }
 
@@ -70,19 +81,11 @@ namespace GM
         {
             GameState.Restore(node);
 
+            UserData.CreateInstance().UpdateWithServerUserData(node);
+
             MercenaryManager.Create();
 
-            ArmouryManager.Create(node["armoury"]);
-            BountyManager.Create(node["bounties"]);
-            InventoryManager.Create(node["inventory"]);
-            BountyShopManager.Create(node["bountyShop"]);
-            ArtefactManager.Create(node["artefacts"]);
             SkillsManager.Create(node["skills"]);
-        }
-
-        void InstantiateServerData(JSONNode node)
-        {
-            StaticData.Restore(node);
         }
     }
 }

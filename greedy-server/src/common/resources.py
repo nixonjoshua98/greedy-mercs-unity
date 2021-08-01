@@ -2,41 +2,25 @@ import os
 import json
 
 
+ARMOURY = "armoury"
+
+
 def get(file_name):
-	return dicts()[file_name]
+	return _load_json(_res_path(f"{file_name}.json"))
 
 
 def get_mercs(*, id_: int = None):
 	if id_ is not None:
-		return _load_yaml(_res_path("mercenaries", f"ID_{id_}.yaml"))
+		return _load_json(_res_path("mercs", f"merc_{id_}.json"))
 
 	d = dict()
 
-	for file in os.listdir(_res_path("mercenaries")):
-		id_ = int(file[file.find("ID_")+3: file.find(".yaml")])
+	for file in os.listdir(_res_path("mercs")):
+		id_ = int(file[file.find("merc_")+5: file.find(".json")])
 
-		d[id_] = _load_yaml(_res_path("mercenaries", file))
+		d[id_] = _load_json(_res_path("mercs", file))
 
 	return d
-
-
-def dicts():
-	data = dict()
-
-	def hook(d): return {int(k) if k.lstrip("-").isdigit() else k: v for k, v in d.items()}
-
-	for file in os.listdir(os.path.join(os.getcwd(), "resources")):
-		name, ext = os.path.splitext(file)
-
-		path = os.path.join(os.getcwd(), "resources", file)
-
-		if os.path.isfile(path):
-			with open(path, "r") as fh:
-				data_file = json.loads(fh.read(), object_hook=hook)
-
-			data[name] = data_file
-
-	return data
 
 
 def _res_path(*sections):

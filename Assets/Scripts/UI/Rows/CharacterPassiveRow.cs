@@ -2,8 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Characters
+namespace GM.Units
 {
+    using GM.Data;
+
     public class CharacterPassiveRow : MonoBehaviour
     {
         public Text UnlockText;
@@ -15,7 +17,7 @@ namespace GM.Characters
         {
             UnlockText.text = passive.UnlockLevel.ToString();
 
-            DescriptionText.text = Funcs.BonusString(passive.Type, passive.Value);
+            DescriptionText.text = FormatString.Bonus(passive.Type, passive.Value);
 
             if (state.Level < passive.UnlockLevel)
             {

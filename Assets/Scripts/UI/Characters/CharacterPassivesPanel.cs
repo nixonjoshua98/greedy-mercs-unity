@@ -6,7 +6,9 @@ using UnityEngine;
 
 namespace GM
 {
-    using GM.Characters;
+    using GM.Data;
+
+    using GM.Units;
 
     public class CharacterPassivesPanel : MonoBehaviour
     {
@@ -15,15 +17,15 @@ namespace GM
         [SerializeField] GameObject ScrollContent;
 
 
-        public void SetHero(CharacterID chara)
+        public void SetHero(MercID chara)
         {
             StartCoroutine(Create(chara));
         }
 
-        IEnumerator Create(CharacterID chara)
+        IEnumerator Create(MercID merc)
         {
-            MercData data   = StaticData.Mercs.GetMerc(chara);
-            MercState state = MercenaryManager.Instance.GetState(chara);
+            MercData data = GameData.Get.Mercs.Get(merc);
+            MercState state = MercenaryManager.Instance.GetState(merc);
 
             foreach (MercPassiveData passive in data.Passives)
             {

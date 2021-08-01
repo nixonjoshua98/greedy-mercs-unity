@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - EnemyHealthbar
   - MainCanvas
-  - BossEnemy
   - Enemy
+  - Dead
+  - Boss
   layers:
   - Default
   - TransparentFX

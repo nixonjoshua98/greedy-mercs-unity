@@ -24,11 +24,6 @@ namespace GM
             upgrades = new Dictionary<GoldUpgradeID, UpgradeState>();
         }
 
-        public JSONNode ToJson()
-        {
-            return Utils.Json.CreateJSONArray("upgradeId", upgrades);
-        }
-
         // === Helper Methods ===
 
         public UpgradeState GetUpgrade(GoldUpgradeID upgrade)

@@ -4,19 +4,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Characters
+namespace GM.Units
 {
+    using GM.Data;
+
     using StatsCache = GM.StatsCache;
     using Formulas = GM.Formulas;
 
     public class MercState
     {
-        public CharacterID ID;
+        public MercID Id;
 
         public int Level;
         public MercPassiveData[] UnlockedPassives { get { return _svrData.Passives.Where(passive => Level >= passive.UnlockLevel).ToArray(); } }
 
-        MercData _svrData { get { return StaticData.Mercs.GetMerc(ID); } }  // Quick, dirty reference
+        MercData _svrData { get { return GameData.Get.Mercs.Get(Id); } }  // Quick, dirty reference
 
 
         public BigDouble CostToUpgrade(int levels)
@@ -26,7 +28,7 @@ namespace GM.Characters
 
         public BigDouble TotalDamage()
         {
-            return StatsCache.TotalMercDamage(ID);
+            return StatsCache.TotalMercDamage(Id);
         }
 
     }
@@ -35,7 +37,7 @@ namespace GM.Characters
     {
         public static MercenaryManager Instance = null;
 
-        Dictionary<CharacterID, MercState> states;
+        Dictionary<MercID, MercState> states;
 
         public static void Create()
         {
@@ -44,13 +46,13 @@ namespace GM.Characters
 
         MercenaryManager()
         {
-            states = new Dictionary<CharacterID, MercState>();
+            states = new Dictionary<MercID, MercState>();
         }
 
         // = = = Get Methods = = = //
-        public List<CharacterID> Unlocked { get { return states.Keys.ToList(); } }
+        public List<MercID> Unlocked { get { return states.Keys.ToList(); } }
 
-        public MercState GetState(CharacterID chara)
+        public MercState GetState(MercID chara)
         {
             if (!Contains(chara))
                 SetState(chara);
@@ -58,16 +60,16 @@ namespace GM.Characters
             return states[chara];
         }
 
-        public bool Contains(CharacterID chara)
+        public bool Contains(MercID chara)
         {
             return states.ContainsKey(chara);
         }
 
-        public bool GetNextHero(out CharacterID result)
+        public bool GetNextHero(out MercID result)
         {
-            result = (CharacterID)(-1);
+            result = (MercID)(-1);
 
-            foreach (CharacterID chara in Enum.GetValues(typeof(CharacterID)))
+            foreach (MercID chara in Enum.GetValues(typeof(MercID)))
             {
                 if ((int)chara >= 0 && !Contains(chara))
                 {
@@ -81,17 +83,17 @@ namespace GM.Characters
         }
 
         // = = = Set Methods = = = //
-        public void SetState(CharacterID chara)
+        public void SetState(MercID chara)
         {
-            states[chara] = new MercState() { ID = chara, Level = 1 };
+            states[chara] = new MercState() { Id = chara, Level = 1 };
         }
 
-        public void SetState(CharacterID chara, MercState state)
+        public void SetState(MercID chara, MercState state)
         {
             states[chara] = state;
         }
 
-        public void AddLevels(CharacterID chara, int levels)
+        public void AddLevels(MercID chara, int levels)
         {
             MercState state = GetState(chara);
 
@@ -105,7 +107,7 @@ namespace GM.Characters
         {
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
 
-            foreach (CharacterID chara in Unlocked)
+            foreach (MercID chara in Unlocked)
             {
                 MercState state = GetState(chara);
 

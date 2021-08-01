@@ -28,12 +28,17 @@ namespace GM
 
         void FixedUpdate()
         {
-            prestigePointText.text = Utils.Format.FormatNumber(StatsCache.GetPrestigePoints(GameState.Stage.stage));
+            CurrentStageState state = GameManager.Instance.State();
+
+            prestigePointText.text = FormatString.Number(StatsCache.GetPrestigePoints(state.Stage));
         }
+
 
         public void Prestige()
         {
-            if (currentlyPrestiging || GameState.Stage.stage < StageState.MIN_PRESTIGE_STAGE)
+            CurrentStageState state = GameManager.Instance.State();
+
+            if (currentlyPrestiging || state.Stage < StaticData.MIN_PRESTIGE_STAGE)
                 return;
 
             currentlyPrestiging = true;
@@ -42,21 +47,8 @@ namespace GM
 
             if (o.TryGetComponent(out PrestigeController controller))
             {
-                controller.Prestige(OnPrestige);
+                controller.Prestige((_) => { });
             }
-        }
-
-        void OnPrestige(bool success)
-        {
-            if (success)
-            {
-                Animation(1.0f);
-            }
-        }
-
-        void Animation(float duration)
-        {
-            StartCoroutine(Utils.Lerp.RectTransform(lootBagRect, lootBagRect.localScale, lootBagRect.localScale * 2, duration));
         }
     }
 }

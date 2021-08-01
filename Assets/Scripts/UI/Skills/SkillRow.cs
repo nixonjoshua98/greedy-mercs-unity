@@ -37,7 +37,7 @@ namespace GM
 
             if (SkillsManager.Instance.IsUnlocked(SkillID))
             {
-                Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
+                CanvasUtils.Instantiate(SkillButtonObject, SkillButtonsParent);
             }
         }
 
@@ -70,12 +70,11 @@ namespace GM
             if (!SkillsManager.Instance.IsUnlocked(SkillID))
                 return "Locked";
 
-            string effect       = Utils.Format.FormatNumber(StatsCache.Skills.SkillBonus(SkillID) * 100);
-            string bonusType    = Funcs.BonusString(StaticData.SkillList.Get(SkillID).bonusType);
+            string s = FormatString.Bonus(StaticData.SkillList.Get(SkillID).bonusType, StatsCache.Skills.SkillBonus(SkillID) * 100);
 
             double duration     = StatsCache.Skills.SkillDuration(SkillID);
 
-            return string.Format("Duration <color=orange>{0}s</color>\nMultiply <color=orange>{1}</color> by <color=orange>{2}%</color>", duration, bonusType, effect);
+            return string.Format("Duration <color=orange>{0}s</color>\n<color=orange>{1}</color>", duration, s);
         }
 
         void UpdateButtonText()
@@ -90,7 +89,7 @@ namespace GM
                     SkillLevel nextLevel = SkillsManager.Instance.GetSkillLevel(SkillID, State.level + 1);
 
                     buttonTopText.text  = string.Format("Level {0} -> {1}", State.level, State.level + 1);
-                    buttonBtmText.text  = Utils.Format.FormatNumber(nextLevel.UpgradeCost);
+                    buttonBtmText.text  = FormatString.Number(nextLevel.UpgradeCost);
                 }
             }
 
@@ -99,7 +98,7 @@ namespace GM
                 SkillLevel skillLevel = SkillsManager.Instance.GetSkillLevel(SkillID, 1);
 
                 buttonTopText.text = "LOCKED";
-                buttonBtmText.text = Utils.Format.FormatNumber(skillLevel.UpgradeCost);
+                buttonBtmText.text = FormatString.Number(skillLevel.UpgradeCost);
             }
         }
 
@@ -119,7 +118,7 @@ namespace GM
             if (GameState.Player.gold >= skillLevel.UpgradeCost)
             {
                 if (!SkillsManager.Instance.IsUnlocked(SkillID))
-                    Utils.UI.Instantiate(SkillButtonObject, SkillButtonsParent, Vector3.zero);
+                    CanvasUtils.Instantiate(SkillButtonObject, SkillButtonsParent);
 
                 SkillsManager.Instance.UpgradeSkill(SkillID);
 

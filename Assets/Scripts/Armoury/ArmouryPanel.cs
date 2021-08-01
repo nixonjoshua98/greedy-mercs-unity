@@ -1,17 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
 
-using GM.Armoury;
-
 namespace GM.Armoury.UI
 {
-    using GM.Armoury;
-    using GM.Inventory;
+    using GM.Data;
+    using GM.UI;
 
-    public class ArmouryPanel : MonoBehaviour
+    public class ArmouryPanel : CloseablePanel
     {
         [Header("Compoents")]
         [SerializeField] Text damageBonusText;
@@ -24,16 +21,17 @@ namespace GM.Armoury.UI
         [SerializeField] GameObject ItemPopupObject;
 
         // ===
-        Dictionary<int, ArmouryItem> itemObjects;
+        Dictionary<int, ArmouryItemSlot> itemObjects;
+
 
         void Awake()
         {
-            itemObjects = new Dictionary<int, ArmouryItem>();
+            itemObjects = new Dictionary<int, ArmouryItemSlot>();
         }
 
         void OnEnable()
         {
-            foreach (ArmouryItemState state in ArmouryManager.Instance.GetOwned())
+            foreach (ArmouryItemState state in UserData.Get .Armoury.OwnedItems())
             {
                 if (!itemObjects.ContainsKey(state.ID))
                 {
@@ -42,34 +40,36 @@ namespace GM.Armoury.UI
             }
         }
 
+
         void FixedUpdate()
         {
-            weaponPointText.text = InventoryManager.Instance.ArmouryPoints.ToString();
-            damageBonusText.text = string.Format("{0}% Mercenary Damage", Utils.Format.FormatNumber(StatsCache.ArmouryMercDamageMultiplier * 100));
+            weaponPointText.text = UserData.Get.Inventory.IronIngots.ToString();
+            damageBonusText.text = string.Format("{0}% Mercenary Damage", FormatString.Number(StatsCache.ArmouryMercDamageMultiplier * 100));
         }
+
 
         void InstantiateItem(ArmouryItemState state)
         {
-            ArmouryItemData serverItemData = StaticData.Armoury.Get(state.ID);
+            ArmouryItemData data = GameData.Get.Armoury.Get(state.ID);
 
-            ArmouryItem item = Utils.UI.Instantiate(ArmouryItemObject, itemsParent, Vector3.zero).GetComponent<ArmouryItem>();
+            ArmouryItemSlot item = CanvasUtils.Instantiate(ArmouryItemObject, itemsParent).GetComponent<ArmouryItemSlot>();
 
-            item.Init(serverItemData);
-
-            item.SetButtonCallback(() => { OnIconClick(serverItemData); });
+            item.Init(state.ID);
+            
+            item.SetButtonCallback(() => { OnIconClick(state.ID); });
 
             itemObjects[state.ID] = item;
         }
 
         // === Button Callback ===
 
-        void OnIconClick(ArmouryItemData item)
+        void OnIconClick(int itemId)
         {
-            GameObject obj = Funcs.UI.Instantiate(ItemPopupObject);
+            GameObject obj = CanvasUtils.Instantiate(ItemPopupObject);
 
             ArmouryItemPopup panel = obj.GetComponent<ArmouryItemPopup>();
 
-            panel.Init(item);
+            panel.Init(itemId);
         }
     }
 }

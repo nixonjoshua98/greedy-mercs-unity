@@ -5,38 +5,39 @@ from src.common.enums import BonusType
 from src.common import resources
 
 
-# === Loot Formulas === #
+# === Artefacts Formulas === #
 
-def loot_levelup_cost(item: dict, start, buying):
-	return math.ceil(item["costCoeff"] * sum_non_int_power_seq(start, buying, item["costExpo"]))
-
-
-def next_loot_item_cost(numrelics: int):
-	return math.floor(max(1, numrelics - 2) * math.pow(1.35, numrelics))
+def upgrade_artefact_cost(cooeff, expo, current, buying):
+	return math.ceil(cooeff * sum_non_int_power_seq(current, buying, expo))
 
 
-def loot_effect(item, level):
+def next_artefact_cost(num_owned: int):
+	return math.floor(max(1, num_owned - 2) * math.pow(1.35, num_owned))
+
+
+def artefact_effect(item, level):
 	return item["baseEffect"] + (item["levelEffect"] * (level - 1))
-
 
 # === Prestige Formulas === #
 
-def stage_prestige_points(stage, userloot):
-	return math.ceil(math.pow(math.ceil((max(stage, 75) - 75) / 10.0), 2.2) * prestige_bonus(userloot))
+
+def stage_prestige_points(stage, user_arts: dict):
+	return math.ceil(math.pow(math.ceil((max(stage, 75) - 75) / 10.0), 2.2) * prestige_bonus(user_arts))
 
 
-def prestige_bonus(artefacts):
+def prestige_bonus(user_arts):
+
 	bonus = 1
 
-	artefacts_data = resources.get("artefacts")
+	static_arts = resources.get("artefacts")
 
-	for key, data in artefacts.items():
-		item = artefacts_data[key]
+	for key, data in user_arts.items():
+		item = static_arts[key]
 
 		level = data["level"]
 
-		if item["bonusType"] == BonusType.CASH_OUT_BONUS:
-			bonus *= loot_effect(item, level)
+		if item["bonusType"] == BonusType.PRESTIGE_BONUS:
+			bonus *= artefact_effect(item, level)
 
 	return bonus
 

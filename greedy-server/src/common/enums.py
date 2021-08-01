@@ -14,4 +14,22 @@ class EnumBase(enum.IntEnum):
 
 
 class BonusType(EnumBase):
-    CASH_OUT_BONUS = 11
+    PRESTIGE_BONUS = 500
+
+
+class ItemKeys:
+    BLUE_GEMS = "blueGems"
+    ARMOURY_POINTS = "ironIngots"
+    PRESTIGE_POINTS = "prestigePoints"
+    BOUNTY_POINTS = "bountyPoints"
+
+
+class ItemType(EnumBase):
+    BLUE_GEMS = 100
+    ARMOURY_POINTS = 200
+    PRESTIGE_POINTS = 300
+    BOUNTY_POINTS = 400
+
+    @property
+    def key(self):
+        return getattr(ItemType, self.value)

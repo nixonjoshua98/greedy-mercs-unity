@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 namespace GM.BountyShop
 {
+    using GM.Data;
+
     public class BountyShopUIController : MonoBehaviour
     {
         [Header("Prefabs - UI")]
@@ -25,39 +28,44 @@ namespace GM.BountyShop
             items = new List<GameObject>();
         }
 
-        void OnEnable()
+        void Start()
         {
-            BountyShopManager.Instance.Refresh(() => { InstantiateItemSlots(); });
+            InstantiateItemSlots();
         }
+
 
         void FixedUpdate()
         {
-            TimeSpan timeUntilReset = Funcs.TimeUntil(StaticData.NextDailyReset);
+            //TimeSpan timeUntilReset = StaticData.NextDailyReset - DateTime.UtcNow;
 
-            shopRefreshText.text = string.Format("Refreshes in {0}", Funcs.Format.Seconds(timeUntilReset.TotalSeconds));
+           // shopRefreshText.text = string.Format("Refreshes in {0}", FormatString.Seconds(timeUntilReset.TotalSeconds));
         }
 
         void InstantiateItemSlots()
         {
-            DestroyAllSlots();
-            
-            foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.NormalItems)
-                items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
+            //DestroyAllSlots();
 
-            foreach (AbstractBountyShopData itemData in BountyShopManager.Instance.ServerData.ArmouryItems)
-                items.Add(InstantiateSlot(ArmouryItemSlot, armouryItemsParent, itemData));
+            //UserBountyShop shop = UserData.Get.BountyShop;
+
+            //foreach (BountyShopItem itemData in shop.ServerData.Items)
+            //{
+            //    items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
+            //}
+
+            //foreach (BountyShopArmouryItem itemData in shop.ServerData.ArmouryItems)
+            //    items.Add(InstantiateSlot(ArmouryItemSlot, armouryItemsParent, itemData));
         }
 
-        GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopData itemData)
-        {
-            GameObject o = Funcs.UI.Instantiate(prefab, parent);
+        //GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopItem itemData)
+        //{
+        //    GameObject o = CanvasUtils.Instantiate(prefab, parent);
 
-            AbstractBountyShopSlot slot = o.GetComponent<AbstractBountyShopSlot>();
+        //    AbstractBountyShopSlot slot = o.GetComponent<AbstractBountyShopSlot>();
 
-            slot.SetID(itemData.ID);
+        //    slot.Setup(itemData.ID);
 
-            return o;
-        }
+        //    return o;
+        //}
 
         void DestroyAllSlots()
         {

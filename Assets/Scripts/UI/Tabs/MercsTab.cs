@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-
+﻿
 using UnityEngine;
-using UnityEngine.Events;
 
 
 namespace GM.UI
@@ -10,10 +7,12 @@ namespace GM.UI
     using GM.Events;
 
 
-    using GM.Characters;
+    using GM.Units;
 
-    public class MercsTab : MonoBehaviour
+    public class MercsTab : CloseablePanel
     {
+        [SerializeField] BuyController buyAmountController;
+
         [Header("Transforms")]
         [SerializeField] Transform scrollContent;
 
@@ -22,10 +21,10 @@ namespace GM.UI
 
         void Awake()
         {
-            GlobalEvents.OnCharacterUnlocked.AddListener((chara) => { AddRow(chara); });
+            GlobalEvents.E_OnMercUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
-        void AddRow(CharacterID chara)
+        void AddRow(MercID chara)
         {
             GameObject spawnedRow = Instantiate(characterRowObject, scrollContent);
 
@@ -33,7 +32,7 @@ namespace GM.UI
 
             CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 
-            row.SetCharacter(chara);
+            row.Setup(chara, buyAmountController);
         }
     }
 }

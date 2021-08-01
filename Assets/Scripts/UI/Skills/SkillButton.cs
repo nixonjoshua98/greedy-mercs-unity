@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 namespace GM.Skills.UI
 {
+    using GM.Events;
+
     public abstract class SkillButton : MonoBehaviour
     {
         protected SkillID skill;
@@ -22,8 +24,6 @@ namespace GM.Skills.UI
                     GameState.Player.currentEnergy -= levelData.EnergyCost;
 
                     SkillsManager.Instance.ActivateSkill(skill);
-
-                    GlobalEvents.OnSkillActivated.Invoke();
 
                     Activate();
                 }

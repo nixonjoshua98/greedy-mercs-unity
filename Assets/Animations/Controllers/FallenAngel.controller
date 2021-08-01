@@ -46,13 +46,13 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
 --- !u!1102 &1102201229561151754
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Slashing
-  m_Speed: 0.75
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3513750974225845706}
@@ -73,7 +73,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1102 &1102478137187260092
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -100,7 +100,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1107 &1107976352370607412
 AnimatorStateMachine:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -112,16 +112,16 @@ AnimatorStateMachine:
     m_Position: {x: 100, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102201229561151754}
-    m_Position: {x: 400, y: 200, z: 0}
+    m_Position: {x: 300, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6565143958387898550}
-    m_Position: {x: 400, y: 300, z: 0}
+    m_Position: {x: -100, y: 200, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -80, y: 100, z: 0}
+  m_AnyStatePosition: {x: 120, y: 70, z: 0}
   m_EntryPosition: {x: 120, y: 100, z: 0}
   m_ExitPosition: {x: 120, y: 370, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -150,13 +150,13 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &6565143958387898550
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Walk
-  m_Speed: 0.75
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []

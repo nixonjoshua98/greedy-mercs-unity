@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,38 +6,19 @@ namespace GM
 {
     public class HUD : MonoBehaviour
     {
-        [SerializeField] Text StageText;
         [SerializeField] Text GoldText;
 
-        void Start()
-        {
-            GlobalEvents.OnStageUpdate.AddListener(OnStageUpdate);
-
-            // Temp. Derived events do not show in the inspector
-            FindObjectOfType<StageBossController>().OnBossSpawn.AddListener(OnBossSpawn);
-
-            UpdateStageText();
-        }
+        [SerializeField] Text stageText;
+        [SerializeField] Text waveText;
 
         void FixedUpdate()
         {
-            GoldText.text = Utils.Format.FormatNumber(GameState.Player.gold);
-        }
+            CurrentStageState state = GameManager.Instance.State();
 
-        void UpdateStageText()
-        {
-            StageText.text = GameState.Stage.stage.ToString() + " | " + GameState.Stage.enemy.ToString();
-        }
+            GoldText.text = FormatString.Number(GameState.Player.gold);
 
-        void OnStageUpdate()
-        {
-            UpdateStageText();
-        }
-
-        // Event
-        public void OnBossSpawn(GameObject obj)
-        {
-            StageText.text = "BOSS";
+            stageText.text = $"Stage {state.Stage}";
+            waveText.text = $"{state.Wave} / {state.WavesPerStage}";
         }
     }
 }

@@ -5,8 +5,9 @@ using UnityEngine;
 
 namespace GM
 {
+    using GM.Data;
     using GM.Armoury;
-    using GM.Characters;
+    using GM.Units;
     
     public static class Formulas
     {
@@ -16,7 +17,7 @@ namespace GM
             return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
         }
 
-        public static double ArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
+        public static double BaseArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
         {
             return baseEffect + (levelEffect * (currentLevel - 1));
         }
@@ -32,88 +33,39 @@ namespace GM
             return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f) * (1 - 0.035f);
         }
 
-
-        public static class StageEnemy
+        // = = = Enemies = = = //
+        public static BigDouble EnemyHealth(int stage)
         {
-            public static float SpawnDelay
-            {
-                get
-                {
-                    return 0.25f;
-                }
-            }
+            BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
+            BigDouble y = BigDouble.Pow(1.16, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
 
-            #region Health
-            public static BigDouble CalcEnemyHealth(int stage)
-            {
-                BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
-                BigDouble y = BigDouble.Pow(1.16, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
-
-                return 15 * x * y;
-            }
-
-            public static BigDouble CalcBossHealth(int stage) => CalcEnemyHealth(stage) * (stage % 5 == 0 ? 5.0f : 3.0f);
-            #endregion
-
-            #region Gold
-            public static BigDouble CalcEnemyGold(int stage) => 10.0f * CalcEnemyHealth(stage) * (0.0075 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
-
-            public static BigDouble CalcBossGold(int stage) => CalcEnemyGold(stage) * 5.0f;
-
-            #endregion
+            return 15.0 * x * y;
         }
 
-        public static class Armoury
+        public static BigDouble BossHealth(int stage)
         {
-            public static double WeaponDamage(int index)
-            {
-                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
-
-                return WeaponDamage(index, state.level, state.evoLevel);
-            }
-
-            public static double WeaponDamage(int index, int level)
-            {
-                ArmouryItemState state = ArmouryManager.Instance.GetItem(index);
-
-                return WeaponDamage(index, level, state.evoLevel);
-            }
-
-            public static double WeaponDamage(int index, int level, int evoLevel)
-            {
-                ArmouryItemData itemData = StaticData.Armoury.Get(index);
-
-                double val = (evoLevel + 1) * ((itemData.BaseDamageMultiplier) - 1) * level;
-
-                val += 1;
-
-                return val > 1 ? val : 0;
-            }
+            return EnemyHealth(stage) * 5.5f;
         }
 
         // =====
 
         public static BigDouble CalcEnemyGold(int stage)
         {
-            return 10.0f * StageEnemy.CalcEnemyHealth(stage) * (0.008 + (0.0002 * Mathf.Max(0, 100 - (stage - 1))));
+            return 10.0f * EnemyHealth(stage) * (0.01 + (0.0005 * Mathf.Max(0, 100 - (stage - 1))));
         }
 
         public static BigDouble CalcBossGold(int stage)
         {
-            return CalcEnemyGold(stage) * 5.0f;
+            return CalcEnemyGold(stage) * 7.3f;
         }
 
-        // ===
-
-        // ===
-
-        public static int AffordCharacterLevels(CharacterID chara)
+        public static int AffordCharacterLevels(MercID merc)
         {
-            MercState state = MercenaryManager.Instance.GetState(chara);
+            MercState state = MercenaryManager.Instance.GetState(merc);
 
-            MercData data = StaticData.Mercs.GetMerc(chara);
+            MercData data = GameData.Get.Mercs.Get(merc);
 
-            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)chara / 1000.0), state.Level);
+            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
 
             return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
         }
@@ -147,9 +99,6 @@ namespace GM
 
         public static BigInteger CalcPrestigePoints(int stage)
         {
-            if (stage < StageState.MIN_PRESTIGE_STAGE)
-                return 0;
-
             BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2.2);
 
             return BigInteger.Parse(big.Ceiling().ToString("F0"));

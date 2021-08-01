@@ -9,12 +9,14 @@ namespace GM
     {
         public override void OnClick()
         {
-            if (GameState.Stage.stage >= StageState.MIN_PRESTIGE_STAGE)
+            CurrentStageState state = GameManager.Instance.State();
+
+            if (state.Stage >= StaticData.MIN_PRESTIGE_STAGE)
                 base.OnClick();
 
             else
             {
-                Utils.UI.ShowMessage("Cashing Out", string.Format("Unlocks at stage {0}", StageState.MIN_PRESTIGE_STAGE));
+                CanvasUtils.ShowInfo("Prestige", "You have not unlocked this yet");
             }
         }
     }

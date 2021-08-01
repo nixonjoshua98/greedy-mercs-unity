@@ -4,33 +4,18 @@ using UnityEngine.Events;
 
 namespace GM.Events
 {
-    [System.Serializable]
+    public class BigDoubleEvent : UnityEvent<BigDouble> { }
     public class IntegerEvent : UnityEvent<int> { }
-
     public class GameObjectEvent : UnityEvent<GameObject> { }
-
-    public class CharacterEvent : UnityEvent<CharacterID> { }
+    public class CharacterEvent : UnityEvent<MercID> { }
 }
 
-namespace GM
-{
-    using GM.Events;
 
+namespace GM.Events
+{
     public static class GlobalEvents
     {
-        public static CharacterEvent OnCharacterUnlocked = new CharacterEvent();
-
-        public static CharacterEvent OnCharacterLevelUp = new CharacterEvent();
-
-        // === Standard Events ===
-
-        public static UnityEvent OnSkillActivated = new UnityEvent();
-        public static UnityEvent OnPlayerPrestige = new UnityEvent();
-
-        public static UnityEvent OnPlayerClick = new UnityEvent();
-
-        public static UnityEvent OnStageUpdate = new UnityEvent();
-
-        public static UnityEvent OnNewStageStarted = new UnityEvent();
+        public static CharacterEvent E_OnMercUnlocked { get; set; } = new CharacterEvent();
+        public static CharacterEvent E_OnMercLevelUp { get; set; } = new CharacterEvent();
     }
 }

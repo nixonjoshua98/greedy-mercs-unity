@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
+  m_Name: Fallen
+  m_EditorClassIdentifier: 
+  ID: 3
+  Name: Fallen
+  Prefab: {fileID: 4044917154262169182, guid: 3f92fb98b45d54a498005a527d7f0852, type: 3}
+  Icon: {fileID: 21300000, guid: 8981acd73b083464fb81f5cfc3f35073, type: 3}

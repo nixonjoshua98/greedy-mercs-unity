@@ -8,13 +8,21 @@ namespace GM.UI
 {
     public class StackedButton : MonoBehaviour
     {
-        public Text TopText;
-        public Text BottomText;
+        public Text TextOne;
+        public Text TextTwo;
 
-        public void SetText(string top, string btm)
+        [SerializeField] Button button;
+
+        public void SetText(string s1, string s2)
         {
-            TopText.text = top;
-            BottomText.text = btm;
+            TextOne.text = s1;
+            TextTwo.text = s2;
+        }
+
+
+        public void Toggle(bool val)
+        {
+            button.interactable = val;
         }
     }
 }

@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 029af7974f2f9c74d833028dc9b085eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -144,7 +145,7 @@ Transform:
   - {fileID: 7167636460602877706}
   m_Father: {fileID: 6559250215077116770}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -76.09799}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -156.71184}
 --- !u!1 &1629427711237885586
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +192,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -272,6 +274,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -353,6 +356,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -397,8 +401,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 276634994001984708}
+  - component: {fileID: 7370397358551087851}
   - component: {fileID: 2104970784809328905}
   - component: {fileID: 2299861965741586492}
+  - component: {fileID: 6188166496563365817}
   m_Layer: 0
   m_Name: SatyrAvatar
   m_TagString: Untagged
@@ -415,7 +421,7 @@ Transform:
   m_GameObject: {fileID: 2404084112694329216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3515625, y: 0.3515625, z: 1}
   m_Children:
   - {fileID: 972358657494149786}
   - {fileID: 9193302498569570638}
@@ -424,6 +430,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7370397358551087851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2404084112694329216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Idle: Idle
+  Walk: Walk
+  Attack: Attacking
 --- !u!95 &2104970784809328905
 Animator:
   serializedVersion: 3
@@ -455,6 +476,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  E_OnAttackAnimation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GM.Units.UnitAttack, Assembly-CSharp
+        m_MethodName: OnAttackAnimationEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  E_OnDeathAnimation:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!210 &6188166496563365817
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2404084112694329216}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &2577486488574350752
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +536,7 @@ Transform:
   - {fileID: 2781748872963626977}
   m_Father: {fileID: 6559250215077116770}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.8715705}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -7.0682597}
 --- !u!1 &2795927480686039721
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +568,7 @@ Transform:
   - {fileID: 5464064030359669186}
   m_Father: {fileID: 3508355222725631350}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 25.003511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 14.441856}
 --- !u!1 &2851752184986874191
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +615,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -646,6 +697,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -727,6 +779,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -751,12 +804,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a0b89c37c10effb438a02d6b30dc0bca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2b1ca92f880ff1e4a8545f46ec2c7756, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.4, y: 0.8}
+  m_Size: {x: 1.6, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -822,7 +875,7 @@ Transform:
   - {fileID: 8146484125153803888}
   m_Father: {fileID: 276634994001984708}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -60.781155}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -80.60213}
 --- !u!1 &5486286059918837456
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,7 +909,7 @@ Transform:
   - {fileID: 126513693730159354}
   m_Father: {fileID: 276634994001984708}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 95.86683}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 86.758026}
 --- !u!1 &5568881804271971895
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +940,7 @@ Transform:
   - {fileID: 3402232535318816049}
   m_Father: {fileID: 276634994001984708}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -114.399475}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -98.36664}
 --- !u!1 &5704058960769939254
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,6 +987,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1015,6 +1069,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1081,7 +1136,7 @@ Transform:
   - {fileID: 1447613148221971501}
   m_Father: {fileID: 6559250215077116770}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 156.68452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 152.29683}
 --- !u!1 &9030778475428801019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1128,6 +1183,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1151,7 +1207,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c18a3f00850ffaa44a739c3700ebb4be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1209,6 +1265,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

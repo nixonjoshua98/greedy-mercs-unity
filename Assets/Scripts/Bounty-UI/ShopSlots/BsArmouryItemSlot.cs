@@ -6,22 +6,19 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop
 {
+    using GM.Data;
     using GM.UI;
-    using GM.Armoury;
+    using GM.Bounty;
+
 
     public class BsArmouryItemSlot : AbstractBountyShopSlot
     {
         [Header("Components - Scripts")]
         [SerializeField] StarRatingController starController;
 
-        ArmouryItemData ArmouryItemData { get { return StaticData.Armoury.Get(ShopItemData.ArmouryItemID); } }
-        new BsArmouryItemData ShopItemData { get { return BountyShopManager.Instance.ServerData.GetArmouryItem(_itemId); } }
+        ArmouryItemData ArmouryItemData { get { return GameData.Get.Armoury.Get(ShopItemData.ArmouryItemID); } }
+        protected new BountyShopArmouryItem ShopItemData => UserData.Get.BountyShop.GetArmouryItem(_itemId);
 
-        void Awake()
-        {
-            // WARNING: Do not assume that _itemId has been set here
-            // hours_wasted = 1
-        }
 
         protected override void OnItemAssigned()
         {
@@ -35,7 +32,7 @@ namespace GM.BountyShop
             if (!_isUpdatingUi)
                 return;
 
-            outStockObject.SetActive(!BountyShopManager.Instance.InStock(ShopItemData.ID));
+            outStockObject.SetActive(!UserData.Get.BountyShop.InStock(ShopItemData.ID));
 
             purchaseCostText.text = ShopItemData.PurchaseCost.ToString();
         }
@@ -44,7 +41,7 @@ namespace GM.BountyShop
         // = = = Button Callbacks ===
         public void OnPurchaseButton()
         {
-            BountyShopManager.Instance.PurchaseArmouryItem(ShopItemData.ID, (_) => { });
+            UserData.Get.BountyShop.PurchaseArmouryItem(ShopItemData.ID, (_) => { });
         }
     }
 }

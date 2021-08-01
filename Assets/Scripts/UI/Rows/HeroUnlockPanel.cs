@@ -3,7 +3,9 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    using GM.Characters;
+    using GM.Data;
+    using GM.Units;
+    using GM.Events;
 
     public class HeroUnlockPanel : MonoBehaviour
     {
@@ -14,15 +16,16 @@ namespace GM
             UpdatePanel();
         }
 
+
         void UpdatePanel()
         {
             CostText.text = "-";
 
-            if (MercenaryManager.Instance.GetNextHero(out CharacterID chara))
+            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = StaticData.Mercs.GetMerc(chara);
+                MercData mercData = GameData.Get.Mercs.Get(chara);
 
-                CostText.text = Utils.Format.FormatNumber(mercData.UnlockCost);
+                CostText.text = FormatString.Number(mercData.UnlockCost);
             }
         }
 
@@ -30,9 +33,9 @@ namespace GM
 
         public void OnUnlockButton()
         {
-            if (MercenaryManager.Instance.GetNextHero(out CharacterID chara))
+            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = StaticData.Mercs.GetMerc(chara);
+                MercData mercData = GameData.Get.Mercs.Get(chara);
 
                 if (GameState.Player.gold >= mercData.UnlockCost)
                 {
@@ -40,7 +43,7 @@ namespace GM
 
                     MercenaryManager.Instance.SetState(chara);
 
-                    GlobalEvents.OnCharacterUnlocked.Invoke(chara);
+                    GlobalEvents.E_OnMercUnlocked.Invoke(chara);
                 }
 
                 UpdatePanel();

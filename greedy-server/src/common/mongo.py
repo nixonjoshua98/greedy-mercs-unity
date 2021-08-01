@@ -1,11 +1,13 @@
 
+from typing import Union
+
 from pymongo import MongoClient
 
 from pymongo.database import Database
 
 client = None
 
-db: Database = None
+db: Union[Database, None] = None
 
 
 def create_mongo():

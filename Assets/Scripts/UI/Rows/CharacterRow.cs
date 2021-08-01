@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Characters
+namespace GM.Units
 {
-    using Utils = GM.Utils;
-
-    using GM;
-    using GM.UI;
-
+    using GM.Data;
+    using GM.Events;
     using GM.UI;
 
     public class CharacterRow : ExtendedMonoBehaviour
@@ -27,83 +22,87 @@ namespace GM.Characters
         [Header("Prefabs")]
         [SerializeField] GameObject CharacterPanelObject;
 
-        CharacterID _mercId;
+        MercData mercData;
 
         int _buyAmount;
-        bool _updatingUi;
 
-        protected MercState State { get { return MercenaryManager.Instance.GetState(_mercId); } }
-        protected MercData Data { get { return StaticData.Mercs.GetMerc(_mercId); } }
+        protected MercState State { get { return MercenaryManager.Instance.GetState(mercData.Id); } }
 
-        void Awake()
-        {
-            BuyController buyController = FindObjectOfType<MercsTab>().GetComponentInChildren<BuyController>();
-
-            buyController.AddListener((val) => { _buyAmount = val; });
-        }
-
-        protected int TargetBuyAmount
+        protected int BuyAmount
         {
             get
             {
                 if (_buyAmount == -1)
-                    return Formulas.AffordCharacterLevels(_mercId);
+                    return Formulas.AffordCharacterLevels(mercData.Id);
 
                 return Mathf.Min(_buyAmount, StaticData.MAX_CHAR_LEVEL - State.Level);
             }
         }
 
-        public void SetCharacter(CharacterID chara)
+
+        public void Setup(MercID merc, BuyController buyController)
         {
-            _mercId = chara;
+            mercData = GameData.Get.Mercs.Get(merc);
 
-            nameText.text = Data.Name;
-            iconImage.sprite = Data.Icon;
+            buyController.AddListener((val) => { _buyAmount = val; });
 
-            _updatingUi = true;
+            SetInterfaceElements();
+            UpdateInterfaceElements();
         }
         
+
         protected override void PeriodicUpdate()
         {
-            if (!_updatingUi)
-                return;
+            UpdateInterfaceElements();
+        }
 
-            DamageText.text = Utils.Format.FormatNumber(StatsCache.TotalMercDamage(_mercId)) + " DPS";
-            nameText.text   = string.Format("(Lvl. {0}) {1}", State.Level, Data.Name);
+
+        void SetInterfaceElements()
+        {
+            iconImage.sprite = mercData.Icon;
+        }
+
+
+        void UpdateInterfaceElements()
+        {
+            DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(mercData.Id), prefix: " ATK");
+            nameText.text   = $"(Lvl. {State.Level}) {mercData.Name}";
 
             upgradeButton.SetText("MAX", "-");
 
             if (State.Level < StaticData.MAX_CHAR_LEVEL)
             {
-                BigDouble cost = State.CostToUpgrade(TargetBuyAmount);
+                BigDouble cost = State.CostToUpgrade(BuyAmount);
 
-                upgradeButton.SetText(string.Format("x{0}", TargetBuyAmount), Utils.Format.FormatNumber(cost));
+                upgradeButton.SetText($"x{BuyAmount}", FormatString.Number(cost));
             }
         }
 
-        // === Button Callbacks ===
+
+        // === Button Callbacks === //
 
         public void OnUpgrade()
         {
-            int levelsBuying = TargetBuyAmount;
+            int levelsBuying = BuyAmount;
 
-            BigDouble cost = State.CostToUpgrade(TargetBuyAmount);
+            BigDouble cost = State.CostToUpgrade(BuyAmount);
 
             if (State.Level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
             {
-                MercenaryManager.Instance.AddLevels(_mercId, levelsBuying);
+                MercenaryManager.Instance.AddLevels(mercData.Id, levelsBuying);
 
                 GameState.Player.gold -= cost;
 
-                GlobalEvents.OnCharacterLevelUp.Invoke(_mercId);
+                GlobalEvents.E_OnMercLevelUp.Invoke(mercData.Id);
             }
         }
 
+
         public void OnShowInfo()
         {
-            GameObject panel = Utils.UI.Instantiate(CharacterPanelObject, Vector3.zero);
+            GameObject panel = CanvasUtils.Instantiate(CharacterPanelObject);
 
-            panel.GetComponent<CharacterPanel>().SetHero(_mercId);
+            panel.GetComponent<CharacterPanel>().SetHero(mercData.Id);
         }
     }
 }

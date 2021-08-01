@@ -6,36 +6,41 @@ using UnityEngine.UI;
 
 namespace GM.Armoury.UI
 {
-    using GM.Armoury;
-
     using GM.UI;
+    using GM.Data;
 
     public class ArmouryItemPopup : MonoBehaviour
     {
-        [Header("Upgrade Components")]
-        [SerializeField] Text upgradeDamageText;
-
-        [Header("Evolve Components")]
-        [SerializeField] Text evoDamageText;
+        [SerializeField] Text nameText;
+        [SerializeField] Text damageText;
+        [SerializeField] Text levelCostText;
+        [Space]
         [SerializeField] Slider evolveSlider;
+        [Space]
+        [SerializeField] Button evolveButton;
+        [SerializeField] Button levelButton;
 
-        [Header("Item Components")]
+        [Header("Weapon")]
         [SerializeField] Image colouredWeapon;
         [SerializeField] Image shadowWeapon;
 
         [Header("References")]
         [SerializeField] StarRatingController stars;
 
-        ArmouryItemData serverItemData;
+        int _itemId;
 
 
-        public void Init(ArmouryItemData item)
+        public void Init(int itemId)
         {
-            serverItemData = item;
+            _itemId = itemId;
 
-            colouredWeapon.sprite = shadowWeapon.sprite = serverItemData.Icon;
+            ArmouryItemData data = GameData.Get.Armoury.Get(_itemId);
 
-            stars.Show(serverItemData.Tier);
+            nameText.text = data.Name.ToUpper();
+
+            colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
+
+            stars.Show(data.Tier);
 
             UpdateUI();
         }
@@ -43,34 +48,45 @@ namespace GM.Armoury.UI
 
         void UpdateUI()
         {
-            ArmouryItemState state  = ArmouryManager.Instance.GetItem(serverItemData.ID);
+            int maxEvoLevel     = GameData.Get.Armoury.MaxEvolveLevel;
+            int evoLevelCost    = GameData.Get.Armoury.EvoLevelCost;
+            int armouryPoints   = UserData.Get.Inventory.IronIngots;
+            int levelCost       = GameData.Get.Armoury.LevelCost(_itemId);
 
-            string StringyLevelDamage(int lvl) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(serverItemData.ID, lvl) * 100) + "%";
-            string StringyEvoLevelDamage(int evo) => Utils.Format.FormatNumber(Formulas.Armoury.WeaponDamage(serverItemData.ID, state.level, evo) * 100) + "%";
+            // Grab the current state
+            ArmouryItemState state = UserData.Get.Armoury.Get(_itemId);
 
-            upgradeDamageText.text  = string.Format("{0} -> {1}", StringyLevelDamage(state.level), StringyLevelDamage(state.level + 1));
-            evoDamageText.text      = string.Format("{0} -> {1}", StringyEvoLevelDamage(state.evoLevel), StringyEvoLevelDamage(state.evoLevel + 1));
+            // Formatting
+            double currentDamage    = UserData.Get.Armoury.WeaponDamage(_itemId);
+            string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
 
-            evolveSlider.maxValue = 5;
-            evolveSlider.value      = state.owned;
+            // Text 
+            damageText.text     = $"<color=white>Mercenary Damage:</color> {currentDmgString}";
+            levelCostText.text  = levelCost.ToString();
+
+            // Update the evolve level slider
+            evolveSlider.maxValue   = evoLevelCost;
+            evolveSlider.value      = (state.owned - 1);
+
+            // Buttons
+            evolveButton.interactable   = state.owned >= (evoLevelCost + 1) && state.evoLevel < maxEvoLevel;
+            levelButton.interactable    = armouryPoints >= GameData.Get.Armoury.LevelCost(_itemId);
         }
 
 
-        void UpgradeItem()
+        // = = = Button Callbacks = = = //
+
+        public void OnEvolveButton()
         {
-            ArmouryManager.Instance.UpgradeItem(serverItemData.ID, (code, body) => { UpdateUI(); });
+            UserData.Get.Armoury.EvolveItem(_itemId, () => { UpdateUI(); });
         }
 
 
-        public void EvolveItem()
+        public void OnUpgradeButton()
         {
-            ArmouryManager.Instance.EvolveItem(serverItemData.ID, (code, body) => { UpdateUI(); });
+            UserData.Get.Armoury.UpgradeItem(_itemId, () => { UpdateUI(); });
         }
 
-
-        // = = = Button Callbacks = = =
-        public void OnEvolveButton() { EvolveItem(); }
-        public void OnUpgradeButton() { UpgradeItem(); }
-        public void OnClosePopup() { Destroy(gameObject); }
+        // = = = ^
     }
 }

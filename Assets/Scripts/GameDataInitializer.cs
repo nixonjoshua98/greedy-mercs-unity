@@ -29,8 +29,37 @@ namespace GM
 
         void Start()
         {
-            HTTPClient.GetClient().Get("gamedata", ServerGameDataCallback);
+            HTTPClient.GetClient().Get("gamedata", OnGameDataResponse);
         }
+
+
+
+
+
+        void OnGameDataResponse(long code, JSONNode resp)
+        {
+            if (code == 200)
+            {
+                StaticData.Restore(resp);
+
+                GameData.CreateInstance(resp);
+
+                HTTPClient.GetClient().Post("login", ServerLoginCallback);
+            }
+
+            else
+            {
+                CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
+            }
+        }
+
+
+
+
+
+
+
+
 
 
         void ServerLoginCallback(long code, JSONNode resp)
@@ -53,6 +82,7 @@ namespace GM
             if (code == 200)
             {
                 InstantiateServerData(resp);
+
 
                 HTTPClient.GetClient().Post("login", ServerLoginCallback);
             }

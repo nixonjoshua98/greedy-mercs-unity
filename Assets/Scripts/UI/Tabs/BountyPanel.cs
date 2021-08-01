@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Bounties.UI
+namespace GM.Bounty.UI
 {
     using GM.UI;
     public class BountyPanel : CloseablePanel

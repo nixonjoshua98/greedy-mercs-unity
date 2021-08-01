@@ -8,6 +8,7 @@ namespace GM.BountyShop
 {
     using GM.Data;
     using GM.UI;
+    using GM.Bounty;
 
 
     public class BsArmouryItemSlot : AbstractBountyShopSlot
@@ -16,7 +17,7 @@ namespace GM.BountyShop
         [SerializeField] StarRatingController starController;
 
         ArmouryItemData ArmouryItemData { get { return GameData.Get.Armoury.Get(ShopItemData.ArmouryItemID); } }
-        protected new BountyShopArmouryItem ShopItemData => UserData.Get.BountyShop.ServerData.GetArmouryItem(_itemId);
+        protected new BountyShopArmouryItem ShopItemData => UserData.Get.BountyShop.GetArmouryItem(_itemId);
 
 
         protected override void OnItemAssigned()

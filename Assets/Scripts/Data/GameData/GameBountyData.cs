@@ -5,7 +5,7 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace GM.Data
+namespace GM.Bounty
 {
     public struct BountyData
     {

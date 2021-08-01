@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Idle: Idle
   Walk: Walk
-  Attack: Attacking
+  Attack: Shooting
 --- !u!95 &6066068866541844499
 Animator:
   serializedVersion: 3

@@ -8,6 +8,7 @@ namespace GM
 {
     using GM.Data;
     using GM.Units.Formations;
+    using GM.Bounty;
 
     public class SpawnController : MonoBehaviour
     {

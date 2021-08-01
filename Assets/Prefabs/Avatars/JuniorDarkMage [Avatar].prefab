@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Idle: Idle
   Walk: Walk
-  Attack: Attacking
+  Attack: Casting Spells
 --- !u!95 &3126965773170695444
 Animator:
   serializedVersion: 3

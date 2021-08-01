@@ -8,10 +8,11 @@ using UnityEngine;
 using SimpleJSON;
 
 
-namespace GM.Bounties
+namespace GM.Bounty
 {
     using GM.Data;
     using GM.Server;
+    using GM.Bounty;
 
     public class BountyState
     {

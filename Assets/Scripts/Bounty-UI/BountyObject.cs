@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Bounties
+namespace GM.Bounty
 {
     using GM.Data;
+    using GM.Bounty;
 
     public class BountyObject : MonoBehaviour
     {

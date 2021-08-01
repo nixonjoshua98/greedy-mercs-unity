@@ -2,20 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GreedyMercs
+namespace GM.Bounty
 {
-    public class BountyShopPanel : MonoBehaviour
+    using GM.Bounty;
+
+    using CloseablePanel = GM.UI.CloseablePanel;
+
+    public class BountyShopPanel : CloseablePanel
     {
-        // Start is called before the first frame update
-        void Start()
+        [SerializeField] GameObject bsItemObject;
+
+        [SerializeField] Transform bsItemsParent;
+
+        void Awake()
         {
-        
+            InstantiateItems();
         }
 
-        // Update is called once per frame
-        void Update()
+        void InstantiateItems()
         {
-        
+            foreach (BountyShopItem item in UserData.Get.BountyShop.Items)
+            {
+                GameObject o = Instantiate(bsItemObject, bsItemsParent);
+
+                BSItemSlot slot = o.GetComponent<BSItemSlot>();
+
+                slot.Setup(item.ID);
+            }
         }
     }
 }

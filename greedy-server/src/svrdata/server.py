@@ -28,6 +28,7 @@ def get_player_data(uid):
 
         "bountyShop": {
             "dailyPurchases": bountyshop.daily_purchases(uid),
+            "availableItems": bountyshop.all_current_shop_items(as_dict=True)
         },
 
         "artefacts": Artefacts.find(uid),

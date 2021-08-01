@@ -1,9 +1,12 @@
-﻿
+﻿using System;
+using System.Linq;
+
 using System.Collections.Generic;
 
+using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.BountyShop
+namespace GM.Bounty
 {
     using GM.Data;
 
@@ -11,6 +14,7 @@ namespace GM.BountyShop
 
     using SimpleJSON;
 
+    #region Dataclasses
     struct BountyShopPurchaseData
     {
         public int TotalDailyPurchases;
@@ -21,21 +25,92 @@ namespace GM.BountyShop
         }
     }
 
+    public abstract class AbstractBountyShopItem
+    {
+        public string ID;
+
+        public int DailyPurchaseLimit;
+        public int PurchaseCost;
+
+        public AbstractBountyShopItem(string itemId, JSONNode node)
+        {
+            ID = itemId;
+
+            PurchaseCost = node["purchaseCost"].AsInt;
+            DailyPurchaseLimit = node["dailyPurchaseLimit"].AsInt;
+        }
+
+        public abstract Sprite Icon { get; }
+    }
+
+
+    public class BountyShopItem : AbstractBountyShopItem
+    {
+        public readonly ItemType ItemID;
+
+        public int QuantityPerPurchase;
+
+        public BountyShopItem(string itemId, JSONNode node) : base(itemId, node)
+        {
+            ItemID = (ItemType)Enum.Parse(typeof(ItemType), node["itemType"]);
+
+            QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
+        }
+
+        public LocalItemData ItemData => GameData.Get.Items.Get(ItemID);
+
+        public override Sprite Icon => ItemData.Icon;
+    }
+
+
+    public class BountyShopArmouryItem : AbstractBountyShopItem
+    {
+        public int ArmouryItemID;
+
+        public BountyShopArmouryItem(string itemId, JSONNode node) : base(itemId, node)
+        {
+            ArmouryItemID = node["armouryItemId"].AsInt;
+        }
+
+        public override Sprite Icon { get { return GameData.Get.Armoury.Get(ArmouryItemID).Icon; } }
+    }
+    #endregion
+
 
     public class UserBountyShop
     {
         Dictionary<string, BountyShopPurchaseData> purchases;
 
-        public GameBountyShopData ServerData;
+        Dictionary<string, BountyShopItem> availItems;
+        Dictionary<string, BountyShopArmouryItem> availArmouryItems;
+
+        public BountyShopItem[] Items => availItems.Values.ToArray();
 
 
         public UserBountyShop(JSONNode node)
         {
             SetDailyPurchases(node["dailyPurchases"]);
+            SetAvailableItems(node["availableItems"]);
+        }
 
-            ServerData = new GameBountyShopData();
 
-            Refresh(() => { });
+        public AbstractBountyShopItem Get(string itemId)
+        {
+            if (availItems.ContainsKey(itemId))
+                return availItems[itemId];
+
+            return availArmouryItems[itemId];
+        }
+
+
+        public BountyShopItem GetItem(string id) => availItems[id];
+        public BountyShopArmouryItem GetArmouryItem(string id) => availArmouryItems[id];
+
+
+        public void SetAvailableItems(JSONNode node)
+        {
+            CreateItemDictionary(ref availItems, node["items"]);
+            CreateItemDictionary(ref availArmouryItems, node["armouryItems"]);
         }
 
 
@@ -54,7 +129,6 @@ namespace GM.BountyShop
 
 
         // = = = Quick Helper = = = //
-
         public bool InStock(string itemId)
         {
             int dailyPurchases = 0;
@@ -62,7 +136,7 @@ namespace GM.BountyShop
             if (purchases.TryGetValue(itemId, out BountyShopPurchaseData data))
                 dailyPurchases = data.TotalDailyPurchases;
 
-            return ServerData.Get(itemId).DailyPurchaseLimit > dailyPurchases;
+            return Get(itemId).DailyPurchaseLimit > dailyPurchases;
         }
 
 
@@ -74,7 +148,7 @@ namespace GM.BountyShop
                 if (code == 200)
                 {
                     // Update the store items pulled from the server
-                    ServerData.UpdateAll(resp["bountyShopItems"]);
+                    SetAvailableItems(resp["bountyShopItems"]);
 
                     // Updates the next daily reset time
                     StaticData.NextDailyReset = Funcs.ToDateTime(resp["nextDailyResetTime"].AsLong);
@@ -104,6 +178,7 @@ namespace GM.BountyShop
             HTTPClient.GetClient().Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
         }
 
+
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
         {
             void Callback(long code, JSONNode resp)
@@ -121,8 +196,8 @@ namespace GM.BountyShop
             HTTPClient.GetClient().Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
         }
 
-        // = = = Helper = = = //
 
+        // = = = Helper = = = //
         JSONNode CreateJson(string itemId)
         {
             JSONNode node = new JSONObject();
@@ -134,12 +209,25 @@ namespace GM.BountyShop
 
 
         // = = = Callbacks = = = //
-
         void OnServerResponse(JSONNode resp)
         {
             UserData.Get.Inventory.SetItems(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
+        }
+
+
+        // = = =
+        void CreateItemDictionary<TVal>(ref Dictionary<string, TVal> dict, JSONNode node) where TVal : AbstractBountyShopItem
+        {
+            dict = new Dictionary<string, TVal>();
+
+            foreach (string key in node.Keys)
+            {
+                TVal instance = (TVal)Activator.CreateInstance(typeof(TVal), new object[] { key, node[key] });
+
+                dict.Add(key, instance);
+            }
         }
     }
 }

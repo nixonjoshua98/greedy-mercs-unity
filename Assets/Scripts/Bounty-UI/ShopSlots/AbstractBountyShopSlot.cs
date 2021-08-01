@@ -7,6 +7,7 @@ using UnityEngine.UI;
 namespace GM.BountyShop
 {
     using GM.Data;
+    using GM.Bounty;
 
     public abstract class AbstractBountyShopSlot : MonoBehaviour
     {
@@ -21,7 +22,7 @@ namespace GM.BountyShop
         protected string _itemId;
         protected bool _isUpdatingUi = false;
 
-        protected BountyShopItem ShopItemData => UserData.Get.BountyShop.ServerData.GetItem(_itemId);
+        protected BountyShopItem ShopItemData => UserData.Get.BountyShop.GetItem(_itemId);
 
         public void Setup(string itemId)
         {

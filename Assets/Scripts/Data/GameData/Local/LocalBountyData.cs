@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GM.Data
+namespace GM.Bounty
 {
     [CreateAssetMenu(menuName = "Scriptables/LocalBountyData")]
     public class LocalBountyData : ScriptableObject

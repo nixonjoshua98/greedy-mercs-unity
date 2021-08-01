@@ -43,29 +43,29 @@ namespace GM.BountyShop
 
         void InstantiateItemSlots()
         {
-            DestroyAllSlots();
+            //DestroyAllSlots();
 
-            UserBountyShop shop = UserData.Get.BountyShop;
+            //UserBountyShop shop = UserData.Get.BountyShop;
 
-            foreach (BountyShopItem itemData in shop.ServerData.Items)
-            {
-                items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
-            }
+            //foreach (BountyShopItem itemData in shop.ServerData.Items)
+            //{
+            //    items.Add(InstantiateSlot(ItemSlotObject, normalItemsParent, itemData));
+            //}
 
-            foreach (BountyShopArmouryItem itemData in shop.ServerData.ArmouryItems)
-                items.Add(InstantiateSlot(ArmouryItemSlot, armouryItemsParent, itemData));
+            //foreach (BountyShopArmouryItem itemData in shop.ServerData.ArmouryItems)
+            //    items.Add(InstantiateSlot(ArmouryItemSlot, armouryItemsParent, itemData));
         }
 
-        GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopItem itemData)
-        {
-            GameObject o = CanvasUtils.Instantiate(prefab, parent);
+        //GameObject InstantiateSlot(GameObject prefab, Transform parent, AbstractBountyShopItem itemData)
+        //{
+        //    GameObject o = CanvasUtils.Instantiate(prefab, parent);
 
-            AbstractBountyShopSlot slot = o.GetComponent<AbstractBountyShopSlot>();
+        //    AbstractBountyShopSlot slot = o.GetComponent<AbstractBountyShopSlot>();
 
-            slot.Setup(itemData.ID);
+        //    slot.Setup(itemData.ID);
 
-            return o;
-        }
+        //    return o;
+        //}
 
         void DestroyAllSlots()
         {

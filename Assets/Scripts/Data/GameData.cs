@@ -6,6 +6,8 @@ using SimpleJSON;
 namespace GM.Data
 {
     using GM.Artefacts;
+    using GM.Bounty;
+
     public class GameData
     {
         static GameData Instance = null;
@@ -15,7 +17,6 @@ namespace GM.Data
         public GameArmouryData Armoury;
         public GameBountyData Bounties;
         public GameArtefactData Artefacts;
-        public GameBountyShopData BountyShop;
 
 
         GameData(JSONNode node)

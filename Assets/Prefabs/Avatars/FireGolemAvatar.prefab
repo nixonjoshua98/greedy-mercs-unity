@@ -819,7 +819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Idle: Idle
   Walk: Walk
-  Attack: Attacking
+  Attack: Kicking
 --- !u!114 &9138276407072606021
 MonoBehaviour:
   m_ObjectHideFlags: 0

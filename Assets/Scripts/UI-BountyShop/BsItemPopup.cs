@@ -30,7 +30,7 @@ namespace GM.Bounty
         {
             itemIcon.sprite = ItemGameData.Icon;
 
-            titleText.text = ItemGameData.ItemData.DisplayName;
+            titleText.text = ItemGameData.ItemData.DisplayName.ToUpper();
             quantityText.text = $"X{ItemGameData.QuantityPerPurchase}";
             purchaseCostText.text = $"{ItemGameData.PurchaseCost}";
         }

@@ -4,19 +4,19 @@
       "itemType": 100,
       "purchaseCost": 25,
       "dailyPurchaseLimit": 50,
-      "quantityPerPurchase": 10
+      "quantityPerPurchase": 7
     },
     "ITEM-1": {
       "itemType": 200,
       "purchaseCost": 50,
       "dailyPurchaseLimit": 25,
-      "quantityPerPurchase": 500
+      "quantityPerPurchase": 474
     },
     "ITEM-2": {
-      "itemType": 400,
-      "purchaseCost": 0,
+      "itemType": 100,
+      "purchaseCost": 50,
       "dailyPurchaseLimit": 100,
-      "quantityPerPurchase": 5000
+      "quantityPerPurchase": 3999
     }
   }
 }

@@ -1,4 +1,4 @@
-from . import bountyshop, bounty
+from . import bountyshop
 
 from . import (
     artefacts as Artefacts,
@@ -6,6 +6,7 @@ from . import (
 )
 
 from src.database import mongo
+from src import database as db
 
 import datetime as dt
 
@@ -34,5 +35,5 @@ def get_player_data(uid):
         "artefacts": Artefacts.find(uid),
 
         "armoury": Armoury.find({"userId": uid}),
-        "bounties": bounty.get_bounties(uid),
+        "bounties": db.bounties.get_user_bounties(uid),
     }

@@ -29,7 +29,7 @@ namespace GM.Data
             Mercs       = new GameMercData(node["mercResources"]);
             Bounties    = new GameBountyData(node["bounties"]);
 
-            NextDailyReset = Funcs.FromUnixMs(node["nextDailyReset"].AsLong);
+            NextDailyReset = Funcs.UnixToDateTime(node["nextDailyReset"].AsLong);
         }
 
 

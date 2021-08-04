@@ -19,7 +19,7 @@ class Items:
         Returns:
             dict: User items
         """
-        result = self.collection.find_one({"userId": uid}, projection={"_id": False}) or dict()
+        result = self.collection.find_one({"userId": uid}) or dict()
 
         return self._after_find(result) if post_process else result
 

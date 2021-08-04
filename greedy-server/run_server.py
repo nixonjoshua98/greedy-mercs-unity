@@ -1,15 +1,13 @@
 
 import uvicorn
 
-import src
-
 from src.database import mongo
 
 from src.routers import bountyshop, bounty, data, armoury, artefacts, prestige
 
-app = src.create_app()
+from fastapi import FastAPI
 
-mongo.connect()
+app = FastAPI(openapi_url=None)
 
 app.include_router(data.router)
 app.include_router(bounty.router)

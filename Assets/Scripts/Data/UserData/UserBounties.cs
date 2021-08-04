@@ -1,19 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
+﻿using SimpleJSON;
+using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
 
-using SimpleJSON;
+using GM.Data;
+using GM.Server;
 
 
 namespace GM.Bounty
 {
-    using GM.Data;
-    using GM.Server;
-    using GM.Bounty;
-
     public class BountyState
     {
         public readonly int ID;
@@ -58,7 +54,8 @@ namespace GM.Bounty
             {
                 if (code == 200)
                 {
-                    SetAllClaimTimes(Funcs.FromUnixMs(resp["claimTime"].AsLong));
+                    SetAllClaimTimes(Funcs.UnixToDateTime(resp["claimTime"].AsLong));
+
                     UserData.Get.Inventory.SetItems(resp["userItems"]);
                 }
 
@@ -113,22 +110,16 @@ namespace GM.Bounty
 
         void SetBounties(JSONNode node)
         {
-            foreach (JSONNode bounty in node.AsArray)
+            foreach (string key in node.Keys)
             {
-                int id = bounty["bountyId"].AsInt;
+                JSONNode current = node[key];
 
-                // Ignore 'disabled' bounties which are not in the server data
-                if (GameData.Get.Bounties.Contains(id))
+                int id = int.Parse(key);
+
+                states[id] = new BountyState(id)
                 {
-                    states[id] = new BountyState(id)
-                    {
-                        LastClaimTime = Funcs.FromUnixMs(bounty["lastClaimTime"].AsLong)
-                    };
-                }
-                else
-                {
-                    Debug.LogWarning(string.Format("Bounty {0} is currently not available", id));
-                }
+                    LastClaimTime = Funcs.UnixToDateTime(current["lastClaimTime"].AsLong)
+                };
             }
         }
     }

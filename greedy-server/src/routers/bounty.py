@@ -2,44 +2,52 @@ import math
 
 import datetime as dt
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 
 from src.checks import user_or_raise
 from src.common.enums import ItemKeys
 from src.routing import CustomRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src import database as db
 from src import resources
+
+from src.db.queries import (
+    bounties as BountyQueries,
+    useritems as UserItemsQueries
+)
 
 router = APIRouter(prefix="/api/bounty", route_class=CustomRoute)
 
 
 @router.post("/claimpoints")
-def claim_points(user: UserIdentifier):
+async def claim_points(req: Request, user: UserIdentifier):
     uid = user_or_raise(user)
 
-    unclaimed = calc_unclaimed_total(uid, now := dt.datetime.utcnow())
+    # Load user data from database
+    user_bounty_data = await BountyQueries.get_user_bounties(req.state.mongo, uid)
 
-    # Update the claim time for each bounty
-    db.bounties.set_all_claim_time(uid, claim_time=now)
+    # Calculate the unclaimed points from bounties
+    unclaimed = calc_unclaimed_total(user_bounty_data, now := dt.datetime.utcnow())
 
-    # Add the bounty points to the users inventory
-    items = db.items.update_and_get_user_items(uid, {"$inc": {ItemKeys.BOUNTY_POINTS: unclaimed}})
+    # Set the claim time of user bounties
+    await BountyQueries.set_all_claim_time(req.state.mongo, uid, now)
 
-    return ServerResponse({"claimTime": now, "userItems": items})
+    # Add the points and return all user items
+    u_items = await UserItemsQueries.update_and_get_items(
+        req.state.mongo, uid, {"$inc": {ItemKeys.BOUNTY_POINTS: unclaimed}}
+    )
+
+    return ServerResponse({"claimTime": now, "userItems": u_items})
 
 
-def calc_unclaimed_total(uid, now) -> int:
+def calc_unclaimed_total(user_bounty_data, now) -> int:
 
     bounty_res = resources.get_bounty_data()
-
-    user_bounties = db.bounties.get_user_bounties(uid)
 
     points = 0  # Total unclaimed points (ready to be claimed)
 
     # Interate over each bounty available
-    for key, state in user_bounties.items():
+    for key, state in user_bounty_data.items():
         data = bounty_res.bounties[key]
 
         # Num. hours since the user has claimed this bounty

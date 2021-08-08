@@ -8,6 +8,7 @@ from .common import DEFAULT_DATABASE
 __client: Union[MongoClient, None] = None
 
 
+
 @ft.cache
 def get_client():
     global __client

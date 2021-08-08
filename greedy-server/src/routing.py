@@ -58,6 +58,7 @@ class CustomRequest(Request):
 
 
 class CustomRoute(APIRoute):
+
     def get_route_handler(self):
         original_route_handler = super().get_route_handler()
 

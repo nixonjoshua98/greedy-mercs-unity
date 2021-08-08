@@ -5,8 +5,11 @@ from . import (
     armoury as Armoury,
 )
 
+from src.db.queries import (
+    bounties as BountyQueries
+)
+
 from src.database import mongo
-from src import database as db
 
 import datetime as dt
 
@@ -20,7 +23,7 @@ def last_daily_reset():
     return reset_time - dt.timedelta(days=1) if now <= reset_time else reset_time
 
 
-def get_player_data(uid):
+async def get_player_data(mongo_client, uid):
 
     return {
         "inventory": {
@@ -35,5 +38,5 @@ def get_player_data(uid):
         "artefacts": Artefacts.find(uid),
 
         "armoury": Armoury.find({"userId": uid}),
-        "bounties": db.bounties.get_user_bounties(uid),
+        "bounties": await BountyQueries.get_user_bounties(mongo_client, uid),
     }

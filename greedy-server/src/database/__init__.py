@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 
 from .items import Items as _Items
-from .queries import bounties, items
 
 
 DATABASE_NAME = "g0"
@@ -14,7 +13,6 @@ class MongoController:
         self.db = None
 
         self.items = None
-        self.bounties = None
 
     def connect(self):
         self._client = MongoClient("mongodb://localhost:27017/g0")

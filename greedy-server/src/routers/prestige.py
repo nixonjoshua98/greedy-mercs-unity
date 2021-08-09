@@ -1,7 +1,6 @@
 
 from fastapi import APIRouter
 
-from src import svrdata
 from src.common import formulas
 from src.common.enums import ItemKeys
 from src.checks import user_or_raise
@@ -33,7 +32,7 @@ async def prestige(req: ServerRequest, data: PrestigeData):
         uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: points_gained}}
     )
 
-    return ServerResponse({"completeUserData": await svrdata.get_player_data(req.mongo, uid)})
+    return ServerResponse({"completeUserData": await req.mongo.get_user_data(uid)})
 
 
 async def process_new_bounties(mongo, uid, stage):

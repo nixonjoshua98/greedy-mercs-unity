@@ -37,6 +37,6 @@ async def player_login(req: ServerRequest, data: UserLoginData):
     else:
         uid = row["_id"]
 
-    u_data = await svrdata.get_player_data(req.state.mongo, uid)
+    u_data = await req.mongo.get_user_data(uid)
 
     return ServerResponse(u_data)

@@ -1,22 +1,16 @@
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 
 from src import svrdata
-from src.svrdata import Artefacts
 from src.common import formulas
 from src.common.enums import ItemKeys
 from src.checks import user_or_raise
-from src.routing import CustomRoute, ServerResponse
+from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.models import UserIdentifier
-
-from src.db.queries import (
-    bounties as BountyQueries,
-    useritems as UserItemsQueries
-)
 
 from src import resources
 
-router = APIRouter(prefix="/api", route_class=CustomRoute)
+router = APIRouter(prefix="/api", route_class=ServerRoute)
 
 
 # Models
@@ -25,28 +19,28 @@ class PrestigeData(UserIdentifier):
 
 
 @router.post("/prestige")
-async def prestige(req:  Request, data: PrestigeData):
+async def prestige(req: ServerRequest, data: PrestigeData):
     uid = user_or_raise(data)
 
-    user_artefacts = Artefacts.find(uid)
+    u_arts = await req.mongo.artefacts.get_all(uid)
 
-    points_gained = formulas.stage_prestige_points(data.prestige_stage, user_artefacts)
+    points_gained = formulas.stage_prestige_points(data.prestige_stage, u_arts)
 
-    await process_new_bounties(uid, req.state.mongo, data.prestige_stage)
+    await process_new_bounties(req.mongo, uid, data.prestige_stage)
 
     # Increment the points with the gained amount
-    await UserItemsQueries.update_items(
-        req.state.mongo, uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: points_gained}}
+    await req.mongo.user_items.update_items(
+        uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: points_gained}}
     )
 
-    return ServerResponse({"completeUserData": await svrdata.get_player_data(req.state.mongo, uid)})
+    return ServerResponse({"completeUserData": await svrdata.get_player_data(req.mongo, uid)})
 
 
-async def process_new_bounties(uid, mongo, stage):
+async def process_new_bounties(mongo, uid, stage):
     bounty_res = resources.get_bounty_data()
 
-    user_bounty_data = await BountyQueries.get_user_bounties(mongo, uid)
+    u_bounties = await mongo.user_bounties.get_user_bounties(uid)
 
     for key, bounty in bounty_res.bounties.items():
-        if key not in user_bounty_data and stage >= bounty.stage:
-            await BountyQueries.add_new_bounty(mongo, uid, key)
+        if key not in u_bounties and stage >= bounty.stage:
+            await mongo.user_bounties.add_new_bounty(uid, key)

@@ -1,3 +1,0 @@
-
-
-DEFAULT_DATABASE = "g0"

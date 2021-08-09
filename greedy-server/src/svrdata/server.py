@@ -1,15 +1,6 @@
 from . import bountyshop
 
-from . import (
-    artefacts as Artefacts,
-    armoury as Armoury,
-)
-
-from src.db.queries import (
-    bounties as BountyQueries
-)
-
-from src.database import mongo
+from src.db.client import MotorClient
 
 import datetime as dt
 
@@ -23,11 +14,11 @@ def last_daily_reset():
     return reset_time - dt.timedelta(days=1) if now <= reset_time else reset_time
 
 
-async def get_player_data(mongo_client, uid):
+async def get_player_data(mongo_client: MotorClient, uid):
 
     return {
         "inventory": {
-            "items": mongo.items.get_items(uid, post_process=False)
+            "items": await mongo_client.user_items.get_items(uid, post_process=False)
         },
 
         "bountyShop": {
@@ -35,8 +26,7 @@ async def get_player_data(mongo_client, uid):
             "availableItems": bountyshop.all_current_shop_items(as_dict=True)
         },
 
-        "artefacts": Artefacts.find(uid),
-
-        "armoury": Armoury.find({"userId": uid}),
-        "bounties": await BountyQueries.get_user_bounties(mongo_client, uid),
+        "armoury": await mongo_client.armoury.get_all_user_items(uid),
+        "bounties": await mongo_client.user_bounties.get_user_bounties(uid),
+        "artefacts": await mongo_client.artefacts.get_all(uid),
     }

@@ -2,39 +2,34 @@ import math
 
 import datetime as dt
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 
 from src.checks import user_or_raise
 from src.common.enums import ItemKeys
-from src.routing import CustomRoute, ServerResponse
+from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.models import UserIdentifier
 
 from src import resources
 
-from src.db.queries import (
-    bounties as BountyQueries,
-    useritems as UserItemsQueries
-)
-
-router = APIRouter(prefix="/api/bounty", route_class=CustomRoute)
+router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 
 @router.post("/claimpoints")
-async def claim_points(req: Request, user: UserIdentifier):
+async def claim_points(req: ServerRequest, user: UserIdentifier):
     uid = user_or_raise(user)
 
     # Load user data from database
-    user_bounty_data = await BountyQueries.get_user_bounties(req.state.mongo, uid)
+    u_bounties = await req.mongo.user_bounties.get_user_bounties(uid)
 
     # Calculate the unclaimed points from bounties
-    unclaimed = calc_unclaimed_total(user_bounty_data, now := dt.datetime.utcnow())
+    unclaimed = calc_unclaimed_total(u_bounties, now := dt.datetime.utcnow())
 
     # Set the claim time of user bounties
-    await BountyQueries.set_all_claim_time(req.state.mongo, uid, now)
+    await req.mongo.user_bounties.set_all_claim_time(uid, now)
 
     # Add the points and return all user items
-    u_items = await UserItemsQueries.update_and_get_items(
-        req.state.mongo, uid, {"$inc": {ItemKeys.BOUNTY_POINTS: unclaimed}}
+    u_items = await req.mongo.user_items.update_and_get(
+        uid, {"$inc": {ItemKeys.BOUNTY_POINTS: unclaimed}}
     )
 
     return ServerResponse({"claimTime": now, "userItems": u_items})

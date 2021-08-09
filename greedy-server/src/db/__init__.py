@@ -1,7 +1,6 @@
 
-from motor.motor_asyncio import AsyncIOMotorClient
+from .client import MotorClient
 
 
-def create_client(con_str) -> AsyncIOMotorClient:
-    return AsyncIOMotorClient(con_str)
-
+def create_client(con_str) -> MotorClient:
+    return MotorClient(con_str)

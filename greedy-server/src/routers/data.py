@@ -1,12 +1,12 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from pydantic import BaseModel
 
 from src import svrdata
 from src import resources as res2
 from src.common import mongo, resources
-from src.routing import CustomRoute, ServerResponse
+from src.routing import ServerRoute, ServerResponse, ServerRequest
 
-router = APIRouter(prefix="/api", route_class=CustomRoute)
+router = APIRouter(prefix="/api", route_class=ServerRoute)
 
 
 class UserLoginData(BaseModel):
@@ -28,7 +28,7 @@ def get_game_data():
 
 
 @router.post("/login")
-async def player_login(req: Request, data: UserLoginData):
+async def player_login(req: ServerRequest, data: UserLoginData):
     if (row := mongo.db["userLogins"].find_one({"deviceId": data.device_id})) is None:
         result = mongo.db["userLogins"].insert_one({"deviceId": data.device_id})
 
@@ -37,4 +37,6 @@ async def player_login(req: Request, data: UserLoginData):
     else:
         uid = row["_id"]
 
-    return ServerResponse(await svrdata.get_player_data(req.state.mongo, uid))
+    u_data = await svrdata.get_player_data(req.state.mongo, uid)
+
+    return ServerResponse(u_data)

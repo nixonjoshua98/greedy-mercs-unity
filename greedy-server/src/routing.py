@@ -1,6 +1,7 @@
 import re
 import json
 import bson
+import typing
 
 import datetime as dt
 
@@ -10,6 +11,8 @@ from fastapi import Request
 from fastapi.routing import APIRoute
 from fastapi.responses import Response
 from fastapi.encoders import jsonable_encoder
+
+from src.db.client import MotorClient, AsyncIOMotorClient
 
 
 def camel_to_snake(data: dict) -> dict:
@@ -40,7 +43,13 @@ class ServerResponse(Response):
         return jsonable_encoder(o)
 
 
-class CustomRequest(Request):
+class ServerRequest(Request):
+
+    def __init__(self, *args, **kwargs):
+        super(ServerRequest, self).__init__(*args, **kwargs)
+
+    @property
+    def mongo(self) -> typing.Union[MotorClient, AsyncIOMotorClient]: return self.state.mongo
 
     async def json(self):
         if not hasattr(self, "_json"):
@@ -57,13 +66,13 @@ class CustomRequest(Request):
         return self._json
 
 
-class CustomRoute(APIRoute):
+class ServerRoute(APIRoute):
 
     def get_route_handler(self):
         original_route_handler = super().get_route_handler()
 
         async def custom_route_handler(request: Request):
-            request = CustomRequest(request.scope, request.receive)
+            request = ServerRequest(request.scope, request.receive)
 
             return await original_route_handler(request)
 

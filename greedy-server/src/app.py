@@ -3,14 +3,14 @@ import functools as ft
 
 from fastapi import FastAPI, HTTPException
 
-from src import db
+from src import dataloader
 
 from src.middleware import RequestStateMiddleware
 from src.exceptions import handle_http_exception
 
 
 def _on_app_start(app):
-    app.state.mongo = db.create_client("mongodb://localhost:27017/g0")
+    app.state.mongo = dataloader.create_client("mongodb://localhost:27017/g0")
 
 
 def create_app():

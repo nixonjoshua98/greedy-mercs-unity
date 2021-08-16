@@ -5,15 +5,18 @@ from .queries import (
     UserBountyQueryContainer,
     UserItemQueryContainer,
     ArmouryItemsQueryContainer,
-    ArtefactsQueryContainer
+    ArtefactsQueryContainer,
+    BountyShopDataLoader
 )
 
-from src.svrdata import bountyshop
+from src.classes.bountyshop.bsgeneration import BountyShopGeneration
 
 
-class MotorClient(AsyncIOMotorClient):
+class DataLoader(AsyncIOMotorClient):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.bounty_shop = BountyShopDataLoader(self)
 
         self.user_bounties = UserBountyQueryContainer(self)
         self.user_items = UserItemQueryContainer(self)
@@ -21,14 +24,15 @@ class MotorClient(AsyncIOMotorClient):
         self.armoury = ArmouryItemsQueryContainer(self)
 
     async def get_user_data(self, uid):
+
         return {
             "inventory": {
                 "items": await self.user_items.get_items(uid, post_process=False)
             },
 
             "bountyShop": {
-                "dailyPurchases": bountyshop.daily_purchases(uid),
-                "availableItems": bountyshop.all_current_shop_items(as_dict=True)
+                "dailyPurchases": await self.bounty_shop.get_daily_purchases(uid),
+                "availableItems": BountyShopGeneration(uid).to_dict(),
             },
 
             "armoury": await self.armoury.get_all_user_items(uid),

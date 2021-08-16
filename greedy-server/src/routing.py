@@ -12,7 +12,7 @@ from fastapi.routing import APIRoute
 from fastapi.responses import Response
 from fastapi.encoders import jsonable_encoder
 
-from src.db.client import MotorClient, AsyncIOMotorClient
+from src.dataloader.client import DataLoader, AsyncIOMotorClient
 
 
 def camel_to_snake(data: dict) -> dict:
@@ -49,7 +49,11 @@ class ServerRequest(Request):
         super(ServerRequest, self).__init__(*args, **kwargs)
 
     @property
-    def mongo(self) -> typing.Union[MotorClient, AsyncIOMotorClient]: return self.state.mongo
+    def mongo(self) -> typing.Union[DataLoader, AsyncIOMotorClient]: return self.state.mongo
+
+    @property
+    def data_loader(self):
+        return self.state.mongo
 
     async def json(self):
         if not hasattr(self, "_json"):

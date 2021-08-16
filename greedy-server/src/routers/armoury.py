@@ -8,7 +8,7 @@ from src.common.enums import ItemKeys
 from src.checks import user_or_raise
 from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.models import UserIdentifier
-from src.db.client import MotorClient
+from src.dataloader.client import DataLoader
 
 router = APIRouter(prefix="/api/armoury", route_class=ServerRoute)
 
@@ -62,7 +62,7 @@ async def evolve(req: ServerRequest, data: ItemPurchaseModel):
     return ServerResponse({"userArmouryItems": await req.mongo.armoury.get_all_user_items(uid)})
 
 
-async def can_evolve(mongo: MotorClient, uid, iid) -> Tuple[int, bool]:
+async def can_evolve(mongo: DataLoader, uid, iid) -> Tuple[int, bool]:
     armoury = resources.get_armoury()
 
     u_armoury_item = await mongo.armoury.get_one_user_item(uid, iid)
@@ -76,7 +76,7 @@ async def can_evolve(mongo: MotorClient, uid, iid) -> Tuple[int, bool]:
     return armoury.evo_level_cost, within_max_level and enough_copies
 
 
-async def can_levelup(mongo: MotorClient, uid, iid) -> Tuple[int, bool]:
+async def can_levelup(mongo: DataLoader, uid, iid) -> Tuple[int, bool]:
     armoury = resources.get_armoury()
 
     u_armoury_item = await mongo.armoury.get_one_user_item(uid, iid)

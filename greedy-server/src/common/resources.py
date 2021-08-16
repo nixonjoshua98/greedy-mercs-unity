@@ -34,10 +34,3 @@ def _load_json(fp):
 
 	with open(fp, "r") as fh:
 		return json.loads(fh.read(), object_hook=hook)
-
-
-def _load_yaml(fp):
-	import yaml
-
-	with open(fp, "r") as fh:
-		return yaml.safe_load(fh)

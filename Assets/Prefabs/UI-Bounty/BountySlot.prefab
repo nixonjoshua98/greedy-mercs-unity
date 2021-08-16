@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 1426325047700601187}
   - component: {fileID: 1426325047700601186}
   m_Layer: 5
-  m_Name: BountyObject
+  m_Name: BountySlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

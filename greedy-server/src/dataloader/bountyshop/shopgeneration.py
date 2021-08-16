@@ -33,10 +33,10 @@ class BountyShopGeneration:
     def __generate_currency_items(self):
         return {
             "ITEM-0": BountyShopCurrencyItem.create_from_params(
-                "ITEM-0", ItemType.BLUE_GEMS, 25, 5, 10
+                "ITEM-0", ItemType.BLUE_GEMS, 25, 50, 10
             ),
             "ITEM-1": BountyShopCurrencyItem.create_from_params(
-                "ITEM-1", ItemType.ARMOURY_POINTS, 50, 25, 10
+                "ITEM-1", ItemType.ARMOURY_POINTS, 50, 50, 10
             )
         }
 

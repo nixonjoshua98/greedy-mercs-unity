@@ -6,7 +6,7 @@ from src import resources
 from src.resources import ArtefactData
 from src.checks import user_or_raise
 from src.common import formulas
-from src.common.enums import ItemKeys
+from src.common.enums import ItemKey
 from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.models import UserIdentifier
 
@@ -39,7 +39,7 @@ async def upgrade(req: ServerRequest, data: ArtefactUpgradeModel):
     # Calculate the upgrade cost, and pull the currency from the database
     cost = artefact.upgrade_cost(u_art["level"], data.purchase_levels)
 
-    u_pp = await req.mongo.user_items.get_item(uid, ItemKeys.PRESTIGE_POINTS)
+    u_pp = await req.mongo.user_items.get_item(uid, ItemKey.PRESTIGE_POINTS)
 
     # Perform the upgrade check (and calculate the upgrade cost)
     if cost > u_pp:  # Raise a HTTP error so the request is aborted
@@ -47,7 +47,7 @@ async def upgrade(req: ServerRequest, data: ArtefactUpgradeModel):
 
     # Update the artefact (and pull the new artefact data)
     u_items = await req.mongo.user_items.update_and_get(
-        uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: -cost}}
+        uid, {"$inc": {ItemKey.PRESTIGE_POINTS: -cost}}
     )
 
     await req.mongo.artefacts.update_one(
@@ -69,7 +69,7 @@ async def unlock(req: ServerRequest, data: UserIdentifier):
     artefacts = resources.get_artefacts().artefacts
 
     # Pull user data from the database
-    u_pp = await req.mongo.user_items.get_item(uid, ItemKeys.PRESTIGE_POINTS)
+    u_pp = await req.mongo.user_items.get_item(uid, ItemKey.PRESTIGE_POINTS)
 
     u_arts = await req.mongo.artefacts.get_all(uid)
 
@@ -90,7 +90,7 @@ async def unlock(req: ServerRequest, data: UserIdentifier):
 
     # Update the purchase currency
     u_items = await req.mongo.user_items.update_and_get(
-        uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: -unlock_cost}}
+        uid, {"$inc": {ItemKey.PRESTIGE_POINTS: -unlock_cost}}
     )
 
     return ServerResponse(

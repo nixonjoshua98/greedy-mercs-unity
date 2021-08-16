@@ -2,7 +2,7 @@
 from fastapi import APIRouter
 
 from src.common import formulas
-from src.common.enums import ItemKeys
+from src.common.enums import ItemKey
 from src.checks import user_or_raise
 from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.models import UserIdentifier
@@ -29,7 +29,7 @@ async def prestige(req: ServerRequest, data: PrestigeData):
 
     # Increment the points with the gained amount
     await req.mongo.user_items.update_items(
-        uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: points_gained}}
+        uid, {"$inc": {ItemKey.PRESTIGE_POINTS: points_gained}}
     )
 
     return ServerResponse({"completeUserData": await req.mongo.get_user_data(uid)})

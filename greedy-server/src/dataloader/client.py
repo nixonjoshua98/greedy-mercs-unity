@@ -9,7 +9,7 @@ from .queries import (
     BountyShopDataLoader
 )
 
-from src.classes.bountyshop.bsgeneration import BountyShopGeneration
+from src.dataloader.bountyshop import BountyShopGeneration
 
 
 class DataLoader(AsyncIOMotorClient):

@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from typing import Tuple
 
 from src import resources
-from src.common.enums import ItemKeys
+from src.common.enums import ItemKey
 from src.checks import user_or_raise
 from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.models import UserIdentifier
@@ -37,7 +37,7 @@ async def upgrade(req: ServerRequest, data: ItemPurchaseModel):
 
     # Deduct the upgrade cost and return all user items AFTER the update
     u_items = await req.mongo.user_items.update_and_get(
-        uid, {"$inc": {ItemKeys.ARMOURY_POINTS: -cost}}
+        uid, {"$inc": {ItemKey.ARMOURY_POINTS: -cost}}
     )
 
     return ServerResponse({"userArmouryItems": await req.mongo.armoury.get_all_user_items(uid), "userItems": u_items})
@@ -86,6 +86,6 @@ async def can_levelup(mongo: DataLoader, uid, iid) -> Tuple[int, bool]:
 
     level_cost = armoury.items[iid].level_cost(u_armoury_item["level"])
 
-    u_ap = await mongo.user_items.get_item(uid, ItemKeys.ARMOURY_POINTS)
+    u_ap = await mongo.user_items.get_item(uid, ItemKey.ARMOURY_POINTS)
 
     return level_cost, u_ap >= level_cost

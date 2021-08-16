@@ -1,5 +1,5 @@
 
-from .bsgeneration import (
+from .shopgeneration import (
     BountyShopGeneration,
     BountyShopArmouryItem,
     BountyShopCurrencyItem,

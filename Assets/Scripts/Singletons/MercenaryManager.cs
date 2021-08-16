@@ -26,11 +26,6 @@ namespace GM.Units
             return Formulas.MercLevelUpCost(Level, levels, _svrData.UnlockCost);
         }
 
-        public BigDouble TotalDamage()
-        {
-            return StatsCache.TotalMercDamage(Id);
-        }
-
     }
 
     public class MercenaryManager : IBonusManager

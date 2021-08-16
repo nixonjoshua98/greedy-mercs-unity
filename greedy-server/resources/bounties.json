@@ -8,6 +8,10 @@
     "1": {
       "hourlyIncome": 2000000,
       "unlockStage": 10
+    },
+    "2": {
+      "hourlyIncome": 3000000,
+      "unlockStage": 15
     }
   }
 }

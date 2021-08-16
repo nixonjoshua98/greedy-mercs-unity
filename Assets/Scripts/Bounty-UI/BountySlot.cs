@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Bounty
+namespace GM.Bounty.UI
 {
     using GM.Data;
     using GM.Bounty;
 
-    public class BountyObject : MonoBehaviour
+    public class BountySlot : MonoBehaviour
     {
         [Header("Components")]
         [SerializeField] Text pointsText;

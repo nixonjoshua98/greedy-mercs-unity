@@ -5,7 +5,7 @@ import datetime as dt
 from fastapi import APIRouter
 
 from src.checks import user_or_raise
-from src.common.enums import ItemKeys
+from src.common.enums import ItemKey
 from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.models import UserIdentifier
 
@@ -29,7 +29,7 @@ async def claim_points(req: ServerRequest, user: UserIdentifier):
 
     # Add the points and return all user items
     u_items = await req.mongo.user_items.update_and_get(
-        uid, {"$inc": {ItemKeys.BOUNTY_POINTS: unclaimed}}
+        uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}}
     )
 
     return ServerResponse({"claimTime": now, "userItems": u_items})

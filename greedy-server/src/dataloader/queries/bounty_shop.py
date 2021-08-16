@@ -3,7 +3,7 @@ import typing
 import datetime as dt
 
 from src import svrdata
-from src.classes.bountyshop import AbstractBountyShopItem
+from src.dataloader.bountyshop import AbstractBountyShopItem
 
 from .query_container import DatabaseQueryContainer
 

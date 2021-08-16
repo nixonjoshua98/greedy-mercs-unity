@@ -3,7 +3,7 @@ from typing import Union
 
 from pymongo import ReturnDocument
 
-from src.common.enums import ItemKeys
+from src.common.enums import ItemKey
 from .query_container import DatabaseQueryContainer
 
 
@@ -33,7 +33,7 @@ class UserItemQueryContainer(DatabaseQueryContainer):
 
 
 async def _before_update(items: UserItemQueryContainer, uid: Union[str, ObjectId], update: dict):
-    update = await _move_inc_to_set(items, uid, update, ItemKeys.PRESTIGE_POINTS)
+    update = await _move_inc_to_set(items, uid, update, ItemKey.PRESTIGE_POINTS)
 
     return update
 
@@ -41,7 +41,7 @@ async def _before_update(items: UserItemQueryContainer, uid: Union[str, ObjectId
 async def _after_find(result: dict):
     """ Perform datatype conversions (ex. string to BigInteger) """
 
-    result[ItemKeys.PRESTIGE_POINTS] = int(result.pop(ItemKeys.PRESTIGE_POINTS, 0))
+    result[ItemKey.PRESTIGE_POINTS] = int(result.pop(ItemKey.PRESTIGE_POINTS, 0))
 
     return result
 

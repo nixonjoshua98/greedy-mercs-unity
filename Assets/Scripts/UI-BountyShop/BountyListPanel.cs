@@ -21,20 +21,28 @@ namespace GM.Bounty.UI
         void Awake()
         {
             bountySlots = new List<BountySlot>();
+
+            UpdateInterface();
         }
 
 
         protected override void OnShown()
         {
-            InstantiateIcons();
-
-            bountyUnlockCountText.text = $"UNLOCKED {UserData.Get.Bounties.Count}/{GameData.Get.Bounties.Count}";
+            UpdateInterface();
         }
 
 
         protected override void OnHidden()
         {
             DestroyBountySlots();
+        }
+
+
+        void UpdateInterface()
+        {
+            InstantiateIcons();
+
+            bountyUnlockCountText.text = $"UNLOCKED {UserData.Get.Bounties.Count}/{GameData.Get.Bounties.Count}";
         }
 
 

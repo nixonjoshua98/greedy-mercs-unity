@@ -21,6 +21,9 @@ namespace GM.UI
 
         [SerializeField] List<CloseablePanel> childPanels;
 
+        bool IsShown;
+        bool IsPrevShown;
+
         public void Toggle(bool val)
         {
             gameObject.SetActive(true);
@@ -41,17 +44,40 @@ namespace GM.UI
 
         void ShowPanel()
         {
+            IsShown = true;
+
             OnShown();
 
-            foreach (CloseablePanel panel in childPanels) panel.ShowPanel();
+            foreach (CloseablePanel panel in childPanels)
+            {
+                // Re-show the window if it was previously shown
+                if (panel.IsPrevShown)
+                {
+                    panel.ShowPanel();
+                }
+            }
         }
 
 
         void HidePanel()
         {
+            IsShown = false;
+
             OnHidden();
 
-            foreach (CloseablePanel panel in childPanels) panel.HidePanel();
+            foreach (CloseablePanel panel in childPanels)
+            {
+                panel.IsPrevShown = false;
+
+                // Hide the now-showing panel
+                if (panel.IsShown)
+                {
+                    panel.HidePanel();
+
+                    // Remember we closed a child so we can re-show it next time
+                    panel.IsPrevShown = true;
+                }
+            }
         }
 
 

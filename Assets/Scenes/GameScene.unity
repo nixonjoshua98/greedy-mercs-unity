@@ -628,32 +628,32 @@ PrefabInstance:
     - target: {fileID: 2066897927708061408, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2066897927708061408, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2066897927708061408, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 172.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2066897927708061408, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 110
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2066897927708061408, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 603.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2066897927708061408, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2998725287388418770, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
@@ -668,92 +668,92 @@ PrefabInstance:
     - target: {fileID: 4230653206238691442, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4230653206238691442, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4230653206238691442, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 172.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4230653206238691442, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 110
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4230653206238691442, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 86.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4230653206238691442, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612235790022704835, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612235790022704835, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612235790022704835, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 172.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612235790022704835, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 110
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612235790022704835, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 258.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4612235790022704835, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5589051764297408977, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5589051764297408977, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5589051764297408977, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 172.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5589051764297408977, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 110
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5589051764297408977, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 431.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5589051764297408977, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6707286411616578078, guid: 2842bc39e0119e145a721ae0401d51a8,
         type: 3}
@@ -1083,7 +1083,7 @@ GameObject:
   - component: {fileID: 117910497}
   - component: {fileID: 117910496}
   m_Layer: 5
-  m_Name: Shop [ Panel ]
+  m_Name: BountyShop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1104,6 +1104,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.1
   toggleType: 0
   canvasToToggle: {fileID: 0}
+  childPanels: []
   bsItemObject: {fileID: 8853302957228749027, guid: dbf3f1ba8ce8bef41a7d512ed59add52,
     type: 3}
   bsItemsParent: {fileID: 2102415138}
@@ -3354,6 +3355,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.1
   toggleType: 0
   canvasToToggle: {fileID: 0}
+  childPanels: []
   damageBonusText: {fileID: 1228822153}
   weaponPointText: {fileID: 1643337954}
   itemsParent: {fileID: 2055073114}
@@ -3765,7 +3767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &477075012
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3804,6 +3806,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.1
   toggleType: 0
   canvasToToggle: {fileID: 0}
+  childPanels: []
 --- !u!222 &477075015
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6963,6 +6966,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983833306}
   m_CullTransparentMesh: 0
+--- !u!1 &1018786205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1018786206}
+  - component: {fileID: 1018786208}
+  - component: {fileID: 1018786207}
+  m_Layer: 5
+  m_Name: UnlockCountText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1018786206
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018786205}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1398676515}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -32, y: -32}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1018786207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018786205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: f493aed684a4f2248bb10d6b8fdbfa81, type: 3}
+    m_FontSize: 42
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 4
+    m_MaxSize: 42
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: UNLOCKED ?/?
+--- !u!222 &1018786208
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018786205}
+  m_CullTransparentMesh: 1
 --- !u!1 &1025965012
 GameObject:
   m_ObjectHideFlags: 0
@@ -7615,7 +7697,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.629, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -30, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7953,6 +8035,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.1
   toggleType: 0
   canvasToToggle: {fileID: 0}
+  childPanels: []
   buyAmountController: {fileID: 2121145477}
   scrollContent: {fileID: 1865067504}
   characterRowObject: {fileID: 3980334094800979715, guid: 522335a6c5910dc4bb1524ee712b7945,
@@ -8080,10 +8163,10 @@ RectTransform:
   m_Father: {fileID: 1682193201}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 316.25, y: -50}
+  m_SizeDelta: {x: 632.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1236432697
 MonoBehaviour:
@@ -8585,6 +8668,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.1
   toggleType: 0
   canvasToToggle: {fileID: 0}
+  childPanels: []
 --- !u!1 &1257232347
 GameObject:
   m_ObjectHideFlags: 0
@@ -8936,6 +9020,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281130778}
   m_CullTransparentMesh: 0
+--- !u!1 &1288591010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1288591011}
+  - component: {fileID: 1288591013}
+  - component: {fileID: 1288591012}
+  m_Layer: 5
+  m_Name: '[ Bounty Help ]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1288591011
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288591010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1845336307}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -50, y: 100}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1288591012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288591010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: f493aed684a4f2248bb10d6b8fdbfa81, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Bounties are special bosses which appear at some stages. Defeat the boss
+    to unlock the bounty (once you prestige) to start earning points!
+--- !u!222 &1288591013
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288591010}
+  m_CullTransparentMesh: 1
 --- !u!1 &1311351364
 GameObject:
   m_ObjectHideFlags: 0
@@ -9315,6 +9479,82 @@ MonoBehaviour:
   buttonBtmText: {fileID: 53857678}
   SkillButtonObject: {fileID: 8847922440093605017, guid: 92ef4898cb882aa4d86ee9910bd254c5,
     type: 3}
+--- !u!1 &1398676514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1398676515}
+  - component: {fileID: 1398676517}
+  - component: {fileID: 1398676516}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1398676515
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398676514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1018786206}
+  m_Father: {fileID: 1845336307}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 162.5, y: -150}
+  m_SizeDelta: {x: 275, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1398676516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398676514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 4561ec9fd9c65724ca3fbf4917c1523e, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 2
+--- !u!222 &1398676517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398676514}
+  m_CullTransparentMesh: 1
 --- !u!1 &1402166435
 GameObject:
   m_ObjectHideFlags: 0
@@ -9351,10 +9591,10 @@ RectTransform:
   m_Father: {fileID: 1682193201}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 973.75, y: -50}
+  m_SizeDelta: {x: 632.5, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1402166437
 MonoBehaviour:
@@ -9855,6 +10095,7 @@ MonoBehaviour:
   periodicUpdateDelay: 0.2
   toggleType: 1
   canvasToToggle: {fileID: 619879306}
+  childPanels: []
   slotParent: {fileID: 547887606}
   unlockButton: {fileID: 183858790}
   currencyText: {fileID: 2101974110}
@@ -11856,7 +12097,7 @@ GameObject:
   - component: {fileID: 1845336307}
   - component: {fileID: 1845336308}
   m_Layer: 5
-  m_Name: Bounty List
+  m_Name: BountyList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11873,6 +12114,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1288591011}
+  - {fileID: 1398676515}
   - {fileID: 2095461085}
   m_Father: {fileID: 155853979}
   m_RootOrder: 1
@@ -11897,7 +12140,9 @@ MonoBehaviour:
   periodicUpdateDelay: 5
   toggleType: 0
   canvasToToggle: {fileID: 0}
-  BountyObjectSlot: {fileID: 1426325047700601188, guid: 66bbe82d105b1084799edac4b3709e56,
+  childPanels: []
+  bountyUnlockCountText: {fileID: 1018786207}
+  BountyObjectSlot: {fileID: 3572559666274871906, guid: 66bbe82d105b1084799edac4b3709e56,
     type: 3}
   bountyListParent: {fileID: 2095461084}
 --- !u!1 &1865067503
@@ -12538,7 +12783,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!222 &1920830695
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13350,12 +13595,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1845336307}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -100}
+  m_SizeDelta: {x: 0, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2095461086
 MonoBehaviour:
@@ -13377,7 +13622,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 400, y: 185}
+  m_CellSize: {x: 300, y: 300}
   m_Spacing: {x: 25, y: 25}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -14223,7 +14468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2125198430
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14258,9 +14503,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c13474c12c50f4cba668e6c5574d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  periodicUpdateDelay: 0.5
+  periodicUpdateDelay: 0.25
   toggleType: 0
   canvasToToggle: {fileID: 0}
+  childPanels:
+  - {fileID: 117910496}
+  - {fileID: 1845336308}
   bountyIncomeText: {fileID: 542105311}
   unclaimedTotalText: {fileID: 296210904}
   bountyPointsText: {fileID: 1076109607}
@@ -15164,7 +15412,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &8266501393975711624
 GameObject:
   m_ObjectHideFlags: 0

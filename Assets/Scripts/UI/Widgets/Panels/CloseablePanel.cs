@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 
 namespace GM.UI
@@ -16,7 +17,9 @@ namespace GM.UI
         [SerializeField] PanelToggleType toggleType = PanelToggleType.ACTIVE;
 
         [ConditionalAttribute("toggleType", PanelToggleType.CANVAS)]
-        public Canvas canvasToToggle;
+        [SerializeField] Canvas canvasToToggle;
+
+        [SerializeField] List<CloseablePanel> childPanels;
 
         public void Toggle(bool val)
         {
@@ -29,23 +32,33 @@ namespace GM.UI
                 canvasToToggle.enabled = val;
 
             if (val)
-                OnShown();
+                ShowPanel();
 
-            else
-                OnHidden();
+            else 
+                HidePanel();
         }
 
 
-        protected virtual void OnShown()
+        void ShowPanel()
         {
+            OnShown();
 
+            foreach (CloseablePanel panel in childPanels) panel.ShowPanel();
         }
 
 
-        protected virtual void OnHidden()
+        void HidePanel()
         {
+            OnHidden();
 
+            foreach (CloseablePanel panel in childPanels) panel.HidePanel();
         }
+
+
+
+        // Overrideable
+        protected virtual void OnShown() { }
+        protected virtual void OnHidden() { }
 
     }
 }

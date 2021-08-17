@@ -37,6 +37,7 @@ namespace GM.Bounty
         Dictionary<int, BountyState> states;
 
         public List<BountyState> StatesList => states.Values.ToList();
+        public int Count => StatesList.Count;
 
 
         public UserBounties(JSONNode node)

@@ -3,14 +3,13 @@ from fastapi import APIRouter, HTTPException
 
 from src.common.enums import ItemKey
 
-from src.routing import ServerRoute, ServerResponse, ServerRequest
+from src.routing import ServerRoute, ServerResponse
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
-from src.dataloader.client import DataLoader
 from src.dataloader import get_data_loader
 
-from src.dataloader.bountyshop import BountyShopGeneration, BountyShopCurrencyItem
+from src.dataloader.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
 
 router = APIRouter(prefix="/api/bountyshop", route_class=ServerRoute)
 
@@ -21,14 +20,15 @@ class ItemData(UserIdentifier):
 
 
 @router.post("/refresh")
-async def refresh(req: ServerRequest, user: UserIdentifier):
+async def refresh(user: UserIdentifier):
     uid = user_or_raise(user)
+    loader = get_data_loader()
 
     return ServerResponse(
         {
             "bountyShopItems": BountyShopGeneration(uid).to_dict(),
-            "dailyPurchases": await req.mongo.bounty_shop.get_daily_purchases(uid),
-            "userItems": await req.mongo.user_items.get_items(uid, post_process=False)
+            "dailyPurchases": await loader.bounty_shop.get_daily_purchases(uid),
+            "userItems": await loader.user_items.get_items(uid, post_process=False)
         }
     )
 
@@ -36,17 +36,15 @@ async def refresh(req: ServerRequest, user: UserIdentifier):
 @router.post("/purchase/item")
 async def purchase_item(data: ItemData):
     uid = user_or_raise(data)
-
-    loader = get_data_loader()
     bs = BountyShopGeneration(uid)
 
-    item = bs.get_item(data.shop_item)
-
-    if not isinstance(item, BountyShopCurrencyItem):
+    if not isinstance(item := bs.get_item(data.shop_item), BountyShopCurrencyItem):
         raise HTTPException(400)
 
-    elif not await _can_purchase_item(loader, uid, item):
+    elif not await _can_purchase_item(uid, item):
         raise HTTPException(400)
+
+    loader = get_data_loader()
 
     items = await loader.user_items.update_and_get(uid, {
         "$inc": {
@@ -66,12 +64,13 @@ async def purchase_item(data: ItemData):
 @router.post("/purchase/armouryitem")
 async def purchase_armoury_item(data: ItemData):
     uid = user_or_raise(data)
-
     loader = get_data_loader()
+    bs = BountyShopGeneration(uid)
 
-    items = BountyShopGeneration(uid).armoury_items
+    if not isinstance(item := bs.get_item(data.shop_item), BountyShopArmouryItem):
+        raise HTTPException(400)
 
-    if (item := items.get(data.shop_item)) is None or not await _can_purchase_item(loader, uid, item):
+    elif not await _can_purchase_item(uid, item):
         raise HTTPException(400)
 
     await loader.armoury.update_one(
@@ -95,11 +94,12 @@ async def purchase_armoury_item(data: ItemData):
     )
 
 
-async def _can_purchase_item(mongo_client: DataLoader, uid, item):
+async def _can_purchase_item(uid, item):
+    loader = get_data_loader()
 
-    daily_purchase_bount = await mongo_client.bounty_shop.get_daily_purchases(uid, item.id)
+    daily_purchase_bount = await loader.bounty_shop.get_daily_purchases(uid, item.id)
 
-    u_bp = await mongo_client.user_items.get_item(uid, ItemKey.BOUNTY_POINTS)
+    u_bp = await loader.user_items.get_item(uid, ItemKey.BOUNTY_POINTS)
 
     is_daily_limited = daily_purchase_bount >= item.daily_purchase_limit
     can_afford_purchase = u_bp >= item.purchase_cost

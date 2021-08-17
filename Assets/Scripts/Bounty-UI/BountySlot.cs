@@ -14,20 +14,14 @@ namespace GM.Bounty.UI
 
         [SerializeField] Image icon;
 
-        int _bountyId;
-
         public void SetBounty(int bountyId)
         {
-            _bountyId = bountyId;
+            BountyData data = GameData.Get.Bounties.Get(bountyId);
 
-            BountyData data = GetData();
-
-            bountyName.text = data.Name;
+            bountyName.text = data.Name.ToUpper();
             pointsText.text = string.Format("{0}", data.HourlyIncome);
 
             icon.sprite = data.Icon;
         }
-
-        BountyData GetData() => GameData.Get.Bounties.Get(_bountyId);
     }
 }

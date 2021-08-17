@@ -3,8 +3,9 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace GM.Data
+namespace GM
 {
+    using GM.Data;
     using GM.Artefacts;
     using GM.Bounty;
 

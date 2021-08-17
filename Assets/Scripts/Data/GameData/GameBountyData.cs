@@ -55,6 +55,8 @@ namespace GM.Bounty
 
         public BountyData Get(int key) => data[key];
 
+        public int Count => data.Count;
+
         public bool GetStageBounty(int stage, out BountyData result)
         {
             result = default;

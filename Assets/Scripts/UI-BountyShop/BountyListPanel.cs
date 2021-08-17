@@ -7,12 +7,13 @@ namespace GM.Bounty.UI
 {
     using GM.UI;
 
-    public class BountyListView : CloseablePanel
+    public class BountyListPanel : CloseablePanel
     {
-        [SerializeField] GameObject BountyObjectSlot;
-
+        [SerializeField] Text bountyUnlockCountText;
         [Space]
 
+        [SerializeField] GameObject BountyObjectSlot;
+        [Space]
         [SerializeField] GameObject bountyListParent;
 
         List<BountySlot> bountySlots;
@@ -23,14 +24,11 @@ namespace GM.Bounty.UI
         }
 
 
-        void Start()
-        {
-            ReInstantiateIcons();
-        }
-
         protected override void OnShown()
         {
             InstantiateIcons();
+
+            bountyUnlockCountText.text = $"UNLOCKED {UserData.Get.Bounties.Count}/{GameData.Get.Bounties.Count}";
         }
 
 
@@ -39,12 +37,6 @@ namespace GM.Bounty.UI
             DestroyBountySlots();
         }
 
-
-        void ReInstantiateIcons()
-        {
-            DestroyBountySlots();
-            InstantiateIcons();
-        }
 
         void InstantiateIcons()
         {

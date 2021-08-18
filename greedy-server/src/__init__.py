@@ -5,7 +5,6 @@ from fastapi import FastAPI, HTTPException
 
 from src import dataloader
 
-from src.middleware import RequestStateMiddleware
 from src.exceptions import handle_http_exception
 
 
@@ -15,8 +14,6 @@ def _on_app_start(app):
 
 def create_app():
     app = FastAPI(redoc_url=None, docs_url=None, openapi_url=None, swagger_ui_oauth2_redirect_url=None)
-
-    app.add_middleware(RequestStateMiddleware)
 
     app.add_exception_handler(HTTPException, handle_http_exception)
 

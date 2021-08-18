@@ -30,7 +30,8 @@ class BountyShopGeneration:
             "armouryItems": {k: v.to_dict() for k, v in self.armoury_items.items()}
         }
 
-    def __generate_currency_items(self):
+    @staticmethod
+    def __generate_currency_items():
         return {
             "ITEM-0": BountyShopCurrencyItem.create_from_params(
                 "ITEM-0", ItemType.BLUE_GEMS, 25, 50, 10
@@ -40,15 +41,16 @@ class BountyShopGeneration:
             )
         }
 
-    def __generate_armoury_items(self):
-        with RandomContext(self._uid):
-            last_reset = svrdata.last_daily_reset()
+    @staticmethod
+    def __generate_armoury_items():
+        last_reset = svrdata.last_daily_reset()
 
+        days_since_epoch = (last_reset - dt.datetime.fromtimestamp(0)).days
+
+        with RandomContext(f"{days_since_epoch}"):
             all_items, generated_items = resources.get(resources.ARMOURY)["items"], {}
 
             keys = random.choices(list(all_items.keys()), k=9)
-
-            days_since_epoch = (last_reset - dt.datetime.fromtimestamp(0)).days
 
             for i, key in enumerate(keys):
                 _id = f"AI-{days_since_epoch}-{key}-{i}"

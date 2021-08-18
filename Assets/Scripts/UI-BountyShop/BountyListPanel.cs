@@ -7,7 +7,7 @@ namespace GM.Bounty.UI
 {
     using GM.UI;
 
-    public class BountyListPanel : CloseablePanel
+    public class BountyListPanel : PanelController
     {
         [SerializeField] Text bountyUnlockCountText;
         [Space]

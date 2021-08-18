@@ -13,7 +13,7 @@ def create_client(con_str) -> DataLoader:
     return __client
 
 
-def get_data_loader():
+def get_loader():
     if __client is None:
         raise RuntimeError("DataLoader is None")
 

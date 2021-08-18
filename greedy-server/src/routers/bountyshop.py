@@ -7,9 +7,9 @@ from src.routing import ServerRoute, ServerResponse
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
-from src.dataloader import get_data_loader
+from src.dataloader import get_loader
 
-from src.dataloader.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
+from src.classes.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
 
 router = APIRouter(prefix="/api/bountyshop", route_class=ServerRoute)
 
@@ -22,7 +22,7 @@ class ItemData(UserIdentifier):
 @router.post("/refresh")
 async def refresh(user: UserIdentifier):
     uid = user_or_raise(user)
-    loader = get_data_loader()
+    loader = get_loader()
 
     return ServerResponse(
         {
@@ -44,7 +44,7 @@ async def purchase_item(data: ItemData):
     elif not await _can_purchase_item(uid, item):
         raise HTTPException(400)
 
-    loader = get_data_loader()
+    loader = get_loader()
 
     items = await loader.user_items.update_and_get(uid, {
         "$inc": {
@@ -64,7 +64,7 @@ async def purchase_item(data: ItemData):
 @router.post("/purchase/armouryitem")
 async def purchase_armoury_item(data: ItemData):
     uid = user_or_raise(data)
-    loader = get_data_loader()
+    loader = get_loader()
     bs = BountyShopGeneration(uid)
 
     if not isinstance(item := bs.get_item(data.shop_item), BountyShopArmouryItem):
@@ -95,7 +95,7 @@ async def purchase_armoury_item(data: ItemData):
 
 
 async def _can_purchase_item(uid, item):
-    loader = get_data_loader()
+    loader = get_loader()
 
     daily_purchase_bount = await loader.bounty_shop.get_daily_purchases(uid, item.id)
 

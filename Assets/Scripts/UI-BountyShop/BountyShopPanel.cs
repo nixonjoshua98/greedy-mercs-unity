@@ -7,9 +7,9 @@ namespace GM.Bounty
 {
     using GM.Data;
 
-    using CloseablePanel = GM.UI.CloseablePanel;
+    using PanelController = GM.UI.PanelController;
 
-    public class BountyShopPanel : CloseablePanel
+    public class BountyShopPanel : PanelController
     {
         [Header("Items")]
         [SerializeField] GameObject bsItemObject;

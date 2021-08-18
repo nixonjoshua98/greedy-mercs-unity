@@ -11,7 +11,7 @@ namespace GM.UI
     }
 
 
-    public class CloseablePanel : ExtendedMonoBehaviour
+    public class PanelController : ExtendedMonoBehaviour
     {
         [Header("Closeable Panel")]
         [SerializeField] PanelToggleType toggleType = PanelToggleType.ACTIVE;
@@ -19,7 +19,7 @@ namespace GM.UI
         [ConditionalAttribute("toggleType", PanelToggleType.CANVAS)]
         [SerializeField] Canvas canvasToToggle;
 
-        [SerializeField] List<CloseablePanel> childPanels;
+        [SerializeField] List<PanelController> childPanels;
 
         bool IsShown;
         bool IsPrevShown;
@@ -48,9 +48,9 @@ namespace GM.UI
 
             OnShown();
 
-            foreach (CloseablePanel panel in childPanels)
+            foreach (PanelController panel in childPanels)
             {
-                // Re-show the window if it was previously shown
+                // Re-show the panel if it was previously shown
                 if (panel.IsPrevShown)
                 {
                     panel.ShowPanel();
@@ -65,7 +65,7 @@ namespace GM.UI
 
             OnHidden();
 
-            foreach (CloseablePanel panel in childPanels)
+            foreach (PanelController panel in childPanels)
             {
                 panel.IsPrevShown = false;
 

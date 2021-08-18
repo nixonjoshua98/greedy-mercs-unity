@@ -23,7 +23,7 @@ class ArtefactUpgradeModel(UserIdentifier):
 async def upgrade(data: ArtefactUpgradeModel):
     uid = user_or_raise(data)
 
-    loader = dataloader.get_data_loader()
+    loader = dataloader.get_loader()
 
     # Load the artefact resource
     artefact: ArtefactData = resources.get_artefacts().artefacts[data.artefact_id]
@@ -45,7 +45,7 @@ async def upgrade(data: ArtefactUpgradeModel):
 
     # Perform the upgrade check (and calculate the upgrade cost)
     if cost > u_pp:  # Raise a HTTP error so the request is aborted
-        raise HTTPException(400, {"error": "Cannot afford upgrade cost"})
+        raise HTTPException(400, detail="Cannot afford upgrade cost")
 
     # Update the artefact (and pull the new artefact data)
     u_items = await loader.user_items.update_and_get(
@@ -68,7 +68,7 @@ async def upgrade(data: ArtefactUpgradeModel):
 async def unlock(data: UserIdentifier):
     uid = user_or_raise(data)
 
-    loader = dataloader.get_data_loader()
+    loader = dataloader.get_loader()
 
     artefacts = resources.get_artefacts().artefacts
 

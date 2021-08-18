@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace GM.Bounty.UI
 {
     using GM.UI;
-    public class BountyPanel : CloseablePanel
+    public class BountyPanel : PanelController
     {
         [Header("Components")]
         [SerializeField] Text bountyIncomeText;

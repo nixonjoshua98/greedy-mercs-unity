@@ -11,7 +11,7 @@ namespace GM.Artefacts
 
     using GM.Data;
 
-    public class ArtefactPanel : CloseablePanel
+    public class ArtefactPanel : PanelController
     {
         [Header("References")]
         [SerializeField] Transform slotParent;

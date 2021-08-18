@@ -6,29 +6,30 @@ from fastapi import APIRouter
 
 from src.checks import user_or_raise
 from src.common.enums import ItemKey
-from src.routing import ServerRoute, ServerResponse, ServerRequest
+from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src import resources
+from src import resources, dataloader
 
 router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 
 @router.post("/claimpoints")
-async def claim_points(req: ServerRequest, user: UserIdentifier):
+async def claim_points(user: UserIdentifier):
     uid = user_or_raise(user)
+    loader = dataloader.get_loader()
 
     # Load user data from database
-    u_bounties = await req.mongo.user_bounties.get_user_bounties(uid)
+    u_bounties = await loader.user_bounties.get_user_bounties(uid)
 
     # Calculate the unclaimed points from bounties
     unclaimed = calc_unclaimed_total(u_bounties, now := dt.datetime.utcnow())
 
     # Set the claim time of user bounties
-    await req.mongo.user_bounties.set_all_claim_time(uid, now)
+    await loader.user_bounties.set_all_claim_time(uid, now)
 
     # Add the points and return all user items
-    u_items = await req.mongo.user_items.update_and_get(
+    u_items = await loader.user_items.update_and_get(
         uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}}
     )
 

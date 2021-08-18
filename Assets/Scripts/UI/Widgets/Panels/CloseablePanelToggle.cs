@@ -6,7 +6,7 @@ namespace GM.UI
 {
     public class CloseablePanelToggle : MonoBehaviour
     {
-        public CloseablePanel panel;
+        public PanelController panel;
 
         void Awake()
         {

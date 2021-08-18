@@ -1513,7 +1513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 155853979}
   m_Layer: 5
-  m_Name: Views
+  m_Name: ChildPanels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7799,7 +7799,7 @@ MonoBehaviour:
   m_StartAxis: 0
   m_CellSize: {x: 425, y: 250}
   m_Spacing: {x: 5, y: 5}
-  m_Constraint: 0
+  m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!114 &1152155856
 MonoBehaviour:

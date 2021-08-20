@@ -12,3 +12,7 @@ class UserIdentifier(BaseModel):
 
 class UserLoginDataModel(BaseModel):
     device_id: str
+
+
+class ArmouryItemActionModel(UserIdentifier):
+    item_id: int

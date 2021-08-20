@@ -92,3 +92,21 @@ class _Items:
             update.pop("$inc")
 
         return update
+
+
+class _Armoury:
+    def __init__(self, default_database):
+        self.collection = default_database["userArmouryItems"]
+
+    async def update_one_item(self, uid: Union[str, ObjectId], iid: int, update: dict, *, upsert: bool) -> bool:
+        result = await self.collection.update_one({"userId": uid, "itemId": iid}, update, upsert=upsert)
+
+        return result.modified_count > 0
+
+    async def get_all_items(self, uid) -> dict:
+        ls = await self.collection.find({"userId": uid}).to_list(length=None)
+
+        return {ele["itemId"]: ele for ele in ls}
+
+    async def get_one_item(self, uid, iid) -> Union[dict, None]:
+        return await self.collection.find_one({"userId": uid, "itemId": iid})

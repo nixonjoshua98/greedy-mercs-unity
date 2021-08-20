@@ -91,18 +91,18 @@ namespace GM.Data
         {
             states = new Dictionary<int, ArmouryItemState>();
 
-            foreach (JSONNode item in node.AsArray)
+            foreach (string key in node.Keys)
             {
-                int itemId = item["itemId"].AsInt;
+                JSONNode current = node[key];
 
-                ArmouryItemState state = new ArmouryItemState(itemId)
+                int itemId = int.Parse(key);
+
+                states[itemId] = new ArmouryItemState(itemId)
                 {
-                    level = item["level"].AsInt,
-                    owned = item["owned"].AsInt,
-                    evoLevel = item["evoLevel"].AsInt
+                    level = current["level"].AsInt,
+                    owned = current["owned"].AsInt,
+                    evoLevel = current["evoLevel"].AsInt
                 };
-
-                states[itemId] = state;
             }
         }
 

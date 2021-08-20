@@ -5,8 +5,7 @@ from .queries import (
     UserItemQueryContainer,
     ArmouryItemsQueryContainer,
     ArtefactsQueryContainer,
-    BountyShopDataLoader,
-    UsersDataLoader
+    BountyShopDataLoader
 )
 
 from src.classes.bountyshop import BountyShopGeneration
@@ -22,7 +21,6 @@ class DataLoader(AsyncIOMotorClient):
         self.user_items = UserItemQueryContainer(self)
         self.artefacts = ArtefactsQueryContainer(self)
         self.armoury = ArmouryItemsQueryContainer(self)
-        self.users = UsersDataLoader(self)
 
     async def get_user_data(self, uid):
 

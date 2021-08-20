@@ -13,10 +13,10 @@ class ArmouryItemsQueryContainer(DatabaseQueryContainer):
 
         return result.modified_count > 0
 
-    async def get_all_user_items(self, uid) -> list[dict]:
-        return await self.client.get_default_database()["userArmouryItems"].find(
-            {"userId": uid}
-        ).to_list(length=None)
+    async def get_all_user_items(self, uid) -> dict:
+        r = await self.client.get_default_database()["userArmouryItems"].find({"userId": uid}).to_list(length=None)
+
+        return {ele["itemId"]: ele for ele in r}
 
     async def get_one_user_item(self, uid, iid) -> Union[dict, None]:
         return await self.client.get_default_database()["userArmouryItems"].find_one(

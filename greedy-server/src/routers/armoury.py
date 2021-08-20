@@ -6,7 +6,7 @@ from typing import Tuple
 from src import resources
 from src.common.enums import ItemKey
 from src.checks import user_or_raise
-from src.routing import ServerRoute, ServerResponse, ServerRequest
+from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier
 
 from src.dataloader import get_loader
@@ -20,7 +20,7 @@ class ItemPurchaseModel(UserIdentifier):
 
 
 @router.post("/upgrade")
-async def upgrade(req: ServerRequest, data: ItemPurchaseModel):
+async def upgrade(data: ItemPurchaseModel):
     uid = user_or_raise(data)
 
     loader = get_loader()

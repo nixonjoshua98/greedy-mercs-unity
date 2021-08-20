@@ -2,14 +2,15 @@ import math
 
 import datetime as dt
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from src.checks import user_or_raise
 from src.common.enums import ItemKey
 from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src import resources, dataloader
+from src import resources
+from src.dataloader import MongoController
 
 router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
@@ -17,23 +18,20 @@ router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 @router.post("/claimpoints")
 async def claim_points(user: UserIdentifier):
     uid = user_or_raise(user)
-    loader = dataloader.get_loader()
 
-    # Load user data from database
-    u_bounties = await loader.user_bounties.get_user_bounties(uid)
+    with MongoController() as mongo:
+        u_bounties = await mongo.bounties.get_user_bounties(uid)
 
-    # Calculate the unclaimed points from bounties
-    unclaimed = calc_unclaimed_total(u_bounties, now := dt.datetime.utcnow())
+        unclaimed = calc_unclaimed_total(u_bounties, now := dt.datetime.utcnow())
 
-    # Set the claim time of user bounties
-    await loader.user_bounties.set_all_claim_time(uid, now)
+        if unclaimed == 0:  # Stop the request here since any further would be a waste of time
+            raise HTTPException(400, detail="Claim amount is zero")
 
-    # Add the points and return all user items
-    u_items = await loader.user_items.update_and_get(
-        uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}}
-    )
+        await mongo.bounties.set_all_claim_time(uid, now)
 
-    return ServerResponse({"claimTime": now, "userItems": u_items})
+        u_items = await mongo.items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}})
+
+    return ServerResponse({"claimTime": now, "userItems": u_items, "pointsClaimed": unclaimed})
 
 
 def calc_unclaimed_total(user_bounty_data, now) -> int:

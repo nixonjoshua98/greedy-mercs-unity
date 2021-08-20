@@ -49,7 +49,7 @@ namespace GM.Bounty
 
 
         // = = = Server Methods = = =
-        public void ClaimPoints(Action action)
+        public void ClaimPoints(Action<bool, long> action)
         {
             void Callback(long code, JSONNode resp)
             {
@@ -60,7 +60,7 @@ namespace GM.Bounty
                     UserData.Get.Inventory.SetItems(resp["userItems"]);
                 }
 
-                action();
+                action(code == 200, code == 200 ? resp["pointsClaimed"].AsLong : -1);
             }
 
             HTTPClient.GetClient().Post("bounty/claimpoints", Callback);

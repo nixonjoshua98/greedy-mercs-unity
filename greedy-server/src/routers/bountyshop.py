@@ -22,6 +22,7 @@ class ItemData(UserIdentifier):
 @router.post("/refresh")
 async def refresh(user: UserIdentifier):
     uid = user_or_raise(user)
+
     loader = get_loader()
 
     return ServerResponse(

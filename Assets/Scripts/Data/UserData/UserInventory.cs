@@ -8,9 +8,9 @@ namespace GM.Data
     {
         public BigInteger PrestigePoints;
 
-        public int BountyPoints;
-        public int IronIngots;
-        public int BlueGems;
+        public long BountyPoints;
+        public long IronIngots;
+        public long BlueGems;
 
         public UserInventory(JSONNode node)
         {

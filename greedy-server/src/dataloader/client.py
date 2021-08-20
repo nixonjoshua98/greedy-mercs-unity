@@ -1,4 +1,3 @@
-
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from .queries import (
@@ -19,7 +18,7 @@ class DataLoader(AsyncIOMotorClient):
 
         self.bounty_shop = BountyShopDataLoader(self)
 
-        self.user_bounties = UserBountyQueryContainer(self)
+        self.bounties = UserBountyQueryContainer(self)
         self.user_items = UserItemQueryContainer(self)
         self.artefacts = ArtefactsQueryContainer(self)
         self.armoury = ArmouryItemsQueryContainer(self)
@@ -38,7 +37,7 @@ class DataLoader(AsyncIOMotorClient):
             },
 
             "armoury": await self.armoury.get_all_user_items(uid),
-            "bounties": await self.user_bounties.get_user_bounties(uid),
+            "bounties": await self.bounties.get_user_bounties(uid),
             "artefacts": await self.artefacts.get_all(uid),
         }
 

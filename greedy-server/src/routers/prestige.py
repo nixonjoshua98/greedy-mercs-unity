@@ -4,10 +4,10 @@ from fastapi import APIRouter
 from src.common import formulas
 from src.common.enums import ItemKey
 from src.checks import user_or_raise
-from src.routing import ServerRoute, ServerResponse, ServerRequest
+from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src import resources
+from src import resources, dataloader
 
 router = APIRouter(prefix="/api", route_class=ServerRoute)
 
@@ -18,28 +18,34 @@ class PrestigeData(UserIdentifier):
 
 
 @router.post("/prestige")
-async def prestige(req: ServerRequest, data: PrestigeData):
+async def prestige(data: PrestigeData):
     uid = user_or_raise(data)
 
-    u_arts = await req.mongo.artefacts.get_all(uid)
+    loader = dataloader.get_loader()
 
-    points_gained = formulas.stage_prestige_points(data.prestige_stage, u_arts)
+    await process_prestige_points(uid, data)
+    await process_new_bounties(uid, data)
 
-    await process_new_bounties(req.mongo, uid, data.prestige_stage)
-
-    # Increment the points with the gained amount
-    await req.mongo.user_items.update_items(
-        uid, {"$inc": {ItemKey.PRESTIGE_POINTS: points_gained}}
-    )
-
-    return ServerResponse({"completeUserData": await req.mongo.get_user_data(uid)})
+    return ServerResponse({"completeUserData": await loader.get_user_data(uid)})
 
 
-async def process_new_bounties(mongo, uid, stage):
+async def process_prestige_points(uid, req_data: PrestigeData):
+    loader = dataloader.get_loader()
+
+    u_arts = await loader.artefacts.get_all(uid)
+
+    points_gained = formulas.stage_prestige_points(req_data.prestige_stage, u_arts)
+
+    await loader.user_items.update_items(uid, {"$inc": {ItemKey.PRESTIGE_POINTS: points_gained}})
+
+
+async def process_new_bounties(uid, req_data: PrestigeData):
+    loader = dataloader.get_loader()
+
     bounty_res = resources.get_bounty_data()
 
-    u_bounties = await mongo.user_bounties.get_user_bounties(uid)
+    u_bounties = await loader.bounties.get_user_bounties(uid)
 
     for key, bounty in bounty_res.bounties.items():
-        if key not in u_bounties and stage >= bounty.stage:
-            await mongo.user_bounties.add_new_bounty(uid, key)
+        if key not in u_bounties and req_data.prestige_stage >= bounty.stage:
+            await loader.bounties.insert_user_bounty(uid, key)

@@ -1,4 +1,4 @@
-from src.common.randomcontext import RandomContext
+from src.classes.randomcontext import RandomContext
 from src.common.enums import ItemType
 
 import random

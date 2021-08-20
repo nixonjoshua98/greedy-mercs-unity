@@ -13,6 +13,12 @@ namespace GM.Bounty.UI
         [SerializeField] Text bountyPointsText;
         [Space]
         [SerializeField] Slider bountySlider;
+        [Space]
+        [SerializeField] Button claimButton;
+        [SerializeField] Animator claimButtonAnim;
+
+        [Header("Objects")]
+        [SerializeField] GameObject claimPopupText;
 
 
         protected override void PeriodicUpdate()
@@ -36,6 +42,12 @@ namespace GM.Bounty.UI
             unclaimedTotalText.text = $"Collect ({snapshot.Unclaimed})";
 
             bountySlider.value = snapshot.PercentFilled;
+
+            if (snapshot.PercentFilled >= 0.25f)
+            {
+               claimButtonAnim.Play("Pulse");
+            }
+
         }
 
 
@@ -43,7 +55,18 @@ namespace GM.Bounty.UI
 
         public void OnClaimPoints()
         {
-            UserData.Get.Bounties.ClaimPoints(() => { UpdatePointsCollection(); });
+            UserData.Get.Bounties.ClaimPoints((success, claimed) => { 
+                UpdatePointsCollection();
+
+                claimButtonAnim.Play("Idle");
+
+                if (success)
+                {
+                    TextPopup popup = CanvasUtils.Instantiate<TextPopup>(claimPopupText, claimButton.transform.position);
+
+                    popup.Setup($"+{FormatString.Number(claimed)}", new Color(64 / 255.0f, 200 / 255.0f, 128 / 255.0f));
+                }
+            });
         }
     }
 }

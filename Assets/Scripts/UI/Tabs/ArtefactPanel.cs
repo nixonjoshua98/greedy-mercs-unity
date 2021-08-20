@@ -31,11 +31,11 @@ namespace GM.Artefacts
         [Header("Prefabs")]
         [SerializeField] GameObject artefactSlotObject;
 
-        List<GameObject> rows;
+        List<ArtefactSlot> rows;
 
         void Awake()
         {
-            rows = new List<GameObject>();
+            rows = new List<ArtefactSlot>();
         }
 
         void Start()
@@ -45,28 +45,19 @@ namespace GM.Artefacts
 
         void InstantiateRows()
         {
-            Clear();
-
-            foreach (ArtefactState2 state in UserData.Get .Artefacts.StatesList)
+            foreach (ArtefactState2 state in UserData.Get.Artefacts.StatesList)
             {
-                GameObject inst = CanvasUtils.Instantiate(artefactSlotObject, slotParent);
-
-                ArtefactSlot row = inst.GetComponent<ArtefactSlot>();
-
-                row.Init(state.ID, buyController);
-
-                rows.Add(inst);
+                InstantiateArtefactRow(state.ID);
             }
         }
 
-        void Clear()
+        void InstantiateArtefactRow(int artId)
         {
-            foreach (GameObject r in rows)
-            {
-                Destroy(r);
-            }
+            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(artefactSlotObject, slotParent.gameObject);
 
-            rows.Clear();
+            row.Init(artId, buyController);
+
+            rows.Add(row);
         }
 
         protected override void PeriodicUpdate()
@@ -91,11 +82,11 @@ namespace GM.Artefacts
 
         public void OnPurchaseArtefactBtn()
         {
-            UserData.Get.Artefacts.UnlockArtefact((success) =>
+            UserData.Get.Artefacts.UnlockArtefact((success, newArtefactId) =>
             {
                 if (success)
                 {
-                    InstantiateRows();
+                    InstantiateArtefactRow(newArtefactId);
                 }
             });
         }

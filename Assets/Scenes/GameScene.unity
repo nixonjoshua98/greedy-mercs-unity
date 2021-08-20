@@ -14535,7 +14535,7 @@ MonoBehaviour:
   bountySlider: {fileID: 1456412860}
   claimButton: {fileID: 879447407}
   claimButtonAnim: {fileID: 879447403}
-  claimPopupText: {fileID: 6500821796156627603, guid: b7961d38832e4954faaaee194a9cccea,
+  claimPopupText: {fileID: 8323104909961190351, guid: 006b3918afbb85b4f8704067e9825e62,
     type: 3}
 --- !u!222 &2125198433
 CanvasRenderer:

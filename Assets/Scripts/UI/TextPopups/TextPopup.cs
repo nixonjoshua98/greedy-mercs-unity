@@ -9,10 +9,12 @@ namespace GM.UI
 
     public class TextPopup : MonoBehaviour
     {
-        TMP_Text Text;
+        public TMP_Text Text;
 
-        float lifetime = 0.5f;
-        float fadeDuration = 0.5f;
+        public float lifetime = 0.5f;
+        public float fadeDuration = 0.5f;
+        [Space]
+        public Vector2 moveVector = new Vector2(50, 125);
 
         float fadeTimer;
 
@@ -20,8 +22,6 @@ namespace GM.UI
 
         void Awake()
         {
-            Text = GetComponent<TMP_Text>();
-
             fadeTimer = fadeDuration;
 
             originalColour = Text.color;
@@ -61,7 +61,7 @@ namespace GM.UI
 
         void UpdatePosition()
         {
-            transform.position += new Vector3(50, 125) * Time.deltaTime;
+            transform.position += moveVector.ToVector3() * Time.deltaTime;
         }
 
 

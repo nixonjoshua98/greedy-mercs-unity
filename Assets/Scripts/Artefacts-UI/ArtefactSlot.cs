@@ -16,9 +16,9 @@ namespace GM.Artefacts
         [SerializeField] Text nameText;
         [SerializeField] Text levelText;
         [SerializeField] Text effectText;
-        
-        [Header("Components - Scripts")]
-        [SerializeField] StackedButton stackedButton;
+        [SerializeField] Text upgradeCostText;
+        [Space]        
+        [SerializeField] Button upgradeButton;
 
         int _artefactId;
         int _buyAmount;
@@ -70,16 +70,14 @@ namespace GM.Artefacts
             levelText.text  = $"Lvl. {artefactState.Level}";
             effectText.text = FormatString.Bonus(artefactData.Bonus, artefactState.Effect());
 
-            stackedButton.SetText("MAX", "-");
+            upgradeCostText.text = "-";
 
             if (!artefactState.IsMaxLevel())
             {
-                string cost = FormatString.Number(artefactState.CostToUpgrade(BuyAmount));
-
-                stackedButton.SetText(string.Format("x{0}", BuyAmount), cost);
+                upgradeCostText.text = $"{FormatString.Number(artefactState.CostToUpgrade(BuyAmount))} (x{BuyAmount})";
             }
 
-            stackedButton.Toggle(!artefactState.IsMaxLevel() && pp >= artefactState.CostToUpgrade(BuyAmount));
+            upgradeButton.interactable = !artefactState.IsMaxLevel() && pp >= artefactState.CostToUpgrade(BuyAmount);
         }
 
 

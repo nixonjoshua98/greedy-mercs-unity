@@ -84,10 +84,10 @@ async def unlock(data: UserIdentifier):
         raise HTTPException(400, detail="Max artefacts reached or cannot afford cost")
 
     # Use sets to get a random new artefact id
-    new_art_id = random.choice(list(set(list(artefacts.keys())) - set(list(u_arts.keys()))))
+    u_new_art = random.choice(list(set(list(artefacts.keys())) - set(list(u_arts.keys()))))
 
     # We UPSERT the new artefact (We could INSERT but this prevents multiple entries - last error check)
-    await loader.artefacts.update_one(uid, new_art_id, {"$setOnInsert": {"level": 1}})
+    await loader.artefacts.update_one(uid, u_new_art, {"$setOnInsert": {"level": 1}})
 
     u_arts = await loader.artefacts.get_all(uid)
 
@@ -96,4 +96,4 @@ async def unlock(data: UserIdentifier):
         uid, {"$inc": {ItemKey.PRESTIGE_POINTS: -unlock_cost}}
     )
 
-    return ServerResponse({"userItems": u_items, "userArtefacts": u_arts})
+    return ServerResponse({"userItems": u_items, "userArtefacts": u_arts, "newArtefactId": u_new_art})

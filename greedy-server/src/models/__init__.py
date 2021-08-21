@@ -5,8 +5,6 @@ from typing import Optional
 
 
 class UserIdentifier(BaseModel):
-    """ Authentication Data Model (can be inherited from) """
-
     device_id: str
 
 

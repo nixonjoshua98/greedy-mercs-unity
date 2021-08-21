@@ -94,7 +94,7 @@ namespace GM.Artefacts
         {
             SetStates(node["userArtefacts"]);
 
-            UserData.Get.Inventory.SetItems(node["userItems"]);
+            UserData.Get.Inventory.SetServerItemData(node["userItems"]);
         }
         // = = = ^
 

@@ -1,7 +1,5 @@
-using System;
+using SimpleJSON;
 using System.IO;
-using System.Text;
-
 using UnityEngine;
 
 namespace GM
@@ -10,19 +8,26 @@ namespace GM
     {
         public static string ResolvePath(string name) => $"{Application.persistentDataPath}/{name}";
 
-        public static void AppendToTextFile(string path, string value)
+        public static bool LoadJSON(string path, out JSONNode result)
+        {
+            result = new JSONObject();
+
+            if (!File.Exists(path))
+                return false;
+
+            string contents = AES.Decrypt(path);
+
+            result = JSON.Parse(contents);
+
+            return true;
+        }
+
+
+        public static void WriteJSON(string path, JSONNode node)
         {
             new FileInfo(path).Directory.Create();
 
-            using (StreamWriter writer = new StreamWriter(path, true))
-            {
-                writer.WriteLine(value);
-            }
-        }
-
-        public static string[] LoadTextFileToList(string path)
-        {
-            return File.ReadAllLines(path);
+            AES.Encrypt(path, node.ToString());
         }
     }
 }

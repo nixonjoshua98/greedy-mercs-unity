@@ -24,7 +24,7 @@ namespace GM.Data
         }
     }
 
-    public class UserArmoury : IBonusManager
+    public class UserArmoury
     {
         Dictionary<int, ArmouryItemState> states;
 
@@ -42,7 +42,7 @@ namespace GM.Data
                 if (code == 200)
                 {
                     SetArmouryItems(resp["userArmouryItems"]);
-                    UserData.Get.Inventory.SetItems(resp["userItems"]);
+                    UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
                 }
 
                 call();

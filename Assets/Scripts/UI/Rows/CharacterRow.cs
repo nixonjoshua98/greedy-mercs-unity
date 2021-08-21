@@ -87,11 +87,11 @@ namespace GM.Units
 
             BigDouble cost = State.CostToUpgrade(BuyAmount);
 
-            if (State.Level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && GameState.Player.gold >= cost)
+            if (State.Level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && UserData.Get.Inventory.Gold >= cost)
             {
                 MercenaryManager.Instance.AddLevels(mercData.Id, levelsBuying);
 
-                GameState.Player.gold -= cost;
+                UserData.Get.Inventory.Gold -= cost;
 
                 GlobalEvents.E_OnMercLevelUp.Invoke(mercData.Id);
             }

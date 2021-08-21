@@ -210,7 +210,7 @@ namespace GM.Bounty
         // = = = Callbacks = = = //
         void OnServerResponse(JSONNode resp)
         {
-            UserData.Get.Inventory.SetItems(resp["userItems"]);
+            UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
         }

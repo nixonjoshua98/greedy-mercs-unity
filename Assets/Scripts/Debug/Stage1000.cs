@@ -13,7 +13,7 @@ namespace GM._Debug
 
         public void AddGold()
         {
-            GameState.Player.gold += BigDouble.Parse("1e500");
+            UserData.Get.Inventory.Gold += BigDouble.Parse("1e500");
         }
     }
 }

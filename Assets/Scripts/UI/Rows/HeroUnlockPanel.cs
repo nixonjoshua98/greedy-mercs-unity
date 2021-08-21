@@ -37,9 +37,9 @@ namespace GM
             {
                 MercData mercData = GameData.Get.Mercs.Get(chara);
 
-                if (GameState.Player.gold >= mercData.UnlockCost)
+                if (UserData.Get.Inventory.Gold >= mercData.UnlockCost)
                 {
-                    GameState.Player.gold -= mercData.UnlockCost;
+                    UserData.Get.Inventory.Gold -= mercData.UnlockCost;
 
                     MercenaryManager.Instance.SetState(chara);
 

@@ -57,7 +57,7 @@ namespace GM.Bounty
                 {
                     SetAllClaimTimes(Utils.UnixToDateTime(resp["claimTime"].AsLong));
 
-                    UserData.Get.Inventory.SetItems(resp["userItems"]);
+                    UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
                 }
 
                 action(code == 200, code == 200 ? resp["pointsClaimed"].AsLong : -1);

@@ -65,7 +65,7 @@ namespace GM
 
             MercData data = GameData.Get.Mercs.Get(merc);
 
-            BigDouble val = BigMath.AffordGeometricSeries(GameState.Player.gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
+            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
 
             return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
         }
@@ -90,7 +90,7 @@ namespace GM
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
 
-            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(GameState.Player.gold, 5, 1.09, state.level - 1).ToString());
+            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, 5, 1.09, state.level - 1).ToString());
 
             return Mathf.Min(StaticData.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
         }

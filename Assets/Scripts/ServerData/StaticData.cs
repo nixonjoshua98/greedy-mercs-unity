@@ -14,16 +14,4 @@ public static class StaticData
 
     public const float BASE_CRIT_CHANCE = 0.01f;
     public const float BASE_CRIT_MULTIPLIER = 3.0f;
-
-    public static SkillListSO SkillList;
-
-    public static void Restore(JSONNode node)
-    {
-        SkillList.Init();
-    }
-
-    public static void AssignScriptables(SkillListSO skills)
-    {
-        SkillList = skills;
-    }
 }

@@ -76,13 +76,13 @@ namespace GM
 
             BigDouble cost = Formulas.CalcTapDamageLevelUpCost(levelsBuying);
 
-            if (GameState.Player.gold >= cost)
+            if (UserData.Get.Inventory.Gold >= cost)
             {
                 UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
 
                 state.level += levelsBuying;
 
-                GameState.Player.gold -= cost;
+                UserData.Get.Inventory.Gold -= cost;
             }
         }
     }

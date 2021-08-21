@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace GM
 {
-    using GM.Artefacts;
     using GM.Data;
     using GM.Units;
 
@@ -17,8 +15,7 @@ namespace GM
 
         const float BASE_CRIT_CHANCE = 0.01f;
         const float BASE_CRIT_MULTIPLIER = 2.5f;
-
-        static List<KeyValuePair<BonusType, double>> SkillBonus { get { return SkillsManager.Instance.Bonuses(); } }
+        
         static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get.Armoury.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return UserData.Get.Artefacts.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> CharacterBonus { get { return MercenaryManager.Instance.Bonuses(); } }
@@ -48,42 +45,20 @@ namespace GM
             }
         }
 
-        public static class Skills
-        {
-            public static double SkillBonus(SkillID skill)
-            {
-                return SkillsManager.Instance.Get(skill).LevelData.BonusValue;
-            }
-
-            public static double SkillDuration(SkillID skill)
-            {
-                SkillSO skillSo = StaticData.SkillList.Get(skill);
-
-                return skillSo.Duration;
-            }
-
-            public static BigDouble AutoClickDamage()
-            {
-                return GetTapDamage() * SkillBonus(SkillID.AUTO_CLICK);
-            }
-        }
-
 
         // # === Energy === #
-        public static double EnergyPerMinute()
+        public static float EnergyPerMinute()
         {
             double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_INCOME);
 
-            return BASE_ENERGY_MIN + flatExtraCapacity;
+            return (float)(BASE_ENERGY_MIN + flatExtraCapacity);
         }
 
-        public static double MaxEnergyCapacity()
+        public static float MaxEnergyCapacity()
         {
-            int energyFromSkills = SkillsManager.Instance.Unlocked().Sum(item => item.EnergyGainedOnUnlock);
-
             double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_CAPACITY);
 
-            return BASE_ENERGY_CAP + energyFromSkills + flatExtraCapacity;
+            return (float)(BASE_ENERGY_CAP + flatExtraCapacity);
         }
 
         // = = = Critical Hits = = = //
@@ -154,7 +129,6 @@ namespace GM
         static double MultiplyAllSources(BonusType type)
         {
             return (
-                MultiplySource(type, SkillBonus) *
                 MultiplySource(type, ArmouryBonus) *
                 MultiplySource(type, ArtefactBonus) *
                 MultiplySource(type, CharacterBonus)
@@ -164,7 +138,6 @@ namespace GM
         static double AddAllSources(BonusType type)
         {
             return (
-                AddSource(type, SkillBonus) +
                 AddSource(type, ArmouryBonus) +
                 AddSource(type, ArtefactBonus) +
                 AddSource(type, CharacterBonus)

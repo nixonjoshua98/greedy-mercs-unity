@@ -19,29 +19,16 @@ namespace GM
 
     public class GameDataInitializer : MonoBehaviour
     {
-        [SerializeField] SkillListSO SkillList;
-
-        void Awake()
-        {
-            StaticData.AssignScriptables(SkillList);
-        }
-
-
         void Start()
         {
             HTTPClient.GetClient().Get("gamedata", OnGameDataResponse);
         }
 
 
-
-
-
         void OnGameDataResponse(long code, JSONNode resp)
         {
             if (code == 200)
             {
-                StaticData.Restore(resp);
-
                 GameData.CreateInstance(resp);
 
                 HTTPClient.GetClient().Post("login", ServerLoginCallback);
@@ -52,15 +39,7 @@ namespace GM
                 CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
             }
         }
-
-
-
-
-
-
-
-
-
+        
 
         void ServerLoginCallback(long code, JSONNode resp)
         {
@@ -77,6 +56,7 @@ namespace GM
             }
         }
 
+
         void InstantiatePlayerData(JSONNode node)
         {
             GameState.Restore(node);
@@ -84,8 +64,6 @@ namespace GM
             UserData.CreateInstance().UpdateWithServerUserData(node);
 
             MercenaryManager.Create();
-
-            SkillsManager.Create(node["skills"]);
         }
     }
 }

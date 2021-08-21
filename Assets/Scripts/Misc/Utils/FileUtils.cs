@@ -8,7 +8,13 @@ namespace GM
     {
         public static string ResolvePath(string name) => $"{Application.persistentDataPath}/{name}";
 
-        public static bool LoadJSON(string path, out JSONNode result)
+        public static string LoadJSON(string path)
+        {
+            return File.Exists(path) ? AES.Decrypt(path) : string.Empty;
+        }
+
+
+        public static bool OpenJSON(string path, out JSONNode result)
         {
             result = new JSONObject();
 
@@ -17,7 +23,9 @@ namespace GM
 
             string contents = AES.Decrypt(path);
 
-            result = JSON.Parse(contents);
+            // SimpleJSON cannot parse extra " or \ which is added when saving to file for some reason (bug) but Newtonsoft
+            // can parse it and remove it so we can do extra cast to Newtonsoft then to SimpleJSON
+            result = JSON.Parse(Newtonsoft.Json.JsonConvert.DeserializeObject(contents).ToString());
 
             return true;
         }

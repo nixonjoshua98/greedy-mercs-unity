@@ -4,10 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Units
+namespace GM.Data
 {
-    using GM.Data;
-
     using StatsCache = GM.StatsCache;
     using Formulas = GM.Formulas;
 

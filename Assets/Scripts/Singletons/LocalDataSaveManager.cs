@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace GM.Data
 {
@@ -50,11 +49,6 @@ namespace GM.Data
 
         bool CanBackup()
         {
-            Scene scene = SceneManager.GetActiveScene();
-
-            if (scene.buildIndex == 0)
-                return false;
-
             return !isPaused;
         }
 

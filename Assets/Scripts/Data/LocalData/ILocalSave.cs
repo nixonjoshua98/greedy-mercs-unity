@@ -21,8 +21,6 @@ namespace GM.Data
 
         public void Save()
         {
-            Debug.Log(FilePath);
-
             FileUtils.WriteJSON(FilePath, Node);
         }
     }

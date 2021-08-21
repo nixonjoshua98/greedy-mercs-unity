@@ -14,6 +14,8 @@ namespace GM
 
     public class UserData
     {
+        public static string SERVER_FILE = "E8Cn9dF_3F1F_A";
+
         static UserData Instance = null;
 
         public UserArmoury Armoury;

@@ -52,7 +52,7 @@ namespace GM.Data
 
         void LoadLocalSaveFile()
         {
-            FileUtils.LoadJSON(FileUtils.ResolvePath(LOCAL_FILE_NAME), out JSONNode result);
+            FileUtils.OpenJSON(FileUtils.ResolvePath(LOCAL_FILE_NAME), out JSONNode result);
 
             Energy  = result.GetValueOrDefault(InventoryKeys.Local_Energy, 0).AsFloat;
             Gold    = BigDouble.Parse(result.GetValueOrDefault(InventoryKeys.Local_Gold, 0).Value);

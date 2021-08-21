@@ -11,10 +11,15 @@ namespace GM.Data
 
         bool isPaused;
 
+        public static LocalDataSaveManager Get = null;
+
         void Awake()
         {
             DontDestroyOnLoad(gameObject);
+
+            Get = this;
         }
+
 
         void FixedUpdate()
         {
@@ -30,6 +35,17 @@ namespace GM.Data
 
         public void Pause() => isPaused = true;
         public void Continue() => isPaused = false;
+
+        public void ClearLocalData(bool pause = false)
+        {
+            if (pause)
+                Pause();
+
+            string path = FileUtils.ResolvePath("local");
+
+            if (System.IO.File.Exists(path))
+                System.IO.Directory.Delete(path, true);
+        }
 
 
         bool CanBackup()

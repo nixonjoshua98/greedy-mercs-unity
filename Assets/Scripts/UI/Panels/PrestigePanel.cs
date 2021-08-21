@@ -1,30 +1,18 @@
 ﻿using System.Numerics;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using SimpleJSON;
+using GM.Data;
 using UnityEngine.UI;
 
 
 namespace GM
 {
-    using GM.StageDM.Prestige;
-
     public class PrestigePanel : MonoBehaviour
     {
-        [Header("Prefabs")]
-        [SerializeField] GameObject PrestigeControllerObject;
-
         [SerializeField] Text prestigePointText;
-
-        [SerializeField] RectTransform lootBagRect;
-
-        bool currentlyPrestiging;
-
-        void Awake()
-        {
-            currentlyPrestiging = false;
-        }
-
+        [SerializeField] Button prestigeButton;
 
         void FixedUpdate()
         {
@@ -38,17 +26,34 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            if (currentlyPrestiging || state.Stage < StaticData.MIN_PRESTIGE_STAGE)
-                return;
-
-            currentlyPrestiging = true;
-
-            GameObject o = Instantiate(PrestigeControllerObject);
-
-            if (o.TryGetComponent(out PrestigeController controller))
+            if (state.Stage >= StaticData.MIN_PRESTIGE_STAGE)
             {
-                controller.Prestige((_) => { });
+                prestigeButton.interactable = false;
+
+                RequestPrestige();
             }
+        }
+
+
+        void RequestPrestige()
+        {
+            CurrentStageState state = GameManager.Instance.State();
+
+            JSONNode node = new JSONObject();
+
+            node.Add("prestigeStage", state.Stage);
+
+            UserData.Get.Prestige(node, (success, resp) =>
+            {
+                if (success)
+                {
+                    SceneManager.LoadSceneAsync("GameScene");
+                }
+                else
+                {
+                    prestigeButton.interactable = true;
+                }
+            });
         }
     }
 }

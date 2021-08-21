@@ -1,10 +1,12 @@
 
 using UnityEngine;
+using UnityEngine.Events;
 
 using SimpleJSON;
 
 namespace GM
 {
+    using GM.Server;
     using GM.Data;
 
     using GM.Bounty;
@@ -41,6 +43,26 @@ namespace GM
             BountyShop  = new UserBountyShop(json["bountyShop"]);
             Artefacts   = new UserArtefacts(json["artefacts"]);
             Inventory   = new UserInventory(json["inventory"]);
+        }
+
+
+        public void Prestige(JSONNode node, UnityAction<bool, JSONNode> callback)
+        {
+            LocalDataSaveManager.Get.ClearLocalData(pause: true);
+
+            HTTPClient.GetClient().Post("prestige", node, (code, resp) => {
+
+                if (code == 200)
+                {
+                    UpdateWithServerUserData(resp["completeUserData"]);
+                }
+                else
+                {
+                    LocalDataSaveManager.Get.Continue();
+                }
+
+                callback.Invoke(code == 200, resp);
+            });
         }
     }
 }

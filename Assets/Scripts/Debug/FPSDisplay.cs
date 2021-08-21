@@ -17,7 +17,7 @@ namespace GM
 
 			GUIStyle style = new GUIStyle();
 
-			Rect rect = new Rect(0, 0, w, h);
+			Rect rect = new Rect(w - 512, (-h) + 512, w, h);
 
 			style.alignment = TextAnchor.LowerLeft;
 			style.normal.textColor = Color.white;

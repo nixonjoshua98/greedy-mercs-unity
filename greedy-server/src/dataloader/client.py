@@ -3,10 +3,11 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from .queries import (
     UserBountyQueryContainer,
     UserItemQueryContainer,
-    ArmouryItemsQueryContainer,
     ArtefactsQueryContainer,
     BountyShopDataLoader
 )
+
+from .mongo import MongoController
 
 from src.classes.bountyshop import BountyShopGeneration
 
@@ -16,13 +17,14 @@ class DataLoader(AsyncIOMotorClient):
         super().__init__(*args, **kwargs)
 
         self.bounty_shop = BountyShopDataLoader(self)
-
         self.bounties = UserBountyQueryContainer(self)
         self.user_items = UserItemQueryContainer(self)
         self.artefacts = ArtefactsQueryContainer(self)
-        self.armoury = ArmouryItemsQueryContainer(self)
 
     async def get_user_data(self, uid):
+
+        with MongoController() as mongo:
+            u_armoury = await mongo.armoury.get_all_items(uid)
 
         return {
             "inventory": {
@@ -34,7 +36,7 @@ class DataLoader(AsyncIOMotorClient):
                 "availableItems": BountyShopGeneration(uid).to_dict(),
             },
 
-            "armoury": await self.armoury.get_all_user_items(uid),
+            "armoury": u_armoury,
             "bounties": await self.bounties.get_user_bounties(uid),
             "artefacts": await self.artefacts.get_all(uid),
         }

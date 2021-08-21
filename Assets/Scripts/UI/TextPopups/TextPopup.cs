@@ -9,7 +9,7 @@ namespace GM.UI
 
     public class TextPopup : MonoBehaviour
     {
-        public TMP_Text Text;
+        [SerializeField] TMP_Text Text;
 
         public float lifetime = 0.5f;
         public float fadeDuration = 0.5f;
@@ -65,7 +65,7 @@ namespace GM.UI
         }
 
 
-        float ProcessFade()
+        protected virtual float ProcessFade()
         {
             fadeTimer -= Time.deltaTime;
 

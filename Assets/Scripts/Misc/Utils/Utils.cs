@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public static class Funcs
+public static class Utils
 {
     // = = = Time = = = //
     public static DateTime UnixToDateTime(long ts)

@@ -55,7 +55,7 @@ namespace GM.Bounty
             {
                 if (code == 200)
                 {
-                    SetAllClaimTimes(Funcs.UnixToDateTime(resp["claimTime"].AsLong));
+                    SetAllClaimTimes(Utils.UnixToDateTime(resp["claimTime"].AsLong));
 
                     UserData.Get.Inventory.SetItems(resp["userItems"]);
                 }
@@ -63,7 +63,7 @@ namespace GM.Bounty
                 action(code == 200, code == 200 ? resp["pointsClaimed"].AsLong : -1);
             }
 
-            HTTPClient.GetClient().Post("bounty/claimpoints", Callback);
+            HTTPClient.GetClient().Post("bounty/claim", Callback);
         }
 
 
@@ -119,7 +119,7 @@ namespace GM.Bounty
 
                 states[id] = new BountyState(id)
                 {
-                    LastClaimTime = Funcs.UnixToDateTime(current["lastClaimTime"].AsLong)
+                    LastClaimTime = Utils.UnixToDateTime(current["lastClaimTime"].AsLong)
                 };
             }
         }

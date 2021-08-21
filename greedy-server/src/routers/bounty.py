@@ -15,7 +15,7 @@ from src.dataloader import MongoController
 router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 
-@router.post("/claimpoints")
+@router.post("/claim")
 async def claim_points(user: UserIdentifier):
     uid = user_or_raise(user)
 

@@ -9,6 +9,7 @@ from src.models import UserIdentifier
 
 from src.dataloader import get_loader
 
+from src.dataloader import MongoController
 from src.classes.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
 
 router = APIRouter(prefix="/api/bountyshop", route_class=ServerRoute)
@@ -68,28 +69,33 @@ async def purchase_armoury_item(data: ItemData):
     loader = get_loader()
     bs = BountyShopGeneration(uid)
 
-    if not isinstance(item := bs.get_item(data.shop_item), BountyShopArmouryItem):
-        raise HTTPException(400)
+    with MongoController() as mongo:
 
-    elif not await _can_purchase_item(uid, item):
-        raise HTTPException(400)
+        # Some item ID check. Items (even between types) should have unique IDs
+        if not isinstance(item := bs.get_item(data.shop_item), BountyShopArmouryItem):
+            raise HTTPException(400)
 
-    await loader.armoury.update_one(
-        uid, item.armoury_item, {"$inc": {"owned": 1}, "$setOnInsert": {"level": 1}}, upsert=True
-    )
+        elif not await _can_purchase_item(uid, item):
+            raise HTTPException(400)
 
-    items = await loader.user_items.update_and_get(uid, {
-        "$inc": {
-            ItemKey.BOUNTY_POINTS: -item.purchase_cost,
-        }
-    })
+        await mongo.armoury.update_one_item(
+            uid, item.armoury_item, {"$inc": {"owned": 1}, "$setOnInsert": {"level": 1}}, upsert=True
+        )
 
-    await loader.bounty_shop.log_purchase(uid, item)
+        items = await mongo.items.update_and_get(uid, {
+            "$inc": {
+                ItemKey.BOUNTY_POINTS: -item.purchase_cost,
+            }
+        })
+
+        await loader.bounty_shop.log_purchase(uid, item)
+
+        u_armoury = await mongo.armoury.get_all_items(uid)
 
     return ServerResponse(
         {
             "userItems": items,
-            "userArmouryItems": await loader.armoury.get_all_user_items(uid),
+            "userArmouryItems": u_armoury,
             "dailyPurchases": await loader.bounty_shop.get_daily_purchases(uid)
         }
     )

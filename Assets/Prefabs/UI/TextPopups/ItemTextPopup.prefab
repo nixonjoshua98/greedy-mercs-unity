@@ -277,3 +277,4 @@ MonoBehaviour:
   lifetime: 0.5
   fadeDuration: 0.5
   moveVector: {x: 0, y: 200}
+  itemImage: {fileID: 3242981256539759985}

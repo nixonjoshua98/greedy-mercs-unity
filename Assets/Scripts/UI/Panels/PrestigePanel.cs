@@ -45,13 +45,11 @@ namespace GM
 
             UserData.Get.Prestige(node, (success, resp) =>
             {
+                prestigeButton.interactable = !success;
+
                 if (success)
                 {
-                    SceneManager.LoadSceneAsync("GameScene");
-                }
-                else
-                {
-                    prestigeButton.interactable = true;
+                    SceneManager.LoadSceneAsync("InitScene", LoadSceneMode.Additive);
                 }
             });
         }

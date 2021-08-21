@@ -8,6 +8,7 @@ from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier
 
 from src import resources, dataloader
+from src.dataloader import MongoController
 
 router = APIRouter(prefix="/api", route_class=ServerRoute)
 
@@ -21,12 +22,14 @@ class PrestigeData(UserIdentifier):
 async def prestige(data: PrestigeData):
     uid = user_or_raise(data)
 
-    loader = dataloader.get_loader()
+    with MongoController() as mongo:
 
-    await process_prestige_points(uid, data)
-    await process_new_bounties(uid, data)
+        loader = dataloader.get_loader()
 
-    return ServerResponse({"completeUserData": await loader.get_user_data(uid)})
+        await process_prestige_points(uid, data)
+        await process_new_bounties(uid, data)
+
+    return ServerResponse({"userData": await loader.get_user_data(uid)})
 
 
 async def process_prestige_points(uid, req_data: PrestigeData):

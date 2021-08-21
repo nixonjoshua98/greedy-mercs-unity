@@ -19,7 +19,7 @@ namespace GM
 
         void RestoreGameData()
         {
-            FileUtils.OpenJSON(FileUtils.ResolvePath(GameData.SERVER_FILE), out JSONNode node);
+            FileUtils.LoadJSON(FileUtils.ResolvePath(GameData.SERVER_FILE), out JSONNode node);
 
             GameData.CreateInstance(node);
         }
@@ -27,7 +27,7 @@ namespace GM
 
         void RestoreUserData()
         {
-            FileUtils.OpenJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), out JSONNode node);
+            FileUtils.LoadJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), out JSONNode node);
 
             GameState.Restore(node);
 

@@ -1,6 +1,8 @@
 ﻿using SimpleJSON;
 using System.Numerics;
 
+using UnityEngine;
+
 namespace GM.Data
 {
     static class InventoryKeys
@@ -18,7 +20,7 @@ namespace GM.Data
     public class UserInventory : ILocalDataContainer
     {
         #region Constants
-        const string LOCAL_FILE_NAME = "local/_c673_inv_56f_user";
+        const string LOCAL_FILE_NAME = "local/user_inventory";
         #endregion
 
         public BigInteger PrestigePoints;
@@ -52,7 +54,7 @@ namespace GM.Data
 
         void LoadLocalSaveFile()
         {
-            FileUtils.OpenJSON(FileUtils.ResolvePath(LOCAL_FILE_NAME), out JSONNode result);
+            FileUtils.LoadJSON(FileUtils.ResolvePath(LOCAL_FILE_NAME), out JSONNode result);
 
             Energy  = result.GetValueOrDefault(InventoryKeys.Local_Energy, 0).AsFloat;
             Gold    = BigDouble.Parse(result.GetValueOrDefault(InventoryKeys.Local_Gold, 0).Value);

@@ -24,6 +24,8 @@ namespace GM.Bounty
 
         void Awake()
         {
+            UpdateRefreshText();
+            
             InstantiateItems();
             InstantiateArmouryItems();
         }

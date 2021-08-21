@@ -39,4 +39,4 @@ async def player_login(req: ServerRequest, data: UserLoginDataModel):
 
     u_data = await req.mongo.get_user_data(uid)
 
-    return ServerResponse(u_data)
+    return ServerResponse({"userData": u_data})

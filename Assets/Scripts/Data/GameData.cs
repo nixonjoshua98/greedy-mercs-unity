@@ -11,7 +11,7 @@ namespace GM
 
     public class GameData
     {
-        public static string SERVER_FILE = "DSFsh_89Je8F_";
+        public static string SERVER_FILE = "game_data";
 
         static GameData Instance = null;
 

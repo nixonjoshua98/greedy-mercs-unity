@@ -14,7 +14,7 @@ namespace GM
 
     public class UserData
     {
-        public static string SERVER_FILE = "E8Cn9dF_3F1F_A";
+        public static string SERVER_FILE = "not_game_data";
 
         static UserData Instance = null;
 
@@ -56,7 +56,7 @@ namespace GM
 
                 if (code == 200)
                 {
-                    UpdateWithServerUserData(resp["completeUserData"]);
+                    FileUtils.WriteJSON(FileUtils.ResolvePath(SERVER_FILE), resp["userData"]);
                 }
                 else
                 {

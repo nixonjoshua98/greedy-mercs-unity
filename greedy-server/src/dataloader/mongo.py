@@ -1,12 +1,10 @@
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from src.classes.mixins import ContextLoggerMixin
-
 from .children import _Users, _Bounties, _Items, _Armoury
 
 
-class MongoController(ContextLoggerMixin):
+class MongoController:
 
     def __init__(self):
         self.items = _Items(default_database=self._mongo.get_default_database())
@@ -19,3 +17,8 @@ class MongoController(ContextLoggerMixin):
         cls._mongo = AsyncIOMotorClient(con_str)
 
     def get_client(self): return self._mongo
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb): ...

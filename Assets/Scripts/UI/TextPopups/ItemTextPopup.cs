@@ -13,9 +13,9 @@ namespace GM.UI
 
         Color originalImageColor;
 
-        public void Setup(ItemType item, string val, Color col)
+        public void Setup(ItemType item, string val)
         {
-            Setup(val, col);
+            Setup(val);
 
             originalImageColor = itemImage.color;
 

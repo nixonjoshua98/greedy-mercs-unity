@@ -4,19 +4,29 @@ namespace GM.Data
 {
     public class LocalDataSaveManager : MonoBehaviour
     {
+        static LocalDataSaveManager Instance = null;
+        public static LocalDataSaveManager Get => Instance;
+
         const float BACKUP_INTERVAL = 3.0f;
 
         float backupTimer = 10.0f; // 10s grace period
 
         bool isPaused;
 
-        public static LocalDataSaveManager Get = null;
-
         void Awake()
         {
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
 
-            Get = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Instance.Continue();
+
+                Destroy(gameObject);
+            }
         }
 
 
@@ -42,7 +52,7 @@ namespace GM.Data
 
             string path = FileUtils.ResolvePath("local");
 
-            if (System.IO.File.Exists(path))
+            if (System.IO.Directory.Exists(path))
                 System.IO.Directory.Delete(path, true);
         }
 

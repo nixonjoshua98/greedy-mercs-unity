@@ -4,7 +4,7 @@ from src import svrdata
 from src import resources as res2
 from src.models import UserLoginDataModel
 from src.common import resources
-from src.routing import ServerRoute, ServerResponse, ServerRequest
+from src.routing import ServerRoute, ServerResponse
 
 from src.dataloader import MongoController
 
@@ -26,17 +26,19 @@ def get_game_data():
 
 
 @router.post("/login")
-async def player_login(req: ServerRequest, data: UserLoginDataModel):
+async def player_login(data: UserLoginDataModel):
 
     with MongoController() as mongo:
         user = await mongo.users.get_user(data.device_id)
 
         if user is None:
-            uid = await mongo.users.insert_new_user({"deviceId": data.device_id})
+            uid = await mongo.users.insert_new_user(
+                device=data.device_id
+            )
 
         else:
             uid = user["_id"]
 
-    u_data = await req.mongo.get_user_data(uid)
+        u_data = await mongo.get_user_data(uid)
 
     return ServerResponse({"userData": u_data})

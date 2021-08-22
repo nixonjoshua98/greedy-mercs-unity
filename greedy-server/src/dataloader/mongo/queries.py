@@ -4,7 +4,10 @@ from pymongo import ReturnDocument
 
 import datetime as dt
 
+from src import svrdata
+
 from src.common.enums import ItemKey
+from src.classes.bountyshop import AbstractBountyShopItem
 
 
 class _Users:
@@ -14,8 +17,10 @@ class _Users:
     async def get_user(self, device_id: str):
         return await self.default_database["userLogins"].find_one({"deviceId": device_id})
 
-    async def insert_new_user(self, row):
-        return (await self.default_database["userLogins"].isnert_one(row)).insert_id
+    async def insert_new_user(self, *, device):
+        r = await self.default_database["userLogins"].insert_one({"deviceId": device})
+
+        return r.inserted_id
 
 
 class _Bounties:
@@ -131,3 +136,30 @@ class _Artefacts:
         r = await self.collection.update_one({"userId": uid, "artefactId": artid}, update, upsert=upsert)
 
         return r.modified_count == 1
+
+
+class _BountyShop:
+    def __init__(self, default_database):
+        self.collection = default_database["bountyShopPurchases"]
+
+    async def log_purchase(self, uid, item: AbstractBountyShopItem):
+        await self.collection.insert_one(
+            {"userId": uid, "itemId": item.id, "purchaseTime": dt.datetime.utcnow(), "itemData": item.to_dict()}
+        )
+
+    async def get_daily_purchases(self, uid, iid: int = None) -> Union[dict, int]:
+        """ Count the number of purchase made for an item (if provided) by a user since the previous reset. """
+
+        filter_ = {"userId": uid, "purchaseTime": {"$gte": svrdata.last_daily_reset()}}
+
+        if iid is not None:
+            filter_["itemId"] = iid
+
+        results = await self.collection.find(filter_).to_list(length=None)
+
+        def count(item_id: int):
+            return len([r for r in results if r["itemId"] == item_id])
+
+        data = {iid_: count(iid_) for iid_ in set(r["itemId"] for r in results)}
+
+        return data.get(iid, 0) if iid is not None else data

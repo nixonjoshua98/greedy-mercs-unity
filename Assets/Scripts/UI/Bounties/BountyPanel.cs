@@ -45,7 +45,7 @@ namespace GM.Bounty.UI
 
             bountySlider.value = snapshot.PercentFilled;
 
-            if (snapshot.PercentFilled >= 0.25f)
+            if (snapshot.PercentFilled >= 0.5f)
             {
                claimButtonAnim.Play("Pulse");
             }

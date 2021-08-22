@@ -143,8 +143,7 @@
     "levelEffect": 0.5
   },
   "20": {
-    "bonusType": 15,
-    "valueType": 2,
+    "bonusType": -1,
     "maxLevel": 30,
     "costCoeff": 1.0,
     "costExpo": 2.0,
@@ -152,14 +151,14 @@
     "levelEffect": 1.0
   },
   "21": {
-    "bonusType": 14,
+    "bonusType": -1,
     "costCoeff": 0.6,
     "costExpo": 1.5,
     "baseEffect": 1.5,
     "levelEffect": 0.5
   },
   "22": {
-    "bonusType": 16,
+    "bonusType": -1,
     "costCoeff": 0.6,
     "costExpo": 1.5,
     "baseEffect": 1.5,
@@ -173,8 +172,7 @@
     "levelEffect": 0.5
   },
   "24": {
-    "bonusType": 17,
-    "valueType": 2,
+    "bonusType": -1,
     "maxLevel": 30,
     "costCoeff": 1.0,
     "costExpo": 2.0,

@@ -113,7 +113,7 @@ namespace GM
 
         public static BigInteger GetPrestigePoints(int stage)
         {
-            BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyAllSources(BonusType.PERCENT_PRESTIGE_BONUS);
+            BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * MultiplyAllSources(BonusType.MULTIPLY_PRESTIGE_BONUS);
 
             return BigInteger.Parse(big.Ceiling().ToString("F0"));
         }

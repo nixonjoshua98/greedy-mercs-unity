@@ -36,11 +36,11 @@ namespace GM.Bounty
 
             foreach (LocalBountyData res in fromResources)
             {
-                JSONNode current = node["bounties"][res.Id];
+                JSONNode current = node["bounties"][res.ID];
 
-                data[res.Id] = new BountyData()
+                data[res.ID] = new BountyData()
                 {
-                    Id = res.Id,
+                    Id = res.ID,
                     Name = res.Name,
 
                     Icon = res.Icon,

@@ -55,11 +55,11 @@ namespace GM.Data
 
             foreach (LocalArmouryItemData ele in LoadLocalData())
             {
-                if (node.TryGetKey(ele.Id, out JSONNode svrItemData))
+                if (node.TryGetKey(ele.ID, out JSONNode svrItemData))
                 {
-                    items[ele.Id] = new ArmouryItemData()
+                    items[ele.ID] = new ArmouryItemData()
                     {
-                        Id = ele.Id,
+                        Id = ele.ID,
                         Name = ele.Name,
                         Icon = ele.Icon,
 

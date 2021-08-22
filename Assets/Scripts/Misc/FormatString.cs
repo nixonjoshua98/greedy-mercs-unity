@@ -68,45 +68,22 @@ public static class FormatString
     {
         switch (bonusType)
         {
-                // Energy Capacity
             case BonusType.FLAT_ENERGY_CAPACITY:    return $"+{value} Energy Capacity";
-
-                // Energy Income
-            case BonusType.FLAT_ENERGY_INCOME:      return $"+{Number(value)} Energy";
-
-                // Critical Hit Chance
+            case BonusType.FLAT_ENERGY_INCOME:      return $"+{Number(value)} Energy per Minute";
             case BonusType.FLAT_CRIT_CHANCE:        return $"+{Number(value * 100)}% Critical Hit Chance";
-
-                // Critical Hit Damage
             case BonusType.FLAT_CRIT_DMG:      return $"{Number(value * 100)}% Critical Hit Damage";
-
-                // Prestige Bonus
-            case BonusType.PERCENT_PRESTIGE_BONUS:  return $"{Number(value * 100)}% Runestones";
-
-                // Damage
+            case BonusType.MULTIPLY_PRESTIGE_BONUS:  return $"{Number(value * 100)}% Runestones";
             case BonusType.TAP_DAMAGE:      return $"{Number(value * 100)}% Tap Damage";
             case BonusType.MERC_DAMAGE:     return $"{Number(value * 100)}% Merc Damage";
             case BonusType.MELEE_DAMAGE:    return $"{Number(value * 100)}% Melee Damage";
             case BonusType.RANGED_DAMAGE:   return $"{Number(value * 100)}% Ranged Damage";
-
-                // Gold
             case BonusType.ENEMY_GOLD:  return $"{Number(value * 100)}% Enemy Gold";
             case BonusType.BOSS_GOLD:   return $"{Number(value * 100)}% Boss Gold";
             case BonusType.ALL_GOLD:    return $"{Number(value * 100)}% All Gold";
-
-                // ...
             case BonusType.CHAR_TAP_DAMAGE_ADD: return $"{Number(value * 100)}% Damage From Merc";
 
-                // Gold Rush
-            case BonusType.GOLD_RUSH_BONUS:     return $"{Number(value * 100)}% Gold Rush Bonus";
-            case BonusType.GOLD_RUSH_DURATION:  return $"+{value}s Gold Rush Duration";
-
-                // Auto Click
-            case BonusType.AUTO_CLICK_BONUS:    return $"{Number(value * 100)}% Auto Click Bonus";
-            case BonusType.AUTO_CLICK_DURATION: return $"+{value}s Auto Click Duration";
-
             default: 
-                return $"{Number(value)} {bonusType}";
+                return $"{Number(value)} <Missing>";
         }
     }
 }

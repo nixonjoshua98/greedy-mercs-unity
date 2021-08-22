@@ -5,6 +5,7 @@ using UnityEngine;
 using SimpleJSON;
 using GM.Data;
 using UnityEngine.UI;
+using SceneTransition = GM.Scene.SceneTransition;
 
 
 namespace GM
@@ -13,6 +14,9 @@ namespace GM
     {
         [SerializeField] Text prestigePointText;
         [SerializeField] Button prestigeButton;
+
+        [Header("Objects")]
+        [SerializeField] GameObject sceneTransitionObject;
 
         void FixedUpdate()
         {
@@ -49,7 +53,12 @@ namespace GM
 
                 if (success)
                 {
-                    SceneManager.LoadSceneAsync("InitScene", LoadSceneMode.Additive);
+                    SceneTransition transition = CanvasUtils.Instantiate<SceneTransition>(sceneTransitionObject);
+
+                    transition.E_OnFinished.AddListener(() =>
+                    {
+                        SceneManager.LoadSceneAsync("InitScene", LoadSceneMode.Additive);
+                    });
                 }
             });
         }

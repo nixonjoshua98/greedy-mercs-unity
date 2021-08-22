@@ -286,6 +286,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prestigePointText: {fileID: 8987427646916486768}
   prestigeButton: {fileID: 8987427646494077987}
+  sceneTransitionObject: {fileID: 2021056131155236687, guid: 4d7a0b9c7aa30c9458862553782e0235,
+    type: 3}
 --- !u!222 &8987427645710186456
 CanvasRenderer:
   m_ObjectHideFlags: 0

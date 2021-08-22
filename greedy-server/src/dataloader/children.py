@@ -22,7 +22,7 @@ class _Bounties:
     def __init__(self, default_database):
         self.default_database = default_database
 
-    async def insert_new_bounty(self, uid, bid, *, claim_time=None):
+    async def add_new_bounty(self, uid, bid, *, claim_time=None):
         r = await self.default_database["userBounties"].insert_one(
             {"userId": uid, "bountyId": bid, "lastClaimTime": claim_time or dt.datetime.utcnow()}
         )
@@ -110,3 +110,24 @@ class _Armoury:
 
     async def get_one_item(self, uid, iid) -> Union[dict, None]:
         return await self.collection.find_one({"userId": uid, "itemId": iid})
+
+
+class _Artefacts:
+    def __init__(self, default_database):
+        self.collection = default_database["userArtefacts"]
+
+    async def get_all_artefacts(self, uid: Union[ObjectId, str]) -> dict:
+        result = await self.collection.find({"userId": uid}).to_list(length=None)
+
+        return {ele["artefactId"]: ele for ele in result}
+
+    async def get_one_artefact(self, uid: Union[ObjectId, str], artid) -> dict:
+        return (await self.collection.find_one({"userId": uid, "artefactId": artid})) or dict()
+
+    async def add_new_artefact(self, document: dict):
+        await self.collection.insert_one(document)
+
+    async def update_one_artefact(self, uid, artid, update: dict, *, upsert: bool = True) -> bool:
+        r = await self.collection.update_one({"userId": uid, "artefactId": artid}, update, upsert=upsert)
+
+        return r.modified_count == 1

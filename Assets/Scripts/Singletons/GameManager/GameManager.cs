@@ -104,7 +104,7 @@ namespace GM
 
                 E_OnWaveSpawn.Invoke(new WaveSpawnEventData()
                 {
-                    Objects = WaveEnemies,
+                    Enemies = WaveEnemies,
                     CombinedHealth = combinedHealth,
                     HealthControllers = healthControllers
                 });

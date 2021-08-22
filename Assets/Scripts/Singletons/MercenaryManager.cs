@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace GM.Data
 {
-    using StatsCache = GM.StatsCache;
     using Formulas = GM.Formulas;
 
     public class MercState
@@ -26,7 +25,7 @@ namespace GM.Data
 
     }
 
-    public class MercenaryManager : IBonusManager
+    public class MercenaryManager
     {
         public static MercenaryManager Instance = null;
 

@@ -50,7 +50,7 @@ namespace GM.Armoury.UI
         {
             int maxEvoLevel     = GameData.Get.Armoury.MaxEvolveLevel;
             int evoLevelCost    = GameData.Get.Armoury.EvoLevelCost;
-            int armouryPoints   = UserData.Get.Inventory.IronIngots;
+            long armouryPoints  = UserData.Get.Inventory.IronIngots;
             int levelCost       = GameData.Get.Armoury.LevelCost(_itemId);
 
             // Grab the current state

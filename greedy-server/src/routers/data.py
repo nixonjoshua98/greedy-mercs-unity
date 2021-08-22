@@ -1,16 +1,14 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
 
 from src import svrdata
 from src import resources as res2
-from src.common import mongo, resources
-from src.routing import CustomRoute, ServerResponse
+from src.models import UserLoginDataModel
+from src.common import resources
+from src.routing import ServerRoute, ServerResponse, ServerRequest
 
-router = APIRouter(prefix="/api", route_class=CustomRoute)
+from src.dataloader import MongoController
 
-
-class UserLoginData(BaseModel):
-    device_id: str
+router = APIRouter(prefix="/api", route_class=ServerRoute)
 
 
 @router.get("/gamedata")
@@ -28,13 +26,17 @@ def get_game_data():
 
 
 @router.post("/login")
-def player_login(data: UserLoginData):
-    if (row := mongo.db["userLogins"].find_one({"deviceId": data.device_id})) is None:
-        result = mongo.db["userLogins"].insert_one({"deviceId": data.device_id})
+async def player_login(req: ServerRequest, data: UserLoginDataModel):
 
-        uid = result.inserted_id
+    with MongoController() as mongo:
+        user = await mongo.users.get_user(data.device_id)
 
-    else:
-        uid = row["_id"]
+        if user is None:
+            uid = await mongo.users.insert_new_user({"deviceId": data.device_id})
 
-    return ServerResponse(svrdata.get_player_data(uid))
+        else:
+            uid = user["_id"]
+
+    u_data = await req.mongo.get_user_data(uid)
+
+    return ServerResponse({"userData": u_data})

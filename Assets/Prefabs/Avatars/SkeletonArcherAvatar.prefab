@@ -30,7 +30,7 @@ Transform:
   - {fileID: 8262484439141830875}
   m_Father: {fileID: 3285187416848501474}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -62.15348}
 --- !u!1 &930911900813276296
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ Transform:
   - {fileID: 2793296801710232364}
   m_Father: {fileID: 3285187416848501474}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -117.23621}
 --- !u!1 &1464361189500350358
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ Transform:
   - {fileID: 7817590593704670240}
   m_Father: {fileID: 6907743806990327862}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -6.565168}
 --- !u!1 &1630786234905677939
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +453,7 @@ Transform:
   - {fileID: 8785760657213674641}
   m_Father: {fileID: 5035700657264535176}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.8845509}
 --- !u!1 &3075673492481589865
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +651,7 @@ Transform:
   - {fileID: 4204663961251717164}
   m_Father: {fileID: 3285187416848501474}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 95.70271}
 --- !u!1 &4144375034740079327
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,7 +1041,7 @@ Transform:
   m_GameObject: {fileID: 6156984009496471882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.421875, y: 0.421875, z: 1}
   m_Children:
   - {fileID: 8954933545002847215}
   - {fileID: 84603698389263572}
@@ -1098,7 +1098,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   E_OnAttackAnimation:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GM.Units.UnitAttack, Assembly-CSharp
+        m_MethodName: OnAttackAnimationEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   E_OnDeathAnimation:
     m_PersistentCalls:
       m_Calls: []
@@ -1226,7 +1238,7 @@ Transform:
   - {fileID: 7465229612241691840}
   m_Father: {fileID: 6907743806990327862}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -108.49369}
 --- !u!1 &7958228561918549268
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,7 +1270,7 @@ Transform:
   - {fileID: 8432478889888014077}
   m_Father: {fileID: 6907743806990327862}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -96.299774}
 --- !u!1 &9061046432080585554
 GameObject:
   m_ObjectHideFlags: 0

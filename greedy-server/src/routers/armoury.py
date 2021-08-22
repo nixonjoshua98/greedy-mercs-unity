@@ -1,85 +1,79 @@
 
 from fastapi import APIRouter, HTTPException
 
-from typing import Tuple
-
 from src import resources
-from src.common.enums import ItemKeys
+from src.common.enums import ItemKey
 from src.checks import user_or_raise
+from src.routing import ServerRoute, ServerResponse
+from src.models import ArmouryItemActionModel
 
-from src.svrdata import Armoury
+from src.dataloader import MongoController
 
-from src.routing import CustomRoute, ServerResponse
-from src.models import UserIdentifier
-
-from src.database import mongo
-
-router = APIRouter(prefix="/api/armoury", route_class=CustomRoute)
-
-
-# Models
-class ItemPurchaseModel(UserIdentifier):
-    item_id: int
+router = APIRouter(prefix="/api/armoury", route_class=ServerRoute)
 
 
 @router.post("/upgrade")
-def upgrade(data: ItemPurchaseModel):
+async def upgrade(data: ArmouryItemActionModel):
     uid = user_or_raise(data)
 
-    cost, can_level = can_levelup(uid, data.item_id)
+    armoury = resources.get_armoury()
 
-    if not can_level:
-        raise HTTPException(400, {"error": "Cannot upgrade item"})
+    with MongoController() as mongo:
 
-    modified = Armoury.update_one({"userId": uid, "itemId": data.item_id}, {"$inc": {"level": 1}}, upsert=False)
+        if (u_armoury_item := await mongo.armoury.get_one_item(uid, data.item_id)) is None:
+            raise HTTPException(400, detail="Item does not exist")
 
-    if not modified:  # Return an error if a document was not modified
-        raise HTTPException(400)
+        u_ap = await mongo.items.get_item(uid, ItemKey.ARMOURY_POINTS)
 
-    u_items = mongo.items.update_and_find(uid, {"$inc": {ItemKeys.PRESTIGE_POINTS: -cost}})
+        upgrade_cost = armoury.items[data.item_id].level_cost(u_armoury_item["level"])
 
-    return ServerResponse({"userArmouryItems": Armoury.find({"userId": uid}), "userItems": u_items})
+        # Throw an error if the user cannot afford the upgrade
+        if upgrade_cost > u_ap:
+            raise HTTPException(400, detail="Cannot afford upgrade")
+
+        # Attempt to upgrade the item
+        doc_modified = await mongo.armoury.update_one_item(uid, data.item_id, {"$inc": {"level": 1}}, upsert=False)
+
+        # No item document was modied (implies we are upgrading an item which does not exist)
+        if not doc_modified:  # Return an error if a document was not modified
+            raise HTTPException(400, detail="Error")
+
+        # Deduct the upgrade cost and return all user items AFTER the update
+        u_items = await mongo.items.update_and_get(uid, {"$inc": {ItemKey.ARMOURY_POINTS: -upgrade_cost}})
+
+        u_armoury = await mongo.armoury.get_all_items(uid)
+
+    return ServerResponse({"userArmouryItems": u_armoury, "userItems": u_items})
 
 
 @router.post("/evolve")
-def evolve(data: ItemPurchaseModel):
+async def evolve(data: ArmouryItemActionModel):
     uid = user_or_raise(data)
 
-    cost, can_level = can_evolve(uid, data.item_id)
-
-    if not can_level:
-        raise HTTPException(400, {"error": "Cannot evolve item"})
-
-    modified = Armoury.update_one(
-        {"userId": uid, "itemId": data.item_id}, {"$inc": {"evoLevel": 1, "owned": -cost}}, upsert=False
-    )
-
-    if not modified:  # Return an error if a document was not modified
-        raise HTTPException(400)
-
-    return ServerResponse({"userArmouryItems": Armoury.find({"userId": uid})})
-
-
-def can_evolve(uid, iid) -> Tuple[int, bool]:
     armoury = resources.get_armoury()
 
-    if (item := Armoury.find_one({"userId": uid, "itemId": iid})) is None:
-        return -1, False
+    with MongoController() as mongo:
 
-    within_max_level = item.get("evoLevel", 0) < armoury.max_evo_level
-    enough_copies = item.get("owned", 0) >= (armoury.evo_level_cost + 1)
+        # Attempt to pull the item, otherwise throw an error
+        if (u_armoury_item := await mongo.armoury.get_one_item(uid, data.item_id)) is None:
+            raise HTTPException(400, detail="Item does not exist")
 
-    return armoury.evo_level_cost, within_max_level and enough_copies
+        # Checks
+        within_max_level = u_armoury_item.get("evoLevel", 0) < armoury.max_evo_level
+        enough_copies = u_armoury_item.get("owned", 0) >= (armoury.evo_level_cost + 1)
 
+        # Throw an error if the user/item does not meet the requirements
+        if not (within_max_level and enough_copies):  # Item does not meet the requirements
+            raise HTTPException(400, detail="Cannot evolve item")
 
-def can_levelup(uid, iid) -> Tuple[int, bool]:
-    armoury = resources.get_armoury()
+        # Update the item but do not upsert, one last error check to ensure the item exists
+        doc_modified = await mongo.armoury.update_one_item(
+            uid, data.item_id, {"$inc": {"evoLevel": 1, "owned": -armoury.evo_level_cost}}, upsert=False
+        )
 
-    if (item := Armoury.find_one({"userId": uid, "itemId": iid})) is None:
-        return -1, False
+        if not doc_modified:  # Return an error if a document was not modified
+            raise HTTPException(400, detail="Error")
 
-    level_cost = armoury.items[iid].level_cost(item["level"])
+        u_armoury = await mongo.armoury.get_all_items(uid)
 
-    points = mongo.items.get_item(uid, ItemKeys.ARMOURY_POINTS)
-
-    return level_cost, points >= level_cost
+    return ServerResponse({"userArmouryItems": u_armoury})

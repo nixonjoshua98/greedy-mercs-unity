@@ -72,7 +72,7 @@ namespace GM.Artefacts
         }
 
 
-        public void UnlockArtefact(UnityAction<bool> call)
+        public void UnlockArtefact(UnityAction<bool, int> call)
         {
             void InternalCallback(long code, JSONNode resp)
             {
@@ -81,7 +81,7 @@ namespace GM.Artefacts
                     OnServerResponse(resp);
                 }
 
-                call.Invoke(code == 200);
+                call.Invoke(code == 200, code == 200 ? resp["newArtefactId"].AsInt : -1);
             }
 
             HTTPClient.GetClient().Post("artefact/unlock", InternalCallback);
@@ -94,7 +94,7 @@ namespace GM.Artefacts
         {
             SetStates(node["userArtefacts"]);
 
-            UserData.Get.Inventory.SetItems(node["userItems"]);
+            UserData.Get.Inventory.SetServerItemData(node["userItems"]);
         }
         // = = = ^
 

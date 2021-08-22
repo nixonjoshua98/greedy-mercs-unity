@@ -25,8 +25,7 @@ namespace GM.UI
 
         void SetSprite()
         {
-            GetComponent<Image>()
-                .sprite = GameData.Get.Items.Get(Item).Icon;
+            GetComponent<Image>().sprite = GameData.Get.Items.Get(Item).Icon;
         }
     }
 }

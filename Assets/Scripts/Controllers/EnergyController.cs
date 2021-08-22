@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,20 +12,22 @@ namespace GM
 
         void FixedUpdate()
         {
-            GameState.Player.currentEnergy = Math.Min(StatsCache.MaxEnergyCapacity(), GameState.Player.currentEnergy + ((StatsCache.EnergyPerMinute() / 60) * Time.fixedDeltaTime));
+            float energySinceLastUpdate = (StatsCache.EnergyPerMinute() / 60 * Time.fixedUnscaledDeltaTime);
+
+            UserData.Get.Inventory.Energy = Mathf.Min(StatsCache.MaxEnergyCapacity(), UserData.Get.Inventory.Energy + energySinceLastUpdate);
 
             UpdateUI();
         }
 
         void UpdateUI()
         {
-            double maxEnergy = StatsCache.MaxEnergyCapacity();
+            float maxEnergy = StatsCache.MaxEnergyCapacity();
 
-            energyText.text = string.Format("Energy {0}/{1} ({2}/60s)", GameState.Player.currentEnergy.ToString("0.0"), maxEnergy, StatsCache.EnergyPerMinute().ToString("0.0"));
+            energyText.text = $"Energy {UserData.Get.Inventory.Energy:0.0}/{maxEnergy} ({StatsCache.EnergyPerMinute():0.0}/60s)";
 
-            energySlider.maxValue = (float)maxEnergy;
+            energySlider.maxValue = maxEnergy;
 
-            energySlider.value = (float)GameState.Player.currentEnergy;
+            energySlider.value = UserData.Get.Inventory.Energy;
         }
     }
 }

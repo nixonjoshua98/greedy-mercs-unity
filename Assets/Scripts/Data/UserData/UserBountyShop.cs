@@ -72,7 +72,8 @@ namespace GM.Bounty
             ArmouryItemID = node["armouryItemId"].AsInt;
         }
 
-        public override Sprite Icon { get { return GameData.Get.Armoury.Get(ArmouryItemID).Icon; } }
+        public ArmouryItemData ArmouryItem => GameData.Get.Armoury.Get(ArmouryItemID);
+        public override Sprite Icon => ArmouryItem.Icon;
     }
     #endregion
 
@@ -85,6 +86,7 @@ namespace GM.Bounty
         Dictionary<string, BountyShopArmouryItem> availArmouryItems;
 
         public BountyShopItem[] Items => availItems.Values.ToArray();
+        public BountyShopArmouryItem[] ArmouryItems => availArmouryItems.Values.ToArray();
 
 
         public UserBountyShop(JSONNode node)
@@ -208,7 +210,7 @@ namespace GM.Bounty
         // = = = Callbacks = = = //
         void OnServerResponse(JSONNode resp)
         {
-            UserData.Get.Inventory.SetItems(resp["userItems"]);
+            UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
         }

@@ -14,7 +14,7 @@ namespace GM
 
         public virtual void Process()
         {
-            GameState.Player.gold += StatsCache.StageEnemy.GetEnemyGold(spawnStageState.Stage);
+            UserData.Get.Inventory.Gold += StatsCache.StageEnemy.GetEnemyGold(spawnStageState.Stage);
         }
     }
 }

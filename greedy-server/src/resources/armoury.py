@@ -13,7 +13,7 @@ class ArmouryResource:
         self.max_evo_level = data["maxEvoLevel"]
         self.evo_level_cost = data["evoLevelCost"]
 
-        self.items: dict["ArmouryItem"] = {k: ArmouryItem.from_dict(v) for k, v in data["items"].items()}
+        self.items: dict[int, "ArmouryItem"] = {k: ArmouryItem.from_dict(v) for k, v in data["items"].items()}
 
     def as_dict(self): return self.__dict
 

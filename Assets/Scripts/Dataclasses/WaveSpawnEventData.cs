@@ -8,7 +8,7 @@ namespace GM.Events
     {
         public BigDouble CombinedHealth;
 
-        public List<GameObject> Objects;
+        public List<GameObject> Enemies;
         public List<HealthController> HealthControllers;
     }
 }

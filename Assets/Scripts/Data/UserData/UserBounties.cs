@@ -1,19 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
+﻿using SimpleJSON;
+using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
 
-using SimpleJSON;
+using GM.Data;
+using GM.Server;
 
 
 namespace GM.Bounty
 {
-    using GM.Data;
-    using GM.Server;
-    using GM.Bounty;
-
     public class BountyState
     {
         public readonly int ID;
@@ -41,6 +37,7 @@ namespace GM.Bounty
         Dictionary<int, BountyState> states;
 
         public List<BountyState> StatesList => states.Values.ToList();
+        public int Count => StatesList.Count;
 
 
         public UserBounties(JSONNode node)
@@ -52,20 +49,21 @@ namespace GM.Bounty
 
 
         // = = = Server Methods = = =
-        public void ClaimPoints(Action action)
+        public void ClaimPoints(Action<bool, long> action)
         {
             void Callback(long code, JSONNode resp)
             {
                 if (code == 200)
                 {
-                    SetAllClaimTimes(Funcs.FromUnixMs(resp["claimTime"].AsLong));
-                    UserData.Get.Inventory.SetItems(resp["userItems"]);
+                    SetAllClaimTimes(Utils.UnixToDateTime(resp["claimTime"].AsLong));
+
+                    UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
                 }
 
-                action();
+                action(code == 200, code == 200 ? resp["pointsClaimed"].AsLong : -1);
             }
 
-            HTTPClient.GetClient().Post("bounty/claimpoints", Callback);
+            HTTPClient.GetClient().Post("bounty/claim", Callback);
         }
 
 
@@ -113,22 +111,16 @@ namespace GM.Bounty
 
         void SetBounties(JSONNode node)
         {
-            foreach (JSONNode bounty in node.AsArray)
+            foreach (string key in node.Keys)
             {
-                int id = bounty["bountyId"].AsInt;
+                JSONNode current = node[key];
 
-                // Ignore 'disabled' bounties which are not in the server data
-                if (GameData.Get.Bounties.Contains(id))
+                int id = int.Parse(key);
+
+                states[id] = new BountyState(id)
                 {
-                    states[id] = new BountyState(id)
-                    {
-                        LastClaimTime = Funcs.FromUnixMs(bounty["lastClaimTime"].AsLong)
-                    };
-                }
-                else
-                {
-                    Debug.LogWarning(string.Format("Bounty {0} is currently not available", id));
-                }
+                    LastClaimTime = Utils.UnixToDateTime(current["lastClaimTime"].AsLong)
+                };
             }
         }
     }

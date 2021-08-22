@@ -15,7 +15,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            GoldText.text = FormatString.Number(GameState.Player.gold);
+            GoldText.text = FormatString.Number(UserData.Get.Inventory.Gold);
 
             stageText.text = $"Stage {state.Stage}";
             waveText.text = $"{state.Wave} / {state.WavesPerStage}";

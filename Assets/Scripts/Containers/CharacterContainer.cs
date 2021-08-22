@@ -1,16 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using SimpleJSON;
+using System;
 using System.Collections.Generic;
-
-using SimpleJSON;
-
-using UnityEngine;
 
 namespace GM
 {
     using GM.Data;
 
-    using GM.Units;
     public class CharacterContainer
     {
         Dictionary<MercID, UpgradeState> characters;

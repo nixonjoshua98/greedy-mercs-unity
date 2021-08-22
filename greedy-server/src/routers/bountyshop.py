@@ -1,20 +1,18 @@
 
-import datetime as dt
-
 from fastapi import APIRouter, HTTPException
 
-from src.common import mongo
-from src.common.enums import ItemKeys
+from src.common.enums import ItemKey
 
-from src.routing import CustomRoute, ServerResponse
-from src.svrdata import Armoury
+from src.routing import ServerRoute, ServerResponse
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
-from src import svrdata
-from src.database import mongo
+from src.dataloader import get_loader
 
-router = APIRouter(prefix="/api/bountyshop", route_class=CustomRoute)
+from src.dataloader import MongoController
+from src.classes.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
+
+router = APIRouter(prefix="/api/bountyshop", route_class=ServerRoute)
 
 
 # Models
@@ -23,82 +21,94 @@ class ItemData(UserIdentifier):
 
 
 @router.post("/refresh")
-def refresh(user: UserIdentifier):
+async def refresh(user: UserIdentifier):
     uid = user_or_raise(user)
+
+    loader = get_loader()
 
     return ServerResponse(
         {
-            "bountyShopItems":      svrdata.bountyshop.all_current_shop_items(as_dict=True),
-            "dailyPurchases":       svrdata.bountyshop.daily_purchases(uid),
-            "userItems":            mongo.items.get_items(uid, post_process=False)
+            "bountyShopItems": BountyShopGeneration(uid).to_dict(),
+            "dailyPurchases": await loader.bounty_shop.get_daily_purchases(uid),
+            "userItems": await loader.user_items.get_items(uid, post_process=False)
         }
     )
 
 
 @router.post("/purchase/item")
-def purchase_item(data: ItemData):
+async def purchase_item(data: ItemData):
     uid = user_or_raise(data)
+    bs = BountyShopGeneration(uid)
 
-    items = svrdata.bountyshop.current_items()
-
-    if (item := items.get(data.shop_item)) is None or not _can_purchase_item(uid, item):
+    if not isinstance(item := bs.get_item(data.shop_item), BountyShopCurrencyItem):
         raise HTTPException(400)
 
-    items = mongo.items.update_and_find(uid, {
+    elif not await _can_purchase_item(uid, item):
+        raise HTTPException(400)
+
+    loader = get_loader()
+
+    items = await loader.user_items.update_and_get(uid, {
         "$inc": {
-            ItemKeys.BOUNTY_POINTS: -item.purchase_cost,
+            ItemKey.BOUNTY_POINTS: -item.purchase_cost,
             item.item_type.key: item.quantity_per_purchase
         }
     })
 
-    _log_purchase(uid, item.id)
+    await loader.bounty_shop.log_purchase(uid, item)
 
-    return ServerResponse({"userItems": items, "dailyPurchases": svrdata.bountyshop.daily_purchases(uid)})
+    return ServerResponse({
+        "userItems": items,
+        "dailyPurchases": await loader.bounty_shop.get_daily_purchases(uid)
+    })
 
 
 @router.post("/purchase/armouryitem")
-def purchase_armoury_item(data: ItemData):
+async def purchase_armoury_item(data: ItemData):
     uid = user_or_raise(data)
+    loader = get_loader()
+    bs = BountyShopGeneration(uid)
 
-    items = svrdata.bountyshop.current_armoury_items()
+    with MongoController() as mongo:
 
-    if (item := items.get(data.shop_item)) is None or not _can_purchase_item(uid, item):
-        raise HTTPException(400)
+        # Some item ID check. Items (even between types) should have unique IDs
+        if not isinstance(item := bs.get_item(data.shop_item), BountyShopArmouryItem):
+            raise HTTPException(400)
 
-    Armoury.update_one(
-        {"userId": uid, "itemId": item.armoury_item},
-        {"$inc": {"owned": 1}, "$setOnInsert": {"level": 1}},
-        upsert=True
-    )
+        elif not await _can_purchase_item(uid, item):
+            raise HTTPException(400)
 
-    items = mongo.items.update_and_find(uid, {
-        "$inc": {
-            ItemKeys.BOUNTY_POINTS: -item.purchase_cost,
-        }
-    })
+        await mongo.armoury.update_one_item(
+            uid, item.armoury_item, {"$inc": {"owned": 1}, "$setOnInsert": {"level": 1}}, upsert=True
+        )
 
-    _log_purchase(uid, data.shop_item)
+        items = await mongo.items.update_and_get(uid, {
+            "$inc": {
+                ItemKey.BOUNTY_POINTS: -item.purchase_cost,
+            }
+        })
+
+        await loader.bounty_shop.log_purchase(uid, item)
+
+        u_armoury = await mongo.armoury.get_all_items(uid)
 
     return ServerResponse(
         {
-            "userItems":        items,
-            "userArmouryItems": Armoury.find({"userId": uid}),
-            "dailyPurchases":   svrdata.bountyshop.daily_purchases(uid)
+            "userItems": items,
+            "userArmouryItems": u_armoury,
+            "dailyPurchases": await loader.bounty_shop.get_daily_purchases(uid)
         }
     )
 
 
-def _log_purchase(uid, iid):
-    mongo.db["bountyShopPurchases"].insert_one({"userId": uid, "itemId": iid, "purchaseTime": dt.datetime.utcnow()})
+async def _can_purchase_item(uid, item):
+    loader = get_loader()
 
+    daily_purchase_bount = await loader.bounty_shop.get_daily_purchases(uid, item.id)
 
-def _can_purchase_item(uid, item):
+    u_bp = await loader.user_items.get_item(uid, ItemKey.BOUNTY_POINTS)
 
-    num_daily_purchases = svrdata.bountyshop.daily_purchases(uid, item.id)
-
-    points = mongo.items.get_item(uid, ItemKeys.BOUNTY_POINTS)
-
-    is_daily_limited = num_daily_purchases >= item.daily_purchase_limit
-    can_afford_purchase = points >= item.purchase_cost
+    is_daily_limited = daily_purchase_bount >= item.daily_purchase_limit
+    can_afford_purchase = u_bp >= item.purchase_cost
 
     return (not is_daily_limited) and can_afford_purchase

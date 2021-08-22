@@ -3,13 +3,16 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace GM.Data
+namespace GM
 {
+    using GM.Data;
     using GM.Artefacts;
     using GM.Bounty;
 
     public class GameData
     {
+        public static string SERVER_FILE = "game_data";
+
         static GameData Instance = null;
 
         public GameItemData Items;
@@ -29,7 +32,7 @@ namespace GM.Data
             Mercs       = new GameMercData(node["mercResources"]);
             Bounties    = new GameBountyData(node["bounties"]);
 
-            NextDailyReset = Funcs.FromUnixMs(node["nextDailyReset"].AsLong);
+            NextDailyReset = Utils.UnixToDateTime(node["nextDailyReset"].AsLong);
         }
 
 

@@ -2,61 +2,55 @@ import math
 
 import datetime as dt
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from src.checks import user_or_raise
-from src.common import mongo, resources
-from src.common.enums import ItemKeys
-from src.routing import CustomRoute, ServerResponse
+from src.common.enums import ItemKey
+from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier
 
-from src.database import mongo
+from src import resources
+from src.dataloader import MongoController
 
-router = APIRouter(prefix="/api/bounty", route_class=CustomRoute)
+router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 
-@router.post("/claimpoints")
-def claim_points(user: UserIdentifier):
+@router.post("/claim")
+async def claim_points(user: UserIdentifier):
     uid = user_or_raise(user)
 
-    unclaimed = calc_unclaimed_total(uid, now := dt.datetime.utcnow())
+    with MongoController() as mongo:
+        u_bounties = await mongo.bounties.get_user_bounties(uid)
 
-    # Update the claim time for each bounty
-    mongo.db["userBounties"].update_many({"userId": uid}, {"$set": {"lastClaimTime": now}})
+        unclaimed = calc_unclaimed_total(u_bounties, now := dt.datetime.utcnow())
 
-    # Add the bounty points to the users inventory
-    items = mongo.items.update_and_find(uid, {"$inc": {ItemKeys.BOUNTY_POINTS: unclaimed}})
+        if unclaimed == 0:  # Stop the request here since any further would be a waste of time
+            raise HTTPException(400, detail="Claim amount is zero")
 
-    return ServerResponse({"claimTime": now, "userItems": items})
+        await mongo.bounties.set_all_claim_time(uid, now)
+
+        u_items = await mongo.items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}})
+
+    return ServerResponse({"claimTime": now, "userItems": u_items, "pointsClaimed": unclaimed})
 
 
-def calc_unclaimed_total(uid, now) -> int:
+def calc_unclaimed_total(user_bounty_data, now) -> int:
 
-    # bounties.json file
-    bounty_data_file = resources.get("bounties")
-
-    bounties_svr_data = bounty_data_file["bounties"]
-    max_unclaimed_hours = bounty_data_file["maxUnclaimedHours"]
-
-    # Load the users bounties into a List
-    user_bounties = {b["bountyId"]: b for b in list(mongo.db["userBounties"].find({"userId": uid}))}
+    bounty_res = resources.get_bounty_data()
 
     points = 0  # Total unclaimed points (ready to be claimed)
 
     # Interate over each bounty available
-    for key, bounty_data in bounties_svr_data.items():
+    for key, state in user_bounty_data.items():
+        data = bounty_res.bounties[key]
 
-        # User has not unlocked this bounty
-        if (bounty_entry := user_bounties.get(key)) is None:
-            continue
+        # Num. hours since the user has claimed this bounty
+        total_hours = (now - state["lastClaimTime"]).total_seconds() / 3_600
 
-        # Num. hours since the user has claimed this bounty (Note: From the database, not the max allowed)
-        hours_since_claim = (now - bounty_entry["lastClaimTime"]).total_seconds() / 3_600
-
-        # Hours since bounty claimed, taking into account the max unclaimed hours
-        hours = max(0, min(max_unclaimed_hours, hours_since_claim))
+        # Clamp between 0 - max_unclaimed_hours
+        hours_clamped = max(0, min(bounty_res.max_unclaimed_hours, total_hours))
 
         # Calculate the income and increment the total
-        points += math.floor(hours * bounty_data["hourlyIncome"])
+        points += math.floor(hours_clamped * data.income)
 
     return points

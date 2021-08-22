@@ -5,7 +5,12 @@ from typing import Optional
 
 
 class UserIdentifier(BaseModel):
-    """ Authentication Data Model (can be inherited from) """
-
     device_id: str
-    user_id: Optional[str] = None
+
+
+class UserLoginDataModel(BaseModel):
+    device_id: str
+
+
+class ArmouryItemActionModel(UserIdentifier):
+    item_id: int

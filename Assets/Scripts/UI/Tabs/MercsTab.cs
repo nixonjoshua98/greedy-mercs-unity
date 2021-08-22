@@ -9,7 +9,7 @@ namespace GM.UI
 
     using GM.Units;
 
-    public class MercsTab : CloseablePanel
+    public class MercsTab : PanelController
     {
         [SerializeField] BuyController buyAmountController;
 

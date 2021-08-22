@@ -4,11 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Units
+namespace GM.Data
 {
-    using GM.Data;
-
-    using StatsCache = GM.StatsCache;
     using Formulas = GM.Formulas;
 
     public class MercState
@@ -26,14 +23,9 @@ namespace GM.Units
             return Formulas.MercLevelUpCost(Level, levels, _svrData.UnlockCost);
         }
 
-        public BigDouble TotalDamage()
-        {
-            return StatsCache.TotalMercDamage(Id);
-        }
-
     }
 
-    public class MercenaryManager : IBonusManager
+    public class MercenaryManager
     {
         public static MercenaryManager Instance = null;
 

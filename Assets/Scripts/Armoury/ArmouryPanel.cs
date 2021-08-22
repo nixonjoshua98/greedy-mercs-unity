@@ -8,7 +8,7 @@ namespace GM.Armoury.UI
     using GM.Data;
     using GM.UI;
 
-    public class ArmouryPanel : CloseablePanel
+    public class ArmouryPanel : PanelController
     {
         [Header("Compoents")]
         [SerializeField] Text damageBonusText;
@@ -29,9 +29,9 @@ namespace GM.Armoury.UI
             itemObjects = new Dictionary<int, ArmouryItemSlot>();
         }
 
-        void OnEnable()
+        protected override void OnShown()
         {
-            foreach (ArmouryItemState state in UserData.Get .Armoury.OwnedItems())
+            foreach (ArmouryItemState state in UserData.Get.Armoury.OwnedItems())
             {
                 if (!itemObjects.ContainsKey(state.ID))
                 {

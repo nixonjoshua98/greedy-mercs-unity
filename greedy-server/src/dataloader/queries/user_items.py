@@ -16,11 +16,6 @@ class UserItemQueryContainer(DatabaseQueryContainer):
     async def get_item(self, uid: Union[str, ObjectId], key: str, *, post_process=True) -> int:
         return (await self.get_items(uid, post_process=post_process)).get(key, 0)
 
-    async def update_items(self, uid: Union[str, ObjectId], update: dict, *, upsert: bool = True) -> bool:
-        return (await self.client.get_default_database()["userItems"].update_one(
-            {"userId": uid}, await self._before_update(uid, update), upsert=upsert
-        )).modified_count > 0
-
     async def update_and_get(self, uid: Union[str, ObjectId], update: dict) -> dict:
         return await self._after_find(
             await self.client.get_default_database()["userItems"].find_one_and_update(

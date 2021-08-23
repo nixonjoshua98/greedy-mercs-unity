@@ -2,14 +2,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using TMPro;
+
 namespace GM.Bounty
 {
-    public class BsItemPopup : MonoBehaviour
+    public class BountyShopItemPurchasePopup : MonoBehaviour
     {
         [SerializeField] Image itemIcon;
-        [SerializeField] Text titleText;
-        [SerializeField] Text quantityText;
-        [SerializeField] Text purchaseCostText;
+        [SerializeField] TMP_Text titleText;
+        [SerializeField] TMP_Text quantityText;
+        [SerializeField] TMP_Text purchaseCostText;
         [Space]
         [SerializeField] Button purchaseButton;
 
@@ -30,9 +32,9 @@ namespace GM.Bounty
         {
             itemIcon.sprite = ItemGameData.Icon;
 
-            titleText.text = ItemGameData.ItemData.DisplayName.ToUpper();
-            quantityText.text = $"X{ItemGameData.QuantityPerPurchase}";
-            purchaseCostText.text = $"{ItemGameData.PurchaseCost}";
+            titleText.text          = ItemGameData.ItemData.DisplayName;
+            quantityText.text       = $"x{ItemGameData.QuantityPerPurchase}";
+            purchaseCostText.text   = $"{ItemGameData.PurchaseCost}";
         }
 
 

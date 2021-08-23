@@ -1,12 +1,16 @@
-import decimal
-from pymongo import MongoClient
-from bson.decimal128 import Decimal128, create_decimal128_context
+from dataclasses import dataclass
 
-d128_ctx = create_decimal128_context()
 
-col = MongoClient()["_test"]["_test"]
+@dataclass(frozen=True)
+class Item:
+    weight: int
 
-with decimal.localcontext(d128_ctx) as ctx:
-    dec = ctx.create_decimal("2424272834782424.03452423424")
 
-    dec = dec.to_integral_value(decimal.ROUND_FLOOR)
+items = [
+    Item(weight=5), Item(weight=5), Item(weight=5),
+]
+
+total_weight = sum(ele.weight for ele in items)
+
+for ele in items:
+    print(f"{ele} {round((ele.weight / total_weight) * 100, 2)}%")

@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3789d6111a386a48bea792241503612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TextPopupObject: {fileID: 7844500547584429336, guid: 30d124c19a01ac64da9e5286c2f35eb7,
+    type: 3}
   anim: {fileID: 5723617685034668125}
   hurtAnimation: Hurt
   deathAnimation: Dying

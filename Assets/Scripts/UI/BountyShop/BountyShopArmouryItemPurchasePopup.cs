@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using TMPro;
+
 namespace GM.Bounty
 {
     using GM.UI;
@@ -16,12 +18,12 @@ namespace GM.Bounty
     }
 
 
-    public class BsArmouryItemPopup : MonoBehaviour
+    public class BountyShopArmouryItemPurchasePopup : MonoBehaviour
     {
         [SerializeField] ItemImagePair itemImages;
 
-        [SerializeField] Text titleText;
-        [SerializeField] Text purchaseCostText;
+        [SerializeField] TMP_Text itemNameText;
+        [SerializeField] TMP_Text purchaseCostText;
         [Space]
         [SerializeField] Button purchaseButton;
         [Space]
@@ -43,10 +45,10 @@ namespace GM.Bounty
         void SetInterfaceElements()
         {
             itemImages.sprite       = ItemGameData.Icon;
-            titleText.text          = ItemGameData.ArmouryItem.Name.ToUpper();
+            itemNameText.text          = ItemGameData.ArmouryItem.Name.ToUpper();
             purchaseCostText.text   = $"{ItemGameData.PurchaseCost}";
 
-            rating.Show(ItemGameData.ArmouryItem.Tier);
+            rating.Show(ItemGameData.ArmouryItem.Tier + 1);
         }
 
 

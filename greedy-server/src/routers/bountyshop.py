@@ -101,6 +101,7 @@ async def _can_purchase_item(uid, item, *, mongo: MongoController):
     u_bp = await mongo.items.get_item(uid, ItemKey.BOUNTY_POINTS)
 
     is_daily_limited = u_bs_item_purchases >= item.daily_purchase_limit
+
     can_afford_purchase = u_bp >= item.purchase_cost
 
     return (not is_daily_limited) and can_afford_purchase

@@ -77,7 +77,6 @@ namespace GM.Bounty
     }
     #endregion
 
-
     public class UserBountyShop
     {
         Dictionary<string, BountyShopPurchaseData> purchases;

@@ -9,9 +9,9 @@ namespace GM.Data
 {
     public struct ArmouryItemData
     {
-        public int Id;
+        public int ID;
 
-        public int Tier;
+        public int Tier { get; set; }
 
         public string Name;
 
@@ -42,11 +42,14 @@ namespace GM.Data
             ArmouryItemData item    = Get(itemId);
             ArmouryItemState state  = UserData.Get.Armoury.Get(itemId);
 
-            return 5 + item.Tier + state.level;
+            return 5 + (item.Tier + 1) + state.level;
         }
 
 
-        public ArmouryItemData Get(int item) => items[item];
+        public ArmouryItemData Get(int item)
+        {
+            return items[item];
+        }
 
 
         void ParseItems(JSONNode node)
@@ -55,16 +58,16 @@ namespace GM.Data
 
             foreach (LocalArmouryItemData ele in LoadLocalData())
             {
-                if (node.TryGetKey(ele.ID, out JSONNode svrItemData))
+                if (node.TryGetKey(ele.ID, out JSONNode result))
                 {
                     items[ele.ID] = new ArmouryItemData()
                     {
-                        Id = ele.ID,
+                        ID = ele.ID,
                         Name = ele.Name,
                         Icon = ele.Icon,
 
-                        Tier = svrItemData["itemTier"].AsInt,
-                        BaseDamageMultiplier = svrItemData["baseDamageMultiplier"].AsFloat
+                        Tier = result["itemTier"].AsInt,
+                        BaseDamageMultiplier = result["baseDamageMultiplier"].AsFloat
                     };
                 }
             }

@@ -26,7 +26,7 @@ namespace GM.Armoury.UI
             itemImage.sprite    = data.Icon;
             nameText.text       = data.Name.ToUpper();
 
-            stars.Show(data.Tier);
+            stars.Show(data.Tier + 1);
         }
 
 

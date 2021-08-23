@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0193cc869bc9f78489b955ae2c23e831, type: 3}
-  m_Name: 5_Club_03
+  m_Name: 7_Sword02
   m_EditorClassIdentifier: 
-  Id: 5
-  Name: Spike Club
-  Icon: {fileID: 21300000, guid: 769151f8386187a4596273caf0ce4e44, type: 3}
+  Id: 7
+  Name: Broken Sword
+  Icon: {fileID: 21300000, guid: 171a243266e03a94eb0d9b04a48614b0, type: 3}

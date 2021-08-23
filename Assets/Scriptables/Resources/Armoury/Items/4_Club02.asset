@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0193cc869bc9f78489b955ae2c23e831, type: 3}
-  m_Name: Item-0
+  m_Name: 4_Club02
   m_EditorClassIdentifier: 
-  Id: 0
-  Name: Blunt Axe
-  Icon: {fileID: 21300000, guid: 768fe502b3d3bdc4ab7d887cdfdc74fa, type: 3}
+  Id: 4
+  Name: Branch
+  Icon: {fileID: 21300000, guid: c99ad5667dfa7294e94034864b5e2a9d, type: 3}

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
-
+using UnityEngine;
 using Random = System.Random;
+
+// Script has been modified
 
 public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEquatable<BigDouble>
     {
@@ -129,29 +131,37 @@ public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEq
             return double.IsInfinity(value.Mantissa);
         }
 
-        public static BigDouble Parse(string value)
+    public static BigDouble Parse(string value)
+    {
+        if (value.IndexOf('e') != -1)
         {
-            if (value.IndexOf('e') != -1)
-            {
-                var parts = value.Split('e');
-                var mantissa = double.Parse(parts[0], CultureInfo.InvariantCulture);
-                var exponent = long.Parse(parts[1], CultureInfo.InvariantCulture);
-                return Normalize(mantissa, exponent);
-            }
-
-            if (value == "NaN")
-            {
-                return NaN;
-            }
-
-            var result = new BigDouble(double.Parse(value, CultureInfo.InvariantCulture));
-            if (IsNaN(result))
-            {
-                throw new Exception("Invalid argument: " + value);
-            }
-
-            return result;
+            var parts = value.Split('e');
+            var mantissa = double.Parse(parts[0], CultureInfo.InvariantCulture);
+            var exponent = long.Parse(parts[1], CultureInfo.InvariantCulture);
+            return Normalize(mantissa, exponent);
         }
+
+        else if (value.IndexOf('E') != -1)
+        {
+            var parts = value.Split('E');
+            var mantissa = double.Parse(parts[0], CultureInfo.InvariantCulture);
+            var exponent = long.Parse(parts[1], CultureInfo.InvariantCulture);
+            return Normalize(mantissa, exponent);
+        }
+
+        if (value == "NaN")
+        {
+            return NaN;
+        }
+
+        var result = new BigDouble(double.Parse(value, CultureInfo.InvariantCulture));
+        if (IsNaN(result))
+        {
+            throw new Exception("Invalid argument: " + value);
+        }
+
+        return result;
+    }
 
         public double ToDouble()
         {

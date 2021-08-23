@@ -40,7 +40,7 @@ namespace GM.Armoury.UI
 
             colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
 
-            stars.Show(data.Tier);
+            stars.Show(data.Tier + 1);
 
             UpdateUI();
         }

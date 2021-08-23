@@ -31,4 +31,4 @@ class ArmouryItem:
         return inst
 
     def level_cost(self, level: int) -> int:
-        return 5 + self.tier + level
+        return 5 + (self.tier + 1) + level

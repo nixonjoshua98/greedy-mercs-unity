@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
 
+using TMPro;
+
 namespace GM.Bounty
 {
-    public class BSItemSlot : ExtendedMonoBehaviour
+    public class BountyShopArmouryItemSlot : ExtendedMonoBehaviour
     {
         [SerializeField] Image itemIcon;
-        [SerializeField] Text quantityText;
+        [SerializeField] TMP_Text tierText;
         [Space]
         [SerializeField] GameObject itemPopupObject;
         [Space]
@@ -17,8 +16,9 @@ namespace GM.Bounty
 
         string _itemId;
 
-        BountyShopItem ItemGameData => UserData.Get.BountyShop.GetItem(_itemId);
-        
+        BountyShopArmouryItem ItemGameData => UserData.Get.BountyShop.GetArmouryItem(_itemId);
+
+
         public void Setup(string id)
         {
             _itemId = id;
@@ -30,8 +30,8 @@ namespace GM.Bounty
 
         void SetInterfaceElements()
         {
-            itemIcon.sprite     = ItemGameData.Icon;
-            quantityText.text   = $"X{ItemGameData.QuantityPerPurchase}";
+            itemIcon.sprite = ItemGameData.Icon;
+            tierText.text   = $"{ItemGameData.ArmouryItem.Tier + 1}";
         }
 
 
@@ -49,7 +49,7 @@ namespace GM.Bounty
         // = = = Callbacks = = = //
         public void OnButtonClick()
         {
-            CanvasUtils.Instantiate<BsItemPopup>(itemPopupObject).Setup(_itemId);
+            CanvasUtils.Instantiate<BountyShopArmouryItemPurchasePopup>(itemPopupObject).Setup(_itemId);
         }
     }
 }

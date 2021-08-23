@@ -1,33 +1,34 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
 
 
 namespace GM.Bounty
 {
-    using GM.Data;
-
     using PanelController = GM.UI.PanelController;
 
     public class BountyShopPanel : PanelController
     {
         [Header("Items")]
         [SerializeField] GameObject bsItemObject;
-        [SerializeField] Transform bsItemsParent;
-
-        [Header("Armoury Items")]
         [SerializeField] GameObject bsArmouryItemObject;
-        [SerializeField] Transform bsArmouryItemsParent;
+
+        [SerializeField] Transform itemsParent;
 
         [Header("Elements")]
         [SerializeField] Text refreshText;
 
+        List<GameObject> itemSlots;
+
         void Awake()
         {
+            itemSlots = new List<GameObject>();
+
             UpdateRefreshText();
-            
-            InstantiateItems();
-            InstantiateArmouryItems();
+
+            InstantiateShopItems();
         }
 
 
@@ -44,16 +45,33 @@ namespace GM.Bounty
             refreshText.text = $"{FormatString.Seconds(timeUntilReset.TotalSeconds)}";
         }
 
+        void InstantiateShopItems()
+        {
+            InstantiateItems();
+            InstantiateArmouryItems();
+
+            System.Random rng = new System.Random((int)(GameData.Get.NextDailyReset - DateTime.UtcNow).TotalDays);
+
+            for (int i = 0; i < itemsParent.childCount; ++i)
+            {
+                Transform child = itemsParent.GetChild(i);
+
+                child.SetSiblingIndex(rng.Next(0, itemsParent.childCount));
+            }
+
+        }
+
 
         void InstantiateItems()
         {
             foreach (BountyShopItem item in UserData.Get.BountyShop.Items)
             {
-                GameObject o = Instantiate(bsItemObject, bsItemsParent);
+                GameObject o = Instantiate(bsItemObject, itemsParent);
 
-                BSItemSlot slot = o.GetComponent<BSItemSlot>();
+                BountyShopCurrencyItemSlot slot = o.GetComponent<BountyShopCurrencyItemSlot>();
 
                 slot.Setup(item.ID);
+                itemSlots.Add(o);
             }
         }
 
@@ -62,11 +80,12 @@ namespace GM.Bounty
         {
             foreach (BountyShopArmouryItem item in UserData.Get.BountyShop.ArmouryItems)
             {
-                GameObject o = Instantiate(bsArmouryItemObject, bsArmouryItemsParent);
+                GameObject o = Instantiate(bsArmouryItemObject, itemsParent);
 
-                BsArmouryItemSlot slot = o.GetComponent<BsArmouryItemSlot>();
+                BountyShopArmouryItemSlot slot = o.GetComponent<BountyShopArmouryItemSlot>();
 
                 slot.Setup(item.ID);
+                itemSlots.Add(o);
             }
         }
     }

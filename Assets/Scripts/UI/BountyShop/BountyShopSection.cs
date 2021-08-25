@@ -7,17 +7,15 @@ using UnityEngine.UI;
 
 namespace GM.Bounty
 {
-    using PanelController = GM.UI.PanelController;
-
-    public class BountyShopPanel : PanelController
+    public class BountyShopSection : MonoBehaviour
     {
         [Header("Items")]
-        [SerializeField] GameObject bsItemObject;
-        [SerializeField] GameObject bsArmouryItemObject;
-
+        [SerializeField] GameObject CurrencyItemSlotObject;
+        [SerializeField] GameObject ArmouryItemSlotObject;
+        [Space]
         [SerializeField] Transform itemsParent;
 
-        [Header("Elements")]
+        [Header("References")]
         [SerializeField] Text refreshText;
 
         List<GameObject> itemSlots;
@@ -27,12 +25,11 @@ namespace GM.Bounty
             itemSlots = new List<GameObject>();
 
             UpdateRefreshText();
-
             InstantiateShopItems();
         }
 
 
-        protected override void PeriodicUpdate()
+        void FixedUpdate()
         {
             UpdateRefreshText();
         }
@@ -61,30 +58,30 @@ namespace GM.Bounty
 
         }
 
-
         void InstantiateItems()
         {
             foreach (BountyShopItem item in UserData.Get.BountyShop.Items)
             {
-                GameObject o = Instantiate(bsItemObject, itemsParent);
+                GameObject o = Instantiate(CurrencyItemSlotObject, itemsParent);
 
                 BountyShopCurrencyItemSlot slot = o.GetComponent<BountyShopCurrencyItemSlot>();
 
                 slot.Setup(item.ID);
+
                 itemSlots.Add(o);
             }
         }
-
 
         void InstantiateArmouryItems()
         {
             foreach (BountyShopArmouryItem item in UserData.Get.BountyShop.ArmouryItems)
             {
-                GameObject o = Instantiate(bsArmouryItemObject, itemsParent);
+                GameObject o = Instantiate(ArmouryItemSlotObject, itemsParent);
 
                 BountyShopArmouryItemSlot slot = o.GetComponent<BountyShopArmouryItemSlot>();
 
                 slot.Setup(item.ID);
+
                 itemSlots.Add(o);
             }
         }

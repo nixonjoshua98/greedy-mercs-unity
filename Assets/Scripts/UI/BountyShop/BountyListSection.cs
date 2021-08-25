@@ -5,13 +5,8 @@ using UnityEngine.UI;
 
 namespace GM.Bounty.UI
 {
-    using GM.UI;
-
-    public class BountyListPanel : PanelController
+    public class BountyListSection : MonoBehaviour
     {
-        [SerializeField] Text bountyUnlockCountText;
-        [Space]
-
         [SerializeField] GameObject BountyObjectSlot;
         [Space]
         [SerializeField] GameObject bountyListParent;
@@ -26,23 +21,9 @@ namespace GM.Bounty.UI
         }
 
 
-        protected override void OnShown()
-        {
-            UpdateInterface();
-        }
-
-
-        protected override void OnHidden()
-        {
-            DestroyBountySlots();
-        }
-
-
         void UpdateInterface()
         {
             InstantiateIcons();
-
-            bountyUnlockCountText.text = $"UNLOCKED {UserData.Get.Bounties.Count}/{GameData.Get.Bounties.Count}";
         }
 
 
@@ -56,16 +37,6 @@ namespace GM.Bounty.UI
 
                 bountySlots.Add(slot);
             }
-        }
-
-        void DestroyBountySlots()
-        {
-            foreach (BountySlot slot in bountySlots)
-            {
-                Destroy(slot.gameObject);
-            }
-
-            bountySlots.Clear();
         }
     }
 }

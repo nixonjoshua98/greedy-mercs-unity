@@ -7,7 +7,8 @@ namespace GM.UI
     enum PanelToggleType
     {
         ACTIVE = 0,
-        CANVAS = 1
+        CANVAS = 1,
+        NOTHING = 2
     }
 
 
@@ -82,7 +83,6 @@ namespace GM.UI
 
 
 
-        // Overrideable
         protected virtual void OnShown() { }
         protected virtual void OnHidden() { }
 

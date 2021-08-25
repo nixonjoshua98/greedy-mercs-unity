@@ -6,7 +6,7 @@ using TMPro;
 
 namespace GM.Bounty
 {
-    public class BountyShopItemPurchasePopup : MonoBehaviour
+    public class BountyShopItemPurchasePopup : AbstractBountyShopItemPurchasePopup
     {
         [SerializeField] Image itemIcon;
         [SerializeField] TMP_Text titleText;
@@ -15,20 +15,9 @@ namespace GM.Bounty
         [Space]
         [SerializeField] Button purchaseButton;
 
-        string _itemId;
+        BountyShopItem ItemGameData => UserData.Get.BountyShop.GetItem(ItemID);
 
-        BountyShopItem ItemGameData => UserData.Get.BountyShop.GetItem(_itemId);
-
-        public void Setup(string id)
-        {
-            _itemId = id;
-
-            SetInterfaceElements();
-            UpdateInterfaceElements();
-        }
-
-
-        void SetInterfaceElements()
+        protected override void SetInterfaceElements()
         {
             itemIcon.sprite = ItemGameData.Icon;
 
@@ -38,17 +27,18 @@ namespace GM.Bounty
         }
 
 
-        void UpdateInterfaceElements()
+        protected override void UpdateInterfaceElements()
         {
-            purchaseButton.interactable = UserData.Get.BountyShop.InStock(_itemId);
+            purchaseButton.interactable = UserData.Get.BountyShop.InStock(ItemID);
         }
 
 
         public void OnPurchaseButton()
         {
-            UserData.Get.BountyShop.PurchaseItem(_itemId, (success) =>
+            UserData.Get.BountyShop.PurchaseItem(ItemID, (success) =>
             {
                 UpdateInterfaceElements();
+                DestroyWhenOutOfStock();
             });
         }
     }

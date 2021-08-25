@@ -5,7 +5,7 @@ using TMPro;
 
 namespace GM.Bounty
 {
-    public class BountyShopArmouryItemSlot : ExtendedMonoBehaviour
+    public class BountyShopArmouryItemSlot : MonoBehaviour
     {
         [SerializeField] Image itemIcon;
         [SerializeField] TMP_Text tierText;
@@ -27,6 +27,11 @@ namespace GM.Bounty
             UpdateInterfaceElements();
         }
 
+        void FixedUpdate()
+        {
+            UpdateInterfaceElements();
+        }
+
 
         void SetInterfaceElements()
         {
@@ -38,11 +43,6 @@ namespace GM.Bounty
         void UpdateInterfaceElements()
         {
             soldOutChild.SetActive(!UserData.Get.BountyShop.InStock(_itemId));
-        }
-
-        protected override void PeriodicUpdate()
-        {
-            UpdateInterfaceElements();
         }
 
 

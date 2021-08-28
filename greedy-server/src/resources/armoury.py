@@ -2,11 +2,14 @@
 from src import utils
 
 
-def get_armoury() -> "ArmouryResource":
-    return ArmouryResource(utils.load_resource("armoury.json"))
+def get_armoury_data(*, as_dict: bool = False) -> "ArmouryResources":
+    if as_dict:
+        return utils.load_resource("armoury.json")
+
+    return ArmouryResources(utils.load_resource("armoury.json"))
 
 
-class ArmouryResource:
+class ArmouryResources:
     def __init__(self, data: dict):
         self.__dict = data
 

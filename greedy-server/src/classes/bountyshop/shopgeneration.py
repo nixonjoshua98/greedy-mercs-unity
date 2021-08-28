@@ -1,11 +1,10 @@
-from src.classes.randomcontext import RandomContext
-from src.common.enums import ItemType
-
 import random
 
 import datetime as dt
-from src.common import resources
-from src.dataloader.serverstate import ServerState
+
+from src import resources
+from src.common.enums import ItemType
+from src.classes import RandomContext, ServerState
 
 
 class BountyShopGeneration:
@@ -53,11 +52,13 @@ class BountyShopGeneration:
 
     @staticmethod
     def __generate_armoury_items(*, server_state):
-        days_since_epoch = (server_state.prev_daily_reset() - dt.datetime.fromtimestamp(0)).days
+        days_since_epoch = (server_state.prev_daily_reset - dt.datetime.fromtimestamp(0)).days
 
-        all_items, generated_items = resources.get(resources.ARMOURY)["items"], {}
+        res_armoury = resources.get_armoury_data()
 
-        keys = random.choices(list(all_items.keys()), k=9)
+        generated_items = {}
+
+        keys = random.choices(list(res_armoury.items.keys()), k=9)
 
         for i, key in enumerate(keys):
             _id = f"AI-{days_since_epoch}-{key}-{i}"
@@ -88,7 +89,7 @@ class BountyShopCurrencyItem(AbstractBountyShopItem):
     def __init__(self, id_: str, data: dict):
         super(BountyShopCurrencyItem, self).__init__(id_, data)
 
-        self.item_type: ItemType = ItemType.get_val(data["itemType"])
+        self.item_type: ItemType = ItemType(data["itemType"])
 
         self.quantity_per_purchase: int = data["quantityPerPurchase"]
 

@@ -4,7 +4,7 @@ from pymongo import ReturnDocument, UpdateOne
 
 import datetime as dt
 
-from src.dataloader.serverstate import ServerState
+from src.classes.serverstate import ServerState
 
 from src.common.enums import ItemKey
 from src.classes.bountyshop import AbstractBountyShopItem
@@ -17,8 +17,8 @@ class _Users:
     async def get_user(self, device_id: str):
         return await self.default_database["userLogins"].find_one({"deviceId": device_id})
 
-    async def insert_new_user(self, *, device):
-        r = await self.default_database["userLogins"].insert_one({"deviceId": device})
+    async def insert_new_user(self, data: dict):
+        r = await self.default_database["userLogins"].insert_one(data)
 
         return r.inserted_id
 
@@ -172,7 +172,7 @@ class _BountyShop:
     async def get_daily_purchases(self, uid, iid: int = None) -> Union[dict, int]:
         """ Count the number of purchase made for an item (if provided) by a user since the previous reset. """
 
-        filter_ = {"userId": uid, "purchaseTime": {"$gte": self.server_state.prev_daily_reset()}}
+        filter_ = {"userId": uid, "purchaseTime": {"$gte": self.server_state.prev_daily_reset}}
 
         if iid is not None:
             filter_["itemId"] = iid

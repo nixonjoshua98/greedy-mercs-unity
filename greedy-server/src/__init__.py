@@ -2,11 +2,11 @@
 from fastapi import FastAPI, HTTPException
 
 from src.exceptions import handle_http_exception
-from src.dataloader import MongoController
+from src.dataloader import DataLoader
 
 
 def _on_app_start():
-    MongoController.create_connection("mongodb://localhost:27017/g0")
+    DataLoader.create_client("mongodb://localhost:27017/g0")
 
 
 def create_app():

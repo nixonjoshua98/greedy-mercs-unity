@@ -13,7 +13,7 @@ namespace GM.Data
         public static string Server_Gems            = "blueGems";
         public static string Server_PrestigePoints  = "prestigePoints";
         public static string Server_BountyPoints    = "bountyPoints";
-        public static string Server_ArmouryPoints   = "ironIngots";
+        public static string Server_ArmouryPoints   = "armouryPoints";
     }
 
 

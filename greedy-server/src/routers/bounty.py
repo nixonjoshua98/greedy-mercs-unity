@@ -9,17 +9,17 @@ from src.common.enums import ItemKey
 from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier, ActiveBountyUpdateModel
 
+from src.dataloader import DataLoader
 from src import resources
-from src.dataloader import MongoController
 
 router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 
 @router.post("/claim")
 async def claim_points(user: UserIdentifier):
-    uid = user_or_raise(user)
+    uid = await user_or_raise(user)
 
-    with MongoController() as mongo:
+    with DataLoader() as mongo:
         u_bounty_data = await mongo.bounties.get_data(uid)
 
         u_bounties = u_bounty_data.get("bounties", {})
@@ -39,14 +39,14 @@ async def claim_points(user: UserIdentifier):
 
 @router.post("/setactive")
 async def set_active_bounties(data: ActiveBountyUpdateModel):
-    uid = user_or_raise(data)
+    uid = await user_or_raise(data)
 
     res_bounties = resources.get_bounty_data()
 
     if len(data.bounty_ids) > res_bounties.max_active_bounties:
         raise HTTPException(400, detail="Too many active bounties")
 
-    with MongoController() as mongo:
+    with DataLoader() as mongo:
         u_bounties = await mongo.bounties.get_user_bounties(uid)
 
         if not all(id_ in u_bounties for id_ in data.bounty_ids):

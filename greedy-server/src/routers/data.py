@@ -1,26 +1,29 @@
 from fastapi import APIRouter
 
-from src import svrdata
 from src import resources as res2
 from src.models import UserLoginDataModel
 from src.common import resources
 from src.routing import ServerRoute, ServerResponse
 
-from src.dataloader import MongoController
+from src.dataloader import MongoController, DataLoader
 
 router = APIRouter(prefix="/api", route_class=ServerRoute)
 
 
 @router.get("/gamedata")
 def get_game_data():
+    loader = DataLoader()
+
+    svr_state = loader.get_server_state()
+
     return ServerResponse(
         {
             "artefactResources": res2.get_artefacts().as_dict(),
             "mercResources": resources.get_mercs(),
             "armouryResources": res2.get_armoury().as_dict(),
 
-            "bounties": resources.get("bounties"),
-            "nextDailyReset": svrdata.next_daily_reset()
+            "bounties": res2.get_bounty_data(as_dict=True),
+            "nextDailyReset": svr_state.next_daily_reset
         }
     )
 
@@ -41,4 +44,4 @@ async def player_login(data: UserLoginDataModel):
 
         u_data = await mongo.get_user_data(uid)
 
-    return ServerResponse({"userData": u_data})
+    return ServerResponse(u_data)

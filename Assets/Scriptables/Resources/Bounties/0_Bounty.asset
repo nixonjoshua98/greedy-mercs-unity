@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91022419e11c804cb4259e3272840e4, type: 3}
   m_Name: 0_Bounty
   m_EditorClassIdentifier: 
-  Name: Goblin
-  Prefab: {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
+  Name: '#0'
   Icon: {fileID: 21300000, guid: aedcaac2e4aee3c4ca987ae168074dfa, type: 3}
+  Prefab: {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
+  Slot: {fileID: 3258605232799313771, guid: e076c45925815e648b8b89e9c5174c2c, type: 3}

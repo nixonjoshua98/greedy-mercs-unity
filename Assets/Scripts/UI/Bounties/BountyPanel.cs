@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Bounty.UI
+namespace GM.Bounties.UI
 {
     using GM.Data;
     using GM.UI;

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     public abstract class AbstractBountyShopItemPurchasePopup : MonoBehaviour
     {

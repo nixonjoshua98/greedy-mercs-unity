@@ -1,6 +1,6 @@
 from typing import Union
 from bson import ObjectId
-from pymongo import ReturnDocument
+from pymongo import ReturnDocument, UpdateOne
 
 import datetime as dt
 
@@ -27,21 +27,42 @@ class _Bounties:
     def __init__(self, default_database):
         self.default_database = default_database
 
-    async def add_new_bounty(self, uid, bid, *, claim_time=None):
-        r = await self.default_database["userBounties"].insert_one(
-            {"userId": uid, "bountyId": bid, "lastClaimTime": claim_time or dt.datetime.utcnow()}
+        self.collection = self.default_database["userBountyData"]
+
+    async def add_new_bounty(self, uid, bid):
+        result = await self.collection.update_one(
+            {"userId": uid}, {"$set": {f"bounties.{bid}": {"isActive": False}}},
+            upsert=True
         )
-        return r.inserted_id  # Return the _id for the new document
+
+        if result.upserted_id is None:  # Set the claim time if this is the first bounty the user has unlocked
+            await self.collection.update_one({"userId": uid}, {"$set": {"lastClaimTime": dt.datetime.utcnow()}})
+
+    async def update_active_bounties(self, uid, ids: list):
+        bounties = await self.get_user_bounties(uid)
+
+        if bounties:
+            await self.default_database["userBountyData"].bulk_write([
+                UpdateOne({"userId": uid}, {"$set": {f"bounties.{id_}.isActive": False}}) for id_ in bounties
+            ])
+
+        if ids:
+            await self.default_database["userBountyData"].bulk_write([
+                UpdateOne({"userId": uid}, {"$set": {f"bounties.{id_}.isActive": True}}) for id_ in ids
+            ])
 
     async def get_user_bounties(self, uid: Union[str, ObjectId]) -> dict:
-        results = await self.default_database["userBounties"].find({"userId": uid}).to_list(length=None)
+        return (await self.get_data(uid)).get("bounties", dict())
 
-        return {x["bountyId"]: x for x in results}
+    async def get_data(self, uid) -> dict:
+        data = await self.collection.find_one({"userId": uid}) or dict()
 
-    async def set_all_claim_time(self, uid: Union[str, ObjectId], claim_time: dt.datetime) -> None:
-        await self.default_database["userBounties"].update_many(
-            {"userId": uid}, {"$set": {"lastClaimTime": claim_time}}
-        )
+        data["bounties"] = {int(k): v for k, v in data.get("bounties", {}).items()}
+
+        return data
+
+    async def set_claim_time(self, uid: Union[str, ObjectId], claim_time: dt.datetime) -> None:
+        await self.collection.update_one({"userId": uid}, {"$set": {"lastClaimTime": claim_time}}, upsert=True)
 
 
 class _Items:

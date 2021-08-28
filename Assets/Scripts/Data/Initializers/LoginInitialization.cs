@@ -16,6 +16,8 @@ namespace GM
     {
         void Start()
         {
+            
+
             GetGameData();
         }
 
@@ -46,7 +48,7 @@ namespace GM
 
                 if (code == 200)
                 {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), resp["userData"]);
+                    FileUtils.WriteJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), resp);
 
                     SceneManager.LoadScene("InitScene", LoadSceneMode.Additive);
                 }

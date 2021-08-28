@@ -7,7 +7,7 @@ namespace GM
 {
     using GM.Data;
     using GM.Artefacts;
-    using GM.Bounty;
+    using GM.Bounties;
 
     public class GameData
     {

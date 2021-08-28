@@ -5,9 +5,9 @@ using System.Linq;
 using UnityEngine.UI;
 
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
-    public class BountyShopSection : MonoBehaviour
+    public class BountyShopView : GM.UI.PanelController
     {
         [Header("Items")]
         [SerializeField] GameObject CurrencyItemSlotObject;
@@ -16,7 +16,7 @@ namespace GM.Bounty
         [SerializeField] Transform itemsParent;
 
         [Header("References")]
-        [SerializeField] Text refreshText;
+        [SerializeField] TMPro.TMP_Text refreshText;
 
         List<GameObject> itemSlots;
 

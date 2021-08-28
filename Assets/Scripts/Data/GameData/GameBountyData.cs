@@ -5,11 +5,11 @@ using UnityEngine;
 
 using SimpleJSON;
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     public struct BountyData
     {
-        public int Id;
+        public int ID;
         public string Name;
 
         public int UnlockStage;
@@ -17,6 +17,7 @@ namespace GM.Bounty
 
         public Sprite Icon;
         public GameObject Prefab;
+        public UI.BountySlot Slot;
     }
 
 
@@ -40,12 +41,13 @@ namespace GM.Bounty
 
                 data[res.ID] = new BountyData()
                 {
-                    Id = res.ID,
+                    ID = res.ID,
                     Name = res.Name,
 
                     Icon = res.Icon,
+                    Slot = res.Slot,
                     Prefab = res.Prefab,
-
+                 
                     UnlockStage = current["unlockStage"].AsInt,
                     HourlyIncome = current["hourlyIncome"].AsInt,
                 };
@@ -54,8 +56,6 @@ namespace GM.Bounty
 
 
         public BountyData Get(int key) => data[key];
-
-        public int Count => data.Count;
 
         public bool GetStageBounty(int stage, out BountyData result)
         {
@@ -71,8 +71,6 @@ namespace GM.Bounty
 
             return false;
         }
-
-        public bool Contains(int id) => data.ContainsKey(id);
 
         LocalBountyData[] LoadLocalData() => Resources.LoadAll<LocalBountyData>("Bounties");
     }

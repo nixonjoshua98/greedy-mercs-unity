@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 using TMPro;
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     public class BountyShopArmouryItemSlot : MonoBehaviour
     {

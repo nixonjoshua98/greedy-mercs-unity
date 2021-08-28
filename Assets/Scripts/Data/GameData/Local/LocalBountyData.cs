@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     [CreateAssetMenu(menuName = "Scriptables/LocalBountyData")]
     public class LocalBountyData : ScriptableObject
@@ -15,8 +15,11 @@ namespace GM.Bounty
 
         public string Name;
 
-        public GameObject Prefab;
-
         public Sprite Icon;
+
+        [Header("Objects")]
+        public GameObject Prefab;
+        [Space]
+        public UI.BountySlot Slot;
     }
 }

@@ -15,6 +15,8 @@ namespace GM.Bounties
         public int UnlockStage;
         public int HourlyIncome;
 
+        public float SpawnChance;
+
         public Sprite Icon;
         public GameObject Prefab;
         public UI.BountySlot Slot;
@@ -25,7 +27,8 @@ namespace GM.Bounties
     {
         Dictionary<int, BountyData> data;
 
-        public readonly float MaxUnclaimedHours;
+        public float MaxUnclaimedHours;
+        public int MaxActiveBounties;
 
         public GameBountyData(JSONNode node)
         {
@@ -34,6 +37,7 @@ namespace GM.Bounties
             LocalBountyData[] fromResources = LoadLocalData();
 
             MaxUnclaimedHours = node["maxUnclaimedHours"].AsFloat;
+            MaxActiveBounties = node["maxActiveBounties"].AsInt;
 
             foreach (LocalBountyData res in fromResources)
             {
@@ -47,7 +51,8 @@ namespace GM.Bounties
                     Icon = res.Icon,
                     Slot = res.Slot,
                     Prefab = res.Prefab,
-                 
+
+                    SpawnChance = current.GetValueOrDefault("spawnChance", 1.0f).AsFloat,
                     UnlockStage = current["unlockStage"].AsInt,
                     HourlyIncome = current["hourlyIncome"].AsInt,
                 };

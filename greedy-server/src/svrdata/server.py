@@ -1,9 +1,6 @@
 import datetime as dt
 
 
-def next_daily_reset(): return last_daily_reset() + dt.timedelta(days=1)
-
-
 def last_daily_reset():
     reset_time = (now := dt.datetime.utcnow()).replace(hour=20, minute=0, second=0, microsecond=0)
 

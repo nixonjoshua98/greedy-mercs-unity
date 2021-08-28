@@ -21,5 +21,7 @@ namespace GM
             else
                 return current + maxChange;
         }
+
+        public static bool PercentChance(float percent) => percent >= Random.Range(0.0f, 1.0f);
     }
 }

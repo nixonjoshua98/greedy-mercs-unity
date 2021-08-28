@@ -47,6 +47,17 @@ namespace GM.Bounties.UI
             SwitchToIdleMode();
         }
 
+        protected override void OnShown()
+        {
+            ReCreateInitialSlots();
+            SwitchToIdleMode();
+        }
+
+        protected override void OnHidden()
+        {
+            DestroyAllSlots();
+        }
+
         void CreateBountySlots()
         {
             foreach (BountyState bounty in UserData.Get.Bounties.StatesList)
@@ -73,7 +84,7 @@ namespace GM.Bounties.UI
             }
         }
 
-        void ReCreateInitialSlots()
+        void DestroyAllSlots()
         {
             foreach (BountySlot slot in availableSlots.Values)
                 Destroy(slot.gameObject);
@@ -83,7 +94,11 @@ namespace GM.Bounties.UI
 
             activeSlots.Clear();
             availableSlots.Clear();
+        }
 
+        void ReCreateInitialSlots()
+        {
+            DestroyAllSlots();
             CreateBountySlots();
         }
 
@@ -170,14 +185,17 @@ namespace GM.Bounties.UI
 
         void OnAvailableSlotClick(int selectedBountyID)
         {
-            if (activeSlots.Count < 4 && availableSlots.TryGetValue(selectedBountyID, out BountySlot slot))
+            if (activeSlots.Count < GameData.Get.Bounties.MaxActiveBounties)
             {
-                SetSlotToActive(slot);
+                if (availableSlots.TryGetValue(selectedBountyID, out BountySlot slot))
+                {
+                    SetSlotToActive(slot);
 
-                availableSlots.Remove(selectedBountyID);
-                activeSlots.Add(selectedBountyID, slot);
+                    availableSlots.Remove(selectedBountyID);
+                    activeSlots.Add(selectedBountyID, slot);
 
-                slot.transform.SetParent(activeBountiesParent);
+                    slot.transform.SetParent(activeBountiesParent);
+                }
             }
         }
     }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91022419e11c804cb4259e3272840e4, type: 3}
   m_Name: 2_Bounty
   m_EditorClassIdentifier: 
-  Name: '#2'
-  Icon: {fileID: 21300000, guid: db1428f310d3fe84ebc1a249c9148363, type: 3}
+  Name: Big Boss
+  Icon: {fileID: 21300000, guid: eacde3e5c02ce4a48929fd6a440b3092, type: 3}
   Prefab: {fileID: 8235730012151374199, guid: 69449302633469a44b0eb13c5bcb8a36, type: 3}
-  Slot: {fileID: 9107058801125412449, guid: dedadc140695547419622600401d9544, type: 3}
+  Slot: {fileID: 396751564944527678, guid: fb971cbfb3dadd14cad9b5ec27408806, type: 3}

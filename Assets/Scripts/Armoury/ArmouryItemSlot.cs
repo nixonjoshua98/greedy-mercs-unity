@@ -12,7 +12,7 @@ namespace GM.Armoury.UI
     public class ArmouryItemSlot : MonoBehaviour
     {
         [Header("Components")]
-        [SerializeField] Text nameText;
+        [SerializeField] TMPro.TMP_Text nameText;
         [SerializeField] Image itemImage;
         [SerializeField] Button button;
 

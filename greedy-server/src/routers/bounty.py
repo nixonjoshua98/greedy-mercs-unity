@@ -41,6 +41,11 @@ async def claim_points(user: UserIdentifier):
 async def set_active_bounties(data: ActiveBountyUpdateModel):
     uid = user_or_raise(data)
 
+    res_bounties = resources.get_bounty_data()
+
+    if len(data.bounty_ids) > res_bounties.max_active_bounties:
+        raise HTTPException(400, detail="Too many active bounties")
+
     with MongoController() as mongo:
         u_bounties = await mongo.bounties.get_user_bounties(uid)
 
@@ -60,18 +65,19 @@ def calc_unclaimed_total(u_bounties, claim_time, now) -> int:
 
     points = 0  # Total unclaimed points (ready to be claimed)
 
-    # Interate over each bounty available
-    for key, state in u_bounties.items():
+    bounties = [(k, v) for k, v in u_bounties.items() if v.get("isActive")][:bounty_res.max_active_bounties]
+
+    # Interate over each active bounty available
+    for key, state in bounties:
         data = bounty_res.bounties[key]
 
-        if state.get("isActive"):
-            # Num. hours since the user has claimed this bounty
-            total_hours = (now - claim_time).total_seconds() / 3_600
+        # Num. hours since the user has claimed this bounty
+        total_hours = (now - claim_time).total_seconds() / 3_600
 
-            # Clamp between 0 - max_unclaimed_hours
-            hours_clamped = max(0, min(bounty_res.max_unclaimed_hours, total_hours))
+        # Clamp between 0 - max_unclaimed_hours
+        hours_clamped = max(0, min(bounty_res.max_unclaimed_hours, total_hours))
 
-            # Calculate the income and increment the total
-            points += math.floor(hours_clamped * data.income)
+        # Calculate the income and increment the total
+        points += math.floor(hours_clamped * data.income)
 
     return points

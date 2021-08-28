@@ -26,20 +26,23 @@ namespace GM.UI
         bool IsPrevShown;
 
         public void Toggle(bool val)
-        {
-            gameObject.SetActive(true);
+        { 
+            if (!(IsShown && val))
+            {
+                gameObject.SetActive(true);
 
-            if (toggleType == PanelToggleType.ACTIVE)
-                gameObject.SetActive(val);
+                if (toggleType == PanelToggleType.ACTIVE)
+                    gameObject.SetActive(val);
 
-            else if (toggleType == PanelToggleType.CANVAS)
-                canvasToToggle.enabled = val;
+                else if (toggleType == PanelToggleType.CANVAS)
+                    canvasToToggle.enabled = val;
 
-            if (val)
-                ShowPanel();
+                if (val)
+                    ShowPanel();
 
-            else 
-                HidePanel();
+                else
+                    HidePanel();
+            }
         }
 
 

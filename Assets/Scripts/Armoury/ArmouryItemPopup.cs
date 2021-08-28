@@ -11,7 +11,7 @@ namespace GM.Armoury.UI
 
     public class ArmouryItemPopup : MonoBehaviour
     {
-        [SerializeField] Text nameText;
+        [SerializeField] TMPro.TMP_Text nameText;
         [SerializeField] Text damageText;
         [SerializeField] Text levelCostText;
         [Space]

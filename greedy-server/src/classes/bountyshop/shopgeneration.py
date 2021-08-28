@@ -4,8 +4,8 @@ from src.common.enums import ItemType
 import random
 
 import datetime as dt
-from src import svrdata
 from src.common import resources
+from src.dataloader.serverstate import ServerState
 
 
 class BountyShopGeneration:
@@ -29,11 +29,13 @@ class BountyShopGeneration:
         }
 
     def __generate(self):
-        days_since_epoch = (svrdata.last_daily_reset() - dt.datetime.fromtimestamp(0)).days
+        state = ServerState()
+
+        days_since_epoch = (state.prev_daily_reset - dt.datetime.fromtimestamp(0)).days
 
         with RandomContext(f"{days_since_epoch}"):
             self.items = self.__generate_currency_items()
-            self.armoury_items = self.__generate_armoury_items()
+            self.armoury_items = self.__generate_armoury_items(server_state=state)
 
     @staticmethod
     def __generate_currency_items():
@@ -50,8 +52,8 @@ class BountyShopGeneration:
         }
 
     @staticmethod
-    def __generate_armoury_items():
-        days_since_epoch = (svrdata.last_daily_reset() - dt.datetime.fromtimestamp(0)).days
+    def __generate_armoury_items(*, server_state):
+        days_since_epoch = (server_state.prev_daily_reset() - dt.datetime.fromtimestamp(0)).days
 
         all_items, generated_items = resources.get(resources.ARMOURY)["items"], {}
 

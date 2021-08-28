@@ -4,7 +4,7 @@ from pymongo import ReturnDocument, UpdateOne
 
 import datetime as dt
 
-from src import svrdata
+from src.dataloader.serverstate import ServerState
 
 from src.common.enums import ItemKey
 from src.classes.bountyshop import AbstractBountyShopItem
@@ -160,7 +160,8 @@ class _Artefacts:
 
 
 class _BountyShop:
-    def __init__(self, default_database):
+    def __init__(self, server_state, default_database):
+        self.server_state: ServerState = server_state
         self.collection = default_database["bountyShopPurchases"]
 
     async def log_purchase(self, uid, item: AbstractBountyShopItem):
@@ -171,7 +172,7 @@ class _BountyShop:
     async def get_daily_purchases(self, uid, iid: int = None) -> Union[dict, int]:
         """ Count the number of purchase made for an item (if provided) by a user since the previous reset. """
 
-        filter_ = {"userId": uid, "purchaseTime": {"$gte": svrdata.last_daily_reset()}}
+        filter_ = {"userId": uid, "purchaseTime": {"$gte": self.server_state.prev_daily_reset()}}
 
         if iid is not None:
             filter_["itemId"] = iid

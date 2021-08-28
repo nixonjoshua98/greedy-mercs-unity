@@ -3,18 +3,19 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from .queries import _Users, _Bounties, _Items, _Armoury, _Artefacts, _BountyShop
 
-from src.classes.bountyshop import BountyShopGeneration
+from ..serverstate import ServerState
 
 
 class MongoController:
+    def __init__(self, *, loader=None):
+        state = loader.get_server_state() if loader is not None else ServerState()
 
-    def __init__(self):
         self.items = _Items(default_database=self._mongo.get_default_database())
         self.users = _Users(default_database=self._mongo.get_default_database())
         self.armoury = _Armoury(default_database=self._mongo.get_default_database())
         self.bounties = _Bounties(default_database=self._mongo.get_default_database())
         self.artefacts = _Artefacts(default_database=self._mongo.get_default_database())
-        self.bounty_shop = _BountyShop(default_database=self._mongo.get_default_database())
+        self.bounty_shop = _BountyShop(default_database=self._mongo.get_default_database(), server_state=state)
 
     @classmethod
     def create_connection(cls, con_str):
@@ -26,6 +27,8 @@ class MongoController:
     def __exit__(self, exc_type, exc_val, exc_tb): ...
 
     async def get_user_data(self, uid):
+        from src.classes.bountyshop import BountyShopGeneration
+
         u_items = await self.items.get_items(uid, post_process=False)
         u_armoury = await self.armoury.get_all_items(uid)
         u_artefacts = await self.artefacts.get_all_artefacts(uid)

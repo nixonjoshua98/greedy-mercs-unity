@@ -12,13 +12,13 @@ from .serverstate import ServerState
 
 class DataLoader:
     def __init__(self):
-        self.mongo = MongoController()
+        self.mongo = MongoController(loader=self)
 
         self._server_state = None
+        self._bounty_shop = None
 
     def get_server_state(self) -> ServerState:
 
-        # Cache the result so the state remains the same for repeated calls
         if self._server_state is None:
             self._server_state = ServerState()
 

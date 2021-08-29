@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api/armoury", route_class=ServerRoute)
 async def upgrade(data: ArmouryItemActionModel):
     uid = await user_or_raise(data)
 
-    armoury = resources.get_armoury_data()
+    armoury = resources.get_armoury_resources()
 
     with DataLoader() as mongo:
 
@@ -50,7 +50,7 @@ async def upgrade(data: ArmouryItemActionModel):
 async def evolve(data: ArmouryItemActionModel):
     uid = await user_or_raise(data)
 
-    armoury = resources.get_armoury_data()
+    armoury = resources.get_armoury_resources()
 
     with DataLoader() as mongo:
 

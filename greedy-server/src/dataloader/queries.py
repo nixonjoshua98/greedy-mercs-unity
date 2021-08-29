@@ -4,30 +4,26 @@ from pymongo import ReturnDocument, UpdateOne
 
 import datetime as dt
 
-from src.classes.serverstate import ServerState
-
 from src.common.enums import ItemKey
 from src.classes.bountyshop import AbstractBountyShopItem
 
 
 class _Users:
     def __init__(self, default_database):
-        self.default_database = default_database
+        self.collection = default_database["userLogins"]
 
     async def get_user(self, device_id: str):
-        return await self.default_database["userLogins"].find_one({"deviceId": device_id})
+        return await self.collection.find_one({"deviceId": device_id})
 
     async def insert_new_user(self, data: dict):
-        r = await self.default_database["userLogins"].insert_one(data)
+        r = await self.collection.insert_one(data)
 
         return r.inserted_id
 
 
 class _Bounties:
     def __init__(self, default_database):
-        self.default_database = default_database
-
-        self.collection = self.default_database["userBountyData"]
+        self.collection = default_database["userBountyData"]
 
     async def add_new_bounty(self, uid, bid):
         result = await self.collection.update_one(
@@ -41,15 +37,11 @@ class _Bounties:
     async def update_active_bounties(self, uid, ids: list):
         bounties = await self.get_user_bounties(uid)
 
-        if bounties:
-            await self.default_database["userBountyData"].bulk_write([
-                UpdateOne({"userId": uid}, {"$set": {f"bounties.{id_}.isActive": False}}) for id_ in bounties
-            ])
-
-        if ids:
-            await self.default_database["userBountyData"].bulk_write([
-                UpdateOne({"userId": uid}, {"$set": {f"bounties.{id_}.isActive": True}}) for id_ in ids
-            ])
+        # Set isActive depending on if it is in the new active bounty list
+        await self.collection.bulk_write([
+            UpdateOne({"userId": uid}, {"$set": {f"bounties.{id_}.isActive": id_ in ids}})
+            for id_ in bounties
+        ])
 
     async def get_user_bounties(self, uid: Union[str, ObjectId]) -> dict:
         return (await self.get_data(uid)).get("bounties", dict())
@@ -67,10 +59,10 @@ class _Bounties:
 
 class _Items:
     def __init__(self, default_database):
-        self.default_database = default_database
+        self.collection = default_database["userItems"]
 
     async def get_items(self, uid: Union[str, ObjectId], *, post_process: bool = True) -> dict:
-        result = (await self.default_database["userItems"].find_one({"userId": uid})) or dict()
+        result = (await self.collection.find_one({"userId": uid})) or dict()
 
         return await self._after_find(result) if post_process else result
 
@@ -78,13 +70,13 @@ class _Items:
         return (await self.get_items(uid, post_process=post_process)).get(key, default)
 
     async def update_items(self, uid: Union[str, ObjectId], update: dict, *, upsert: bool = True) -> bool:
-        return (await self.default_database["userItems"].update_one(
+        return (await self.collection.update_one(
             {"userId": uid}, await self._before_update(uid, update), upsert=upsert
         )).modified_count > 0
 
     async def update_and_get(self, uid: Union[str, ObjectId], update: dict) -> dict:
         return await self._after_find(
-            await self.default_database["userItems"].find_one_and_update(
+            await self.collection.find_one_and_update(
                 {"userId": uid}, await self._before_update(uid, update),
                 upsert=True, return_document=ReturnDocument.AFTER
             )
@@ -160,8 +152,9 @@ class _Artefacts:
 
 
 class _BountyShop:
-    def __init__(self, server_state, default_database):
-        self.server_state: ServerState = server_state
+    def __init__(self, default_database, prev_daily_reset):
+        self.prev_daily_reset = prev_daily_reset
+
         self.collection = default_database["bountyShopPurchases"]
 
     async def log_purchase(self, uid, item: AbstractBountyShopItem):
@@ -172,7 +165,7 @@ class _BountyShop:
     async def get_daily_purchases(self, uid, iid: int = None) -> Union[dict, int]:
         """ Count the number of purchase made for an item (if provided) by a user since the previous reset. """
 
-        filter_ = {"userId": uid, "purchaseTime": {"$gte": self.server_state.prev_daily_reset}}
+        filter_ = {"userId": uid, "purchaseTime": {"$gte": self.prev_daily_reset}}
 
         if iid is not None:
             filter_["itemId"] = iid

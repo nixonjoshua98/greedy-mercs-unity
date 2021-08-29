@@ -46,15 +46,15 @@ async def set_active_bounties(data: ActiveBountyUpdateModel):
     if len(data.bounty_ids) > res_bounties.max_active_bounties:
         raise HTTPException(400, detail="Too many active bounties")
 
-    with DataLoader() as mongo:
-        u_bounties = await mongo.bounties.get_user_bounties(uid)
+    with DataLoader() as loader:
+        u_bounties = await loader.bounties.get_user_bounties(uid)
 
         if not all(id_ in u_bounties for id_ in data.bounty_ids):
             raise HTTPException(400, detail="Attempting to set an invalid bounty")
 
-        await mongo.bounties.update_active_bounties(uid, data.bounty_ids)
+        await loader.bounties.update_active_bounties(uid, data.bounty_ids)
 
-        u_bounties = await mongo.bounties.get_user_bounties(uid)
+        u_bounties = await loader.bounties.get_user_bounties(uid)
 
     return ServerResponse({"userBounties": u_bounties})
 

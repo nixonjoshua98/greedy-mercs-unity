@@ -12,11 +12,7 @@ def get_artefacts_data(*, as_dict: bool = False) -> "ArtefactResources":
 
 class ArtefactResources:
     def __init__(self, data: dict):
-        self.__dict = data
-
         self.artefacts: dict = {k: ArtefactResourceData.from_dict(v) for k, v in data.items()}
-
-    def as_dict(self): return self.__dict
 
 
 class ArtefactResourceData:

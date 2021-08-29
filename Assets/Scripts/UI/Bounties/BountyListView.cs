@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
 
 namespace GM.Bounties.UI
@@ -22,7 +20,6 @@ namespace GM.Bounties.UI
     }
 
 
-
     public class BountyListView : GM.UI.PanelController
     {
         [SerializeField] BountyListViewButtons buttons;
@@ -40,23 +37,18 @@ namespace GM.Bounties.UI
         }
 
 
-        void Start()
-        {
-            CreateBountySlots();
-
-            SwitchToIdleMode();
-        }
-
         protected override void OnShown()
         {
-            ReCreateInitialSlots();
+            ReCreateBountySlots();
             SwitchToIdleMode();
         }
+
 
         protected override void OnHidden()
         {
             DestroyAllSlots();
         }
+
 
         void CreateBountySlots()
         {
@@ -84,6 +76,14 @@ namespace GM.Bounties.UI
             }
         }
 
+
+        void ReCreateBountySlots()
+        {
+            DestroyAllSlots();
+            CreateBountySlots();
+        }
+
+
         void DestroyAllSlots()
         {
             foreach (BountySlot slot in availableSlots.Values)
@@ -96,11 +96,6 @@ namespace GM.Bounties.UI
             availableSlots.Clear();
         }
 
-        void ReCreateInitialSlots()
-        {
-            DestroyAllSlots();
-            CreateBountySlots();
-        }
 
         void SetSlotToActive(BountySlot slot)
         {
@@ -109,6 +104,7 @@ namespace GM.Bounties.UI
             slot.E_OnClick = OnActiveSlotClick;
         }
 
+
         void SetSlotToAvailable(BountySlot slot)
         {
             slot.Animator.Play("Jiggle");
@@ -116,12 +112,14 @@ namespace GM.Bounties.UI
             slot.E_OnClick = OnAvailableSlotClick;
         }
 
+
         void SetSlotToIdle(BountySlot slot)
         {
             slot.Animator.Play("Idle");
 
             slot.E_OnClick = null;
         }
+
 
         public void SwitchToIdleMode()
         {
@@ -139,8 +137,9 @@ namespace GM.Bounties.UI
         public void CancelChanges()
         {
             SwitchToIdleMode();
-            ReCreateInitialSlots();
+            ReCreateBountySlots();
         }
+
 
         public void ConfirmChanges()
         {
@@ -149,12 +148,13 @@ namespace GM.Bounties.UI
             List<int> ids = activeSlots.Values.Select(s => s.BountyID).ToList();
 
             UserData.Get.Bounties.SetActiveBounties(ids, (success) => {
-                ReCreateInitialSlots();
+                ReCreateBountySlots();
 
                 if (!success)
                     CanvasUtils.ShowInfo("Active Bounties", "Failed to update active bounties");
             });
         }
+
 
         public void SwitchToEditMode()
         {

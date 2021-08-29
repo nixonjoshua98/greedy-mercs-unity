@@ -54,7 +54,7 @@ class BountyShopGeneration:
     def __generate_armoury_items(*, server_state):
         days_since_epoch = (server_state.prev_daily_reset - dt.datetime.fromtimestamp(0)).days
 
-        res_armoury = resources.get_armoury_data()
+        res_armoury = resources.get_armoury_resources()
 
         generated_items = {}
 

@@ -977,7 +977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &118492636
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2631,9 +2631,9 @@ RectTransform:
   m_Father: {fileID: 472717288}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1025.3334, y: -37.5}
   m_SizeDelta: {x: 379.33334, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &328330933
@@ -3928,9 +3928,9 @@ RectTransform:
   m_Father: {fileID: 472717288}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 620.5, y: -37.5}
   m_SizeDelta: {x: 380.33334, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &529442966
@@ -5550,7 +5550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &765392499
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5682,7 +5682,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &781423451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11763,9 +11763,9 @@ RectTransform:
   m_Father: {fileID: 472717288}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 215.16667, y: -37.5}
   m_SizeDelta: {x: 380.33334, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1887441018
@@ -14233,7 +14233,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!114 &2146928646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14437,8 +14437,8 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 300, y: 300}
-  m_Spacing: {x: 5, y: 5}
+  m_CellSize: {x: 275, y: 275}
+  m_Spacing: {x: 15, y: 15}
   m_Constraint: 1
   m_ConstraintCount: 4
 --- !u!1 &3922083487411142584

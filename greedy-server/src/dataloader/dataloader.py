@@ -3,20 +3,22 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from src.dataloader.queries import _Users, _Bounties, _Items, _Armoury, _Artefacts, _BountyShop
 
+from src import resources
 from src.classes import ServerState
-from src.classes.bountyshop import BountyShopGeneration
 
 
 class DataLoader:
     def __init__(self):
         state = ServerState()
 
-        self.items = _Items(default_database=self._mongo.get_default_database())
-        self.users = _Users(default_database=self._mongo.get_default_database())
-        self.armoury = _Armoury(default_database=self._mongo.get_default_database())
-        self.bounties = _Bounties(default_database=self._mongo.get_default_database())
-        self.artefacts = _Artefacts(default_database=self._mongo.get_default_database())
-        self.bounty_shop = _BountyShop(default_database=self._mongo.get_default_database(), server_state=state)
+        db = self._mongo.get_default_database()
+
+        self.items = _Items(db)
+        self.users = _Users(db)
+        self.armoury = _Armoury(db)
+        self.bounties = _Bounties(db)
+        self.artefacts = _Artefacts(db)
+        self.bounty_shop = _BountyShop(db, prev_daily_reset=state.prev_daily_reset)
 
     @classmethod
     def create_client(cls, con_str):
@@ -39,7 +41,7 @@ class DataLoader:
 
             "bountyShop": {
                 "dailyPurchases": await self.bounty_shop.get_daily_purchases(uid),
-                "availableItems": BountyShopGeneration(uid).to_dict(),
+                "availableItems": resources.get_bounty_shop(uid, as_dict=True),
             },
 
             "userBountyData": await self.bounties.get_data(uid),

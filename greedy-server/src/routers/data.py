@@ -20,7 +20,7 @@ def get_game_data():
         {
             "artefactResources": res2.get_artefacts_data(as_dict=True),
             "mercResources": resources.get_mercs(),
-            "armouryResources": res2.get_armoury_data(as_dict=True),
+            "armouryResources": res2.get_armoury_resources(as_dict=True),
 
             "bounties": res2.get_bounty_data(as_dict=True),
             "nextDailyReset": svr_state.next_daily_reset

@@ -25,6 +25,9 @@ namespace GM
 
         public static void WriteJSON(string path, JSONNode node)
         {
+            if (File.Exists(path))
+                File.Delete(path);
+
             new FileInfo(path).Directory.Create();
 
             AES.Encrypt(path, node.ToString());

@@ -439,13 +439,13 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 48
-    m_Alignment: 4
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1.0e34 (x100)
+  m_Text: 45.45K (x56)
 --- !u!1 &3035918923135920184
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,8 +19,9 @@ namespace GM.Artefacts
 
         [Space]
 
-        [SerializeField] Text currencyText;
-        [SerializeField] Text unlockCostText;
+        [SerializeField] TMPro.TMP_Text currentPointsText;
+        [SerializeField] TMPro.TMP_Text unlockCostText;
+        [SerializeField] TMPro.TMP_Text unlockCountText;
 
         [Space]
 
@@ -55,14 +56,15 @@ namespace GM.Artefacts
             int numUnlockedArtefacts    = UserData.Get.Artefacts.Count;
             int maxUnlockableArts       = GameData.Get.Artefacts.Count;
 
-            currencyText.text           = FormatString.Number(pp);
+            currentPointsText.text           = FormatString.Number(pp);
             unlockButton.interactable   = numUnlockedArtefacts < maxUnlockableArts;
 
             unlockCostText.text = "-";
+            unlockCountText.text = $"Collected {numUnlockedArtefacts}/{maxUnlockableArts}";
 
             if (numUnlockedArtefacts < maxUnlockableArts)
             {
-                unlockCostText.text = string.Format("{0}", FormatString.Number(Formulas.CalcNextLootCost(numUnlockedArtefacts)));
+                unlockCostText.text = FormatString.Number(Formulas.CalcNextLootCost(numUnlockedArtefacts));
             }
         }
 

@@ -68,9 +68,9 @@ public static class FormatString
     {
         switch (bonusType)
         {
-            case BonusType.FLAT_ENERGY_CAPACITY:    return $"+{value} Energy Capacity";
-            case BonusType.FLAT_ENERGY_INCOME:      return $"+{Number(value)} Energy per Minute";
-            case BonusType.FLAT_CRIT_CHANCE:        return $"+{Number(value * 100)}% Critical Hit Chance";
+            case BonusType.FLAT_ENERGY_CAPACITY:    return $"{value} Energy Capacity";
+            case BonusType.FLAT_ENERGY_INCOME:      return $"{Number(value)} Energy per Minute";
+            case BonusType.FLAT_CRIT_CHANCE:        return $"{Number(value * 100)}% Critical Hit Chance";
             case BonusType.FLAT_CRIT_DMG:      return $"{Number(value * 100)}% Critical Hit Damage";
             case BonusType.MULTIPLY_PRESTIGE_BONUS:  return $"{Number(value * 100)}% Runestones";
             case BonusType.TAP_DAMAGE:      return $"{Number(value * 100)}% Tap Damage";

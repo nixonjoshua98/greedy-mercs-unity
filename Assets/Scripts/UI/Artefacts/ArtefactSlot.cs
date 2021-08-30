@@ -15,8 +15,7 @@ namespace GM.Artefacts
         [SerializeField] TMPro.TMP_Text nameText;
         [SerializeField] TMPro.TMP_Text levelText;
         [SerializeField] Text effectText;
-        [SerializeField] Text upgradeCostText;
-        [SerializeField] Text quantityText;
+        [SerializeField] Text purchaseText;
         [Space]        
         [SerializeField] Button upgradeButton;
 
@@ -70,12 +69,11 @@ namespace GM.Artefacts
             levelText.text  = $"Lvl. {artefactState.Level}";
             effectText.text = FormatString.Bonus(artefactData.Bonus, artefactState.Effect());
 
-            upgradeCostText.text = quantityText.text = "-";
+            purchaseText.text = "-";
 
             if (!artefactState.IsMaxLevel())
             {
-                upgradeCostText.text = $"{FormatString.Number(artefactState.CostToUpgrade(BuyAmount))}";
-                quantityText.text = $"x{BuyAmount}";
+                purchaseText.text = $"{FormatString.Number(artefactState.CostToUpgrade(BuyAmount))} (x{BuyAmount})";
             }
 
             upgradeButton.interactable = !artefactState.IsMaxLevel() && pp >= artefactState.CostToUpgrade(BuyAmount);

@@ -34,13 +34,14 @@ namespace GM.Bounties.UI
         {
             activeSlots = new Dictionary<int, BountySlot>();
             availableSlots = new Dictionary<int, BountySlot>();
+
+            SetupBountySlots();
         }
 
 
         protected override void OnShown()
         {
-            ReCreateBountySlots();
-            SwitchToIdleMode();
+            SetupBountySlots();
         }
 
 
@@ -77,10 +78,11 @@ namespace GM.Bounties.UI
         }
 
 
-        void ReCreateBountySlots()
+        void SetupBountySlots()
         {
             DestroyAllSlots();
             CreateBountySlots();
+            SwitchToIdleMode();
         }
 
 
@@ -137,7 +139,7 @@ namespace GM.Bounties.UI
         public void CancelChanges()
         {
             SwitchToIdleMode();
-            ReCreateBountySlots();
+            SetupBountySlots();
         }
 
 
@@ -148,7 +150,7 @@ namespace GM.Bounties.UI
             List<int> ids = activeSlots.Values.Select(s => s.BountyID).ToList();
 
             UserData.Get.Bounties.SetActiveBounties(ids, (success) => {
-                ReCreateBountySlots();
+                SetupBountySlots();
 
                 if (!success)
                     CanvasUtils.ShowInfo("Active Bounties", "Failed to update active bounties");

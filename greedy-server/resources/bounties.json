@@ -4,31 +4,31 @@
 
   "bounties": {
     "0": {
-      "hourlyIncome": 10000,
+      "hourlyIncome": 100,
       "unlockStage": 1
     },
     "1": {
-      "hourlyIncome": 20000,
+      "hourlyIncome": 200,
       "unlockStage": 2
     },
     "2": {
-      "hourlyIncome": 30000,
+      "hourlyIncome": 300,
       "unlockStage": 3
     },
     "3": {
-      "hourlyIncome": 40000,
+      "hourlyIncome": 400,
       "unlockStage": 4
     },
     "4": {
-      "hourlyIncome": 50000,
+      "hourlyIncome": 500,
       "unlockStage": 5
     },
     "5": {
-      "hourlyIncome": 60000,
+      "hourlyIncome": 600,
       "unlockStage": 6
     },
     "6": {
-      "hourlyIncome": 70000,
+      "hourlyIncome": 700,
       "unlockStage": 7
     }
   }

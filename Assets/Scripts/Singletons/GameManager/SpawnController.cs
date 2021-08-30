@@ -8,7 +8,7 @@ namespace GM
 {
     using GM.Data;
     using GM.Units.Formations;
-    using GM.Bounty;
+    using GM.Bounties;
 
     public class SpawnController : MonoBehaviour
     {
@@ -31,7 +31,9 @@ namespace GM
 
         public GameObject SpawnBoss(CurrentStageState state)
         {
-            if (GameData.Get.Bounties.GetStageBounty(state.Stage, out BountyData result))
+            bool isBountyBoss = GameData.Get.Bounties.GetStageBounty(state.Stage, out BountyData result);
+
+            if (isBountyBoss && MathUtils.PercentChance(result.SpawnChance))
                 return SpawnBountyBoss(result);
 
             else

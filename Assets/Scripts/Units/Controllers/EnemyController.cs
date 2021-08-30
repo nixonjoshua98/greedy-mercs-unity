@@ -1,14 +1,17 @@
 
 using UnityEngine;
 
+using DamageTextPopup = GM.UI.DamageTextPopup;
+
 
 namespace GM.Units
 {
-    using GM.UI;
-
     [RequireComponent(typeof(HealthController))]
     public class EnemyController : UnitController
     {
+        [Header("Prefabs")]
+        [SerializeField] GameObject TextPopupObject;
+
         [SerializeField] Animator anim;
 
         [Header("Animation Strings")]
@@ -48,7 +51,9 @@ namespace GM.Units
         {
             anim.Play(hurtAnimation);
 
-            DamagePopup.Create(transform.position, FormatString.Number(damageTaken), worldPosition: true);
+            DamageTextPopup popup = CanvasUtils.Instantiate<DamageTextPopup>(TextPopupObject);
+
+            popup.Setup(FormatString.Number(damageTaken), Camera.main.WorldToScreenPoint(transform.position));
         }
 
 

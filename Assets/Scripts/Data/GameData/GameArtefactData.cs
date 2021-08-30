@@ -22,6 +22,7 @@ namespace GM.Artefacts
         public float LevelEffect;
 
         public Sprite Icon;
+        public GM.Artefacts.ArtefactSlot Slot;
     }
 
 
@@ -53,9 +54,10 @@ namespace GM.Artefacts
                         ID = local.ID,
                         Name = local.Name,
                         Icon = local.Icon,
+                        Slot = local.Slot,
 
                         Bonus = (BonusType)current["bonusType"].AsInt,
-                        MaxLevel = current.GetValueOrDefault("maxLevel", 1_000),
+                        MaxLevel = current.GetValueOrDefault("maxLevel", 1_000).AsInt,
 
                         CostExpo = current["costExpo"],
                         CostCoeff = current["costCoeff"],

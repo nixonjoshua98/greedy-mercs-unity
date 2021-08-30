@@ -79,12 +79,17 @@ public static class JSONNodeExtensions
         return node.HasKey(key);
     }
 
-    public static void Update(this JSONNode original, JSONNode updateNode)
+    public static void AddList<T>(this JSONNode node, string key, List<T> ls)
     {
-        foreach (string key in updateNode.Keys)
+        JSONArray arr = new JSONArray();
+
+        foreach (T ele in ls)
         {
-            original[key] = updateNode[key];
+            arr.Add(ele.ToString());
         }
+
+        node[key] = arr;       
+
     }
 }
 

@@ -2,20 +2,19 @@
 from src import utils
 
 
-def get_armoury() -> "ArmouryResource":
-    return ArmouryResource(utils.load_resource("armoury.json"))
+def get_armoury_resources(*, as_dict: bool = False) -> "ArmouryResources":
+    if as_dict:
+        return utils.load_resource("armoury.json")
+
+    return ArmouryResources(utils.load_resource("armoury.json"))
 
 
-class ArmouryResource:
+class ArmouryResources:
     def __init__(self, data: dict):
-        self.__dict = data
-
         self.max_evo_level = data["maxEvoLevel"]
         self.evo_level_cost = data["evoLevelCost"]
 
         self.items: dict[int, "ArmouryItem"] = {k: ArmouryItem.from_dict(v) for k, v in data["items"].items()}
-
-    def as_dict(self): return self.__dict
 
 
 class ArmouryItem:
@@ -31,4 +30,4 @@ class ArmouryItem:
         return inst
 
     def level_cost(self, level: int) -> int:
-        return 5 + self.tier + level
+        return 5 + (self.tier + 1) + level

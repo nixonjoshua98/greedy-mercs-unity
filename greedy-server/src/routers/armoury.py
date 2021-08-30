@@ -1,24 +1,24 @@
 
 from fastapi import APIRouter, HTTPException
 
-from src import resources
 from src.common.enums import ItemKey
 from src.checks import user_or_raise
 from src.routing import ServerRoute, ServerResponse
 from src.models import ArmouryItemActionModel
 
-from src.dataloader import MongoController
+from src.dataloader import DataLoader
+from src import resources
 
 router = APIRouter(prefix="/api/armoury", route_class=ServerRoute)
 
 
 @router.post("/upgrade")
 async def upgrade(data: ArmouryItemActionModel):
-    uid = user_or_raise(data)
+    uid = await user_or_raise(data)
 
-    armoury = resources.get_armoury()
+    armoury = resources.get_armoury_resources()
 
-    with MongoController() as mongo:
+    with DataLoader() as mongo:
 
         if (u_armoury_item := await mongo.armoury.get_one_item(uid, data.item_id)) is None:
             raise HTTPException(400, detail="Item does not exist")
@@ -48,11 +48,11 @@ async def upgrade(data: ArmouryItemActionModel):
 
 @router.post("/evolve")
 async def evolve(data: ArmouryItemActionModel):
-    uid = user_or_raise(data)
+    uid = await user_or_raise(data)
 
-    armoury = resources.get_armoury()
+    armoury = resources.get_armoury_resources()
 
-    with MongoController() as mongo:
+    with DataLoader() as mongo:
 
         # Attempt to pull the item, otherwise throw an error
         if (u_armoury_item := await mongo.armoury.get_one_item(uid, data.item_id)) is None:

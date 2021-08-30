@@ -7,7 +7,8 @@ namespace GM.UI
     enum PanelToggleType
     {
         ACTIVE = 0,
-        CANVAS = 1
+        CANVAS = 1,
+        NOTHING = 2
     }
 
 
@@ -25,20 +26,23 @@ namespace GM.UI
         bool IsPrevShown;
 
         public void Toggle(bool val)
-        {
-            gameObject.SetActive(true);
+        { 
+            if (!(IsShown && val))
+            {
+                gameObject.SetActive(true);
 
-            if (toggleType == PanelToggleType.ACTIVE)
-                gameObject.SetActive(val);
+                if (toggleType == PanelToggleType.ACTIVE)
+                    gameObject.SetActive(val);
 
-            else if (toggleType == PanelToggleType.CANVAS)
-                canvasToToggle.enabled = val;
+                else if (toggleType == PanelToggleType.CANVAS)
+                    canvasToToggle.enabled = val;
 
-            if (val)
-                ShowPanel();
+                if (val)
+                    ShowPanel();
 
-            else 
-                HidePanel();
+                else
+                    HidePanel();
+            }
         }
 
 
@@ -82,7 +86,6 @@ namespace GM.UI
 
 
 
-        // Overrideable
         protected virtual void OnShown() { }
         protected virtual void OnHidden() { }
 

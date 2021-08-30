@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346fad81289c45746aeea59a4a24c037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TextPopupObject: {fileID: 7844500547584429336, guid: 30d124c19a01ac64da9e5286c2f35eb7,
+    type: 3}
   anim: {fileID: 6861586715502687515}
-  health: {fileID: 0}
   hurtAnimation: Hurt
   deathAnimation: Dying
 --- !u!114 &-1448263663660212233
@@ -75,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd53a83ed0e8bd46b58ebc95e8e1670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  E_OnDeath:
+  E_OnZeroHealth:
     m_PersistentCalls:
       m_Calls: []
 --- !u!61 &8336543986741097014

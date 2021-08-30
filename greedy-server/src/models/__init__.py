@@ -14,3 +14,7 @@ class UserLoginDataModel(BaseModel):
 
 class ArmouryItemActionModel(UserIdentifier):
     item_id: int
+
+
+class ActiveBountyUpdateModel(UserIdentifier):
+    bounty_ids: list[int]

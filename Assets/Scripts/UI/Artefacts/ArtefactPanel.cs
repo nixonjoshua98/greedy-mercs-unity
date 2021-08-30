@@ -9,8 +9,6 @@ namespace GM.Artefacts
 {
     using GM.UI;
 
-    using GM.Data;
-
     public class ArtefactPanel : PanelController
     {
         [Header("References")]
@@ -21,22 +19,13 @@ namespace GM.Artefacts
 
         [Space]
 
-        [SerializeField] Text currencyText;
-        [SerializeField] Text unlockCostText;
+        [SerializeField] TMPro.TMP_Text currentPointsText;
+        [SerializeField] TMPro.TMP_Text unlockCostText;
+        [SerializeField] TMPro.TMP_Text unlockCountText;
 
         [Space]
 
         [SerializeField] BuyController buyController;
-
-        [Header("Prefabs")]
-        [SerializeField] GameObject artefactSlotObject;
-
-        List<ArtefactSlot> rows;
-
-        void Awake()
-        {
-            rows = new List<ArtefactSlot>();
-        }
 
         void Start()
         {
@@ -45,7 +34,7 @@ namespace GM.Artefacts
 
         void InstantiateRows()
         {
-            foreach (ArtefactState2 state in UserData.Get.Artefacts.StatesList)
+            foreach (ArtefactState state in UserData.Get.Artefacts.StatesList)
             {
                 InstantiateArtefactRow(state.ID);
             }
@@ -53,11 +42,11 @@ namespace GM.Artefacts
 
         void InstantiateArtefactRow(int artId)
         {
-            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(artefactSlotObject, slotParent.gameObject);
+            ArtefactData artData = GameData.Get.Artefacts.Get(artId);
+
+            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(artData.Slot.gameObject, slotParent.gameObject);
 
             row.Init(artId, buyController);
-
-            rows.Add(row);
         }
 
         protected override void PeriodicUpdate()
@@ -67,14 +56,15 @@ namespace GM.Artefacts
             int numUnlockedArtefacts    = UserData.Get.Artefacts.Count;
             int maxUnlockableArts       = GameData.Get.Artefacts.Count;
 
-            currencyText.text           = FormatString.Number(pp);
+            currentPointsText.text           = FormatString.Number(pp);
             unlockButton.interactable   = numUnlockedArtefacts < maxUnlockableArts;
 
             unlockCostText.text = "-";
+            unlockCountText.text = $"Collected {numUnlockedArtefacts}/{maxUnlockableArts}";
 
             if (numUnlockedArtefacts < maxUnlockableArts)
             {
-                unlockCostText.text = string.Format("{0}", FormatString.Number(Formulas.CalcNextLootCost(numUnlockedArtefacts)));
+                unlockCostText.text = FormatString.Number(Formulas.CalcNextLootCost(numUnlockedArtefacts));
             }
         }
 

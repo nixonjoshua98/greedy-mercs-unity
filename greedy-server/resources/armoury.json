@@ -4,39 +4,39 @@
 
   "items": {
     "0": {
-      "itemTier": 1,
+      "itemTier": 0,
       "baseDamageMultiplier": 1.1
     },
     "1": {
-      "itemTier": 2,
+      "itemTier": 1,
       "baseDamageMultiplier": 1.25
     },
     "2": {
-      "itemTier": 3,
+      "itemTier": 2,
       "baseDamageMultiplier": 1.5
     },
     "3": {
-      "itemTier": 1,
+      "itemTier": 0,
       "baseDamageMultiplier": 1.1
     },
     "4": {
-      "itemTier": 2,
+      "itemTier": 1,
       "baseDamageMultiplier": 1.25
     },
     "5": {
-      "itemTier": 3,
+      "itemTier": 2,
       "baseDamageMultiplier": 1.5
     },
     "6": {
-      "itemTier": 1,
+      "itemTier": 0,
       "baseDamageMultiplier": 1.1
     },
     "7": {
-      "itemTier": 2,
+      "itemTier": 1,
       "baseDamageMultiplier": 1.25
     },
     "8": {
-      "itemTier": 3,
+      "itemTier": 2,
       "baseDamageMultiplier": 1.5
     }
   }

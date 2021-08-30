@@ -13,7 +13,7 @@ namespace GM.Data
         public static string Server_Gems            = "blueGems";
         public static string Server_PrestigePoints  = "prestigePoints";
         public static string Server_BountyPoints    = "bountyPoints";
-        public static string Server_ArmouryPoints   = "ironIngots";
+        public static string Server_ArmouryPoints   = "armouryPoints";
     }
 
 
@@ -57,6 +57,7 @@ namespace GM.Data
             FileUtils.LoadJSON(FileUtils.ResolvePath(LOCAL_FILE_NAME), out JSONNode result);
 
             Energy  = result.GetValueOrDefault(InventoryKeys.Local_Energy, 0).AsFloat;
+
             Gold    = BigDouble.Parse(result.GetValueOrDefault(InventoryKeys.Local_Gold, 0).Value);
         }
 

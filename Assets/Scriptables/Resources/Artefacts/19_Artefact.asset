@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa208bd7b74f8d488f73b6ccae9e470, type: 3}
   m_Name: 19_Artefact
   m_EditorClassIdentifier: 
-  ID: 19
   Name: Burger
   Icon: {fileID: 21300000, guid: dc279062f842b634b853665384c2a2a0, type: 3}
+  Slot: {fileID: 6397354547237212127, guid: 177dd024ad0f63f419ed6882e83ca708, type: 3}

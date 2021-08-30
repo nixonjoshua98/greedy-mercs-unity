@@ -9,7 +9,7 @@ namespace GM
     using GM.Server;
     using GM.Data;
 
-    using GM.Bounty;
+    using GM.Bounties;
     using GM.Artefacts;
 
     public class UserData
@@ -39,8 +39,7 @@ namespace GM
         // = = = Public Methods = = = //
         public void UpdateWithServerUserData(JSONNode json)
         {
-
-            Bounties    = new UserBounties(json["bounties"]);
+            Bounties    = new UserBounties(json["userBountyData"]);
             Armoury     = new UserArmoury(json["armoury"]);
             BountyShop  = new UserBountyShop(json["bountyShop"]);
             Artefacts   = new UserArtefacts(json["artefacts"]);

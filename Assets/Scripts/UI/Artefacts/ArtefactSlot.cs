@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace GM.Artefacts
 {
-    using GM.Data;
     using GM.UI;
 
     public class ArtefactSlot : MonoBehaviour
@@ -13,10 +12,10 @@ namespace GM.Artefacts
         [Header("Components")]
         [SerializeField] Image icon;
         [Space]
-        [SerializeField] Text nameText;
-        [SerializeField] Text levelText;
+        [SerializeField] TMPro.TMP_Text nameText;
+        [SerializeField] TMPro.TMP_Text levelText;
         [SerializeField] Text effectText;
-        [SerializeField] Text upgradeCostText;
+        [SerializeField] Text purchaseText;
         [Space]        
         [SerializeField] Button upgradeButton;
 
@@ -25,7 +24,7 @@ namespace GM.Artefacts
         bool _updatingUi;
 
         ArtefactData artefactData => GameData.Get.Artefacts.Get(_artefactId);
-        ArtefactState2 artefactState => UserData.Get.Artefacts.Get(_artefactId);
+        ArtefactState artefactState => UserData.Get.Artefacts.Get(_artefactId);
 
         int BuyAmount => MathUtils.NextMultipleMax(artefactState.Level, _buyAmount, artefactData.MaxLevel);
 
@@ -70,11 +69,11 @@ namespace GM.Artefacts
             levelText.text  = $"Lvl. {artefactState.Level}";
             effectText.text = FormatString.Bonus(artefactData.Bonus, artefactState.Effect());
 
-            upgradeCostText.text = "-";
+            purchaseText.text = "-";
 
             if (!artefactState.IsMaxLevel())
             {
-                upgradeCostText.text = $"{FormatString.Number(artefactState.CostToUpgrade(BuyAmount))} (x{BuyAmount})";
+                purchaseText.text = $"{FormatString.Number(artefactState.CostToUpgrade(BuyAmount))} (x{BuyAmount})";
             }
 
             upgradeButton.interactable = !artefactState.IsMaxLevel() && pp >= artefactState.CostToUpgrade(BuyAmount);

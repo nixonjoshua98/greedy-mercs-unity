@@ -33,12 +33,11 @@ namespace GM.UI
             Text.text = val;
         }
 
-
-        public void Setup(string val, Color col)
+        public void Setup(string val, Vector3 position)
         {
             Setup(val);
 
-            Text.color = originalColour = col;
+            transform.position = position;
         }
 
 

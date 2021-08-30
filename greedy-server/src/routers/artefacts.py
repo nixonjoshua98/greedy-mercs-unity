@@ -2,14 +2,14 @@ import random
 
 from fastapi import APIRouter, HTTPException
 
-from src import resources
-from src.resources import ArtefactData
+from src.resources import ArtefactResources
 from src.checks import user_or_raise
 from src.common import formulas
 from src.common.enums import ItemKey
 from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier
-from src.dataloader import MongoController
+from src.dataloader import DataLoader
+from src import resources
 
 router = APIRouter(prefix="/api/artefact", route_class=ServerRoute)
 
@@ -22,12 +22,12 @@ class ArtefactUpgradeModel(UserIdentifier):
 
 @router.post("/upgrade")
 async def upgrade(data: ArtefactUpgradeModel):
-    uid = user_or_raise(data)
+    uid = await user_or_raise(data)
 
     # Load the artefact resource
-    artefact: ArtefactData = resources.get_artefacts().artefacts[data.artefact_id]
+    artefact: ArtefactResources = resources.get_artefacts_data().artefacts[data.artefact_id]
 
-    with MongoController() as mongo:
+    with DataLoader() as mongo:
 
         # Pull the data and raise an error if it does not exist
         if (u_artefact := await mongo.artefacts.get_one_artefact(uid, data.artefact_id)) is None:
@@ -58,11 +58,11 @@ async def upgrade(data: ArtefactUpgradeModel):
 
 @router.post("/unlock")
 async def unlock(data: UserIdentifier):
-    uid = user_or_raise(data)
+    uid = await user_or_raise(data)
 
-    artefacts = resources.get_artefacts().artefacts
+    artefacts = resources.get_artefacts_data().artefacts
 
-    with MongoController() as mongo:
+    with DataLoader() as mongo:
 
         u_pp = await mongo.items.get_item(uid, ItemKey.PRESTIGE_POINTS)
         u_artefacts = await mongo.artefacts.get_all_artefacts(uid)

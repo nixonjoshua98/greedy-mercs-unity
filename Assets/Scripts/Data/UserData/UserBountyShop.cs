@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     using GM.Data;
 
@@ -76,7 +76,6 @@ namespace GM.Bounty
         public override Sprite Icon => ArmouryItem.Icon;
     }
     #endregion
-
 
     public class UserBountyShop
     {

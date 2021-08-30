@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Bounty.UI
+namespace GM.Bounties.UI
 {
     using GM.Data;
     using GM.UI;
@@ -45,11 +45,7 @@ namespace GM.Bounty.UI
 
             bountySlider.value = snapshot.PercentFilled;
 
-            if (snapshot.PercentFilled >= 0.25f)
-            {
-               claimButtonAnim.Play("Pulse");
-            }
-
+            claimButtonAnim.Play(snapshot.PercentFilled >= 0.5f && snapshot.Capacity > 0 ? "Pulse" : "Idle");
         }
 
 

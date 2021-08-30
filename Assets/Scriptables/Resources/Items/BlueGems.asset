@@ -15,3 +15,4 @@ MonoBehaviour:
   Item: 100
   Icon: {fileID: 21300000, guid: 7f4f6886441d92742a98737b9bf082b2, type: 3}
   DisplayName: Gem
+  Description: Gems

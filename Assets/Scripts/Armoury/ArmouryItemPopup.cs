@@ -11,7 +11,7 @@ namespace GM.Armoury.UI
 
     public class ArmouryItemPopup : MonoBehaviour
     {
-        [SerializeField] Text nameText;
+        [SerializeField] TMPro.TMP_Text nameText;
         [SerializeField] Text damageText;
         [SerializeField] Text levelCostText;
         [Space]
@@ -40,7 +40,7 @@ namespace GM.Armoury.UI
 
             colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
 
-            stars.Show(data.Tier);
+            stars.Show(data.Tier + 1);
 
             UpdateUI();
         }

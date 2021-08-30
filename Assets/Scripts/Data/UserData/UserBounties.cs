@@ -8,13 +8,13 @@ using GM.Data;
 using GM.Server;
 
 
-namespace GM.Bounty
+namespace GM.Bounties
 {
     public class BountyState
     {
         public readonly int ID;
 
-        public DateTime LastClaimTime;
+        public bool IsActive;
 
         public BountyState(int bountyId)
         {
@@ -35,16 +35,16 @@ namespace GM.Bounty
     public class UserBounties
     {
         Dictionary<int, BountyState> states;
-
         public List<BountyState> StatesList => states.Values.ToList();
-        public int Count => StatesList.Count;
+        public DateTime LastClaimTime;
 
 
         public UserBounties(JSONNode node)
         {
-            states = new Dictionary<int, BountyState>();
 
-            SetBounties(node);
+            LastClaimTime = Utils.UnixToDateTime(node["lastClaimTime"].AsLong);
+
+            SetBounties(node["bounties"]);
         }
 
 
@@ -67,6 +67,25 @@ namespace GM.Bounty
         }
 
 
+        public void SetActiveBounties(List<int> ids, Action<bool> action)
+        {
+            void Callback(long code, JSONNode resp)
+            {
+                if (code == 200)
+                {
+                    SetBounties(resp["userBounties"]);
+                }
+
+                action(code == 200);
+            }
+
+            JSONNode body = new JSONObject();
+            body.AddList("bountyIds", ids);
+
+            HTTPClient.GetClient().Post("bounty/setactive", body, Callback);
+        }
+
+
         public BountySnapshot CreateSnapshot()
         {
             int capacity = 0;
@@ -78,15 +97,18 @@ namespace GM.Bounty
             // Calculate the attributes we want for the snapshot
             foreach (BountyState state in StatesList)
             {
-                // Grab the static data for the struct
-                BountyData dataStruct = bountyGameData.Get(state.ID);
+                if (state.IsActive)
+                {
+                    // Grab the static data for the struct
+                    BountyData dataStruct = bountyGameData.Get(state.ID);
 
-                // We cap the hours since claim to the value returned from the server
-                float hoursSinceClaim = Math.Max(0, Math.Min(bountyGameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - state.LastClaimTime).TotalHours));
+                    // We cap the hours since claim to the value returned from the server
+                    float hoursSinceClaim = Math.Max(0, Math.Min(bountyGameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - LastClaimTime).TotalHours));
 
-                capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * bountyGameData.MaxUnclaimedHours);
-                unclaimed += Mathf.FloorToInt(dataStruct.HourlyIncome * hoursSinceClaim);
-                hourlyIncome += dataStruct.HourlyIncome;
+                    capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * bountyGameData.MaxUnclaimedHours);
+                    unclaimed += Mathf.FloorToInt(dataStruct.HourlyIncome * hoursSinceClaim);
+                    hourlyIncome += dataStruct.HourlyIncome;
+                }
             }
 
             // Create and return a new snapshot structure
@@ -95,22 +117,21 @@ namespace GM.Bounty
                 Capacity = capacity,
                 Unclaimed = unclaimed,
                 HourlyIncome = hourlyIncome,
-                PercentFilled = unclaimed / (float)capacity // Cast to float to allow for a decimal answer
+                PercentFilled = capacity > 0 ? unclaimed / (float)capacity : 0 // Cast to float to allow for a decimal answer
             };
         }
 
 
         void SetAllClaimTimes(DateTime date)
         {
-            foreach (BountyState state in StatesList)
-            {
-                state.LastClaimTime = date;
-            }
+            LastClaimTime = date;
         }
 
 
         void SetBounties(JSONNode node)
         {
+            states = new Dictionary<int, BountyState>();
+
             foreach (string key in node.Keys)
             {
                 JSONNode current = node[key];
@@ -119,7 +140,7 @@ namespace GM.Bounty
 
                 states[id] = new BountyState(id)
                 {
-                    LastClaimTime = Utils.UnixToDateTime(current["lastClaimTime"].AsLong)
+                    IsActive = current.GetValueOrDefault("isActive", false).AsBool,
                 };
             }
         }

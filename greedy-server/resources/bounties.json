@@ -1,17 +1,35 @@
 {
   "maxUnclaimedHours": 0.01,
+  "maxActiveBounties": 4,
+
   "bounties": {
     "0": {
-      "hourlyIncome": 10000,
-      "unlockStage": 5
+      "hourlyIncome": 100,
+      "unlockStage": 1
     },
     "1": {
-      "hourlyIncome": 20000,
-      "unlockStage": 10
+      "hourlyIncome": 200,
+      "unlockStage": 2
     },
     "2": {
-      "hourlyIncome": 30000,
-      "unlockStage": 15
+      "hourlyIncome": 300,
+      "unlockStage": 3
+    },
+    "3": {
+      "hourlyIncome": 400,
+      "unlockStage": 4
+    },
+    "4": {
+      "hourlyIncome": 500,
+      "unlockStage": 5
+    },
+    "5": {
+      "hourlyIncome": 600,
+      "unlockStage": 6
+    },
+    "6": {
+      "hourlyIncome": 700,
+      "unlockStage": 7
     }
   }
 }

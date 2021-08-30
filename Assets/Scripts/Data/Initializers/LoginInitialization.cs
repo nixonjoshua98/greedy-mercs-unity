@@ -15,20 +15,18 @@ namespace GM
     public class LoginInitialization : MonoBehaviour
     {
         void Start()
-        {
-            
-
-            GetGameData();
+        {          
+            GameData();
         }
 
 
-        void GetGameData()
+        void GameData()
         {
             HTTPClient.GetClient().Get("gamedata", (code, resp) => {
 
                 if (code == 200)
                 {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath(GameData.SERVER_FILE), resp);
+                    FileUtils.WriteJSON(FileUtils.ResolvePath(GM.GameData.SERVER_FILE), resp);
 
                     Login();
                 }

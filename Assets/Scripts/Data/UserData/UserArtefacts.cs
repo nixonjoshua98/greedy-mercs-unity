@@ -12,13 +12,13 @@ namespace GM.Artefacts
     using GM.Server;
     using GM.Data;
 
-    public class ArtefactState2
+    public class ArtefactState
     {
         public readonly int ID;
 
         public int Level;
 
-        public ArtefactState2(int id)
+        public ArtefactState(int id)
         {
             ID = id;
         }
@@ -35,18 +35,18 @@ namespace GM.Artefacts
 
     public class UserArtefacts
     {
-        Dictionary<int, ArtefactState2> states;
+        Dictionary<int, ArtefactState> states;
 
 
         public UserArtefacts(JSONNode node)
         {
-            SetStates(node);
+            UpdateArtefactStates(node);
         }
 
 
-        public ArtefactState2[] StatesList => states.Values.OrderBy(ele => ele.ID).ToArray();
+        public ArtefactState[] StatesList => states.Values.OrderBy(ele => ele.ID).ToArray();
         public int Count => states.Count;
-        public ArtefactState2 Get(int id) => states[id];
+        public ArtefactState Get(int id) => states[id];
 
 
         // = = = Server Methods = = = //
@@ -92,7 +92,7 @@ namespace GM.Artefacts
         // = = = Server Callbacks = = = //
         void OnServerResponse(JSONNode node)
         {
-            SetStates(node["userArtefacts"]);
+            UpdateArtefactStates(node["userArtefacts"]);
 
             UserData.Get.Inventory.SetServerItemData(node["userItems"]);
         }
@@ -100,9 +100,9 @@ namespace GM.Artefacts
 
 
         // = = = Private = = = //
-        void SetStates(JSONNode node)
+        void UpdateArtefactStates(JSONNode node)
         {
-            states = new Dictionary<int, ArtefactState2>();
+            states = new Dictionary<int, ArtefactState>();
 
             foreach (string key in node.Keys)
             {
@@ -110,7 +110,7 @@ namespace GM.Artefacts
 
                 int id = int.Parse(key);
 
-                ArtefactState2 state = new ArtefactState2(id)
+                ArtefactState state = new ArtefactState(id)
                 {
                     Level = current["level"].AsInt
                 };
@@ -124,7 +124,7 @@ namespace GM.Artefacts
         {
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
 
-            foreach (ArtefactState2 state in StatesList)
+            foreach (ArtefactState state in StatesList)
             {
                 ArtefactData data = GameData.Get.Artefacts.Get(state.ID);
 

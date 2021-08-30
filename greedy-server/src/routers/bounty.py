@@ -19,8 +19,8 @@ router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 async def claim_points(user: UserIdentifier):
     uid = await user_or_raise(user)
 
-    with DataLoader() as mongo:
-        u_bounty_data = await mongo.bounties.get_data(uid)
+    with DataLoader() as loader:
+        u_bounty_data = await loader.bounties.get_data(uid)
 
         u_bounties = u_bounty_data.get("bounties", {})
         u_last_claim = u_bounty_data.get("lastClaimTime", now := dt.datetime.utcnow())
@@ -30,9 +30,9 @@ async def claim_points(user: UserIdentifier):
         if unclaimed == 0:  # Stop the request here since any further would be a waste of time
             raise HTTPException(400, detail="Claim amount is zero")
 
-        await mongo.bounties.set_claim_time(uid, now)
+        await loader.bounties.set_claim_time(uid, now)
 
-        u_items = await mongo.items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}})
+        u_items = await loader.items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}})
 
     return ServerResponse({"claimTime": now, "userItems": u_items, "pointsClaimed": unclaimed})
 

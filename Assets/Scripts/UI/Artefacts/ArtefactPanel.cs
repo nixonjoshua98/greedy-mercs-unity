@@ -9,8 +9,6 @@ namespace GM.Artefacts
 {
     using GM.UI;
 
-    using GM.Data;
-
     public class ArtefactPanel : PanelController
     {
         [Header("References")]
@@ -28,16 +26,6 @@ namespace GM.Artefacts
 
         [SerializeField] BuyController buyController;
 
-        [Header("Prefabs")]
-        [SerializeField] GameObject artefactSlotObject;
-
-        List<ArtefactSlot> rows;
-
-        void Awake()
-        {
-            rows = new List<ArtefactSlot>();
-        }
-
         void Start()
         {
             InstantiateRows();
@@ -45,7 +33,7 @@ namespace GM.Artefacts
 
         void InstantiateRows()
         {
-            foreach (ArtefactState2 state in UserData.Get.Artefacts.StatesList)
+            foreach (ArtefactState state in UserData.Get.Artefacts.StatesList)
             {
                 InstantiateArtefactRow(state.ID);
             }
@@ -53,11 +41,11 @@ namespace GM.Artefacts
 
         void InstantiateArtefactRow(int artId)
         {
-            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(artefactSlotObject, slotParent.gameObject);
+            ArtefactData artData = GameData.Get.Artefacts.Get(artId);
+
+            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(artData.Slot.gameObject, slotParent.gameObject);
 
             row.Init(artId, buyController);
-
-            rows.Add(row);
         }
 
         protected override void PeriodicUpdate()

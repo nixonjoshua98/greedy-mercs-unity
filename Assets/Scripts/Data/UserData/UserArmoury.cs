@@ -33,6 +33,20 @@ namespace GM.Data
             SetArmouryItems(node);
         }
 
+        /// <summary>
+        /// [Local] Check if an item can be evolved using the players resources
+        /// </summary>
+        /// <param name="item">Item ID</param>
+        /// <returns>bool</returns>
+        public bool CanEvolveItem(int item)
+        {
+            GameArmouryData gameData = GameData.Get.Armoury;
+
+            ArmouryItemState state = Get(item);
+
+            return state.owned >= (gameData.EvoLevelCost + 1) && state.evoLevel < gameData.MaxEvolveLevel;
+        }
+
 
         // = = = Server Methods = = =
         public void UpgradeItem(int itemId, Action call)

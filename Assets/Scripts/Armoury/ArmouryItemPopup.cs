@@ -9,7 +9,7 @@ namespace GM.Armoury.UI
     using GM.UI;
     using GM.Data;
 
-    public class ArmouryItemPopup : MonoBehaviour
+    public class ArmouryItemPopup : Core.GMMonoBehaviour
     {
         [SerializeField] TMPro.TMP_Text nameText;
         [SerializeField] Text damageText;
@@ -27,37 +27,45 @@ namespace GM.Armoury.UI
         [Header("References")]
         [SerializeField] StarRatingController stars;
 
-        int _itemId;
-
+        // ...
+        int ArmouryItemID;
+        ArmouryItemData ItemData => App.GameData.Armoury.Get(ArmouryItemID);
 
         public void Init(int itemId)
         {
-            _itemId = itemId;
+            ArmouryItemID = itemId;
 
-            ArmouryItemData data = GameData.Get.Armoury.Get(_itemId);
-
-            nameText.text = data.Name.ToUpper();
-
-            colouredWeapon.sprite = shadowWeapon.sprite = data.Icon;
-
-            stars.Show(data.Tier + 1);
-
+            SetStaticInterface();
             UpdateUI();
+        }
+
+
+        void SetStaticInterface()
+        {
+            nameText.text = ItemData.Name.ToUpper();
+
+            colouredWeapon.sprite = shadowWeapon.sprite = ItemData.Icon;
+
+            stars.Show(ItemData.Tier + 1);
         }
 
 
         void UpdateUI()
         {
-            int maxEvoLevel     = GameData.Get.Armoury.MaxEvolveLevel;
-            int evoLevelCost    = GameData.Get.Armoury.EvoLevelCost;
-            long armouryPoints  = UserData.Get.Inventory.IronIngots;
-            int levelCost       = GameData.Get.Armoury.LevelCost(_itemId);
+            // Shorthand to armoury data
+            GameArmouryData armouryData = App.GameData.Armoury;
+            UserArmoury userData = App.PlayerData.Armoury;
+
+            int evoLevelCost    = armouryData.EvoLevelCost;
+            int levelCost       = armouryData.LevelCost(ArmouryItemID);
+
+            long armouryPoints = App.PlayerData.Inventory.IronIngots;
 
             // Grab the current state
-            ArmouryItemState state = UserData.Get.Armoury.Get(_itemId);
+            ArmouryItemState state = App.PlayerData.Armoury.Get(ArmouryItemID);
 
             // Formatting
-            double currentDamage    = UserData.Get.Armoury.WeaponDamage(_itemId);
+            double currentDamage    = userData.WeaponDamage(ArmouryItemID);
             string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
 
             // Text 
@@ -69,8 +77,8 @@ namespace GM.Armoury.UI
             evolveSlider.value      = (state.owned - 1);
 
             // Buttons
-            evolveButton.interactable   = state.owned >= (evoLevelCost + 1) && state.evoLevel < maxEvoLevel;
-            levelButton.interactable    = armouryPoints >= GameData.Get.Armoury.LevelCost(_itemId);
+            evolveButton.interactable = userData.CanEvolveItem(ArmouryItemID);
+            levelButton.interactable = armouryPoints >= levelCost;
         }
 
 
@@ -78,13 +86,13 @@ namespace GM.Armoury.UI
 
         public void OnEvolveButton()
         {
-            UserData.Get.Armoury.EvolveItem(_itemId, () => { UpdateUI(); });
+            App.PlayerData.Armoury.EvolveItem(ArmouryItemID, () => { UpdateUI(); });
         }
 
 
         public void OnUpgradeButton()
         {
-            UserData.Get.Armoury.UpgradeItem(_itemId, () => { UpdateUI(); });
+            App.PlayerData.Armoury.UpgradeItem(ArmouryItemID, () => { UpdateUI(); });
         }
 
         // = = = ^

@@ -22,7 +22,7 @@ namespace GM.Artefacts
         public float LevelEffect;
 
         public Sprite Icon;
-        public GM.Artefacts.ArtefactSlot Slot;
+        public ArtefactSlot Slot;
     }
 
 

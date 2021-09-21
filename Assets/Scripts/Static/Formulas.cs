@@ -67,7 +67,7 @@ namespace GM
 
             BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
 
-            return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
+            return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
         }
 
 
@@ -92,7 +92,7 @@ namespace GM
 
             int maxLevels = int.Parse(BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, 5, 1.09, state.level - 1).ToString());
 
-            return Mathf.Min(StaticData.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
+            return Mathf.Min(global::Constants.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
         }
 
         // === Prestige Points ===

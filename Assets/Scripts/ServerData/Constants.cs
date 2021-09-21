@@ -1,10 +1,4 @@
-﻿using System;
-
-using SimpleJSON;
-
-using GM;
-
-public static class StaticData
+﻿public static class Constants
 {
     public const int MIN_PRESTIGE_STAGE = 60;
 

@@ -35,7 +35,7 @@ namespace GM.Units
                 if (_buyAmount == -1)
                     return Formulas.AffordCharacterLevels(mercData.Id);
 
-                return Mathf.Min(_buyAmount, StaticData.MAX_CHAR_LEVEL - State.Level);
+                return Mathf.Min(_buyAmount, global::Constants.MAX_CHAR_LEVEL - State.Level);
             }
         }
 
@@ -70,7 +70,7 @@ namespace GM.Units
 
             upgradeButton.SetText("MAX", "-");
 
-            if (State.Level < StaticData.MAX_CHAR_LEVEL)
+            if (State.Level < global::Constants.MAX_CHAR_LEVEL)
             {
                 BigDouble cost = State.CostToUpgrade(BuyAmount);
 
@@ -87,7 +87,7 @@ namespace GM.Units
 
             BigDouble cost = State.CostToUpgrade(BuyAmount);
 
-            if (State.Level + levelsBuying <= StaticData.MAX_CHAR_LEVEL && UserData.Get.Inventory.Gold >= cost)
+            if (State.Level + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && UserData.Get.Inventory.Gold >= cost)
             {
                 MercenaryManager.Instance.AddLevels(mercData.Id, levelsBuying);
 

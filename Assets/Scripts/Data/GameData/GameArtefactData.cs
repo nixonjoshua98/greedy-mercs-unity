@@ -9,7 +9,7 @@ namespace GM.Artefacts
     public struct ArtefactData
     {
         public int ID;
-
+        
         public string Name;
 
         public BonusType Bonus;

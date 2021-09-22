@@ -8,7 +8,7 @@ namespace GM
     using GM.Data;
     using GM.Units;
 
-    public class StatsCache : MonoBehaviour
+    public class StatsCache : Core.GMMonoBehaviour
     {
         const float BASE_ENERGY_CAP = 50.0f;
         const float BASE_ENERGY_MIN = 1.0f;
@@ -17,7 +17,7 @@ namespace GM
         const float BASE_CRIT_MULTIPLIER = 2.5f;
         
         static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get.Armoury.Bonuses(); } }
-        static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return UserData.Get.Artefacts.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return App.Data.Arts.Bonuses(); } }
         static List<KeyValuePair<BonusType, double>> CharacterBonus { get { return MercenaryManager.Instance.Bonuses(); } }
 
         public static BigDouble ArmouryMercDamageMultiplier { get { return AddSource(BonusType.MERC_DAMAGE, ArmouryBonus); } }

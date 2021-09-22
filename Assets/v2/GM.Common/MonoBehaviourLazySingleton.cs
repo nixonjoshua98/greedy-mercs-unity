@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GM.Common
 {
-    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : UnityEngine.Component
+    public abstract class MonoBehaviourLazySingleton<T> : MonoBehaviour where T : Component
     {
         static object s_Lock = new object();
 

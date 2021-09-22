@@ -20,7 +20,6 @@ namespace GM
 
         public UserArmoury Armoury;
         public UserBounties Bounties;
-        public UserArtefacts Artefacts;
         public UserInventory Inventory;
         public UserBountyShop BountyShop;
 
@@ -42,7 +41,6 @@ namespace GM
             Bounties    = new UserBounties(json["userBountyData"]);
             Armoury     = new UserArmoury(json["armoury"]);
             BountyShop  = new UserBountyShop(json["bountyShop"]);
-            Artefacts   = new UserArtefacts(json["artefacts"]);
             Inventory   = new UserInventory(json["inventory"]);
         }
 

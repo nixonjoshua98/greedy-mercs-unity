@@ -22,7 +22,7 @@ namespace GM.Server
 
 
 
-    public class HTTPClient : MonoBehaviour
+    public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>
     {
         // = = = Static = = = //
         static HTTPClient _instance = null;
@@ -44,7 +44,7 @@ namespace GM.Server
         ServerConfig config = new ServerConfig()
         {
             Port = 2122,
-            Address = "109.148.134.162"
+            Address = "212.140.123.165"
         };
 
 

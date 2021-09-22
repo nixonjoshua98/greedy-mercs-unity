@@ -1,8 +1,6 @@
-using UnityEngine;
-
 namespace GM.Core
 {
-    public abstract class GMMonoBehaviour : MonoBehaviour
+    public abstract class GMClass
     {
         protected static GMApplication App => GMApplication.Instance;
     }

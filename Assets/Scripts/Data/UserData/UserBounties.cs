@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 using GM.Data;
-using GM.Server;
+using GM.HTTP;
 
 
 namespace GM.Bounties

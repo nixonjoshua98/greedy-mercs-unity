@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 using SimpleJSON;
 
 
-namespace GM.Server
+namespace GM.HTTP
 {
     struct ServerConfig
     {
@@ -46,7 +46,6 @@ namespace GM.Server
             Port = 2122,
             Address = "212.140.123.165"
         };
-
 
         // = = = Private Requests = = = //
         void SendGet(string url, Action<long, JSONNode> callback) => StartCoroutine(ProcessRequest(UnityWebRequest.Get(url), callback));

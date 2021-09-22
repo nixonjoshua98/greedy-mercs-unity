@@ -6,7 +6,7 @@ using SimpleJSON;
 
 namespace GM
 {
-    using GM.Server;
+    using GM.HTTP;
     using GM.Data;
 
     using GM.Bounties;

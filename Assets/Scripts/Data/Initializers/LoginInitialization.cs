@@ -10,7 +10,7 @@ public class UpgradeState
 
 namespace GM
 {
-    using GM.Server;
+    using GM.HTTP;
 
     public class LoginInitialization : MonoBehaviour
     {

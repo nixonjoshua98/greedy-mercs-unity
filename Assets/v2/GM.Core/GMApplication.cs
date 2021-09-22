@@ -10,7 +10,7 @@ namespace GM.Core
         public GameData GameData => GameData.Get;
 
         public Data.GMData Data;
-        public Server.HTTPClient HTTP => Server.HTTPClient.Instance;
+        public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
         public static void Create(JSONNode userJSON, JSONNode gameJSON)
         {

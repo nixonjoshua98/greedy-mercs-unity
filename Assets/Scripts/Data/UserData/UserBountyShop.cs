@@ -10,7 +10,7 @@ namespace GM.Bounties
 {
     using GM.Data;
 
-    using GM.Server;
+    using GM.HTTP;
 
     using SimpleJSON;
 

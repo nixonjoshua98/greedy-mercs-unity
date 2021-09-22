@@ -38,13 +38,13 @@ namespace GM.Artefacts
             }
         }
 
-        void InstantiateArtefactRow(int artId)
+        void InstantiateArtefactRow(int artefact)
         {
-            ArtefactData artData = GameData.Get.Artefacts.Get(artId);
+            Data.FullArtefactData data = App.Data.Arts.GetArtefact(artefact);
 
-            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(artData.Slot.gameObject, slotParent.gameObject);
+            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(data.Values.Slot.gameObject, slotParent);
 
-            row.Init(artId, buyController);
+            row.Init(artefact, buyController);
         }
 
         protected override void PeriodicUpdate()

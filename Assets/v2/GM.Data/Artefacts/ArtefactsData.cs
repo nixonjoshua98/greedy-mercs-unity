@@ -1,4 +1,3 @@
-using GM.Server;
 using SimpleJSON;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +6,14 @@ using UnityEngine.Events;
 
 namespace GM.Data
 {
-    public class ArtefactsData
+    public class ArtefactsData : Core.GMClass
     {
-        UserArtefactDictionary UserData;
+        UserArtefactsDictionary UserData;
         Artefacts.GameArtefactData _Game => GameData.Get.Artefacts;
 
         public ArtefactsData(JSONNode userJSON, JSONNode gameJSON)
         {
-            UserData = new UserArtefactDictionary(userJSON);
+            UserData = new UserArtefactsDictionary(userJSON);
         }
 
         // === Properties === //
@@ -38,7 +37,7 @@ namespace GM.Data
             node["artefactId"] = artefactId;
             node["purchaseLevels"] = levelsBuying;
 
-            HTTPClient.Instance.Post("artefact/upgrade", node, (code, resp) => {
+            App.HTTP.Post("artefact/upgrade", node, (code, resp) => {
 
                 if (code == 200)
                 {
@@ -53,7 +52,7 @@ namespace GM.Data
 
         public void UnlockArtefact(UnityAction<bool, int> call)
         {
-            HTTPClient.Instance.Post("artefact/unlock", (code, resp) =>
+            App.HTTP.Post("artefact/unlock", (code, resp) =>
             {
                 if (code == 200)
                 {

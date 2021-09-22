@@ -19,7 +19,7 @@ namespace GM
         public GameMercData Mercs;
         public GameArmouryData Armoury;
         public GameBountyData Bounties;
-        public GameArtefactData Artefacts;
+        public GameArtefactData Artefacts { get; set; }
 
         public DateTime NextDailyReset;
 

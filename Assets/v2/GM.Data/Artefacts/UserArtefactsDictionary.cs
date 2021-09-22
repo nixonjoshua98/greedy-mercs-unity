@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace GM.Data
 {
-    public class UserArtefactDictionary : Dictionary<int, ArtefactState>
+    public class UserArtefactsDictionary : Dictionary<int, ArtefactState>
     {
-        public UserArtefactDictionary(JSONNode node)
+        public UserArtefactsDictionary(JSONNode node)
         {
             UpdateFromJSON(node);
         }

@@ -8,7 +8,7 @@ using SimpleJSON;
 
 namespace GM.Data
 {
-    using GM.Server;
+    using GM.HTTP;
 
     public class ArmouryItemState
     {

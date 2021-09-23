@@ -22,27 +22,27 @@ namespace GM.Units
         [Header("Prefabs")]
         [SerializeField] GameObject CharacterPanelObject;
 
-        GM.Mercs.Data.FullMercData mercData;
+        MercID _MercID;
 
         int _buyAmount;
 
-        protected MercState State { get { return MercenaryManager.Instance.GetState(mercData.ID); } }
+        protected GM.Mercs.Data.FullMercData MercData => App.Data.Mercs[_MercID];
 
         protected int BuyAmount
         {
             get
             {
                 if (_buyAmount == -1)
-                    return Formulas.AffordCharacterLevels(mercData.ID);
+                    return Formulas.AffordCharacterLevels(_MercID);
 
-                return Mathf.Min(_buyAmount, global::Constants.MAX_CHAR_LEVEL - State.Level);
+                return Mathf.Min(_buyAmount, global::Constants.MAX_CHAR_LEVEL - MercData.User.Level);
             }
         }
 
 
         public void Setup(MercID merc, BuyController buyController)
         {
-            mercData = App.Data.Mercs.GetMerc(merc);
+            _MercID = merc;
 
             buyController.AddListener((val) => { _buyAmount = val; });
 
@@ -59,20 +59,20 @@ namespace GM.Units
 
         void SetInterfaceElements()
         {
-            iconImage.sprite = mercData.GameValues.Icon;
+            iconImage.sprite = MercData.GameData.Icon;
         }
 
 
         void UpdateInterfaceElements()
         {
-            DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(mercData.ID), prefix: " ATK");
-            nameText.text   = $"(Lvl. {State.Level}) {mercData.GameValues.Name}";
+            DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(_MercID), prefix: " ATK");
+            nameText.text   = $"(Lvl. {MercData.User.Level}) {MercData.GameData.Name}";
 
             upgradeButton.SetText("MAX", "-");
 
-            if (State.Level < global::Constants.MAX_CHAR_LEVEL)
+            if (MercData.User.Level < global::Constants.MAX_CHAR_LEVEL)
             {
-                BigDouble cost = State.CostToUpgrade(BuyAmount);
+                BigDouble cost = MercData.CostToUpgrade(BuyAmount);
 
                 upgradeButton.SetText($"x{BuyAmount}", FormatString.Number(cost));
             }
@@ -85,15 +85,15 @@ namespace GM.Units
         {
             int levelsBuying = BuyAmount;
 
-            BigDouble cost = State.CostToUpgrade(BuyAmount);
+            BigDouble cost = MercData.CostToUpgrade(BuyAmount);
 
-            if (State.Level + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && UserData.Get.Inventory.Gold >= cost)
+            if (MercData.User.Level + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && UserData.Get.Inventory.Gold >= cost)
             {
-                MercenaryManager.Instance.AddLevels(mercData.ID, levelsBuying);
+                App.Data.Mercs.User.AddLevels(_MercID, levelsBuying);
 
                 UserData.Get.Inventory.Gold -= cost;
 
-                GlobalEvents.E_OnMercLevelUp.Invoke(mercData.ID);
+                GlobalEvents.E_OnMercLevelUp.Invoke(_MercID);
             }
         }
 
@@ -102,7 +102,7 @@ namespace GM.Units
         {
             GameObject panel = CanvasUtils.Instantiate(CharacterPanelObject);
 
-            panel.GetComponent<CharacterPanel>().SetHero(mercData.ID);
+            panel.GetComponent<CharacterPanel>().SetHero(_MercID);
         }
     }
 }

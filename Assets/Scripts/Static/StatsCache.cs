@@ -17,8 +17,8 @@ namespace GM
         const float BASE_CRIT_MULTIPLIER = 2.5f;
         
         static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get.Armoury.Bonuses(); } }
-        static List<KeyValuePair<BonusType, double>> ArtefactBonus { get { return App.Data.Arts.Bonuses(); } }
-        static List<KeyValuePair<BonusType, double>> CharacterBonus { get { return MercenaryManager.Instance.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArtefactBonus => App.Data.Arts.Bonuses();
+        static List<KeyValuePair<BonusType, double>> CharacterBonus => App.Data.Mercs.Bonuses();
 
         public static BigDouble ArmouryMercDamageMultiplier { get { return AddSource(BonusType.MERC_DAMAGE, ArmouryBonus); } }
 
@@ -88,25 +88,23 @@ namespace GM
             return false;
         }
 
-        // = = = Mercs = = = //
         public static BigDouble BaseMercDamage(MercID merc)
         {
-            MercState state = MercenaryManager.Instance.GetState(merc);
-            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
+            BigDouble baseDamage = data.GameData.BaseDamage > 0 ? data.GameData.BaseDamage : (data.GameData.UnlockCost / (10.0f + BigDouble.Log10(data.GameData.UnlockCost)));
 
-            return Formulas.MercBaseDamage(baseDamage, state.Level);
+            return Formulas.MercBaseDamage(baseDamage, data.User.Level);
         }
 
         public static BigDouble TotalMercDamage(MercID merc)
         {
-            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            BigDouble val = BaseMercDamage(merc);
+            BigDouble val = data.BaseDamage;
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(data.Attack.ToBonusType());
+            val *= MultiplyAllSources(data.GameData.Attack.ToBonusType());
 
             return val;
         }
@@ -120,7 +118,7 @@ namespace GM
 
         public static BigDouble GetTapDamage()
         {
-            return (Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE)) + GameState.Characters.CalcTapDamageBonus();
+            return (Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE)) + App.Data.Mercs.CalcTapDamageBonus();
         }
 
 

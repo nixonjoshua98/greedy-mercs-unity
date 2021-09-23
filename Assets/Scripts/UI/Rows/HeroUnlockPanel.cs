@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    using GM.Data;
-    using GM.Units;
     using GM.Events;
 
     public class HeroUnlockPanel : Core.GMMonoBehaviour
@@ -21,11 +19,11 @@ namespace GM
         {
             CostText.text = "-";
 
-            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
+            if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                GM.Mercs.Data.FullMercData mercData = App.Data.Mercs.GetMerc(chara);
+                GM.Mercs.Data.MercGameData mercData = App.Data.Mercs.Game[chara];
 
-                CostText.text = FormatString.Number(mercData.GameValues.UnlockCost);
+                CostText.text = FormatString.Number(mercData.UnlockCost);
             }
         }
 
@@ -33,15 +31,19 @@ namespace GM
 
         public void OnUnlockButton()
         {
-            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
+            if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                GM.Mercs.Data.FullMercData mercData = App.Data.Mercs.GetMerc(chara);
+                GM.Mercs.Data.MercGameData mercData = App.Data.Mercs.Game[chara];
 
-                if (UserData.Get.Inventory.Gold >= mercData.GameValues.UnlockCost)
+                if (UserData.Get.Inventory.Gold >= mercData.UnlockCost)
                 {
-                    UserData.Get.Inventory.Gold -= mercData.GameValues.UnlockCost;
+                    UserData.Get.Inventory.Gold -= mercData.UnlockCost;
 
-                    MercenaryManager.Instance.SetState(chara);
+                    // Unlock the merc
+                    App.Data.Mercs.User[chara] = new Mercs.Data.MercUserData
+                    {
+                        Level = 1
+                    };
 
                     GlobalEvents.E_OnMercUnlocked.Invoke(chara);
                 }

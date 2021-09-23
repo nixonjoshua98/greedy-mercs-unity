@@ -59,13 +59,11 @@ namespace GM
 
         public static int AffordCharacterLevels(MercID merc)
         {
-            MercState state = MercenaryManager.Instance.GetState(merc);
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
+            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.GameData.UnlockCost, 1.075 + ((int)merc / 1000.0), data.User.Level);
 
-            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
-
-            return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
+            return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.User.Level, int.Parse(val.ToString()));
         }
 
 

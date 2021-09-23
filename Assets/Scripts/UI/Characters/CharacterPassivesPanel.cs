@@ -1,15 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿using GM.Units;
+using System.Collections;
 using UnityEngine;
-
 
 namespace GM
 {
-    using GM.Data;
-
-    using GM.Units;
-
     public class CharacterPassivesPanel : Core.GMMonoBehaviour
     {
         [SerializeField] GameObject SkillRow;
@@ -24,14 +18,13 @@ namespace GM
 
         IEnumerator Create(MercID merc)
         {
-            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
-            MercState state = MercenaryManager.Instance.GetState(merc);
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            foreach (GM.Mercs.Data.MercPassiveSkillData passive in data.Passives)
+            foreach (GM.Mercs.Data.MercPassiveSkillData passive in data.GameData.Passives)
             {
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 
-                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(state, passive);
+                skillRow.GetComponent<CharacterPassiveRow>().UpdatePanel(data, passive);
 
                 yield return new WaitForFixedUpdate();
             }

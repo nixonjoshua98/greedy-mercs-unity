@@ -16,15 +16,17 @@ namespace GM.Mercs.Data
         public MercID ID => GameData.ID;
         public BigDouble BaseDamage => StatsCache.BaseMercDamage(ID);
         public BigDouble CostToUpgrade(int levels) => Formulas.MercLevelUpCost(User.Level, levels, GameData.UnlockCost);
-
         public MercPassiveSkillData[] UnlockedPassives
         {
             get
             {
-                int level = User.Level; // Need to reference it as a local
+                var temp = this; // Linq weirdness
 
-                return GameData.Passives.Where(ele => level >= ele.UnlockLevel).ToArray();
+                return GameData.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToArray();
             }
         }
+
+        // === Private Methods === //
+        bool IsPassiveUnlocked(MercPassiveSkillData passive) => User.Level >= passive.UnlockLevel;
     }
 }

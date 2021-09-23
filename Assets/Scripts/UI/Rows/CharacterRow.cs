@@ -89,7 +89,7 @@ namespace GM.Units
 
             if (MercData.User.Level + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && UserData.Get.Inventory.Gold >= cost)
             {
-                App.Data.Mercs.User.AddLevels(_MercID, levelsBuying);
+                MercData.User.Level += levelsBuying;
 
                 UserData.Get.Inventory.Gold -= cost;
 

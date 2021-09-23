@@ -18,7 +18,7 @@ namespace GM.Units
 
             DescriptionText.text = FormatString.Bonus(passive.Type, passive.Value);
 
-            if (state.UnlockedPassives.Contains(passive))
+            if (!state.UnlockedPassives.Contains(passive))
             {
                 UnlockText.color        = MultiplyColorAlpha(UnlockText.color, 0.5f);
                 DescriptionText.color   = MultiplyColorAlpha(DescriptionText.color, 0.5f);

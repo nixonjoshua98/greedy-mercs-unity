@@ -2,18 +2,20 @@ using SimpleJSON;
 
 namespace GM.Mercs.Data
 {
-    public class MercsData : Core.GMClass
+    public class MercsData
     {
-        public MercsData(JSONNode gameJSON)
-        {
+        MercGameDataDictionary Game;
 
+        public MercsData(JSONNode userJSON, JSONNode gameJSON)
+        {
+            Game = new MercGameDataDictionary(gameJSON);
         }
 
 
-        // === Update === //
-        public void Update(JSONNode userJSON, JSONNode gameJSON)
+        public FullMercData GetMerc(MercID merc)
         {
-
+            return new FullMercData(Game[merc]);
         }
+
     }
 }

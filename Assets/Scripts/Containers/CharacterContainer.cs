@@ -6,7 +6,7 @@ namespace GM
 {
     using GM.Data;
 
-    public class CharacterContainer
+    public class CharacterContainer : Core.GMClass
     {
         Dictionary<MercID, UpgradeState> characters;
 
@@ -32,10 +32,9 @@ namespace GM
             {
                 if (GameState.Characters.TryGetState(merc, out var state))
                 {
+                    GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-                    MercData data = GameData.Get.Mercs.Get(merc);
-
-                    foreach (MercPassiveData passive in data.Passives)
+                    foreach (GM.Mercs.Data.MercPassiveSkillData passive in data.GameValues.Passives)
                     {
                         if (state.level >= passive.UnlockLevel)
                         {

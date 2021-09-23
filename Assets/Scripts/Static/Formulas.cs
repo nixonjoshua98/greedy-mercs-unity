@@ -6,10 +6,8 @@ using UnityEngine;
 namespace GM
 {
     using GM.Data;
-    using GM.Armoury;
-    using GM.Units;
     
-    public static class Formulas
+    public class Formulas : Core.GMClass
     {
         // = = = Artefacts = = = /
         public static BigInteger ArtefactLevelUpCost(int currentLevel, int levels, float expo, float coeff)
@@ -63,7 +61,7 @@ namespace GM
         {
             MercState state = MercenaryManager.Instance.GetState(merc);
 
-            MercData data = GameData.Get.Mercs.Get(merc);
+            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
 
             BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
 

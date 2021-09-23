@@ -8,7 +8,7 @@ namespace GM
     using GM.Data;
     using GM.Units;
 
-    public class StatsCache : Core.GMMonoBehaviour
+    public class StatsCache : Core.GMClass
     {
         const float BASE_ENERGY_CAP = 50.0f;
         const float BASE_ENERGY_MIN = 1.0f;
@@ -92,7 +92,7 @@ namespace GM
         public static BigDouble BaseMercDamage(MercID merc)
         {
             MercState state = MercenaryManager.Instance.GetState(merc);
-            MercData data = GameData.Get.Mercs.Get(merc);
+            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
 
             BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
 
@@ -101,7 +101,7 @@ namespace GM
 
         public static BigDouble TotalMercDamage(MercID merc)
         {
-            MercData data = GameData.Get.Mercs.Get(merc);
+            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
 
             BigDouble val = BaseMercDamage(merc);
 

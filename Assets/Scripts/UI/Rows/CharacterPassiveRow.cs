@@ -13,7 +13,7 @@ namespace GM.Units
 
         public Image PanelImage;
 
-        public void UpdatePanel(MercState state, MercPassiveData passive)
+        public void UpdatePanel(MercState state, GM.Mercs.Data.MercPassiveSkillData passive)
         {
             UnlockText.text = passive.UnlockLevel.ToString();
 

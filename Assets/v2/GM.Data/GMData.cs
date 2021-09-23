@@ -10,7 +10,7 @@ namespace GM.Data
         public GMData(JSONNode userJSON, JSONNode gameJSON)
         {
             Arts = new GM.Artefacts.Data.ArtefactsData(userJSON["artefacts"], gameJSON["artefactResources"]);
-            Mercs = new GM.Mercs.Data.MercsData(gameJSON["mercResources"]);
+            Mercs = new GM.Mercs.Data.MercsData(null, gameJSON["mercResources"]);
         }
     }
 }

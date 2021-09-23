@@ -10,7 +10,7 @@ namespace GM
 
     using GM.Units;
 
-    public class CharacterPassivesPanel : MonoBehaviour
+    public class CharacterPassivesPanel : Core.GMMonoBehaviour
     {
         [SerializeField] GameObject SkillRow;
         [Space]
@@ -24,10 +24,10 @@ namespace GM
 
         IEnumerator Create(MercID merc)
         {
-            MercData data = GameData.Get.Mercs.Get(merc);
+            GM.Mercs.Data.MercGameData data = App.Data.Mercs.GetMerc(merc).GameValues;
             MercState state = MercenaryManager.Instance.GetState(merc);
 
-            foreach (MercPassiveData passive in data.Passives)
+            foreach (GM.Mercs.Data.MercPassiveSkillData passive in data.Passives)
             {
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

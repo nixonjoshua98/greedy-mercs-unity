@@ -13,10 +13,9 @@ namespace GM.Data
         public MercID Id;
 
         public int Level;
-        public MercPassiveData[] UnlockedPassives { get { return _svrData.Passives.Where(passive => Level >= passive.UnlockLevel).ToArray(); } }
+        public GM.Mercs.Data.MercPassiveSkillData[] UnlockedPassives { get { return _svrData.Passives.Where(passive => Level >= passive.UnlockLevel).ToArray(); } }
 
-        MercData _svrData { get { return GameData.Get.Mercs.Get(Id); } }  // Quick, dirty reference
-
+        GM.Mercs.Data.MercGameData _svrData => Core.GMApplication.Instance.Data.Mercs.GetMerc(Id).GameValues;
 
         public BigDouble CostToUpgrade(int levels)
         {
@@ -103,7 +102,7 @@ namespace GM.Data
             {
                 MercState state = GetState(chara);
 
-                foreach (MercPassiveData passive in state.UnlockedPassives)
+                foreach (GM.Mercs.Data.MercPassiveSkillData passive in state.UnlockedPassives)
                 {
                     ls.Add(new KeyValuePair<BonusType, double>(passive.Type, passive.Value));
                 }

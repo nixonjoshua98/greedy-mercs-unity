@@ -7,7 +7,7 @@ namespace GM
     using GM.Units;
     using GM.Events;
 
-    public class HeroUnlockPanel : MonoBehaviour
+    public class HeroUnlockPanel : Core.GMMonoBehaviour
     {
         [SerializeField] Text CostText;
 
@@ -23,9 +23,9 @@ namespace GM
 
             if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = GameData.Get.Mercs.Get(chara);
+                GM.Mercs.Data.FullMercData mercData = App.Data.Mercs.GetMerc(chara);
 
-                CostText.text = FormatString.Number(mercData.UnlockCost);
+                CostText.text = FormatString.Number(mercData.GameValues.UnlockCost);
             }
         }
 
@@ -35,11 +35,11 @@ namespace GM
         {
             if (MercenaryManager.Instance.GetNextHero(out MercID chara))
             {
-                MercData mercData = GameData.Get.Mercs.Get(chara);
+                GM.Mercs.Data.FullMercData mercData = App.Data.Mercs.GetMerc(chara);
 
-                if (UserData.Get.Inventory.Gold >= mercData.UnlockCost)
+                if (UserData.Get.Inventory.Gold >= mercData.GameValues.UnlockCost)
                 {
-                    UserData.Get.Inventory.Gold -= mercData.UnlockCost;
+                    UserData.Get.Inventory.Gold -= mercData.GameValues.UnlockCost;
 
                     MercenaryManager.Instance.SetState(chara);
 

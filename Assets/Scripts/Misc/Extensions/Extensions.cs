@@ -12,7 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GM
 {
-    using AttackType = Units.AttackType;
+    using AttackType = GM.Mercs.Data.AttackType;
 
     public static class AttackTypeExtensions
     {

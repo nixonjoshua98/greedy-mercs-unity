@@ -30,14 +30,6 @@ namespace GM.Artefacts.Data
         }
 
 
-        // === Update === //
-        public void Update(JSONNode userJSON, JSONNode gameJSON)
-        {
-            _User.UpdateFromJSON(userJSON);
-            _Game.UpdateFromJSON(gameJSON);
-        }
-
-
         // === Server Methods === //
         public void UpgradeArtefact(int artefactId, int levelsBuying, UnityAction<bool> call)
         {

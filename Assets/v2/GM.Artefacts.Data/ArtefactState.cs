@@ -1,5 +1,8 @@
-namespace GM.Data.Artefacts
+namespace GM.Artefacts.Data
 {
+    /// <summary>
+    /// User artefact data
+    /// </summary>
     public class ArtefactState
     {
         public int ID;

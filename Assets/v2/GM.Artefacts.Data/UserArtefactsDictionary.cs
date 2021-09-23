@@ -1,8 +1,11 @@
 using SimpleJSON;
 using System.Collections.Generic;
 
-namespace GM.Data.Artefacts
+namespace GM.Artefacts.Data
 {
+    /// <summary>
+    /// DIctionary which stores user artefacta data
+    /// </summary>
     public class UserArtefactsDictionary : Dictionary<int, ArtefactState>
     {
         public UserArtefactsDictionary(JSONNode node)
@@ -11,6 +14,10 @@ namespace GM.Data.Artefacts
         }
 
 
+        /// <summary>
+        /// Update the dictionary using a JSON (most likely from the server)
+        /// </summary>
+        /// <param name="node">JSON</param>
         public void UpdateFromJSON(JSONNode node)
         {
             Clear();

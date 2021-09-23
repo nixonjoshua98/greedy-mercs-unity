@@ -12,6 +12,7 @@ namespace GM.Core
         public Data.GMData Data;
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
+
         public static void Create(JSONNode userJSON, JSONNode gameJSON)
         {
             Instance = new GMApplication(userJSON, gameJSON);

@@ -1,55 +1,33 @@
-using System.Collections;
+using SimpleJSON;
 using System.Collections.Generic;
 using UnityEngine;
 
-using SimpleJSON;
-
-namespace GM.Artefacts
+namespace GM.Artefacts.Data
 {
-    public struct ArtefactData
+    /// <summary>
+    /// Dictionary which stores artefacts game values
+    /// </summary>
+    public class GameArtefactsDictionary : Dictionary<int, ArtefactGameData>
     {
-        public int ID;
-        
-        public string Name;
-
-        public BonusType Bonus;
-
-        public int MaxLevel;
-
-        public float CostExpo;
-        public float CostCoeff;
-        public float BaseEffect;
-        public float LevelEffect;
-
-        public Sprite Icon;
-        public ArtefactSlot Slot;
-    }
-
-
-    public class GameArtefactData
-    {
-        Dictionary<int, ArtefactData> artefacts;
-
-        public int Count { get { return artefacts.Count; } }
-
-        public GameArtefactData(JSONNode node)
+        public GameArtefactsDictionary(JSONNode node)
         {
-            UpdateData(node);
+            UpdateFromJSON(node);
         }
 
-        // = = = Public Methods = = = //
-        public ArtefactData Get(int id) => artefacts[id];
 
-
-        void UpdateData(JSONNode node)
+        /// <summary>
+        /// Update the dictionary using a JSON (most likely from the server)
+        /// </summary>
+        /// <param name="node">JSON</param>
+        public void UpdateFromJSON(JSONNode node)
         {
-            artefacts = new Dictionary<int, ArtefactData>();
+            Clear();
 
             foreach (LocalArtefactData local in LoadLocalData())
             {
                 if (node.TryGetKey(local.ID, out JSONNode current))
                 {
-                    artefacts[local.ID] = new ArtefactData()
+                    base[local.ID] = new ArtefactGameData()
                     {
                         ID = local.ID,
                         Name = local.Name,

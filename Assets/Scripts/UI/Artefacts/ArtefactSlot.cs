@@ -23,7 +23,7 @@ namespace GM.Artefacts
         int _buyAmount;
         bool _updatingUi;
 
-        Data.Artefacts.FullArtefactData ArtefactItem => App.Data.Arts.GetArtefact(_artefactId);
+        Data.FullArtefactData ArtefactItem => App.Data.Arts.GetArtefact(_artefactId);
 
         int BuyAmount => MathUtils.NextMultipleMax(ArtefactItem.State.Level, _buyAmount, ArtefactItem.Values.MaxLevel);
 

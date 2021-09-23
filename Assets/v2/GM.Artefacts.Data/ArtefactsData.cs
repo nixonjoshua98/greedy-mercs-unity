@@ -4,28 +4,37 @@ using System.Linq;
 using UnityEngine.Events;
 
 
-namespace GM.Data.Artefacts
+namespace GM.Artefacts.Data
 {
     public class ArtefactsData : Core.GMClass
     {
-        UserArtefactsDictionary UserData;
-        GM.Artefacts.GameArtefactData _Game => GameData.Get.Artefacts;
+        UserArtefactsDictionary _User;
+        GameArtefactsDictionary _Game;
 
         public ArtefactsData(JSONNode userJSON, JSONNode gameJSON)
         {
-            UserData = new UserArtefactsDictionary(userJSON);
+            _User = new UserArtefactsDictionary(userJSON);
+            _Game = new GameArtefactsDictionary(gameJSON);
         }
 
         // === Properties === //
-        public int NumUnlockedArtefacts => UserData.Count;
+        public int NumUnlockedArtefacts => _User.Count;
         public int MaxArtefacts => _Game.Count;
-        public FullArtefactData[] Artefacts => UserData.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToArray();
+        public FullArtefactData[] Artefacts => _User.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToArray();
 
 
         // === Methods === //
         public FullArtefactData GetArtefact(int artefact)
         {
-            return new FullArtefactData(_Game.Get(artefact), UserData[artefact]);
+            return new FullArtefactData(_Game[artefact], _User[artefact]);
+        }
+
+
+        // === Update === //
+        public void Update(JSONNode userJSON, JSONNode gameJSON)
+        {
+            _User.UpdateFromJSON(userJSON);
+            _Game.UpdateFromJSON(gameJSON);
         }
 
 
@@ -41,7 +50,7 @@ namespace GM.Data.Artefacts
 
                 if (code == 200)
                 {
-                    UserData.UpdateFromJSON(resp["userArtefacts"]);
+                    _User.UpdateFromJSON(resp["userArtefacts"]);
 
                     GM.UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
                 }
@@ -56,7 +65,7 @@ namespace GM.Data.Artefacts
             {
                 if (code == 200)
                 {
-                    UserData.UpdateFromJSON(resp["userArtefacts"]);
+                    _User.UpdateFromJSON(resp["userArtefacts"]);
 
                     GM.UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
                 }

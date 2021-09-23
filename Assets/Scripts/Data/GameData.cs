@@ -6,7 +6,6 @@ using SimpleJSON;
 namespace GM
 {
     using GM.Data;
-    using GM.Artefacts;
     using GM.Bounties;
 
     public class GameData
@@ -19,15 +18,12 @@ namespace GM
         public GameMercData Mercs;
         public GameArmouryData Armoury;
         public GameBountyData Bounties;
-        public GameArtefactData Artefacts { get; set; }
-
         public DateTime NextDailyReset;
 
         GameData(JSONNode node)
         {
             Items = new GameItemData();
 
-            Artefacts   = new GameArtefactData(node["artefactResources"]);
             Armoury     = new GameArmouryData(node["armouryResources"]);
             Mercs       = new GameMercData(node["mercResources"]);
             Bounties    = new GameBountyData(node["bounties"]);

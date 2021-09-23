@@ -10,7 +10,6 @@ namespace GM
     using GM.Data;
 
     using GM.Bounties;
-    using GM.Artefacts;
 
     public class UserData
     {

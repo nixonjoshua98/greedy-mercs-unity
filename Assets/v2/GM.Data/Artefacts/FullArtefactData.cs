@@ -1,11 +1,11 @@
-namespace GM.Data
+namespace GM.Data.Artefacts
 {
     public struct FullArtefactData
     {
-        public Artefacts.ArtefactData Values;
+        public GM.Artefacts.ArtefactData Values;
         public ArtefactState State;
 
-        public FullArtefactData(Artefacts.ArtefactData values, ArtefactState state)
+        public FullArtefactData(GM.Artefacts.ArtefactData values, ArtefactState state)
         {
             Values = values;
             State = state;

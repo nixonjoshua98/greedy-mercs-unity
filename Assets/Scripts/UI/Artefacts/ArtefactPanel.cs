@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using FullArtefactData = GM.Data.Artefacts.FullArtefactData;
 
 namespace GM.Artefacts
 {
@@ -32,7 +33,7 @@ namespace GM.Artefacts
 
         void InstantiateRows()
         {
-            foreach (Data.FullArtefactData art in App.Data.Arts.Artefacts)
+            foreach (FullArtefactData art in App.Data.Arts.Artefacts)
             {
                 InstantiateArtefactRow(art.ID);
             }
@@ -40,7 +41,7 @@ namespace GM.Artefacts
 
         void InstantiateArtefactRow(int artefact)
         {
-            Data.FullArtefactData data = App.Data.Arts.GetArtefact(artefact);
+            FullArtefactData data = App.Data.Arts.GetArtefact(artefact);
 
             ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(data.Values.Slot.gameObject, slotParent);
 

@@ -1,7 +1,7 @@
 using SimpleJSON;
 using System.Collections.Generic;
 
-namespace GM.Data
+namespace GM.Data.Artefacts
 {
     public class UserArtefactsDictionary : Dictionary<int, ArtefactState>
     {

@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SimpleJSON;
+
+using ArtefactsData = GM.Data.Artefacts.ArtefactsData;
 
 namespace GM.Data
 {

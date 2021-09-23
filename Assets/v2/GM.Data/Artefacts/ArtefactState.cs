@@ -1,4 +1,4 @@
-namespace GM.Data
+namespace GM.Data.Artefacts
 {
     public class ArtefactState
     {

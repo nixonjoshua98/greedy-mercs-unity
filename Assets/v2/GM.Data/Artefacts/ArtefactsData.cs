@@ -4,12 +4,12 @@ using System.Linq;
 using UnityEngine.Events;
 
 
-namespace GM.Data
+namespace GM.Data.Artefacts
 {
     public class ArtefactsData : Core.GMClass
     {
         UserArtefactsDictionary UserData;
-        Artefacts.GameArtefactData _Game => GameData.Get.Artefacts;
+        GM.Artefacts.GameArtefactData _Game => GameData.Get.Artefacts;
 
         public ArtefactsData(JSONNode userJSON, JSONNode gameJSON)
         {

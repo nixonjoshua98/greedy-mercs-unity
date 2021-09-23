@@ -37,6 +37,6 @@ namespace GM.Mercs.Data
             }
         }
 
-        GM.Data.LocalMercData[] LoadLocalData() => Resources.LoadAll<GM.Data.LocalMercData>("Mercs");
+        static GM.Data.LocalMercData[] LoadLocalData() => Resources.LoadAll<GM.Data.LocalMercData>("Mercs");
     }
 }

@@ -15,15 +15,18 @@ namespace GM.Mercs.Data
             User = new MercUserDataDictionary();
         }
 
+
         public FullMercData this[MercID key]
         {
             get => new FullMercData(Game[key], User[key]);
         }
 
+
         public bool IsMercUnlocked(MercID chara)
         {
             return User.ContainsKey(chara);
         }
+
 
         public bool GetNextHero(out MercID result)
         {
@@ -42,6 +45,7 @@ namespace GM.Mercs.Data
             return false;
         }
 
+
         public FullMercData[] UnlockedMercs => User.Unlocked.Select(merc => this[merc]).ToArray();
 
 
@@ -52,7 +56,7 @@ namespace GM.Mercs.Data
 
             foreach (FullMercData merc in UnlockedMercs)
             {
-                foreach (GM.Mercs.Data.MercPassiveSkillData passive in merc.UnlockedPassives)
+                foreach (MercPassiveSkillData passive in merc.UnlockedPassives)
                 {
                     ls.Add(new KeyValuePair<BonusType, double>(passive.Type, passive.Value));
                 }

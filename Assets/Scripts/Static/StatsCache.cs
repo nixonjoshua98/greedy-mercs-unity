@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace GM
 {
-    using GM.Data;
-    using GM.Units;
-
     public class StatsCache : Core.GMClass
     {
         const float BASE_ENERGY_CAP = 50.0f;
@@ -16,7 +12,7 @@ namespace GM
         const float BASE_CRIT_CHANCE = 0.01f;
         const float BASE_CRIT_MULTIPLIER = 2.5f;
         
-        static List<KeyValuePair<BonusType, double>> ArmouryBonus { get { return UserData.Get.Armoury.Bonuses(); } }
+        static List<KeyValuePair<BonusType, double>> ArmouryBonus => App.Data.Armoury.Bonuses();
         static List<KeyValuePair<BonusType, double>> ArtefactBonus => App.Data.Arts.Bonuses();
         static List<KeyValuePair<BonusType, double>> CharacterBonus => App.Data.Mercs.Bonuses();
 

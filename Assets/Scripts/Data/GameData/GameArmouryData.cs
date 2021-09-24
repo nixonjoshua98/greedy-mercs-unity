@@ -9,7 +9,7 @@ namespace GM.Data
 {
     public class GameArmouryData
     {
-        Dictionary<int, GM.Armoury.Data.ArmouryItemData> items;
+        Dictionary<int, GM.Armoury.Data.ArmouryItemGameData> items;
 
         public GameArmouryData(JSONNode node)
         {
@@ -17,7 +17,7 @@ namespace GM.Data
         }
 
 
-        public GM.Armoury.Data.ArmouryItemData Get(int item)
+        public GM.Armoury.Data.ArmouryItemGameData Get(int item)
         {
             return items[item];
         }
@@ -25,13 +25,13 @@ namespace GM.Data
 
         void ParseItems(JSONNode node)
         {
-            items = new Dictionary<int, GM.Armoury.Data.ArmouryItemData>();
+            items = new Dictionary<int, GM.Armoury.Data.ArmouryItemGameData>();
 
             foreach (LocalArmouryItemData ele in LoadLocalData())
             {
                 if (node.TryGetKey(ele.ID, out JSONNode result))
                 {
-                    items[ele.ID] = new GM.Armoury.Data.ArmouryItemData()
+                    items[ele.ID] = new GM.Armoury.Data.ArmouryItemGameData()
                     {
                         ID = ele.ID,
                         Name = ele.Name,

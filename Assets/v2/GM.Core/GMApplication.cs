@@ -1,4 +1,5 @@
 using SimpleJSON;
+using UnityEngine;
 
 namespace GM.Core
 {
@@ -7,7 +8,6 @@ namespace GM.Core
         public static GMApplication Instance { get; private set; }
 
         public UserData UserData => UserData.Get;
-        public GameData GameData => GameData.Get;
 
         public Data.GMData Data;
 
@@ -23,6 +23,8 @@ namespace GM.Core
         GMApplication(JSONNode userJSON, JSONNode gameJSON)
         {
             Data = new Data.GMData(userJSON, gameJSON);
+
+            Resources.UnloadUnusedAssets();
         }
     }
 }

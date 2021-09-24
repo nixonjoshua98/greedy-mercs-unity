@@ -17,7 +17,6 @@ namespace GM
 
         static UserData Instance = null;
 
-        public UserArmoury Armoury;
         public UserBounties Bounties;
         public UserInventory Inventory;
         public UserBountyShop BountyShop;
@@ -38,7 +37,6 @@ namespace GM
         public void UpdateWithServerUserData(JSONNode json)
         {
             Bounties    = new UserBounties(json["userBountyData"]);
-            Armoury     = new UserArmoury(json["armoury"]);
             BountyShop  = new UserBountyShop(json["bountyShop"]);
             Inventory   = new UserInventory(json["inventory"]);
         }

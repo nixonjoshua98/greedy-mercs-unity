@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GM.Armoury.Data
 {
-    public struct ArmouryItemData
+    public struct ArmouryItemGameData
     {
         public int ID;
 

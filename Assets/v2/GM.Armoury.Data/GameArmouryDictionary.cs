@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace GM.Armoury.Data
 {
-    public class GameArmouryDictionary : Dictionary<int, ArmouryItemData>
+    public class GameArmouryDictionary : Dictionary<int, ArmouryItemGameData>
     {
-        public readonly int MaxEvolveLevel;
-        public readonly int EvoLevelCost;
+        int MaxEvolveLevel;
+        int EvoLevelCost;
 
         public GameArmouryDictionary(JSONNode gameJSON)
         {
@@ -25,7 +25,7 @@ namespace GM.Armoury.Data
             {
                 JSONNode currentItem = itemsJSON[ele.ID];
 
-                base[ele.ID] = new ArmouryItemData
+                base[ele.ID] = new ArmouryItemGameData
                 {
                     ID = ele.ID,
                     Name = ele.Name,

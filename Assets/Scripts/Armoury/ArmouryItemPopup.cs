@@ -26,7 +26,7 @@ namespace GM.Armoury.UI
 
         // ...
         int ArmouryItemID;
-        GM.Armoury.Data.FullArmouryItemData ItemData => App.Data.Armoury[ArmouryItemID];
+        Data.FullArmouryItemData ItemData => App.Data.Armoury[ArmouryItemID];
 
         public void Init(int itemId)
         {
@@ -49,13 +49,12 @@ namespace GM.Armoury.UI
 
         void UpdateUI()
         {
-            int evoLevelCost = ItemData.Game.EvoLevelCost;
-            int levelCost = ItemData.UpgradeCost();
+            int levelCost = ItemData.UpgradeCost(); // Load the value to avoid re-calculation
 
             long armouryPoints = App.UserData.Inventory.IronIngots;
-           
+
             // Formatting
-            double currentDamage = App.UserData.Armoury.WeaponDamage(ArmouryItemID);
+            double currentDamage = ItemData.WeaponDamage;
             string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
 
             // Text 
@@ -63,7 +62,7 @@ namespace GM.Armoury.UI
             levelCostText.text = levelCost.ToString();
 
             // Update the evolve level slider
-            evolveSlider.maxValue = evoLevelCost;
+            evolveSlider.maxValue = ItemData.Game.EvoLevelCost;
             evolveSlider.value = (ItemData.User.NumOwned - 1);
 
             // Buttons
@@ -76,13 +75,13 @@ namespace GM.Armoury.UI
 
         public void OnEvolveButton()
         {
-            App.UserData.Armoury.EvolveItem(ArmouryItemID, () => { UpdateUI(); });
+            App.Data.Armoury.EvolveItem(ArmouryItemID, (success) => { UpdateUI(); });
         }
 
 
         public void OnUpgradeButton()
         {
-            App.UserData.Armoury.UpgradeItem(ArmouryItemID, () => { UpdateUI(); });
+            App.Data.Armoury.UpgradeItem(ArmouryItemID, (success) => { UpdateUI(); });
         }
 
         // = = = ^

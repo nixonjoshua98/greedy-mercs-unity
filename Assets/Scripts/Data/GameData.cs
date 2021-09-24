@@ -14,17 +14,12 @@ namespace GM
 
         static GameData Instance = null;
 
-        public GameItemData Items;
-        public GameArmouryData Armoury { get; set; }
         public GameBountyData Bounties;
         public DateTime NextDailyReset;
 
         GameData(JSONNode node)
         {
-            Items = new GameItemData();
-
-            Armoury     = new GameArmouryData(node["armouryResources"]);
-            Bounties    = new GameBountyData(node["bounties"]);
+            Bounties = new GameBountyData(node["bounties"]);
 
             NextDailyReset = Utils.UnixToDateTime(node["nextDailyReset"].AsLong);
         }

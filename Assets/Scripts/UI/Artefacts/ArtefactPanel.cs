@@ -1,9 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Numerics;
+using UnityEngine;
 using UnityEngine.UI;
-
-using System.Numerics;
-using System.Collections.Generic;
-
 
 namespace GM.Artefacts
 {
@@ -34,29 +31,29 @@ namespace GM.Artefacts
 
         void InstantiateRows()
         {
-            foreach (ArtefactState state in UserData.Get.Artefacts.StatesList)
+            foreach (Data.FullArtefactData art in App.Data.Arts.Artefacts)
             {
-                InstantiateArtefactRow(state.ID);
+                InstantiateArtefactRow(art.ID);
             }
         }
 
-        void InstantiateArtefactRow(int artId)
+        void InstantiateArtefactRow(int artefact)
         {
-            ArtefactData artData = GameData.Get.Artefacts.Get(artId);
+            Data.FullArtefactData data = App.Data.Arts.GetArtefact(artefact);
 
-            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(artData.Slot.gameObject, slotParent.gameObject);
+            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(data.Values.Slot.gameObject, slotParent);
 
-            row.Init(artId, buyController);
+            row.Init(artefact, buyController);
         }
 
         protected override void PeriodicUpdate()
         {
             BigInteger pp = UserData.Get.Inventory.PrestigePoints;
 
-            int numUnlockedArtefacts    = UserData.Get.Artefacts.Count;
-            int maxUnlockableArts       = GameData.Get.Artefacts.Count;
+            int numUnlockedArtefacts    = App.Data.Arts.NumUnlockedArtefacts;
+            int maxUnlockableArts       = App.Data.Arts.MaxArtefacts;
 
-            currentPointsText.text           = FormatString.Number(pp);
+            currentPointsText.text      = FormatString.Number(pp);
             unlockButton.interactable   = numUnlockedArtefacts < maxUnlockableArts;
 
             unlockCostText.text = "-";
@@ -72,7 +69,7 @@ namespace GM.Artefacts
 
         public void OnPurchaseArtefactBtn()
         {
-            UserData.Get.Artefacts.UnlockArtefact((success, newArtefactId) =>
+            App.Data.Arts.UnlockArtefact((success, newArtefactId) =>
             {
                 if (success)
                 {

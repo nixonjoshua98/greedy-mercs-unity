@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 using GM.Data;
-using GM.Server;
+using GM.HTTP;
 
 
 namespace GM.Bounties
@@ -63,7 +63,7 @@ namespace GM.Bounties
                 action(code == 200, code == 200 ? resp["pointsClaimed"].AsLong : -1);
             }
 
-            HTTPClient.GetClient().Post("bounty/claim", Callback);
+            HTTPClient.Instance.Post("bounty/claim", Callback);
         }
 
 
@@ -82,7 +82,7 @@ namespace GM.Bounties
             JSONNode body = new JSONObject();
             body.AddList("bountyIds", ids);
 
-            HTTPClient.GetClient().Post("bounty/setactive", body, Callback);
+            HTTPClient.Instance.Post("bounty/setactive", body, Callback);
         }
 
 

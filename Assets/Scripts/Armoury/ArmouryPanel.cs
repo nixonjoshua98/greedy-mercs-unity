@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace GM.Armoury.UI
 {
-    using GM.Data;
     using GM.UI;
 
     public class ArmouryPanel : PanelController
@@ -31,7 +30,7 @@ namespace GM.Armoury.UI
 
         protected override void OnShown()
         {
-            foreach (ArmouryItemState state in UserData.Get.Armoury.OwnedItems())
+            foreach (Data.ArmouryItemState state in App.Data.Armoury.User.OwnedItems)
             {
                 if (!itemObjects.ContainsKey(state.ID))
                 {
@@ -48,11 +47,9 @@ namespace GM.Armoury.UI
         }
 
 
-        void InstantiateItem(ArmouryItemState state)
+        void InstantiateItem(Data.ArmouryItemState state)
         {
-            ArmouryItemData data = GameData.Get.Armoury.Get(state.ID);
-
-            ArmouryItemSlot item = CanvasUtils.Instantiate(ArmouryItemObject, itemsParent).GetComponent<ArmouryItemSlot>();
+            ArmouryItemSlot item = CanvasUtils.Instantiate<ArmouryItemSlot>(ArmouryItemObject, itemsParent);
 
             item.Init(state.ID);
             

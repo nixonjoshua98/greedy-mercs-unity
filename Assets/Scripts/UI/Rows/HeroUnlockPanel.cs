@@ -3,11 +3,9 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    using GM.Data;
-    using GM.Units;
     using GM.Events;
 
-    public class HeroUnlockPanel : MonoBehaviour
+    public class HeroUnlockPanel : Core.GMMonoBehaviour
     {
         [SerializeField] Text CostText;
 
@@ -21,9 +19,9 @@ namespace GM
         {
             CostText.text = "-";
 
-            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
+            if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                MercData mercData = GameData.Get.Mercs.Get(chara);
+                GM.Mercs.Data.MercGameData mercData = App.Data.Mercs.Game[chara];
 
                 CostText.text = FormatString.Number(mercData.UnlockCost);
             }
@@ -33,15 +31,19 @@ namespace GM
 
         public void OnUnlockButton()
         {
-            if (MercenaryManager.Instance.GetNextHero(out MercID chara))
+            if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                MercData mercData = GameData.Get.Mercs.Get(chara);
+                GM.Mercs.Data.MercGameData mercData = App.Data.Mercs.Game[chara];
 
                 if (UserData.Get.Inventory.Gold >= mercData.UnlockCost)
                 {
                     UserData.Get.Inventory.Gold -= mercData.UnlockCost;
 
-                    MercenaryManager.Instance.SetState(chara);
+                    // Unlock the merc
+                    App.Data.Mercs.User[chara] = new Mercs.Data.MercUserData
+                    {
+                        Level = 1
+                    };
 
                     GlobalEvents.E_OnMercUnlocked.Invoke(chara);
                 }

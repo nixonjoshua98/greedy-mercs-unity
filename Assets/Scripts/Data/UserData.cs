@@ -6,11 +6,10 @@ using SimpleJSON;
 
 namespace GM
 {
-    using GM.Server;
+    using GM.HTTP;
     using GM.Data;
 
     using GM.Bounties;
-    using GM.Artefacts;
 
     public class UserData
     {
@@ -18,9 +17,7 @@ namespace GM
 
         static UserData Instance = null;
 
-        public UserArmoury Armoury;
         public UserBounties Bounties;
-        public UserArtefacts Artefacts;
         public UserInventory Inventory;
         public UserBountyShop BountyShop;
 
@@ -40,9 +37,7 @@ namespace GM
         public void UpdateWithServerUserData(JSONNode json)
         {
             Bounties    = new UserBounties(json["userBountyData"]);
-            Armoury     = new UserArmoury(json["armoury"]);
             BountyShop  = new UserBountyShop(json["bountyShop"]);
-            Artefacts   = new UserArtefacts(json["artefacts"]);
             Inventory   = new UserInventory(json["inventory"]);
         }
 
@@ -51,7 +46,7 @@ namespace GM
         {
             LocalDataSaveManager.Get.ClearLocalData(pause: true);
 
-            HTTPClient.GetClient().Post("prestige", node, (code, resp) => {
+            HTTPClient.Instance.Post("prestige", node, (code, resp) => {
 
                 if (code == 200)
                 {

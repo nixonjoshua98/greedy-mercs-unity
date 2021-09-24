@@ -7,7 +7,7 @@ namespace GM.Artefacts
 {
     using GM.UI;
 
-    public class ArtefactSlot : MonoBehaviour
+    public class ArtefactSlot : Core.GMMonoBehaviour
     {
         [Header("Components")]
         [SerializeField] Image icon;
@@ -23,10 +23,9 @@ namespace GM.Artefacts
         int _buyAmount;
         bool _updatingUi;
 
-        ArtefactData artefactData => GameData.Get.Artefacts.Get(_artefactId);
-        ArtefactState artefactState => UserData.Get.Artefacts.Get(_artefactId);
+        Data.FullArtefactData ArtefactItem => App.Data.Arts.GetArtefact(_artefactId);
 
-        int BuyAmount => MathUtils.NextMultipleMax(artefactState.Level, _buyAmount, artefactData.MaxLevel);
+        int BuyAmount => MathUtils.NextMultipleMax(ArtefactItem.State.Level, _buyAmount, ArtefactItem.Values.MaxLevel);
 
         void OnEnable()
         {
@@ -53,9 +52,9 @@ namespace GM.Artefacts
 
         void SetInterfaceElements()
         {
-            nameText.text = artefactData.Name;
+            nameText.text = ArtefactItem.Values.Name;
 
-            icon.sprite = artefactData.Icon;
+            icon.sprite = ArtefactItem.Values.Icon;
         }
 
 
@@ -66,24 +65,24 @@ namespace GM.Artefacts
             
             BigInteger pp = UserData.Get.Inventory.PrestigePoints;
 
-            levelText.text  = $"Lvl. {artefactState.Level}";
-            effectText.text = FormatString.Bonus(artefactData.Bonus, artefactState.Effect());
+            levelText.text  = $"Lvl. {ArtefactItem.State.Level}";
+            effectText.text = FormatString.Bonus(ArtefactItem.Values.Bonus, ArtefactItem.BaseEffect);
 
             purchaseText.text = "-";
 
-            if (!artefactState.IsMaxLevel())
+            if (!ArtefactItem.IsMaxLevel)
             {
-                purchaseText.text = $"{FormatString.Number(artefactState.CostToUpgrade(BuyAmount))} (x{BuyAmount})";
+                purchaseText.text = $"{FormatString.Number(ArtefactItem.CostToUpgrade(BuyAmount))} (x{BuyAmount})";
             }
 
-            upgradeButton.interactable = !artefactState.IsMaxLevel() && pp >= artefactState.CostToUpgrade(BuyAmount);
+            upgradeButton.interactable = !ArtefactItem.IsMaxLevel && pp >= ArtefactItem.CostToUpgrade(BuyAmount);
         }
 
 
         // = = = Button Callbacks = = = //
         public void OnUpgradeArtefactBtn()
         {
-            UserData.Get.Artefacts.UpgradeArtefact(_artefactId, BuyAmount, (_) => 
+            App.Data.Arts.UpgradeArtefact(_artefactId, BuyAmount, (success) => 
             {
                 UpdateInterfacElements(); 
             });

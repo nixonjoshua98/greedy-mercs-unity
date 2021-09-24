@@ -26,13 +26,6 @@ namespace GM
             return inst.GetComponent<T>();
         }
 
-        public static T Instantiate<T>(GameObject o, GameObject parent) where T : Component
-        {
-            GameObject inst = Instantiate(o, parent);
-
-            return inst.GetComponent<T>();
-        }
-
         public static T Instantiate<T>(GameObject o, Vector3 pos) where T : Component
         {
             GameObject inst = Instantiate(o, pos);

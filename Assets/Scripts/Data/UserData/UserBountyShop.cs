@@ -10,7 +10,7 @@ namespace GM.Bounties
 {
     using GM.Data;
 
-    using GM.Server;
+    using GM.HTTP;
 
     using SimpleJSON;
 
@@ -46,18 +46,18 @@ namespace GM.Bounties
 
     public class BountyShopItem : AbstractBountyShopItem
     {
-        public readonly ItemType ItemID;
+        public readonly GM.Items.Data.ItemType ItemID;
 
         public int QuantityPerPurchase;
 
         public BountyShopItem(string itemId, JSONNode node) : base(itemId, node)
         {
-            ItemID = (ItemType)Enum.Parse(typeof(ItemType), node["itemType"]);
+            ItemID = (GM.Items.Data.ItemType)Enum.Parse(typeof(GM.Items.Data.ItemType), node["itemType"]);
 
             QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
         }
 
-        public LocalItemData ItemData => GameData.Get.Items.Get(ItemID);
+        public Items.Data.FullGameItemData ItemData => Core.GMApplication.Instance.Data.GameItems[ItemID];
 
         public override Sprite Icon => ItemData.Icon;
     }
@@ -72,12 +72,12 @@ namespace GM.Bounties
             ArmouryItemID = node["armouryItemId"].AsInt;
         }
 
-        public ArmouryItemData ArmouryItem => GameData.Get.Armoury.Get(ArmouryItemID);
+        public GM.Armoury.Data.ArmouryItemGameData ArmouryItem => Core.GMApplication.Instance.Data.Armoury.Game[ArmouryItemID];
         public override Sprite Icon => ArmouryItem.Icon;
     }
     #endregion
 
-    public class UserBountyShop
+    public class UserBountyShop : Core.GMClass
     {
         Dictionary<string, BountyShopPurchaseData> purchases;
 
@@ -157,7 +157,7 @@ namespace GM.Bounties
                 }
             }
 
-            HTTPClient.GetClient().Post("bountyshop/refresh", InternalCallback);
+            HTTPClient.Instance.Post("bountyshop/refresh", InternalCallback);
         }
 
 
@@ -173,7 +173,7 @@ namespace GM.Bounties
                 action.Invoke(code == 200);
             }
 
-            HTTPClient.GetClient().Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
+            HTTPClient.Instance.Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
         }
 
 
@@ -183,7 +183,7 @@ namespace GM.Bounties
             {
                 if (code == 200)
                 {
-                    UserData.Get.Armoury.SetArmouryItems(resp["userArmouryItems"]);
+                   App.Data.Armoury.User.UpdateWithJSON(resp["userArmouryItems"]);
 
                     OnServerResponse(resp);
                 }
@@ -191,7 +191,7 @@ namespace GM.Bounties
                 action.Invoke(code == 200);
             }
 
-            HTTPClient.GetClient().Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
+            HTTPClient.Instance.Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
         }
 
 

@@ -1,16 +1,20 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 using UnityEngine;
 
 namespace GM
 {
-    using GM.Data;
-    using GM.Armoury;
-    using GM.Units;
-    
-    public static class Formulas
+    public class Formulas : Core.GMClass
     {
+        // === Armoury Items === //
+        public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
+        {
+            double val = ((evolveLevel + 1) * (baseDamage - 1) * level) + 1;
+
+            return val > 1 ? val : 0; // Return 0 if the multiplier is 1 (Fixes issue when adding damage values 1 + 1 = 2x which is wrong)
+        }
+
+
         // = = = Artefacts = = = /
         public static BigInteger ArtefactLevelUpCost(int currentLevel, int levels, float expo, float coeff)
         {
@@ -61,13 +65,11 @@ namespace GM
 
         public static int AffordCharacterLevels(MercID merc)
         {
-            MercState state = MercenaryManager.Instance.GetState(merc);
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            MercData data = GameData.Get.Mercs.Get(merc);
+            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.Game.UnlockCost, 1.075 + ((int)merc / 1000.0), data.User.Level);
 
-            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), state.Level);
-
-            return Mathf.Min(StaticData.MAX_CHAR_LEVEL - state.Level, int.Parse(val.ToString()));
+            return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.User.Level, int.Parse(val.ToString()));
         }
 
 
@@ -92,7 +94,7 @@ namespace GM
 
             int maxLevels = int.Parse(BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, 5, 1.09, state.level - 1).ToString());
 
-            return Mathf.Min(StaticData.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
+            return Mathf.Min(global::Constants.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
         }
 
         // === Prestige Points ===

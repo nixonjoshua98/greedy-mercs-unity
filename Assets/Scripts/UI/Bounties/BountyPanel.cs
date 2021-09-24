@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace GM.Bounties.UI
 {
-    using GM.Data;
     using GM.UI;
 
     public class BountyPanel : PanelController
@@ -62,7 +61,7 @@ namespace GM.Bounties.UI
                 {
                     ItemTextPopup popup = CanvasUtils.Instantiate<ItemTextPopup>(claimPopupText, claimButton.transform.position);
 
-                    popup.Setup(ItemType.BOUNTY_POINTS, $"{FormatString.Number(claimed)}");
+                    popup.Setup(GM.Items.Data.ItemType.BOUNTY_POINTS, $"{FormatString.Number(claimed)}");
                 }
             });
         }

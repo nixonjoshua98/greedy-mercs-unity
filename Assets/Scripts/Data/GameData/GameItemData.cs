@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Data
+
+namespace GM.Items.Data
 {
     public class GameItemData
     {

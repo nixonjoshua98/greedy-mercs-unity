@@ -7,45 +7,17 @@ using SimpleJSON;
 
 namespace GM.Data
 {
-    public struct ArmouryItemData
-    {
-        public int ID;
-
-        public int Tier { get; set; }
-
-        public string Name;
-
-        public float BaseDamageMultiplier;
-
-        public Sprite Icon;
-    }
-
-
     public class GameArmouryData
     {
-        Dictionary<int, ArmouryItemData> items;
-
-        public readonly int MaxEvolveLevel;
-        public readonly int EvoLevelCost;
+        Dictionary<int, GM.Armoury.Data.ArmouryItemData> items;
 
         public GameArmouryData(JSONNode node)
         {
-            MaxEvolveLevel = node["maxEvoLevel"].AsInt;
-            EvoLevelCost = node["evoLevelCost"].AsInt;
-
             ParseItems(node["items"]);
         }
 
-        public int LevelCost(int itemId)
-        {
-            ArmouryItemData item    = Get(itemId);
-            ArmouryItemState state  = UserData.Get.Armoury.Get(itemId);
 
-            return 5 + (item.Tier + 1) + state.level;
-        }
-
-
-        public ArmouryItemData Get(int item)
+        public GM.Armoury.Data.ArmouryItemData Get(int item)
         {
             return items[item];
         }
@@ -53,13 +25,13 @@ namespace GM.Data
 
         void ParseItems(JSONNode node)
         {
-            items = new Dictionary<int, ArmouryItemData>();
+            items = new Dictionary<int, GM.Armoury.Data.ArmouryItemData>();
 
             foreach (LocalArmouryItemData ele in LoadLocalData())
             {
                 if (node.TryGetKey(ele.ID, out JSONNode result))
                 {
-                    items[ele.ID] = new ArmouryItemData()
+                    items[ele.ID] = new GM.Armoury.Data.ArmouryItemData()
                     {
                         ID = ele.ID,
                         Name = ele.Name,

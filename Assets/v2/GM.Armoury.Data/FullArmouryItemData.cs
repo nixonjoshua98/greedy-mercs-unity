@@ -1,16 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace GM.Armoury.Data
 {
     public struct FullArmouryItemData
     {
-        public GM.Data.ArmouryItemData Game;
+        public ArmouryItemData Game;
+        public ArmouryItemState User;
 
-        public FullArmouryItemData(GM.Data.ArmouryItemData game)
+        public FullArmouryItemData(ArmouryItemData game, ArmouryItemState user)
         {
             Game = game;
+            User = user;
         }
+
+        public int UpgradeCost()
+        {
+            return 5 + (Game.Tier + 1) + User.Level;
+        }
+
+        public bool ReadyToEvolve => User.NumOwned >= (Game.EvoLevelCost + 1) && User.EvoLevel < Game.MaxEvolveLevel;
     }
 }

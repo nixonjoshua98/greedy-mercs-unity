@@ -3,6 +3,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using FullArmouryItemData = GM.Armoury.Data.FullArmouryItemData;
+
 namespace GM.Armoury.UI
 {
     using GM.Data;
@@ -31,7 +33,7 @@ namespace GM.Armoury.UI
 
         protected override void OnShown()
         {
-            foreach (ArmouryItemState state in UserData.Get.Armoury.OwnedItems())
+            foreach (GM.Armoury.Data.ArmouryItemState state in UserData.Get.Armoury.OwnedItems())
             {
                 if (!itemObjects.ContainsKey(state.ID))
                 {
@@ -48,11 +50,9 @@ namespace GM.Armoury.UI
         }
 
 
-        void InstantiateItem(ArmouryItemState state)
+        void InstantiateItem(GM.Armoury.Data.ArmouryItemState state)
         {
-            ArmouryItemData data = GameData.Get.Armoury.Get(state.ID);
-
-            ArmouryItemSlot item = CanvasUtils.Instantiate(ArmouryItemObject, itemsParent).GetComponent<ArmouryItemSlot>();
+            ArmouryItemSlot item = CanvasUtils.Instantiate<ArmouryItemSlot>(ArmouryItemObject, itemsParent);
 
             item.Init(state.ID);
             

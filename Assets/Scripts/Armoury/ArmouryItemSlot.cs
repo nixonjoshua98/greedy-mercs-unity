@@ -5,11 +5,9 @@ using UnityEngine.Events;
 
 namespace GM.Armoury.UI
 {
-    using GM.Data;
-
     using GM.UI;
 
-    public class ArmouryItemSlot : MonoBehaviour
+    public class ArmouryItemSlot : Core.GMMonoBehaviour
     {
         [Header("Components")]
         [SerializeField] TMPro.TMP_Text nameText;
@@ -19,14 +17,14 @@ namespace GM.Armoury.UI
         [Header("References")]
         [SerializeField] StarRatingController stars;
 
-        public void Init(int itemId)
+        public void Init(int item)
         {
-            ArmouryItemData data = GameData.Get.Armoury.Get(itemId);
+            GM.Armoury.Data.FullArmouryItemData data = App.Data.Armoury[item];
 
-            itemImage.sprite    = data.Icon;
-            nameText.text       = data.Name.ToUpper();
+            itemImage.sprite    = data.Game.Icon;
+            nameText.text       = data.Game.Name.ToUpper();
 
-            stars.Show(data.Tier + 1);
+            stars.Show(data.Game.Tier + 1);
         }
 
 

@@ -3,30 +3,39 @@ using System.Collections.Generic;
 
 namespace GM.Armoury.Data
 {
-    public class GameArmouryDictionary : Dictionary<int, GM.Data.ArmouryItemData>
+    public class GameArmouryDictionary : Dictionary<int, ArmouryItemData>
     {
+        public readonly int MaxEvolveLevel;
+        public readonly int EvoLevelCost;
+
         public GameArmouryDictionary(JSONNode gameJSON)
         {
-            UpdateFromJSON(gameJSON);
+            MaxEvolveLevel = gameJSON["maxEvoLevel"].AsInt;
+            EvoLevelCost = gameJSON["evoLevelCost"].AsInt;
+
+            UpdateFromJSON(gameJSON["items"]);
         }
 
 
-        void UpdateFromJSON(JSONNode node)
+        void UpdateFromJSON(JSONNode itemsJSON)
         {
             Clear();
 
             foreach (GM.Data.LocalArmouryItemData ele in LoadLocalData())
             {
-                JSONNode current = node[ele.ID];
+                JSONNode currentItem = itemsJSON[ele.ID];
 
-                base[ele.ID] = new GM.Data.ArmouryItemData()
+                base[ele.ID] = new ArmouryItemData
                 {
                     ID = ele.ID,
                     Name = ele.Name,
                     Icon = ele.Icon,
 
-                    Tier = current["itemTier"].AsInt,
-                    BaseDamageMultiplier = current["baseDamageMultiplier"].AsFloat
+                    EvoLevelCost = EvoLevelCost,
+                    MaxEvolveLevel = MaxEvolveLevel,
+
+                    Tier = currentItem["itemTier"].AsInt,
+                    BaseDamageMultiplier = currentItem["baseDamageMultiplier"].AsFloat
                 };
             }
         }

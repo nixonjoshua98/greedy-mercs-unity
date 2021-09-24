@@ -10,41 +10,13 @@ namespace GM.Data
 {
     using GM.HTTP;
 
-    public class ArmouryItemState
-    {
-        public int ID;
-
-        public int level;
-        public int owned;
-        public int evoLevel;
-
-        public ArmouryItemState(int itemId)
-        {
-            ID = itemId;
-        }
-    }
-
     public class UserArmoury
     {
-        Dictionary<int, ArmouryItemState> states;
+        Dictionary<int, GM.Armoury.Data.ArmouryItemState> states;
 
         public UserArmoury(JSONNode node)
         {
             SetArmouryItems(node);
-        }
-
-        /// <summary>
-        /// [Local] Check if an item can be evolved using the players resources
-        /// </summary>
-        /// <param name="item">Item ID</param>
-        /// <returns>bool</returns>
-        public bool CanEvolveItem(int item)
-        {
-            GameArmouryData gameData = GameData.Get.Armoury;
-
-            ArmouryItemState state = Get(item);
-
-            return state.owned >= (gameData.EvoLevelCost + 1) && state.evoLevel < gameData.MaxEvolveLevel;
         }
 
 
@@ -84,15 +56,15 @@ namespace GM.Data
 
         // = = = GET = = =
 
-        public List<ArmouryItemState> OwnedItems() => states.Values.Where(ele => ele.owned > 0).OrderBy(ele => ele.ID).ToList();
+        public List<GM.Armoury.Data.ArmouryItemState> OwnedItems() => states.Values.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.ID).ToList();
 
-        public ArmouryItemState Get(int itemId)
+        public GM.Armoury.Data.ArmouryItemState Get(int itemId)
         {
             if (!states.ContainsKey(itemId))
             {
                 UnityEngine.Debug.LogError(string.Format("ArmouryManager.GetItem({0}) - KeyError", itemId));
 
-                states[itemId] = new ArmouryItemState(itemId);
+                states[itemId] = new GM.Armoury.Data.ArmouryItemState(itemId);
             }
 
             return states[itemId];
@@ -103,7 +75,7 @@ namespace GM.Data
 
         public void SetArmouryItems(JSONNode node)
         {
-            states = new Dictionary<int, ArmouryItemState>();
+            states = new Dictionary<int, GM.Armoury.Data.ArmouryItemState>();
 
             foreach (string key in node.Keys)
             {
@@ -111,11 +83,11 @@ namespace GM.Data
 
                 int itemId = int.Parse(key);
 
-                states[itemId] = new ArmouryItemState(itemId)
+                states[itemId] = new GM.Armoury.Data.ArmouryItemState(itemId)
                 {
-                    level = current["level"].AsInt,
-                    owned = current["owned"].AsInt,
-                    evoLevel = current["evoLevel"].AsInt
+                    Level = current["level"].AsInt,
+                    NumOwned = current["owned"].AsInt,
+                    EvoLevel = current["evoLevel"].AsInt
                 };
             }
         }
@@ -124,21 +96,14 @@ namespace GM.Data
 
         public double WeaponDamage(int itemId)
         {
-            ArmouryItemState state = Get(itemId);
+            GM.Armoury.Data.ArmouryItemState state = Get(itemId);
 
-            return WeaponDamage(itemId, state.level, state.evoLevel);
-        }
-
-        public double WeaponDamage(int itemId, int level)
-        {
-            ArmouryItemState state = Get(itemId);
-
-            return WeaponDamage(itemId, level, state.evoLevel);
+            return WeaponDamage(itemId, state.Level, state.EvoLevel);
         }
 
         public double WeaponDamage(int itemId, int level, int evoLevel)
         {
-            Data.ArmouryItemData item = GameData.Get.Armoury.Get(itemId);
+            GM.Armoury.Data.ArmouryItemData item = GameData.Get.Armoury.Get(itemId);
 
             double val = ((evoLevel + 1) * ((item.BaseDamageMultiplier) - 1) * level) + 1;
 
@@ -165,9 +130,9 @@ namespace GM.Data
 
             foreach (var w in states)
             {
-                ArmouryItemState state = Get(w.Key);
+                GM.Armoury.Data.ArmouryItemState state = Get(w.Key);
 
-                if (state.level > 0)
+                if (state.Level > 0)
                     val += WeaponDamage(w.Key);
             }
 

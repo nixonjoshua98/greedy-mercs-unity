@@ -7,7 +7,7 @@ namespace GM.Armoury.Data
 {
     public class ArmouryData
     {
-        GameArmouryDictionary Game;
+        public GameArmouryDictionary Game;
 
         public ArmouryData(JSONNode userJSON, JSONNode gameJSON)
         {
@@ -17,7 +17,7 @@ namespace GM.Armoury.Data
 
         public FullArmouryItemData this[int key]
         {
-            get => new FullArmouryItemData(Game[key]);
+            get => new FullArmouryItemData(Game[key], UserData.Get.Armoury.Get(key));
         }
     }
 }

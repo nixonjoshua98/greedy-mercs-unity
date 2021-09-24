@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace GM.Armoury.UI
 {
-    using GM.Data;
     using GM.UI;
 
     public class ArmouryItemPopup : Core.GMMonoBehaviour
@@ -50,14 +49,11 @@ namespace GM.Armoury.UI
 
         void UpdateUI()
         {
-            int evoLevelCost = App.GameData.Armoury.EvoLevelCost;
-            int levelCost = App.GameData.Armoury.LevelCost(ArmouryItemID);
+            int evoLevelCost = ItemData.Game.EvoLevelCost;
+            int levelCost = ItemData.UpgradeCost();
 
             long armouryPoints = App.UserData.Inventory.IronIngots;
-
-            // Grab the current state
-            ArmouryItemState state = App.UserData.Armoury.Get(ArmouryItemID);
-
+           
             // Formatting
             double currentDamage = App.UserData.Armoury.WeaponDamage(ArmouryItemID);
             string currentDmgString = FormatString.Number(currentDamage * 100, prefix: "%");
@@ -68,10 +64,10 @@ namespace GM.Armoury.UI
 
             // Update the evolve level slider
             evolveSlider.maxValue = evoLevelCost;
-            evolveSlider.value = (state.owned - 1);
+            evolveSlider.value = (ItemData.User.NumOwned - 1);
 
             // Buttons
-            evolveButton.interactable = App.UserData.Armoury.CanEvolveItem(ArmouryItemID);
+            evolveButton.interactable = ItemData.ReadyToEvolve;
             levelButton.interactable = armouryPoints >= levelCost;
         }
 

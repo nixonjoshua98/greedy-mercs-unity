@@ -72,7 +72,7 @@ namespace GM.Bounties
             ArmouryItemID = node["armouryItemId"].AsInt;
         }
 
-        public ArmouryItemData ArmouryItem => GameData.Get.Armoury.Get(ArmouryItemID);
+        public GM.Armoury.Data.ArmouryItemData ArmouryItem => GameData.Get.Armoury.Get(ArmouryItemID);
         public override Sprite Icon => ArmouryItem.Icon;
     }
     #endregion

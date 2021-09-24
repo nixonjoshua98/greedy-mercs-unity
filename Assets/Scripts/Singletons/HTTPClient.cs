@@ -24,23 +24,6 @@ namespace GM.HTTP
 
     public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>
     {
-        // = = = Static = = = //
-        static HTTPClient _instance = null;
-
-        public static HTTPClient GetClient()
-        {
-            if (_instance == null)
-            {
-                _instance = new GameObject("HTTPClient").AddComponent<HTTPClient>();
-
-                DontDestroyOnLoad(_instance);
-            }
-
-            return _instance;
-        }
-        // = = = ^ Static ^ = = = //
-
-
         ServerConfig config = new ServerConfig()
         {
             Port = 2122,

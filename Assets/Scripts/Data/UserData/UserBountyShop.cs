@@ -157,7 +157,7 @@ namespace GM.Bounties
                 }
             }
 
-            HTTPClient.GetClient().Post("bountyshop/refresh", InternalCallback);
+            HTTPClient.Instance.Post("bountyshop/refresh", InternalCallback);
         }
 
 
@@ -173,7 +173,7 @@ namespace GM.Bounties
                 action.Invoke(code == 200);
             }
 
-            HTTPClient.GetClient().Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
+            HTTPClient.Instance.Post("bountyshop/purchase/item", CreateJson(itemId), Callback);
         }
 
 
@@ -191,7 +191,7 @@ namespace GM.Bounties
                 action.Invoke(code == 200);
             }
 
-            HTTPClient.GetClient().Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
+            HTTPClient.Instance.Post("bountyshop/purchase/armouryitem", CreateJson(itemId), Callback);
         }
 
 

@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace GM.Data
+namespace GM.Mercs.Data
 {
     [CreateAssetMenu(menuName = "Scriptables/LocalMercData")]
     public class LocalMercData : ScriptableObject

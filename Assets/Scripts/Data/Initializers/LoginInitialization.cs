@@ -22,7 +22,7 @@ namespace GM
 
         void GameData()
         {
-            HTTPClient.GetClient().Get("gamedata", (code, resp) => {
+            HTTPClient.Instance.Get("gamedata", (code, resp) => {
 
                 if (code == 200)
                 {
@@ -42,7 +42,7 @@ namespace GM
 
         void Login()
         {
-            HTTPClient.GetClient().Post("login", (code, resp) => {
+            HTTPClient.Instance.Post("login", (code, resp) => {
 
                 if (code == 200)
                 {

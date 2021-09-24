@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace GM.Artefacts
+namespace GM.Artefacts.Data
 {
     [CreateAssetMenu(menuName = "Scriptables/LocalArtefactData")]
     public class LocalArtefactData : ScriptableObject

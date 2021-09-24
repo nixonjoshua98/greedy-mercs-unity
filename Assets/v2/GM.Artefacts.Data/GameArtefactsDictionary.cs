@@ -47,6 +47,6 @@ namespace GM.Artefacts.Data
         }
 
 
-        LocalArtefactData[] LoadLocalData() => Resources.LoadAll<LocalArtefactData>("Artefacts");
+        static LocalArtefactData[] LoadLocalData() => Resources.LoadAll<LocalArtefactData>("Artefacts");
     }
 }

@@ -17,7 +17,6 @@ namespace GM.Artefacts.Data
             _Game = new GameArtefactsDictionary(gameJSON);
         }
 
-        // === Properties === //
         public int NumUnlockedArtefacts => _User.Count;
         public int MaxArtefacts => _Game.Count;
         public FullArtefactData[] Artefacts => _User.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToArray();
@@ -44,7 +43,7 @@ namespace GM.Artefacts.Data
                 {
                     _User.UpdateFromJSON(resp["userArtefacts"]);
 
-                    GM.UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
+                    App.UserData.Inventory.SetServerItemData(resp["userItems"]);
                 }
 
                 call.Invoke(code == 200);

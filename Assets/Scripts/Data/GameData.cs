@@ -1,11 +1,9 @@
+using SimpleJSON;
 using System;
 using UnityEngine;
 
-using SimpleJSON;
-
 namespace GM
 {
-    using GM.Data;
     using GM.Bounties;
 
     public class GameData

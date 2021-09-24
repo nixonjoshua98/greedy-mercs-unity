@@ -11,6 +11,8 @@ namespace GM.Items.Data
 
         void Update()
         {
+            Clear();
+
             foreach (LocalItemData item in LoadLocalData())
             {
                 base[item.Item] = new FullGameItemData

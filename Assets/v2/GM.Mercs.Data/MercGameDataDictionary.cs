@@ -17,7 +17,7 @@ namespace GM.Mercs.Data
         /// <param name="node">JSON</param>
         public void UpdateFromJSON(JSONNode node)
         {
-            foreach (GM.Data.LocalMercData desc in LoadLocalData())
+            foreach (LocalMercData desc in LoadLocalData())
             {
                 JSONNode current = node[(int)desc.ID];
 
@@ -37,6 +37,6 @@ namespace GM.Mercs.Data
             }
         }
 
-        static GM.Data.LocalMercData[] LoadLocalData() => Resources.LoadAll<GM.Data.LocalMercData>("Mercs");
+        static LocalMercData[] LoadLocalData() => Resources.LoadAll<LocalMercData>("Mercs");
     }
 }

@@ -46,7 +46,7 @@ namespace GM
         {
             LocalDataSaveManager.Get.ClearLocalData(pause: true);
 
-            HTTPClient.GetClient().Post("prestige", node, (code, resp) => {
+            HTTPClient.Instance.Post("prestige", node, (code, resp) => {
 
                 if (code == 200)
                 {

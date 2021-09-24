@@ -4,25 +4,25 @@ namespace GM.Mercs.Data
 {
     public struct FullMercData
     {
-        public MercGameData GameData;
+        public MercGameData Game;
         public MercUserData User;
 
         public FullMercData(MercGameData gameData, MercUserData userData)
         {
-            GameData = gameData;
+            Game = gameData;
             User = userData;
         }
 
-        public MercID ID => GameData.ID;
+        public MercID ID => Game.ID;
         public BigDouble BaseDamage => StatsCache.BaseMercDamage(ID);
-        public BigDouble CostToUpgrade(int levels) => Formulas.MercLevelUpCost(User.Level, levels, GameData.UnlockCost);
+        public BigDouble CostToUpgrade(int levels) => Formulas.MercLevelUpCost(User.Level, levels, Game.UnlockCost);
         public MercPassiveSkillData[] UnlockedPassives
         {
             get
             {
                 var temp = this; // Linq weirdness
 
-                return GameData.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToArray();
+                return Game.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToArray();
             }
         }
 

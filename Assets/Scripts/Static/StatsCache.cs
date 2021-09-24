@@ -92,7 +92,7 @@ namespace GM
         {
             GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            BigDouble baseDamage = data.GameData.BaseDamage > 0 ? data.GameData.BaseDamage : (data.GameData.UnlockCost / (10.0f + BigDouble.Log10(data.GameData.UnlockCost)));
+            BigDouble baseDamage = data.Game.BaseDamage > 0 ? data.Game.BaseDamage : (data.Game.UnlockCost / (10.0f + BigDouble.Log10(data.Game.UnlockCost)));
 
             return Formulas.MercBaseDamage(baseDamage, data.User.Level);
         }
@@ -104,7 +104,7 @@ namespace GM
             BigDouble val = data.BaseDamage;
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(data.GameData.Attack.ToBonusType());
+            val *= MultiplyAllSources(data.Game.Attack.ToBonusType());
 
             return val;
         }

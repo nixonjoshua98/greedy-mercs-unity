@@ -74,7 +74,7 @@ namespace GM
 
         void InstantiateAndSetupMerc(MercID merc, Vector2 pos)
         {
-            GM.Mercs.Data.MercGameData data = App.Data.Mercs[merc].GameData;
+            GM.Mercs.Data.MercGameData data = App.Data.Mercs[merc].Game;
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 

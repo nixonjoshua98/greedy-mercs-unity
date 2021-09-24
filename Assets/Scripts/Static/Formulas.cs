@@ -61,7 +61,7 @@ namespace GM
         {
             GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.GameData.UnlockCost, 1.075 + ((int)merc / 1000.0), data.User.Level);
+            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.Game.UnlockCost, 1.075 + ((int)merc / 1000.0), data.User.Level);
 
             return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.User.Level, int.Parse(val.ToString()));
         }

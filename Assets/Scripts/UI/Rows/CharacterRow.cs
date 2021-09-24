@@ -59,14 +59,14 @@ namespace GM.Units
 
         void SetInterfaceElements()
         {
-            iconImage.sprite = MercData.GameData.Icon;
+            iconImage.sprite = MercData.Game.Icon;
         }
 
 
         void UpdateInterfaceElements()
         {
             DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(_MercID), prefix: " ATK");
-            nameText.text   = $"(Lvl. {MercData.User.Level}) {MercData.GameData.Name}";
+            nameText.text   = $"(Lvl. {MercData.User.Level}) {MercData.Game.Name}";
 
             upgradeButton.SetText("MAX", "-");
 

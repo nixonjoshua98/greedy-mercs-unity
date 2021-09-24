@@ -15,7 +15,7 @@ namespace GM
         static GameData Instance = null;
 
         public GameItemData Items;
-        public GameArmouryData Armoury;
+        public GameArmouryData Armoury { get; set; }
         public GameBountyData Bounties;
         public DateTime NextDailyReset;
 

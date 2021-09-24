@@ -20,7 +20,7 @@ namespace GM
         {
             GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            foreach (GM.Mercs.Data.MercPassiveSkillData passive in data.GameData.Passives)
+            foreach (GM.Mercs.Data.MercPassiveSkillData passive in data.Game.Passives)
             {
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

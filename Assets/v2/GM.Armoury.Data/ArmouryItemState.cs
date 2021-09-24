@@ -1,5 +1,8 @@
 namespace GM.Armoury.Data
 {
+    /// <summary>
+    /// User state of the armoury item
+    /// </summary>
     public class ArmouryItemState
     {
         public int ID;
@@ -8,9 +11,9 @@ namespace GM.Armoury.Data
         public int NumOwned;
         public int EvoLevel;
 
-        public ArmouryItemState(int itemId)
+        public ArmouryItemState(int item)
         {
-            ID = itemId;
+            ID = item;
         }
     }
 }

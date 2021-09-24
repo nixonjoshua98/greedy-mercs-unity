@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace GM.Data
+namespace GM.Armoury.Data
 {
     [CreateAssetMenu(menuName = "Scriptables/LocalArmouryItemData")]
     public class LocalArmouryItemData : ScriptableObject

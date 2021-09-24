@@ -10,8 +10,9 @@ namespace GM.Armoury.Data
 
         public string Name;
 
-        public float BaseDamageMultiplier;
+        public float BaseDamage;
 
+        // Unity Objects
         public Sprite Icon;
 
         // Evolve Values

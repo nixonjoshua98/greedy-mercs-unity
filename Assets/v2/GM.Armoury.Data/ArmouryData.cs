@@ -16,6 +16,7 @@ namespace GM.Armoury.Data
         }
 
 
+        // Index accessors
         public FullArmouryItemData this[int key]
         {
             get => new FullArmouryItemData(Game[key], User[key]);
@@ -26,9 +27,9 @@ namespace GM.Armoury.Data
         {
             double val = 0;
 
-            foreach (var w in User)
+            foreach (KeyValuePair<int, ArmouryItemState> pair in User)
             {
-                FullArmouryItemData item = this[w.Key];
+                FullArmouryItemData item = this[pair.Key];
 
                 if (item.User.Level > 0)
                 {
@@ -53,9 +54,16 @@ namespace GM.Armoury.Data
             return ls;
         }
 
-        public void UpgradeItem(int itemId, UnityAction<bool> call)
+        // === Server Methods === //
+
+        /// <summary>
+        /// Send the request to upgrade an item
+        /// </summary>
+        /// <param name="item">Armoury item ID</param>
+        /// <param name="call">Callback</param>
+        public void UpgradeItem(int item, UnityAction<bool> call)
         {
-            App.HTTP.Post("armoury/upgrade", CreateJSON(itemId), (code, resp) => {
+            App.HTTP.Post("armoury/upgrade", CreateJSON(item), (code, resp) => {
 
                 if (code == 200)
                 {
@@ -68,7 +76,11 @@ namespace GM.Armoury.Data
             });
         }
 
-
+        /// <summary>
+        /// Send the request to evolve an item
+        /// </summary>
+        /// <param name="item">Armoury item ID</param>
+        /// <param name="call">Callback</param>
         public void EvolveItem(int item, UnityAction<bool> call)
         {
             App.HTTP.Post("armoury/evolve", CreateJSON(item), (code, resp) => {

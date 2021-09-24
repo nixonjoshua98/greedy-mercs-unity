@@ -1,14 +1,20 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 using UnityEngine;
 
 namespace GM
 {
-    using GM.Data;
-    
     public class Formulas : Core.GMClass
     {
+        // === Armoury Items === //
+        public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
+        {
+            double val = ((evolveLevel + 1) * (baseDamage - 1) * level) + 1;
+
+            return val > 1 ? val : 0; // Return 0 if the multiplier is 1 (Fixes issue when adding damage values 1 + 1 = 2x which is wrong)
+        }
+
+
         // = = = Artefacts = = = /
         public static BigInteger ArtefactLevelUpCost(int currentLevel, int levels, float expo, float coeff)
         {

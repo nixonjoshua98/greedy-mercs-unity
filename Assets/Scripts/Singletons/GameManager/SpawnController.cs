@@ -8,9 +8,9 @@ namespace GM
 {
     using GM.Data;
     using GM.Units.Formations;
-    using GM.Bounties;
+    using GM.Bounties.Data;
 
-    public class SpawnController : MonoBehaviour
+    public class SpawnController : Core.GMMonoBehaviour
     {
         [SerializeField] GameObject[] BossObjects;
         [SerializeField] GameObject[] EnemyObjects;
@@ -31,7 +31,7 @@ namespace GM
 
         public GameObject SpawnBoss(CurrentStageState state)
         {
-            bool isBountyBoss = GameData.Get.Bounties.GetStageBounty(state.Stage, out BountyData result);
+            bool isBountyBoss = App.Data.Bounties.Game.GetStageBounty(state.Stage, out GameBountyData result);
 
             if (isBountyBoss && MathUtils.PercentChance(result.SpawnChance))
                 return SpawnBountyBoss(result);
@@ -56,7 +56,7 @@ namespace GM
         }
 
 
-        GameObject SpawnBountyBoss(BountyData bounty)
+        GameObject SpawnBountyBoss(GameBountyData bounty)
         {
             GameObject spawnedBoss = Instantiate(bounty.Prefab, GetBossSpawnPosition(), Quaternion.identity);
 
@@ -122,7 +122,7 @@ namespace GM
         }
 
 
-        void OnBossSpawn(GameObject boss, BountyData bounty)
+        void OnBossSpawn(GameObject boss, GameBountyData bounty)
         {
             bossTitleText.text = bounty.Name;
 

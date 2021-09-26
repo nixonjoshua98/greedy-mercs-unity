@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using GM.Bounties.Data;
+
+
 
 namespace GM.Bounties.UI
 {
@@ -55,7 +58,7 @@ namespace GM.Bounties.UI
         {
             foreach (BountyState bounty in UserData.Get.Bounties.StatesList)
             {
-                BountyData data = GameData.Get.Bounties.Get(bounty.ID);
+                GameBountyData data = App.Data.Bounties.Game[bounty.ID];
 
                 BountySlot slot;
 
@@ -187,7 +190,7 @@ namespace GM.Bounties.UI
 
         void OnAvailableSlotClick(int selectedBountyID)
         {
-            if (activeSlots.Count < GameData.Get.Bounties.MaxActiveBounties)
+            if (activeSlots.Count < App.Data.Bounties.Game.MaxActiveBounties)
             {
                 if (availableSlots.TryGetValue(selectedBountyID, out BountySlot slot))
                 {

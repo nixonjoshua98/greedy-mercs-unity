@@ -57,7 +57,7 @@ namespace GM.Bounties
             QuantityPerPurchase = node["quantityPerPurchase"].AsInt;
         }
 
-        public Items.Data.FullGameItemData ItemData => Core.GMApplication.Instance.Data.GameItems[ItemID];
+        public Items.Data.FullGameItemData ItemData => Core.GMApplication.Instance.Data.Items[ItemID];
 
         public override Sprite Icon => ItemData.Icon;
     }

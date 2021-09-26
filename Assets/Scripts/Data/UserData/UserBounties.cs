@@ -6,6 +6,8 @@ using UnityEngine;
 
 using GM.Data;
 using GM.HTTP;
+using GM.Bounties.Data;
+
 
 
 namespace GM.Bounties
@@ -92,7 +94,7 @@ namespace GM.Bounties
             int unclaimed = 0;
             int hourlyIncome = 0;
 
-            GameBountyData bountyGameData = GameData.Get.Bounties;
+            GameBountiesDataDictionary bountyGameData = App.Data.Bounties.Game;
 
             // Calculate the attributes we want for the snapshot
             foreach (BountyState state in StatesList)
@@ -100,7 +102,7 @@ namespace GM.Bounties
                 if (state.IsActive)
                 {
                     // Grab the static data for the struct
-                    BountyData dataStruct = bountyGameData.Get(state.ID);
+                    GameBountyData dataStruct = bountyGameData[state.ID];
 
                     // We cap the hours since claim to the value returned from the server
                     float hoursSinceClaim = Math.Max(0, Math.Min(bountyGameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - LastClaimTime).TotalHours));

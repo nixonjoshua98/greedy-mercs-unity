@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+﻿using GM.Bounties.Data;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace GM.Bounties.UI
 {
-    using GM.Bounties;
-
-    public class BountySlot : MonoBehaviour
+    public class BountySlot : Core.GMMonoBehaviour
     {
         [Header("Components")]
         public Animator Animator;
@@ -18,11 +17,11 @@ namespace GM.Bounties.UI
         [HideInInspector] public UnityEngine.Events.UnityAction<int> E_OnClick;
         [HideInInspector] public int BountyID;
 
-        public void SetBounty(int bountyId)
+        public void SetBounty(int bounty)
         {
-            BountyID = bountyId;
+            BountyID = bounty;
 
-            BountyData data = GameData.Get.Bounties.Get(bountyId);
+            GameBountyData data = App.Data.Bounties.Game[BountyID];
 
             bountyName.text = data.Name.ToUpper();
             pointsText.text = string.Format("{0}", data.HourlyIncome);

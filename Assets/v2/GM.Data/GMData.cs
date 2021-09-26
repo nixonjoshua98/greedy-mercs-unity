@@ -1,4 +1,5 @@
 using SimpleJSON;
+using System;
 
 namespace GM.Data
 {
@@ -8,15 +9,21 @@ namespace GM.Data
         public Armoury.Data.ArmouryData Armoury;
         public Inventory.Data.UserInventory Inv;
         public Artefacts.Data.ArtefactsData Arts;
-        public Items.Data.GameItemsData GameItems;
+        public Items.Data.ItemsData Items;
+        public Bounties.Data.BountiesData Bounties;
+
+        public DateTime NextDailyReset;
 
         public GMData(JSONNode userJSON, JSONNode gameJSON)
         {
-            Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts"], gameJSON["artefactResources"]);
+            NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
+
             Inv = new Inventory.Data.UserInventory(userJSON["inventory"]);
+            Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts"], gameJSON["artefactResources"]);
+            Items = new Items.Data.ItemsData();
             Mercs = new Mercs.Data.MercsData(gameJSON["mercResources"]);
             Armoury = new Armoury.Data.ArmouryData(userJSON["armoury"], gameJSON["armouryResources"]);
-            GameItems = new Items.Data.GameItemsData();
+            Bounties = new Bounties.Data.BountiesData(gameJSON["bounties_gameData"]);
         }
     }
 }

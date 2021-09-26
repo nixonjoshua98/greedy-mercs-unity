@@ -26,7 +26,7 @@ namespace GM
 
                 if (code == 200)
                 {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath(GM.GameData.SERVER_FILE), resp);
+                    FileUtils.WriteJSON(FileUtils.ResolvePath("_GAME_DATA"), resp);
 
                     Login();
                 }

@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace GM.Items.Data
 {
-    public class GameItemsData : Dictionary<ItemType, FullGameItemData>
+    public class ItemsData : Dictionary<ItemType, FullGameItemData>
     {
-        public GameItemsData()
+        public ItemsData()
         {
             Update();
         }

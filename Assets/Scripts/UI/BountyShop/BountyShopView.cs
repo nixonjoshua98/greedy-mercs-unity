@@ -37,7 +37,7 @@ namespace GM.Bounties
 
         void UpdateRefreshText()
         {
-            TimeSpan timeUntilReset = GameData.Get.NextDailyReset - DateTime.UtcNow;
+            TimeSpan timeUntilReset = App.Data.NextDailyReset - DateTime.UtcNow;
 
             refreshText.text = $"{FormatString.Seconds(timeUntilReset.TotalSeconds)}";
         }
@@ -47,7 +47,7 @@ namespace GM.Bounties
             InstantiateItems();
             InstantiateArmouryItems();
 
-            System.Random rng = new System.Random((int)(GameData.Get.NextDailyReset - DateTime.UtcNow).TotalDays);
+            System.Random rng = new System.Random((int)(App.Data.NextDailyReset - DateTime.UtcNow).TotalDays);
 
             for (int i = 0; i < itemsParent.childCount; ++i)
             {

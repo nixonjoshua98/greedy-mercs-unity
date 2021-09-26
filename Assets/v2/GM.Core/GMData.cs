@@ -1,7 +1,7 @@
 using SimpleJSON;
 using System;
 
-namespace GM.Data
+namespace GM.Core
 {
     public class GMData
     {
@@ -9,7 +9,7 @@ namespace GM.Data
         public Armoury.Data.ArmouryData Armoury;
         public Inventory.Data.UserInventory Inv;
         public Artefacts.Data.ArtefactsData Arts;
-        public Items.Data.ItemsData Items;
+        public Items.Data.GameItemsDictionary Items;
         public Bounties.Data.BountiesData Bounties;
 
         public DateTime NextDailyReset;
@@ -18,7 +18,7 @@ namespace GM.Data
         {
             NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
 
-            Items = new Items.Data.ItemsData();
+            Items = new Items.Data.GameItemsDictionary();
 
             Inv = new Inventory.Data.UserInventory(userJSON["inventory"]);
             Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts_userData"], gameJSON["artefacts_gameData"]);

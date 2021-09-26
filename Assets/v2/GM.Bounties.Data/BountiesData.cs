@@ -9,12 +9,12 @@ namespace GM.Bounties.Data
     public class BountiesData : Core.GMClass
     {
         public GameBountiesDataDictionary Game;
-        public UserBounties User;
+        public UserBountiesDictionary User;
 
         public BountiesData(JSONNode userJSON, JSONNode gameJSON)
         {
             Game = new GameBountiesDataDictionary(gameJSON);
-            User = new UserBounties(userJSON);
+            User = new UserBountiesDictionary(userJSON);
         }
 
         public BountySnapshot CreateSnapshot()
@@ -23,20 +23,18 @@ namespace GM.Bounties.Data
             int unclaimed = 0;
             int hourlyIncome = 0;
 
-            GameBountiesDataDictionary bountyGameData = App.Data.Bounties.Game;
-
             // Calculate the attributes we want for the snapshot
             foreach (UserBountyState state in User.UnlockedBounties)
             {
                 if (state.IsActive)
                 {
                     // Grab the static data for the struct
-                    GameBountyData dataStruct = bountyGameData[state.ID];
+                    GameBountyData dataStruct = Game[state.ID];
 
                     // We cap the hours since claim to the value returned from the server
-                    float hoursSinceClaim = Math.Max(0, Math.Min(bountyGameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - User.LastClaimTime).TotalHours));
+                    float hoursSinceClaim = Math.Max(0, Math.Min(Game.MaxUnclaimedHours, (float)(DateTime.UtcNow - User.LastClaimTime).TotalHours));
 
-                    capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * bountyGameData.MaxUnclaimedHours);
+                    capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * Game.MaxUnclaimedHours);
                     unclaimed += Mathf.FloorToInt(dataStruct.HourlyIncome * hoursSinceClaim);
 
                     hourlyIncome += dataStruct.HourlyIncome;
@@ -66,7 +64,7 @@ namespace GM.Bounties.Data
 
                 if (code == 200)
                 {
-                    User.UpdateWithJSON(resp["userBounties"]);
+                    User.UpdateBountiesWithJSON(resp["userBounties"]);
                 }
 
                 action(code == 200);
@@ -83,7 +81,7 @@ namespace GM.Bounties.Data
                 {
                     User.LastClaimTime = Utils.UnixToDateTime(resp["claimTime"].AsLong);
 
-                    App.Data.Inv.UpdateWithJSON(resp["userItems"]);
+                    App.Data.Inv.UpdateCurrenciesWithJSON(resp["userItems"]);
                 }
 
                 action(code == 200, code == 200 ? pointsClaimed : -1);

@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using GM.Core;
 
 namespace GM.UI
 {
-    using GM.Data;
-
     public class ImageItem : Core.GMMonoBehaviour
     {
         public GM.Items.Data.ItemType Item;

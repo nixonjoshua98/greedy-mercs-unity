@@ -7,14 +7,14 @@ using System.Linq;
 
 namespace GM.Bounties.Data
 {
-    public class UserBounties : Dictionary<int, UserBountyState>
+    public class UserBountiesDictionary : Dictionary<int, UserBountyState>
     {
         public List<UserBountyState> UnlockedBounties => Values.ToList();
 
         public DateTime LastClaimTime;
 
 
-        public UserBounties(JSONNode json)
+        public UserBountiesDictionary(JSONNode json)
         {
             UpdateWithJSON(json);
         }

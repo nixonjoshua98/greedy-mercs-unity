@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 namespace GM.Units
 {
-    using GM.Data;
+    using GM.Core;
+
     using GM.Events;
     using GM.UI;
 

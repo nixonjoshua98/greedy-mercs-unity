@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -19,7 +17,9 @@ namespace GM.Bounties
 
         [Header("Objects")]
         public GameObject Prefab;
+
         [Space]
+
         public UI.BountySlot Slot;
     }
 }

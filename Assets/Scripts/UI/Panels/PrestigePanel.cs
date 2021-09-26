@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using SimpleJSON;
-using GM.Data;
+using GM.Core;
 using UnityEngine.UI;
 using SceneTransition = GM.Scene.SceneTransition;
 

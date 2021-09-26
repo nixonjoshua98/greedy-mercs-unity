@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    using GM.Data;
+    using GM.Core;
     using GM.Units.Formations;
     using GM.Bounties.Data;
 

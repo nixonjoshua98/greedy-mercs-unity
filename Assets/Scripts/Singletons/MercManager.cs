@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using GM.Core;
 
 namespace GM
 {
-    using GM.Data;
     using GM.Events;
 
     using GM.Units;

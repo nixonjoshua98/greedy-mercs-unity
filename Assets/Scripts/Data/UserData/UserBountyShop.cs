@@ -206,7 +206,7 @@ namespace GM.Bounties
         // = = = Callbacks = = = //
         void OnServerResponse(JSONNode resp)
         {
-            App.Data.Inv.UpdateWithJSON(resp["userItems"]);
+            App.Data.Inv.UpdateCurrenciesWithJSON(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
         }

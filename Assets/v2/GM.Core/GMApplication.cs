@@ -7,7 +7,7 @@ namespace GM.Core
     {
         public static GMApplication Instance { get; private set; }
 
-        public Data.GMData Data;
+        public GMData Data;
 
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
@@ -20,7 +20,7 @@ namespace GM.Core
 
         GMApplication(JSONNode userJSON, JSONNode gameJSON)
         {
-            Data = new Data.GMData(userJSON, gameJSON);
+            Data = new GMData(userJSON, gameJSON);
 
             Resources.UnloadUnusedAssets();
         }

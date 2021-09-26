@@ -38,7 +38,7 @@ namespace GM.Bounties.UI
         {
             GM.Bounties.Data.BountySnapshot snapshot = App.Data.Bounties.CreateSnapshot();
 
-            bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyPoints);
+            bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyP);
             bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";
             unclaimedTotalText.text = $"Collect ({snapshot.Unclaimed})";
 

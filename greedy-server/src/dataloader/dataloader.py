@@ -49,10 +49,10 @@ class DataLoader:
                 "availableItems": resources.get_bounty_shop(uid, as_dict=True),
             },
 
-            "userBountyData": await self.bounties.get_data(uid),
+            "bounties_userData": await self.bounties.get_data(uid),
 
-            "armoury": await self.armoury.get_all_items(uid),
-            "artefacts": await self.artefacts.get_all_artefacts(uid),
+            "armoury_userData": await self.armoury.get_all_items(uid),
+            "artefacts_userData": await self.artefacts.get_all_artefacts(uid),
         }
 
 

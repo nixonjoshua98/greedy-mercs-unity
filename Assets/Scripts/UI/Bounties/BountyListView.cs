@@ -56,7 +56,7 @@ namespace GM.Bounties.UI
 
         void CreateBountySlots()
         {
-            foreach (BountyState bounty in UserData.Get.Bounties.StatesList)
+            foreach (UserBountyState bounty in App.Data.Bounties.User.UnlockedBounties)
             {
                 GameBountyData data = App.Data.Bounties.Game[bounty.ID];
 
@@ -152,11 +152,15 @@ namespace GM.Bounties.UI
 
             List<int> ids = activeSlots.Values.Select(s => s.BountyID).ToList();
 
-            UserData.Get.Bounties.SetActiveBounties(ids, (success) => {
+            App.Data.Bounties.SetActiveBounties(ids, (success) => {
+
                 SetupBountySlots();
 
                 if (!success)
+                {
                     CanvasUtils.ShowInfo("Active Bounties", "Failed to update active bounties");
+                }
+
             });
         }
 

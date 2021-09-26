@@ -36,7 +36,7 @@ namespace GM.Bounties.UI
 
         void UpdatePointsCollection()
         {
-            BountySnapshot snapshot = UserData.Get.Bounties.CreateSnapshot();
+            GM.Bounties.Data.BountySnapshot snapshot = App.Data.Bounties.CreateSnapshot();
 
             bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyPoints);
             bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";
@@ -52,7 +52,7 @@ namespace GM.Bounties.UI
 
         public void OnClaimPoints()
         {
-            UserData.Get.Bounties.ClaimPoints((success, claimed) => { 
+            App.Data.Bounties.ClaimPoints((success, claimed) => { 
                 UpdatePointsCollection();
 
                 claimButtonAnim.Play("Idle");

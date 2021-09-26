@@ -1,15 +1,12 @@
 
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Events;
 
-using SimpleJSON;
-
 namespace GM
 {
-    using GM.HTTP;
-    using GM.Data;
-
     using GM.Bounties;
+    using GM.HTTP;
 
     public class UserData
     {
@@ -17,7 +14,6 @@ namespace GM
 
         static UserData Instance = null;
 
-        public UserBounties Bounties;
         public UserBountyShop BountyShop;
 
         // = = = Static Methods = = = //
@@ -35,7 +31,6 @@ namespace GM
         // = = = Public Methods = = = //
         public void UpdateWithServerUserData(JSONNode json)
         {
-            Bounties    = new UserBounties(json["userBountyData"]);
             BountyShop  = new UserBountyShop(json["bountyShop"]);
         }
 

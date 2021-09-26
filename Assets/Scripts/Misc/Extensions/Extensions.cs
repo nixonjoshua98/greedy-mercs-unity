@@ -37,15 +37,6 @@ namespace GM
 
 
 
-public static class DictionaryExtensions
-{
-    public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
-    {
-        return dict.TryGetValue(key, out var value) ? value : fallback;
-    }
-}
-
-
 public static class CameraExtensions
 {
     public static Vector2 MinBounds(this Camera camera)
@@ -89,7 +80,6 @@ public static class JSONNodeExtensions
         }
 
         node[key] = arr;       
-
     }
 }
 

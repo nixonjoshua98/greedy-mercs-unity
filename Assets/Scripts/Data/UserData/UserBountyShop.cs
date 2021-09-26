@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Linq;
-
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM.Bounties
 {
-    using GM.Data;
 
     using GM.HTTP;
 

@@ -14,12 +14,12 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Update the dictionary using a JSON (most likely from the server)
         /// </summary>
-        /// <param name="node">JSON</param>
-        public void UpdateFromJSON(JSONNode node)
+        /// <param name="json">JSON</param>
+        public void UpdateFromJSON(JSONNode json)
         {
             foreach (LocalMercData desc in LoadLocalData())
             {
-                JSONNode current = node[(int)desc.ID];
+                JSONNode current = json[(int)desc.ID];
 
                 base[desc.ID] = new MercGameData
                 {

@@ -11,16 +11,21 @@ namespace GM.Armoury.Data
             UpdateWithJSON(node);
         }
 
+        /// <summary>
+        /// State list of the unlocked armoury items
+        /// </summary>
         public List<ArmouryItemState> OwnedItems => Values.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.ID).ToList();
 
-
-        public void UpdateWithJSON(JSONNode node)
+        /// <summary>
+        /// Update dictionary with a JSON object
+        /// </summary>
+        public void UpdateWithJSON(JSONNode json)
         {
             Clear();
 
-            foreach (string key in node.Keys)
+            foreach (string key in json.Keys)
             {
-                JSONNode current = node[key];
+                JSONNode current = json[key];
 
                 int itemId = int.Parse(key);
 

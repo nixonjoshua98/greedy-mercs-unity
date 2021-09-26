@@ -32,7 +32,7 @@ namespace GM.Bounties
     }
 
 
-    public class UserBounties
+    public class UserBounties : Core.GMClass
     {
         Dictionary<int, BountyState> states;
         public List<BountyState> StatesList => states.Values.ToList();
@@ -57,7 +57,7 @@ namespace GM.Bounties
                 {
                     SetAllClaimTimes(Utils.UnixToDateTime(resp["claimTime"].AsLong));
 
-                    UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
+                    App.Data.Inv.UpdateWithJSON(resp["userItems"]);
                 }
 
                 action(code == 200, code == 200 ? resp["pointsClaimed"].AsLong : -1);

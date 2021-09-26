@@ -7,8 +7,6 @@ namespace GM.Core
     {
         public static GMApplication Instance { get; private set; }
 
-        public UserData UserData => UserData.Get;
-
         public Data.GMData Data;
 
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;

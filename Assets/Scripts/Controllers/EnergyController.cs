@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    public class EnergyController : MonoBehaviour
+    public class EnergyController : Core.GMMonoBehaviour
     {
         [SerializeField] Slider energySlider;
 
@@ -14,7 +14,7 @@ namespace GM
         {
             float energySinceLastUpdate = (StatsCache.EnergyPerMinute() / 60 * Time.fixedUnscaledDeltaTime);
 
-            UserData.Get.Inventory.Energy = Mathf.Min(StatsCache.MaxEnergyCapacity(), UserData.Get.Inventory.Energy + energySinceLastUpdate);
+            App.Data.Inv.Energy = Mathf.Min(StatsCache.MaxEnergyCapacity(), App.Data.Inv.Energy + energySinceLastUpdate);
 
             UpdateUI();
         }
@@ -23,11 +23,11 @@ namespace GM
         {
             float maxEnergy = StatsCache.MaxEnergyCapacity();
 
-            energyText.text = $"Energy {UserData.Get.Inventory.Energy:0.0}/{maxEnergy} ({StatsCache.EnergyPerMinute():0.0}/60s)";
+            energyText.text = $"Energy {App.Data.Inv.Energy:0.0}/{maxEnergy} ({StatsCache.EnergyPerMinute():0.0}/60s)";
 
             energySlider.maxValue = maxEnergy;
 
-            energySlider.value = UserData.Get.Inventory.Energy;
+            energySlider.value = App.Data.Inv.Energy;
         }
     }
 }

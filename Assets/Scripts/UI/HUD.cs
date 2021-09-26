@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    public class HUD : MonoBehaviour
+    public class HUD : Core.GMMonoBehaviour
     {
         [SerializeField] Text GoldText;
 
@@ -15,7 +15,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            GoldText.text = FormatString.Number(UserData.Get.Inventory.Gold);
+            GoldText.text = FormatString.Number(App.Data.Inv.Gold);
 
             stageText.text = $"Stage {state.Stage}";
             waveText.text = $"{state.Wave} / {state.WavesPerStage}";

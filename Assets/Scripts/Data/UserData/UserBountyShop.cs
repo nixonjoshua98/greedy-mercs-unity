@@ -209,7 +209,7 @@ namespace GM.Bounties
         // = = = Callbacks = = = //
         void OnServerResponse(JSONNode resp)
         {
-            UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
+            App.Data.Inv.UpdateWithJSON(resp["userItems"]);
 
             SetDailyPurchases(resp["dailyPurchases"]);
         }

@@ -18,7 +18,6 @@ namespace GM
         static UserData Instance = null;
 
         public UserBounties Bounties;
-        public UserInventory Inventory;
         public UserBountyShop BountyShop;
 
         // = = = Static Methods = = = //
@@ -38,23 +37,16 @@ namespace GM
         {
             Bounties    = new UserBounties(json["userBountyData"]);
             BountyShop  = new UserBountyShop(json["bountyShop"]);
-            Inventory   = new UserInventory(json["inventory"]);
         }
 
 
         public void Prestige(JSONNode node, UnityAction<bool, JSONNode> callback)
         {
-            LocalDataSaveManager.Get.ClearLocalData(pause: true);
-
             HTTPClient.Instance.Post("prestige", node, (code, resp) => {
 
                 if (code == 200)
                 {
                     FileUtils.WriteJSON(FileUtils.ResolvePath(SERVER_FILE), resp["userData"]);
-                }
-                else
-                {
-                    LocalDataSaveManager.Get.Continue();
                 }
 
                 callback.Invoke(code == 200, resp);

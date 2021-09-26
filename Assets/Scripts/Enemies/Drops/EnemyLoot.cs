@@ -2,7 +2,7 @@
 
 namespace GM
 {
-    public class EnemyLoot : MonoBehaviour, ILootDrop
+    public class EnemyLoot : Core.GMMonoBehaviour, ILootDrop
     {
         protected CurrentStageState spawnStageState;
 
@@ -14,7 +14,7 @@ namespace GM
 
         public virtual void Process()
         {
-            UserData.Get.Inventory.Gold += StatsCache.StageEnemy.GetEnemyGold(spawnStageState.Stage);
+            App.Data.Inv.Gold += StatsCache.StageEnemy.GetEnemyGold(spawnStageState.Stage);
         }
     }
 }

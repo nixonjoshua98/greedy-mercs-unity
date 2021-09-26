@@ -6,7 +6,7 @@ namespace GM
 {
     using GM.UI;
 
-    public class TapDamageUpgrade : MonoBehaviour
+    public class TapDamageUpgrade : Core.GMMonoBehaviour
     {
         GoldUpgradeID upgrade = GoldUpgradeID.TAP_DAMAGE;
 
@@ -76,13 +76,13 @@ namespace GM
 
             BigDouble cost = Formulas.CalcTapDamageLevelUpCost(levelsBuying);
 
-            if (UserData.Get.Inventory.Gold >= cost)
+            if (App.Data.Inv.Gold >= cost)
             {
                 UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
 
                 state.level += levelsBuying;
 
-                UserData.Get.Inventory.Gold -= cost;
+                App.Data.Inv.Gold -= cost;
             }
         }
     }

@@ -69,7 +69,7 @@ namespace GM.Armoury.Data
                 {
                     User.UpdateWithJSON(resp["userArmouryItems"]);
 
-                    App.UserData.Inventory.SetServerItemData(resp["userItems"]);
+                    App.Data.Inv.UpdateWithJSON(resp["userItems"]);
                 }
 
                 call(code == 200);

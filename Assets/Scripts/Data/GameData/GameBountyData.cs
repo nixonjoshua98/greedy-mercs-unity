@@ -22,7 +22,7 @@ namespace GM.Bounties
         public UI.BountySlot Slot;
     }
 
-
+    
     public class GameBountyData
     {
         Dictionary<int, BountyData> data;

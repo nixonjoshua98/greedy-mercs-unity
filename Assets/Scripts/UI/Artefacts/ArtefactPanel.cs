@@ -48,7 +48,7 @@ namespace GM.Artefacts
 
         protected override void PeriodicUpdate()
         {
-            BigInteger pp = UserData.Get.Inventory.PrestigePoints;
+            BigInteger pp = App.Data.Inv.PrestigePoints;
 
             int numUnlockedArtefacts    = App.Data.Arts.NumUnlockedArtefacts;
             int maxUnlockableArts       = App.Data.Arts.MaxArtefacts;

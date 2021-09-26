@@ -67,7 +67,7 @@ namespace GM
         {
             GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
 
-            BigDouble val = BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, data.Game.UnlockCost, 1.075 + ((int)merc / 1000.0), data.User.Level);
+            BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.Game.UnlockCost, 1.075 + ((int)merc / 1000.0), data.User.Level);
 
             return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.User.Level, int.Parse(val.ToString()));
         }
@@ -92,7 +92,7 @@ namespace GM
         {
             UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
 
-            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(UserData.Get.Inventory.Gold, 5, 1.09, state.level - 1).ToString());
+            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(App.Data.Inv.Gold, 5, 1.09, state.level - 1).ToString());
 
             return Mathf.Min(global::Constants.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
         }

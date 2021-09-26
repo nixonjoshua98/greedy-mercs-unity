@@ -63,7 +63,7 @@ namespace GM.Artefacts
             if (!_updatingUi)
                 return;
             
-            BigInteger pp = UserData.Get.Inventory.PrestigePoints;
+            BigInteger pp = App.Data.Inv.PrestigePoints;
 
             levelText.text  = $"Lvl. {ArtefactItem.State.Level}";
             effectText.text = FormatString.Bonus(ArtefactItem.Values.Bonus, ArtefactItem.BaseEffect);

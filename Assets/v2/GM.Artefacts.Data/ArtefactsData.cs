@@ -43,7 +43,7 @@ namespace GM.Artefacts.Data
                 {
                     _User.UpdateFromJSON(resp["userArtefacts"]);
 
-                    App.UserData.Inventory.SetServerItemData(resp["userItems"]);
+                    App.Data.Inv.UpdateWithJSON(resp["userItems"]);
                 }
 
                 call.Invoke(code == 200);
@@ -58,7 +58,7 @@ namespace GM.Artefacts.Data
                 {
                     _User.UpdateFromJSON(resp["userArtefacts"]);
 
-                    GM.UserData.Get.Inventory.SetServerItemData(resp["userItems"]);
+                    App.Data.Inv.UpdateWithJSON(resp["userItems"]);
                 }
 
                 call.Invoke(code == 200, code == 200 ? resp["newArtefactId"].AsInt : -1);

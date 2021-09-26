@@ -35,9 +35,9 @@ namespace GM
             {
                 GM.Mercs.Data.MercGameData mercData = App.Data.Mercs.Game[chara];
 
-                if (UserData.Get.Inventory.Gold >= mercData.UnlockCost)
+                if (App.Data.Inv.Gold >= mercData.UnlockCost)
                 {
-                    UserData.Get.Inventory.Gold -= mercData.UnlockCost;
+                    App.Data.Inv.Gold -= mercData.UnlockCost;
 
                     // Unlock the merc
                     App.Data.Mercs.User[chara] = new Mercs.Data.MercUserData

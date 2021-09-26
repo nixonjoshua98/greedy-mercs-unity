@@ -8,7 +8,7 @@ namespace GM
     {
         public override void Process()
         {
-            UserData.Get.Inventory.Gold += StatsCache.StageEnemy.GetBossGold(spawnStageState.Stage);
+            App.Data.Inv.Gold += StatsCache.StageEnemy.GetBossGold(spawnStageState.Stage);
         }
     }
 

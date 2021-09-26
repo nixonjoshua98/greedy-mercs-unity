@@ -42,7 +42,7 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            weaponPointText.text = UserData.Get.Inventory.IronIngots.ToString();
+            weaponPointText.text = App.Data.Inv.IronIngots.ToString();
             damageBonusText.text = string.Format("{0}% Mercenary Damage", FormatString.Number(StatsCache.ArmouryMercDamageMultiplier * 100));
         }
 

@@ -87,11 +87,11 @@ namespace GM.Units
 
             BigDouble cost = MercData.CostToUpgrade(BuyAmount);
 
-            if (MercData.User.Level + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && UserData.Get.Inventory.Gold >= cost)
+            if (MercData.User.Level + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && App.Data.Inv.Gold >= cost)
             {
                 MercData.User.Level += levelsBuying;
 
-                UserData.Get.Inventory.Gold -= cost;
+                App.Data.Inv.Gold -= cost;
 
                 GlobalEvents.E_OnMercLevelUp.Invoke(_MercID);
             }

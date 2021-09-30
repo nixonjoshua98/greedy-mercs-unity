@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UserBountyState = GM.Bounties.Data.UserBountyState;
 
-namespace GM.HTTP.Models
+namespace GM.HTTP.BountyModels
 {
     public class UpdateActiveBountiesResponse : ServerResponse
     {

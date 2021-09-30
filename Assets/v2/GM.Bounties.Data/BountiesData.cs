@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using BountyClaimResponse = GM.HTTP.Models.BountyClaimResponse;
-using UpdateActiveBountiesRequest = GM.HTTP.Models.UpdateActiveBountiesRequest;
+using BountyClaimResponse = GM.HTTP.BountyModels.BountyClaimResponse;
+using UpdateActiveBountiesRequest = GM.HTTP.BountyModels.UpdateActiveBountiesRequest;
 
 
 namespace GM.Bounties.Data

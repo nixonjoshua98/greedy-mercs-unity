@@ -1,4 +1,4 @@
-namespace GM.HTTP.Models
+namespace GM.HTTP
 {
 
     public interface IServerRequest

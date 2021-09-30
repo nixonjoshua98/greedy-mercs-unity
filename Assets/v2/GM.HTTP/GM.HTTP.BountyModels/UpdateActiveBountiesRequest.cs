@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace GM.HTTP.Models
+namespace GM.HTTP.BountyModels
 {
     public class UpdateActiveBountiesRequest : AuthorisedServerRequest
     {

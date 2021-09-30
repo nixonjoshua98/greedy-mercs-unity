@@ -1,12 +1,11 @@
+using GM.HTTP.BountyModels;
+using Newtonsoft.Json;
 using SimpleJSON;
 using System;
 using System.Collections;
 using UnityEngine;
-using Newtonsoft.Json;
-using UnityEngine.Networking;
-using System.Collections.Generic;
-using GM.HTTP.Models;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 
 namespace GM.HTTP
 {

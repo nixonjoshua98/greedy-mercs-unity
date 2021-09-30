@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace GM.HTTP.Models
+namespace GM.HTTP
 {
     public interface IServerResponse
     {

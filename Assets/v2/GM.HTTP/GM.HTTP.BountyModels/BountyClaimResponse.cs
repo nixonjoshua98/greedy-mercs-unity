@@ -2,7 +2,7 @@ using GM.Common.Json;
 using Newtonsoft.Json;
 using System;
 
-namespace GM.HTTP.Models
+namespace GM.HTTP.BountyModels
 {
     public class BountyClaimResponse : ServerResponse
     {

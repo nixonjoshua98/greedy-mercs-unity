@@ -1,5 +1,6 @@
 ﻿using SimpleJSON;
 using System.Numerics;
+using UserCurrenciesModel = GM.Models.UserCurrenciesModel;
 
 namespace GM.Inventory.Data
 {
@@ -7,8 +8,8 @@ namespace GM.Inventory.Data
     {
         public BigInteger PrestigePoints;
 
-        public long BountyP;
-        public long ArmouryP;
+        public long BountyPoints;
+        public long ArmouryPoints;
         public long BlueGems;
 
         public float Energy;
@@ -26,11 +27,18 @@ namespace GM.Inventory.Data
 
         public void UpdateCurrenciesWithJSON(JSONNode node)
         {
-            BlueGems        = node.GetValueOrDefault("blueGems", 0);
-            ArmouryP      = node.GetValueOrDefault("armouryPoints", 0);
-            BountyP    = node.GetValueOrDefault("bountyPoints", 0);
+            BlueGems = node.GetValueOrDefault("blueGems", 0);
+            ArmouryPoints = node.GetValueOrDefault("armouryPoints", 0);
+            BountyPoints = node.GetValueOrDefault("bountyPoints", 0);
 
             PrestigePoints = BigInteger.Parse(node.GetValueOrDefault("prestigePoints", 0), System.Globalization.NumberStyles.Any);
+        }
+
+        public void UpdateWithModel(UserCurrenciesModel model)
+        {
+            BlueGems = model.BlueGems;
+            BountyPoints = model.BountyPoints;
+            ArmouryPoints = model.ArmouryPoints;
         }
     }
 }

@@ -1,18 +1,22 @@
-﻿using SimpleJSON;
+﻿using Newtonsoft.Json;
+using SimpleJSON;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-
-
 
 namespace GM.Bounties.Data
 {
-    public class UserBountiesDictionary : Dictionary<int, UserBountyState>
+    static class UserDataKey
     {
-        public List<UserBountyState> UnlockedBounties => Values.ToList();
+        public const string LastClaimTime = "lastClaimTime";
+        public const string Bounties = "bounties";
+    }
+
+
+    public class UserBountiesDictionary
+    {
+        public List<UserBountyState> States = new List<UserBountyState>();
 
         public DateTime LastClaimTime;
-
 
         public UserBountiesDictionary(JSONNode json)
         {
@@ -22,9 +26,9 @@ namespace GM.Bounties.Data
 
         public void UpdateWithJSON(JSONNode json)
         {
-            LastClaimTime = Utils.UnixToDateTime(json["lastClaimTime"].AsLong);
+            LastClaimTime = Utils.UnixToDateTime(json[UserDataKey.LastClaimTime].AsLong);
 
-            if (json.TryGetKey("bounties", out JSONNode result))
+            if (json.TryGetKey(UserDataKey.Bounties, out JSONNode result))
             {
                 UpdateBountiesWithJSON(result);
             }
@@ -33,19 +37,13 @@ namespace GM.Bounties.Data
 
         public void UpdateBountiesWithJSON(JSONNode json)
         {
-            Clear();
+            States = JsonConvert.DeserializeObject<List<UserBountyState>>(json.ToString());
+        }
 
-            foreach (string key in json.Keys)
-            {
-                JSONNode current = json[key];
 
-                int id = int.Parse(key);
-
-                base[id] = new UserBountyState(id)
-                {
-                    IsActive = current.GetValueOrDefault("isActive", false).AsBool,
-                };
-            }
+        public void UpdateWithModel(List<UserBountyState> bounties)
+        {
+            States = bounties;
         }
     }
 }

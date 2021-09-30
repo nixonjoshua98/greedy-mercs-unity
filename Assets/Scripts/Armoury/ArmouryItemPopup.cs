@@ -51,7 +51,7 @@ namespace GM.Armoury.UI
         {
             int levelCost = ItemData.UpgradeCost(); // Load the value to avoid re-calculation
 
-            long armouryPoints = App.Data.Inv.ArmouryP;
+            long armouryPoints = App.Data.Inv.ArmouryPoints;
 
             // Formatting
             double currentDamage = ItemData.WeaponDamage;

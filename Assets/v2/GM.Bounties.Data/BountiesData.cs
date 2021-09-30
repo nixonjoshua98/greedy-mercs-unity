@@ -4,6 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using BountyClaimResponse = GM.HTTP.Models.BountyClaimResponse;
+using UpdateActiveBountiesRequest = GM.HTTP.Models.UpdateActiveBountiesRequest;
+
+
 namespace GM.Bounties.Data
 {
     public class BountiesData : Core.GMClass
@@ -24,12 +28,12 @@ namespace GM.Bounties.Data
             int hourlyIncome = 0;
 
             // Calculate the attributes we want for the snapshot
-            foreach (UserBountyState state in User.UnlockedBounties)
+            foreach (UserBountyState state in User.States)
             {
                 if (state.IsActive)
                 {
                     // Grab the static data for the struct
-                    GameBountyData dataStruct = Game[state.ID];
+                    GameBountyData dataStruct = Game[state.BountyId];
 
                     // We cap the hours since claim to the value returned from the server
                     float hoursSinceClaim = Math.Max(0, Math.Min(Game.MaxUnclaimedHours, (float)(DateTime.UtcNow - User.LastClaimTime).TotalHours));
@@ -56,35 +60,32 @@ namespace GM.Bounties.Data
 
         public void SetActiveBounties(List<int> ids, UnityAction<bool> action)
         {
-            JSONNode body = new JSONObject();
+            UpdateActiveBountiesRequest req = new UpdateActiveBountiesRequest() { BountyIds = ids };
 
-            body.AddList("bountyIds", ids);
+            App.HTTP.UpdateActiveBounties(req, (resp) => {
 
-            App.HTTP.Post("bounty/setactive", body, (code, resp) => {
-
-                if (code == 200)
+                if (resp.StatusCode == 200)
                 {
-                    User.UpdateBountiesWithJSON(resp["userBounties"]);
+                    User.UpdateWithModel(resp.Bounties);
                 }
 
-                action(code == 200);
+                action(resp.StatusCode == 200);
             });
         }
 
-        public void ClaimPoints(UnityAction<bool, long> action)
+
+        public void ClaimPoints(UnityAction<bool, BountyClaimResponse> action)
         {
-            App.HTTP.Post("bounty/claim", (code, resp) =>
+            App.HTTP.ClaimBounties((resp) =>
             {
-                long pointsClaimed = code == 200 ? resp["pointsClaimed"].AsLong : 0;
-
-                if (code == 200)
+                if (resp.StatusCode == 200)
                 {
-                    User.LastClaimTime = Utils.UnixToDateTime(resp["claimTime"].AsLong);
+                    User.LastClaimTime = resp.ClaimTime;
 
-                    App.Data.Inv.UpdateCurrenciesWithJSON(resp["userItems"]);
+                    App.Data.Inv.UpdateWithModel(resp.UserCurrencies);
                 }
 
-                action(code == 200, code == 200 ? pointsClaimed : -1);
+                action(resp.StatusCode == 200, resp);
             });
         }
     }

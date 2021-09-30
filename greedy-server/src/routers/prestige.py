@@ -46,6 +46,8 @@ async def process_new_bounties(uid, req_data: PrestigeData, *, mongo: DataLoader
 
     u_bounties = await mongo.bounties.get_user_bounties(uid)
 
+    u_bounty_ids = [b["bountyId"] for b in u_bounties]
+
     for key, bounty in bounty_res.bounties.items():
-        if key not in u_bounties and req_data.prestige_stage >= bounty.stage:
+        if key not in u_bounty_ids and req_data.prestige_stage >= bounty.stage:
             await mongo.bounties.add_new_bounty(uid, key)

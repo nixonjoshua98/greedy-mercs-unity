@@ -29,8 +29,7 @@ class ServerResponse(Response):
     def __init__(self, content, *args, **kwargs):
         super(ServerResponse, self).__init__(json.dumps(content, default=self.default), *args, **kwargs)
 
-    @staticmethod
-    def default(o):
+    def default(self, o):
         if isinstance(o, bson.ObjectId):
             return str(o)
 

@@ -1,13 +1,12 @@
-using System;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.Networking;
-
 using SimpleJSON;
-
+using System;
+using System.Collections;
+using UnityEngine;
+using Newtonsoft.Json;
+using UnityEngine.Networking;
+using System.Collections.Generic;
+using GM.HTTP.Models;
+using UnityEngine.Events;
 
 namespace GM.HTTP
 {
@@ -17,18 +16,47 @@ namespace GM.HTTP
 
         public int Port;
 
-        public string Url(string endpoint) => string.Format("http://{0}:{1}/api/{2}", Address, Port, endpoint);
+        public string UrlFor(string endpoint) => string.Format("http://{0}:{1}/api/{2}", Address, Port, endpoint);
     }
 
 
 
     public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>
     {
-        ServerConfig config = new ServerConfig()
+        ServerConfig PyServer = new ServerConfig()
         {
             Port = 2122,
-            Address = "212.140.123.165"
+            Address = "109.154.72.134"
         };
+
+
+        public void ClaimBounties(UnityAction<BountyClaimResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest())); // Requires no additional request information
+
+            StartCoroutine(_Post(www, () => callback(DeserializeResponse<BountyClaimResponse>(www))));
+        }
+
+        public void UpdateActiveBounties(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/setactive"), PrepareRequest(req));
+
+            StartCoroutine(_Post(www, () => callback(DeserializeResponse<UpdateActiveBountiesResponse>(www))));
+        }
+
+
+        IEnumerator _Post(UnityWebRequest www, UnityAction callback)
+        {
+            www.timeout = 5;
+
+            www.SetRequestHeader("Content-Type", "application/json");
+
+            yield return www.SendWebRequest();
+
+            callback();
+        }
+
+
 
         // = = = Private Requests = = = //
         void SendGet(string url, Action<long, JSONNode> callback) => StartCoroutine(ProcessRequest(UnityWebRequest.Get(url), callback));
@@ -37,11 +65,11 @@ namespace GM.HTTP
 
 
         // POST
-        public void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback) => SendPost(config.Url(endpoint), node, callback);
-        public void Post(string endpoint, Action<long, JSONNode> callback) => SendPost(config.Url(endpoint), new JSONObject(), callback);
+        public void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback) => SendPost(PyServer.UrlFor(endpoint), node, callback);
+        public void Post(string endpoint, Action<long, JSONNode> callback) => SendPost(PyServer.UrlFor(endpoint), new JSONObject(), callback);
 
         // GET
-        public void Get(string endpoint, Action<long, JSONNode> callback) => SendGet(config.Url(endpoint), callback);
+        public void Get(string endpoint, Action<long, JSONNode> callback) => SendGet(PyServer.UrlFor(endpoint), callback);
 
 
         IEnumerator ProcessRequest(UnityWebRequest www, Action<long, JSONNode> callback)
@@ -81,6 +109,37 @@ namespace GM.HTTP
             node["deviceId"] = SystemInfo.deviceUniqueIdentifier;
 
             return node.ToString();
+        }
+
+
+
+        // === Serialize & Deserialize === //
+
+        T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
+        {
+            T model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
+
+            if (model is null)
+            {
+                // Create a default instance with an error message
+                model = new T()
+                {
+                    ErrorMessage = "Failed to deserialize server response"
+                };
+            }
+
+            // Set the status code from the response
+            model.StatusCode = www.responseCode;
+
+            return model;
+        }
+
+
+        string PrepareRequest<T>(T request) where T : IAuthorisedServerRequest
+        {
+            request.DeviceId = SystemInfo.deviceUniqueIdentifier;
+
+            return JsonConvert.SerializeObject(request);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace GM.Bounties.UI
         {
             GM.Bounties.Data.BountySnapshot snapshot = App.Data.Bounties.CreateSnapshot();
 
-            bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyP);
+            bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyPoints);
             bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";
             unclaimedTotalText.text = $"Collect ({snapshot.Unclaimed})";
 
@@ -52,7 +52,8 @@ namespace GM.Bounties.UI
 
         public void OnClaimPoints()
         {
-            App.Data.Bounties.ClaimPoints((success, claimed) => { 
+            App.Data.Bounties.ClaimPoints((success, resp) => { 
+
                 UpdatePointsCollection();
 
                 claimButtonAnim.Play("Idle");
@@ -61,7 +62,7 @@ namespace GM.Bounties.UI
                 {
                     ItemTextPopup popup = CanvasUtils.Instantiate<ItemTextPopup>(claimPopupText, claimButton.transform.position);
 
-                    popup.Setup(GM.Items.Data.ItemType.BOUNTY_POINTS, $"{FormatString.Number(claimed)}");
+                    popup.Setup(Items.Data.ItemType.BOUNTY_POINTS, $"{FormatString.Number(resp.PointsClaimed)}");
                 }
             });
         }

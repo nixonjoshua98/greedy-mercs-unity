@@ -1,6 +1,7 @@
 
 using System.Numerics;
 using System.Collections.Generic;
+using System.Linq;
 
 using SimpleJSON;
 
@@ -80,6 +81,11 @@ public static class JSONNodeExtensions
         }
 
         node[key] = arr;       
+    }
+
+    public static void AddArray<T>(this JSONNode node, string key, T[] ls)
+    {
+        node.AddList(key, ls.ToList());
     }
 }
 

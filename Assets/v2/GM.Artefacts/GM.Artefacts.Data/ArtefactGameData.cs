@@ -23,6 +23,6 @@ namespace GM.Artefacts.Data
 
         // Unity objects
         public Sprite Icon;
-        public ArtefactSlot Slot;
+        public GM.Artefacts.UI.ArtefactSlot Slot;
     }
 }

@@ -14,6 +14,6 @@ namespace GM.Artefacts.Data
         public string Name = "<Missing Artefact Name>";
 
         public Sprite Icon;
-        public ArtefactSlot Slot;
+        public GM.Artefacts.UI.ArtefactSlot Slot;
     }
 }

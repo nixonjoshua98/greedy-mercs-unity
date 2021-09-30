@@ -3,7 +3,7 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Artefacts
+namespace GM.Artefacts.UI
 {
     using GM.UI;
 

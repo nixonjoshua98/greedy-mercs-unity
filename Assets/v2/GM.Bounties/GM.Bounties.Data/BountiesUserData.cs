@@ -12,13 +12,13 @@ namespace GM.Bounties.Data
     }
 
 
-    public class UserBountiesDictionary
+    public class BountiesUserData
     {
-        public List<UserBountyState> States = new List<UserBountyState>();
+        public List<BountyUserData> States = new List<BountyUserData>();
 
         public DateTime LastClaimTime;
 
-        public UserBountiesDictionary(JSONNode json)
+        public BountiesUserData(JSONNode json)
         {
             UpdateWithJSON(json);
         }
@@ -37,11 +37,11 @@ namespace GM.Bounties.Data
 
         public void UpdateBountiesWithJSON(JSONNode json)
         {
-            States = JsonConvert.DeserializeObject<List<UserBountyState>>(json.ToString());
+            States = JsonConvert.DeserializeObject<List<BountyUserData>>(json.ToString());
         }
 
 
-        public void UpdateWithModel(List<UserBountyState> bounties)
+        public void UpdateBounties(List<BountyUserData> bounties)
         {
             States = bounties;
         }

@@ -41,7 +41,7 @@ namespace GM.Artefacts.UI
         {
             Data.FullArtefactData data = App.Data.Arts.GetArtefact(artefact);
 
-            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(data.Values.Slot.gameObject, slotParent);
+            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(data.Game.Slot.gameObject, slotParent);
 
             row.Init(artefact, buyController);
         }

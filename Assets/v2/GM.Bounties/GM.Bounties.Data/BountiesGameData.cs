@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace GM.Bounties.Data
 {
-    public class GameBountiesDataDictionary : Dictionary<int, GameBountyData>
+    public class BountiesGameData : Dictionary<int, BountyGameData>
     {
         public float MaxUnclaimedHours;
         public int MaxActiveBounties;
 
-        public GameBountiesDataDictionary(JSONNode node)
+        public BountiesGameData(JSONNode node)
         {
             UpdateWithJSON(node);
         }
@@ -20,8 +20,6 @@ namespace GM.Bounties.Data
         /// </summary>
         public void UpdateWithJSON(JSONNode json)
         {
-            // {"maxUnclaimedHours": ?, "maxActiveBounties": ?, "bounties": []}
-
             MaxUnclaimedHours = json["maxUnclaimedHours"];
             MaxActiveBounties = json["maxActiveBounties"];
 
@@ -36,11 +34,11 @@ namespace GM.Bounties.Data
         {
             Clear();
 
-            foreach (LocalBountyData res in LoadLocalData())
+            foreach (BountyLocalGameData res in LoadLocalData())
             {
                 JSONNode current = json[res.ID];
 
-                base[res.ID] = new GameBountyData()
+                base[res.ID] = new BountyGameData()
                 {
                     ID = res.ID,
                     Name = res.Name,
@@ -57,11 +55,11 @@ namespace GM.Bounties.Data
         }
 
 
-        public bool GetStageBounty(int stage, out GameBountyData result)
+        public bool GetStageBounty(int stage, out BountyGameData result)
         {
             result = default;
 
-            foreach (KeyValuePair<int, GameBountyData> pair in this)
+            foreach (KeyValuePair<int, BountyGameData> pair in this)
             {
                 result = pair.Value;
 
@@ -72,6 +70,6 @@ namespace GM.Bounties.Data
             return false;
         }
 
-        static LocalBountyData[] LoadLocalData() => Resources.LoadAll<LocalBountyData>("Bounties");
+        static BountyLocalGameData[] LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Bounties");
     }
 }

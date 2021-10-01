@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using SimpleJSON;
 
 namespace GM
@@ -10,12 +9,7 @@ namespace GM
 
         public static void Restore(JSONNode node)
         {
-            Upgrades    = new UpgradesContainer(node);
-        }
-
-        public static void Prestige()
-        {
-            Upgrades.Clear();
+            Upgrades = new UpgradesContainer(node);
         }
     }
 }

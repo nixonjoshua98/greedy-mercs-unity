@@ -33,18 +33,22 @@ namespace GM.HTTP
         {
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest())); // Requires no additional request information
 
-            StartCoroutine(_Post(www, () => callback(DeserializeResponse<BountyClaimResponse>(www))));
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<BountyClaimResponse>(www))));
         }
 
         public void UpdateActiveBounties(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback)
         {
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/setactive"), PrepareRequest(req));
 
-            StartCoroutine(_Post(www, () => callback(DeserializeResponse<UpdateActiveBountiesResponse>(www))));
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpdateActiveBountiesResponse>(www))));
         }
 
-
-        IEnumerator _Post(UnityWebRequest www, UnityAction callback)
+        /// <summary>
+        /// Send the web request and invoke the callback
+        /// </summary>
+        /// <param name="www">Web request object</param>
+        /// <param name="callback">Callback</param>
+        IEnumerator SendRequest(UnityWebRequest www, UnityAction callback)
         {
             www.timeout = 5;
 
@@ -110,10 +114,11 @@ namespace GM.HTTP
             return node.ToString();
         }
 
-
-
-        // === Serialize & Deserialize === //
-
+        /// <summary>
+        /// Deserialize a response object. StatusCode and ErrorMessage are set here
+        /// </summary>
+        /// <typeparam name="T">Response type</typeparam>
+        /// <param name="www">Web request</param>
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
             T model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
@@ -133,7 +138,11 @@ namespace GM.HTTP
             return model;
         }
 
-
+        /// <summary>
+        /// Prepare the authorised server request. Involves serializing and setting Auth attributes
+        /// </summary>
+        /// <typeparam name="T">Request type</typeparam>
+        /// <param name="request">Server request model</param>
         string PrepareRequest<T>(T request) where T : IAuthorisedServerRequest
         {
             request.DeviceId = SystemInfo.deviceUniqueIdentifier;

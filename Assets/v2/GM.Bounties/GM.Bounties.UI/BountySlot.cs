@@ -21,7 +21,7 @@ namespace GM.Bounties.UI
         {
             BountyID = bounty;
 
-            GameBountyData data = App.Data.Bounties.Game[BountyID];
+            BountyGameData data = App.Data.Bounties.Game[BountyID];
 
             bountyName.text = data.Name.ToUpper();
             pointsText.text = string.Format("{0}", data.HourlyIncome);

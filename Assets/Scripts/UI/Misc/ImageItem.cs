@@ -22,7 +22,7 @@ namespace GM.UI
 
         void SetSprite(GM.Items.Data.ItemType item)
         {
-            GetComponent<Image>().sprite = App.Data.Items[item].Icon;
+            GetComponent<Image>().sprite = App.Data.Items.GetItem(item).Icon;
         }
     }
 }

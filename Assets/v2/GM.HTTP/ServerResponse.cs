@@ -15,6 +15,6 @@ namespace GM.HTTP
         public long StatusCode { get; set; }
 
         [JsonProperty(PropertyName = "error")]
-        public string ErrorMessage { get; set; } = string.Empty;
+        public string ErrorMessage { get; set; } = string.Empty; // Pulled from either the return response, or set manually
     }
 }

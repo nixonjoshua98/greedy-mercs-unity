@@ -2,20 +2,26 @@ using System.Collections.Generic;
 
 namespace GM.Items.Data
 {
-    public class GameItemsDictionary : Dictionary<ItemType, FullGameItemData>
+    public class GameItemCollection
     {
-        public GameItemsDictionary()
+        Dictionary<ItemType, FullGameItemData> _internal;
+        public GameItemCollection()
         {
             Update();
         }
 
+        public FullGameItemData GetItem(ItemType item)
+        {
+            return _internal[item];
+        }
+
         void Update()
         {
-            Clear();
+            _internal = new Dictionary<ItemType, FullGameItemData>();
 
             foreach (LocalItemData item in LoadLocalData())
             {
-                base[item.Item] = new FullGameItemData
+                _internal[item.Item] = new FullGameItemData
                 {
                     Icon = item.Icon,
                     DisplayName = item.DisplayName,

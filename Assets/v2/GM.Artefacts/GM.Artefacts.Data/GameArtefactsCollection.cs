@@ -7,9 +7,9 @@ namespace GM.Artefacts.Data
     /// <summary>
     /// Dictionary which stores artefacts game values
     /// </summary>
-    public class GameArtefactsDictionary : Dictionary<int, ArtefactGameData>
+    public class GameArtefactsCollection : Dictionary<int, ArtefactGameData>
     {
-        public GameArtefactsDictionary(JSONNode node)
+        public GameArtefactsCollection(JSONNode node)
         {
             UpdateFromJSON(node);
         }

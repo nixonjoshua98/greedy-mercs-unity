@@ -9,7 +9,7 @@ namespace GM.Core
         public Armoury.Data.ArmouryData Armoury;
         public Inventory.Data.UserInventory Inv;
         public Artefacts.Data.ArtefactsData Arts;
-        public Items.Data.GameItemsDictionary Items;
+        public Items.Data.GameItemCollection Items { get; set; }
         public Bounties.Data.BountiesData Bounties;
 
         public DateTime NextDailyReset;
@@ -18,7 +18,7 @@ namespace GM.Core
         {
             NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
 
-            Items = new Items.Data.GameItemsDictionary();
+            Items = new Items.Data.GameItemCollection();
 
             Inv = new Inventory.Data.UserInventory(userJSON["inventory"]);
 

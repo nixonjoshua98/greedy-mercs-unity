@@ -2,7 +2,10 @@ using UnityEngine;
 
 namespace GM.Bounties.Data
 {
-    public struct GameBountyData
+    /// <summary>
+    /// Combined bounty game data struct for LocalGameBountyData and server data
+    /// </summary>
+    public class BountyGameData
     {
         public int ID;
         public string Name;

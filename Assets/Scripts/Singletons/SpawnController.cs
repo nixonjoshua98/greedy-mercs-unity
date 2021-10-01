@@ -31,7 +31,7 @@ namespace GM
 
         public GameObject SpawnBoss(CurrentStageState state)
         {
-            bool isBountyBoss = App.Data.Bounties.Game.GetStageBounty(state.Stage, out GameBountyData result);
+            bool isBountyBoss = App.Data.Bounties.Game.GetStageBounty(state.Stage, out BountyGameData result);
 
             if (isBountyBoss && MathUtils.PercentChance(result.SpawnChance))
                 return SpawnBountyBoss(result);
@@ -56,7 +56,7 @@ namespace GM
         }
 
 
-        GameObject SpawnBountyBoss(GameBountyData bounty)
+        GameObject SpawnBountyBoss(BountyGameData bounty)
         {
             GameObject spawnedBoss = Instantiate(bounty.Prefab, GetBossSpawnPosition(), Quaternion.identity);
 
@@ -122,7 +122,7 @@ namespace GM
         }
 
 
-        void OnBossSpawn(GameObject boss, GameBountyData bounty)
+        void OnBossSpawn(GameObject boss, BountyGameData bounty)
         {
             bossTitleText.text = bounty.Name;
 

@@ -1,6 +1,6 @@
 namespace GM.Bounties.Data
 {
-    public class UserBountyState
+    public class BountyUserData
     {
         public int BountyId;
         public bool IsActive;

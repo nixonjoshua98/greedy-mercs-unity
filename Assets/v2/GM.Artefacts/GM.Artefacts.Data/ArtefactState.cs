@@ -7,10 +7,5 @@ namespace GM.Artefacts.Data
     {
         public int ID;
         public int Level;
-
-        public ArtefactState(int id)
-        {
-            ID = id;
-        }
     }
 }

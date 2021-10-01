@@ -8,13 +8,13 @@ namespace GM.Artefacts.Data
 {
     public class ArtefactsData : Core.GMClass
     {
-        UserArtefactsDictionary _User;
-        GameArtefactsDictionary _Game;
+        UserArtefactsCollection _User;
+        GameArtefactsCollection _Game;
 
         public ArtefactsData(JSONNode userJSON, JSONNode gameJSON)
         {
-            _User = new UserArtefactsDictionary(userJSON);
-            _Game = new GameArtefactsDictionary(gameJSON);
+            _User = new UserArtefactsCollection(userJSON);
+            _Game = new GameArtefactsCollection(gameJSON);
         }
 
         public int NumUnlockedArtefacts => _User.Count;
@@ -73,7 +73,7 @@ namespace GM.Artefacts.Data
 
             foreach (FullArtefactData state in Artefacts)
             {
-                ls.Add(new KeyValuePair<BonusType, double>(state.Values.Bonus, state.BaseEffect));
+                ls.Add(new KeyValuePair<BonusType, double>(state.Game.Bonus, state.BaseEffect));
             }
 
             return ls;

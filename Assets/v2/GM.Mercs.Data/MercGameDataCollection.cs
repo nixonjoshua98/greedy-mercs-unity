@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace GM.Mercs.Data
 {
-    public class MercGameDataDictionary : Dictionary<MercID, MercGameData>
+    public class MercGameDataCollection : Dictionary<MercID, MercGameData>
     {
-        public MercGameDataDictionary(JSONNode node)
+        public MercGameDataCollection(JSONNode node)
         {
             UpdateFromJSON(node);
         }

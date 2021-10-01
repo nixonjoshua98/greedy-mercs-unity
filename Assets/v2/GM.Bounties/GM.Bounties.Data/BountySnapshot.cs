@@ -1,6 +1,6 @@
 namespace GM.Bounties.Data
 {
-    public struct BountySnapshot
+    public class BountySnapshot
     {
         public int Capacity;
         public int Unclaimed;

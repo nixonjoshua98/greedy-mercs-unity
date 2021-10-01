@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace GM.Artefacts.Data
 {
     /// <summary>
-    /// DIctionary which stores user artefacta data
+    /// Dictionary which stores user artefacta data
     /// </summary>
-    public class UserArtefactsDictionary : Dictionary<int, ArtefactState>
+    public class UserArtefactsCollection : Dictionary<int, ArtefactState>
     {
-        public UserArtefactsDictionary(JSONNode node)
+        public UserArtefactsCollection(JSONNode node)
         {
             UpdateFromJSON(node);
         }
@@ -28,8 +28,9 @@ namespace GM.Artefacts.Data
 
                 int id = int.Parse(key);
 
-                ArtefactState state = new ArtefactState(id)
+                ArtefactState state = new ArtefactState()
                 {
+                    ID=id,
                     Level = current["level"].AsInt
                 };
 

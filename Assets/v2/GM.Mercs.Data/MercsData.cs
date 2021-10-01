@@ -6,13 +6,13 @@ namespace GM.Mercs.Data
 {
     public class MercsData
     {
-        public MercGameDataDictionary Game;
-        public MercUserDataDictionary User;
+        public MercGameDataCollection Game;
+        public MercUserDataCollection User;
 
         public MercsData(JSONNode gameJSON)
         {
-            Game = new MercGameDataDictionary(gameJSON);
-            User = new MercUserDataDictionary();
+            Game = new MercGameDataCollection(gameJSON);
+            User = new MercUserDataCollection();
         }
 
 

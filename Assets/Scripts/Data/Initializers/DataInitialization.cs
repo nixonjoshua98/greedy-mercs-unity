@@ -1,39 +1,21 @@
 using SimpleJSON;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 namespace GM
 {
-    using GM.Data;
-
     public class DataInitialization : MonoBehaviour
     {
         void Awake()
         {
-            RestoreGameData();
+            FileUtils.LoadJSON(FileUtils.ResolvePath("_GAME_DATA"), out JSONNode gameJSON);
+            FileUtils.LoadJSON(FileUtils.ResolvePath("_USER_DATA"), out JSONNode userJSON);
 
-            RestoreUserData();
+            Core.GMApplication.Create(userJSON, gameJSON);
+
+            GameState.Restore(userJSON);
 
             SceneManager.LoadScene("GameScene");
-        }
-
-
-        void RestoreGameData()
-        {
-            FileUtils.LoadJSON(FileUtils.ResolvePath(GameData.SERVER_FILE), out JSONNode node);
-
-            GameData.CreateInstance(node);
-        }
-
-
-        void RestoreUserData()
-        {
-            FileUtils.LoadJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), out JSONNode node);
-
-            GameState.Restore(node);
-
-            UserData.CreateInstance().UpdateWithServerUserData(node);
-
-            MercenaryManager.Create();
         }
     }
 }

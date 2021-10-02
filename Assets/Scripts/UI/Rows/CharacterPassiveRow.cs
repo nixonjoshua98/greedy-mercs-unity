@@ -1,11 +1,10 @@
 ﻿
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GM.Units
 {
-    using GM.Data;
-
     public class CharacterPassiveRow : MonoBehaviour
     {
         public Text UnlockText;
@@ -13,13 +12,13 @@ namespace GM.Units
 
         public Image PanelImage;
 
-        public void UpdatePanel(MercState state, MercPassiveData passive)
+        public void UpdatePanel(GM.Mercs.Data.FullMercData state, GM.Mercs.Data.MercPassiveSkillData passive)
         {
             UnlockText.text = passive.UnlockLevel.ToString();
 
             DescriptionText.text = FormatString.Bonus(passive.Type, passive.Value);
 
-            if (state.Level < passive.UnlockLevel)
+            if (!state.UnlockedPassives.Contains(passive))
             {
                 UnlockText.color        = MultiplyColorAlpha(UnlockText.color, 0.5f);
                 DescriptionText.color   = MultiplyColorAlpha(DescriptionText.color, 0.5f);

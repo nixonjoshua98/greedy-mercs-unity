@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
+using GM.BountyShop.Data;
 
 
 namespace GM.Bounties
@@ -37,7 +38,7 @@ namespace GM.Bounties
 
         void UpdateRefreshText()
         {
-            TimeSpan timeUntilReset = GameData.Get.NextDailyReset - DateTime.UtcNow;
+            TimeSpan timeUntilReset = App.Data.NextDailyReset - DateTime.UtcNow;
 
             refreshText.text = $"{FormatString.Seconds(timeUntilReset.TotalSeconds)}";
         }
@@ -47,7 +48,7 @@ namespace GM.Bounties
             InstantiateItems();
             InstantiateArmouryItems();
 
-            System.Random rng = new System.Random((int)(GameData.Get.NextDailyReset - DateTime.UtcNow).TotalDays);
+            System.Random rng = new System.Random((int)(App.Data.NextDailyReset - DateTime.UtcNow).TotalDays);
 
             for (int i = 0; i < itemsParent.childCount; ++i)
             {
@@ -60,13 +61,13 @@ namespace GM.Bounties
 
         void InstantiateItems()
         {
-            foreach (BountyShopItem item in UserData.Get.BountyShop.Items)
+            foreach (BountyShopCurrencyItemData item in App.Data.BountyShop.CurrencyItem)
             {
                 GameObject o = Instantiate(CurrencyItemSlotObject, itemsParent);
 
                 BountyShopCurrencyItemSlot slot = o.GetComponent<BountyShopCurrencyItemSlot>();
 
-                slot.Setup(item.ID);
+                slot.Setup(item.Id);
 
                 itemSlots.Add(o);
             }
@@ -74,13 +75,13 @@ namespace GM.Bounties
 
         void InstantiateArmouryItems()
         {
-            foreach (BountyShopArmouryItem item in UserData.Get.BountyShop.ArmouryItems)
+            foreach (BountyShopArmouryItemData item in App.Data.BountyShop.ArmouryItems)
             {
                 GameObject o = Instantiate(ArmouryItemSlotObject, itemsParent);
 
                 BountyShopArmouryItemSlot slot = o.GetComponent<BountyShopArmouryItemSlot>();
 
-                slot.Setup(item.ID);
+                slot.Setup(item.Id);
 
                 itemSlots.Add(o);
             }

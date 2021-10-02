@@ -11,7 +11,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            if (state.Stage >= StaticData.MIN_PRESTIGE_STAGE)
+            if (state.Stage >= global::Constants.MIN_PRESTIGE_STAGE)
                 base.OnClick();
 
             else

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using GM.Core;
 
 namespace GM
 {
-    using GM.Data;
     using GM.Events;
 
     using GM.Units;
@@ -19,7 +19,7 @@ namespace GM
 
 
 
-    public class MercManager : MonoBehaviour
+    public class MercManager : Core.GMMonoBehaviour
     {
         public static MercManager Instance { get; set; } = null;
 
@@ -74,7 +74,7 @@ namespace GM
 
         void InstantiateAndSetupMerc(MercID merc, Vector2 pos)
         {
-            MercData data = GameData.Get.Mercs.Get(merc);
+            GM.Mercs.Data.MercGameData data = App.Data.Mercs[merc].Game;
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 

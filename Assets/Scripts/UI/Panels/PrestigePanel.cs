@@ -3,14 +3,14 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using SimpleJSON;
-using GM.Data;
+using GM.Core;
 using UnityEngine.UI;
 using SceneTransition = GM.Scene.SceneTransition;
 
 
 namespace GM
 {
-    public class PrestigePanel : MonoBehaviour
+    public class PrestigePanel : Core.GMMonoBehaviour
     {
         [SerializeField] Text prestigePointText;
         [SerializeField] Button prestigeButton;
@@ -30,7 +30,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            if (state.Stage >= StaticData.MIN_PRESTIGE_STAGE)
+            if (state.Stage >= global::Constants.MIN_PRESTIGE_STAGE)
             {
                 prestigeButton.interactable = false;
 
@@ -47,7 +47,7 @@ namespace GM
 
             node.Add("prestigeStage", state.Stage);
 
-            UserData.Get.Prestige(node, (success, resp) =>
+            App.Data.Prestige(node, (success, resp) =>
             {
                 prestigeButton.interactable = !success;
 

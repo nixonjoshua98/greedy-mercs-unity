@@ -6,7 +6,7 @@ namespace GM
 {
     using GM.UI;
 
-    public class TapDamageUpgrade : MonoBehaviour
+    public class TapDamageUpgrade : Core.GMMonoBehaviour
     {
         GoldUpgradeID upgrade = GoldUpgradeID.TAP_DAMAGE;
 
@@ -33,7 +33,7 @@ namespace GM
                     return Formulas.AffordTapDamageLevels();
                 }
 
-                return Mathf.Min(_buyAmount, StaticData.MAX_TAP_UPGRADE_LEVEL - State.level);
+                return Mathf.Min(_buyAmount, global::Constants.MAX_TAP_UPGRADE_LEVEL - State.level);
             }
         }
 
@@ -51,7 +51,7 @@ namespace GM
 
             nameText.text = string.Format("(Lvl. {0}) Tap Damage", State.level);
 
-            buyButton.interactable = State.level < StaticData.MAX_TAP_UPGRADE_LEVEL;
+            buyButton.interactable = State.level < global::Constants.MAX_TAP_UPGRADE_LEVEL;
         }
 
         void UpdateButtonText()
@@ -59,7 +59,7 @@ namespace GM
             string top = "MAX";
             string btm = "-";
 
-            if (State.level < StaticData.MAX_TAP_UPGRADE_LEVEL)
+            if (State.level < global::Constants.MAX_TAP_UPGRADE_LEVEL)
             {
                 top = string.Format("x{0}", buyAmount);
                 btm = FormatString.Number(Formulas.CalcTapDamageLevelUpCost(buyAmount));
@@ -76,13 +76,13 @@ namespace GM
 
             BigDouble cost = Formulas.CalcTapDamageLevelUpCost(levelsBuying);
 
-            if (UserData.Get.Inventory.Gold >= cost)
+            if (App.Data.Inv.Gold >= cost)
             {
                 UpgradeState state = GameState.Upgrades.GetUpgrade(upgrade);
 
                 state.level += levelsBuying;
 
-                UserData.Get.Inventory.Gold -= cost;
+                App.Data.Inv.Gold -= cost;
             }
         }
     }

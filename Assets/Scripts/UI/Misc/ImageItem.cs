@@ -1,31 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
+using GM.Core;
 
 namespace GM.UI
 {
-    using GM.Data;
-
-    public class ImageItem : MonoBehaviour
+    public class ImageItem : Core.GMMonoBehaviour
     {
-        public ItemType Item;
+        public GM.Items.Data.ItemType Item;
 
         void Awake()
         {
-            SetSprite();
+            SetSprite(Item);
         }
 
 
-        public void Set(ItemType item)
+        public void Set(GM.Items.Data.ItemType item)
         {
-            Item = item;
-
-            SetSprite();
+            SetSprite(item);
         }
 
 
-        void SetSprite()
+        void SetSprite(GM.Items.Data.ItemType item)
         {
-            GetComponent<Image>().sprite = GameData.Get.Items.Get(Item).Icon;
+            GetComponent<Image>().sprite = App.Data.Items.GetItem(item).Icon;
         }
     }
 }

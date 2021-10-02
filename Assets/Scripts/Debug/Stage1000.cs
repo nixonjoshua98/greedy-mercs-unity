@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GM._Debug
 {
-    public class Stage1000 : MonoBehaviour
+    public class Stage1000 : Core.GMMonoBehaviour
     {
         public void OnClick()
         {
@@ -13,7 +13,7 @@ namespace GM._Debug
 
         public void AddGold()
         {
-            UserData.Get.Inventory.Gold += BigDouble.Parse("1e500");
+            App.Data.Inv.Gold += BigDouble.Parse("1e500");
         }
     }
 }

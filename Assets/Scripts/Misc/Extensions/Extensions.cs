@@ -1,6 +1,7 @@
 
 using System.Numerics;
 using System.Collections.Generic;
+using System.Linq;
 
 using SimpleJSON;
 
@@ -12,7 +13,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GM
 {
-    using AttackType = Units.AttackType;
+    using AttackType = GM.Mercs.Data.AttackType;
 
     public static class AttackTypeExtensions
     {
@@ -35,15 +36,6 @@ namespace GM
     }
 }
 
-
-
-public static class DictionaryExtensions
-{
-    public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback)
-    {
-        return dict.TryGetValue(key, out var value) ? value : fallback;
-    }
-}
 
 
 public static class CameraExtensions
@@ -89,7 +81,11 @@ public static class JSONNodeExtensions
         }
 
         node[key] = arr;       
+    }
 
+    public static void AddArray<T>(this JSONNode node, string key, T[] ls)
+    {
+        node.AddList(key, ls.ToList());
     }
 }
 

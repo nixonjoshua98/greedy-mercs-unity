@@ -17,20 +17,6 @@ class ItemData(UserIdentifier):
     shop_item: str
 
 
-@router.post("/refresh")
-async def refresh(user: UserIdentifier):
-    uid = await user_or_raise(user)
-
-    with DataLoader() as mongo:
-        return ServerResponse(
-            {
-                "bountyShopItems": BountyShopGeneration(uid).to_dict(),
-                "dailyPurchases": await mongo.bounty_shop.get_daily_purchases(uid),
-                "userItems": await mongo.items.get_items(uid, post_process=False)
-            }
-        )
-
-
 @router.post("/purchase/item")
 async def purchase_item(data: ItemData):
     uid = await user_or_raise(data)

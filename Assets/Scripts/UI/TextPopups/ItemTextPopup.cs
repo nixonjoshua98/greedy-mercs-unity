@@ -1,19 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GM.UI
 {
-    using GM.Data;
-
     public class ItemTextPopup : TextPopup
     {
         [SerializeField] Image itemImage;
 
         Color originalImageColor;
 
-        public void Setup(ItemType item, string val)
+        public void Setup(GM.Items.Data.ItemType item, string val)
         {
             Setup(val);
 

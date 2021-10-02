@@ -16740,6 +16740,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneTransition
       objectReference: {fileID: 0}
+    - target: {fileID: 7437315267677330995, guid: ea9b7667e9f44064680c31e234a5569e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7437315267677331023, guid: ea9b7667e9f44064680c31e234a5569e,
         type: 3}
       propertyPath: TransitionSpeed

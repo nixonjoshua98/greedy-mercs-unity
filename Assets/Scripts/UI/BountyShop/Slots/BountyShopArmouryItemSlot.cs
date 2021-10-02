@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using GM.BountyShop.Data;
 
 using TMPro;
 
 namespace GM.Bounties
 {
-    public class BountyShopArmouryItemSlot : MonoBehaviour
+    public class BountyShopArmouryItemSlot : Core.GMMonoBehaviour
     {
         [SerializeField] Image itemIcon;
         [SerializeField] TMP_Text tierText;
@@ -16,7 +17,7 @@ namespace GM.Bounties
 
         string _itemId;
 
-        BountyShopArmouryItem ItemGameData => UserData.Get.BountyShop.GetArmouryItem(_itemId);
+        BountyShopArmouryItemData Item => App.Data.BountyShop.GetArmouryItem(_itemId);
 
 
         public void Setup(string id)
@@ -35,14 +36,14 @@ namespace GM.Bounties
 
         void SetInterfaceElements()
         {
-            itemIcon.sprite = ItemGameData.Icon;
-            tierText.text   = $"{ItemGameData.ArmouryItem.Tier + 1}";
+            itemIcon.sprite = Item.Icon;
+            tierText.text   = $"{Item.Item.Tier + 1}";
         }
 
 
         void UpdateInterfaceElements()
         {
-            soldOutChild.SetActive(!UserData.Get.BountyShop.InStock(_itemId));
+            soldOutChild.SetActive(!Item.InStock);
         }
 
 

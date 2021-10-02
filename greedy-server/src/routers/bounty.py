@@ -20,7 +20,7 @@ async def claim_points(user: UserIdentifier):
     uid = await user_or_raise(user)
 
     with DataLoader() as loader:
-        u_bounty_data = await loader.bounties.get_data(uid)
+        u_bounty_data = await loader.bounties.find_one(uid)
 
         u_bounties = u_bounty_data.get("bounties", {})
         u_last_claim = u_bounty_data.get("lastClaimTime", now := dt.datetime.utcnow())
@@ -49,7 +49,9 @@ async def set_active_bounties(data: ActiveBountyUpdateModel):
     with DataLoader() as loader:
         u_bounties = await loader.bounties.get_user_bounties(uid)
 
-        if not all(id_ in u_bounties for id_ in data.bounty_ids):
+        u_bounty_ids = [b["bountyId"] for b in u_bounties]
+
+        if not all(id_ in u_bounty_ids for id_ in data.bounty_ids):
             raise HTTPException(400, detail="Attempting to set an invalid bounty")
 
         await loader.bounties.update_active_bounties(uid, data.bounty_ids)
@@ -65,11 +67,11 @@ def calc_unclaimed_total(u_bounties, claim_time, now) -> int:
 
     points = 0  # Total unclaimed points (ready to be claimed)
 
-    bounties = [(k, v) for k, v in u_bounties.items() if v.get("isActive")][:bounty_res.max_active_bounties]
+    bounties = [b for b in u_bounties if b.get("isActive")][:bounty_res.max_active_bounties]
 
     # Interate over each active bounty available
-    for key, state in bounties:
-        data = bounty_res.bounties[key]
+    for state in bounties:
+        data = bounty_res.bounties[state["bountyId"]]
 
         # Num. hours since the user has claimed this bounty
         total_hours = (now - claim_time).total_seconds() / 3_600

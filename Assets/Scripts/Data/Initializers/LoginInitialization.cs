@@ -10,7 +10,7 @@ public class UpgradeState
 
 namespace GM
 {
-    using GM.Server;
+    using GM.HTTP;
 
     public class LoginInitialization : MonoBehaviour
     {
@@ -22,11 +22,11 @@ namespace GM
 
         void GameData()
         {
-            HTTPClient.GetClient().Get("gamedata", (code, resp) => {
+            HTTPClient.Instance.Get("gamedata", (code, resp) => {
 
                 if (code == 200)
                 {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath(GM.GameData.SERVER_FILE), resp);
+                    FileUtils.WriteJSON(FileUtils.ResolvePath("_GAME_DATA"), resp);
 
                     Login();
                 }
@@ -38,15 +38,15 @@ namespace GM
             });
         }
 
-       
+
 
         void Login()
         {
-            HTTPClient.GetClient().Post("login", (code, resp) => {
+            HTTPClient.Instance.Post("login", (code, resp) => {
 
                 if (code == 200)
                 {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), resp);
+                    FileUtils.WriteJSON(FileUtils.ResolvePath("_USER_DATA"), resp);
 
                     SceneManager.LoadScene("InitScene", LoadSceneMode.Additive);
                 }

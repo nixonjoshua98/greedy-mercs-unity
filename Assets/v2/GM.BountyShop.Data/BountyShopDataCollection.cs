@@ -38,12 +38,6 @@ namespace GM.BountyShop.Data
         public BountyShopPurchaseUserData GetItemPurchaseData(string id)
         {
             if (!Purchases.ContainsKey(id))
-            {
-                return new BountyShopPurchaseUserData
-                {
-                    TotalDailyPurchases = 0
-                };
-            }
 
             return Purchases[id];
         }
@@ -60,12 +54,9 @@ namespace GM.BountyShop.Data
         {
             Purchases = new Dictionary<string, BountyShopPurchaseUserData>();
 
+            // {0: 0, 1: 3}
             foreach (string key in node.Keys)
             {
-                var inst = new BountyShopPurchaseUserData
-                {
-                    TotalDailyPurchases = node[key].AsInt
-                };
 
                 Purchases.Add(key, inst);
             }

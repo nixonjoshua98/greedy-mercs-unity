@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
+using GM.BountyShop.Data;
 
 using TMPro;
 
@@ -19,7 +20,7 @@ namespace GM.Bounties
 
         string _itemId;
 
-        BountyShopItem ItemGameData => UserData.Get.BountyShop.GetItem(_itemId);
+        BountyShopCurrencyItemData Item => App.Data.BountyShop.GetCurrencyItem(_itemId);
         
         public void Setup(string id)
         {
@@ -32,14 +33,14 @@ namespace GM.Bounties
 
         void SetInterfaceElements()
         {
-            itemIcon.sprite     = ItemGameData.Icon;
-            quantityText.text   = $"X{ItemGameData.QuantityPerPurchase}";
+            itemIcon.sprite     = Item.Icon;
+            quantityText.text   = $"X{Item.QuantityPerPurchase}";
         }
 
 
         void UpdateInterfaceElements()
         {
-            soldOutChild.SetActive(!UserData.Get.BountyShop.InStock(_itemId));
+            soldOutChild.SetActive(!Item.InStock);
         }
 
         protected override void PeriodicUpdate()

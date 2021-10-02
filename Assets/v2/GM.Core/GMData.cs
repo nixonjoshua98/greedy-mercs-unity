@@ -1,16 +1,18 @@
 using SimpleJSON;
 using System;
+using UnityEngine.Events;
 
 namespace GM.Core
 {
-    public class GMData
+    public class GMData : GMClass
     {
         public Mercs.Data.MercsData Mercs;
         public Armoury.Data.ArmouryData Armoury;
         public Inventory.Data.UserInventory Inv;
         public Artefacts.Data.ArtefactsData Arts;
-        public Items.Data.GameItemCollection Items { get; set; }
+        public Items.Data.GameItemCollection Items;
         public Bounties.Data.BountiesData Bounties;
+        public BountyShop.Data.BountyShopDataCollection BountyShop;
 
         public DateTime NextDailyReset;
 
@@ -27,6 +29,20 @@ namespace GM.Core
             Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts_userData"], gameJSON["artefacts_gameData"]);
             Armoury = new Armoury.Data.ArmouryData(userJSON["armoury_userData"], gameJSON["armoury_gameData"]);
             Bounties = new Bounties.Data.BountiesData(userJSON["bounties_userData"], gameJSON["bounties_gameData"]);
+            BountyShop = new BountyShop.Data.BountyShopDataCollection(userJSON["bountyShop"]);
+        }
+
+        public void Prestige(JSONNode node, UnityAction<bool, JSONNode> callback)
+        {
+            App.HTTP.Post("prestige", node, (code, resp) => {
+
+                if (code == 200)
+                {
+                    FileUtils.WriteJSON(FileUtils.ResolvePath("not_game_data"), resp["userData"]);
+                }
+
+                callback.Invoke(code == 200, resp);
+            });
         }
     }
 }

@@ -9,13 +9,11 @@ namespace GM
         void Awake()
         {
             FileUtils.LoadJSON(FileUtils.ResolvePath("_GAME_DATA"), out JSONNode gameJSON);
-            FileUtils.LoadJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), out JSONNode userJSON);
+            FileUtils.LoadJSON(FileUtils.ResolvePath("_USER_DATA"), out JSONNode userJSON);
 
             Core.GMApplication.Create(userJSON, gameJSON);
 
             GameState.Restore(userJSON);
-
-            UserData.CreateInstance().UpdateWithServerUserData(userJSON);
 
             SceneManager.LoadScene("GameScene");
         }

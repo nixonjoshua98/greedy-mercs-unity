@@ -11,20 +11,21 @@ class BountyShopGeneration:
     def __init__(self, uid):
         self._uid = uid
 
-        self.items = None
-        self.armoury_items = None
+        self.items: list
+        self.armoury_items: list
 
         self.__generate()
 
     def get_item(self, iid):
         for d in (self.items, self.armoury_items):
-            if item := d.get(iid):
-                return item
+            for item in d:
+                if item.id == iid:
+                    return item
 
-    def to_dict(self) -> dict:
+    def to_list(self):
         return {
-            "items": {k: v.to_dict() for k, v in self.items.items()},
-            "armouryItems": {k: v.to_dict() for k, v in self.armoury_items.items()}
+            "items": [v.to_dict() for v in self.items],
+            "armouryItems": [v.to_dict() for v in self.armoury_items]
         }
 
     def __generate(self):
@@ -38,17 +39,11 @@ class BountyShopGeneration:
 
     @staticmethod
     def __generate_currency_items():
-        return {
-            "ITEM-0": BountyShopCurrencyItem.create_from_params(
-                "ITEM-0", ItemType.BLUE_GEMS, 25, 10
-            ),
-            "ITEM-1": BountyShopCurrencyItem.create_from_params(
-                "ITEM-1", ItemType.ARMOURY_POINTS, 50, 10
-            ),
-            "ITEM-2": BountyShopCurrencyItem.create_from_params(
-                "ITEM-2", ItemType.ARMOURY_POINTS, 75, 10
-            )
-        }
+        return [
+            BountyShopCurrencyItem.create_from_params("ITEM-0", ItemType.BLUE_GEMS, 25, 10),
+            BountyShopCurrencyItem.create_from_params("ITEM-1", ItemType.ARMOURY_POINTS, 50, 10),
+            BountyShopCurrencyItem.create_from_params("ITEM-2", ItemType.ARMOURY_POINTS, 75, 10)
+        ]
 
     @staticmethod
     def __generate_armoury_items(*, server_state):
@@ -56,14 +51,14 @@ class BountyShopGeneration:
 
         res_armoury = resources.get_armoury_resources()
 
-        generated_items = {}
+        generated_items = []
 
         keys = random.choices(list(res_armoury.items.keys()), k=9)
 
         for i, key in enumerate(keys):
             _id = f"AI-{days_since_epoch}-{key}-{i}"
 
-            generated_items[_id] = BountyShopArmouryItem.create_from_params(_id, key, 100)
+            generated_items.append(BountyShopArmouryItem.create_from_params(_id, key, 100))
 
         return generated_items
 
@@ -87,6 +82,7 @@ class AbstractBountyShopItem:
 
 class BountyShopCurrencyItem(AbstractBountyShopItem):
     def __init__(self, id_: str, data: dict):
+
         super(BountyShopCurrencyItem, self).__init__(id_, data)
 
         self.item_type: ItemType = ItemType(data["itemType"])
@@ -103,7 +99,7 @@ class BountyShopCurrencyItem(AbstractBountyShopItem):
     @classmethod
     def create_from_params(cls, id_, type_: int, cost: int, quantity: int):
         return cls(id_, {
-            "itemType": type_, "purchaseCost": cost, "quantityPerPurchase": quantity
+            "itemId": id_, "itemType": type_, "purchaseCost": cost, "quantityPerPurchase": quantity
         })
 
 
@@ -116,5 +112,5 @@ class BountyShopArmouryItem(AbstractBountyShopItem):
     @classmethod
     def create_from_params(cls, id_, armoury_item: int, cost: int):
         return cls(id_, {
-            "armouryItemId": armoury_item, "purchaseCost": cost
+            "itemId": id_, "armouryItemId": armoury_item, "purchaseCost": cost
         })

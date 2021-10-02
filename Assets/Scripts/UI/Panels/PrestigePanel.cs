@@ -10,7 +10,7 @@ using SceneTransition = GM.Scene.SceneTransition;
 
 namespace GM
 {
-    public class PrestigePanel : MonoBehaviour
+    public class PrestigePanel : Core.GMMonoBehaviour
     {
         [SerializeField] Text prestigePointText;
         [SerializeField] Button prestigeButton;
@@ -47,7 +47,7 @@ namespace GM
 
             node.Add("prestigeStage", state.Stage);
 
-            UserData.Get.Prestige(node, (success, resp) =>
+            App.Data.Prestige(node, (success, resp) =>
             {
                 prestigeButton.interactable = !success;
 

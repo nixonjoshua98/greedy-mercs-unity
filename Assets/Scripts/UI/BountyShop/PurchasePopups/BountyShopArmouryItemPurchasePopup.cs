@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using GM.BountyShop.Data;
 
 using TMPro;
 
@@ -29,28 +30,28 @@ namespace GM.Bounties
         [Space]
         [SerializeField] StarRatingController rating;
 
-        BountyShopArmouryItem ItemUserData => UserData.Get.BountyShop.GetArmouryItem(ItemID);
+        BountyShopArmouryItemData Item => App.Data.BountyShop.GetArmouryItem(ItemID);
 
 
         protected override void SetInterfaceElements()
         {
-            itemImages.sprite       = ItemUserData.Icon;
-            itemNameText.text       = ItemUserData.ArmouryItem.Name.ToUpper();
-            purchaseCostText.text   = $"{ItemUserData.PurchaseCost}";
+            itemImages.sprite       = Item.Icon;
+            itemNameText.text       = Item.Item.Name.ToUpper();
+            purchaseCostText.text   = $"{Item.PurchaseCost}";
 
-            rating.Show(ItemUserData.ArmouryItem.Tier + 1);
+            rating.Show(Item.Item.Tier + 1);
         }
 
 
         protected override void UpdateInterfaceElements()
         {
-            purchaseButton.interactable = UserData.Get.BountyShop.InStock(ItemID);
+            purchaseButton.interactable = Item.InStock;
         }
 
 
         public void OnPurchaseButton()
         {
-            UserData.Get.BountyShop.PurchaseArmouryItem(ItemID, (success) =>
+            App.Data.BountyShop.PurchaseArmouryItem(ItemID, (success) =>
             {
                 UpdateInterfaceElements();
                 DestroyWhenOutOfStock();

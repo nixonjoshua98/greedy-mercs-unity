@@ -46,7 +46,7 @@ class DataLoader:
 
             "bountyShop": {
                 "dailyPurchases": await self.bounty_shop.get_daily_purchases(uid),
-                "availableItems": resources.get_bounty_shop(uid, as_dict=True),
+                "availableItems": resources.get_bounty_shop(uid, as_list=True),
             },
 
             "bounties_userData": await self.bounties.find_one(uid),

@@ -46,7 +46,7 @@ namespace GM
 
                 if (code == 200)
                 {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath(UserData.SERVER_FILE), resp);
+                    FileUtils.WriteJSON(FileUtils.ResolvePath("_USER_DATA"), resp);
 
                     SceneManager.LoadScene("InitScene", LoadSceneMode.Additive);
                 }

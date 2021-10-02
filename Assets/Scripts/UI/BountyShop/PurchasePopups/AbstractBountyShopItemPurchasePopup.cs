@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GM.Bounties
 {
-    public abstract class AbstractBountyShopItemPurchasePopup : MonoBehaviour
+    public abstract class AbstractBountyShopItemPurchasePopup : Core.GMMonoBehaviour
     {
         protected string ItemID;
 
@@ -30,7 +30,9 @@ namespace GM.Bounties
 
         protected void DestroyWhenOutOfStock()
         {
-            if (!UserData.Get.BountyShop.InStock(ItemID))
+            BountyShop.Data.IBountyShopItem item = App.Data.BountyShop.GetItem(ItemID);
+
+            if (!item.InStock)
             {
                 Destroy(gameObject);
             }

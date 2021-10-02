@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using TMPro;
+using GM.BountyShop.Data;
 
 namespace GM.Bounties
 {
@@ -15,27 +16,27 @@ namespace GM.Bounties
         [Space]
         [SerializeField] Button purchaseButton;
 
-        BountyShopItem ItemGameData => UserData.Get.BountyShop.GetItem(ItemID);
+        BountyShopCurrencyItemData Item => App.Data.BountyShop.GetCurrencyItem(ItemID);
 
         protected override void SetInterfaceElements()
         {
-            itemIcon.sprite = ItemGameData.Icon;
+            itemIcon.sprite = Item.Icon;
 
-            titleText.text          = ItemGameData.ItemData.DisplayName;
-            quantityText.text       = $"x{ItemGameData.QuantityPerPurchase}";
-            purchaseCostText.text   = $"{ItemGameData.PurchaseCost}";
+            titleText.text = Item.DisplayName;
+            quantityText.text = $"x{Item.QuantityPerPurchase}";
+            purchaseCostText.text = $"{Item.PurchaseCost}";
         }
 
 
         protected override void UpdateInterfaceElements()
         {
-            purchaseButton.interactable = UserData.Get.BountyShop.InStock(ItemID);
+            purchaseButton.interactable = Item.InStock;
         }
 
 
         public void OnPurchaseButton()
         {
-            UserData.Get.BountyShop.PurchaseItem(ItemID, (success) =>
+            App.Data.BountyShop.PurchaseItem(ItemID, (success) =>
             {
                 UpdateInterfaceElements();
                 DestroyWhenOutOfStock();

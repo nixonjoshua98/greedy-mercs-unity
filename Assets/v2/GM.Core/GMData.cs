@@ -18,9 +18,9 @@ namespace GM.Core
 
         public GMData(JSONNode userJSON, JSONNode gameJSON)
         {
-            NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
+            Items = new Items.Data.GameItemCollection(); // Should always be first
 
-            Items = new Items.Data.GameItemCollection();
+            NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
 
             Inv = new Inventory.Data.UserInventory(userJSON["inventory"]);
 

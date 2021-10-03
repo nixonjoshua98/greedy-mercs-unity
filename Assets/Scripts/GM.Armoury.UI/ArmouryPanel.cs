@@ -32,7 +32,7 @@ namespace GM.Armoury.UI
         {
             foreach (Data.ArmouryItemState state in App.Data.Armoury.User.OwnedItems)
             {
-                if (!itemObjects.ContainsKey(state.ID))
+                if (!itemObjects.ContainsKey(state.Id))
                 {
                     InstantiateItem(state);
                 }
@@ -51,11 +51,11 @@ namespace GM.Armoury.UI
         {
             ArmouryItemSlot item = CanvasUtils.Instantiate<ArmouryItemSlot>(ArmouryItemObject, itemsParent);
 
-            item.Init(state.ID);
+            item.Init(state.Id);
             
-            item.SetButtonCallback(() => { OnIconClick(state.ID); });
+            item.SetButtonCallback(() => { OnIconClick(state.Id); });
 
-            itemObjects[state.ID] = item;
+            itemObjects[state.Id] = item;
         }
 
         // === Button Callback ===

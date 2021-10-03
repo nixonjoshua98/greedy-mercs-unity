@@ -6,34 +6,36 @@ namespace GM.Armoury.Data
 {
     public class ArmouryData : Core.GMClass
     {
-        public GameArmouryDictionary Game;
-        public UserArmouryDictionary User;
+        public ArmouryGameDataCollection Game;
+        public ArmouryUserDataCollection User;
 
         public ArmouryData(JSONNode userJSON, JSONNode gameJSON)
         {
-            Game = new GameArmouryDictionary(gameJSON);
-            User = new UserArmouryDictionary(userJSON);
+            Game = new ArmouryGameDataCollection(gameJSON);
+            User = new ArmouryUserDataCollection(userJSON);
         }
 
 
         // Index accessors
         public FullArmouryItemData this[int key]
         {
-            get => new FullArmouryItemData(Game[key], User[key]);
+            get => GetItem(key);
         }
+
+        public FullArmouryItemData GetItem(int key) => new FullArmouryItemData(Game[key], User.GetItem(key));
 
 
         public double DamageBonus()
         {
             double val = 0;
 
-            foreach (KeyValuePair<int, ArmouryItemState> pair in User)
+            foreach (ArmouryItemState item in User.OwnedItems)
             {
-                FullArmouryItemData item = this[pair.Key];
+                FullArmouryItemData itemData = this[item.Id];
 
-                if (item.User.Level > 0)
+                if (itemData.User.Level > 0)
                 {
-                    val += item.WeaponDamage;
+                    val += itemData.WeaponDamage;
                 }
             }
 

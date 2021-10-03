@@ -1,0 +1,29 @@
+from typing import Union
+from bson import ObjectId
+
+from pydantic import BaseModel as _BaseModel, Field as _Field
+
+
+class BaseModel(_BaseModel):
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    def dict(self, *args, **kwargs):
+        kwargs["by_alias"] = True  # We only want to use the aliases
+
+        return super().dict(**kwargs)
+
+    def json(self, *args, **kwargs): raise RuntimeError(".json() should most likely not be used")
+
+    def response_dict(self):
+        """
+        Dict encoder used when returning data back to the client.
+        Useful for excluding or renaming fields
+        """
+        return self.dict()
+
+
+class BaseDocument(BaseModel):
+    id: Union[str, ObjectId] = _Field(..., alias="_id")
+

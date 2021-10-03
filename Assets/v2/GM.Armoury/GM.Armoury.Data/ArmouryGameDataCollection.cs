@@ -4,23 +4,33 @@ using UnityEngine;
 
 namespace GM.Armoury.Data
 {
-    public class GameArmouryDictionary : Dictionary<int, ArmouryItemGameData>
+    public class ArmouryGameDataCollection
     {
-        public GameArmouryDictionary(JSONNode gameJSON)
+        Dictionary<int, ArmouryItemGameData> DataDict;
+
+        public ArmouryGameDataCollection(JSONNode gameJSON)
         {
             UpdateFromJSON(gameJSON, gameJSON["items"]);
         }
 
+        public ArmouryItemGameData this[int key]
+        {
+            get => GetItem(key);
+        }
+
+
+        public ArmouryItemGameData GetItem(int key) => DataDict[key];
+
 
         void UpdateFromJSON(JSONNode rootJSON, JSONNode itemsJSON)
         {
-            Clear();
+            DataDict = new Dictionary<int, ArmouryItemGameData>();
 
             foreach (LocalArmouryItemData ele in LoadLocalData())
             {
                 JSONNode currentItem = itemsJSON[ele.ID];
 
-                base[ele.ID] = new ArmouryItemGameData
+                DataDict[ele.ID] = new ArmouryItemGameData
                 {
                     ID = ele.ID,
                     Name = ele.Name,

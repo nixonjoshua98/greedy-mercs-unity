@@ -1,6 +1,6 @@
 namespace GM.BountyShop.Data
 {
-    public class BountyShopPurchaseUserData
+    public class BountyShopPurchaseData
     {
         public int TotalDailyPurchases;
     }

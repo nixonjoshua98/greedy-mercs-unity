@@ -11,6 +11,8 @@ from src.common.enums import ItemKey
 from src.classes.serverstate import ServerState
 from src.classes.bountyshop import AbstractBountyShopItem
 
+from src.mongo.repositories import BountiesRepository
+
 
 class DataLoader:
     def __init__(self):

@@ -8,4 +8,10 @@ namespace GM.HTTP.BountyModels
         [JsonProperty(PropertyName = "bountyIds")]
         public List<int> BountyIds; // List of target active bounties
     }
+
+    public class UpdateActiveBountiesResponse : ServerResponse
+    {
+        [JsonProperty(PropertyName = "bounties")]
+        public List<GM.Bounties.Data.BountyUserData> Bounties;
+    }
 }

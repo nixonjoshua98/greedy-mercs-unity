@@ -4,8 +4,12 @@ namespace GM.BountyShop.Data
 {
     public class BountyShopArmouryItemData : BountyShopItem
     {
-        public Armoury.Data.ArmouryItemGameData Item => App.Data.Armoury.Game[ArmouryItemID];
         public int ArmouryItemID;
-        public Sprite Icon => Item.Icon;
+
+        public Sprite Icon => ItemData.Icon;
+        public int ItemTier => ItemData.Tier;
+        public string ItemName => ItemData.Name;
+
+        Armoury.Data.ArmouryItemGameData ItemData => App.Data.Armoury.Game[ArmouryItemID]; // Private
     }
 }

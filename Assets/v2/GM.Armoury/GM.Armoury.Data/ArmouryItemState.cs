@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace GM.Armoury.Data
 {
     /// <summary>
@@ -5,15 +7,14 @@ namespace GM.Armoury.Data
     /// </summary>
     public class ArmouryItemState
     {
-        public int ID;
+        [JsonProperty(PropertyName = "itemId")]
+        public int Id;
 
         public int Level;
-        public int NumOwned;
-        public int EvoLevel;
 
-        public ArmouryItemState(int item)
-        {
-            ID = item;
-        }
+        [JsonProperty(PropertyName = "owned")]
+        public int NumOwned;
+
+        public int EvoLevel;
     }
 }

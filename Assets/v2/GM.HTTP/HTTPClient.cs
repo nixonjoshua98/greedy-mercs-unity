@@ -1,4 +1,5 @@
 using GM.HTTP.BountyModels;
+using GM.HTTP.BountyShopModels;
 using Newtonsoft.Json;
 using SimpleJSON;
 using System;
@@ -31,7 +32,7 @@ namespace GM.HTTP
 
         public void ClaimBounties(UnityAction<BountyClaimResponse> callback)
         {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest())); // Requires no additional request information
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest()));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<BountyClaimResponse>(www))));
         }
@@ -41,6 +42,20 @@ namespace GM.HTTP
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/setactive"), PrepareRequest(req));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpdateActiveBountiesResponse>(www))));
+        }
+
+        public void PurchaseBountyShopCurrencyItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/item"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
+        }
+
+        public void PurchaseBountyShopArmouryItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/armouryitem"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
         }
 
         /// <summary>
@@ -121,6 +136,8 @@ namespace GM.HTTP
         /// <param name="www">Web request</param>
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
+            Debug.Log(www.downloadHandler.text);
+
             T model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
 
             if (model is null)

@@ -14,7 +14,9 @@ class BaseModel(_BaseModel):
 
         return super().dict(**kwargs)
 
-    def json(self, *args, **kwargs): raise RuntimeError(".json() should most likely not be used")
+    def json(self, *args, **kwargs):
+        """ We most likely will not use this encoder, and instead rely on the request/response encoder. """
+        raise RuntimeError(".json() should most likely not be used")
 
     def response_dict(self):
         """

@@ -136,11 +136,9 @@ namespace GM.HTTP
         /// <param name="www">Web request</param>
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
-            Debug.Log(www.downloadHandler.text);
-
             T model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
 
-            if (model is null)
+            if (model == null)
             {
                 // Create a default instance with an error message
                 model = new T()

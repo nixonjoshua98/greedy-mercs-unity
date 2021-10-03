@@ -4,14 +4,12 @@ import datetime as dt
 
 from fastapi import APIRouter, HTTPException, Depends
 
+from src import resources
 from src.checks import user_or_raise
-from src.common.enums import ItemKey
 from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier, ActiveBountyUpdateModel
-
+from src.common.enums import ItemKey
 from src.dataloader import DataLoader
-from src import resources
-
 from src.mongo.models import UserBountiesModel
 from src.mongo.repositories import BountiesRepository, bounties_repository
 
@@ -20,7 +18,9 @@ router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 @router.post("/claim")
 async def claim_points(
+        # Request Models = #
         user: UserIdentifier,
+        # = Dependencies = #
         bounties_repo: BountiesRepository = Depends(bounties_repository)
 ):
     uid = await user_or_raise(user)
@@ -41,7 +41,9 @@ async def claim_points(
 
 @router.post("/setactive")
 async def set_active_bounties(
+        # Request Models = #
         data: ActiveBountyUpdateModel,
+        # = Dependencies = #
         bounties_repo: BountiesRepository = Depends(bounties_repository)
 ):
     uid = await user_or_raise(data)
@@ -64,43 +66,19 @@ async def set_active_bounties(
     return ServerResponse(bounties_user_data.response_dict())
 
 
+# === Calculations === #
+
 def calc_unclaimed_points(user_data: UserBountiesModel, now: dt.datetime) -> int:
     bounty_res = resources.get_bounty_data()
 
     points = 0  # Total unclaimed points (ready to be claimed)
 
-    active_bounties = user_data.active_bounties[:bounty_res.max_active_bounties]
-
     # Interate over each active bounty available
-    for bounty in active_bounties:
+    for bounty in user_data.active_bounties:
         data = bounty_res.bounties[bounty.bounty_id]
 
         # Num. hours since the user has claimed this bounty
         total_hours = (now - user_data.last_claim_time).total_seconds() / 3_600
-
-        # Clamp between 0 - max_unclaimed_hours
-        hours_clamped = max(0, min(bounty_res.max_unclaimed_hours, total_hours))
-
-        # Calculate the income and increment the total
-        points += math.floor(hours_clamped * data.income)
-
-    return points
-
-
-def calc_unclaimed_total(u_bounties, claim_time, now) -> int:
-
-    bounty_res = resources.get_bounty_data()
-
-    points = 0  # Total unclaimed points (ready to be claimed)
-
-    bounties = [b for b in u_bounties if b.get("isActive")][:bounty_res.max_active_bounties]
-
-    # Interate over each active bounty available
-    for state in bounties:
-        data = bounty_res.bounties[state["bountyId"]]
-
-        # Num. hours since the user has claimed this bounty
-        total_hours = (now - claim_time).total_seconds() / 3_600
 
         # Clamp between 0 - max_unclaimed_hours
         hours_clamped = max(0, min(bounty_res.max_unclaimed_hours, total_hours))

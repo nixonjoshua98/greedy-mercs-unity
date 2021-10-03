@@ -11,8 +11,6 @@ from src.common.enums import ItemKey
 from src.classes.serverstate import ServerState
 from src.classes.bountyshop import AbstractBountyShopItem
 
-from src.mongo.repositories import BountiesRepository
-
 
 class DataLoader:
     def __init__(self):
@@ -72,15 +70,6 @@ class _Users:
 
 
 class _Bounties:
-    """
-    _id
-    userId
-    lastClaimTime
-    bounties: [
-        {"bountyId": 0, "isActive": False},
-        ]
-    """
-
     def __init__(self, default_database):
         self._data = default_database["userBountiesData"]
 
@@ -94,37 +83,6 @@ class _Bounties:
             return_document=ReturnDocument.AFTER,
             upsert=True
         )
-
-    async def add_new_bounty(self, uid, bid):
-        await self._data.update_one(
-            {"_id": uid, "bounties": {"$not": {"$elemMatch": {"bountyId": bid}}}},
-            {
-                "$addToSet": {
-                    "bounties": {
-                        "bountyId": bid,
-                        "isActive": False
-                    }
-                }},
-            upsert=True)
-
-    async def update_active_bounties(self, uid, ids: list):
-        result = await self.find_one(uid)
-
-        bounties = result.get("bounties", [])
-
-        for b in bounties:
-            is_active = b["bountyId"] in ids
-
-            await self._data.update_one(
-                {"_id": result["_id"], "bounties.bountyId": b["bountyId"]},
-                {"$set": {"bounties.$.isActive": is_active}}
-            )
-
-    async def get_user_bounties(self, uid: Union[str, ObjectId]) -> dict:
-        return (await self.find_one(uid)).get("bounties", [])
-
-    async def set_claim_time(self, uid: Union[str, ObjectId], claim_time: dt.datetime) -> None:
-        await self._data.update_one({"_id": uid}, {"$set": {"lastClaimTime": claim_time}}, upsert=True)
 
 
 class _Items:

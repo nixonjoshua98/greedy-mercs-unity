@@ -29,7 +29,7 @@ namespace GM.Artefacts.Data
                 {
                     base[local.ID] = new ArtefactGameData()
                     {
-                        ID = local.ID,
+                        Id = local.ID,
                         Name = local.Name,
                         Icon = local.Icon,
                         Slot = local.Slot,

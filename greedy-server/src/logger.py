@@ -2,7 +2,7 @@ import os
 import logging as _logging
 from logging.handlers import RotatingFileHandler
 
-LOG_FILE_PATH = os.path.join(os.getcwd(), "logs", "log.txt")
+LOG_FILE_PATH = os.path.join(os.getcwd(), "logs", "server-log.txt")
 MESSAGE_FORMAT = "%(asctime)s [%(levelname)s] %(message)s"
 DATE_FORMAT = "%d/%m/%Y %H:%M:%S"
 
@@ -24,10 +24,10 @@ def _create_console_handler(level: int):
     return handler
 
 
-def _create_file_handler(level: int, filepath: str):
-    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+def _create_file_handler(level: int):
+    os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
 
-    handler = RotatingFileHandler(filename=filepath, backupCount=5, maxBytes=1_000_000)
+    handler = RotatingFileHandler(filename=LOG_FILE_PATH, backupCount=5, maxBytes=1_000_000)
 
     handler.setLevel(level)
 
@@ -39,4 +39,4 @@ def _create_file_handler(level: int, filepath: str):
 logger.setLevel(_logging.INFO)
 
 logger.addHandler(_create_console_handler(_logging.INFO))
-logger.addHandler(_create_file_handler(_logging.WARNING, LOG_FILE_PATH))
+logger.addHandler(_create_file_handler(_logging.WARNING))

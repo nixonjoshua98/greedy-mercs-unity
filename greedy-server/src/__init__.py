@@ -5,11 +5,13 @@ from fastapi import FastAPI, HTTPException
 from src.exceptions import handle_http_exception
 from src.dataloader import DataLoader
 
+from motor.motor_asyncio import AsyncIOMotorClient
+
 
 def _on_app_start(app):
     DataLoader.create_client("mongodb://localhost:27017/g0")
 
-    app.state.mongo = DataLoader.get_client()
+    app.state.mongo = AsyncIOMotorClient("mongodb://localhost:27017/g0")
 
 
 def create_app():

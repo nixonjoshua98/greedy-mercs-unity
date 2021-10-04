@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GM.Common.Json
 {
-    public class UnixMillisecondDateTimeConverter : JsonConverter
+    public class UnixMillisecondUTCDateTimeConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

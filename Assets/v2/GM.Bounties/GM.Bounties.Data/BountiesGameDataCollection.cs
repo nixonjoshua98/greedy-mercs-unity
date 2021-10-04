@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace GM.Bounties.Data
 {
-    public class BountiesGameData : Dictionary<int, BountyGameData>
+    public class BountiesGameDataCollection : Dictionary<int, BountyGameData>
     {
         public float MaxUnclaimedHours;
         public int MaxActiveBounties;
 
-        public BountiesGameData(JSONNode node)
+        public BountiesGameDataCollection(JSONNode node)
         {
             UpdateWithJSON(node);
         }
@@ -34,7 +34,7 @@ namespace GM.Bounties.Data
         {
             Clear();
 
-            foreach (BountyLocalGameData res in LoadLocalData())
+            foreach (var res in LoadLocalData())
             {
                 JSONNode current = json[res.ID];
 
@@ -70,6 +70,6 @@ namespace GM.Bounties.Data
             return false;
         }
 
-        static BountyLocalGameData[] LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Bounties");
+        static ScripableObjects.BountyLocalGameData[] LoadLocalData() => Resources.LoadAll<ScripableObjects.BountyLocalGameData>("Bounties");
     }
 }

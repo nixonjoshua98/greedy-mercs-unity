@@ -17,6 +17,6 @@ namespace GM.Bounties.Data
 
         public Sprite Icon;
         public GameObject Prefab;
-        public GM.Bounties.UI.BountySlot Slot;
+        public UI.BountySlot Slot;
     }
 }

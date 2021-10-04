@@ -16,6 +16,6 @@ namespace GM.HTTP.BountyShopModels
         public Dictionary<string, int> DailyPurchases;
 
         [JsonProperty(PropertyName = "userArmouryItems")]
-        public Dictionary<int, GM.Armoury.Models.ArmouryItemModel> ArmouryItems;
+        public Dictionary<int, GM.Armoury.Models.UserArmouryItemModel> ArmouryItems;
     }
 }

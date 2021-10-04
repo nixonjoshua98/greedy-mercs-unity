@@ -17,7 +17,7 @@ using GM.HTTP.BountyModels;
             BountyGameData
 
         BountiesUserData
-            BountyUserData
+            BountyUserData (Server Model)
  */
 
 
@@ -25,12 +25,12 @@ namespace GM.Bounties.Data
 {
     public class BountiesData : Core.GMClass
     {
-        public BountiesGameData Game;
+        public BountiesGameDataCollection Game;
         public BountiesUserData User;
 
         public BountiesData(JSONNode userJSON, JSONNode gameJSON)
         {
-            Game = new BountiesGameData(gameJSON);
+            Game = new BountiesGameDataCollection(gameJSON);
             User = new BountiesUserData(userJSON);
         }
 
@@ -41,7 +41,7 @@ namespace GM.Bounties.Data
             int hourlyIncome = 0;
 
             // Calculate the attributes we want for the snapshot
-            foreach (BountyUserData state in User.States)
+            foreach (var state in User.States)
             {
                 if (state.IsActive)
                 {

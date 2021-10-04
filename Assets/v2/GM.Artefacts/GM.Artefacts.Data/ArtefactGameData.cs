@@ -7,7 +7,7 @@ namespace GM.Artefacts.Data
     /// </summary>
     public struct ArtefactGameData
     {
-        public int ID;
+        public int Id;
 
         public string Name;
 
@@ -23,6 +23,6 @@ namespace GM.Artefacts.Data
 
         // Unity objects
         public Sprite Icon;
-        public GM.Artefacts.UI.ArtefactSlot Slot;
+        public UI.ArtefactSlot Slot;
     }
 }

@@ -12,6 +12,6 @@ namespace GM.HTTP.BountyModels
     public class UpdateActiveBountiesResponse : ServerResponse
     {
         [JsonProperty(PropertyName = "bounties")]
-        public List<GM.Bounties.Data.BountyUserData> Bounties;
+        public List<GM.Bounties.Models.BountyUserData> Bounties;
     }
 }

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace GM.Bounties
+namespace GM.Bounties.ScripableObjects
 {
     [CreateAssetMenu(menuName = "Scriptables/LocalBountyData")]
     public class BountyLocalGameData : ScriptableObject

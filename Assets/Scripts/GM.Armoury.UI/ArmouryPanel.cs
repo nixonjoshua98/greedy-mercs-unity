@@ -30,7 +30,7 @@ namespace GM.Armoury.UI
 
         protected override void OnShown()
         {
-            foreach (Data.ArmouryItemState state in App.Data.Armoury.User.OwnedItems)
+            foreach (var state in App.Data.Armoury.User.OwnedItems)
             {
                 if (!itemObjects.ContainsKey(state.Id))
                 {
@@ -47,7 +47,7 @@ namespace GM.Armoury.UI
         }
 
 
-        void InstantiateItem(Data.ArmouryItemState state)
+        void InstantiateItem(Models.UserArmouryItemModel state)
         {
             ArmouryItemSlot item = CanvasUtils.Instantiate<ArmouryItemSlot>(ArmouryItemObject, itemsParent);
 

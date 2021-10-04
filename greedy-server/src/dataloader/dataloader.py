@@ -29,10 +29,6 @@ class DataLoader:
     def create_client(cls, con_str):
         cls._mongo = AsyncIOMotorClient(con_str)
 
-    @classmethod
-    def get_client(cls):
-        return getattr(cls, "_mongo", None)
-
     def __enter__(self):
         return self
 

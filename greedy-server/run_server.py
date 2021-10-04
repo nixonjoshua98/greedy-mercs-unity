@@ -14,4 +14,8 @@ app.include_router(artefacts.router)
 app.include_router(bountyshop.router)
 
 if __name__ == '__main__':
+    from src import logger
+
+    logger.info("Starting server")
+
     uvicorn.run("run_server:app", host="0.0.0.0", port=2122)

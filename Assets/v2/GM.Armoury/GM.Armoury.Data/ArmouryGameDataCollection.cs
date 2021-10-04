@@ -26,7 +26,7 @@ namespace GM.Armoury.Data
         {
             DataDict = new Dictionary<int, ArmouryItemGameData>();
 
-            foreach (LocalArmouryItemData ele in LoadLocalData())
+            foreach (var ele in LoadLocalData())
             {
                 JSONNode currentItem = itemsJSON[ele.ID];
 
@@ -46,6 +46,6 @@ namespace GM.Armoury.Data
         }
 
 
-        static LocalArmouryItemData[] LoadLocalData() => Resources.LoadAll<LocalArmouryItemData>("Armoury/Items");
+        static ScriptableObjects.LocalArmouryItemData[] LoadLocalData() => Resources.LoadAll<ScriptableObjects.LocalArmouryItemData>("Armoury/Items");
     }
 }

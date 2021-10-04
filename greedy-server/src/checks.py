@@ -9,6 +9,6 @@ async def user_or_raise(user: UserIdentifier):
     result = await DataLoader().users.get_user(user.device_id)
 
     if result is None:
-        raise HTTPException(400)
+        raise HTTPException(401, detail="Unauthorised access")
 
     return result["_id"]

@@ -8,7 +8,7 @@ namespace GM.HTTP.BountyModels
     {
         public long PointsClaimed { get; set; }
 
-        [JsonConverter(typeof(UnixMillisecondDateTimeConverter))]
+        [JsonConverter(typeof(UnixMillisecondUTCDateTimeConverter))]
         public DateTime ClaimTime { get; set; } // Server time when claimed may be slightly different from the client time
 
         [JsonProperty(PropertyName = "userItems")]

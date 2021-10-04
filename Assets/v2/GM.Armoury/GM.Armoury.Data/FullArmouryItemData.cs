@@ -6,9 +6,9 @@ namespace GM.Armoury.Data
     public struct FullArmouryItemData
     {
         public ArmouryItemGameData Game;
-        public Models.ArmouryItemModel User;
+        public Models.UserArmouryItemModel User;
 
-        public FullArmouryItemData(ArmouryItemGameData game, Models.ArmouryItemModel user)
+        public FullArmouryItemData(ArmouryItemGameData game, Models.UserArmouryItemModel user)
         {
             Game = game;
             User = user;

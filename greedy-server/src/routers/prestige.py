@@ -49,9 +49,9 @@ async def process_prestige_points(uid, req_data: PrestigeData, *, loader: DataLo
 async def process_new_bounties(uid, req_data: PrestigeData, *, bounties_repo: BountiesRepository):
     bounty_res = resources.get_bounty_data()
 
-    user_bounties = await bounties_repo.get_user_bounties(uid)
+    u_bounty_data = await bounties_repo.get_user(uid)
 
-    u_bounty_ids = [b.bounty_id for b in user_bounties]
+    u_bounty_ids = [b.bounty_id for b in u_bounty_data.bounties]
 
     for key, bounty in bounty_res.bounties.items():
         if key not in u_bounty_ids and req_data.prestige_stage >= bounty.stage:

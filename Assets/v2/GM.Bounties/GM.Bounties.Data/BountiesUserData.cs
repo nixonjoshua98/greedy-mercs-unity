@@ -14,7 +14,7 @@ namespace GM.Bounties.Data
 
     public class BountiesUserData
     {
-        public List<BountyUserData> States = new List<BountyUserData>();
+        public List<Models.BountyUserData> States = new List<Models.BountyUserData>();
 
         public DateTime LastClaimTime;
 
@@ -37,11 +37,11 @@ namespace GM.Bounties.Data
 
         public void UpdateBountiesWithJSON(JSONNode json)
         {
-            States = JsonConvert.DeserializeObject<List<BountyUserData>>(json.ToString());
+            States = JsonConvert.DeserializeObject<List<Models.BountyUserData>>(json.ToString());
         }
 
 
-        public void UpdateBounties(List<BountyUserData> bounties)
+        public void UpdateBounties(List<Models.BountyUserData> bounties)
         {
             States = bounties;
         }

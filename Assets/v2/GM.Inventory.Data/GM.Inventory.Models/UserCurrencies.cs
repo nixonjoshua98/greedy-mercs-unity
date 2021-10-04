@@ -2,7 +2,7 @@ using GM.Common.Json;
 using Newtonsoft.Json;
 using System.Numerics;
 
-namespace GM.Inventory.Data
+namespace GM.Inventory.Models
 {
     public class UserCurrencies
     {

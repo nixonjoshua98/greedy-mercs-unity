@@ -29,7 +29,7 @@ namespace GM.Armoury.Data
         {
             double val = 0;
 
-            foreach (ArmouryItemState item in User.OwnedItems)
+            foreach (Models.ArmouryItemModel item in User.OwnedItems)
             {
                 FullArmouryItemData itemData = this[item.Id];
 

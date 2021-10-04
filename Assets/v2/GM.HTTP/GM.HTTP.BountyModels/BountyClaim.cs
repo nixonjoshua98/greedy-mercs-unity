@@ -12,6 +12,6 @@ namespace GM.HTTP.BountyModels
         public DateTime ClaimTime { get; set; } // Server time when claimed may be slightly different from the client time
 
         [JsonProperty(PropertyName = "userItems")]
-        public GM.Inventory.Data.UserCurrencies UserCurrencies { get; set; }
+        public GM.Inventory.Models.UserCurrencies UserCurrencies { get; set; }
     }
 }

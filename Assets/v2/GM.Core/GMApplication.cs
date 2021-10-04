@@ -21,8 +21,6 @@ namespace GM.Core
         GMApplication(JSONNode userJSON, JSONNode gameJSON)
         {
             Data = new GMData(userJSON, gameJSON);
-
-            Resources.UnloadUnusedAssets();
         }
     }
 }

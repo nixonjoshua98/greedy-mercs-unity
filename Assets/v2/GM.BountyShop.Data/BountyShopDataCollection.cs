@@ -115,7 +115,7 @@ namespace GM.BountyShop.Data
                 if (resp.StatusCode == 200)
                 {
                     App.Data.Inv.UpdateCurrencyItems(resp.UserCurrencies);
-                    App.Data.Armoury.User.Update(resp.ArmouryItems);
+                    App.Data.Armoury.User.UpdateItemsWithModel(resp.ArmouryItems);
                     SetDailyPurchases(resp.DailyPurchases);
                 }
 

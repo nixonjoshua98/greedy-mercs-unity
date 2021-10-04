@@ -5,11 +5,6 @@ namespace GM.HTTP
 
     }
 
-    public class ServerRequest : IServerRequest
-    {
-
-    }
-
     public interface IAuthorisedServerRequest : IServerRequest
     {
         string DeviceId { get; set; }

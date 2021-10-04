@@ -32,7 +32,7 @@ namespace GM.Inventory.Data
             PrestigePoints = BigInteger.Parse(node.GetValueOrDefault("prestigePoints", 0), System.Globalization.NumberStyles.Any);
         }
 
-        public void UpdateCurrencyItems(UserCurrencies model)
+        public void UpdateCurrencyItems(Models.UserCurrencies model)
         {
             BlueGems = model.BlueGems;
             BountyPoints = model.BountyPoints;

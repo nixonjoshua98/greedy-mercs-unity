@@ -1,11 +1,8 @@
 using Newtonsoft.Json;
 
-namespace GM.Armoury.Data
+namespace GM.Armoury.Models
 {
-    /// <summary>
-    /// User state of the armoury item
-    /// </summary>
-    public class ArmouryItemState
+    public class ArmouryItemModel
     {
         [JsonProperty(PropertyName = "itemId")]
         public int Id;

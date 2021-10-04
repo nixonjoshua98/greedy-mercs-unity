@@ -71,7 +71,7 @@ class _Users:
 
 class _Bounties:
     def __init__(self, default_database):
-        self._data = default_database["userBountiesData"]
+        self._data = default_database["userBounties"]
 
     async def find_one(self, uid):
         return await self._data.find_one_and_update(

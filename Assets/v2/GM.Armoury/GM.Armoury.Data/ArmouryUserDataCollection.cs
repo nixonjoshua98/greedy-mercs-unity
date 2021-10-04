@@ -6,27 +6,27 @@ namespace GM.Armoury.Data
 {
     public class ArmouryUserDataCollection
     {
-        Dictionary<int, ArmouryItemState> Items;
+        Dictionary<int, Models.ArmouryItemModel> Items;
 
         public ArmouryUserDataCollection(JSONNode node)
         {
             UpdateWithJSON(node);
         }
 
-        public ArmouryItemState GetItem(int key) => Items[key];
+        public Models.ArmouryItemModel GetItem(int key) => Items[key];
 
 
         /// <summary>
         /// State list of the unlocked armoury items
         /// </summary>
-        public List<ArmouryItemState> OwnedItems => Items.Values.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.Id).ToList();
+        public List<Models.ArmouryItemModel> OwnedItems => Items.Values.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.Id).ToList();
 
         /// <summary>
         /// Update dictionary with a JSON object
         /// </summary>
         public void UpdateWithJSON(JSONNode json)
         {
-            Items = new Dictionary<int, ArmouryItemState>();
+            Items = new Dictionary<int, Models.ArmouryItemModel>();
 
             foreach (string key in json.Keys)
             {
@@ -34,7 +34,7 @@ namespace GM.Armoury.Data
 
                 int itemId = int.Parse(key);
 
-                Items[itemId] = new ArmouryItemState
+                Items[itemId] = new Models.ArmouryItemModel
                 {
                     Id = itemId,
                     Level = current["level"].AsInt,
@@ -44,7 +44,7 @@ namespace GM.Armoury.Data
             }
         }
 
-        public void Update(Dictionary<int, ArmouryItemState> items)
+        public void UpdateItemsWithModel(Dictionary<int, Models.ArmouryItemModel> items)
         {
             Items = items;
         }

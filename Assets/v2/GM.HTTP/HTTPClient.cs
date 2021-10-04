@@ -10,20 +10,9 @@ using UnityEngine.Networking;
 
 namespace GM.HTTP
 {
-    struct ServerConfig
-    {
-        public string Address;
-
-        public int Port;
-
-        public string UrlFor(string endpoint) => string.Format("http://{0}:{1}/api/{2}", Address, Port, endpoint);
-    }
-
-
-
     public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>
     {
-        ServerConfig PyServer = new ServerConfig()
+        HTTPServerConfig PyServer = new HTTPServerConfig
         {
             Port = 2122,
             Address = "109.154.72.134"
@@ -136,19 +125,37 @@ namespace GM.HTTP
         /// <param name="www">Web request</param>
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
-            T model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
+            T model;
 
-            if (model == null)
+            try
             {
-                // Create a default instance with an error message
+                // Attempt to deserialize the response text
+                model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
+
+                if (model == null)
+                {
+                    // Create a model, and populate the error message (and status code) to show an error happened
+                    model = new T()
+                    {
+                        ErrorMessage = "Failed to deserialize server response",
+                        StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
+                    };
+                }
+                else
+                {
+                    // If we deserialize then we should use the status code from the server
+                    model.StatusCode = www.responseCode;
+                }
+            }
+            catch (Exception e)
+            {
+                // We failed to deserialize for an unknown reason so we set the error message and status code
                 model = new T()
                 {
-                    ErrorMessage = "Failed to deserialize server response"
+                    ErrorMessage = e.Message,
+                    StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
                 };
             }
-
-            // Set the status code from the response
-            model.StatusCode = www.responseCode;
 
             return model;
         }

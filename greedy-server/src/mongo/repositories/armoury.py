@@ -57,11 +57,11 @@ class ArmouryRepository:
 
         return [ArmouryItemModel(**ele) for ele in ls]
 
-    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool = False) -> ArmouryItemModel:
+    async def update_item(self, uid, iid: int, update: dict) -> ArmouryItemModel:
         r = await self._col.find_one_and_update(
             {
                 Fields.USER_ID: uid,
                 Fields.ITEM_ID: iid
-            }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
+            }, update, upsert=False, return_document=ReturnDocument.AFTER)
 
         return ArmouryItemModel(**r)

@@ -6,6 +6,6 @@ def check_can_afford(currency, cost, *, error):
         raise HTTPException(400, detail=error)
 
 
-def check_item_is_not_none(item, *, error):
+def check_is_not_none(item, *, error):
     if item is None:
         raise HTTPException(400, detail=error)

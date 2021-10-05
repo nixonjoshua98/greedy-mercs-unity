@@ -38,6 +38,8 @@ class ArtefactModel(BaseDocument):
         return self.dict(exclude={"id", "user_id"})
 
 
+# == Repository == #
+
 class ArtefactsRepository:
     def __init__(self, client):
         db = client.get_default_database()
@@ -49,7 +51,7 @@ class ArtefactsRepository:
 
         return [ArtefactModel(**ele) for ele in ls]
 
-    async def get_one_artefact(self, uid, artid) -> Union[ArtefactModel, None]:
+    async def get_artefact(self, uid, artid) -> Union[ArtefactModel, None]:
         r = await self._col.find_one({Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid})
 
         return ArtefactModel(**r) if r is not None else None
@@ -64,10 +66,10 @@ class ArtefactsRepository:
 
         return ArtefactModel(**{"_id": r.inserted_id, **doc})
 
-    async def update_artefact(self, uid, artid, update: dict, *, upsert: bool = True) -> ArtefactModel:
+    async def update_artefact(self, uid, artid, update: dict) -> ArtefactModel:
         r = await self._col.find_one_and_update({
                 Fields.USER_ID: uid,
                 Fields.ARTEFACT_ID: artid
-            }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
+            }, update, upsert=False, return_document=ReturnDocument.AFTER)
 
         return ArtefactModel(**r)

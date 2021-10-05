@@ -14,7 +14,7 @@ from src import resources
 
 from src.common.requestchecks import (
     check_can_afford,
-    check_item_is_not_none
+    check_is_not_none
 )
 
 from src.mongo.repositories.artefacts import (
@@ -47,10 +47,10 @@ async def upgrade(
     check_valid_artefact(data.artefact_id)
 
     # Load the related artefact
-    user_art = await artefacts_repo.get_one_artefact(uid, data.artefact_id)
+    user_art = await artefacts_repo.get_artefact(uid, data.artefact_id)
 
     # Verify that the user has the artefact unlocked
-    check_item_is_not_none(user_art, error="Artefact is not unlocked")
+    check_is_not_none(user_art, error="Artefact is not unlocked")
 
     # Check that upgrading this artefact will not exceed the max level
     check_artefact_within_max_level(user_art, data.upgrade_levels)

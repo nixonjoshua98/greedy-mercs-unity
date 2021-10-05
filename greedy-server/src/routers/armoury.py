@@ -10,7 +10,7 @@ from src import resources
 
 from src.common.requestchecks import (
     check_can_afford,
-    check_item_is_not_none
+    check_is_not_none
 )
 
 from src.mongo.repositories.armoury import (
@@ -37,7 +37,7 @@ async def upgrade(
     user_item = await armoury_repo.get_item(uid, data.item_id)
 
     # Verify the item exists
-    check_item_is_not_none(user_item, error="Attempted to upgrade a locked armoury item")
+    check_is_not_none(user_item, error="Attempted to upgrade a locked armoury item")
 
     # Calculate the upgrade cost for the item
     upgrade_cost = calc_upgrade_cost(user_item)
@@ -70,13 +70,11 @@ async def evolve(
     # Verify the item is valid
     check_item_is_valid(data.item_id)
 
-    armoury = resources.get_armoury_resources()
-
     # Fetch the armoury item from the database
     armoury_item = await armoury_repo.get_item(uid, data.item_id)
 
     # Check that the item exists (is not None)
-    check_item_is_not_none(armoury_item, error="User has not unlocked armoury item")
+    check_is_not_none(armoury_item, error="User has not unlocked armoury item")
 
     # Verify the user can evolve the weapon
     check_can_evolve_weapon(armoury_item)
@@ -85,7 +83,7 @@ async def evolve(
     updated_item = await armoury_repo.update_item(uid, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.EVO_LEVEL: 1,
-            ArmouryFieldKeys.NUM_OWNED: -armoury.evo_level_cost
+            ArmouryFieldKeys.NUM_OWNED: -resources.get_armoury_resources().evo_level_cost
         }})
 
     return ServerResponse({"updateditem": updated_item.response_dict()})

@@ -27,7 +27,7 @@ namespace GM.Armoury.Data
         {
             double val = 0;
 
-            foreach (KeyValuePair<int, ArmouryItemState> pair in User)
+            foreach (KeyValuePair<int, Models.UserArmouryItemModel> pair in User)
             {
                 FullArmouryItemData item = this[pair.Key];
 

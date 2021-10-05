@@ -73,7 +73,7 @@ namespace GM.Armoury.Data
                 {
                     User.Update(resp.ArmouryItems);
 
-                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
+                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
                 call(resp.StatusCode == 200);

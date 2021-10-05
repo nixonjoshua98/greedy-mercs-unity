@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 
 namespace GM.HTTP
 {
+    public class HTTPClient: Common.MonoBehaviourLazySingleton<HTTPClient>
     {
         HTTPServerConfig PyServer = new HTTPServerConfig
         {

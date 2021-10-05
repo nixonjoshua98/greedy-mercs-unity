@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GM.Armoury.Data
 {
-    public class UserArmouryDictionary : Dictionary<int, ArmouryItemState>
+    public class UserArmouryDictionary : Dictionary<int, Models.UserArmouryItemModel>
     {
         public UserArmouryDictionary(JSONNode node)
         {
@@ -14,7 +14,7 @@ namespace GM.Armoury.Data
         /// <summary>
         /// State list of the unlocked armoury items
         /// </summary>
-        public List<ArmouryItemState> OwnedItems => Values.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.ID).ToList();
+        public List<Models.UserArmouryItemModel> OwnedItems => Values.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.Id).ToList();
 
         /// <summary>
         /// Update dictionary with a JSON object
@@ -29,7 +29,7 @@ namespace GM.Armoury.Data
 
                 int itemId = int.Parse(key);
 
-                base[itemId] = new ArmouryItemState(itemId)
+                base[itemId] = new Models.UserArmouryItemModel
                 {
                     Level = current["level"].AsInt,
                     NumOwned = current["owned"].AsInt,

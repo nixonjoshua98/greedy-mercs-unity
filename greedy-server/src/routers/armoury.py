@@ -61,7 +61,7 @@ async def upgrade(
     armoury_items_list = await armoury_repo.get_all_items(uid)
 
     return ServerResponse(
-        {"armouryItems": [i.response_dict() for i in armoury_items_list], "userCurrencyItems": u_items}
+        {"armouryItems": [i.response_dict() for i in armoury_items_list], "currencyItems": u_items}
     )
 
 

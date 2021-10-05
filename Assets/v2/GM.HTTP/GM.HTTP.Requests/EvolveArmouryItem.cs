@@ -10,7 +10,6 @@ namespace GM.HTTP.Requests
 
     public class EvolveArmouryItemResponse : ServerResponse
     {
-        public Inventory.Models.UserCurrenciesModel UserCurrencies;
         public List<Armoury.Models.UserArmouryItemModel> ArmouryItems;
     }
 }

@@ -17,7 +17,6 @@ namespace GM.HTTP
             Address = "109.154.72.134"
         };
 
-
         public void ClaimBounties(UnityAction<BountyClaimResponse> callback)
         {
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest()));

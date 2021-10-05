@@ -1,8 +1,5 @@
 namespace GM.Armoury.Data
 {
-    /// <summary>
-    /// Combined armoury item data class for both user and game data
-    /// </summary>
     public struct FullArmouryItemData
     {
         public ArmouryItemGameData Game;

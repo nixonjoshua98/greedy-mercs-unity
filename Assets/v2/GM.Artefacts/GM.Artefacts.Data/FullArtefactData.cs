@@ -2,9 +2,6 @@ using GM.Artefacts.Models;
 
 namespace GM.Artefacts.Data
 {
-    /// <summary>
-    /// Combined class for both artefact game and user data
-    /// </summary>
     public struct FullArtefactData
     {
         public ArtefactGameData Game;

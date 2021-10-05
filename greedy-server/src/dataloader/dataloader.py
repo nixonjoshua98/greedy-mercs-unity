@@ -80,7 +80,6 @@ class _Bounties:
             upsert=True
         )
 
-
 class _Items:
     def __init__(self, default_database):
         self.collection = default_database["userItems"]

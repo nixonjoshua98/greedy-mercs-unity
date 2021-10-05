@@ -9,7 +9,6 @@ using UnityEngine.Networking;
 
 namespace GM.HTTP
 {
-    public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>
     {
         HTTPServerConfig PyServer = new HTTPServerConfig
         {
@@ -73,8 +72,7 @@ namespace GM.HTTP
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UnlockArtefactResponse>(www))));
         }
-
-
+        
         /// <summary>
         /// Send the web request and invoke the callback
         /// </summary>
@@ -184,7 +182,7 @@ namespace GM.HTTP
                     StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
                 };
             }
-
+            
             return model;
         }
 

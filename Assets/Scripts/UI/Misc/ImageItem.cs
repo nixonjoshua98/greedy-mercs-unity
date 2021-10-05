@@ -12,13 +12,11 @@ namespace GM.UI
         {
             SetSprite(Item);
         }
-
-
+        
         public void Set(GM.CurrencyItems.Data.CurrencyType item)
         {
             SetSprite(item);
         }
-
 
         void SetSprite(GM.CurrencyItems.Data.CurrencyType item)
         {

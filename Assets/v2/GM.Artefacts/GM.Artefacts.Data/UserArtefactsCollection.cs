@@ -38,7 +38,7 @@ namespace GM.Artefacts.Data
                 base[id] = state;
             }
         }
-
+        
         public void Update(List<UserArtefactModel> ls)
         {
             Clear();

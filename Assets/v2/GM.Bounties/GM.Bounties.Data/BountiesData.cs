@@ -18,7 +18,6 @@ using GM.HTTP.Requests;
 
         BountiesUserData
             BountyUserData (Server Model)
- */
 
 
 namespace GM.Bounties.Data

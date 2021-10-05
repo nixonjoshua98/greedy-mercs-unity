@@ -48,5 +48,10 @@ namespace GM.Armoury.Data
         {
             Items = items;
         }
+
+        public void Update(List<Models.UserArmouryItemModel> items)
+        {
+            Items = items.ToDictionary(ele => ele.Id, val => val);
+        }
     }
 }

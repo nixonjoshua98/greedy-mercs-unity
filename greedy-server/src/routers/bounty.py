@@ -10,17 +10,19 @@ from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier, ActiveBountyUpdateModel
 from src.common.enums import ItemKey
 from src.dataloader import DataLoader
-from src.mongo.models import UserBountiesModel
-from src.mongo.repositories import BountiesRepository, bounties_repository
+
+from src.mongo.repositories.bounties import (
+    UserBountiesModel,
+    BountiesRepository,
+    bounties_repository
+)
 
 router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 
 @router.post("/claim")
 async def claim_points(
-        # Request Models = #
         user: UserIdentifier,
-        # = Dependencies = #
         bounties_repo: BountiesRepository = Depends(bounties_repository)
 ):
     uid = await user_or_raise(user)
@@ -41,9 +43,7 @@ async def claim_points(
 
 @router.post("/setactive")
 async def set_active_bounties(
-        # Request Models = #
         data: ActiveBountyUpdateModel,
-        # = Dependencies = #
         bounties_repo: BountiesRepository = Depends(bounties_repository)
 ):
     uid = await user_or_raise(data)
@@ -52,18 +52,18 @@ async def set_active_bounties(
     check_num_active_bounties(data)
 
     # Load data from the mongo database
-    bounties_user_data: UserBountiesModel = await bounties_repo.get_user(uid)
+    bounty_data: UserBountiesModel = await bounties_repo.get_user(uid)
 
     # Confirm that the user has the bounty unlocked
-    check_unlocked_bounty(data, bounties_user_data)
+    check_unlocked_bounty(data, bounty_data)
 
     # Enable (or disable) the relevant bounties
-    await bounties_repo.set_active_bounties(uid, data.bounty_ids)
+    await bounties_repo.update_active_bounties(uid, data.bounty_ids)
 
     # Refresh the user data from the database, ready to return it back to the user
-    bounties_user_data: UserBountiesModel = await bounties_repo.get_user(uid)
+    bounty_data: UserBountiesModel = await bounties_repo.get_user(uid)
 
-    return ServerResponse(bounties_user_data.response_dict())
+    return ServerResponse(bounty_data.response_dict())
 
 
 # === Calculations === #
@@ -89,7 +89,7 @@ def calc_unclaimed_points(user_data: UserBountiesModel, now: dt.datetime) -> int
     return points
 
 
-# === Request Checks === #
+# === Checks === #
 
 def check_num_active_bounties(data: ActiveBountyUpdateModel):
     res_bounties = resources.get_bounty_data()

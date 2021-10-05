@@ -9,7 +9,11 @@ from src.models import UserIdentifier
 
 from src.dataloader import DataLoader
 from src import resources
-from src.mongo.repositories import BountiesRepository, bounties_repository
+
+from src.mongo.repositories.bounties import (
+    BountiesRepository,
+    bounties_repository
+)
 
 
 router = APIRouter(prefix="/api", route_class=ServerRoute)

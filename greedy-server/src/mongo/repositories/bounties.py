@@ -3,26 +3,49 @@ from __future__ import annotations
 from typing import Union
 from bson import ObjectId
 from pymongo import ReturnDocument
+from pydantic import Field
 
 import datetime as dt
 
 from src.routing import ServerRequest
-from src.mongo.models import UserBountiesModel
 
-"""
-_id (User ID): ObjectId
-lastClaimTime: dt.datetime
-bounties: [
-    {"bountyId": 4, "isActive": False},
-    ...
-]
-"""
+from ..basemodels import BaseDocument, BaseModel
 
 
 def bounties_repository(request: ServerRequest) -> BountiesRepository:
     """ Used to inject a repository instance. """
     return BountiesRepository(request.app.state.mongo)
 
+
+# === Field Keys === #
+
+class Fields:
+    BOUNTY_ID = "bountyId"
+    IS_ACTIVE = "isActive"
+    LAST_CLAIM_TIME = "lastClaimTime"
+    BOUNTIES = "bounties"
+
+
+# == Models == #
+
+class UserBountyModel(BaseModel):
+    bounty_id: int = Field(..., alias=Fields.BOUNTY_ID)
+    is_active: bool = Field(default=False, alias=Fields.IS_ACTIVE)
+
+
+class UserBountiesModel(BaseDocument):
+    last_claim_time: dt.datetime = Field(..., alias=Fields.LAST_CLAIM_TIME)
+    bounties: list[UserBountyModel] = Field([])
+
+    @property
+    def active_bounties(self) -> list[UserBountyModel]:
+        return [b for b in self.bounties if b.is_active]
+
+    def response_dict(self):
+        return self.dict(exclude={"id"})  # Field names instead of aliases
+
+
+# == Repository == #
 
 class BountiesRepository:
     def __init__(self, client):
@@ -39,29 +62,29 @@ class BountiesRepository:
         _ = await self._find_or_create_one(uid)  # Verify that the user document exists
 
         # Assumes that the document for the user already exists in the database
+        # We push the bounty to the list if the bountyId is not already present in the list
         await self._col.update_one(
-            {"_id": uid, "bounties.BountyId": {"$ne": bid}},
-            {"$push": {
-                "bounties": {
-                    "bountyId": bid,
-                    "isActive": False
+            {"_id": uid, f"{Fields.BOUNTIES}.{Fields.BOUNTY_ID}": {"$ne": bid}},
+            {"$addToSet": {  # ... or $push
+                Fields.BOUNTIES: {
+                    Fields.BOUNTY_ID: bid,
+                    Fields.IS_ACTIVE: False
                 }}})
 
-    async def set_active_bounties(self, uid, ids: list) -> None:
-
-        # Load the bounties so we can set the other unlocked bounties to 'False' easily
-        user = await self.get_user(uid)
+    async def update_active_bounties(self, uid, ids: list) -> None:
+        user = await self.get_user(uid)  # Load the user bounties
 
         for b in user.bounties:
             is_active = b.bounty_id in ids  # We also need to 'disable' the inactive bounties
 
             await self._col.update_one(
-                {"_id": user.id, "bounties.bountyId": b.bounty_id},
-                {"$set": {"bounties.$.isActive": is_active}})
+                {"_id": user.id, f"{Fields.BOUNTIES}.{Fields.BOUNTY_ID}": b.bounty_id},
+                {"$set": {
+                    f"{Fields.BOUNTIES}.$.{Fields.IS_ACTIVE}": is_active
+                }})
 
     async def set_claim_time(self, uid: Union[str, ObjectId], claim_time: dt.datetime):
-        """ Upsert the document field 'lastClaimTime' """
-        await self._col.update_one({"_id": uid}, {"$set": {"lastClaimTime": claim_time}}, upsert=True)
+        await self._col.update_one({"_id": uid}, {"$set": {Fields.LAST_CLAIM_TIME: claim_time}}, upsert=True)
 
     # === Internal Methods === #
 
@@ -72,9 +95,8 @@ class BountiesRepository:
         """
         return await self._col.find_one_and_update(
             {"_id": uid}, {
-                # Default document fields
                 "$setOnInsert": {
-                    "lastClaimTime": dt.datetime.utcnow()
+                    Fields.LAST_CLAIM_TIME: dt.datetime.utcnow()
                 }
             },
             return_document=ReturnDocument.AFTER,

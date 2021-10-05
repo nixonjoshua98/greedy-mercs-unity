@@ -1,8 +1,9 @@
+import math
 import random
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
-from src.resources import ArtefactResources
+from src.resources.artefacts import ArtefactResourceData
 from src.checks import user_or_raise
 from src.common import formulas
 from src.common.enums import ItemKey
@@ -11,78 +12,147 @@ from src.models import UserIdentifier
 from src.dataloader import DataLoader
 from src import resources
 
+from src.mongo.repositories.artefacts import (
+    ArtefactsRepository,
+    ArtefactModel,
+    Fields as ArtefactsRepoFields,
+    artefacts_repository
+)
+
 router = APIRouter(prefix="/api/artefact", route_class=ServerRoute)
 
 
-# Models
+# == Models == #
+
 class ArtefactUpgradeModel(UserIdentifier):
     artefact_id: int
-    purchase_levels: int
+    upgrade_levels: int
 
+
+# == Endpoints == #
 
 @router.post("/upgrade")
-async def upgrade(data: ArtefactUpgradeModel):
+async def upgrade(
+        data: ArtefactUpgradeModel,
+        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository)
+):
     uid = await user_or_raise(data)
 
-    # Load the artefact resource
-    artefact: ArtefactResources = resources.get_artefacts_data().artefacts[data.artefact_id]
+    # Load the related artefact
+    user_art = await artefacts_repo.get_one_artefact(uid, data.artefact_id)
 
-    with DataLoader() as mongo:
+    # Verify that the user has the artefact unlocked
+    check_artefact_exists(user_art)
 
-        # Pull the data and raise an error if it does not exist
-        if (u_artefact := await mongo.artefacts.get_one_artefact(uid, data.artefact_id)) is None:
-            raise HTTPException(400, detail="Artefact is not unlocked")
+    # Check that upgrading this artefact will not exceed the max level
+    check_artefact_within_max_level(user_art, data.upgrade_levels)
 
-        # Upgrading will exceed the max level
-        elif (u_artefact["level"] + data.purchase_levels) > artefact.max_level:
-            raise HTTPException(400, detail="Level will exceed max level")
+    # Calculate the upgrade cost for the artefact
+    upgrade_cost = calc_upgrade_cost(user_art, data.upgrade_levels)
 
-        # Calculate the upgrade cost, and pull the currency from the database
-        cost = artefact.upgrade_cost(u_artefact["level"], data.purchase_levels)
+    # TEMP - Fetch the currency to upgrade the item
+    u_pp = await DataLoader().items.get_item(uid, ItemKey.PRESTIGE_POINTS)
 
-        u_pp = await mongo.items.get_item(uid, ItemKey.PRESTIGE_POINTS)
+    # Check that the user can afford the upgrade cost
+    check_has_enough_currency(u_pp, upgrade_cost, error="Cannot afford to upgrade artefact")
 
-        # Perform the upgrade check (and calculate the upgrade cost)
-        if cost > u_pp:  # Raise a HTTP error so the request is aborted
-            raise HTTPException(400, detail="Cannot afford upgrade cost")
+    u_items = await DataLoader().items.update_and_get(uid, {"$inc": {ItemKey.PRESTIGE_POINTS: -upgrade_cost}})
 
-        # Update the artefact (and pull the new artefact data)
-        u_items = await mongo.items.update_and_get(uid, {"$inc": {ItemKey.PRESTIGE_POINTS: -cost}})
+    # Update the artefact
+    await artefacts_repo.update_one_artefact(uid, data.artefact_id, {
+        "$inc": {
+            ArtefactsRepoFields.LEVEL: data.upgrade_levels
+        }
+    })
 
-        await mongo.artefacts.update_one_artefact(uid, data.artefact_id, {"$inc": {"level": data.purchase_levels}})
+    all_artefacts = await artefacts_repo.get_all_artefacts(uid)
 
-        u_artefacts = await mongo.artefacts.get_all_artefacts(uid)
-
-    return ServerResponse({"userItems": u_items, "userArtefacts": u_artefacts})
+    return ServerResponse({"userCurrencies": u_items, "userArtefacts": [art.response_dict() for art in all_artefacts]})
 
 
 @router.post("/unlock")
-async def unlock(data: UserIdentifier):
+async def unlock(
+        data: UserIdentifier,
+        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository)
+):
     uid = await user_or_raise(data)
 
-    artefacts = resources.get_artefacts_data().artefacts
+    # Fetch all user artefacts
+    u_artefacts = await artefacts_repo.get_all_artefacts(uid)
 
-    with DataLoader() as mongo:
+    u_pp = await DataLoader().items.get_item(uid, ItemKey.PRESTIGE_POINTS)
 
-        u_pp = await mongo.items.get_item(uid, ItemKey.PRESTIGE_POINTS)
-        u_artefacts = await mongo.artefacts.get_all_artefacts(uid)
+    # Verify that the user still has an artefact available to unlock
+    check_not_unlocked_all_artefacts(u_artefacts)
 
-        # Calculate unlock cost
-        unlock_cost = formulas.next_artefact_cost(len(u_artefacts))
+    # Calculate the artefact cost
+    unlock_cost = calc_unlock_cost(u_artefacts)
 
-        # Cannot afford the artefact, or limit has been reached
-        if len(u_artefacts) >= len(artefacts) or (unlock_cost > u_pp):
-            raise HTTPException(400, detail="Max artefacts reached or cannot afford cost")
+    # Verify that the user can afford the unlock cost
+    check_has_enough_currency(u_pp, unlock_cost, error="Cannot afford unlock cost")
 
-        # Use sets to get a random new artefact id
-        u_new_art = random.choice(list(set(list(artefacts.keys())) - set(list(u_artefacts.keys()))))
+    # Get the new artefact id
+    new_art_id = get_new_artefact(u_artefacts)
 
-        # We UPSERT the new artefact (We could INSERT but this prevents multiple entries - last error check)
-        await mongo.artefacts.update_one_artefact(uid, u_new_art, {"$setOnInsert": {"level": 1}})
+    # Add the new artefact
+    await artefacts_repo.add_new_artefact(uid, new_art_id)
 
-        # Update the purchase currency
-        u_items = await mongo.items.update_and_get(uid, {"$inc": {ItemKey.PRESTIGE_POINTS: -unlock_cost}})
+    # Update the purchase currency
+    u_items = await DataLoader().items.update_and_get(uid, {
+        "$inc": {
+            ItemKey.PRESTIGE_POINTS: -unlock_cost
+        }
+    })
 
-        u_artefacts = await mongo.artefacts.get_all_artefacts(uid)
+    # Fetch all user artefacts
+    all_arts = await artefacts_repo.get_all_artefacts(uid)
 
-    return ServerResponse({"userItems": u_items, "userArtefacts": u_artefacts, "newArtefactId": u_new_art})
+    return ServerResponse({
+        "newArtefactId": new_art_id,
+        "userCurrencies": u_items,
+        "userArtefacts": [art.response_dict() for art in all_arts],
+    })
+
+
+# == Calculations == #
+
+def calc_unlock_cost(artefacts: list[ArtefactModel]):
+    return math.floor(max(1, num_arts := len(artefacts) - 2) * math.pow(1.35, num_arts))
+
+
+def get_new_artefact(artefacts: list[ArtefactModel]):
+    s_arts = resources.get_artefacts_data().artefacts
+
+    return random.choice(list(set(list(s_arts.keys())) - set(list([art.id for art in artefacts]))))
+
+
+def calc_upgrade_cost(artefact: ArtefactModel, levels: int) -> int:
+    static_art = resources.get_artefacts_data().artefacts[artefact.artefact_id]
+
+    return formulas.upgrade_artefact_cost(static_art.cost_coeff, static_art.cost_expo, artefact.level, levels)
+
+
+# == Checks == #
+
+def check_not_unlocked_all_artefacts(artefacts: list[ArtefactModel]):
+    static_artefacts = resources.get_artefacts_data().artefacts
+
+    if len(artefacts) >= len(static_artefacts):
+        raise HTTPException(400, detail="Max number of artefacts unlocked")
+
+
+def check_has_enough_currency(currency, value, *, error: str):
+    if value > currency:
+        raise HTTPException(400, detail=error)
+
+
+def check_artefact_exists(artefact: ArtefactModel):
+    if artefact is None:
+        raise HTTPException(400, detail="Artefact is not unlocked")
+
+
+def check_artefact_within_max_level(artefact: ArtefactModel, levels: int):
+    static_artefact: ArtefactResourceData = resources.get_artefacts_data().artefacts[artefact.artefact_id]
+
+    if (artefact.level + levels) > static_artefact.max_level:
+        raise HTTPException(400, detail="Level will exceed max level")

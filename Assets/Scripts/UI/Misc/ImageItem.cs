@@ -6,7 +6,7 @@ namespace GM.UI
 {
     public class ImageItem : Core.GMMonoBehaviour
     {
-        public GM.Items.Data.ItemType Item;
+        public GM.CurrencyItems.Data.CurrencyType Item;
 
         void Awake()
         {
@@ -14,13 +14,13 @@ namespace GM.UI
         }
 
 
-        public void Set(GM.Items.Data.ItemType item)
+        public void Set(GM.CurrencyItems.Data.CurrencyType item)
         {
             SetSprite(item);
         }
 
 
-        void SetSprite(GM.Items.Data.ItemType item)
+        void SetSprite(GM.CurrencyItems.Data.CurrencyType item)
         {
             GetComponent<Image>().sprite = App.Data.Items.GetItem(item).Icon;
         }

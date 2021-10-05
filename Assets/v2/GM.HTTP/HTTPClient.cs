@@ -1,5 +1,4 @@
-using GM.HTTP.BountyModels;
-using GM.HTTP.BountyShopModels;
+using GM.HTTP.Requests;
 using Newtonsoft.Json;
 using SimpleJSON;
 using System;
@@ -46,6 +45,35 @@ namespace GM.HTTP
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
         }
+
+        public void UpgradeArmouryItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/upgrade"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpgradeArmouryItemResponse>(www))));
+        }
+
+        public void EvolveArmouryItem(EvolveArmouryItemRequest req, UnityAction<EvolveArmouryItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/evolve"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<EvolveArmouryItemResponse>(www))));
+        }
+
+        public void UpgradeArtefact(Requests.UpgradeArtefactRequest req, UnityAction<Requests.UpgradeArtefactResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/upgrade"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UpgradeArtefactResponse>(www))));
+        }
+
+        public void UnlockArtefact(UnityAction<Requests.UnlockArtefactResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/unlock"), PrepareRequest(new AuthorisedServerRequest()));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UnlockArtefactResponse>(www))));
+        }
+
 
         /// <summary>
         /// Send the web request and invoke the callback

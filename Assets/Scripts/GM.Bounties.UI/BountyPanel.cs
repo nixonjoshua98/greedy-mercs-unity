@@ -62,7 +62,7 @@ namespace GM.Bounties.UI
                 {
                     ItemTextPopup popup = CanvasUtils.Instantiate<ItemTextPopup>(claimPopupText, claimButton.transform.position);
 
-                    popup.Setup(Items.Data.ItemType.BOUNTY_POINTS, $"{FormatString.Number(resp.PointsClaimed)}");
+                    popup.Setup(CurrencyItems.Data.CurrencyType.BOUNTY_POINTS, $"{FormatString.Number(resp.PointsClaimed)}");
                 }
             });
         }

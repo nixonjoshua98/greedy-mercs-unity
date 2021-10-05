@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using GM.HTTP.BountyModels;
+using GM.HTTP.Requests;
 
 /*
     HIERACHY
@@ -26,12 +26,12 @@ namespace GM.Bounties.Data
     public class BountiesData : Core.GMClass
     {
         public BountiesGameDataCollection Game;
-        public BountiesUserData User;
+        public BountiesUserDataCollection User;
 
         public BountiesData(JSONNode userJSON, JSONNode gameJSON)
         {
             Game = new BountiesGameDataCollection(gameJSON);
-            User = new BountiesUserData(userJSON);
+            User = new BountiesUserDataCollection(userJSON);
         }
 
         public BountySnapshot CreateSnapshot()
@@ -79,7 +79,7 @@ namespace GM.Bounties.Data
 
                 if (resp.StatusCode == 200)
                 {
-                    User.UpdateBounties(resp.Bounties);
+                    User.Update(resp.Bounties);
                 }
 
                 action(resp.StatusCode == 200, resp);
@@ -95,7 +95,7 @@ namespace GM.Bounties.Data
                 {
                     User.LastClaimTime = resp.ClaimTime;
 
-                    App.Data.Inv.UpdateCurrencyItems(resp.UserCurrencies);
+                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
                 }
 
                 action(resp.StatusCode == 200, resp);

@@ -1,3 +1,5 @@
+using GM.Artefacts.Models;
+
 namespace GM.Artefacts.Data
 {
     /// <summary>
@@ -6,9 +8,9 @@ namespace GM.Artefacts.Data
     public struct FullArtefactData
     {
         public ArtefactGameData Game;
-        public ArtefactState User;
+        public UserArtefactModel User;
 
-        public FullArtefactData(ArtefactGameData values, ArtefactState state)
+        public FullArtefactData(ArtefactGameData values, UserArtefactModel state)
         {
             Game = values;
             User = state;

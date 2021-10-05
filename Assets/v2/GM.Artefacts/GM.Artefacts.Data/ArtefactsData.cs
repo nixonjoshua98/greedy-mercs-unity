@@ -37,7 +37,7 @@ namespace GM.Artefacts.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    User.Update(resp.UserArtefacts);
+                    User.Update(resp.UpdatedArtefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
                 }
@@ -52,12 +52,12 @@ namespace GM.Artefacts.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    User.Update(resp.UserArtefacts);
+                    User.Update(resp.NewArtefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
                 }
 
-                call.Invoke(resp.StatusCode == 200, resp.NewArtefactId);
+                call.Invoke(resp.StatusCode == 200, resp.NewArtefact.Id);
             });
         }
 

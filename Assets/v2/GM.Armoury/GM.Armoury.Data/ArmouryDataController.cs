@@ -71,7 +71,7 @@ namespace GM.Armoury.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    User.Update(resp.ArmouryItems);
+                    User.Update(resp.UpdatedItem);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
@@ -87,13 +87,13 @@ namespace GM.Armoury.Data
         /// <param name="call">Callback</param>
         public void EvolveItem(int item, UnityAction<bool> call)
         {
-            var req = new GM.HTTP.Requests.EvolveArmouryItemRequest { ItemId = item };
+            var req = new HTTP.Requests.EvolveArmouryItemRequest { ItemId = item };
 
             App.HTTP.EvolveArmouryItem(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
-                    User.Update(resp.ArmouryItems);
+                    User.Update(resp.UpdatedItem);
                 }
 
                 call(resp.StatusCode == 200);

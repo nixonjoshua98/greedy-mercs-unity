@@ -72,15 +72,13 @@ async def upgrade(
     })
 
     # Update the artefact
-    await artefacts_repo.update_one_artefact(uid, data.artefact_id, {
+    updated_artefact = await artefacts_repo.update_artefact(uid, data.artefact_id, {
         "$inc": {
             ArtefactsRepoFields.LEVEL: data.upgrade_levels
         }
     })
 
-    all_artefacts = await artefacts_repo.get_all_artefacts(uid)
-
-    return ServerResponse({"userCurrencies": u_items, "userArtefacts": [art.response_dict() for art in all_artefacts]})
+    return ServerResponse({"userCurrencies": u_items, "updatedArtefact": updated_artefact.response_dict()})
 
 
 @router.post("/unlock")
@@ -108,7 +106,7 @@ async def unlock(
     new_art_id = get_new_artefact(u_artefacts)
 
     # Add the new artefact
-    await artefacts_repo.add_new_artefact(uid, new_art_id)
+    new_artefact = await artefacts_repo.add_new_artefact(uid, new_art_id)
 
     # Update the purchase currency
     u_items = await DataLoader().items.update_and_get(uid, {
@@ -117,14 +115,7 @@ async def unlock(
         }
     })
 
-    # Fetch all user artefacts
-    all_arts = await artefacts_repo.get_all_artefacts(uid)
-
-    return ServerResponse({
-        "newArtefactId": new_art_id,
-        "userCurrencies": u_items,
-        "userArtefacts": [art.response_dict() for art in all_arts],
-    })
+    return ServerResponse({"userCurrencies": u_items, "newArtefact": new_artefact.response_dict()})
 
 
 # == Calculations == #

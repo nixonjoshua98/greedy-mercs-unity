@@ -49,7 +49,7 @@ async def upgrade(
     check_can_afford(u_ap, upgrade_cost, error="Cannot afford upgrade")
 
     # Update the request item data
-    await armoury_repo.update_one_item(uid, data.item_id, {
+    updated_item = await armoury_repo.update_item(uid, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.LEVEL: 1
         }})
@@ -57,12 +57,7 @@ async def upgrade(
     # TEMP - Deduct the upgrade cost and return all user items AFTER the update
     u_items = await DataLoader().items.update_and_get(uid, {"$inc": {ItemKey.ARMOURY_POINTS: -upgrade_cost}})
 
-    # Fetch all armoury items for the user so we can return them
-    armoury_items_list = await armoury_repo.get_all_items(uid)
-
-    return ServerResponse(
-        {"armouryItems": [i.response_dict() for i in armoury_items_list], "currencyItems": u_items}
-    )
+    return ServerResponse({"updatedItem": updated_item.response_dict(), "currencyItems": u_items})
 
 
 @router.post("/evolve")
@@ -87,16 +82,13 @@ async def evolve(
     check_can_evolve_weapon(armoury_item)
 
     # Update the item document
-    await armoury_repo.update_one_item(uid, data.item_id, {
+    updated_item = await armoury_repo.update_item(uid, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.EVO_LEVEL: 1,
             ArmouryFieldKeys.NUM_OWNED: -armoury.evo_level_cost
         }})
 
-    # Fetch all armoury items so we can return them back to the user
-    armoury_items_list = await armoury_repo.get_all_items(uid)
-
-    return ServerResponse({"armouryItems": [i.response_dict() for i in armoury_items_list]})
+    return ServerResponse({"updateditem": updated_item.response_dict()})
 
 
 # == Calculations == #

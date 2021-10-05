@@ -48,5 +48,10 @@ namespace GM.Artefacts.Data
                 base[art.Id] = art;
             }
         }
+
+        public void Update(UserArtefactModel art)
+        {
+            base[art.Id] = art;
+        }
     }
 }

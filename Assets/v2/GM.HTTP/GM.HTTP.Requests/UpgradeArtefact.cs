@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GM.HTTP.Requests
+﻿namespace GM.HTTP.Requests
 {
     public class UpgradeArtefactRequest : AuthorisedServerRequest
     {
@@ -10,7 +8,7 @@ namespace GM.HTTP.Requests
 
     public class UpgradeArtefactResponse : ServerResponse
     {
-        public GM.Inventory.Models.UserCurrenciesModel UserCurrencies;
-        public List<GM.Artefacts.Models.UserArtefactModel> UserArtefacts;
+        public Inventory.Models.UserCurrenciesModel UserCurrencies;
+        public Artefacts.Models.UserArtefactModel UpdatedArtefact;
     }
 }

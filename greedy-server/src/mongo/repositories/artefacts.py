@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Union
 from bson import ObjectId
 from pydantic import Field
+from pymongo import ReturnDocument
 
 import datetime as dt
 
@@ -53,13 +54,20 @@ class ArtefactsRepository:
 
         return ArtefactModel(**r) if r is not None else None
 
-    async def add_new_artefact(self, uid, artid):
-        await self._col.insert_one({
+    async def add_new_artefact(self, uid, artid) -> ArtefactModel:
+        r = await self._col.insert_one(doc := {
             Fields.LEVEL: 1,
             Fields.USER_ID: uid,
             Fields.ARTEFACT_ID: artid,
             Fields.UNLOCK_TIME: dt.datetime.utcnow()
         })
 
-    async def update_one_artefact(self, uid, artid, update: dict, *, upsert: bool = True):
-        await self._col.update_one({Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid}, update, upsert=upsert)
+        return ArtefactModel(**{"_id": r.inserted_id, **doc})
+
+    async def update_artefact(self, uid, artid, update: dict, *, upsert: bool = True) -> ArtefactModel:
+        r = await self._col.find_one_and_update({
+                Fields.USER_ID: uid,
+                Fields.ARTEFACT_ID: artid
+            }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
+
+        return ArtefactModel(**r)

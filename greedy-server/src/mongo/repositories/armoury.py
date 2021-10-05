@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Union
+from pymongo import ReturnDocument
 from pydantic import Field
 from bson import ObjectId
 
@@ -56,7 +57,11 @@ class ArmouryRepository:
 
         return [ArmouryItemModel(**ele) for ele in ls]
 
-    async def update_one_item(self, uid, iid: int, update: dict, *, upsert: bool = False) -> bool:
-        result = await self._col.update_one({Fields.USER_ID: uid, Fields.ITEM_ID: iid}, update, upsert=upsert)
+    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool = False) -> ArmouryItemModel:
+        r = await self._col.find_one_and_update(
+            {
+                Fields.USER_ID: uid,
+                Fields.ITEM_ID: iid
+            }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
 
-        return result.modified_count > 0
+        return ArmouryItemModel(**r)

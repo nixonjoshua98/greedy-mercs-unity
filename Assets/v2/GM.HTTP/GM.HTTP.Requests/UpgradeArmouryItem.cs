@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GM.HTTP.Requests
+﻿namespace GM.HTTP.Requests
 {
     public class UpgradeArmouryItemRequest : AuthorisedServerRequest
     {
@@ -11,6 +9,6 @@ namespace GM.HTTP.Requests
     public class UpgradeArmouryItemResponse : ServerResponse
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems;
-        public List<Armoury.Models.UserArmouryItemModel> ArmouryItems;
+        public Armoury.Models.UserArmouryItemModel UpdatedItem;
     }
 }

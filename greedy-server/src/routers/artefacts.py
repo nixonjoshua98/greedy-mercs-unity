@@ -47,7 +47,7 @@ async def upgrade(
     check_valid_artefact(data.artefact_id)
 
     # Load the related artefact
-    user_art = await artefacts_repo.get_one_artefact(uid, data.artefact_id)
+    user_art = await artefacts_repo.get_artefact(uid, data.artefact_id)
 
     # Verify that the user has the artefact unlocked
     check_item_is_not_none(user_art, error="Artefact is not unlocked")

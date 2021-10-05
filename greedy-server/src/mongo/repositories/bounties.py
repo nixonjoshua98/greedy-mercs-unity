@@ -99,6 +99,5 @@ class BountiesRepository:
                     Fields.LAST_CLAIM_TIME: dt.datetime.utcnow()
                 }
             },
-            return_document=ReturnDocument.AFTER,
-            upsert=True
+            return_document=ReturnDocument.AFTER, upsert=True
         )

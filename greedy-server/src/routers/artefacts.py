@@ -12,6 +12,11 @@ from src.models import UserIdentifier
 from src.dataloader import DataLoader
 from src import resources
 
+from src.common.requestchecks import (
+    check_can_afford,
+    check_item_is_not_none
+)
+
 from src.mongo.repositories.artefacts import (
     ArtefactsRepository,
     ArtefactModel,
@@ -38,11 +43,14 @@ async def upgrade(
 ):
     uid = await user_or_raise(data)
 
+    # Check that the request artefact actually exists
+    check_valid_artefact(data.artefact_id)
+
     # Load the related artefact
     user_art = await artefacts_repo.get_one_artefact(uid, data.artefact_id)
 
     # Verify that the user has the artefact unlocked
-    check_artefact_exists(user_art)
+    check_item_is_not_none(user_art, error="Artefact is not unlocked")
 
     # Check that upgrading this artefact will not exceed the max level
     check_artefact_within_max_level(user_art, data.upgrade_levels)
@@ -54,9 +62,14 @@ async def upgrade(
     u_pp = await DataLoader().items.get_item(uid, ItemKey.PRESTIGE_POINTS)
 
     # Check that the user can afford the upgrade cost
-    check_has_enough_currency(u_pp, upgrade_cost, error="Cannot afford to upgrade artefact")
+    check_can_afford(u_pp, upgrade_cost, error="Cannot afford to upgrade artefact")
 
-    u_items = await DataLoader().items.update_and_get(uid, {"$inc": {ItemKey.PRESTIGE_POINTS: -upgrade_cost}})
+    # Update the database
+    u_items = await DataLoader().items.update_and_get(uid, {
+        "$inc": {
+            ItemKey.PRESTIGE_POINTS: -upgrade_cost
+        }
+    })
 
     # Update the artefact
     await artefacts_repo.update_one_artefact(uid, data.artefact_id, {
@@ -89,7 +102,7 @@ async def unlock(
     unlock_cost = calc_unlock_cost(u_artefacts)
 
     # Verify that the user can afford the unlock cost
-    check_has_enough_currency(u_pp, unlock_cost, error="Cannot afford unlock cost")
+    check_can_afford(u_pp, unlock_cost, error="Cannot afford unlock cost")
 
     # Get the new artefact id
     new_art_id = get_new_artefact(u_artefacts)
@@ -141,14 +154,11 @@ def check_not_unlocked_all_artefacts(artefacts: list[ArtefactModel]):
         raise HTTPException(400, detail="Max number of artefacts unlocked")
 
 
-def check_has_enough_currency(currency, value, *, error: str):
-    if value > currency:
-        raise HTTPException(400, detail=error)
+def check_valid_artefact(artefact_id: int):
+    s_arts = resources.get_artefacts_data().artefacts
 
-
-def check_artefact_exists(artefact: ArtefactModel):
-    if artefact is None:
-        raise HTTPException(400, detail="Artefact is not unlocked")
+    if artefact_id not in s_arts.keys():
+        raise HTTPException(400, detail="Artefact is not valid")
 
 
 def check_artefact_within_max_level(artefact: ArtefactModel, levels: int):

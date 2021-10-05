@@ -1,5 +1,3 @@
-from typing import Union
-
 from fastapi import APIRouter, HTTPException, Depends
 
 from src.common.enums import ItemKey
@@ -9,6 +7,11 @@ from src.models import ArmouryItemActionModel
 
 from src.dataloader import DataLoader
 from src import resources
+
+from src.common.requestchecks import (
+    check_can_afford,
+    check_item_is_not_none
+)
 
 from src.mongo.repositories.armoury import (
     ArmouryRepository,
@@ -27,11 +30,14 @@ async def upgrade(
 ):
     uid = await user_or_raise(data)
 
+    # Verify the item is valid
+    check_item_is_valid(data.item_id)
+
     # Fetch the item data
     user_item = await armoury_repo.get_item(uid, data.item_id)
 
     # Verify the item exists
-    check_item_exists(user_item)
+    check_item_is_not_none(user_item, error="Attempted to upgrade a locked armoury item")
 
     # Calculate the upgrade cost for the item
     upgrade_cost = calc_upgrade_cost(user_item)
@@ -40,7 +46,7 @@ async def upgrade(
     u_ap = await DataLoader().items.get_item(uid, ItemKey.ARMOURY_POINTS)
 
     # Verify the user can afford to upgrade the requested item
-    check_can_afford_upgrade(u_ap, upgrade_cost)
+    check_can_afford(u_ap, upgrade_cost, error="Cannot afford upgrade")
 
     # Update the request item data
     await armoury_repo.update_one_item(uid, data.item_id, {
@@ -66,13 +72,16 @@ async def evolve(
 ):
     uid = await user_or_raise(data)
 
+    # Verify the item is valid
+    check_item_is_valid(data.item_id)
+
     armoury = resources.get_armoury_resources()
 
     # Fetch the armoury item from the database
     armoury_item = await armoury_repo.get_item(uid, data.item_id)
 
     # Check that the item exists (is not None)
-    check_item_exists(armoury_item)
+    check_item_is_not_none(armoury_item, error="User has not unlocked armoury item")
 
     # Verify the user can evolve the weapon
     check_can_evolve_weapon(armoury_item)
@@ -90,7 +99,7 @@ async def evolve(
     return ServerResponse({"armouryItems": [i.response_dict() for i in armoury_items_list]})
 
 
-# === Calculations == #
+# == Calculations == #
 
 def calc_upgrade_cost(item: ArmouryItemModel):
     armoury = resources.get_armoury_resources()
@@ -100,7 +109,7 @@ def calc_upgrade_cost(item: ArmouryItemModel):
     return 5 + (static_item.tier + 1) + item.level
 
 
-# === Request Checks === #
+# == Checks == #
 
 def check_can_evolve_weapon(item: ArmouryItemModel):
     armoury = resources.get_armoury_resources()
@@ -114,15 +123,8 @@ def check_can_evolve_weapon(item: ArmouryItemModel):
     return True
 
 
-def check_item_exists(item: Union[ArmouryItemModel, None]):
-    if item is None:
-        raise HTTPException(400, detail="Item does not exist")
+def check_item_is_valid(artefact_id):
+    s_items = resources.get_armoury_resources()
 
-    return True
-
-
-def check_can_afford_upgrade(currency, cost):
-    if cost > currency:
-        raise HTTPException(400, detail="Cannot afford upgrade")
-
-    return True
+    if artefact_id not in s_items.items.keys():
+        raise HTTPException(400, detail="Armoury item is not valid")

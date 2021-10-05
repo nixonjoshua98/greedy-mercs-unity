@@ -11,10 +11,6 @@ def upgrade_artefact_cost(cooeff, expo, current, buying):
 	return math.ceil(cooeff * sum_non_int_power_seq(current, buying, expo))
 
 
-def next_artefact_cost(num_owned: int):
-	return math.floor(max(1, num_owned - 2) * math.pow(1.35, num_owned))
-
-
 def artefact_effect(item, level):
 	return item["baseEffect"] + (item["levelEffect"] * (level - 1))
 

@@ -37,7 +37,7 @@ class DataLoader:
     async def get_user_data(self, uid):
         return {
             "inventory": {
-                "items": await self.items.get_items(uid, post_process=False)
+                "items": await self.items.get_items(uid)
             },
 
             "bountyShop": {
@@ -86,54 +86,19 @@ class _Items:
         self.collection = default_database["userItems"]
 
     async def get_items(self, uid: Union[str, ObjectId], *, post_process: bool = True) -> dict:
-        result = (await self.collection.find_one({"userId": uid})) or dict()
-
-        return await self._after_find(result) if post_process else result
+        return (await self.collection.find_one({"userId": uid})) or dict()
 
     async def get_item(self, uid: Union[str, ObjectId], key: str, *, default=0, post_process=True) -> int:
         return (await self.get_items(uid, post_process=post_process)).get(key, default)
 
-    async def update_items(self, uid: Union[str, ObjectId], update: dict, *, upsert: bool = True) -> bool:
-        return (await self.collection.update_one(
-            {"userId": uid}, await self._before_update(uid, update), upsert=upsert
-        )).modified_count > 0
+    async def update_items(self, uid: Union[str, ObjectId], update: dict, *, upsert: bool = True):
+        await self.collection.update_one({"userId": uid}, update, upsert=upsert)
 
     async def update_and_get(self, uid: Union[str, ObjectId], update: dict) -> dict:
-        return await self._after_find(
-            await self.collection.find_one_and_update(
-                {"userId": uid}, await self._before_update(uid, update),
-                upsert=True, return_document=ReturnDocument.AFTER
-            )
+        return await self.collection.find_one_and_update(
+            {"userId": uid}, update,
+            upsert=True, return_document=ReturnDocument.AFTER
         )
-
-    @staticmethod
-    async def _after_find(result: dict):
-        """ Perform datatype conversions (ex. string to integer) """
-
-        result[ItemKey.PRESTIGE_POINTS] = int(result.pop(ItemKey.PRESTIGE_POINTS, 0))
-
-        return result
-
-    async def _before_update(self, uid: Union[str, ObjectId], update: dict):
-        update = await self._move_inc_to_set(uid, update, ItemKey.PRESTIGE_POINTS)
-
-        return update
-
-    async def _move_inc_to_set(self, uid: Union[str, ObjectId], update: dict, key: str):
-        """
-        Replaces a $set update on a string number to a $set for the number so we can
-        use $inc for large numbers stored as strings.
-        """
-        if inc_amount := update["$inc"].pop(key, None):
-            amount = await self.get_item(uid, key)
-
-            update["$set"] = update.get("$set", dict())
-            update["$set"][key] = str(amount + inc_amount)
-
-        if not update["$inc"]:
-            update.pop("$inc")
-
-        return update
 
 
 class _Armoury:
@@ -159,17 +124,6 @@ class _Artefacts:
         result = await self.collection.find({"userId": uid}).to_list(length=None)
 
         return {ele["artefactId"]: ele for ele in result}
-
-    async def get_one_artefact(self, uid: Union[ObjectId, str], artid) -> dict:
-        return (await self.collection.find_one({"userId": uid, "artefactId": artid})) or dict()
-
-    async def add_new_artefact(self, document: dict):
-        await self.collection.insert_one(document)
-
-    async def update_one_artefact(self, uid, artid, update: dict, *, upsert: bool = True) -> bool:
-        r = await self.collection.update_one({"userId": uid, "artefactId": artid}, update, upsert=upsert)
-
-        return r.modified_count == 1
 
 
 class _BountyShop:

@@ -80,6 +80,7 @@ class _Bounties:
         )
 
 
+
 class _Items:
     def __init__(self, default_database):
         self.collection = default_database["userItems"]

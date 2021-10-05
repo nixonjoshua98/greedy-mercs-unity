@@ -1,5 +1,4 @@
-
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from src.common.enums import ItemKey
 from src.checks import user_or_raise
@@ -9,71 +8,123 @@ from src.models import ArmouryItemActionModel
 from src.dataloader import DataLoader
 from src import resources
 
+from src.common.requestchecks import (
+    check_can_afford,
+    check_item_is_not_none
+)
+
+from src.mongo.repositories.armoury import (
+    ArmouryRepository,
+    ArmouryItemModel,
+    Fields as ArmouryFieldKeys,
+    armoury_repository
+)
+
 router = APIRouter(prefix="/api/armoury", route_class=ServerRoute)
 
 
 @router.post("/upgrade")
-async def upgrade(data: ArmouryItemActionModel):
+async def upgrade(
+        data: ArmouryItemActionModel,
+        armoury_repo: ArmouryRepository = Depends(armoury_repository)
+):
     uid = await user_or_raise(data)
 
-    armoury = resources.get_armoury_resources()
+    # Verify the item is valid
+    check_item_is_valid(data.item_id)
 
-    with DataLoader() as mongo:
+    # Fetch the item data
+    user_item = await armoury_repo.get_item(uid, data.item_id)
 
-        if (u_armoury_item := await mongo.armoury.get_one_item(uid, data.item_id)) is None:
-            raise HTTPException(400, detail="Item does not exist")
+    # Verify the item exists
+    check_item_is_not_none(user_item, error="Attempted to upgrade a locked armoury item")
 
-        u_ap = await mongo.items.get_item(uid, ItemKey.ARMOURY_POINTS)
+    # Calculate the upgrade cost for the item
+    upgrade_cost = calc_upgrade_cost(user_item)
 
-        upgrade_cost = armoury.items[data.item_id].level_cost(u_armoury_item["level"])
+    # TEMP - Fetch the currency we need
+    u_ap = await DataLoader().items.get_item(uid, ItemKey.ARMOURY_POINTS)
 
-        # Throw an error if the user cannot afford the upgrade
-        if upgrade_cost > u_ap:
-            raise HTTPException(400, detail="Cannot afford upgrade")
+    # Verify the user can afford to upgrade the requested item
+    check_can_afford(u_ap, upgrade_cost, error="Cannot afford upgrade")
 
-        # Attempt to upgrade the item
-        doc_modified = await mongo.armoury.update_one_item(uid, data.item_id, {"$inc": {"level": 1}}, upsert=False)
+    # Update the request item data
+    await armoury_repo.update_one_item(uid, data.item_id, {
+        "$inc": {
+            ArmouryFieldKeys.LEVEL: 1
+        }})
 
-        # No item document was modied (implies we are upgrading an item which does not exist)
-        if not doc_modified:  # Return an error if a document was not modified
-            raise HTTPException(400, detail="Error")
+    # TEMP - Deduct the upgrade cost and return all user items AFTER the update
+    u_items = await DataLoader().items.update_and_get(uid, {"$inc": {ItemKey.ARMOURY_POINTS: -upgrade_cost}})
 
-        # Deduct the upgrade cost and return all user items AFTER the update
-        u_items = await mongo.items.update_and_get(uid, {"$inc": {ItemKey.ARMOURY_POINTS: -upgrade_cost}})
+    # Fetch all armoury items for the user so we can return them
+    armoury_items_list = await armoury_repo.get_all_items(uid)
 
-        u_armoury = await mongo.armoury.get_all_items(uid)
-
-    return ServerResponse({"userArmouryItems": u_armoury, "userItems": u_items})
+    return ServerResponse(
+        {"armouryItems": [i.response_dict() for i in armoury_items_list], "userCurrencyItems": u_items}
+    )
 
 
 @router.post("/evolve")
-async def evolve(data: ArmouryItemActionModel):
+async def evolve(
+        data: ArmouryItemActionModel,
+        armoury_repo: ArmouryRepository = Depends(armoury_repository)
+):
     uid = await user_or_raise(data)
+
+    # Verify the item is valid
+    check_item_is_valid(data.item_id)
 
     armoury = resources.get_armoury_resources()
 
-    with DataLoader() as mongo:
+    # Fetch the armoury item from the database
+    armoury_item = await armoury_repo.get_item(uid, data.item_id)
 
-        # Attempt to pull the item, otherwise throw an error
-        if (u_armoury_item := await mongo.armoury.get_one_item(uid, data.item_id)) is None:
-            raise HTTPException(400, detail="Item does not exist")
+    # Check that the item exists (is not None)
+    check_item_is_not_none(armoury_item, error="User has not unlocked armoury item")
 
-        # Checks
-        within_max_level = u_armoury_item.get("evoLevel", 0) < armoury.max_evo_level
-        enough_copies = u_armoury_item.get("owned", 0) >= (armoury.evo_level_cost + 1)
+    # Verify the user can evolve the weapon
+    check_can_evolve_weapon(armoury_item)
 
-        # Throw an error if the user/item does not meet the requirements
-        if not (within_max_level and enough_copies):  # Item does not meet the requirements
-            raise HTTPException(400, detail="Cannot evolve item")
+    # Update the item document
+    await armoury_repo.update_one_item(uid, data.item_id, {
+        "$inc": {
+            ArmouryFieldKeys.EVO_LEVEL: 1,
+            ArmouryFieldKeys.NUM_OWNED: -armoury.evo_level_cost
+        }})
 
-        # Update the item but do not upsert, one last error check to ensure the item exists
-        doc_modified = await mongo.armoury.update_one_item(
-            uid, data.item_id, {"$inc": {"evoLevel": 1, "owned": -armoury.evo_level_cost}}, upsert=False
-        )
+    # Fetch all armoury items so we can return them back to the user
+    armoury_items_list = await armoury_repo.get_all_items(uid)
 
-        if not doc_modified:  # Return an error if a document was not modified
-            raise HTTPException(400, detail="Error")
+    return ServerResponse({"armouryItems": [i.response_dict() for i in armoury_items_list]})
 
-        u_armoury = await mongo.armoury.get_all_items(uid)
 
-    return ServerResponse({"userArmouryItems": u_armoury})
+# == Calculations == #
+
+def calc_upgrade_cost(item: ArmouryItemModel):
+    armoury = resources.get_armoury_resources()
+
+    static_item = armoury.items[item.item_id]
+
+    return 5 + (static_item.tier + 1) + item.level
+
+
+# == Checks == #
+
+def check_can_evolve_weapon(item: ArmouryItemModel):
+    armoury = resources.get_armoury_resources()
+
+    is_max_level = item.evo_level < armoury.max_evo_level
+    can_evolve = item.owned >= (armoury.evo_level_cost + 1)
+
+    if is_max_level or not can_evolve:
+        raise HTTPException(400, detail="Cannot evolve item")
+
+    return True
+
+
+def check_item_is_valid(artefact_id):
+    s_items = resources.get_armoury_resources()
+
+    if artefact_id not in s_items.items.keys():
+        raise HTTPException(400, detail="Armoury item is not valid")

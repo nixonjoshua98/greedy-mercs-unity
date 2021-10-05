@@ -36,10 +36,10 @@ namespace GM.Bounties
         protected override void SetInterfaceElements()
         {
             itemImages.sprite       = Item.Icon;
-            itemNameText.text       = Item.Item.Name.ToUpper();
+            itemNameText.text       = Item.ItemName.ToUpper();
             purchaseCostText.text   = $"{Item.PurchaseCost}";
 
-            rating.Show(Item.Item.Tier + 1);
+            rating.Show(Item.ItemTier + 1);
         }
 
 

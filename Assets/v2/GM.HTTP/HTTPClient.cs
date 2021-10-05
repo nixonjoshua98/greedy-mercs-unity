@@ -1,4 +1,4 @@
-using GM.HTTP.BountyModels;
+using GM.HTTP.Requests;
 using Newtonsoft.Json;
 using SimpleJSON;
 using System;
@@ -9,20 +9,8 @@ using UnityEngine.Networking;
 
 namespace GM.HTTP
 {
-    struct ServerConfig
     {
-        public string Address;
-
-        public int Port;
-
-        public string UrlFor(string endpoint) => string.Format("http://{0}:{1}/api/{2}", Address, Port, endpoint);
-    }
-
-
-
-    public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>
-    {
-        ServerConfig PyServer = new ServerConfig()
+        HTTPServerConfig PyServer = new HTTPServerConfig
         {
             Port = 2122,
             Address = "109.154.72.134"
@@ -31,7 +19,7 @@ namespace GM.HTTP
 
         public void ClaimBounties(UnityAction<BountyClaimResponse> callback)
         {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest())); // Requires no additional request information
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest()));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<BountyClaimResponse>(www))));
         }
@@ -43,6 +31,48 @@ namespace GM.HTTP
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpdateActiveBountiesResponse>(www))));
         }
 
+        public void PurchaseBountyShopCurrencyItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/item"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
+        }
+
+        public void PurchaseBountyShopArmouryItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/armouryitem"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
+        }
+
+        public void UpgradeArmouryItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/upgrade"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpgradeArmouryItemResponse>(www))));
+        }
+
+        public void EvolveArmouryItem(EvolveArmouryItemRequest req, UnityAction<EvolveArmouryItemResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/evolve"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<EvolveArmouryItemResponse>(www))));
+        }
+
+        public void UpgradeArtefact(Requests.UpgradeArtefactRequest req, UnityAction<Requests.UpgradeArtefactResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/upgrade"), PrepareRequest(req));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UpgradeArtefactResponse>(www))));
+        }
+
+        public void UnlockArtefact(UnityAction<Requests.UnlockArtefactResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/unlock"), PrepareRequest(new AuthorisedServerRequest()));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UnlockArtefactResponse>(www))));
+        }
+        
         /// <summary>
         /// Send the web request and invoke the callback
         /// </summary>
@@ -121,20 +151,38 @@ namespace GM.HTTP
         /// <param name="www">Web request</param>
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
-            T model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
+            T model;
 
-            if (model is null)
+            try
             {
-                // Create a default instance with an error message
+                // Attempt to deserialize the response text
+                model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
+
+                if (model == null)
+                {
+                    // Create a model, and populate the error message (and status code) to show an error happened
+                    model = new T()
+                    {
+                        ErrorMessage = "Failed to deserialize server response",
+                        StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
+                    };
+                }
+                else
+                {
+                    // If we deserialize then we should use the status code from the server
+                    model.StatusCode = www.responseCode;
+                }
+            }
+            catch (Exception e)
+            {
+                // We failed to deserialize for an unknown reason so we set the error message and status code
                 model = new T()
                 {
-                    ErrorMessage = "Failed to deserialize server response"
+                    ErrorMessage = e.Message,
+                    StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
                 };
             }
-
-            // Set the status code from the response
-            model.StatusCode = www.responseCode;
-
+            
             return model;
         }
 

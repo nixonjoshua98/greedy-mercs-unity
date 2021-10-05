@@ -37,7 +37,7 @@ namespace GM.Bounties
         void SetInterfaceElements()
         {
             itemIcon.sprite = Item.Icon;
-            tierText.text   = $"{Item.Item.Tier + 1}";
+            tierText.text   = $"{Item.ItemTier + 1}";
         }
 
 

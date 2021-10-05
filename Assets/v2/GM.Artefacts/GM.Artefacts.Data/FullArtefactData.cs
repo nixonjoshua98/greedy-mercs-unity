@@ -1,21 +1,20 @@
+using GM.Artefacts.Models;
+
 namespace GM.Artefacts.Data
 {
-    /// <summary>
-    /// Aggregated class for both artefact game and user data
-    /// </summary>
     public struct FullArtefactData
     {
         public ArtefactGameData Game;
-        public ArtefactState User;
+        public UserArtefactModel User;
 
-        public FullArtefactData(ArtefactGameData values, ArtefactState state)
+        public FullArtefactData(ArtefactGameData values, UserArtefactModel state)
         {
             Game = values;
             User = state;
         }
 
         // === Properties === //
-        public int ID => Game.ID;
+        public int ID => Game.Id;
         public double BaseEffect => Formulas.BaseArtefactEffect(User.Level, Game.BaseEffect, Game.LevelEffect);
         public bool IsMaxLevel => User.Level >= Game.MaxLevel;
 

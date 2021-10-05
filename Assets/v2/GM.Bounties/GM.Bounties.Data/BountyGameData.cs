@@ -3,7 +3,7 @@ using UnityEngine;
 namespace GM.Bounties.Data
 {
     /// <summary>
-    /// Combined bounty game data struct for LocalGameBountyData and server data
+    /// Combined bounty game data struct for BountyLocalGameData and server data
     /// </summary>
     public class BountyGameData
     {
@@ -17,6 +17,6 @@ namespace GM.Bounties.Data
 
         public Sprite Icon;
         public GameObject Prefab;
-        public GM.Bounties.UI.BountySlot Slot;
+        public UI.BountySlot Slot;
     }
 }

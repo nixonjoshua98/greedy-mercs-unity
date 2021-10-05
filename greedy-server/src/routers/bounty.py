@@ -2,79 +2,83 @@ import math
 
 import datetime as dt
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
+from src import resources
 from src.checks import user_or_raise
-from src.common.enums import ItemKey
 from src.routing import ServerRoute, ServerResponse
 from src.models import UserIdentifier, ActiveBountyUpdateModel
-
+from src.common.enums import ItemKey
 from src.dataloader import DataLoader
-from src import resources
+
+from src.mongo.repositories.bounties import (
+    UserBountiesModel,
+    BountiesRepository,
+    bounties_repository
+)
 
 router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
 
 
 @router.post("/claim")
-async def claim_points(user: UserIdentifier):
+async def claim_points(
+        user: UserIdentifier,
+        bounties_repo: BountiesRepository = Depends(bounties_repository)
+):
     uid = await user_or_raise(user)
 
-    with DataLoader() as loader:
-        u_bounty_data = await loader.bounties.find_one(uid)
+    # Load data from mongo
+    bounties_user_data: UserBountiesModel = await bounties_repo.get_user(uid)
 
-        u_bounties = u_bounty_data.get("bounties", {})
-        u_last_claim = u_bounty_data.get("lastClaimTime", now := dt.datetime.utcnow())
+    # Calculate the unclaimed points
+    unclaimed = calc_unclaimed_points(bounties_user_data, now := dt.datetime.utcnow())
 
-        unclaimed = calc_unclaimed_total(u_bounties, u_last_claim, now)
+    # Update the claim time
+    await bounties_repo.set_claim_time(uid, claim_time=now)
 
-        if unclaimed == 0:  # Stop the request here since any further would be a waste of time
-            raise HTTPException(400, detail="Claim amount is zero")
-
-        await loader.bounties.set_claim_time(uid, now)
-
-        u_items = await loader.items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}})
+    u_items = await DataLoader().items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}})
 
     return ServerResponse({"claimTime": now, "userItems": u_items, "pointsClaimed": unclaimed})
 
 
 @router.post("/setactive")
-async def set_active_bounties(data: ActiveBountyUpdateModel):
+async def set_active_bounties(
+        data: ActiveBountyUpdateModel,
+        bounties_repo: BountiesRepository = Depends(bounties_repository)
+):
     uid = await user_or_raise(data)
 
-    res_bounties = resources.get_bounty_data()
+    # Check that the user is attempting to activate an acceptable num of bounties
+    check_num_active_bounties(data)
 
-    if len(data.bounty_ids) > res_bounties.max_active_bounties:
-        raise HTTPException(400, detail="Too many active bounties")
+    # Load data from the mongo database
+    bounty_data: UserBountiesModel = await bounties_repo.get_user(uid)
 
-    with DataLoader() as loader:
-        u_bounties = await loader.bounties.get_user_bounties(uid)
+    # Confirm that the user has the bounty unlocked
+    check_unlocked_bounty(data, bounty_data)
 
-        u_bounty_ids = [b["bountyId"] for b in u_bounties]
+    # Enable (or disable) the relevant bounties
+    await bounties_repo.update_active_bounties(uid, data.bounty_ids)
 
-        if not all(id_ in u_bounty_ids for id_ in data.bounty_ids):
-            raise HTTPException(400, detail="Attempting to set an invalid bounty")
+    # Refresh the user data from the database, ready to return it back to the user
+    bounty_data: UserBountiesModel = await bounties_repo.get_user(uid)
 
-        await loader.bounties.update_active_bounties(uid, data.bounty_ids)
-
-        u_bounties = await loader.bounties.get_user_bounties(uid)
-
-    return ServerResponse({"userBounties": u_bounties})
+    return ServerResponse(bounty_data.response_dict())
 
 
-def calc_unclaimed_total(u_bounties, claim_time, now) -> int:
+# === Calculations === #
 
+def calc_unclaimed_points(user_data: UserBountiesModel, now: dt.datetime) -> int:
     bounty_res = resources.get_bounty_data()
 
     points = 0  # Total unclaimed points (ready to be claimed)
 
-    bounties = [b for b in u_bounties if b.get("isActive")][:bounty_res.max_active_bounties]
-
     # Interate over each active bounty available
-    for state in bounties:
-        data = bounty_res.bounties[state["bountyId"]]
+    for bounty in user_data.active_bounties:
+        data = bounty_res.bounties[bounty.bounty_id]
 
         # Num. hours since the user has claimed this bounty
-        total_hours = (now - claim_time).total_seconds() / 3_600
+        total_hours = (now - user_data.last_claim_time).total_seconds() / 3_600
 
         # Clamp between 0 - max_unclaimed_hours
         hours_clamped = max(0, min(bounty_res.max_unclaimed_hours, total_hours))
@@ -83,3 +87,26 @@ def calc_unclaimed_total(u_bounties, claim_time, now) -> int:
         points += math.floor(hours_clamped * data.income)
 
     return points
+
+
+# === Checks === #
+
+def check_num_active_bounties(data: ActiveBountyUpdateModel):
+    res_bounties = resources.get_bounty_data()
+
+    # Check that the user is attempting to activate an allowed num of bounties
+    if len(data.bounty_ids) > res_bounties.max_active_bounties:
+        raise HTTPException(400, detail="Too many active bounties")
+
+    return True
+
+
+def check_unlocked_bounty(req_model: ActiveBountyUpdateModel, user_data: UserBountiesModel):
+    # Grab the bounty ids which the user has unlocked
+    user_bounty_ids = [b.bounty_id for b in user_data.bounties]
+
+    # User is attempting to use a bounty they do not have unlocked
+    if not all(id_ in user_bounty_ids for id_ in req_model.bounty_ids):
+        raise HTTPException(400, detail="Attempting to allow a locked bounty")
+
+    return True

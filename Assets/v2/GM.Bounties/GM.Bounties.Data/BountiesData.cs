@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using GM.HTTP.BountyModels;
+using GM.HTTP.Requests;
 
 /*
     HIERACHY
@@ -17,21 +17,20 @@ using GM.HTTP.BountyModels;
             BountyGameData
 
         BountiesUserData
-            BountyUserData
- */
+            BountyUserData (Server Model)
 
 
 namespace GM.Bounties.Data
 {
     public class BountiesData : Core.GMClass
     {
-        public BountiesGameData Game;
-        public BountiesUserData User;
+        public BountiesGameDataCollection Game;
+        public BountiesUserDataCollection User;
 
         public BountiesData(JSONNode userJSON, JSONNode gameJSON)
         {
-            Game = new BountiesGameData(gameJSON);
-            User = new BountiesUserData(userJSON);
+            Game = new BountiesGameDataCollection(gameJSON);
+            User = new BountiesUserDataCollection(userJSON);
         }
 
         public BountySnapshot CreateSnapshot()
@@ -41,7 +40,7 @@ namespace GM.Bounties.Data
             int hourlyIncome = 0;
 
             // Calculate the attributes we want for the snapshot
-            foreach (BountyUserData state in User.States)
+            foreach (var state in User.States)
             {
                 if (state.IsActive)
                 {
@@ -79,7 +78,7 @@ namespace GM.Bounties.Data
 
                 if (resp.StatusCode == 200)
                 {
-                    User.UpdateBounties(resp.Bounties);
+                    User.Update(resp.Bounties);
                 }
 
                 action(resp.StatusCode == 200, resp);
@@ -95,7 +94,7 @@ namespace GM.Bounties.Data
                 {
                     User.LastClaimTime = resp.ClaimTime;
 
-                    App.Data.Inv.UpdateCurrencyItems(resp.UserCurrencies);
+                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
                 }
 
                 action(resp.StatusCode == 200, resp);

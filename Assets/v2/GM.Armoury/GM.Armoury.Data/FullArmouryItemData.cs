@@ -1,14 +1,11 @@
 namespace GM.Armoury.Data
 {
-    /// <summary>
-    /// Aggregated armoury item data class for both user and game data
-    /// </summary>
     public struct FullArmouryItemData
     {
         public ArmouryItemGameData Game;
-        public ArmouryItemState User;
+        public Models.UserArmouryItemModel User;
 
-        public FullArmouryItemData(ArmouryItemGameData game, ArmouryItemState user)
+        public FullArmouryItemData(ArmouryItemGameData game, Models.UserArmouryItemModel user)
         {
             Game = game;
             User = user;

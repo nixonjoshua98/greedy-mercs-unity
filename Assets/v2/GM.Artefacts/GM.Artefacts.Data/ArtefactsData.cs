@@ -8,60 +8,56 @@ namespace GM.Artefacts.Data
 {
     public class ArtefactsData : Core.GMClass
     {
-        UserArtefactsCollection _User;
+        UserArtefactsCollection User;
         GameArtefactsCollection _Game;
 
         public ArtefactsData(JSONNode userJSON, JSONNode gameJSON)
         {
-            _User = new UserArtefactsCollection(userJSON);
+            User = new UserArtefactsCollection(userJSON);
             _Game = new GameArtefactsCollection(gameJSON);
         }
 
-        public int NumUnlockedArtefacts => _User.Count;
+        public int NumUnlockedArtefacts => User.Count;
         public int MaxArtefacts => _Game.Count;
-        public FullArtefactData[] Artefacts => _User.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToArray();
+        public FullArtefactData[] Artefacts => User.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
 
 
         // === Methods === //
         public FullArtefactData GetArtefact(int artefact)
         {
-            return new FullArtefactData(_Game[artefact], _User[artefact]);
+            return new FullArtefactData(_Game[artefact], User[artefact]);
         }
 
 
-        // === Server Methods === //
-        public void UpgradeArtefact(int artefactId, int levelsBuying, UnityAction<bool> call)
+        public void UpgradeArtefact(int artefact, int levels, UnityAction<bool> call)
         {
-            JSONNode node = new JSONObject();
+            var req = new HTTP.Requests.UpgradeArtefactRequest { ArtefactId = artefact, UpgradeLevels = levels };
 
-            node["artefactId"] = artefactId;
-            node["purchaseLevels"] = levelsBuying;
-
-            App.HTTP.Post("artefact/upgrade", node, (code, resp) => {
-
-                if (code == 200)
+            App.HTTP.UpgradeArtefact(req, (resp) =>
+            {
+                if (resp.StatusCode == 200)
                 {
-                    _User.UpdateFromJSON(resp["userArtefacts"]);
+                    User.Update(resp.UserArtefacts);
 
-                    App.Data.Inv.UpdateCurrenciesWithJSON(resp["userItems"]);
+                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
                 }
 
-                call.Invoke(code == 200);
+                call.Invoke(resp.StatusCode == 200);
             });
         }
 
         public void UnlockArtefact(UnityAction<bool, int> call)
         {
-            App.HTTP.Post("artefact/unlock", (code, resp) =>
+            App.HTTP.UnlockArtefact((resp) =>
             {
-                if (code == 200)
+                if (resp.StatusCode == 200)
                 {
-                    _User.UpdateFromJSON(resp["userArtefacts"]);
+                    User.Update(resp.UserArtefacts);
 
-                    App.Data.Inv.UpdateCurrenciesWithJSON(resp["userItems"]);
+                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
                 }
 
-                call.Invoke(code == 200, code == 200 ? resp["newArtefactId"].AsInt : -1);
+                call.Invoke(resp.StatusCode == 200, resp.NewArtefactId);
             });
         }
 

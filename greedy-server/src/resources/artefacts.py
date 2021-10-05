@@ -30,6 +30,3 @@ class ArtefactResourceData:
         inst.max_level = data.get("maxLevel", 1_000)
 
         return inst
-
-    def upgrade_cost(self, level: int, buying: int):
-        return formulas.upgrade_artefact_cost(self.cost_coeff, self.cost_expo, level, buying)

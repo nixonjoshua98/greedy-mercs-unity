@@ -7,10 +7,10 @@ namespace GM.Core
     public class GMData : GMClass
     {
         public Mercs.Data.MercsData Mercs;
-        public Armoury.Data.ArmouryData Armoury;
-        public Inventory.Data.UserInventory Inv;
+        public Armoury.Data.ArmouryDataController Armoury;
+        public Inventory.Data.UserInventoryCollection Inv;
         public Artefacts.Data.ArtefactsData Arts;
-        public Items.Data.GameItemCollection Items;
+        public CurrencyItems.Data.CurrencyItemsDataCollection Items;
         public Bounties.Data.BountiesData Bounties;
         public BountyShop.Data.BountyShopDataCollection BountyShop;
 
@@ -18,16 +18,16 @@ namespace GM.Core
 
         public GMData(JSONNode userJSON, JSONNode gameJSON)
         {
+            Items = new CurrencyItems.Data.CurrencyItemsDataCollection(); // Should always be first
+
             NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
 
-            Items = new Items.Data.GameItemCollection();
-
-            Inv = new Inventory.Data.UserInventory(userJSON["inventory"]);
+            Inv = new Inventory.Data.UserInventoryCollection(userJSON["inventory"]);
 
             Mercs = new Mercs.Data.MercsData(gameJSON["mercs_gameData"]);
 
             Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts_userData"], gameJSON["artefacts_gameData"]);
-            Armoury = new Armoury.Data.ArmouryData(userJSON["armoury_userData"], gameJSON["armoury_gameData"]);
+            Armoury = new Armoury.Data.ArmouryDataController(userJSON["armoury_userData"], gameJSON["armoury_gameData"]);
             Bounties = new Bounties.Data.BountiesData(userJSON["bounties_userData"], gameJSON["bounties_gameData"]);
             BountyShop = new BountyShop.Data.BountyShopDataCollection(userJSON["bountyShop"]);
         }

@@ -5,14 +5,13 @@ import bson
 import datetime as dt
 
 import urllib.parse
-
 from fastapi import Request
 from fastapi.routing import APIRoute
 from fastapi.responses import Response
 from fastapi.encoders import jsonable_encoder
 
 
-def camel_to_snake(data: dict) -> dict:
+def _camel_to_snake(data: dict) -> dict:
     regex_pattern = re.compile(r'(?<!^)(?=[A-Z])')
 
     new_dict = dict()
@@ -26,10 +25,17 @@ def camel_to_snake(data: dict) -> dict:
 
 
 class ServerResponse(Response):
-    def __init__(self, content, *args, **kwargs):
-        super(ServerResponse, self).__init__(json.dumps(content, default=self.default), *args, **kwargs)
+    def __init__(self, content: dict, *args, **kwargs):
+        super(ServerResponse, self).__init__(self._dump_content(content), *args, **kwargs)
 
-    def default(self, o):
+    def _dump_content(self, content):
+        if isinstance(content, str):
+            return content
+
+        return json.dumps(content, default=self.jsonable_encoder)
+
+    @staticmethod
+    def jsonable_encoder(o):
         if isinstance(o, bson.ObjectId):
             return str(o)
 
@@ -51,10 +57,10 @@ class ServerRequest(Request):
             if self.method == "POST":
                 decoded = urllib.parse.unquote(body.decode("UTF-8"))
 
-                self._json = camel_to_snake(json.loads(decoded))
+                self._json = _camel_to_snake(json.loads(decoded))
 
             else:
-                self._json = camel_to_snake(json.loads(body))
+                self._json = _camel_to_snake(json.loads(body))
 
         return self._json
 

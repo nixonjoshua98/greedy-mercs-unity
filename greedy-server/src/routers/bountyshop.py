@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from src.common.enums import ItemKey
 
-from src.routing import ServerRoute, ServerResponse
+from src.routing import ServerRoute, ServerResponse, ServerRequest
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
@@ -41,11 +41,11 @@ async def purchase_item(data: ItemData):
         }
     })
 
-    await loader.bounty_shop.log_purchase(uid, item)
-
+    #await loader.bounty_shop.log_purchase(uid, item)
+    u_armoury = await loader.armoury.get_all_items(uid)
     u_purchases = await loader.bounty_shop.get_daily_purchases(uid)
 
-    return ServerResponse({"userItems": items, "dailyPurchases": u_purchases})
+    return ServerResponse({"userItems": items, "dailyPurchases": u_purchases, "userArmouryItems": u_armoury})
 
 
 @router.post("/purchase/armouryitem")

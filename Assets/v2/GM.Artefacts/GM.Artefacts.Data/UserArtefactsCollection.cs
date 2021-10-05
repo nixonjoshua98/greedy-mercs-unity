@@ -1,4 +1,5 @@
 using SimpleJSON;
+using GM.Artefacts.Models;
 using System.Collections.Generic;
 
 namespace GM.Artefacts.Data
@@ -6,7 +7,7 @@ namespace GM.Artefacts.Data
     /// <summary>
     /// Dictionary which stores user artefacta data
     /// </summary>
-    public class UserArtefactsCollection : Dictionary<int, ArtefactState>
+    public class UserArtefactsCollection : Dictionary<int, UserArtefactModel>
     {
         public UserArtefactsCollection(JSONNode node)
         {
@@ -28,13 +29,23 @@ namespace GM.Artefacts.Data
 
                 int id = int.Parse(key);
 
-                ArtefactState state = new ArtefactState()
+                var state = new UserArtefactModel()
                 {
-                    ID=id,
+                    Id=id,
                     Level = current["level"].AsInt
                 };
 
                 base[id] = state;
+            }
+        }
+        
+        public void Update(List<UserArtefactModel> ls)
+        {
+            Clear();
+
+            foreach (var art in ls)
+            {
+                base[art.Id] = art;
             }
         }
     }

@@ -6,7 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorClient
 import datetime as dt
 
 from src import resources
-from src.common.enums import ItemKey
 
 from src.classes.serverstate import ServerState
 from src.classes.bountyshop import AbstractBountyShopItem
@@ -79,6 +78,7 @@ class _Bounties:
             return_document=ReturnDocument.AFTER,
             upsert=True
         )
+
 
 class _Items:
     def __init__(self, default_database):

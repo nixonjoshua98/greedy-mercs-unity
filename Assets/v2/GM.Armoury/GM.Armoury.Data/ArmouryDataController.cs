@@ -15,13 +15,6 @@ namespace GM.Armoury.Data
             User = new ArmouryUserDataCollection(userJSON);
         }
 
-
-        // Index accessors
-        public FullArmouryItemData this[int key]
-        {
-            get => GetItem(key);
-        }
-
         public FullArmouryItemData GetItem(int key) => new FullArmouryItemData(Game[key], User.GetItem(key));
 
 
@@ -31,7 +24,7 @@ namespace GM.Armoury.Data
 
             foreach (Models.UserArmouryItemModel item in User.OwnedItems)
             {
-                FullArmouryItemData itemData = this[item.Id];
+                FullArmouryItemData itemData = GetItem(item.Id);
 
                 if (itemData.User.Level > 0)
                 {

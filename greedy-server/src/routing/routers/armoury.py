@@ -7,7 +7,7 @@ from src.models import ArmouryItemActionModel
 from src import resources
 
 from src.routing.common.checks import (
-    check_can_afford,
+    check_greater_than,
     check_is_not_none
 )
 
@@ -51,7 +51,7 @@ async def upgrade(
     currencies = await currency_repo.get_user(uid)
 
     # Verify the user can afford to upgrade the requested item
-    check_can_afford(currencies.armoury_points, upgrade_cost, error="Cannot afford upgrade")
+    check_greater_than(currencies.armoury_points, upgrade_cost, error="Cannot afford upgrade")
 
     # Deduct the upgrade cost and return all user items AFTER the update
     currencies = await currency_repo.update_one(uid, {

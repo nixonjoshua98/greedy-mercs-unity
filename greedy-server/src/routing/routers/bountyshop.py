@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 
 from src.common.enums import ItemKey
 
@@ -7,7 +7,13 @@ from src.checks import user_or_raise
 from src.models import UserIdentifier
 
 from src.dataloader import DataLoader
-from src.classes.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
+from src.resources.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
+
+from src.mongo.repositories.currencies import (
+    CurrenciesRepository,
+    Fields as CurrencyRepoFields,
+    currencies_repository
+)
 
 router = APIRouter(prefix="/api/bountyshop")
 
@@ -18,7 +24,10 @@ class ItemData(UserIdentifier):
 
 
 @router.post("/purchase/item")
-async def purchase_item(data: ItemData):
+async def purchase_item(
+        data: ItemData,
+        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+):
     uid = await user_or_raise(data)
 
     bs = BountyShopGeneration(uid)  # Generate the bounty shop for the user
@@ -33,10 +42,9 @@ async def purchase_item(data: ItemData):
     elif not await _can_purchase_item(uid, item, loader=loader):
         raise HTTPException(400)
 
-    # Update the item
-    items = await loader.items.update_and_get(uid, {
+    currencies = await currency_repo.update_one(uid, {
         "$inc": {
-            ItemKey.BOUNTY_POINTS: -item.purchase_cost,
+            CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost,
             item.item_type.key: item.quantity_per_purchase
         }
     })
@@ -45,11 +53,16 @@ async def purchase_item(data: ItemData):
     u_armoury = await loader.armoury.get_all_items(uid)
     u_purchases = await loader.bounty_shop.get_daily_purchases(uid)
 
-    return ServerResponse({"userItems": items, "dailyPurchases": u_purchases, "userArmouryItems": u_armoury})
+    return ServerResponse(
+        {"userItems": currencies.response_dict(), "dailyPurchases": u_purchases, "userArmouryItems": u_armoury}
+    )
 
 
 @router.post("/purchase/armouryitem")
-async def purchase_armoury_item(data: ItemData):
+async def purchase_armoury_item(
+        data: ItemData,
+        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+):
     uid = await user_or_raise(data)
 
     bs = BountyShopGeneration(uid)
@@ -66,14 +79,23 @@ async def purchase_armoury_item(data: ItemData):
         uid, item.armoury_item, {"$inc": {"owned": 1}, "$setOnInsert": {"level": 1}}, upsert=True
     )
 
-    u_items = await loader.items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: -item.purchase_cost}})
+    currencies = await currency_repo.update_one(uid, {
+        "$inc": {
+            CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost
+        }
+    })
 
     await loader.bounty_shop.log_purchase(uid, item)
 
     u_armoury = await loader.armoury.get_all_items(uid)
     u_purchases = await loader.bounty_shop.get_daily_purchases(uid)
 
-    return ServerResponse({"userItems": u_items, "userArmouryItems": u_armoury, "dailyPurchases": u_purchases})
+    return ServerResponse(
+        {"userItems": currencies.response_dict(), "userArmouryItems": u_armoury, "dailyPurchases": u_purchases}
+    )
+
+
+# == Checks == #
 
 
 async def _can_purchase_item(uid, item, *, loader: DataLoader):

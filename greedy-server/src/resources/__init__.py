@@ -5,7 +5,7 @@ from .bounties import get_bounty_data, BountyResources
 
 
 def get_bounty_shop(uid, *, as_list=False):
-    from src.classes.bountyshop import BountyShopGeneration
+    from src.resources.bountyshop import BountyShopGeneration
 
     bs = BountyShopGeneration(uid)
 

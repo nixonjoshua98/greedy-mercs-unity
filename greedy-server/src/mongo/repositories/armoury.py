@@ -7,7 +7,7 @@ from bson import ObjectId
 
 from src.routing import ServerRequest
 
-from ..basemodels import BaseDocument
+from src.common.basemodels import BaseDocument
 
 
 def armoury_repository(request: ServerRequest) -> ArmouryRepository:

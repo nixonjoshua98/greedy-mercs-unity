@@ -8,7 +8,7 @@ import datetime as dt
 from src import resources
 
 from src.classes.serverstate import ServerState
-from src.classes.bountyshop import AbstractBountyShopItem
+from src.resources.bountyshop import AbstractBountyShopItem
 
 
 class DataLoader:

@@ -9,7 +9,7 @@ import datetime as dt
 
 from src.routing import ServerRequest
 
-from ..basemodels import BaseDocument
+from src.common.basemodels import BaseDocument
 
 
 def artefacts_repository(request: ServerRequest) -> ArtefactsRepository:

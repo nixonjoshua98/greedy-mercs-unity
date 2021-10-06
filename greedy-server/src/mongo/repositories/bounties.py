@@ -9,7 +9,7 @@ import datetime as dt
 
 from src.routing import ServerRequest
 
-from ..basemodels import BaseDocument, BaseModel
+from src.common.basemodels import BaseDocument, BaseModel
 
 
 def bounties_repository(request: ServerRequest) -> BountiesRepository:

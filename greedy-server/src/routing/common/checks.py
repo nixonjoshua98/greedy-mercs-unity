@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 
 
-def check_can_afford(currency, cost, *, error):
+def check_greater_than(currency, cost, *, error):
     if cost > currency:
         raise HTTPException(400, detail=error)
 

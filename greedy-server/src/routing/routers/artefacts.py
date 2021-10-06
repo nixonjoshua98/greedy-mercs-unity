@@ -11,7 +11,7 @@ from src.models import UserIdentifier
 from src import resources
 
 from src.routing.common.checks import (
-    check_can_afford,
+    check_greater_than,
     check_is_not_none
 )
 
@@ -67,7 +67,7 @@ async def upgrade(
     currencies = await currency_repo.get_user(uid)
 
     # Check that the user can afford the upgrade cost
-    check_can_afford(currencies.prestige_points, upgrade_cost, error="Cannot afford to upgrade artefact")
+    check_greater_than(currencies.prestige_points, upgrade_cost, error="Cannot afford to upgrade artefact")
 
     # Update the database
     currencies = await currency_repo.update_one(uid, {
@@ -77,15 +77,13 @@ async def upgrade(
     })
 
     # Update the artefact
-    updated_artefact = await artefacts_repo.update_artefact(uid, data.artefact_id, {
+    artefact = await artefacts_repo.update_artefact(uid, data.artefact_id, {
         "$inc": {
             ArtefactsRepoFields.LEVEL: data.upgrade_levels
         }
     })
 
-    return ServerResponse(
-        {"userCurrencies": currencies.response_dict(), "updatedArtefact": updated_artefact.response_dict()}
-    )
+    return ServerResponse({"userCurrencies": currencies.response_dict(), "updatedArtefact": artefact.response_dict()})
 
 
 @router.post("/unlock")
@@ -108,7 +106,7 @@ async def unlock(
     unlock_cost = calc_unlock_cost(u_artefacts)
 
     # Verify that the user can afford the unlock cost
-    check_can_afford(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
+    check_greater_than(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
 
     # Get the new artefact id
     new_art_id = get_new_artefact(u_artefacts)

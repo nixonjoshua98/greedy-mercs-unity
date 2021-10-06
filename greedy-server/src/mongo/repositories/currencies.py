@@ -5,7 +5,7 @@ from pydantic import Field
 
 from src.routing import ServerRequest
 
-from ..basemodels import BaseDocument
+from src.common.basemodels import BaseDocument
 
 
 def currencies_repository(request: ServerRequest) -> CurrenciesRepository:

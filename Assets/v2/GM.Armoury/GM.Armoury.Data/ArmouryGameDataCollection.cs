@@ -28,11 +28,11 @@ namespace GM.Armoury.Data
 
             foreach (var ele in LoadLocalData())
             {
-                JSONNode currentItem = itemsJSON[ele.ID];
+                JSONNode currentItem = itemsJSON[ele.Id];
 
-                DataDict[ele.ID] = new ArmouryItemGameData
+                DataDict[ele.Id] = new ArmouryItemGameData
                 {
-                    ID = ele.ID,
+                    ID = ele.Id,
                     Name = ele.Name,
                     Icon = ele.Icon,
 

@@ -36,11 +36,11 @@ namespace GM.Bounties.Data
 
             foreach (var res in LoadLocalData())
             {
-                JSONNode current = json[res.ID];
+                JSONNode current = json[res.Id];
 
-                base[res.ID] = new BountyGameData()
+                base[res.Id] = new BountyGameData()
                 {
-                    ID = res.ID,
+                    ID = res.Id,
                     Name = res.Name,
 
                     Icon = res.Icon,

@@ -11,11 +11,11 @@ namespace GM.HTTP.Requests
     public class PurchaseBountyShopItemResponse : ServerResponse
     {
         [JsonProperty(PropertyName = "userItems")]
-        public GM.Inventory.Models.UserCurrenciesModel UserCurrencies;
+        public Inventory.Models.UserCurrenciesModel UserCurrencies;
 
         public Dictionary<string, int> DailyPurchases;
 
         [JsonProperty(PropertyName = "userArmouryItems")]
-        public Dictionary<int, GM.Armoury.Models.UserArmouryItemModel> ArmouryItems;
+        public Dictionary<int, Armoury.Models.UserArmouryItemModel> ArmouryItems;
     }
 }

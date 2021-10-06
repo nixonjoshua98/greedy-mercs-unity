@@ -25,11 +25,11 @@ namespace GM.Artefacts.Data
 
             foreach (LocalArtefactData local in LoadLocalData())
             {
-                if (node.TryGetKey(local.ID, out JSONNode current))
+                if (node.TryGetKey(local.Id, out JSONNode current))
                 {
-                    base[local.ID] = new ArtefactGameData()
+                    base[local.Id] = new ArtefactGameData()
                     {
-                        Id = local.ID,
+                        Id = local.Id,
                         Name = local.Name,
                         Icon = local.Icon,
                         Slot = local.Slot,

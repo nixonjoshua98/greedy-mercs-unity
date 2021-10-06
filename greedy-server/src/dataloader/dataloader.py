@@ -80,23 +80,22 @@ class _Bounties:
         )
 
 
-
 class _Items:
     def __init__(self, default_database):
-        self.collection = default_database["userItems"]
+        self.collection = default_database["currencyItems"]
 
-    async def get_items(self, uid: Union[str, ObjectId], *, post_process: bool = True) -> dict:
-        return (await self.collection.find_one({"userId": uid})) or dict()
+    async def get_items(self, uid: Union[str, ObjectId], *, _: bool = True) -> dict:
+        return (await self.collection.find_one({"_id": uid})) or dict()
 
     async def get_item(self, uid: Union[str, ObjectId], key: str, *, default=0, post_process=True) -> int:
-        return (await self.get_items(uid, post_process=post_process)).get(key, default)
+        return (await self.get_items(uid)).get(key, default)
 
     async def update_items(self, uid: Union[str, ObjectId], update: dict, *, upsert: bool = True):
-        await self.collection.update_one({"userId": uid}, update, upsert=upsert)
+        await self.collection.update_one({"_id": uid}, update, upsert=upsert)
 
     async def update_and_get(self, uid: Union[str, ObjectId], update: dict) -> dict:
         return await self.collection.find_one_and_update(
-            {"userId": uid}, update,
+            {"_id": uid}, update,
             upsert=True, return_document=ReturnDocument.AFTER
         )
 

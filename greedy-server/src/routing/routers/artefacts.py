@@ -6,10 +6,8 @@ from fastapi import HTTPException, Depends
 from src.resources.artefacts import ArtefactResourceData
 from src.checks import user_or_raise
 from src.common import formulas
-from src.common.enums import ItemKey
 from src.routing import ServerResponse, APIRouter
 from src.models import UserIdentifier
-from src.dataloader import DataLoader
 from src import resources
 
 from src.routing.common.checks import (
@@ -22,6 +20,12 @@ from src.mongo.repositories.artefacts import (
     ArtefactModel,
     Fields as ArtefactsRepoFields,
     artefacts_repository
+)
+
+from src.mongo.repositories.currencies import (
+    CurrenciesRepository,
+    Fields as CurrencyRepoFields,
+    currencies_repository
 )
 
 router = APIRouter(prefix="/api/artefact")
@@ -39,7 +43,8 @@ class ArtefactUpgradeModel(UserIdentifier):
 @router.post("/upgrade")
 async def upgrade(
         data: ArtefactUpgradeModel,
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository)
+        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
+        currency_repo: CurrenciesRepository = Depends(currencies_repository)
 ):
     uid = await user_or_raise(data)
 
@@ -58,16 +63,16 @@ async def upgrade(
     # Calculate the upgrade cost for the artefact
     upgrade_cost = calc_upgrade_cost(user_art, data.upgrade_levels)
 
-    # TEMP - Fetch the currency to upgrade the item
-    u_pp = await DataLoader().items.get_item(uid, ItemKey.PRESTIGE_POINTS)
+    # Fetch the currency to upgrade the item
+    currencies = await currency_repo.get_user(uid)
 
     # Check that the user can afford the upgrade cost
-    check_can_afford(u_pp, upgrade_cost, error="Cannot afford to upgrade artefact")
+    check_can_afford(currencies.prestige_points, upgrade_cost, error="Cannot afford to upgrade artefact")
 
     # Update the database
-    u_items = await DataLoader().items.update_and_get(uid, {
+    currencies = await currency_repo.update_one(uid, {
         "$inc": {
-            ItemKey.PRESTIGE_POINTS: -upgrade_cost
+            CurrencyRepoFields.PRESTIGE_POINTS: -upgrade_cost
         }
     })
 
@@ -78,20 +83,23 @@ async def upgrade(
         }
     })
 
-    return ServerResponse({"userCurrencies": u_items, "updatedArtefact": updated_artefact.response_dict()})
+    return ServerResponse(
+        {"userCurrencies": currencies.response_dict(), "updatedArtefact": updated_artefact.response_dict()}
+    )
 
 
 @router.post("/unlock")
 async def unlock(
         data: UserIdentifier,
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository)
+        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
+        currency_repo: CurrenciesRepository = Depends(currencies_repository)
 ):
     uid = await user_or_raise(data)
 
     # Fetch all user artefacts
     u_artefacts = await artefacts_repo.get_all_artefacts(uid)
 
-    u_pp = await DataLoader().items.get_item(uid, ItemKey.PRESTIGE_POINTS)
+    currencies = await currency_repo.get_user(uid)
 
     # Verify that the user still has an artefact available to unlock
     check_not_unlocked_all_artefacts(u_artefacts)
@@ -100,7 +108,7 @@ async def unlock(
     unlock_cost = calc_unlock_cost(u_artefacts)
 
     # Verify that the user can afford the unlock cost
-    check_can_afford(u_pp, unlock_cost, error="Cannot afford unlock cost")
+    check_can_afford(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
 
     # Get the new artefact id
     new_art_id = get_new_artefact(u_artefacts)
@@ -108,14 +116,14 @@ async def unlock(
     # Add the new artefact
     new_artefact = await artefacts_repo.add_new_artefact(uid, new_art_id)
 
-    # Update the purchase currency
-    u_items = await DataLoader().items.update_and_get(uid, {
+    # Update the database
+    currencies = await currency_repo.update_one(uid, {
         "$inc": {
-            ItemKey.PRESTIGE_POINTS: -unlock_cost
+            CurrencyRepoFields.PRESTIGE_POINTS: -unlock_cost
         }
     })
 
-    return ServerResponse({"userCurrencies": u_items, "newArtefact": new_artefact.response_dict()})
+    return ServerResponse({"userCurrencies": currencies.response_dict(), "newArtefact": new_artefact.response_dict()})
 
 
 # == Calculations == #

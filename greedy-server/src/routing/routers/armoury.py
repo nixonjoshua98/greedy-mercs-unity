@@ -1,11 +1,9 @@
 from fastapi import HTTPException, Depends
 
-from src.common.enums import ItemKey
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.models import ArmouryItemActionModel
 
-from src.dataloader import DataLoader
 from src import resources
 
 from src.routing.common.checks import (
@@ -20,13 +18,20 @@ from src.mongo.repositories.armoury import (
     armoury_repository
 )
 
+from src.mongo.repositories.currencies import (
+    CurrenciesRepository,
+    Fields as CurrencyRepoFields,
+    currencies_repository
+)
+
 router = APIRouter(prefix="/api/armoury")
 
 
 @router.post("/upgrade")
 async def upgrade(
         data: ArmouryItemActionModel,
-        armoury_repo: ArmouryRepository = Depends(armoury_repository)
+        armoury_repo: ArmouryRepository = Depends(armoury_repository),
+        currency_repo: CurrenciesRepository = Depends(currencies_repository)
 ):
     uid = await user_or_raise(data)
 
@@ -42,11 +47,18 @@ async def upgrade(
     # Calculate the upgrade cost for the item
     upgrade_cost = calc_upgrade_cost(user_item)
 
-    # TEMP - Fetch the currency we need
-    u_ap = await DataLoader().items.get_item(uid, ItemKey.ARMOURY_POINTS)
+    # Fetch the currency we need
+    currencies = await currency_repo.get_user(uid)
 
     # Verify the user can afford to upgrade the requested item
-    check_can_afford(u_ap, upgrade_cost, error="Cannot afford upgrade")
+    check_can_afford(currencies.armoury_points, upgrade_cost, error="Cannot afford upgrade")
+
+    # Deduct the upgrade cost and return all user items AFTER the update
+    currencies = await currency_repo.update_one(uid, {
+        "$inc": {
+            CurrencyRepoFields.ARMOURY_POINTS: -upgrade_cost
+        }
+    })
 
     # Update the request item data
     updated_item = await armoury_repo.update_item(uid, data.item_id, {
@@ -54,10 +66,7 @@ async def upgrade(
             ArmouryFieldKeys.LEVEL: 1
         }})
 
-    # TEMP - Deduct the upgrade cost and return all user items AFTER the update
-    u_items = await DataLoader().items.update_and_get(uid, {"$inc": {ItemKey.ARMOURY_POINTS: -upgrade_cost}})
-
-    return ServerResponse({"updatedItem": updated_item.response_dict(), "currencyItems": u_items})
+    return ServerResponse({"updatedItem": updated_item.response_dict(), "currencyItems": currencies.response_dict()})
 
 
 @router.post("/evolve")

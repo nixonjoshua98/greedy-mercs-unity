@@ -8,13 +8,17 @@ from src import resources
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.models import UserIdentifier, ActiveBountyUpdateModel
-from src.common.enums import ItemKey
-from src.dataloader import DataLoader
 
 from src.mongo.repositories.bounties import (
     UserBountiesModel,
     BountiesRepository,
     bounties_repository
+)
+
+from src.mongo.repositories.currencies import (
+    CurrenciesRepository,
+    Fields as CurrencyRepoFields,
+    currencies_repository
 )
 
 router = APIRouter(prefix="/api/bounty")
@@ -23,7 +27,8 @@ router = APIRouter(prefix="/api/bounty")
 @router.post("/claim")
 async def claim_points(
         user: UserIdentifier,
-        bounties_repo: BountiesRepository = Depends(bounties_repository)
+        bounties_repo: BountiesRepository = Depends(bounties_repository),
+        currency_repo: CurrenciesRepository = Depends(currencies_repository)
 ):
     uid = await user_or_raise(user)
 
@@ -36,9 +41,13 @@ async def claim_points(
     # Update the claim time
     await bounties_repo.set_claim_time(uid, claim_time=now)
 
-    u_items = await DataLoader().items.update_and_get(uid, {"$inc": {ItemKey.BOUNTY_POINTS: unclaimed}})
+    currencies = await currency_repo.update_one(uid, {
+        "$inc": {
+            CurrencyRepoFields.BOUNTY_POINTS: unclaimed
+        }
+    })
 
-    return ServerResponse({"claimTime": now, "userItems": u_items, "pointsClaimed": unclaimed})
+    return ServerResponse({"claimTime": now, "currencyItems": currencies.response_dict(), "pointsClaimed": unclaimed})
 
 
 @router.post("/setactive")

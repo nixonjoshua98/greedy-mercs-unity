@@ -95,7 +95,7 @@ namespace GM.Bounties.Data
                 {
                     User.LastClaimTime = resp.ClaimTime;
 
-                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
+                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
                 action(resp.StatusCode == 200, resp);

@@ -12,7 +12,7 @@ from src.models import UserIdentifier
 from src.dataloader import DataLoader
 from src import resources
 
-from src.common.requestchecks import (
+from src.routing.common.checks import (
     check_can_afford,
     check_is_not_none
 )

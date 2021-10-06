@@ -2,7 +2,7 @@ import uvicorn
 
 import src
 
-from src.routers import bountyshop, bounty, data, armoury, artefacts, prestige
+from src.routing.routers import artefacts, data, armoury, bounty, prestige, bountyshop
 
 app = src.create_app()
 

@@ -2,11 +2,11 @@ import math
 
 import datetime as dt
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import HTTPException, Depends
 
 from src import resources
 from src.checks import user_or_raise
-from src.routing import ServerRoute, ServerResponse
+from src.routing import ServerResponse, APIRouter
 from src.models import UserIdentifier, ActiveBountyUpdateModel
 from src.common.enums import ItemKey
 from src.dataloader import DataLoader
@@ -17,7 +17,7 @@ from src.mongo.repositories.bounties import (
     bounties_repository
 )
 
-router = APIRouter(prefix="/api/bounty", route_class=ServerRoute)
+router = APIRouter(prefix="/api/bounty")
 
 
 @router.post("/claim")

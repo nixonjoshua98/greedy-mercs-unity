@@ -1,10 +1,10 @@
 
-from fastapi import APIRouter, Depends
+from fastapi import Depends
 
 from src.common import formulas
 from src.common.enums import ItemKey
 from src.checks import user_or_raise
-from src.routing import ServerRoute, ServerResponse
+from src.routing import ServerResponse, APIRouter
 from src.models import UserIdentifier
 
 from src.dataloader import DataLoader
@@ -16,7 +16,7 @@ from src.mongo.repositories.bounties import (
 )
 
 
-router = APIRouter(prefix="/api", route_class=ServerRoute)
+router = APIRouter(prefix="/api")
 
 
 # Models

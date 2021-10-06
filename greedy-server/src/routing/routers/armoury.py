@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import HTTPException, Depends
 
 from src.common.enums import ItemKey
 from src.checks import user_or_raise
-from src.routing import ServerRoute, ServerResponse
+from src.routing import ServerResponse, APIRouter
 from src.models import ArmouryItemActionModel
 
 from src.dataloader import DataLoader
@@ -20,7 +20,7 @@ from src.mongo.repositories.armoury import (
     armoury_repository
 )
 
-router = APIRouter(prefix="/api/armoury", route_class=ServerRoute)
+router = APIRouter(prefix="/api/armoury")
 
 
 @router.post("/upgrade")

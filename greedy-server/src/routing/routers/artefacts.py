@@ -1,13 +1,13 @@
 import math
 import random
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import HTTPException, Depends
 
 from src.resources.artefacts import ArtefactResourceData
 from src.checks import user_or_raise
 from src.common import formulas
 from src.common.enums import ItemKey
-from src.routing import ServerRoute, ServerResponse
+from src.routing import ServerResponse, APIRouter
 from src.models import UserIdentifier
 from src.dataloader import DataLoader
 from src import resources
@@ -24,7 +24,7 @@ from src.mongo.repositories.artefacts import (
     artefacts_repository
 )
 
-router = APIRouter(prefix="/api/artefact", route_class=ServerRoute)
+router = APIRouter(prefix="/api/artefact")
 
 
 # == Models == #

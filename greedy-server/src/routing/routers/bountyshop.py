@@ -1,15 +1,15 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import HTTPException
 
 from src.common.enums import ItemKey
 
-from src.routing import ServerRoute, ServerResponse, ServerRequest
+from src.routing import ServerResponse, APIRouter
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
 from src.dataloader import DataLoader
 from src.classes.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
 
-router = APIRouter(prefix="/api/bountyshop", route_class=ServerRoute)
+router = APIRouter(prefix="/api/bountyshop")
 
 
 # Models

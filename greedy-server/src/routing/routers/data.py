@@ -1,15 +1,13 @@
-from fastapi import APIRouter
-
 import datetime as dt
 
 from src.models import UserLoginDataModel
 from src.common import resources
-from src.routing import ServerRoute, ServerResponse
+from src.routing import ServerResponse, APIRouter
 from src.classes import ServerState
 from src.dataloader import DataLoader
 from src import resources as res2
 
-router = APIRouter(prefix="/api", route_class=ServerRoute)
+router = APIRouter(prefix="/api")
 
 
 @router.get("/gamedata")

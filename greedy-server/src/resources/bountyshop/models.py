@@ -4,7 +4,7 @@ from src.common.basemodels import BaseModel
 
 
 class ArmouryItem(BaseModel):
-    id: str
+    id: str = Field(..., alias="itemId")
 
     armoury_item: int = Field(..., alias="armouryItem")
 

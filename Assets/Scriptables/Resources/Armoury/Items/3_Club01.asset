@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0193cc869bc9f78489b955ae2c23e831, type: 3}
+  m_Script: {fileID: 11500000, guid: 09fc628c4cfa7b8469d77abcc10da8e6, type: 3}
   m_Name: 3_Club01
   m_EditorClassIdentifier: 
-  Id: 3
-  Name: Stick
-  Icon: {fileID: 21300000, guid: d5652f992e491344695710cee23cdd53, type: 3}
+  Name: 3
+  Icon: {fileID: 21300000, guid: 6131bf85bb1e4dc4aa86bb443526d4d3, type: 3}

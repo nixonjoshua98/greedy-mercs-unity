@@ -39,7 +39,7 @@ async def upgrade(
     check_item_is_valid(data.item_id)
 
     # Fetch the item data
-    user_item = await armoury_repo.get_item(uid, data.item_id)
+    user_item = await armoury_repo.get_one_item(uid, data.item_id)
 
     # Verify the item exists
     check_is_not_none(user_item, error="Attempted to upgrade a locked armoury item")
@@ -64,7 +64,7 @@ async def upgrade(
     updated_item = await armoury_repo.update_item(uid, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.LEVEL: 1
-        }})
+        }}, upsert=False)
 
     return ServerResponse({"updatedItem": updated_item.response_dict(), "currencyItems": currencies.response_dict()})
 
@@ -80,9 +80,9 @@ async def evolve(
     check_item_is_valid(data.item_id)
 
     # Fetch the armoury item from the database
-    armoury_item = await armoury_repo.get_item(uid, data.item_id)
+    armoury_item = await armoury_repo.get_one_item(uid, data.item_id)
 
-    # Check that the item exists (is not None)
+    # Check that the item exists
     check_is_not_none(armoury_item, error="User has not unlocked armoury item")
 
     # Verify the user can evolve the weapon
@@ -93,7 +93,7 @@ async def evolve(
         "$inc": {
             ArmouryFieldKeys.EVO_LEVEL: 1,
             ArmouryFieldKeys.NUM_OWNED: -resources.get_armoury_resources().evo_level_cost
-        }})
+        }}, upsert=False)
 
     return ServerResponse({"updateditem": updated_item.response_dict()})
 
@@ -113,7 +113,7 @@ def calc_upgrade_cost(item: ArmouryItemModel):
 def check_can_evolve_weapon(item: ArmouryItemModel):
     armoury = resources.get_armoury_resources()
 
-    is_max_level = item.evo_level < armoury.max_evo_level
+    is_max_level = item.evo_level >= armoury.max_evo_level
     can_evolve = item.owned >= (armoury.evo_level_cost + 1)
 
     if is_max_level or not can_evolve:

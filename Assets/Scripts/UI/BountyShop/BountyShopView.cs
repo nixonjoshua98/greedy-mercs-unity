@@ -76,7 +76,7 @@ namespace GM.Bounties
 
         void InstantiateArmouryItems()
         {
-            foreach (BountyShopArmouryItemData item in App.Data.BountyShop.ArmouryItems)
+            foreach (BountyShopArmouryItem item in App.Data.BountyShop.ArmouryItems)
             {
                 GameObject o = Instantiate(ArmouryItemSlotObject, itemsParent);
 

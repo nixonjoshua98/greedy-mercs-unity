@@ -17,62 +17,76 @@ namespace GM.HTTP
             Address = "109.154.72.134"
         };
 
-        public void ClaimBounties(UnityAction<BountyClaimResponse> callback)
+        public void Bounty_Claim(UnityAction<BountyClaimResponse> callback)
         {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest()));
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedRequest()));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<BountyClaimResponse>(www))));
         }
 
-        public void UpdateActiveBounties(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback)
+        public void Bounty_UpdateActives(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback)
         {
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/setactive"), PrepareRequest(req));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpdateActiveBountiesResponse>(www))));
         }
 
-        public void PurchaseBountyShopCurrencyItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
+        public void BShop_PurchaseItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
         {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/item"), PrepareRequest(req));
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase"), PrepareRequest(req));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
         }
 
-        public void PurchaseBountyShopArmouryItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/armouryitem"), PrepareRequest(req));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
-        }
-
-        public void UpgradeArmouryItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback)
+        public void Armoury_UpgradeItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback)
         {
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/upgrade"), PrepareRequest(req));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpgradeArmouryItemResponse>(www))));
         }
 
-        public void EvolveArmouryItem(EvolveArmouryItemRequest req, UnityAction<EvolveArmouryItemResponse> callback)
+        public void Armoury_EvolveItem(EvolveArmouryItemRequest req, UnityAction<EvolveArmouryItemResponse> callback)
         {
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/evolve"), PrepareRequest(req));
 
             StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<EvolveArmouryItemResponse>(www))));
         }
 
-        public void UpgradeArtefact(Requests.UpgradeArtefactRequest req, UnityAction<Requests.UpgradeArtefactResponse> callback)
+        public void Artefact_UpgradeArtefact(UpgradeArtefactRequest req, UnityAction<UpgradeArtefactResponse> callback)
         {
             UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/upgrade"), PrepareRequest(req));
 
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UpgradeArtefactResponse>(www))));
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpgradeArtefactResponse>(www))));
         }
 
-        public void UnlockArtefact(UnityAction<Requests.UnlockArtefactResponse> callback)
+        public void Artefact_UnlockArtefact(UnityAction<UnlockArtefactResponse> callback)
         {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/unlock"), PrepareRequest(new AuthorisedServerRequest()));
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/unlock"), PrepareRequest(new AuthorisedRequest()));
 
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UnlockArtefactResponse>(www))));
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UnlockArtefactResponse>(www))));
         }
-        
+
+        public void Login(UnityAction<UserLoginReponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("login"), PrepareLoginRequest());
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UserLoginReponse>(www))));
+        }
+
+        public void FetchUserData(UnityAction<FetchUserDataResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("userdata"), PrepareRequest(new FetchUserDataRequest()));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<FetchUserDataResponse>(www))));
+        }
+
+        public void FetchGameData(UnityAction<FetchGameDataResponse> callback)
+        {
+            UnityWebRequest www = UnityWebRequest.Get(PyServer.UrlFor("gamedata"));
+
+            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<FetchGameDataResponse>(www))));
+        }
+
         /// <summary>
         /// Send the web request and invoke the callback
         /// </summary>
@@ -91,17 +105,9 @@ namespace GM.HTTP
 
 
 
-        // = = = Private Requests = = = //
         void SendGet(string url, Action<long, JSONNode> callback) => StartCoroutine(ProcessRequest(UnityWebRequest.Get(url), callback));
         void SendPost(string url, JSONNode node, Action<long, JSONNode> callback) => StartCoroutine(ProcessRequest(UnityWebRequest.Post(url, PrepareBody(node)), callback));
-        // = = = ^ //
-
-
-        // POST
         public void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback) => SendPost(PyServer.UrlFor(endpoint), node, callback);
-        public void Post(string endpoint, Action<long, JSONNode> callback) => SendPost(PyServer.UrlFor(endpoint), new JSONObject(), callback);
-
-        // GET
         public void Get(string endpoint, Action<long, JSONNode> callback) => SendGet(PyServer.UrlFor(endpoint), callback);
 
 
@@ -144,11 +150,6 @@ namespace GM.HTTP
             return node.ToString();
         }
 
-        /// <summary>
-        /// Deserialize a response object. StatusCode and ErrorMessage are set here
-        /// </summary>
-        /// <typeparam name="T">Response type</typeparam>
-        /// <param name="www">Web request</param>
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
             T model;
@@ -179,21 +180,26 @@ namespace GM.HTTP
                 model = new T()
                 {
                     ErrorMessage = e.Message,
-                    StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
+                    StatusCode = Common.HTTPCodes.FailedToDeserialize
                 };
             }
             
             return model;
         }
 
-        /// <summary>
-        /// Prepare the authorised server request. Involves serializing and setting Auth attributes
-        /// </summary>
-        /// <typeparam name="T">Request type</typeparam>
-        /// <param name="request">Server request model</param>
-        string PrepareRequest<T>(T request) where T : IAuthorisedServerRequest
+        string PrepareRequest<T>(T request) where T : IAuthorisedRequest
         {
             request.DeviceId = SystemInfo.deviceUniqueIdentifier;
+
+            return JsonConvert.SerializeObject(request);
+        }
+
+        string PrepareLoginRequest()
+        {
+            var request = new UserLoginRequest
+            {
+                DeviceId = SystemInfo.deviceUniqueIdentifier
+            };
 
             return JsonConvert.SerializeObject(request);
         }

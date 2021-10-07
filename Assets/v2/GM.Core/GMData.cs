@@ -16,6 +16,12 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
+        public GMData(Common.ICompleteUserData userData, Common.ICompleteGameData gameData)
+        {
+
+        }
+
+
         public GMData(JSONNode userJSON, JSONNode gameJSON)
         {
             Items = new CurrencyItems.Data.CurrencyItemsDataCollection(); // Should always be first

@@ -1,2 +1,0 @@
-
-from .armouryitem import ArmouryItem

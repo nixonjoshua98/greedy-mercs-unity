@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using System;
-using UnityEngine;
 
 namespace GM.Common.Json
 {
@@ -20,7 +19,9 @@ namespace GM.Common.Json
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            DateTime dt = (DateTime)value;
+
+            writer.WriteValue(new DateTimeOffset(dt).ToUnixTimeMilliseconds());
         }
     }
 }

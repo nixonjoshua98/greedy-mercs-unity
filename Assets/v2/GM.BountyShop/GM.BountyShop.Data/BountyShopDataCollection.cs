@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SimpleJSON;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM.BountyShop.Data
@@ -12,12 +13,12 @@ namespace GM.BountyShop.Data
         Dictionary<string, BountyShopPurchaseData> Purchases;
 
         public List<BountyShopCurrencyItemData> CurrencyItems;
-        public List<BountyShopArmouryItemData> ArmouryItems;
+        public List<BountyShopArmouryItem> ArmouryItems;
 
-        public BountyShopDataCollection(JSONNode node)
+        public BountyShopDataCollection(JSONNode json)
         {
-            SetDailyPurchases(node["dailyPurchases"]);
-            SetAvailableItems(node["availableItems"]);
+            SetDailyPurchases(json["dailyPurchases"]);
+            SetAvailableItems(json["availableItems"]);
         }
 
 
@@ -33,7 +34,7 @@ namespace GM.BountyShop.Data
 
 
         public BountyShopCurrencyItemData GetCurrencyItem(string id) => CurrencyItems.Where(ele => ele.Id == id).FirstOrDefault();
-        public BountyShopArmouryItemData GetArmouryItem(string id) => ArmouryItems.Where(ele => ele.Id == id).FirstOrDefault();
+        public BountyShopArmouryItem GetArmouryItem(string id) => ArmouryItems.Where(ele => ele.Id == id).FirstOrDefault();
 
         public BountyShopPurchaseData GetItemPurchaseData(string id)
         {
@@ -52,7 +53,7 @@ namespace GM.BountyShop.Data
         public void SetAvailableItems(JSONNode node)
         {
             CurrencyItems = JsonConvert.DeserializeObject<List<BountyShopCurrencyItemData>>(node["items"].ToString());
-            ArmouryItems = JsonConvert.DeserializeObject<List<BountyShopArmouryItemData>>(node["armouryItems"].ToString());
+            ArmouryItems = JsonConvert.DeserializeObject<List<BountyShopArmouryItem>>(node["armouryItems"].ToString());
         }
 
 
@@ -91,34 +92,15 @@ namespace GM.BountyShop.Data
         {
             var req = new PurchaseBountyShopItemRequest { ShopItem = itemId };
 
-            App.HTTP.PurchaseBountyShopCurrencyItem(req, (resp) =>
+            App.HTTP.BShop_PurchaseItem(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
-                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
+                    if (resp.ArmouryItem != null)
+                        App.Data.Armoury.User.Update(resp.ArmouryItem);
 
-                    SetDailyPurchases(resp.DailyPurchases);
+                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
-
-                action.Invoke(resp.StatusCode == 200);
-            });
-        }
-
-
-        public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
-        {
-            var req = new PurchaseBountyShopItemRequest { ShopItem = itemId };
-
-            App.HTTP.PurchaseBountyShopArmouryItem(req, (resp) =>
-            {
-                if (resp.StatusCode == 200)
-                {
-                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
-                    App.Data.Armoury.User.UpdateItemsWithModel(resp.ArmouryItems);
-                    SetDailyPurchases(resp.DailyPurchases);
-                }
-
-                action.Invoke(resp.StatusCode == 200);
             });
         }
     }

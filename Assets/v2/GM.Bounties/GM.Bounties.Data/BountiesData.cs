@@ -75,7 +75,7 @@ namespace GM.Bounties.Data
         {
             UpdateActiveBountiesRequest req = new UpdateActiveBountiesRequest() { BountyIds = ids };
 
-            App.HTTP.UpdateActiveBounties(req, (resp) => {
+            App.HTTP.Bounty_UpdateActives(req, (resp) => {
 
                 if (resp.StatusCode == 200)
                 {
@@ -89,7 +89,7 @@ namespace GM.Bounties.Data
 
         public void ClaimPoints(UnityAction<bool, BountyClaimResponse> action)
         {
-            App.HTTP.ClaimBounties((resp) =>
+            App.HTTP.Bounty_Claim((resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

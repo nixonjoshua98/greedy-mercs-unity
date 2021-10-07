@@ -28,8 +28,8 @@ class Fields:
 # == Models == #
 
 class ArmouryItemModel(BaseDocument):
-    item_id: int = Field(..., alias=Fields.ITEM_ID)
     user_id: ObjectId = Field(..., alias=Fields.USER_ID)
+    item_id: int = Field(..., alias=Fields.ITEM_ID)
 
     level: int = Field(1, alias=Fields.LEVEL)
     owned: int = Field(..., alias=Fields.NUM_OWNED)
@@ -47,7 +47,7 @@ class ArmouryRepository:
 
         self._col = db["armouryItems"]
 
-    async def get_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
+    async def get_one_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
         item = await self._col.find_one({Fields.USER_ID: uid, Fields.ITEM_ID: iid})
 
         return ArmouryItemModel(**item) if item is not None else item
@@ -57,11 +57,11 @@ class ArmouryRepository:
 
         return [ArmouryItemModel(**ele) for ele in ls]
 
-    async def update_item(self, uid, iid: int, update: dict) -> ArmouryItemModel:
+    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool) -> Union[ArmouryItemModel, None]:
         r = await self._col.find_one_and_update(
             {
                 Fields.USER_ID: uid,
                 Fields.ITEM_ID: iid
-            }, update, upsert=False, return_document=ReturnDocument.AFTER)
+            }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
 
-        return ArmouryItemModel(**r)
+        return ArmouryItemModel(**r) if r is not None else None

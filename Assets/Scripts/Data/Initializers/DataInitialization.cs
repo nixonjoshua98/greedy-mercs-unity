@@ -11,7 +11,7 @@ namespace GM
             FileUtils.LoadJSON(FileUtils.ResolvePath("_GAME_DATA"), out JSONNode gameJSON);
             FileUtils.LoadJSON(FileUtils.ResolvePath("_USER_DATA"), out JSONNode userJSON);
 
-            Core.GMApplication.Create(userJSON, gameJSON);
+            //Core.GMApplication.Create(userJSON, gameJSON);
 
             GameState.Restore(userJSON);
 

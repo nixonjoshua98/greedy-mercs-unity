@@ -60,7 +60,7 @@ namespace GM.Armoury.Data
         {
             var req = new GM.HTTP.Requests.UpgradeArmouryItemRequest { ItemId = item };
 
-            App.HTTP.UpgradeArmouryItem(req, (resp) =>
+            App.HTTP.Armoury_UpgradeItem(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
@@ -82,7 +82,7 @@ namespace GM.Armoury.Data
         {
             var req = new HTTP.Requests.EvolveArmouryItemRequest { ItemId = item };
 
-            App.HTTP.EvolveArmouryItem(req, (resp) =>
+            App.HTTP.Armoury_EvolveItem(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

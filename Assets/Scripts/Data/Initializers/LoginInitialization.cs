@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
@@ -42,20 +43,20 @@ namespace GM
 
         void Login()
         {
-            HTTPClient.Instance.Post("login", (code, resp) => {
+            //HTTPClient.Instance.Post("login", (code, resp) => {
 
-                if (code == 200)
-                {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath("_USER_DATA"), resp);
+            //    if (code == 200)
+            //    {
+            //        FileUtils.WriteJSON(FileUtils.ResolvePath("_USER_DATA"), resp);
 
-                    SceneManager.LoadScene("InitScene", LoadSceneMode.Additive);
-                }
+            //        SceneManager.LoadScene("InitScene", LoadSceneMode.Additive);
+            //    }
 
-                else
-                {
-                    CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
-                }
-            });
+            //    else
+            //    {
+            //        CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
+            //    }
+            //});
         }
     }
 }

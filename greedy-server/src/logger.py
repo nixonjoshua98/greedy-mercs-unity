@@ -2,7 +2,7 @@ import os
 import logging as _logging
 from logging.handlers import RotatingFileHandler
 
-LOG_FILE_PATH = os.path.join(os.getcwd(), "logs", "server-log.txt")
+LOG_FILE_PATH = os.path.join(os.getcwd(), "logs", "log.txt")
 MESSAGE_FORMAT = "%(asctime)s [%(levelname)s] %(message)s"
 DATE_FORMAT = "%d/%m/%Y %H:%M:%S"
 

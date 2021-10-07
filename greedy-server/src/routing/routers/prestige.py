@@ -1,8 +1,9 @@
+import math
 
 from fastapi import Depends
 
 from src.common import formulas
-from src.common.enums import ItemKey
+from src.common.enums import BonusType
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.models import UserIdentifier
@@ -10,10 +11,9 @@ from src.models import UserIdentifier
 from src.dataloader import DataLoader
 from src import resources
 
-from src.mongo.repositories.bounties import (
-    BountiesRepository,
-    bounties_repository
-)
+from src.mongo.repositories.bounties import BountiesRepository, bounties_repository
+from src.mongo.repositories.artefacts import ArtefactsRepository, ArtefactModel, artefacts_repository
+from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, currencies_repository
 
 
 router = APIRouter(prefix="/api")
@@ -27,13 +27,17 @@ class PrestigeData(UserIdentifier):
 @router.post("/prestige")
 async def prestige(
         data: PrestigeData,
-        bounties_repo: BountiesRepository = Depends(bounties_repository)
+        bounties_repo: BountiesRepository = Depends(bounties_repository),
+        currency_repo: CurrenciesRepository = Depends(currencies_repository),
+        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository)
 ):
     uid = await user_or_raise(data)
 
     loader = DataLoader()
 
-    await process_prestige_points(uid, data, loader=loader)
+    user_arts = await artefacts_repo.get_all_artefacts(uid)
+
+    await process_prestige_points(uid, data, artefacts=user_arts, currency_repo=currency_repo)
     await process_new_bounties(uid, data, bounties_repo=bounties_repo)
 
     u_data = await loader.get_user_data(uid)
@@ -41,13 +45,15 @@ async def prestige(
     return ServerResponse({"userData": u_data})
 
 
-async def process_prestige_points(uid, req_data: PrestigeData, *, loader: DataLoader):
+async def process_prestige_points(uid, req_data: PrestigeData, *, artefacts, currency_repo):
 
-    u_artefacts = await loader.artefacts.get_all_artefacts(uid)
+    points = calc_prestige_points_at_stage(req_data.prestige_stage, artefacts)
 
-    points_gained = formulas.stage_prestige_points(req_data.prestige_stage, u_artefacts)
-
-    await loader.items.update_items(uid, {"$inc": {ItemKey.PRESTIGE_POINTS: points_gained}})
+    await currency_repo.update_one(uid, {
+        "$inc": {
+            CurrencyRepoFields.PRESTIGE_POINTS: points
+        }
+    })
 
 
 async def process_new_bounties(uid, req_data: PrestigeData, *, bounties_repo: BountiesRepository):
@@ -60,3 +66,27 @@ async def process_new_bounties(uid, req_data: PrestigeData, *, bounties_repo: Bo
     for key, bounty in bounty_res.bounties.items():
         if key not in u_bounty_ids and req_data.prestige_stage >= bounty.stage:
             await bounties_repo.add_new_bounty(uid, key)
+
+
+# == Calculations == #
+
+def calc_prestige_points_at_stage(stage, artefacts: list[ArtefactModel]):
+    multiplier = calc_prestige_points_artefact_multiplier(artefacts)
+
+    return math.ceil(math.pow(math.ceil((max(stage, 75) - 75) / 10.0), 2.2) * multiplier)
+
+
+def calc_prestige_points_artefact_multiplier(artefacts: list[ArtefactModel]):
+    from src.common import resources as oldres
+
+    bonus = 1
+
+    static_arts = oldres.get("artefacts")
+
+    for art in artefacts:
+        s_art = static_arts[art.artefact_id]
+
+        if s_art["bonusType"] == BonusType.PRESTIGE_BONUS:
+            bonus *= formulas.artefact_effect(s_art, art.level)
+
+    return bonus

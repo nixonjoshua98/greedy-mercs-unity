@@ -33,13 +33,13 @@ namespace GM.Artefacts.Data
         {
             var req = new HTTP.Requests.UpgradeArtefactRequest { ArtefactId = artefact, UpgradeLevels = levels };
 
-            App.HTTP.UpgradeArtefact(req, (resp) =>
+            App.HTTP.Artefact_UpgradeArtefact(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
                     User.Update(resp.UpdatedArtefact);
 
-                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
+                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
                 call.Invoke(resp.StatusCode == 200);
@@ -48,7 +48,7 @@ namespace GM.Artefacts.Data
 
         public void UnlockArtefact(UnityAction<bool, int> call)
         {
-            App.HTTP.UnlockArtefact((resp) =>
+            App.HTTP.Artefact_UnlockArtefact((resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
@@ -57,7 +57,7 @@ namespace GM.Artefacts.Data
                     App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
                 }
 
-                call.Invoke(resp.StatusCode == 200, resp.NewArtefact.Id);
+                call.Invoke(resp.StatusCode == 200, resp.StatusCode == 200 ? resp.NewArtefact.Id : -1);
             });
         }
 

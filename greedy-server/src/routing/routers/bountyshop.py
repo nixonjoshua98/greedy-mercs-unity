@@ -1,111 +1,82 @@
+from typing import Any
+
 from fastapi import HTTPException, Depends
 
-from src.common.enums import ItemKey
-
-from src.routing import ServerResponse, APIRouter
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
 from src.dataloader import DataLoader
-from src.resources.bountyshop import BountyShopGeneration, BountyShopCurrencyItem, BountyShopArmouryItem
 
-from src.mongo.repositories.currencies import (
-    CurrenciesRepository,
-    Fields as CurrencyRepoFields,
-    currencies_repository
-)
+from src.routing import ServerResponse, APIRouter
+from src.routing.common.checks import check_is_not_none, check_greater_than
+
+from src.resources.bountyshop import BountyShop, ArmouryItem as BSArmouryItem
+
+from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, currencies_repository
+from src.mongo.repositories.armoury import ArmouryRepository, Fields as ArmouryRepoFields, armoury_repository
 
 router = APIRouter(prefix="/api/bountyshop")
 
 
-# Models
+# == Request Models == #
+
 class ItemData(UserIdentifier):
     shop_item: str
 
 
-@router.post("/purchase/item")
-async def purchase_item(
+@router.post("/purchase")
+async def purchase(
         data: ItemData,
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+        currency_repo: CurrenciesRepository = Depends(currencies_repository),
+        armoury_repo: ArmouryRepository = Depends(armoury_repository)
 ):
     uid = await user_or_raise(data)
 
-    bs = BountyShopGeneration(uid)  # Generate the bounty shop for the user
+    shop = BountyShop()
 
-    loader = DataLoader()
+    item = shop.get_item(data.shop_item)
 
-    # Invalid item ID
-    if not isinstance(item := bs.get_item(data.shop_item), BountyShopCurrencyItem):
-        raise HTTPException(400)
+    # Verify that the item exists
+    check_is_not_none(item, error="Item was not found")
 
-    # Checks
-    elif not await _can_purchase_item(uid, item, loader=loader):
-        raise HTTPException(400)
+    item_purchases = await DataLoader().bounty_shop.get_daily_purchases(uid, item.id)
 
-    currencies = await currency_repo.update_one(uid, {
-        "$inc": {
-            CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost,
-            item.item_type.key: item.quantity_per_purchase
-        }
-    })
+    # Check the user still has 'stock' left
+    check_greater_than(item.purchase_limit, item_purchases, error="Reached purchase limit")
 
-    #await loader.bounty_shop.log_purchase(uid, item)
-    u_armoury = await loader.armoury.get_all_items(uid)
-    u_purchases = await loader.bounty_shop.get_daily_purchases(uid)
+    # Fetch the user currencies
+    currencies = await currency_repo.get_user(uid)
 
-    return ServerResponse(
-        {"userItems": currencies.response_dict(), "dailyPurchases": u_purchases, "userArmouryItems": u_armoury}
-    )
+    # Verify that the user can afford to purchase the item
+    check_greater_than(currencies.bounty_points, item.purchase_cost, error="Cannot afford purchase")
 
+    response_dict = dict()
 
-@router.post("/purchase/armouryitem")
-async def purchase_armoury_item(
-        data: ItemData,
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
-):
-    uid = await user_or_raise(data)
+    # Perform the purchase on 'ArmouryItem's
+    if isinstance(item, BSArmouryItem):
+        response_dict["armouryItem"] = await _purchase_armoury_item(uid, item, repo=armoury_repo)
 
-    bs = BountyShopGeneration(uid)
+    else:  # Show an error if we got this far
+        raise HTTPException(400, detail="Invalid item")
 
-    if not isinstance(item := bs.get_item(data.shop_item), BountyShopArmouryItem):
-        raise HTTPException(400, detail="Invalid ID")
-
-    loader = DataLoader()  # Create the instance
-
-    if not await _can_purchase_item(uid, item, loader=loader):
-        raise HTTPException(400, detail="Cannot purchase")
-
-    await loader.armoury.update_one_item(
-        uid, item.armoury_item, {"$inc": {"owned": 1}, "$setOnInsert": {"level": 1}}, upsert=True
-    )
-
+    # Deduct the purchase cost from the user
     currencies = await currency_repo.update_one(uid, {
         "$inc": {
             CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost
         }
     })
 
-    await loader.bounty_shop.log_purchase(uid, item)
-
-    u_armoury = await loader.armoury.get_all_items(uid)
-    u_purchases = await loader.bounty_shop.get_daily_purchases(uid)
-
-    return ServerResponse(
-        {"userItems": currencies.response_dict(), "userArmouryItems": u_armoury, "dailyPurchases": u_purchases}
-    )
+    # Return the response. We unpack the reponse_dict here
+    return ServerResponse({"currencyItems": currencies.response_dict(), **response_dict})
 
 
-# == Checks == #
+async def _purchase_armoury_item(uid, item, *, repo: ArmouryRepository) -> dict[str, Any]:
+    """ Process the actual purchase and return a dict to be added to the response. """
 
+    armoury_item = await repo.update_item(uid, item.armoury_item, {
+        "$inc": {
+            ArmouryRepoFields.NUM_OWNED: 1
+        }
+    }, upsert=True)
 
-async def _can_purchase_item(uid, item, *, loader: DataLoader):
-
-    u_bs_item_purchases = await loader.bounty_shop.get_daily_purchases(uid, item.id)
-
-    u_bp = await loader.items.get_item(uid, ItemKey.BOUNTY_POINTS)
-
-    is_daily_limited = u_bs_item_purchases >= item.daily_purchase_limit
-
-    can_afford_purchase = u_bp >= item.purchase_cost
-
-    return (not is_daily_limited) and can_afford_purchase
+    return {"armouryItem": armoury_item.response_dict()}

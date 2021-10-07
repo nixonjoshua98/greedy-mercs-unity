@@ -3,19 +3,15 @@ using System.Collections.Generic;
 
 namespace GM.HTTP.Requests
 {
-    public class PurchaseBountyShopItemRequest : AuthorisedServerRequest
+    public class PurchaseBountyShopItemRequest : AuthorisedRequest
     {
         public string ShopItem;
     }
 
     public class PurchaseBountyShopItemResponse : ServerResponse
     {
-        [JsonProperty(PropertyName = "userItems")]
-        public Inventory.Models.UserCurrenciesModel UserCurrencies;
+        public Inventory.Models.UserCurrenciesModel CurrencyItems;
 
-        public Dictionary<string, int> DailyPurchases;
-
-        [JsonProperty(PropertyName = "userArmouryItems")]
-        public Dictionary<int, Armoury.Models.UserArmouryItemModel> ArmouryItems;
+        public Armoury.Models.UserArmouryItemModel ArmouryItem;
     }
 }

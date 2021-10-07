@@ -1,5 +1,4 @@
 using SimpleJSON;
-using UnityEngine;
 
 namespace GM.Core
 {
@@ -11,6 +10,17 @@ namespace GM.Core
 
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
+        public static GMApplication Create(Common.ICompleteUserData userData, Common.ICompleteGameData gameData)
+        {
+            Instance = new GMApplication(userData, gameData);
+
+            return Instance;
+        }
+
+        GMApplication(Common.ICompleteUserData userData, Common.ICompleteGameData gameData)
+        {
+            Data = new GMData(userData, gameData);
+        }
 
         public static void Create(JSONNode userJSON, JSONNode gameJSON)
         {

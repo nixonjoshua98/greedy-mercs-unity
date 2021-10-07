@@ -52,7 +52,7 @@ async def upgrade(
     check_valid_artefact(data.artefact_id)
 
     # Load the related artefact
-    user_art = await artefacts_repo.get_artefact(uid, data.artefact_id)
+    user_art = await artefacts_repo.get_one_artefact(uid, data.artefact_id)
 
     # Verify that the user has the artefact unlocked
     check_is_not_none(user_art, error="Artefact is not unlocked")
@@ -83,7 +83,7 @@ async def upgrade(
         }
     })
 
-    return ServerResponse({"userCurrencies": currencies.response_dict(), "updatedArtefact": artefact.response_dict()})
+    return ServerResponse({"currencyItems": currencies.response_dict(), "updatedArtefact": artefact.response_dict()})
 
 
 @router.post("/unlock")
@@ -121,7 +121,7 @@ async def unlock(
         }
     })
 
-    return ServerResponse({"userCurrencies": currencies.response_dict(), "newArtefact": new_artefact.response_dict()})
+    return ServerResponse({"currencyItems": currencies.response_dict(), "newArtefact": new_artefact.response_dict()})
 
 
 # == Calculations == #
@@ -139,7 +139,7 @@ def get_new_artefact(artefacts: list[ArtefactModel]):
 def calc_upgrade_cost(artefact: ArtefactModel, levels: int) -> int:
     static_art = resources.get_artefacts_data().artefacts[artefact.artefact_id]
 
-    return formulas.upgrade_artefact_cost(static_art.cost_coeff, static_art.cost_expo, artefact.level, levels)
+    return formulas.artefact_upgrade_cost(static_art.cost_coeff, static_art.cost_expo, artefact.level, levels)
 
 
 # == Checks == #

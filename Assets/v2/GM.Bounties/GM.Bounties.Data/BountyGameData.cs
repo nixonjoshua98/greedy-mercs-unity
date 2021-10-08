@@ -1,22 +1,28 @@
 using UnityEngine;
+using Newtonsoft.Json;
 
-namespace GM.Bounties.Data
+namespace GM.Bounties.Models
 {
-    /// <summary>
-    /// Combined bounty game data struct for BountyLocalGameData and server data
-    /// </summary>
     public class BountyGameData
     {
+        [JsonProperty(PropertyName = "bountyId")]
         public int ID;
-        public string Name;
 
         public int UnlockStage;
         public int HourlyIncome;
 
-        public float SpawnChance;
+        public float SpawnChance = 1.0f;
 
+        [JsonIgnore]
+        public string Name;
+
+        [JsonIgnore]
         public Sprite Icon;
+
+        [JsonIgnore]
         public GameObject Prefab;
+
+        [JsonIgnore]
         public UI.BountySlot Slot;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GM.Bounties.Data
 {
-    public class BountiesGameDataCollection : Dictionary<int, BountyGameData>
+    public class BountiesGameDataCollection : Dictionary<int, Models.BountyGameData>
     {
         public float MaxUnclaimedHours;
         public int MaxActiveBounties;
@@ -38,7 +38,7 @@ namespace GM.Bounties.Data
             {
                 JSONNode current = json[res.Id];
 
-                base[res.Id] = new BountyGameData()
+                base[res.Id] = new Models.BountyGameData()
                 {
                     ID = res.Id,
                     Name = res.Name,
@@ -55,11 +55,11 @@ namespace GM.Bounties.Data
         }
 
 
-        public bool GetStageBounty(int stage, out BountyGameData result)
+        public bool GetStageBounty(int stage, out Models.BountyGameData result)
         {
             result = default;
 
-            foreach (KeyValuePair<int, BountyGameData> pair in this)
+            foreach (KeyValuePair<int, Models.BountyGameData> pair in this)
             {
                 result = pair.Value;
 

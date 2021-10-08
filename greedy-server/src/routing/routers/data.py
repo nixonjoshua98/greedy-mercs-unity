@@ -25,16 +25,14 @@ router = APIRouter(prefix="/api")
 def game_data():
     svr_state = ServerState()
 
-    return ServerResponse(
-        {
-            "artefacts_gameData": res2.get_artefacts_data(as_dict=True),
-            "mercs_gameData": resources.get_mercs(),
-            "armoury_gameData": res2.get_armoury_resources(as_dict=True),
+    return ServerResponse({
+        "nextDailyReset": svr_state.next_daily_reset,
 
-            "bounties_gameData": res2.get_bounty_data(as_dict=True),
-            "nextDailyReset": svr_state.next_daily_reset
-        }
-    )
+        "artefacts": res2.get_artefacts_data(as_list=True),
+        "bounties": res2.get_bounty_data(as_list=True),
+        "armoury": res2.get_armoury_resources(as_list=True),
+        "mercs": resources.get_mercs(as_list=True),
+    })
 
 
 @router.post("/userdata")

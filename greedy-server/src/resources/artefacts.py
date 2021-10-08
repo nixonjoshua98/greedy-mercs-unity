@@ -3,7 +3,10 @@ from src import utils
 from src.common import formulas
 
 
-def get_artefacts_data(*, as_dict: bool = False) -> "ArtefactResources":
+def get_artefacts_data(*, as_dict: bool = False, as_list=False) -> "ArtefactResources":
+    if as_list:
+        return [{"artefactId": k, **v} for k, v in utils.load_resource("artefacts.json").items()]  # type: ignore
+
     if as_dict:
         return utils.load_resource("artefacts.json")
 

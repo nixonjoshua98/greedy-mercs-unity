@@ -4,10 +4,10 @@ namespace GM.Artefacts.Data
 {
     public struct FullArtefactData
     {
-        public ArtefactGameData Game;
+        public ArtefactGameDataModel Game;
         public UserArtefactModel User;
 
-        public FullArtefactData(ArtefactGameData values, UserArtefactModel state)
+        public FullArtefactData(ArtefactGameDataModel values, UserArtefactModel state)
         {
             Game = values;
             User = state;

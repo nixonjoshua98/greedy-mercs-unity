@@ -2,10 +2,10 @@ namespace GM.Armoury.Data
 {
     public struct FullArmouryItemData
     {
-        public ArmouryItemGameData Game;
+        public Models.ArmouryItemGameDataModel Game;
         public Models.UserArmouryItemModel User;
 
-        public FullArmouryItemData(ArmouryItemGameData game, Models.UserArmouryItemModel user)
+        public FullArmouryItemData(Models.ArmouryItemGameDataModel game, Models.UserArmouryItemModel user)
         {
             Game = game;
             User = user;

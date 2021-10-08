@@ -7,7 +7,7 @@ namespace GM.Artefacts.Data
     /// <summary>
     /// Dictionary which stores artefacts game values
     /// </summary>
-    public class GameArtefactsCollection : Dictionary<int, ArtefactGameData>
+    public class GameArtefactsCollection : Dictionary<int, Models.ArtefactGameDataModel>
     {
         public GameArtefactsCollection(JSONNode node)
         {
@@ -27,7 +27,7 @@ namespace GM.Artefacts.Data
             {
                 if (node.TryGetKey(local.Id, out JSONNode current))
                 {
-                    base[local.Id] = new ArtefactGameData()
+                    base[local.Id] = new Models.ArtefactGameDataModel()
                     {
                         Id = local.Id,
                         Name = local.Name,

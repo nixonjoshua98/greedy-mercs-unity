@@ -10,8 +10,8 @@ namespace GM.Core
         class InitializationPipeline
         {
             public UserLoginReponse Login;
-            public Common.IServerUserData UserData;
-            public Common.ICompleteGameData GameData;
+            public FetchUserDataResponse UserData;
+            public FetchGameDataResponse GameData;
         }
 
         void Start()
@@ -86,8 +86,6 @@ namespace GM.Core
 
         void Initialize(Common.IServerUserData userDataResp, Common.ICompleteGameData gameDataResp)
         {
-            Debug.Log(JsonConvert.SerializeObject(userDataResp) + " " + JsonConvert.SerializeObject(gameDataResp));
-
             var app = GMApplication.Create(userDataResp, gameDataResp);
         }
     }

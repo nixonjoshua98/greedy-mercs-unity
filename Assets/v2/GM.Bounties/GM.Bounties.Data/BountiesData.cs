@@ -46,7 +46,7 @@ namespace GM.Bounties.Data
                 if (state.IsActive)
                 {
                     // Grab the static data for the struct
-                    BountyGameData dataStruct = Game[state.BountyId];
+                    Bounties.Models.BountyGameData dataStruct = Game[state.BountyId];
 
                     // We cap the hours since claim to the value returned from the server
                     float hoursSinceClaim = Math.Max(0, Math.Min(Game.MaxUnclaimedHours, (float)(DateTime.UtcNow - User.LastClaimTime).TotalHours));

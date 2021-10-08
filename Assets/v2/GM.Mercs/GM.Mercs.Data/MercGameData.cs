@@ -18,7 +18,7 @@ namespace GM.Mercs.Data
         public string Name;
 
         public double UnlockCost;
-        public double BaseDamage;
+        public double BaseDamage { get; set; }
 
         public MercPassiveSkillData[] Passives;
 

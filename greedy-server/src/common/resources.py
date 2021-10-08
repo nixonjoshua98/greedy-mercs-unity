@@ -6,7 +6,7 @@ def get(file_name):
 	return _load_json(_res_path(f"{file_name}.json"))
 
 
-def get_mercs(*, id_: int = None):
+def get_mercs(*, id_: int = None, as_list=False):
 	if id_ is not None:
 		return _load_json(_res_path("mercs", f"merc_{id_}.json"))
 
@@ -16,6 +16,14 @@ def get_mercs(*, id_: int = None):
 		id_ = int(file[file.find("merc_")+5: file.find(".json")])
 
 		d[id_] = _load_json(_res_path("mercs", file))
+
+	if as_list:
+		ls = []
+
+		for k, v in d.items():
+			ls.append({"mercId": k, **v})
+
+		return ls
 
 	return d
 

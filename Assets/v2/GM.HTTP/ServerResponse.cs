@@ -11,8 +11,7 @@ namespace GM.HTTP
 
     public class ServerResponse : IServerResponse
     {
-        [JsonIgnore]
-        public long StatusCode { get; set; } = 0;
+        public long StatusCode { get; set; } = -1;
 
         [JsonProperty(PropertyName = "error")]
         public string ErrorMessage { get; set; } = string.Empty; // Pulled from either the return response, or set manually

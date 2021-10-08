@@ -58,7 +58,7 @@ namespace GM.Bounties.UI
         {
             foreach (var bounty in App.Data.Bounties.User.States)
             {
-                BountyGameData data = App.Data.Bounties.Game[bounty.BountyId];
+                Bounties.Models.BountyGameData data = App.Data.Bounties.Game[bounty.BountyId];
 
                 BountySlot slot;
 

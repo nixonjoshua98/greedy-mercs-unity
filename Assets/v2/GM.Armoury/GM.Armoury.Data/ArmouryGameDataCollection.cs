@@ -6,33 +6,33 @@ namespace GM.Armoury.Data
 {
     public class ArmouryGameDataCollection
     {
-        Dictionary<int, ArmouryItemGameData> DataDict;
+        Dictionary<int, Models.ArmouryItemGameDataModel> DataDict;
 
         public ArmouryGameDataCollection(JSONNode gameJSON)
         {
             UpdateFromJSON(gameJSON, gameJSON["items"]);
         }
 
-        public ArmouryItemGameData this[int key]
+        public Models.ArmouryItemGameDataModel this[int key]
         {
             get => GetItem(key);
         }
 
 
-        public ArmouryItemGameData GetItem(int key) => DataDict[key];
+        public Models.ArmouryItemGameDataModel GetItem(int key) => DataDict[key];
 
 
         void UpdateFromJSON(JSONNode rootJSON, JSONNode itemsJSON)
         {
-            DataDict = new Dictionary<int, ArmouryItemGameData>();
+            DataDict = new Dictionary<int, Models.ArmouryItemGameDataModel>();
 
             foreach (var ele in LoadLocalData())
             {
                 JSONNode currentItem = itemsJSON[ele.Id];
 
-                DataDict[ele.Id] = new ArmouryItemGameData
+                DataDict[ele.Id] = new Models.ArmouryItemGameDataModel
                 {
-                    ID = ele.Id,
+                    Id = ele.Id,
                     Name = ele.Name,
                     Icon = ele.Icon,
 

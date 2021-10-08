@@ -7,7 +7,7 @@ namespace GM.HTTP.Requests
 
     }
 
-    public class FetchUserDataResponse : ServerResponse, Common.ICompleteUserData
+    public class FetchUserDataResponse : ServerResponse, Common.IServerUserData
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems { get; set; }
         public Bounties.Models.CompleteBountyDataModel BountyData { get; set; }

@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GM.HTTP.Requests
+﻿namespace GM.HTTP.Requests
 {
-    public class UserLoginRequest : IServerRequest
+    public interface ILoginRequest : IServerRequest
     {
-        public string DeviceId;
+        string DeviceId { get; set; }
+    }
+
+    public class UserLoginRequest : ILoginRequest
+    {
+        public string DeviceId { get; set; }
     }
 
 
     public class UserLoginReponse : ServerResponse
     {
-
+        public string UserId;
     }
 }

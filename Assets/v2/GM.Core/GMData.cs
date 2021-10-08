@@ -16,7 +16,7 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
-        public GMData(Common.ICompleteUserData userData, Common.ICompleteGameData gameData)
+        public GMData(Common.IServerUserData userData, Common.ICompleteGameData gameData)
         {
 
         }

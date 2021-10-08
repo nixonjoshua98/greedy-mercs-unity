@@ -23,20 +23,20 @@ namespace GM
 
         void GameData()
         {
-            HTTPClient.Instance.Get("gamedata", (code, resp) => {
+            //HTTPClient.Instance.Get("gamedata", (code, resp) => {
 
-                if (code == 200)
-                {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath("_GAME_DATA"), resp);
+            //    if (code == 200)
+            //    {
+            //        FileUtils.WriteJSON(FileUtils.ResolvePath("_GAME_DATA"), resp);
 
-                    Login();
-                }
+            //        Login();
+            //    }
 
-                else
-                {
-                    CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
-                }
-            });
+            //    else
+            //    {
+            //        CanvasUtils.ShowInfo("Server Connection", "Failed to connect to the server");
+            //    }
+            //});
         }
 
 

@@ -22,7 +22,7 @@ router = APIRouter(prefix="/api")
 
 
 @router.get("/gamedata")
-def get_game_data():
+def game_data():
     svr_state = ServerState()
 
     return ServerResponse(
@@ -79,4 +79,4 @@ async def player_login(
     else:
         uid = user["_id"]
 
-    return {"userId": uid}
+    return ServerResponse({"userId": uid})

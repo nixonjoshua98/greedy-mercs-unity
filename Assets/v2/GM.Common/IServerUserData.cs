@@ -2,7 +2,7 @@
 
 namespace GM.Common
 {
-    public interface ICompleteUserData
+    public interface IServerUserData
     {
         Inventory.Models.UserCurrenciesModel CurrencyItems { get; set; }
         Bounties.Models.CompleteBountyDataModel BountyData { get; set; }

@@ -1,63 +1,94 @@
 using GM.HTTP;
 using GM.HTTP.Requests;
 using Newtonsoft.Json;
-using HTTPCodes = GM.Common.HTTPCodes;
 using UnityEngine;
 
-namespace GM
+namespace GM.Core
 {
     public class GMApplicationInitialization : MonoBehaviour
     {
-        public void Start()
+        class InitializationPipeline
         {
-
+            public UserLoginReponse Login;
+            public Common.IServerUserData UserData;
+            public Common.ICompleteGameData GameData;
         }
 
-        void StartInitialization()
+        void Start()
         {
-            HTTPClient.Instance.FetchGameData((gameDataResp) =>
+            StartInitialize();
+        }
+
+        void StartInitialize()
+        {
+            var responses = new InitializationPipeline();
+
+            LoginRequest(responses); // Start request pipeline
+        }
+
+
+        void LoginRequest(InitializationPipeline resps)
+        {
+            HTTPClient.Instance.Login((loginResp) =>
             {
-                if (gameDataResp.StatusCode == HTTPCodes.Success)
+                resps.Login = loginResp;
+
+                switch (loginResp.StatusCode)
                 {
-                    HTTPClient.Instance.Login((loginResp) =>
-                    {
-                        if (loginResp.StatusCode == HTTPCodes.Success)
-                        {
-                            HTTPClient.Instance.FetchUserData((userDataResp) =>
-                            {
-                                if (userDataResp.StatusCode == HTTPCodes.Success)
-                                {
-                                    Initialize(loginResp, userDataResp, gameDataResp);
-                                }
-                                else
-                                {
-                                    ShowRequestError(userDataResp, "Data Request");
-                                }
-                            });
-                        }
-                        else
-                        {
-                            ShowRequestError(loginResp, "Login Request");
-                        }
-                    });
-                }
-                else
-                {
-                    ShowRequestError(gameDataResp, "Data Request");
+                    case HTTPCodes.Success:
+                        FetchGameDataFromServer(resps);
+                        break;
+
+                    case HTTPCodes.NoServerResponse:
+                        break;
                 }
             });
         }
 
 
-        void Initialize(UserLoginReponse loginResp, FetchUserDataResponse userDataResp, FetchGameDataResponse gameDataResp)
+        void FetchGameDataFromServer(InitializationPipeline resps)
         {
-            var app = Core.GMApplication.Create(userDataResp, gameDataResp);
+            HTTPClient.Instance.FetchGameData((gameDataResp) =>
+            {
+                resps.GameData = gameDataResp;
+
+                switch (gameDataResp.StatusCode)
+                {
+                    case HTTPCodes.Success:
+                        FetchUserDataFromServer(resps);
+                        break;
+
+                    default:
+                        break;
+                }
+            });
         }
 
 
-        void ShowRequestError(IServerResponse resp, string reqText)
+        void FetchUserDataFromServer(InitializationPipeline resps)
         {
-            Debug.LogError($"{reqText} Failed - {resp.StatusCode} - {resp.ErrorMessage}");
+            HTTPClient.Instance.FetchUserData((userDataResp) =>
+            {
+                resps.UserData = userDataResp;
+
+                switch (userDataResp.StatusCode)
+                {
+                    case HTTPCodes.Success:
+                        Initialize(resps.UserData, resps.GameData);
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+        }
+
+
+        void Initialize(Common.IServerUserData userDataResp, Common.ICompleteGameData gameDataResp)
+        {
+            Debug.Log(JsonConvert.SerializeObject(userDataResp) + " " + JsonConvert.SerializeObject(gameDataResp));
+
+            var app = GMApplication.Create(userDataResp, gameDataResp);
         }
     }
 }

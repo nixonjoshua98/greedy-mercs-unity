@@ -1,6 +1,5 @@
-using SimpleJSON;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GM.Armoury.Data
@@ -9,12 +8,12 @@ namespace GM.Armoury.Data
     {
         List<Models.ArmouryItemGameDataModel> itemsList;
 
-        public ArmouryGameDataCollection(GM.Armoury.Models.AllArmouryGameDataModel data)
+        public ArmouryGameDataCollection(Models.AllArmouryGameDataModel data)
         {
             Update(data);
         }
 
-        void Update(GM.Armoury.Models.AllArmouryGameDataModel data)
+        void Update(Models.AllArmouryGameDataModel data)
         {
             itemsList = data.Items;
 
@@ -33,37 +32,7 @@ namespace GM.Armoury.Data
         }
 
 
-        public ArmouryGameDataCollection(JSONNode gameJSON)
-        {
-            UpdateFromJSON(gameJSON, gameJSON["items"]);
-        }
-
         public Models.ArmouryItemGameDataModel GetItem(int key) => itemsList.Where(ele => ele.Id == key).FirstOrDefault();
-
-
-        void UpdateFromJSON(JSONNode rootJSON, JSONNode itemsJSON)
-        {
-            //items = new Dictionary<int, Models.ArmouryItemGameDataModel>();
-
-            //foreach (var ele in LoadLocalData())
-            //{
-            //    JSONNode currentItem = itemsJSON[ele.Id];
-
-            //    items[ele.Id] = new Models.ArmouryItemGameDataModel
-            //    {
-            //        Id = ele.Id,
-            //        Name = ele.Name,
-            //        Icon = ele.Icon,
-
-            //        EvoLevelCost = rootJSON["evoLevelCost"],
-            //        MaxEvolveLevel = rootJSON["maxEvoLevel"],
-
-            //        Tier = currentItem["itemTier"].AsInt,
-            //        BaseDamage = currentItem["baseDamageMultiplier"].AsFloat
-            //    };
-            //}
-        }
-
 
         static ScriptableObjects.LocalArmouryItemData[] LoadLocalData() => Resources.LoadAll<ScriptableObjects.LocalArmouryItemData>("Armoury/Items");
     }

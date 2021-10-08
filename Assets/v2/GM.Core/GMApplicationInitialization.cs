@@ -88,7 +88,7 @@ namespace GM.Core
         {
             var app = GMApplication.Create(userDataResp, gameDataResp);
 
-            GameState.Restore(new SimpleJSON.JSONObject());
+            GameState.Restore();
 
             SceneManager.LoadScene("GameScene");
         }

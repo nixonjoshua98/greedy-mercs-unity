@@ -1,4 +1,3 @@
-using SimpleJSON;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,12 +7,6 @@ namespace GM.Mercs.Data
     {
         public MercGameDataCollection Game;
         public MercUserDataCollection User;
-
-        public MercsData(JSONNode gameJSON)
-        {
-            Game = new MercGameDataCollection(gameJSON);
-            User = new MercUserDataCollection();
-        }
 
         public MercsData(List<Models.MercGameDataModel> mercs)
         {

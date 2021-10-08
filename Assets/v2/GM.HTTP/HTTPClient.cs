@@ -1,6 +1,5 @@
 using GM.HTTP.Requests;
 using Newtonsoft.Json;
-using SimpleJSON;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -39,6 +38,13 @@ namespace GM.HTTP
 
                 callback.Invoke(resp);
             });
+        }
+
+
+        // == Prestige == ..
+        public void Prestige(UnityAction<ServerResponse> callback)
+        {
+            Post(ServerConfig.UrlFor("prestige"), new AuthorisedRequest(), callback);
         }
 
 
@@ -126,44 +132,6 @@ namespace GM.HTTP
             }
         }
 
-
-
-        void SendPost(string url, JSONNode node, Action<long, JSONNode> callback) => StartCoroutine(ProcessRequest(UnityWebRequest.Post(url, PrepareBody(node)), callback));
-        public void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback) => SendPost(ServerConfig.UrlFor(endpoint), node, callback);
-        IEnumerator ProcessRequest(UnityWebRequest www, Action<long, JSONNode> callback)
-        {
-            www.timeout = 3;
-
-            www.SetRequestHeader("Content-Type", "application/json");
-            www.SetRequestHeader("Accept", "application/json");
-
-            yield return www.SendWebRequest();
-
-            bool _ = TryParseJSON(www.downloadHandler.text, out JSONNode resp);
-
-            callback.Invoke(www.responseCode, resp);
-        }
-        bool TryParseJSON(string s, out JSONNode result)
-        {
-            result = new JSONObject();
-
-            try
-            {
-                result = JSON.Parse(s);
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-
-            return true;
-        }
-        string PrepareBody(JSONNode node)
-        {
-            node["deviceId"] = SystemInfo.deviceUniqueIdentifier;
-
-            return node.ToString();
-        }
 
         /// <summary>
         /// Deserialize the response into the request response object

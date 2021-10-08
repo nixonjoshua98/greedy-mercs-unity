@@ -1,5 +1,4 @@
-﻿using SimpleJSON;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace GM.Inventory.Data
 {
@@ -15,29 +14,12 @@ namespace GM.Inventory.Data
 
         public BigDouble Gold;
 
-        public UserInventoryCollection(JSONNode node)
-        {
-            Gold = 0;
-            Energy = 0;
-
-            UpdateCurrenciesWithJSON(node["items"]);
-        }
-
         public UserInventoryCollection(Models.UserCurrenciesModel currencies)
         {
             Gold = 0;
             Energy = 0;
 
             UpdateCurrencies(currencies);
-        }
-
-        public void UpdateCurrenciesWithJSON(JSONNode node)
-        {
-            BlueGems = node.GetValueOrDefault("blueGems", 0);
-            ArmouryPoints = node.GetValueOrDefault("armouryPoints", 0);
-            BountyPoints = node.GetValueOrDefault("bountyPoints", 0);
-
-            PrestigePoints = BigInteger.Parse(node.GetValueOrDefault("prestigePoints", 0), System.Globalization.NumberStyles.Any);
         }
 
         public void UpdateCurrencies(Models.UserCurrenciesModel model)

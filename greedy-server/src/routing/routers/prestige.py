@@ -21,7 +21,7 @@ router = APIRouter(prefix="/api")
 
 # Models
 class PrestigeData(UserIdentifier):
-    prestige_stage: int
+    prestige_stage: int = 500
 
 
 @router.post("/prestige")

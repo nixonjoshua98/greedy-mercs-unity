@@ -1,25 +1,8 @@
-using SimpleJSON;
-using UnityEngine.Events;
+using GM.HTTP.Requests;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-using GM.HTTP.Requests;
-
-/*
-    HIERACHY
-    ========
-
-    BountiesData -> BountySnapshot
-
-        BountiesGameData
-            BountyLocalGameData
-            BountyGameData
-
-        BountiesUserData
-            BountyUserData (Server Model)
-*/
-
+using UnityEngine.Events;
 
 namespace GM.Bounties.Data
 {
@@ -32,12 +15,6 @@ namespace GM.Bounties.Data
         {
             Game = new BountiesGameDataCollection(gameData);
             User = new BountiesUserDataCollection(userData);
-        }
-
-        public BountiesData(JSONNode userJSON, JSONNode gameJSON)
-        {
-            Game = new BountiesGameDataCollection(gameJSON);
-            User = new BountiesUserDataCollection(userJSON);
         }
 
         public BountySnapshot CreateSnapshot()

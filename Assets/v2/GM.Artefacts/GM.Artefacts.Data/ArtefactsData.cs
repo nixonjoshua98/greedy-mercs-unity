@@ -1,4 +1,3 @@
-using SimpleJSON;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
@@ -10,12 +9,6 @@ namespace GM.Artefacts.Data
     {
         UserArtefactsCollection User;
         GameArtefactsCollection Game;
-
-        public ArtefactsData(JSONNode userJSON, JSONNode gameJSON)
-        {
-            User = new UserArtefactsCollection(userJSON);
-            Game = new GameArtefactsCollection(gameJSON);
-        }
 
         public ArtefactsData(List<Models.UserArtefactModel> userArtefacts, List<Models.ArtefactGameDataModel> gameArtefacts)
         {

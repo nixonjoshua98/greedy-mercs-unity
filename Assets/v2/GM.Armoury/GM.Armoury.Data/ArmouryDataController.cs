@@ -1,4 +1,3 @@
-using SimpleJSON;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
@@ -9,13 +8,7 @@ namespace GM.Armoury.Data
         public ArmouryGameDataCollection Game;
         public ArmouryUserDataCollection User;
 
-        public ArmouryDataController(JSONNode userJSON, JSONNode gameJSON)
-        {
-            Game = new ArmouryGameDataCollection(gameJSON);
-            User = new ArmouryUserDataCollection(userJSON);
-        }
-
-        public ArmouryDataController(List<Armoury.Models.UserArmouryItemModel> userItems, GM.Armoury.Models.AllArmouryGameDataModel gameData)
+        public ArmouryDataController(List<Models.UserArmouryItemModel> userItems, Models.AllArmouryGameDataModel gameData)
         {
             Game = new ArmouryGameDataCollection(gameData);
             User = new ArmouryUserDataCollection(userItems);

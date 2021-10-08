@@ -1,5 +1,3 @@
-using SimpleJSON;
-
 namespace GM.Core
 {
     public class GMApplication
@@ -21,16 +19,5 @@ namespace GM.Core
         {
             Data = new GMData(userData, gameData);
         }
-
-        //public static void Create(JSONNode userJSON, JSONNode gameJSON)
-        //{
-        //    Instance = new GMApplication(userJSON, gameJSON);
-        //}
-
-
-        //GMApplication(JSONNode userJSON, JSONNode gameJSON)
-        //{
-        //    Data = new GMData(userJSON, gameJSON);
-        //}
     }
 }

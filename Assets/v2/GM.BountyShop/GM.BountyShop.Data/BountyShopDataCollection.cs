@@ -1,9 +1,6 @@
 ﻿using GM.HTTP.Requests;
-using Newtonsoft.Json;
-using SimpleJSON;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM.BountyShop.Data
@@ -22,13 +19,6 @@ namespace GM.BountyShop.Data
             CurrencyItems = data.ShopItems.CurrencyItems;
             ArmouryItems = data.ShopItems.ArmouryItems;
         }
-
-        public BountyShopDataCollection(JSONNode json)
-        {
-            SetDailyPurchases(json["dailyPurchases"]);
-            SetAvailableItems(json["availableItems"]);
-        }
-
 
         public IBountyShopItem GetItem(string id)
         {
@@ -55,44 +45,6 @@ namespace GM.BountyShop.Data
             }
 
             return Purchases[id];
-        }
-
-
-        public void SetAvailableItems(JSONNode node)
-        {
-            CurrencyItems = JsonConvert.DeserializeObject<List<BountyShopCurrencyItemData>>(node["items"].ToString());
-            ArmouryItems = JsonConvert.DeserializeObject<List<BountyShopArmouryItem>>(node["armouryItems"].ToString());
-        }
-
-
-        public void SetDailyPurchases(JSONNode node)
-        {
-            Purchases = new Dictionary<string, BountyShopPurchaseData>();
-
-            foreach (string key in node.Keys)
-            {
-                var inst = new BountyShopPurchaseData
-                {
-                    TotalDailyPurchases = node[key].AsInt
-                };
-
-                Purchases.Add(key, inst);
-            }
-        }
-
-        public void SetDailyPurchases(Dictionary<string, int> data)
-        {
-            Purchases = new Dictionary<string, BountyShopPurchaseData>();
-
-            foreach (var pair in data)
-            {
-                var inst = new BountyShopPurchaseData
-                {
-                    TotalDailyPurchases = pair.Value
-                };
-
-                Purchases.Add(pair.Key, inst);
-            }
         }
 
 

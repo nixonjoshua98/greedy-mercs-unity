@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using SimpleJSON;
+﻿using System.Collections.Generic;
 
 namespace GM
 {
@@ -11,15 +6,7 @@ namespace GM
     {
         Dictionary<GoldUpgradeID, UpgradeState> upgrades;
 
-        public UpgradesContainer(JSONNode node)
-        {
-            upgrades = new Dictionary<GoldUpgradeID, UpgradeState>();
-
-            foreach (JSONNode upgrade in node["upgrades"].AsArray)
-                upgrades[(GoldUpgradeID)int.Parse(upgrade["upgradeId"])] = JsonUtility.FromJson<UpgradeState>(upgrade.ToString());
-        }
-
-        public void Clear()
+        public UpgradesContainer()
         {
             upgrades = new Dictionary<GoldUpgradeID, UpgradeState>();
         }

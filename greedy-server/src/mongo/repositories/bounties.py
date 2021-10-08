@@ -9,7 +9,7 @@ import datetime as dt
 
 from src.routing import ServerRequest
 
-from ..basemodels import BaseDocument, BaseModel
+from src.common.basemodels import BaseDocument, BaseModel
 
 
 def bounties_repository(request: ServerRequest) -> BountiesRepository:
@@ -89,16 +89,11 @@ class BountiesRepository:
     # === Internal Methods === #
 
     async def _find_or_create_one(self, uid) -> dict:
-        """ [Internal] Find or create the root user document
-        :param uid: User ID
-        :return: Query dict result
-        """
         return await self._col.find_one_and_update(
             {"_id": uid}, {
                 "$setOnInsert": {
                     Fields.LAST_CLAIM_TIME: dt.datetime.utcnow()
                 }
             },
-            return_document=ReturnDocument.AFTER,
-            upsert=True
+            return_document=ReturnDocument.AFTER, upsert=True
         )

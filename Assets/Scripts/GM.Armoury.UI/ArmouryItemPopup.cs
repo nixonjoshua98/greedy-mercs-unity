@@ -26,7 +26,7 @@ namespace GM.Armoury.UI
 
         // ...
         int ArmouryItemID;
-        Data.FullArmouryItemData ItemData => App.Data.Armoury[ArmouryItemID];
+        Data.ArmouryItemData ItemData => App.Data.Armoury.GetItem(ArmouryItemID);
 
         public void Init(int itemId)
         {

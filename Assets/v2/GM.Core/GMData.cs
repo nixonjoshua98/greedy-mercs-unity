@@ -1,4 +1,3 @@
-using SimpleJSON;
 using System;
 using UnityEngine.Events;
 
@@ -7,7 +6,7 @@ namespace GM.Core
     public class GMData : GMClass
     {
         public Mercs.Data.MercsData Mercs;
-        public Armoury.Data.ArmouryDataController Armoury;
+        public Armoury.Data.ArmouryDataCollection Armoury;
         public Inventory.Data.UserInventoryCollection Inv;
         public Artefacts.Data.ArtefactsData Arts;
         public CurrencyItems.Data.CurrencyItemsDataCollection Items;
@@ -16,32 +15,25 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
-        public GMData(JSONNode userJSON, JSONNode gameJSON)
+        public GMData(Common.IServerUserData userData, Common.ICompleteGameData gameData)
         {
-            Items = new CurrencyItems.Data.CurrencyItemsDataCollection(); // Should always be first
+            Items = new CurrencyItems.Data.CurrencyItemsDataCollection();
 
-            NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
+            NextDailyReset = gameData.NextDailyReset;
 
-            Inv = new Inventory.Data.UserInventoryCollection(userJSON["inventory"]);
-
-            Mercs = new Mercs.Data.MercsData(gameJSON["mercs_gameData"]);
-
-            Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts_userData"], gameJSON["artefacts_gameData"]);
-            Armoury = new Armoury.Data.ArmouryDataController(userJSON["armoury_userData"], gameJSON["armoury_gameData"]);
-            Bounties = new Bounties.Data.BountiesData(userJSON["bounties_userData"], gameJSON["bounties_gameData"]);
-            BountyShop = new BountyShop.Data.BountyShopDataCollection(userJSON["bountyShop"]);
+            Inv = new Inventory.Data.UserInventoryCollection(userData.CurrencyItems);
+            Mercs = new Mercs.Data.MercsData(gameData.Mercs);
+            Arts = new Artefacts.Data.ArtefactsData(userData.Artefacts, gameData.Artefacts);
+            Armoury = new Armoury.Data.ArmouryDataCollection(userData.ArmouryItems, gameData.Armoury);
+            Bounties = new Bounties.Data.BountiesData(userData.BountyData, gameData.Bounties);
+            BountyShop = new BountyShop.Data.BountyShopDataCollection(userData.BountyShop);
         }
 
-        public void Prestige(JSONNode node, UnityAction<bool, JSONNode> callback)
+        public void Prestige(UnityAction<bool> callback)
         {
-            App.HTTP.Post("prestige", node, (code, resp) => {
-
-                if (code == 200)
-                {
-                    FileUtils.WriteJSON(FileUtils.ResolvePath("not_game_data"), resp["userData"]);
-                }
-
-                callback.Invoke(code == 200, resp);
+            App.HTTP.Prestige((resp) =>
+            {
+                callback.Invoke(resp.StatusCode == 200);
             });
         }
     }

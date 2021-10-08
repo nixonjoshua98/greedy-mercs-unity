@@ -1,69 +1,54 @@
-using SimpleJSON;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GM.Bounties.Data
 {
-    public class BountiesGameDataCollection : Dictionary<int, BountyGameData>
+    public class BountiesGameDataCollection
     {
         public float MaxUnclaimedHours;
         public int MaxActiveBounties;
 
-        public BountiesGameDataCollection(JSONNode node)
+        List<Models.BountyGameData> bounties;
+
+        public BountiesGameDataCollection(Models.AllBountyGameDataModel data)
         {
-            UpdateWithJSON(node);
+            Update(data);
         }
 
-
-        /// <summary>
-        /// Update dictionary with a JSON object
-        /// </summary>
-        public void UpdateWithJSON(JSONNode json)
+        public Models.BountyGameData Get(int key)
         {
-            MaxUnclaimedHours = json["maxUnclaimedHours"];
-            MaxActiveBounties = json["maxActiveBounties"];
+            return bounties.Where(ele => ele.Id == key).FirstOrDefault();
+        }
 
-            if (json.TryGetKey("bounties", out JSONNode result))
+        void Update(Models.AllBountyGameDataModel data)
+        {
+            MaxUnclaimedHours = data.MaxUnclaimedHours;
+            MaxActiveBounties = data.MaxActiveBounties;
+
+            bounties = data.Bounties;
+
+            ScripableObjects.BountyLocalGameData[] allLocalBounties = LoadLocalData();
+
+            foreach (var bounty in bounties)
             {
-                UpdateBountiesWithJSON(result);
+                var localMerc = allLocalBounties.Where(ele => ele.Id == bounty.Id).First();
+
+                bounty.Name = localMerc.Name;
+                bounty.Icon = localMerc.Icon;
+                bounty.Slot = localMerc.Slot;
+
+                bounty.Prefab = localMerc.Prefab;
             }
         }
 
-
-        public void UpdateBountiesWithJSON(JSONNode json)
-        {
-            Clear();
-
-            foreach (var res in LoadLocalData())
-            {
-                JSONNode current = json[res.ID];
-
-                base[res.ID] = new BountyGameData()
-                {
-                    ID = res.ID,
-                    Name = res.Name,
-
-                    Icon = res.Icon,
-                    Slot = res.Slot,
-                    Prefab = res.Prefab,
-
-                    SpawnChance = current.GetValueOrDefault("spawnChance", 1.0f).AsFloat,
-                    UnlockStage = current["unlockStage"].AsInt,
-                    HourlyIncome = current["hourlyIncome"].AsInt,
-                };
-            }
-        }
-
-
-        public bool GetStageBounty(int stage, out BountyGameData result)
+        public bool GetStageBounty(int stage, out Models.BountyGameData result)
         {
             result = default;
 
-            foreach (KeyValuePair<int, BountyGameData> pair in this)
+            foreach (Models.BountyGameData bounty in bounties)
             {
-                result = pair.Value;
-
-                if (result.UnlockStage == stage)
+                if (bounty.UnlockStage == stage)
                     return true;
             }
 

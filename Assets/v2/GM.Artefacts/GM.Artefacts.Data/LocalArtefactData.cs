@@ -7,7 +7,7 @@ namespace GM.Artefacts.Data
     public class LocalArtefactData : ScriptableObject
     {
         // 0_Artefact or 1_SpecialOne or 2_Artefact_Name
-        public int ID => int.Parse(name.Split('_')[0]);
+        public int Id => int.Parse(name.Split('_')[0]);
 
         [Space]
 

@@ -2,9 +2,20 @@
 from src import utils
 
 
-def get_armoury_resources(*, as_dict: bool = False) -> "ArmouryResources":
+def get_armoury_resources(*, as_dict: bool = False, as_list=False) -> "ArmouryResources":
     if as_dict:
         return utils.load_resource("armoury.json")
+
+    elif as_list:
+        d = utils.load_resource("armoury.json")
+
+        bounties = d["items"]
+        d["items"] = []
+
+        for k, v in bounties.items():
+            d["items"].append({"itemId": k, **v})
+
+        return d
 
     return ArmouryResources(utils.load_resource("armoury.json"))
 

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from typing import Union
+from pymongo import ReturnDocument
 from pydantic import Field
 from bson import ObjectId
 
 from src.routing import ServerRequest
 
-from ..basemodels import BaseDocument
+from src.common.basemodels import BaseDocument
 
 
 def armoury_repository(request: ServerRequest) -> ArmouryRepository:
@@ -27,8 +28,8 @@ class Fields:
 # == Models == #
 
 class ArmouryItemModel(BaseDocument):
-    item_id: int = Field(..., alias=Fields.ITEM_ID)
     user_id: ObjectId = Field(..., alias=Fields.USER_ID)
+    item_id: int = Field(..., alias=Fields.ITEM_ID)
 
     level: int = Field(1, alias=Fields.LEVEL)
     owned: int = Field(..., alias=Fields.NUM_OWNED)
@@ -46,7 +47,7 @@ class ArmouryRepository:
 
         self._col = db["armouryItems"]
 
-    async def get_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
+    async def get_one_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
         item = await self._col.find_one({Fields.USER_ID: uid, Fields.ITEM_ID: iid})
 
         return ArmouryItemModel(**item) if item is not None else item
@@ -56,7 +57,11 @@ class ArmouryRepository:
 
         return [ArmouryItemModel(**ele) for ele in ls]
 
-    async def update_one_item(self, uid, iid: int, update: dict, *, upsert: bool = False) -> bool:
-        result = await self._col.update_one({Fields.USER_ID: uid, Fields.ITEM_ID: iid}, update, upsert=upsert)
+    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool) -> Union[ArmouryItemModel, None]:
+        r = await self._col.find_one_and_update(
+            {
+                Fields.USER_ID: uid,
+                Fields.ITEM_ID: iid
+            }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
 
-        return result.modified_count > 0
+        return ArmouryItemModel(**r) if r is not None else None

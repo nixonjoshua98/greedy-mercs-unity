@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0193cc869bc9f78489b955ae2c23e831, type: 3}
+  m_Script: {fileID: 11500000, guid: 09fc628c4cfa7b8469d77abcc10da8e6, type: 3}
   m_Name: 8_Sword03
   m_EditorClassIdentifier: 
-  Id: 8
-  Name: Metal Bat
+  Name: 8
   Icon: {fileID: 21300000, guid: ba7b68e62decac744be55fe38cf222a2, type: 3}

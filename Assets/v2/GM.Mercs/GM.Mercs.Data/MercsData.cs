@@ -1,4 +1,3 @@
-using SimpleJSON;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,16 +8,16 @@ namespace GM.Mercs.Data
         public MercGameDataCollection Game;
         public MercUserDataCollection User;
 
-        public MercsData(JSONNode gameJSON)
+        public MercsData(List<Models.MercGameDataModel> mercs)
         {
-            Game = new MercGameDataCollection(gameJSON);
+            Game = new MercGameDataCollection(mercs);
             User = new MercUserDataCollection();
         }
 
 
         public FullMercData this[MercID key]
         {
-            get => new FullMercData(Game[key], User[key]);
+            get => new FullMercData(Game.Get(key), User[key]);
         }
 
 

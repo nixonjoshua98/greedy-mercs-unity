@@ -58,7 +58,7 @@ namespace GM.Bounties.UI
         {
             foreach (var bounty in App.Data.Bounties.User.States)
             {
-                BountyGameData data = App.Data.Bounties.Game[bounty.BountyId];
+                Bounties.Models.BountyGameData data = App.Data.Bounties.Game.Get(bounty.BountyId);
 
                 BountySlot slot;
 
@@ -66,17 +66,17 @@ namespace GM.Bounties.UI
                 {
                     slot = CanvasUtils.Instantiate<BountySlot>(data.Slot.gameObject, activeBountiesParent);
 
-                    activeSlots.Add(data.ID, slot);
+                    activeSlots.Add(data.Id, slot);
                 }
 
                 else
                 {
                     slot = CanvasUtils.Instantiate<BountySlot>(data.Slot.gameObject, availableBountiesParent);
 
-                    availableSlots.Add(data.ID, slot);
+                    availableSlots.Add(data.Id, slot);
                 }
 
-                slot.SetBounty(data.ID);
+                slot.SetBounty(data.Id);
             }
         }
 

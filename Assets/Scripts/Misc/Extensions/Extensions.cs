@@ -1,20 +1,13 @@
 
+using GM.Common.Enums;
 using System.Numerics;
-using System.Collections.Generic;
-using System.Linq;
-
-using SimpleJSON;
-
 using UnityEngine;
-
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 
 namespace GM
 {
-    using AttackType = GM.Mercs.Data.AttackType;
-
     public static class AttackTypeExtensions
     {
         public static BonusType ToBonusType(this AttackType val)
@@ -57,35 +50,6 @@ public static class CameraExtensions
     public static Vector2 Extents(this Camera camera)
     {
         return new Vector2(camera.orthographicSize * Screen.width / Screen.height, camera.orthographicSize);
-    }
-}
-
-
-public static class JSONNodeExtensions
-{
-    public static bool TryGetKey(this JSONNode node, int key, out JSONNode result) => node.TryGetKey(key.ToString(), out result);
-    public static bool TryGetKey(this JSONNode node, string key, out JSONNode result)
-    {
-        result = node.HasKey(key) ? node[key] : default;
-
-        return node.HasKey(key);
-    }
-
-    public static void AddList<T>(this JSONNode node, string key, List<T> ls)
-    {
-        JSONArray arr = new JSONArray();
-
-        foreach (T ele in ls)
-        {
-            arr.Add(ele.ToString());
-        }
-
-        node[key] = arr;       
-    }
-
-    public static void AddArray<T>(this JSONNode node, string key, T[] ls)
-    {
-        node.AddList(key, ls.ToList());
     }
 }
 

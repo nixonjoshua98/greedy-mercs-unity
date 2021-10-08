@@ -8,7 +8,6 @@ import datetime as dt
 from src import resources
 
 from src.classes.serverstate import ServerState
-from src.classes.bountyshop import AbstractBountyShopItem
 
 
 class DataLoader:
@@ -41,7 +40,7 @@ class DataLoader:
 
             "bountyShop": {
                 "dailyPurchases": await self.bounty_shop.get_daily_purchases(uid),
-                "availableItems": resources.get_bounty_shop(uid, as_list=True),
+                "availableItems": resources.get_bounty_shop(uid),
             },
 
             "bounties_userData": await self.bounties.find_one(uid),
@@ -80,35 +79,17 @@ class _Bounties:
         )
 
 
-
 class _Items:
     def __init__(self, default_database):
-        self.collection = default_database["userItems"]
+        self.collection = default_database["currencyItems"]
 
-    async def get_items(self, uid: Union[str, ObjectId], *, post_process: bool = True) -> dict:
-        return (await self.collection.find_one({"userId": uid})) or dict()
-
-    async def get_item(self, uid: Union[str, ObjectId], key: str, *, default=0, post_process=True) -> int:
-        return (await self.get_items(uid, post_process=post_process)).get(key, default)
-
-    async def update_items(self, uid: Union[str, ObjectId], update: dict, *, upsert: bool = True):
-        await self.collection.update_one({"userId": uid}, update, upsert=upsert)
-
-    async def update_and_get(self, uid: Union[str, ObjectId], update: dict) -> dict:
-        return await self.collection.find_one_and_update(
-            {"userId": uid}, update,
-            upsert=True, return_document=ReturnDocument.AFTER
-        )
+    async def get_items(self, uid: Union[str, ObjectId], *, _: bool = True) -> dict:
+        return (await self.collection.find_one({"_id": uid})) or dict()
 
 
 class _Armoury:
     def __init__(self, default_database):
         self.collection = default_database["armouryItems"]
-
-    async def update_one_item(self, uid: Union[str, ObjectId], iid: int, update: dict, *, upsert: bool) -> bool:
-        result = await self.collection.update_one({"userId": uid, "itemId": iid}, update, upsert=upsert)
-
-        return result.modified_count > 0
 
     async def get_all_items(self, uid) -> dict:
         ls = await self.collection.find({"userId": uid}).to_list(length=None)
@@ -132,7 +113,7 @@ class _BountyShop:
 
         self.collection = default_database["bountyShopPurchases"]
 
-    async def log_purchase(self, uid, item: AbstractBountyShopItem):
+    async def log_purchase(self, uid, item):
         await self.collection.insert_one(
             {"userId": uid, "itemId": item.id, "purchaseTime": dt.datetime.utcnow(), "itemData": item.to_dict()}
         )

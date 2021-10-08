@@ -1,6 +1,5 @@
 using GM.HTTP.Requests;
 using Newtonsoft.Json;
-using SimpleJSON;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -9,76 +8,105 @@ using UnityEngine.Networking;
 
 namespace GM.HTTP
 {
+    class AuthDetails
+    {
+        public string UserId = null;
+    }
+
     public class HTTPClient: Common.MonoBehaviourLazySingleton<HTTPClient>
     {
-        HTTPServerConfig PyServer = new HTTPServerConfig
+        HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
             Address = "109.154.72.134"
         };
 
-        public void ClaimBounties(UnityAction<BountyClaimResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/claim"), PrepareRequest(new AuthorisedServerRequest()));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<BountyClaimResponse>(www))));
-        }
-
-        public void UpdateActiveBounties(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bounty/setactive"), PrepareRequest(req));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpdateActiveBountiesResponse>(www))));
-        }
-
-        public void PurchaseBountyShopCurrencyItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/item"), PrepareRequest(req));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
-        }
-
-        public void PurchaseBountyShopArmouryItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("bountyshop/purchase/armouryitem"), PrepareRequest(req));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<PurchaseBountyShopItemResponse>(www))));
-        }
-
-        public void UpgradeArmouryItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/upgrade"), PrepareRequest(req));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<UpgradeArmouryItemResponse>(www))));
-        }
-
-        public void EvolveArmouryItem(EvolveArmouryItemRequest req, UnityAction<EvolveArmouryItemResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("armoury/evolve"), PrepareRequest(req));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<EvolveArmouryItemResponse>(www))));
-        }
-
-        public void UpgradeArtefact(Requests.UpgradeArtefactRequest req, UnityAction<Requests.UpgradeArtefactResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/upgrade"), PrepareRequest(req));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UpgradeArtefactResponse>(www))));
-        }
-
-        public void UnlockArtefact(UnityAction<Requests.UnlockArtefactResponse> callback)
-        {
-            UnityWebRequest www = UnityWebRequest.Post(PyServer.UrlFor("artefact/unlock"), PrepareRequest(new AuthorisedServerRequest()));
-
-            StartCoroutine(SendRequest(www, () => callback(DeserializeResponse<Requests.UnlockArtefactResponse>(www))));
-        }
+        AuthDetails Auth = new AuthDetails();
         
+
+        // == Login == //
+        public void Login(UnityAction<UserLoginReponse> callback)
+        {
+            Post<UserLoginReponse>(ServerConfig.UrlFor("login"), new UserLoginRequest(), (resp) =>
+            {
+                Auth = new AuthDetails();
+
+                if (resp.StatusCode == HTTPCodes.Success)
+                {
+                    Auth.UserId = resp.UserId;
+                }
+
+                callback.Invoke(resp);
+            });
+        }
+
+
+        // == Prestige == ..
+        public void Prestige(UnityAction<ServerResponse> callback)
+        {
+            Post(ServerConfig.UrlFor("prestige"), new AuthorisedRequest(), callback);
+        }
+
+
+        // == Bounties == //
+        public void Bounty_Claim(UnityAction<BountyClaimResponse> callback) => Post(ServerConfig.UrlFor("bounty/claim"), new AuthorisedRequest(), callback);
+        public void Bounty_UpdateActives(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback) => Post(ServerConfig.UrlFor("bounty/setactive"), req, callback);
+
+
+        // == Bounty Shop == //
+        public void BShop_PurchaseItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback) => Post(ServerConfig.UrlFor("bountyshop/purchase"), req, callback);
+
+
+        // == Armoury == //
+        public void Armoury_UpgradeItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) => Post(ServerConfig.UrlFor("armoury/upgrade"), req, callback);
+        public void Armoury_EvolveItem(EvolveArmouryItemRequest req, UnityAction<EvolveArmouryItemResponse> callback) => Post(ServerConfig.UrlFor("armoury/evolve"), req, callback);
+
+
+        // == Artefacts == //
+        public void Artefact_UpgradeArtefact(UpgradeArtefactRequest req, UnityAction<UpgradeArtefactResponse> callback) => Post(ServerConfig.UrlFor("artefact/upgrade"), req, callback);
+        public void Artefact_UnlockArtefact(UnityAction<UnlockArtefactResponse> callback) => Post(ServerConfig.UrlFor("artefact/unlock"), new AuthorisedRequest(), callback);
+
+        // == Data == //
+        public void FetchUserData(UnityAction<FetchUserDataResponse> callback) => Post(ServerConfig.UrlFor("userdata"), new FetchUserDataRequest(), callback);
+        public void FetchGameData(UnityAction<FetchGameDataResponse> callback) => Get(ServerConfig.UrlFor("gamedata"), callback);
+
+
         /// <summary>
-        /// Send the web request and invoke the callback
+        /// Authorised server POST request
         /// </summary>
-        /// <param name="www">Web request object</param>
-        /// <param name="callback">Callback</param>
-        IEnumerator SendRequest(UnityWebRequest www, UnityAction callback)
+        void Post<T>(string url, IAuthorisedRequest req, UnityAction<T> callback) where T: IServerResponse, new()
+        {
+            var www = UnityWebRequest.Post(url, PrepareRequest(req));
+
+            StartCoroutine(Send<T>(www, (resp) => { InvokeRequestCallback(resp, callback); }));
+        }
+
+
+        /// <summary>
+        /// Login POST request. Special kind of request seperate from Authorised, and Public
+        /// </summary>
+        void Post<T>(string url, ILoginRequest req, UnityAction<T> callback) where T : IServerResponse, new()
+        {
+            var www = UnityWebRequest.Post(url, PrepareRequest(req));
+
+            StartCoroutine(Send<T>(www, (resp) => { InvokeRequestCallback(resp, callback); }));
+        }
+
+        /// <summary>
+        /// Public server GET request
+        /// </summary>
+        void Get<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
+        {
+            var www = UnityWebRequest.Get(url);
+
+            StartCoroutine(Send<T>(www, (resp) => { InvokeRequestCallback(resp, callback); }));
+        }
+
+        /// <summary>
+        /// Sends the actual web request
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator Send<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
         {
             www.timeout = 5;
 
@@ -86,69 +114,28 @@ namespace GM.HTTP
 
             yield return www.SendWebRequest();
 
-            callback();
-        }
-
-
-
-        // = = = Private Requests = = = //
-        void SendGet(string url, Action<long, JSONNode> callback) => StartCoroutine(ProcessRequest(UnityWebRequest.Get(url), callback));
-        void SendPost(string url, JSONNode node, Action<long, JSONNode> callback) => StartCoroutine(ProcessRequest(UnityWebRequest.Post(url, PrepareBody(node)), callback));
-        // = = = ^ //
-
-
-        // POST
-        public void Post(string endpoint, JSONNode node, Action<long, JSONNode> callback) => SendPost(PyServer.UrlFor(endpoint), node, callback);
-        public void Post(string endpoint, Action<long, JSONNode> callback) => SendPost(PyServer.UrlFor(endpoint), new JSONObject(), callback);
-
-        // GET
-        public void Get(string endpoint, Action<long, JSONNode> callback) => SendGet(PyServer.UrlFor(endpoint), callback);
-
-
-        IEnumerator ProcessRequest(UnityWebRequest www, Action<long, JSONNode> callback)
-        {
-            www.timeout = 3;
-
-            www.SetRequestHeader("Content-Type", "application/json");
-            www.SetRequestHeader("Accept", "application/json");
-
-            yield return www.SendWebRequest();
-
-            bool _ = TryParseJSON(www.downloadHandler.text, out JSONNode resp);
-
-            callback.Invoke(www.responseCode, resp);
-        }
-
-
-        bool TryParseJSON(string s, out JSONNode result)
-        {
-            result = new JSONObject();
-
-            try
-            {
-                result = JSON.Parse(s);
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-
-        string PrepareBody(JSONNode node)
-        {
-            node["deviceId"] = SystemInfo.deviceUniqueIdentifier;
-
-            return node.ToString();
+            callback.Invoke(DeserializeResponse<T>(www));
         }
 
         /// <summary>
-        /// Deserialize a response object. StatusCode and ErrorMessage are set here
+        /// Performs some post request logic and calls the request callback
         /// </summary>
-        /// <typeparam name="T">Response type</typeparam>
-        /// <param name="www">Web request</param>
+        void InvokeRequestCallback<T>(T resp, UnityAction<T> callback) where T : IServerResponse
+        {
+            try
+            {
+                callback.Invoke(resp);
+            }
+            finally
+            {
+
+            }
+        }
+
+
+        /// <summary>
+        /// Deserialize the response into the request response object
+        /// </summary>
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
             T model;
@@ -164,7 +151,7 @@ namespace GM.HTTP
                     model = new T()
                     {
                         ErrorMessage = "Failed to deserialize server response",
-                        StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
+                        StatusCode = HTTPCodes.FailedToDeserialize
                     };
                 }
                 else
@@ -179,7 +166,7 @@ namespace GM.HTTP
                 model = new T()
                 {
                     ErrorMessage = e.Message,
-                    StatusCode = GM.Common.HTTPCodes.FailedToDeserialize
+                    StatusCode = HTTPCodes.FailedToDeserialize
                 };
             }
             
@@ -187,11 +174,20 @@ namespace GM.HTTP
         }
 
         /// <summary>
-        /// Prepare the authorised server request. Involves serializing and setting Auth attributes
+        /// Pre-request setup. Sets up Auth values etc
         /// </summary>
-        /// <typeparam name="T">Request type</typeparam>
-        /// <param name="request">Server request model</param>
-        string PrepareRequest<T>(T request) where T : IAuthorisedServerRequest
+        string PrepareRequest(IAuthorisedRequest request)
+        {
+            request.UserId = Auth.UserId;
+            request.DeviceId = SystemInfo.deviceUniqueIdentifier;
+
+            return JsonConvert.SerializeObject(request);
+        }
+
+        /// <summary>
+        /// Pre-request setup. Sets identifer details for login
+        /// </summary>
+        string PrepareRequest(ILoginRequest request)
         {
             request.DeviceId = SystemInfo.deviceUniqueIdentifier;
 

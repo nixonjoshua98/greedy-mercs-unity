@@ -30,7 +30,7 @@ namespace GM.Bounties
         [Space]
         [SerializeField] StarRatingController rating;
 
-        BountyShopArmouryItemData Item => App.Data.BountyShop.GetArmouryItem(ItemID);
+        BountyShopArmouryItem Item => App.Data.BountyShop.GetArmouryItem(ItemID);
 
 
         protected override void SetInterfaceElements()
@@ -51,7 +51,7 @@ namespace GM.Bounties
 
         public void OnPurchaseButton()
         {
-            App.Data.BountyShop.PurchaseArmouryItem(ItemID, (success) =>
+            App.Data.BountyShop.PurchaseItem(ItemID, (success) =>
             {
                 UpdateInterfaceElements();
                 DestroyWhenOutOfStock();

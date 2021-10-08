@@ -1,25 +1,8 @@
-using SimpleJSON;
-using UnityEngine.Events;
+using GM.HTTP.Requests;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-using GM.HTTP.Requests;
-
-/*
-    HIERACHY
-    ========
-
-    BountiesData -> BountySnapshot
-
-        BountiesGameData
-            BountyLocalGameData
-            BountyGameData
-
-        BountiesUserData
-            BountyUserData (Server Model)
-*/
-
+using UnityEngine.Events;
 
 namespace GM.Bounties.Data
 {
@@ -28,10 +11,10 @@ namespace GM.Bounties.Data
         public BountiesGameDataCollection Game;
         public BountiesUserDataCollection User;
 
-        public BountiesData(JSONNode userJSON, JSONNode gameJSON)
+        public BountiesData(Models.CompleteBountyDataModel userData, Models.AllBountyGameDataModel gameData)
         {
-            Game = new BountiesGameDataCollection(gameJSON);
-            User = new BountiesUserDataCollection(userJSON);
+            Game = new BountiesGameDataCollection(gameData);
+            User = new BountiesUserDataCollection(userData);
         }
 
         public BountySnapshot CreateSnapshot()
@@ -46,7 +29,7 @@ namespace GM.Bounties.Data
                 if (state.IsActive)
                 {
                     // Grab the static data for the struct
-                    BountyGameData dataStruct = Game[state.BountyId];
+                    Bounties.Models.BountyGameData dataStruct = Game.Get(state.BountyId);
 
                     // We cap the hours since claim to the value returned from the server
                     float hoursSinceClaim = Math.Max(0, Math.Min(Game.MaxUnclaimedHours, (float)(DateTime.UtcNow - User.LastClaimTime).TotalHours));
@@ -75,7 +58,7 @@ namespace GM.Bounties.Data
         {
             UpdateActiveBountiesRequest req = new UpdateActiveBountiesRequest() { BountyIds = ids };
 
-            App.HTTP.UpdateActiveBounties(req, (resp) => {
+            App.HTTP.Bounty_UpdateActives(req, (resp) => {
 
                 if (resp.StatusCode == 200)
                 {
@@ -89,13 +72,13 @@ namespace GM.Bounties.Data
 
         public void ClaimPoints(UnityAction<bool, BountyClaimResponse> action)
         {
-            App.HTTP.ClaimBounties((resp) =>
+            App.HTTP.Bounty_Claim((resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
                     User.LastClaimTime = resp.ClaimTime;
 
-                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
+                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
                 action(resp.StatusCode == 200, resp);

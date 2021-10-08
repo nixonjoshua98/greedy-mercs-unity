@@ -17,7 +17,7 @@ namespace GM.Bounties
 
         string _itemId;
 
-        BountyShopArmouryItemData Item => App.Data.BountyShop.GetArmouryItem(_itemId);
+        BountyShopArmouryItem Item => App.Data.BountyShop.GetArmouryItem(_itemId);
 
 
         public void Setup(string id)

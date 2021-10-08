@@ -1,39 +1,34 @@
-using SimpleJSON;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GM.Mercs.Data
 {
-    public class MercGameDataCollection : Dictionary<MercID, MercGameData>
+    public class MercGameDataCollection
     {
-        public MercGameDataCollection(JSONNode node)
+        List<Models.MercGameDataModel> mercDataList;
+
+        public MercGameDataCollection(List<Models.MercGameDataModel> mercs)
         {
-            UpdateFromJSON(node);
+            Update(mercs);
         }
 
-        /// <summary>
-        /// Update the dictionary using a JSON (most likely from the server)
-        /// </summary>
-        /// <param name="json">JSON</param>
-        public void UpdateFromJSON(JSONNode json)
+        public Models.MercGameDataModel Get(MercID key) => mercDataList.Where(ele => ele.Id == key).FirstOrDefault();
+
+
+        public void Update(List<Models.MercGameDataModel> mercs)
         {
-            foreach (LocalMercData desc in LoadLocalData())
+            mercDataList = mercs;
+
+            LocalMercData[] allLocalMercData = LoadLocalData();
+
+            foreach (var merc in mercDataList)
             {
-                JSONNode current = json[(int)desc.ID];
+                LocalMercData localMerc = allLocalMercData.Where(ele => ele.ID == merc.Id).First();
 
-                base[desc.ID] = new MercGameData
-                {
-                    Id = desc.ID,
-                    Name = desc.Name,
-                    Icon = desc.Icon,
-                    Prefab = desc.Prefab,
-
-                    Attack = (AttackType)current["attackType"].AsInt,
-                    BaseDamage = current["baseDamage"].AsDouble,
-                    UnlockCost = current["unlockCost"].AsDouble,
-
-                    Passives = MercGameData.ParsePassives(current["passives"].AsArray)
-                };
+                merc.Name = localMerc.Name;
+                merc.Prefab = localMerc.Prefab;
+                merc.Icon = localMerc.Icon;
             }
         }
 

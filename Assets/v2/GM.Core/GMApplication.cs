@@ -1,6 +1,3 @@
-using SimpleJSON;
-using UnityEngine;
-
 namespace GM.Core
 {
     public class GMApplication
@@ -11,16 +8,16 @@ namespace GM.Core
 
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
-
-        public static void Create(JSONNode userJSON, JSONNode gameJSON)
+        public static GMApplication Create(Common.IServerUserData userData, Common.ICompleteGameData gameData)
         {
-            Instance = new GMApplication(userJSON, gameJSON);
+            Instance = new GMApplication(userData, gameData);
+
+            return Instance;
         }
 
-
-        GMApplication(JSONNode userJSON, JSONNode gameJSON)
+        GMApplication(Common.IServerUserData userData, Common.ICompleteGameData gameData)
         {
-            Data = new GMData(userJSON, gameJSON);
+            Data = new GMData(userData, gameData);
         }
     }
 }

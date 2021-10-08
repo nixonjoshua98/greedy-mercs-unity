@@ -1,9 +1,5 @@
-﻿using System.Numerics;
-using System.Collections;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine;
-using SimpleJSON;
-using GM.Core;
 using UnityEngine.UI;
 using SceneTransition = GM.Scene.SceneTransition;
 
@@ -41,13 +37,7 @@ namespace GM
 
         void RequestPrestige()
         {
-            CurrentStageState state = GameManager.Instance.State();
-
-            JSONNode node = new JSONObject();
-
-            node.Add("prestigeStage", state.Stage);
-
-            App.Data.Prestige(node, (success, resp) =>
+            App.Data.Prestige( (success) =>
             {
                 prestigeButton.interactable = !success;
 
@@ -57,7 +47,7 @@ namespace GM
 
                     transition.E_OnFinished.AddListener(() =>
                     {
-                        SceneManager.LoadSceneAsync("InitScene", LoadSceneMode.Additive);
+                        SceneManager.LoadSceneAsync("GameScene");
                     });
                 }
             });

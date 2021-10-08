@@ -8,7 +8,7 @@ namespace GM.BountyShop.Data
     public interface IBountyShopItem
     {
         string Id { get; set; }
-        int DailyPurchaseLimit { get; set; }
+        int purchaseLimit { get; set; }
         int PurchaseCost { get; set; }
         public bool InStock { get; }
     }
@@ -20,16 +20,17 @@ namespace GM.BountyShop.Data
     {
         [JsonProperty(PropertyName = "itemId")]
         public string Id { get; set; }
-        public int DailyPurchaseLimit { get; set; }
+        public int purchaseLimit { get; set; }
         public int PurchaseCost { get; set; }
 
+        [JsonIgnore]
         public bool InStock
         {
             get
             {
                 var purchase = App.Data.BountyShop.GetItemPurchaseData(Id);
 
-                return DailyPurchaseLimit > purchase.TotalDailyPurchases;
+                return purchaseLimit > purchase.TotalDailyPurchases;
             }
         }
     }

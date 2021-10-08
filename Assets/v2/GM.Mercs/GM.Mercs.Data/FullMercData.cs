@@ -1,11 +1,12 @@
 using System.Linq;
+using UnityEngine;
 
 namespace GM.Mercs.Data
 {
     public struct FullMercData
     {
-        public Models.MercGameDataModel Game;
-        public MercUserData User;
+        Models.MercGameDataModel Game;
+        MercUserData User;
 
         public FullMercData(Models.MercGameDataModel gameData, MercUserData userData)
         {
@@ -13,9 +14,26 @@ namespace GM.Mercs.Data
             User = userData;
         }
 
-        public BigDouble BaseDamage => StatsCache.BaseMercDamage(Game.Id);
+        // == User == //
+        public int CurrentLevel { get => User.Level; }
+
+        public void LevelUp(int level)
+        {
+            User.Level += level;
+        }
+
+        // == Game == //
+        public string Name => Game.Name;
+        public Sprite Icon => Game.Icon;
+        public double UnlockCost => Game.UnlockCost;
+        public Common.Enums.AttackType Attack => Game.Attack;
+        public Models.MercPassiveDataModel[] Passives => Game.Passives;
+        public BigDouble BaseDamage => Game.BaseDamage;
+
+
+        public BigDouble BaseDamageFor => StatsCache.BaseMercDamage(Game.Id);
         public BigDouble CostToUpgrade(int levels) => Formulas.MercLevelUpCost(User.Level, levels, Game.UnlockCost);
-        public MercPassiveSkillData[] UnlockedPassives
+        public Models.MercPassiveDataModel[] UnlockedPassives
         {
             get
             {
@@ -26,6 +44,6 @@ namespace GM.Mercs.Data
         }
 
         // === Private Methods === //
-        bool IsPassiveUnlocked(MercPassiveSkillData passive) => User.Level >= passive.UnlockLevel;
+        bool IsPassiveUnlocked(Models.MercPassiveDataModel passive) => User.Level >= passive.UnlockLevel;
     }
 }

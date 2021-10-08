@@ -4,7 +4,7 @@ namespace GM.CurrencyItems.Data
 {
     public struct CurrencyItemData
     {
-        public CurrencyType Item;
+        public Common.Enums.CurrencyType Item;
 
         public Sprite Icon;
 

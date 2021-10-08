@@ -15,7 +15,7 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
-        public GMData(Common.IServerUserData userData, Common.ICompleteGameData gameData)
+        public GMData(Common.IServerUserData userData, Common.IServerGameData gameData)
         {
             Items = new CurrencyItems.Data.CurrencyItemsDataCollection();
 

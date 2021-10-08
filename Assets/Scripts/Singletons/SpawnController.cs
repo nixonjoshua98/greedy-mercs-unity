@@ -6,9 +6,7 @@ using UnityEngine.UI;
 
 namespace GM
 {
-    using GM.Core;
     using GM.Units.Formations;
-    using GM.Bounties.Data;
 
     public class SpawnController : Core.GMMonoBehaviour
     {
@@ -31,7 +29,7 @@ namespace GM
 
         public GameObject SpawnBoss(CurrentStageState state)
         {
-            bool isBountyBoss = App.Data.Bounties.Game.GetStageBounty(state.Stage, out var result);
+            bool isBountyBoss = App.Data.Bounties.GetStageBounty(state.Stage, out var result);
 
             if (isBountyBoss && MathUtils.PercentChance(result.SpawnChance))
                 return SpawnBountyBoss(result);

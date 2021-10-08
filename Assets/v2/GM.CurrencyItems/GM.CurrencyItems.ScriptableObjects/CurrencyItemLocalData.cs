@@ -1,11 +1,11 @@
 using UnityEngine;
 
-namespace GM.CurrencyItems.Data
+namespace GM.CurrencyItems.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Scriptables/CurrencyItemLocalData")]
     public class CurrencyItemLocalData : ScriptableObject
     {
-        public CurrencyType Item;
+        public Common.Enums.CurrencyType Item;
         public Sprite Icon;
 
         public string DisplayName;

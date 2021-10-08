@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using GM.Common.Enums;
 namespace GM.CurrencyItems.Data
 {
     public class CurrencyItemsDataCollection
@@ -20,7 +20,7 @@ namespace GM.CurrencyItems.Data
         {
             Items = new Dictionary<CurrencyType, CurrencyItemData>();
 
-            foreach (CurrencyItemLocalData item in LoadLocalData())
+            foreach (var item in LoadLocalData())
             {
                 Items[item.Item] = new CurrencyItemData
                 {
@@ -31,6 +31,6 @@ namespace GM.CurrencyItems.Data
             }
         }
 
-        static CurrencyItemLocalData[] LoadLocalData() => UnityEngine.Resources.LoadAll<CurrencyItemLocalData>("Items");
+        static ScriptableObjects.CurrencyItemLocalData[] LoadLocalData() => UnityEngine.Resources.LoadAll<ScriptableObjects.CurrencyItemLocalData>("Items");
     }
 }

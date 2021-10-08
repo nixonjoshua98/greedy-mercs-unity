@@ -14,7 +14,7 @@ namespace GM.Mercs.Models
         public double UnlockCost;
         public double BaseDamage = -1;
 
-        public Data.MercPassiveSkillData[] Passives;
+        public MercPassiveDataModel[] Passives;
 
         [JsonIgnore]
         public string Name;

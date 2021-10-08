@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace GM.Mercs.Models
 {
-    public struct MercPassiveSkillData
+    public struct MercPassiveDataModel
     {
         [JsonProperty(PropertyName = "bonusType")]
         public BonusType Type;

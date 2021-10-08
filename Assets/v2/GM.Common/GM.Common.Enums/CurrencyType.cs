@@ -1,4 +1,4 @@
-namespace GM.CurrencyItems.Data
+namespace GM.Common.Enums
 {
     public enum CurrencyType
     {

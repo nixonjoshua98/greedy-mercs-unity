@@ -2,7 +2,7 @@
 
 namespace GM.Bounties.Models
 {
-    public struct AllBountyGameDataModel
+    public struct CompleteBountyGameDataModel
     {
         public float MaxUnclaimedHours;
         public int MaxActiveBounties;

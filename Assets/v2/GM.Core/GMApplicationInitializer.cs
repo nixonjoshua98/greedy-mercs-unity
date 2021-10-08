@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GM.Core
 {
-    public class GMApplicationInitialization : MonoBehaviour
+    public class GMApplicationInitializer : MonoBehaviour
     {
         class InitializationPipeline
         {
@@ -84,7 +84,7 @@ namespace GM.Core
         }
 
 
-        void Initialize(Common.IServerUserData userDataResp, Common.ICompleteGameData gameDataResp)
+        void Initialize(Common.IServerUserData userDataResp, Common.IServerGameData gameDataResp)
         {
             var app = GMApplication.Create(userDataResp, gameDataResp);
 

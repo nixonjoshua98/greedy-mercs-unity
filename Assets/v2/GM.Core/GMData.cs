@@ -6,7 +6,7 @@ namespace GM.Core
     public class GMData : GMClass
     {
         public Mercs.Data.MercsData Mercs;
-        public Armoury.Data.ArmouryDataController Armoury;
+        public Armoury.Data.ArmouryDataCollection Armoury;
         public Inventory.Data.UserInventoryCollection Inv;
         public Artefacts.Data.ArtefactsData Arts;
         public CurrencyItems.Data.CurrencyItemsDataCollection Items;
@@ -24,7 +24,7 @@ namespace GM.Core
             Inv = new Inventory.Data.UserInventoryCollection(userData.CurrencyItems);
             Mercs = new Mercs.Data.MercsData(gameData.Mercs);
             Arts = new Artefacts.Data.ArtefactsData(userData.Artefacts, gameData.Artefacts);
-            Armoury = new Armoury.Data.ArmouryDataController(userData.ArmouryItems, gameData.Armoury);
+            Armoury = new Armoury.Data.ArmouryDataCollection(userData.ArmouryItems, gameData.Armoury);
             Bounties = new Bounties.Data.BountiesData(userData.BountyData, gameData.Bounties);
             BountyShop = new BountyShop.Data.BountyShopDataCollection(userData.BountyShop);
         }

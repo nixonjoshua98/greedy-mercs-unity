@@ -57,7 +57,7 @@ namespace GM.BountyShop.Data
                 if (resp.StatusCode == 200)
                 {
                     if (resp.ArmouryItem != null)
-                        App.Data.Armoury.User.Update(resp.ArmouryItem);
+                        App.Data.Armoury.UpdateUserItem(resp.ArmouryItem);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }

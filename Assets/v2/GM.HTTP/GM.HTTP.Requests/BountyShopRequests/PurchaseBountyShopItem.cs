@@ -12,6 +12,6 @@ namespace GM.HTTP.Requests
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems;
 
-        public Armoury.Models.UserArmouryItemModel ArmouryItem;
+        public Armoury.Models.ArmouryItemUserDataModel ArmouryItem;
     }
 }

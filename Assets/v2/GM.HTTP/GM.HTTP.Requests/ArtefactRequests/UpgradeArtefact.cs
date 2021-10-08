@@ -9,6 +9,6 @@
     public class UpgradeArtefactResponse : ServerResponse
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems;
-        public Artefacts.Models.UserArtefactModel UpdatedArtefact;
+        public Artefacts.Models.ArtefactUserDataModel UpdatedArtefact;
     }
 }

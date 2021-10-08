@@ -23,9 +23,9 @@ namespace GM.Artefacts.UI
         int _buyAmount;
         bool _updatingUi;
 
-        Data.FullArtefactData ArtefactItem => App.Data.Arts.GetArtefact(_artefactId);
+        Data.ArtefactData ArtefactItem => App.Data.Arts.GetArtefact(_artefactId);
 
-        int BuyAmount => MathUtils.NextMultipleMax(ArtefactItem.User.Level, _buyAmount, ArtefactItem.Game.MaxLevel);
+        int BuyAmount => MathUtils.NextMultipleMax(ArtefactItem.CurrentLevel, _buyAmount, ArtefactItem.MaxLevel);
 
         void OnEnable()
         {
@@ -52,9 +52,8 @@ namespace GM.Artefacts.UI
 
         void SetInterfaceElements()
         {
-            nameText.text = ArtefactItem.Game.Name;
-
-            icon.sprite = ArtefactItem.Game.Icon;
+            nameText.text = ArtefactItem.Name;
+            icon.sprite = ArtefactItem.Icon;
         }
 
 
@@ -65,8 +64,8 @@ namespace GM.Artefacts.UI
             
             BigInteger pp = App.Data.Inv.PrestigePoints;
 
-            levelText.text  = $"Lvl. {ArtefactItem.User.Level}";
-            effectText.text = FormatString.Bonus(ArtefactItem.Game.Bonus, ArtefactItem.BaseEffect);
+            levelText.text  = $"Lvl. {ArtefactItem.CurrentLevel}";
+            effectText.text = FormatString.Bonus(ArtefactItem.Bonus, ArtefactItem.BaseEffect);
 
             purchaseText.text = "-";
 

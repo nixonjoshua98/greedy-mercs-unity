@@ -1,11 +1,11 @@
 namespace GM.Armoury.Data
 {
-    public struct FullArmouryItemData
+    public struct ArmouryItemData
     {
         public Models.ArmouryItemGameDataModel Game;
-        public Models.UserArmouryItemModel User;
+        public Models.ArmouryItemUserDataModel User;
 
-        public FullArmouryItemData(Models.ArmouryItemGameDataModel game, Models.UserArmouryItemModel user)
+        public ArmouryItemData(Models.ArmouryItemGameDataModel game, Models.ArmouryItemUserDataModel user)
         {
             Game = game;
             User = user;

@@ -9,7 +9,7 @@ namespace GM.Common
 
         List<GM.Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         GM.Bounties.Models.AllBountyGameDataModel Bounties { get; set; }
-        GM.Armoury.Models.AllArmouryGameDataModel Armoury { get; set; }
+        GM.Armoury.Models.ArmouryGameDataModel Armoury { get; set; }
         List<GM.Mercs.Models.MercGameDataModel> Mercs { get; set; }
     }
 }

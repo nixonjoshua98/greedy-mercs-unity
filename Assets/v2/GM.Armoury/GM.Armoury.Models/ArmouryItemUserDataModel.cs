@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace GM.Armoury.Models
 {
-    public class UserArmouryItemModel
+    public class ArmouryItemUserDataModel
     {
         [JsonProperty(PropertyName = "itemId")]
         public int Id;

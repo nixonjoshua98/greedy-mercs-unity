@@ -11,8 +11,8 @@ namespace GM.HTTP.Requests
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems { get; set; }
         public Bounties.Models.CompleteBountyDataModel BountyData { get; set; }
-        public List<Armoury.Models.UserArmouryItemModel> ArmouryItems { get; set; }
-        public List<Artefacts.Models.UserArtefactModel> Artefacts { get; set; }
+        public List<Armoury.Models.ArmouryItemUserDataModel> ArmouryItems { get; set; }
+        public List<Artefacts.Models.ArtefactUserDataModel> Artefacts { get; set; }
         public BountyShop.Models.CompleteBountyShopDataModel BountyShop { get; set; }
     }
 }

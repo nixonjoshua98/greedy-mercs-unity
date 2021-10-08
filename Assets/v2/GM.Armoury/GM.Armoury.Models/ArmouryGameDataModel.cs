@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GM.Armoury.Models
 {
-    public class AllArmouryGameDataModel
+    public class ArmouryGameDataModel
     {
         public int MaxEvoLevel;
         public int EvoLEvelCost;

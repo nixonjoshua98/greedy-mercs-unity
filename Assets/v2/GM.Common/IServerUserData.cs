@@ -6,8 +6,8 @@ namespace GM.Common
     {
         Inventory.Models.UserCurrenciesModel CurrencyItems { get; set; }
         Bounties.Models.CompleteBountyDataModel BountyData { get; set; }
-        List<Armoury.Models.UserArmouryItemModel> ArmouryItems { get; set; }
-        List<Artefacts.Models.UserArtefactModel> Artefacts { get; set; }
+        List<Armoury.Models.ArmouryItemUserDataModel> ArmouryItems { get; set; }
+        List<Artefacts.Models.ArtefactUserDataModel> Artefacts { get; set; }
         BountyShop.Models.CompleteBountyShopDataModel BountyShop { get; set; }
     }
 

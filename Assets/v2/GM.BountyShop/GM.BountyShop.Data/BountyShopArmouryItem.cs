@@ -17,6 +17,6 @@ namespace GM.BountyShop.Data
         public string ItemName => ItemData.Name;
 
         [JsonIgnore]
-        Armoury.Models.ArmouryItemGameDataModel ItemData => App.Data.Armoury.Game.GetItem(ArmouryItem); // Private
+        Armoury.Models.ArmouryItemGameDataModel ItemData => App.Data.Armoury.GetGameItem(ArmouryItem); // Private
     }
 }

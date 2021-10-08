@@ -19,7 +19,7 @@ namespace GM.Armoury.UI
 
         public void Init(int item)
         {
-            GM.Armoury.Data.FullArmouryItemData data = App.Data.Armoury.GetItem(item);
+            GM.Armoury.Data.ArmouryItemData data = App.Data.Armoury.GetItem(item);
 
             itemImage.sprite    = data.Game.Icon;
             nameText.text       = data.Game.Name.ToUpper();

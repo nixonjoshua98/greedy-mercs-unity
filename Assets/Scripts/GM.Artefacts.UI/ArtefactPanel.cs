@@ -31,7 +31,7 @@ namespace GM.Artefacts.UI
 
         void InstantiateRows()
         {
-            foreach (Data.FullArtefactData art in App.Data.Arts.Artefacts)
+            foreach (Data.ArtefactData art in App.Data.Arts.OwnedArtefacts)
             {
                 InstantiateArtefactRow(art.ID);
             }
@@ -39,9 +39,9 @@ namespace GM.Artefacts.UI
 
         void InstantiateArtefactRow(int artefact)
         {
-            Data.FullArtefactData data = App.Data.Arts.GetArtefact(artefact);
+            Data.ArtefactData data = App.Data.Arts.GetArtefact(artefact);
 
-            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(data.Game.Slot.gameObject, slotParent);
+            ArtefactSlot row = CanvasUtils.Instantiate<ArtefactSlot>(data.Slot.gameObject, slotParent);
 
             row.Init(artefact, buyController);
         }

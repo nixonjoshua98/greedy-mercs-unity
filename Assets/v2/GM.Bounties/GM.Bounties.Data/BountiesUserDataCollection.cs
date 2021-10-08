@@ -18,26 +18,30 @@ namespace GM.Bounties.Data
 
         public DateTime LastClaimTime;
 
+        public BountiesUserDataCollection(Models.CompleteBountyDataModel data)
+        {
+            Update(data);
+        }
+
         public BountiesUserDataCollection(JSONNode json)
         {
             UpdateWithJSON(json);
         }
 
+        public void Update(Models.CompleteBountyDataModel data)
+        {
+            LastClaimTime = data.LastClaimTime;
+            States = data.Bounties;
+        }
 
         public void UpdateWithJSON(JSONNode json)
         {
-            LastClaimTime = Utils.UnixToDateTime(json[UserDataKey.LastClaimTime].AsLong);
+            //LastClaimTime = Utils.UnixToDateTime(json[UserDataKey.LastClaimTime].AsLong);
 
-            if (json.TryGetKey(UserDataKey.Bounties, out JSONNode result))
-            {
-                UpdateBountiesWithJSON(result);
-            }
-        }
-
-
-        public void UpdateBountiesWithJSON(JSONNode json)
-        {
-            States = JsonConvert.DeserializeObject<List<Models.SingleBountyUserDataModel>>(json.ToString());
+            //if (json.TryGetKey(UserDataKey.Bounties, out JSONNode result))
+            //{
+            //    UpdateBountiesWithJSON(result);
+            //}
         }
 
 

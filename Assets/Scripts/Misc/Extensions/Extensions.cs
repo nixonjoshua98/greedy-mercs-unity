@@ -6,6 +6,7 @@ using System.Linq;
 using SimpleJSON;
 
 using UnityEngine;
+using GM.Common.Enums;
 
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -13,8 +14,6 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace GM
 {
-    using AttackType = GM.Mercs.Data.AttackType;
-
     public static class AttackTypeExtensions
     {
         public static BonusType ToBonusType(this AttackType val)

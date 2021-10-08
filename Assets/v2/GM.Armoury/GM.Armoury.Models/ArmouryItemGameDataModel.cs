@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GM.Armoury.Models
 {
-    public struct ArmouryItemGameDataModel
+    public class ArmouryItemGameDataModel
     {
         [JsonProperty(PropertyName = "itemId")]
         public int Id;

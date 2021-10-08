@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using UnityEngine;
 
 namespace GM.Mercs.Models
 {
@@ -8,12 +9,20 @@ namespace GM.Mercs.Models
         public MercID Id;
 
         [JsonProperty(PropertyName = "attackType")]
-        public Data.AttackType Attack;
+        public GM.Common.Enums.AttackType Attack;
 
         public double UnlockCost;
         public double BaseDamage = -1;
 
+        public Data.MercPassiveSkillData[] Passives;
+
         [JsonIgnore]
         public string Name;
+
+        [JsonIgnore]
+        public Sprite Icon;
+
+        [JsonIgnore]
+        public GameObject Prefab;
     }
 }

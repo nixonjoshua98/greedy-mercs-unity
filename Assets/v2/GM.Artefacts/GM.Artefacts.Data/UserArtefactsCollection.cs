@@ -1,18 +1,33 @@
 using SimpleJSON;
 using GM.Artefacts.Models;
+using GM.Extensions;
 using System.Collections.Generic;
-
+using System.Linq;
 namespace GM.Artefacts.Data
 {
     /// <summary>
     /// Dictionary which stores user artefacta data
     /// </summary>
-    public class UserArtefactsCollection : Dictionary<int, UserArtefactModel>
+    public class UserArtefactsCollection
     {
+        List<UserArtefactModel> userArtefactsList;
+
+        public List<UserArtefactModel> List => userArtefactsList;
+
+        public int Count => userArtefactsList.Count;
+
         public UserArtefactsCollection(JSONNode node)
         {
             UpdateFromJSON(node);
         }
+
+        public UserArtefactsCollection(List<UserArtefactModel> artefacts)
+        {
+            userArtefactsList = artefacts;
+        }
+
+        public UserArtefactModel Get(int key) => userArtefactsList.Where(art => art.Id == key).FirstOrDefault();
+
 
 
         /// <summary>
@@ -21,37 +36,32 @@ namespace GM.Artefacts.Data
         /// <param name="node">JSON</param>
         public void UpdateFromJSON(JSONNode node)
         {
-            Clear();
+            //Clear();
 
-            foreach (string key in node.Keys)
-            {
-                JSONNode current = node[key];
+            //foreach (string key in node.Keys)
+            //{
+            //    JSONNode current = node[key];
 
-                int id = int.Parse(key);
+            //    int id = int.Parse(key);
 
-                var state = new UserArtefactModel()
-                {
-                    Id=id,
-                    Level = current["level"].AsInt
-                };
+            //    var state = new UserArtefactModel()
+            //    {
+            //        Id=id,
+            //        Level = current["level"].AsInt
+            //    };
 
-                base[id] = state;
-            }
+            //    base[id] = state;
+            //}
         }
         
         public void Update(List<UserArtefactModel> ls)
         {
-            Clear();
-
-            foreach (var art in ls)
-            {
-                base[art.Id] = art;
-            }
+            userArtefactsList = ls;
         }
 
         public void Update(UserArtefactModel art)
         {
-            base[art.Id] = art;
+            userArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
         }
     }
 }

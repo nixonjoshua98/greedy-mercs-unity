@@ -54,7 +54,7 @@ async def purchase(
 
     # Perform the purchase on 'ArmouryItem's
     if isinstance(item, BSArmouryItem):
-        response_dict["armouryItem"] = await _purchase_armoury_item(uid, item, repo=armoury_repo)
+        response_dict.update(await _purchase_armoury_item(uid, item, repo=armoury_repo))
 
     else:  # Show an error if we got this far
         raise HTTPException(400, detail="Invalid item")

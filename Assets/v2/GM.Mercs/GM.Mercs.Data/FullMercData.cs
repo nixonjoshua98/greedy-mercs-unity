@@ -4,16 +4,15 @@ namespace GM.Mercs.Data
 {
     public struct FullMercData
     {
-        public MercGameData Game;
+        public Models.MercGameDataModel Game;
         public MercUserData User;
 
-        public FullMercData(MercGameData gameData, MercUserData userData)
+        public FullMercData(Models.MercGameDataModel gameData, MercUserData userData)
         {
             Game = gameData;
             User = userData;
         }
 
-        public MercID Id => Game.Id;
         public BigDouble BaseDamage => StatsCache.BaseMercDamage(Game.Id);
         public BigDouble CostToUpgrade(int levels) => Formulas.MercLevelUpCost(User.Level, levels, Game.UnlockCost);
         public MercPassiveSkillData[] UnlockedPassives

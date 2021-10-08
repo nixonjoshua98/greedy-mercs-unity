@@ -1,13 +1,47 @@
 using SimpleJSON;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace GM.Bounties.Data
 {
-    public class BountiesGameDataCollection : Dictionary<int, Models.BountyGameData>
+    public class BountiesGameDataCollection
     {
         public float MaxUnclaimedHours;
         public int MaxActiveBounties;
+
+        List<Models.BountyGameData> bounties;
+
+        public BountiesGameDataCollection(Models.AllBountyGameDataModel data)
+        {
+            Update(data);
+        }
+
+        public Models.BountyGameData Get(int key)
+        {
+            return bounties.Where(ele => ele.Id == key).FirstOrDefault();
+        }
+
+        void Update(Models.AllBountyGameDataModel data)
+        {
+            MaxUnclaimedHours = data.MaxUnclaimedHours;
+            MaxActiveBounties = data.MaxActiveBounties;
+
+            bounties = data.Bounties;
+
+            ScripableObjects.BountyLocalGameData[] allLocalBounties = LoadLocalData();
+
+            foreach (var bounty in bounties)
+            {
+                var localMerc = allLocalBounties.Where(ele => ele.Id == bounty.Id).First();
+
+                bounty.Name = localMerc.Name;
+                bounty.Icon = localMerc.Icon;
+                bounty.Slot = localMerc.Slot;
+
+                bounty.Prefab = localMerc.Prefab;
+            }
+        }
 
         public BountiesGameDataCollection(JSONNode node)
         {
@@ -32,26 +66,26 @@ namespace GM.Bounties.Data
 
         public void UpdateBountiesWithJSON(JSONNode json)
         {
-            Clear();
+            //Clear();
 
-            foreach (var res in LoadLocalData())
-            {
-                JSONNode current = json[res.Id];
+            //foreach (var res in LoadLocalData())
+            //{
+            //    JSONNode current = json[res.Id];
 
-                base[res.Id] = new Models.BountyGameData()
-                {
-                    ID = res.Id,
-                    Name = res.Name,
+            //    base[res.Id] = new Models.BountyGameData()
+            //    {
+            //        Id = res.Id,
+            //        Name = res.Name,
 
-                    Icon = res.Icon,
-                    Slot = res.Slot,
-                    Prefab = res.Prefab,
+            //        Icon = res.Icon,
+            //        Slot = res.Slot,
+            //        Prefab = res.Prefab,
 
-                    SpawnChance = current.GetValueOrDefault("spawnChance", 1.0f).AsFloat,
-                    UnlockStage = current["unlockStage"].AsInt,
-                    HourlyIncome = current["hourlyIncome"].AsInt,
-                };
-            }
+            //        SpawnChance = current.GetValueOrDefault("spawnChance", 1.0f).AsFloat,
+            //        UnlockStage = current["unlockStage"].AsInt,
+            //        HourlyIncome = current["hourlyIncome"].AsInt,
+            //    };
+            //}
         }
 
 
@@ -59,11 +93,9 @@ namespace GM.Bounties.Data
         {
             result = default;
 
-            foreach (KeyValuePair<int, Models.BountyGameData> pair in this)
+            foreach (Models.BountyGameData bounty in bounties)
             {
-                result = pair.Value;
-
-                if (result.UnlockStage == stage)
+                if (bounty.UnlockStage == stage)
                     return true;
             }
 

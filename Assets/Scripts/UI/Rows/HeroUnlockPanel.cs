@@ -21,7 +21,7 @@ namespace GM
 
             if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                GM.Mercs.Data.MercGameData mercData = App.Data.Mercs.Game[chara];
+                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.Game.Get(chara);
 
                 CostText.text = FormatString.Number(mercData.UnlockCost);
             }
@@ -33,7 +33,7 @@ namespace GM
         {
             if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                GM.Mercs.Data.MercGameData mercData = App.Data.Mercs.Game[chara];
+                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.Game.Get(chara);
 
                 if (App.Data.Inv.Gold >= mercData.UnlockCost)
                 {

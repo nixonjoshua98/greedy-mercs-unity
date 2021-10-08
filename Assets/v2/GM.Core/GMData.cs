@@ -18,24 +18,33 @@ namespace GM.Core
 
         public GMData(Common.IServerUserData userData, Common.ICompleteGameData gameData)
         {
+            Items = new CurrencyItems.Data.CurrencyItemsDataCollection();
 
+            NextDailyReset = gameData.NextDailyReset;
+
+            Inv = new Inventory.Data.UserInventoryCollection(userData.CurrencyItems);
+            Mercs = new Mercs.Data.MercsData(gameData.Mercs);
+            Arts = new Artefacts.Data.ArtefactsData(userData.Artefacts, gameData.Artefacts);
+            Armoury = new Armoury.Data.ArmouryDataController(userData.ArmouryItems, gameData.Armoury);
+            Bounties = new Bounties.Data.BountiesData(userData.BountyData, gameData.Bounties);
+            BountyShop = new BountyShop.Data.BountyShopDataCollection(userData.BountyShop);
         }
 
 
         public GMData(JSONNode userJSON, JSONNode gameJSON)
         {
-            Items = new CurrencyItems.Data.CurrencyItemsDataCollection(); // Should always be first
+            //Items = new CurrencyItems.Data.CurrencyItemsDataCollection(); // Should always be first
 
-            NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
+            //NextDailyReset = Utils.UnixToDateTime(gameJSON["nextDailyReset"].AsLong);
 
-            Inv = new Inventory.Data.UserInventoryCollection(userJSON["inventory"]);
+            //Inv = new Inventory.Data.UserInventoryCollection(userJSON["inventory"]);
 
-            Mercs = new Mercs.Data.MercsData(gameJSON["mercs_gameData"]);
+            //Mercs = new Mercs.Data.MercsData(gameJSON["mercs_gameData"]);
 
-            Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts_userData"], gameJSON["artefacts_gameData"]);
-            Armoury = new Armoury.Data.ArmouryDataController(userJSON["armoury_userData"], gameJSON["armoury_gameData"]);
-            Bounties = new Bounties.Data.BountiesData(userJSON["bounties_userData"], gameJSON["bounties_gameData"]);
-            BountyShop = new BountyShop.Data.BountyShopDataCollection(userJSON["bountyShop"]);
+            //Arts = new Artefacts.Data.ArtefactsData(userJSON["artefacts_userData"], gameJSON["artefacts_gameData"]);
+            //Armoury = new Armoury.Data.ArmouryDataController(userJSON["armoury_userData"], gameJSON["armoury_gameData"]);
+            //Bounties = new Bounties.Data.BountiesData(userJSON["bounties_userData"], gameJSON["bounties_gameData"]);
+            //BountyShop = new BountyShop.Data.BountyShopDataCollection(userJSON["bountyShop"]);
         }
 
         public void Prestige(JSONNode node, UnityAction<bool, JSONNode> callback)

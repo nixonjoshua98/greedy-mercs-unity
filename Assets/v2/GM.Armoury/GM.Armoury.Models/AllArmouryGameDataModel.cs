@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GM.Armoury.Models
 {
-    public struct AllArmouryGameDataModel
+    public class AllArmouryGameDataModel
     {
         public int MaxEvoLevel;
         public int EvoLEvelCost;

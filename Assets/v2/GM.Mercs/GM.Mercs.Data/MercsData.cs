@@ -15,10 +15,16 @@ namespace GM.Mercs.Data
             User = new MercUserDataCollection();
         }
 
+        public MercsData(List<Models.MercGameDataModel> mercs)
+        {
+            Game = new MercGameDataCollection(mercs);
+            User = new MercUserDataCollection();
+        }
+
 
         public FullMercData this[MercID key]
         {
-            get => new FullMercData(Game[key], User[key]);
+            get => new FullMercData(Game.Get(key), User[key]);
         }
 
 

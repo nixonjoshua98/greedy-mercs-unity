@@ -15,7 +15,13 @@ namespace GM.Armoury.Data
             User = new ArmouryUserDataCollection(userJSON);
         }
 
-        public FullArmouryItemData GetItem(int key) => new FullArmouryItemData(Game[key], User.GetItem(key));
+        public ArmouryDataController(List<Armoury.Models.UserArmouryItemModel> userItems, GM.Armoury.Models.AllArmouryGameDataModel gameData)
+        {
+            Game = new ArmouryGameDataCollection(gameData);
+            User = new ArmouryUserDataCollection(userItems);
+        }
+
+        public FullArmouryItemData GetItem(int key) => new FullArmouryItemData(Game.GetItem(key), User.GetItem(key));
 
 
         public double DamageBonus()

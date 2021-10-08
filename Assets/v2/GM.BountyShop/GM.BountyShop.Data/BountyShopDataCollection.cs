@@ -15,6 +15,14 @@ namespace GM.BountyShop.Data
         public List<BountyShopCurrencyItemData> CurrencyItems;
         public List<BountyShopArmouryItem> ArmouryItems;
 
+        public BountyShopDataCollection(Models.CompleteBountyShopDataModel data)
+        {
+            Purchases = new Dictionary<string, BountyShopPurchaseData>();
+
+            CurrencyItems = data.ShopItems.CurrencyItems;
+            ArmouryItems = data.ShopItems.ArmouryItems;
+        }
+
         public BountyShopDataCollection(JSONNode json)
         {
             SetDailyPurchases(json["dailyPurchases"]);

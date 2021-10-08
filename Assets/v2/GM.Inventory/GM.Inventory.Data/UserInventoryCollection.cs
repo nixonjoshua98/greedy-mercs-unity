@@ -23,6 +23,14 @@ namespace GM.Inventory.Data
             UpdateCurrenciesWithJSON(node["items"]);
         }
 
+        public UserInventoryCollection(Models.UserCurrenciesModel currencies)
+        {
+            Gold = 0;
+            Energy = 0;
+
+            UpdateCurrencies(currencies);
+        }
+
         public void UpdateCurrenciesWithJSON(JSONNode node)
         {
             BlueGems = node.GetValueOrDefault("blueGems", 0);

@@ -9,23 +9,30 @@ namespace GM.Artefacts.Data
     public class ArtefactsData : Core.GMClass
     {
         UserArtefactsCollection User;
-        GameArtefactsCollection _Game;
+        GameArtefactsCollection Game;
 
         public ArtefactsData(JSONNode userJSON, JSONNode gameJSON)
         {
             User = new UserArtefactsCollection(userJSON);
-            _Game = new GameArtefactsCollection(gameJSON);
+            Game = new GameArtefactsCollection(gameJSON);
         }
 
+        public ArtefactsData(List<Models.UserArtefactModel> userArtefacts, List<Models.ArtefactGameDataModel> gameArtefacts)
+        {
+            User = new UserArtefactsCollection(userArtefacts);
+            Game = new GameArtefactsCollection(gameArtefacts);
+        }
+
+
         public int NumUnlockedArtefacts => User.Count;
-        public int MaxArtefacts => _Game.Count;
-        public FullArtefactData[] Artefacts => User.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
+        public int MaxArtefacts => Game.Count;
+        public FullArtefactData[] Artefacts => User.List.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
 
 
         // === Methods === //
-        public FullArtefactData GetArtefact(int artefact)
+        public FullArtefactData GetArtefact(int key)
         {
-            return new FullArtefactData(_Game[artefact], User[artefact]);
+            return new FullArtefactData(Game.Get(key), User.Get(key));
         }
 
 
@@ -54,7 +61,7 @@ namespace GM.Artefacts.Data
                 {
                     User.Update(resp.NewArtefact);
 
-                    App.Data.Inv.UpdateCurrencies(resp.UserCurrencies);
+                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
                 call.Invoke(resp.StatusCode == 200, resp.StatusCode == 200 ? resp.NewArtefact.Id : -1);

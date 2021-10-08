@@ -6,7 +6,7 @@ namespace GM.Bounties.Models
     public class BountyGameData
     {
         [JsonProperty(PropertyName = "bountyId")]
-        public int ID;
+        public int Id;
 
         public int UnlockStage;
         public int HourlyIncome;

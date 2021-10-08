@@ -1,6 +1,6 @@
 using GM.HTTP;
 using GM.HTTP.Requests;
-using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 namespace GM.Core
@@ -87,6 +87,10 @@ namespace GM.Core
         void Initialize(Common.IServerUserData userDataResp, Common.ICompleteGameData gameDataResp)
         {
             var app = GMApplication.Create(userDataResp, gameDataResp);
+
+            GameState.Restore(new SimpleJSON.JSONObject());
+
+            SceneManager.LoadScene("GameScene");
         }
     }
 }

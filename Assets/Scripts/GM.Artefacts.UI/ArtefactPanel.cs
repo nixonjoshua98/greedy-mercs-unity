@@ -31,9 +31,9 @@ namespace GM.Artefacts.OldUI
 
         void InstantiateRows()
         {
-            foreach (Data.ArtefactData art in App.Data.Arts.OwnedArtefacts)
+            foreach (Data.ArtefactData art in App.Data.Arts.UserOwnedArtefacts)
             {
-                InstantiateArtefactRow(art.ID);
+                InstantiateArtefactRow(art.Id);
             }
         }
 

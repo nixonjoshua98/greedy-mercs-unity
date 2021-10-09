@@ -14,7 +14,7 @@ namespace GM.Artefacts.Data
             User = state;
         }
 
-        public int ID => Game.Id;
+        public int Id => Game.Id;
 
         // == User == //
         public int CurrentLevel => User.Level;

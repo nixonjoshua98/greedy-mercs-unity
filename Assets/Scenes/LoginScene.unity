@@ -649,7 +649,7 @@ GameObject:
   - component: {fileID: 2092377067}
   - component: {fileID: 2092377066}
   m_Layer: 0
-  m_Name: GMApplicationInitialization
+  m_Name: GMApplicationInitializer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

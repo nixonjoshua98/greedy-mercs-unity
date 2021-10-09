@@ -63,27 +63,24 @@ public static class FormatString
     #endregion
 
 
-    // BonusType
     public static string Bonus(BonusType bonusType, double value)
     {
-        switch (bonusType)
+        return bonusType switch
         {
-            case BonusType.FLAT_ENERGY_CAPACITY:    return $"{value} Energy Capacity";
-            case BonusType.FLAT_ENERGY_INCOME:      return $"{Number(value)} Energy per Minute";
-            case BonusType.FLAT_CRIT_CHANCE:        return $"{Number(value * 100)}% Critical Hit Chance";
-            case BonusType.FLAT_CRIT_DMG:      return $"{Number(value * 100)}% Critical Hit Damage";
-            case BonusType.MULTIPLY_PRESTIGE_BONUS:  return $"{Number(value * 100)}% Runestones";
-            case BonusType.TAP_DAMAGE:      return $"{Number(value * 100)}% Tap Damage";
-            case BonusType.MERC_DAMAGE:     return $"{Number(value * 100)}% Merc Damage";
-            case BonusType.MELEE_DAMAGE:    return $"{Number(value * 100)}% Melee Damage";
-            case BonusType.RANGED_DAMAGE:   return $"{Number(value * 100)}% Ranged Damage";
-            case BonusType.ENEMY_GOLD:  return $"{Number(value * 100)}% Enemy Gold";
-            case BonusType.BOSS_GOLD:   return $"{Number(value * 100)}% Boss Gold";
-            case BonusType.ALL_GOLD:    return $"{Number(value * 100)}% All Gold";
-            case BonusType.CHAR_TAP_DAMAGE_ADD: return $"{Number(value * 100)}% Damage From Merc";
-
-            default: 
-                return $"{Number(value)} <Missing>";
-        }
+            BonusType.FLAT_ENERGY_CAPACITY => $"{value} Energy Capacity",
+            BonusType.FLAT_ENERGY_INCOME => $"{Number(value)} Energy per Minute",
+            BonusType.FLAT_CRIT_CHANCE => $"{Number(value * 100)}% Critical Hit Chance",
+            BonusType.FLAT_CRIT_DMG => $"{Number(value * 100)}% Critical Hit Damage",
+            BonusType.MULTIPLY_PRESTIGE_BONUS => $"{Number(value * 100)}% Runestones",
+            BonusType.TAP_DAMAGE => $"{Number(value * 100)}% Tap Damage",
+            BonusType.MERC_DAMAGE => $"{Number(value * 100)}% Merc Damage",
+            BonusType.MELEE_DAMAGE => $"{Number(value * 100)}% Melee Damage",
+            BonusType.RANGED_DAMAGE => $"{Number(value * 100)}% Ranged Damage",
+            BonusType.ENEMY_GOLD => $"{Number(value * 100)}% Enemy Gold",
+            BonusType.BOSS_GOLD => $"{Number(value * 100)}% Boss Gold",
+            BonusType.ALL_GOLD => $"{Number(value * 100)}% All Gold",
+            BonusType.CHAR_TAP_DAMAGE_ADD => $"{Number(value * 100)}% Damage From Merc",
+            _ => $"{Number(value)} <Missing>",
+        };
     }
 }

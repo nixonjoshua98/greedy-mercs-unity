@@ -97,13 +97,13 @@ async def unlock(
     # Fetch all user artefacts
     u_artefacts = await artefacts_repo.get_all_artefacts(uid)
 
-    currencies = await currency_repo.get_user(uid)
-
     # Verify that the user still has an artefact available to unlock
     check_not_unlocked_all_artefacts(u_artefacts)
 
     # Calculate the artefact cost
     unlock_cost = calc_unlock_cost(u_artefacts)
+
+    currencies = await currency_repo.get_user(uid)
 
     # Verify that the user can afford the unlock cost
     check_greater_than(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
@@ -133,7 +133,7 @@ def calc_unlock_cost(artefacts: list[ArtefactModel]):
 def get_new_artefact(artefacts: list[ArtefactModel]):
     s_arts = resources.get_artefacts_data().artefacts
 
-    return random.choice(list(set(list(s_arts.keys())) - set(list([art.id for art in artefacts]))))
+    return random.choice(list(set(list(s_arts.keys())) - set(list([art.artefact_id for art in artefacts]))))
 
 
 def calc_upgrade_cost(artefact: ArtefactModel, levels: int) -> int:

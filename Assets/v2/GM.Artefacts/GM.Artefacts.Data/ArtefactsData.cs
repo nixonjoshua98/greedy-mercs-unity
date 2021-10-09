@@ -52,7 +52,7 @@ namespace GM.Artefacts.Data
 
 
         // == Combined == //
-        public ArtefactData[] OwnedArtefacts => UserArtefactsList.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
+        public ArtefactData[] UserOwnedArtefacts => UserArtefactsList.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
         public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));
 
 
@@ -94,7 +94,7 @@ namespace GM.Artefacts.Data
         {
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
 
-            foreach (ArtefactData state in OwnedArtefacts)
+            foreach (ArtefactData state in UserOwnedArtefacts)
             {
                 ls.Add(new KeyValuePair<BonusType, double>(state.Bonus, state.BaseEffect));
             }

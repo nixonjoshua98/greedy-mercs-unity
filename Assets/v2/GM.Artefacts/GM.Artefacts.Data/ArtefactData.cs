@@ -25,7 +25,7 @@ namespace GM.Artefacts.Data
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
         public BonusType Bonus => Game.Bonus;
-        public UI.ArtefactSlot Slot => Game.Slot;
+        public OldUI.ArtefactSlot Slot => Game.Slot;
 
 
         // == Combined == //

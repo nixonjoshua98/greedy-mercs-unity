@@ -25,6 +25,6 @@ namespace GM.Artefacts.Models
         public Sprite Icon;
 
         [JsonIgnore]
-        public UI.ArtefactSlot Slot;
+        public OldUI.ArtefactSlot Slot;
     }
 }

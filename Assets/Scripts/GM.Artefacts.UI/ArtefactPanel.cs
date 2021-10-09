@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Artefacts.UI
+namespace GM.Artefacts.OldUI
 {
     using GM.UI;
 

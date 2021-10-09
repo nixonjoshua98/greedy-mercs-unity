@@ -29,6 +29,8 @@ namespace GM.Artefacts.Data
 
 
         // == Combined == //
+        public float CostExpo => Game.CostExpo;
+        public float CostCoeff => Game.CostCoeff;
         public double BaseEffect => Formulas.BaseArtefactEffect(User.Level, Game.BaseEffect, Game.LevelEffect);
         public bool IsMaxLevel => User.Level >= Game.MaxLevel;
         public System.Numerics.BigInteger CostToUpgrade(int levels) => Formulas.ArtefactLevelUpCost(User.Level, levels, Game.CostExpo, Game.CostCoeff);

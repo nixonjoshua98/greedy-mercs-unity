@@ -16,7 +16,7 @@ namespace GM.Extensions
                 {
                     ls[i] = val;
 
-                    break;
+                    return;
                 }
             }
 

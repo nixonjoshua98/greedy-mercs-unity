@@ -5,6 +5,7 @@ namespace GM.Core
         public static GMApplication Instance { get; private set; }
 
         public GMData Data;
+        public GMCache Cache;
 
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
@@ -18,6 +19,7 @@ namespace GM.Core
         GMApplication(Common.IServerUserData userData, Common.IServerGameData gameData)
         {
             Data = new GMData(userData, gameData);
+            Cache = new GMCache();
         }
     }
 }

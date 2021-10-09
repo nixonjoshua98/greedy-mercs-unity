@@ -22,8 +22,9 @@ namespace GM.Artefacts.Data
 
 
         // == User == //
-        public ArtefactUserDataModel GetUserArtefact(int key) => UserArtefactsList.Where(art => art.Id == key).FirstOrDefault();
-        public void UpdateUserArtefact(ArtefactUserDataModel art) => UserArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
+        public bool UserOwnsAllArtefacts => NumUnlockedArtefacts >= MaxArtefacts;
+        ArtefactUserDataModel GetUserArtefact(int key) => UserArtefactsList.Where(art => art.Id == key).FirstOrDefault();
+        void UpdateUserArtefact(ArtefactUserDataModel art) => UserArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
         public int NumUnlockedArtefacts => UserArtefactsList.Count;
 
 

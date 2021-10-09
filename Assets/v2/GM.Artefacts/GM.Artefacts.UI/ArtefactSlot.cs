@@ -28,15 +28,7 @@ namespace GM.Artefacts.UI
             IconImage.sprite = AssignedArtefact.Icon;
         }
 
-        void FixedUpdate()
-        {
-            if (AssignedArtefactId != -1)
-            {
-                OnFixedUpdateWithArtefact();
-            }
-        }
-
-        void OnFixedUpdateWithArtefact()
+        protected override void OnFixedUpdateWithArtefact()
         {
             LevelText.text = $"Level {AssignedArtefact.CurrentLevel}";
             BonusText.text = FormatString.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect);

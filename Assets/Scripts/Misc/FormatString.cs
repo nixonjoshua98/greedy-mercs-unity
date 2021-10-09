@@ -80,7 +80,7 @@ public static class FormatString
             BonusType.BOSS_GOLD => $"{Number(value * 100)}% Boss Gold",
             BonusType.ALL_GOLD => $"{Number(value * 100)}% All Gold",
             BonusType.CHAR_TAP_DAMAGE_ADD => $"{Number(value * 100)}% Damage From Merc",
-            _ => $"{Number(value)} <Missing>",
+            _ => $"{Number(value)} {bonusType}",
         };
     }
 }

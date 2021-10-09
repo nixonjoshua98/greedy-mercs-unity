@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using GM.Artefacts.Data;
-
+using UnityEngine;
 using GameObjectUtils = GM.Utils.GameObjectUtils;
 
 namespace GM.Artefacts.UI

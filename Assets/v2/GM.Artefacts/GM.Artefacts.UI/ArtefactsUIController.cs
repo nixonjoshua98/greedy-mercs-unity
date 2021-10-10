@@ -1,7 +1,7 @@
 using GM.Artefacts.Data;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using AmountSelector = GM.UI_.AmountSelector;
 using BigInteger = System.Numerics.BigInteger;
 using GameObjectUtils = GM.Utils.GameObjectUtils;
 
@@ -14,6 +14,7 @@ namespace GM.Artefacts.UI
 
         [Header("References")]
         public Transform ArtefactsContent;
+        public AmountSelector UpgradeAmountSelector;
 
         [Header("UI References")]
         public TMP_Text UnlockedArtefactsText;
@@ -58,7 +59,7 @@ namespace GM.Artefacts.UI
         {
             ArtefactSlot slotScript = GameObjectUtils.Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
 
-            slotScript.AssignArtefact(data.Id);
+            slotScript.AssignArtefact(data.Id, UpgradeAmountSelector);
         }
 
 

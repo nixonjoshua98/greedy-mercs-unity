@@ -1,8 +1,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using AmountSelector = GM.UI_.AmountSelector;
 using BigInteger = System.Numerics.BigInteger;
-
 namespace GM.Artefacts.UI
 {
     public class ArtefactSlot : ArtefactUIObject
@@ -16,18 +16,28 @@ namespace GM.Artefacts.UI
         [Space]
         public UI_.VStackedButton UpgradeButton;
 
-        public void AssignArtefact(int artefactId)
-        {
-            AssignedArtefactId = artefactId;
+        int _BuyAmount; // Raw value. We should use BuyAmount for most upgrading cases
 
-            InitialSetup();
-        }
+        int BuyAmount => MathUtils.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
 
-        void InitialSetup()
+        public void AssignArtefact(int artefactId, AmountSelector selector)
         {
+            base.AssignArtefact(artefactId);
+
+            // Set the callback for when the user changes the buy amount
+            selector.E_OnChange.AddListener(val => {
+                _BuyAmount = val;
+                SetUpgradeRelatedText();
+            });
+
+            // Assign a default buy amount
+            _BuyAmount = selector.Current;
+
+            // Set some static values
             NameText.text = AssignedArtefact.Name;
             IconImage.sprite = AssignedArtefact.Icon;
 
+            // Update the level related values to default
             SetUpgradeRelatedText();
         }
 
@@ -37,9 +47,9 @@ namespace GM.Artefacts.UI
 
             if (!AssignedArtefact.IsMaxLevel)
             {
-                BigInteger ugradeCost = App.Cache.ArtefactUpgradeCost(AssignedArtefact, 1);
+                BigInteger ugradeCost = App.Cache.ArtefactUpgradeCost(AssignedArtefact, BuyAmount);
 
-                UpgradeButton.SetText("x1", FormatString.Number(ugradeCost));
+                UpgradeButton.SetText($"x{BuyAmount}", FormatString.Number(ugradeCost));
             }
 
             LevelText.text = $"Level {AssignedArtefact.CurrentLevel}";
@@ -50,7 +60,7 @@ namespace GM.Artefacts.UI
         // == Callbacks == //
         public void OnUpgradeButton()
         {
-            App.Data.Arts.UpgradeArtefact(AssignedArtefactId, 1, (success) =>
+            App.Data.Arts.UpgradeArtefact(AssignedArtefactId, BuyAmount, (success) =>
             {
                 if (success)
                 {

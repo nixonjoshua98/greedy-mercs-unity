@@ -62,8 +62,6 @@ namespace GM.Artefacts.UI
             slotScript.AssignArtefact(data.Id, UpgradeAmountSelector);
         }
 
-
-
         void UpdateUnlockArtefactText()
         {
             UnlockArtefactButton.SetText("All Unlocked", "-");

@@ -16,9 +16,10 @@ def currencies_repository(request: ServerRequest) -> CurrenciesRepository:
 # === Field Keys === #
 
 class Fields:
-    PRESTIGE_POINTS = "prestigePoints"
+    DIAMONDS = "diamonds"
     BOUNTY_POINTS = "bountyPoints"
     ARMOURY_POINTS = "armouryPoints"
+    PRESTIGE_POINTS = "prestigePoints"
 
 
 # == Models == #
@@ -27,6 +28,7 @@ class CurrenciesModel(BaseDocument):
     prestige_points: int = Field(0, alias=Fields.PRESTIGE_POINTS)
     bounty_points: int = Field(0, alias=Fields.BOUNTY_POINTS)
     armoury_points: int = Field(0, alias=Fields.ARMOURY_POINTS)
+    diamonds: int = Field(0, alias="diamonds")
 
     def response_dict(self):
         return self.dict(exclude={"id"})

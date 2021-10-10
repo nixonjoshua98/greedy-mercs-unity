@@ -8,7 +8,7 @@ namespace GM.Inventory.Data
 
         public long BountyPoints;
         public long ArmouryPoints;
-        public long BlueGems;
+        public long Diamonds;
 
         public float Energy;
 
@@ -24,7 +24,7 @@ namespace GM.Inventory.Data
 
         public void UpdateCurrencies(Models.UserCurrenciesModel model)
         {
-            BlueGems = model.BlueGems;
+            Diamonds = model.Diamonds;
             BountyPoints = model.BountyPoints;
             ArmouryPoints = model.ArmouryPoints;
             PrestigePoints = model.PrestigePoints;

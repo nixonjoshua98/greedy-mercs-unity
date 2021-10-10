@@ -22,8 +22,7 @@ namespace GM.UI_
         OptionsViewState optionsState;
 
         [HideInInspector] public UnityEvent<int> E_OnChange = new UnityEvent<int>();
-
-        public int Current;
+        [HideInInspector] public int Current;
 
         void Awake()
         {

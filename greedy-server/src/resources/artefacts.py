@@ -1,35 +1,25 @@
+from __future__ import annotations
 
-from src import utils
-from src.common import formulas
+from pydantic import Field
 
-
-def get_artefacts_data(*, as_dict: bool = False, as_list=False) -> "ArtefactResources":
-    if as_list:
-        return [{"artefactId": k, **v} for k, v in utils.load_resource("artefacts.json").items()]  # type: ignore
-
-    if as_dict:
-        return utils.load_resource("artefacts.json")
-
-    return ArtefactResources(utils.load_resource("artefacts.json"))
+from src.utils import load_static_data_file
+from src.common.basemodels import BaseModel
 
 
-class ArtefactResources:
-    def __init__(self, data: dict):
-        self.artefacts: dict = {k: ArtefactResourceData.from_dict(v) for k, v in data.items()}
+def get_static_artefacts() -> list[StaticArtefactModel]:
+    d: list[dict] = load_static_data_file("artefacts.json")
+
+    return [StaticArtefactModel.parse_obj(art) for art in d]
 
 
-class ArtefactResourceData:
-    __slots__ = ("cost_coeff", "cost_expo", "base_effect", "level_effect", "max_level")
+class StaticArtefactModel(BaseModel):
+    id: int = Field(..., alias="artefactId")
 
-    @classmethod
-    def from_dict(cls, data: dict):
-        inst = ArtefactResourceData()
+    cost_expo: float = Field(..., alias="costExpo")
+    cost_coeff: float = Field(..., alias="costCoeff")
+    base_effect: float = Field(..., alias="baseEffect")
+    level_effect: float = Field(..., alias="levelEffect")
 
-        inst.cost_expo = data["costExpo"]
-        inst.cost_coeff = data["costCoeff"]
-        inst.base_effect = data["baseEffect"]
-        inst.level_effect = data["levelEffect"]
+    bonus_type: int = Field(..., alias="bonusType")
 
-        inst.max_level = data.get("maxLevel", 1_000)
-
-        return inst
+    max_level: int = Field(1_000, alias="maxLevel")

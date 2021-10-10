@@ -21,6 +21,19 @@ def get(ls: Iterable[T], **attrs: Any) -> Optional[T]:
     return None
 
 
+def load_static_data_file(fp: str):
+    """
+    Load a file from the /static root folder
+
+    :param fp: File name
+    :return: Dict of the loaded file
+    """
+    path = os.path.join(os.getcwd(), "static", fp)
+
+    with open(path, "r") as fh:
+        return json.load(fh)
+
+
 def load_resource(fp):
     return load_json(_resource_path(fp))
 

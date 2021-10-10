@@ -542,10 +542,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8994090150515151711}
-  - component: {fileID: 6724793586456287976}
   - component: {fileID: 8489018742281765473}
+  - component: {fileID: 6724793586456287976}
+  - component: {fileID: 4441460749406492780}
   m_Layer: 5
-  m_Name: VStackButton-Orange
+  m_Name: VStackedButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -574,6 +575,21 @@ RectTransform:
   m_AnchoredPosition: {x: -15, y: 0}
   m_SizeDelta: {x: 275, y: 175}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!114 &8489018742281765473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994090150515151708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beaf94e66ad57ad48bbf8808d7aee747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TopText: {fileID: 8994090149941823226}
+  BtmText: {fileID: 8994090150106921720}
+  UIButton: {fileID: 6724793586456287976}
 --- !u!114 &6724793586456287976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,7 +609,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -630,20 +646,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8489018742281765473
-MonoBehaviour:
+--- !u!95 &4441460749406492780
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8994090150515151708}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beaf94e66ad57ad48bbf8808d7aee747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TopText: {fileID: 8994090149941823226}
-  BtmText: {fileID: 8994090150106921720}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a79f2e0c1d244204bbe347f1d30e7001, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8994090150578426450
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,6 @@ from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.models import UserIdentifier
 
-from src.dataloader import DataLoader
 from src import resources
 
 from src.mongo.repositories.bounties import BountiesRepository, bounties_repository
@@ -33,16 +32,12 @@ async def prestige(
 ):
     uid = await user_or_raise(data)
 
-    loader = DataLoader()
-
     user_arts = await artefacts_repo.get_all_artefacts(uid)
 
     await process_prestige_points(uid, data, artefacts=user_arts, currency_repo=currency_repo)
     await process_new_bounties(uid, data, bounties_repo=bounties_repo)
 
-    u_data = await loader.get_user_data(uid)
-
-    return ServerResponse({"userData": u_data})
+    return ServerResponse({})
 
 
 async def process_prestige_points(uid, req_data: PrestigeData, *, artefacts, currency_repo):

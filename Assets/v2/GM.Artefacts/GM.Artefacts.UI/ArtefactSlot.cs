@@ -59,6 +59,8 @@ namespace GM.Artefacts.UI
 
             LevelText.text = $"Level {AssignedArtefact.CurrentLevel}";
             BonusText.text = FormatString.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect);
+
+            UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel;
         }
 
 

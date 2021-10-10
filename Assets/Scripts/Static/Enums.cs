@@ -1,8 +1,6 @@
 ﻿
 public enum BonusType
 {
-    NONE = -1,
-
     // Energy Capacity
     FLAT_ENERGY_CAPACITY = 100,
 

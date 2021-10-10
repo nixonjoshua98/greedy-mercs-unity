@@ -39,7 +39,7 @@ async def purchase(
     # Verify that the item exists
     check_is_not_none(item, error="Item was not found")
 
-    item_purchases = await DataLoader().bounty_shop.get_daily_purchases(uid, item.id)
+    item_purchases = 0
 
     # Check the user still has 'stock' left
     check_greater_than(item.purchase_limit, item_purchases, error="Reached purchase limit")

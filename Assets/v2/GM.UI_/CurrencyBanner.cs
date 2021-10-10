@@ -8,11 +8,13 @@ namespace GM.UI_
     public class CurrencyBanner : Core.GMMonoBehaviour
     {
         public TMP_Text GoldText;
+        public TMP_Text ArmouryPointsText;
         public TMP_Text PrestigePointsText;
 
         void Start()
         {
             StartTextUpdate(GoldText, () => FormatString.Number(App.Data.Inv.Gold), () => true);
+            StartTextUpdate(ArmouryPointsText, () => FormatString.Number(App.Data.Inv.ArmouryPoints), () => true);
             StartTextUpdate(PrestigePointsText, () => FormatString.Number(App.Data.Inv.PrestigePoints), () => true);
         }
 

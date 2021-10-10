@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GM.Artefacts.Data
 {
-    public struct ArtefactData
+    public class ArtefactData
     {
         ArtefactGameDataModel Game;
         ArtefactUserDataModel User;
@@ -25,7 +25,6 @@ namespace GM.Artefacts.Data
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
         public BonusType Bonus => Game.Bonus;
-        public OldUI.ArtefactSlot Slot => Game.Slot;
 
 
         // == Combined == //

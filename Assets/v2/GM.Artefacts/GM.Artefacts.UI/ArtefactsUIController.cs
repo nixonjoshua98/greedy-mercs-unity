@@ -34,11 +34,11 @@ namespace GM.Artefacts.UI
         // == Callbacks == //
         public void OnUnlockArtefactButton()
         {
-            App.Data.Arts.UnlockArtefact((success, newArtefactId) =>
+            App.Data.Arts.UnlockArtefact((success, newArtefact) =>
             {
                 if (success)
                 {
-                    InstantiateSingleArtefact(App.Data.Arts.GetArtefact(newArtefactId));
+                    InstantiateSingleArtefact(newArtefact);
                     UpdateUnlockArtefactText();
                 }
             });
@@ -68,7 +68,7 @@ namespace GM.Artefacts.UI
         {
             UnlockArtefactButton.SetText("All Unlocked", "-");
 
-            if (!App.Data.Arts.UserOwnsAllArtefacts)
+            if (!App.Data.Arts.UserUnlockedAll)
             {
                 BigInteger unlockCost = App.Cache.NextArtefactUnlockCost(App.Data.Arts.NumUnlockedArtefacts);
 

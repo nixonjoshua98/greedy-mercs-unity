@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+
 namespace GM.UI_
 {
     enum OptionsViewState { SHOWN = 0, HIDDEN = 1 }
@@ -45,7 +46,7 @@ namespace GM.UI_
 
         void AssignCallback(Button t, int value) => t.onClick.AddListener(() => { OnOptionButtonDown(t, value); });
 
-                void SetDefaultValues()
+        void SetDefaultValues()
         {
             Button btn = Options[DefaultOptionIndex];
             int value = OptionValues[DefaultOptionIndex];

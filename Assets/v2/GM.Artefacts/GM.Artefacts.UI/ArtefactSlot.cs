@@ -3,10 +3,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using AmountSelector = GM.UI_.AmountSelector;
 using BigInteger = System.Numerics.BigInteger;
+
 namespace GM.Artefacts.UI
 {
     public class ArtefactSlot : ArtefactUIObject
     {
+        [Header("Prefabs")]
+        public GameObject ArtefactPopupObject;
+
         [Header("References")]
         public Image IconImage;
         [Space]
@@ -27,6 +31,7 @@ namespace GM.Artefacts.UI
             // Set the callback for when the user changes the buy amount
             selector.E_OnChange.AddListener(val => {
                 _BuyAmount = val;
+
                 SetUpgradeRelatedText();
             });
 
@@ -62,11 +67,14 @@ namespace GM.Artefacts.UI
         {
             App.Data.Arts.UpgradeArtefact(AssignedArtefactId, BuyAmount, (success) =>
             {
-                if (success)
-                {
-                    SetUpgradeRelatedText();
-                }
+                SetUpgradeRelatedText();
             });
+        }
+
+        public void OnShowPopupButton()
+        {
+            CanvasUtils.Instantiate<ArtefactPopup>(ArtefactPopupObject)
+                .AssignArtefact(AssignedArtefactId);
         }
     }
 }

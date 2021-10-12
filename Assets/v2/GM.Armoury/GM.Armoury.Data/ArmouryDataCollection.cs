@@ -17,8 +17,11 @@ namespace GM.Armoury.Data
             UpdateGameData(gameData);
         }
 
-        // == User == //
+        /// <summary>
+        /// Fetch the user data for a item.
+        /// </summary>
         public Models.ArmouryItemUserDataModel GetUserItem(int key) => UserItemsList.Where(ele => ele.Id == key).FirstOrDefault();
+
         public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsList.Where(ele => ele.NumOwned > 0 || ele.Level > 0).OrderBy(ele => ele.Id).ToList();
         public void UpdateUserItem(Models.ArmouryItemUserDataModel item) => UserItemsList.UpdateOrInsertElement(item, (ele) => ele.Id == item.Id);
 

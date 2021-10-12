@@ -8,8 +8,6 @@ def artefact_upgrade_cost(cooeff, expo, current, buying):
 def artefact_effect(item, level):
 	return item["baseEffect"] + (item["levelEffect"] * (level - 1))
 
-# === Prestige Formulas === #
-
 
 def sum_non_int_power_seq(start: int, buying: int, s: float):
 

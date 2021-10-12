@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace GM.Armoury.Data
 {
     public struct ArmouryItemData
@@ -10,6 +12,24 @@ namespace GM.Armoury.Data
             Game = game;
             User = user;
         }
+
+        public Sprite Icon => Game.Icon;
+        public string ItemName => Game.Name;
+
+        public int EvolveCost => Game.EvoLevelCost;
+
+        /// <summary>
+        /// </summary>
+        public int CurrentNumOwned => User.NumOwned;
+
+        /// <summary>
+        /// </summary>
+        public int CurrentLevel => User.Level;
+
+        /// <summary>
+        /// Forward the value
+        /// </summary>
+        public int Tier => Game.Tier;
 
         /// <summary>
         /// Check if the user can evolve the item (A more detailed check is on the server)

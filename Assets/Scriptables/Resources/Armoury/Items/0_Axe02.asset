@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09fc628c4cfa7b8469d77abcc10da8e6, type: 3}
   m_Name: 0_Axe02
   m_EditorClassIdentifier: 
-  Name: 0
+  Name: Cheap Axe
   Icon: {fileID: 21300000, guid: 768fe502b3d3bdc4ab7d887cdfdc74fa, type: 3}

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Linq;
-using GM.Extensions;
 using UnityEngine;
 
 namespace GM.Armoury.Data
@@ -20,7 +19,7 @@ namespace GM.Armoury.Data
 
         // == User == //
         public Models.ArmouryItemUserDataModel GetUserItem(int key) => UserItemsList.Where(ele => ele.Id == key).FirstOrDefault();
-        public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsList.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.Id).ToList();
+        public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsList.Where(ele => ele.NumOwned > 0 || ele.Level > 0).OrderBy(ele => ele.Id).ToList();
         public void UpdateUserItem(Models.ArmouryItemUserDataModel item) => UserItemsList.UpdateOrInsertElement(item, (ele) => ele.Id == item.Id);
 
 

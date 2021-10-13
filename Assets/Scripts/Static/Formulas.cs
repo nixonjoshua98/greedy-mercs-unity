@@ -6,6 +6,8 @@ namespace GM
 {
     public class Formulas : Core.GMClass
     {
+        public static BigInteger NextArtefactUnlockCost(int owned) => (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned).Floor()).ToBigInteger();
+
         // === Armoury Items === //
         public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
         {

@@ -1,11 +1,32 @@
 using BigInteger = System.Numerics.BigInteger;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TTLCache = GM.Common.TTLCache;
 using ArtefactData = GM.Artefacts.Data.ArtefactData;
+
 namespace GM.Core
 {
     public class GMCache : GMClass
     {
-        public BigInteger NextArtefactUnlockCost(int owned) => (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned).Floor()).ToBigInteger();
-        public BigInteger ArtefactUpgradeCost(ArtefactData data, int levels) => Formulas.ArtefactLevelUpCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff);
+        TTLCache cache;
+
+        public GMCache()
+        {
+            cache = new TTLCache(3);
+        }
+
+        // == Armoury == //
+        public double ArmouryMercDamageMultiplier => cache.Get<double>("ArmouryMercDamageMultiplier", () => App.Data.Armoury.TotalMercDamageMultiplier());
+
+        // == Artefacts == //
+        public BigInteger NextArtefactUnlockCost(int owned) => Formulas.NextArtefactUnlockCost(owned);
+        public BigInteger ArtefactUpgradeCost(ArtefactData data, int levels)
+        {
+            // Cache value for longer since this calculation should not change and we can reuse it for multiple artefacts
+            return cache.Get<BigInteger>($"ArtefactUpgradeCost/{data.CurrentLevel}{levels}{data.CostExpo}{data.CostCoeff}", 60, () => {
+                return Formulas.ArtefactLevelUpCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff);
+                });
+        }
     }
 }

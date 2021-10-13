@@ -14,9 +14,9 @@ namespace GM.Utils
         {
             return tier switch
             {
-                0 => new ItemTierDisplayConfig() { Colour = new Color(0.5f, 0.5f, 0.5f), DisplayText = "D" }, // Grey
-                1 => new ItemTierDisplayConfig() { Colour = new Color(32.0f/255, 200.0f/255, 64.0f/255), DisplayText = "C" }, // Green
-                2 => new ItemTierDisplayConfig() { Colour = new Color(32.0f/255, 200.0f/255, 160.0f/255), DisplayText = "B" }, // Blue
+                0 => new ItemTierDisplayConfig() { Colour = new Color(0.5f, 32.0f/255, 32.0f/255), DisplayText = "D" }, // Grey
+                1 => new ItemTierDisplayConfig() { Colour = new Color(32.0f/255, 1.0f, 64.0f/255), DisplayText = "C" }, // Green
+                2 => new ItemTierDisplayConfig() { Colour = new Color(32.0f/255, 200.0f/255, 1.0f), DisplayText = "B" }, // Blue
                 _ => new ItemTierDisplayConfig() { Colour = Color.white, DisplayText = tier.ToString() }, // Default
             };
         }

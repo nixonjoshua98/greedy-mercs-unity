@@ -18,16 +18,20 @@ namespace GM.Armoury.Data
         }
 
         /// <summary>
-        /// Fetch the user data for a item.
+        /// Get user data for an item
         /// </summary>
         public Models.ArmouryItemUserDataModel GetUserItem(int key) => UserItemsList.Where(ele => ele.Id == key).FirstOrDefault();
-
         public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsList.Where(ele => ele.NumOwned > 0 || ele.Level > 0).OrderBy(ele => ele.Id).ToList();
+
+        /// <summary>
+        /// Update the cached user data for a single item
+        /// </summary>
         public void UpdateUserItem(Models.ArmouryItemUserDataModel item) => UserItemsList.UpdateOrInsertElement(item, (ele) => ele.Id == item.Id);
-
-
-        // == Game == //
         public Models.ArmouryItemGameDataModel GetGameItem(int key) => GameItemsList.Where(ele => ele.Id == key).FirstOrDefault();
+
+        /// <summary>
+        /// Update all cached game data
+        /// </summary>
         void UpdateGameData(Models.ArmouryGameDataModel data)
         {
             GameItemsList = data.Items;
@@ -46,12 +50,15 @@ namespace GM.Armoury.Data
             }
         }
 
-        // == Local == //
+        /// <summary>
+        /// Load local scriptable objects and return them as a dictionary
+        /// </summary>
         Dictionary<int, ScriptableObjects.LocalArmouryItemData> LoadLocalData() =>
             Resources.LoadAll<ScriptableObjects.LocalArmouryItemData>("Armoury/Items").ToDictionary(ele => ele.Id, ele => ele);
 
-
-        // == Combined == //
+        /// <summary>
+        /// Get a combined class of user data and game data for a single item
+        /// </summary>
         public ArmouryItemData GetItem(int key) => new ArmouryItemData(GetGameItem(key), GetUserItem(key));
 
 
@@ -70,6 +77,13 @@ namespace GM.Armoury.Data
             }
 
             return val;
+        }
+
+        public double TotalMercDamageMultiplier()
+        {
+            double dmgBonus = DamageBonus();
+
+            return dmgBonus > 0 ? dmgBonus : 1;
         }
 
         public List<KeyValuePair<BonusType, double>> Bonuses()

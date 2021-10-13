@@ -16,8 +16,6 @@ namespace GM
         static List<KeyValuePair<BonusType, double>> ArtefactBonus => App.Data.Arts.Bonuses();
         static List<KeyValuePair<BonusType, double>> CharacterBonus => App.Data.Mercs.Bonuses();
 
-        public static BigDouble ArmouryMercDamageMultiplier { get { return AddSource(BonusType.MERC_DAMAGE, ArmouryBonus); } }
-
         public static class StageEnemy
         {
             public static BigDouble GetEnemyGold(int stage)

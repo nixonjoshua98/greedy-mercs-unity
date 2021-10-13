@@ -18,7 +18,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "109.154.72.134"
+            Address = "86.153.58.47"
         };
 
         AuthDetails Auth = new AuthDetails();

@@ -1,8 +1,5 @@
-using GM.Utils;
-using UnityEngine;
-using System.Collections.Generic;
-using ScreenSpace = GM.UI_.ScreenSpace;
 using TMPro;
+using UnityEngine;
 
 namespace GM.Armoury.UI_
 {
@@ -18,7 +15,13 @@ namespace GM.Armoury.UI_
 
         void Awake()
         {
-            ItemGrid.Populate(App.Data.Armoury.UserOwnedItems);
+            var i = App.Data.Armoury.UserOwnedItems;
+            i.AddRange(App.Data.Armoury.UserOwnedItems);
+            i.AddRange(App.Data.Armoury.UserOwnedItems);
+            i.AddRange(App.Data.Armoury.UserOwnedItems);
+            i.AddRange(App.Data.Armoury.UserOwnedItems);
+
+            ItemGrid.Populate(i);
         }
 
         protected override void OnShown()

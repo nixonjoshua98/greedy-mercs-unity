@@ -1,9 +1,6 @@
-using BigInteger = System.Numerics.BigInteger;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using TTLCache = GM.Common.TTLCache;
 using ArtefactData = GM.Artefacts.Data.ArtefactData;
+using BigInteger = System.Numerics.BigInteger;
+using TTLCache = GM.Common.TTLCache;
 
 namespace GM.Core
 {

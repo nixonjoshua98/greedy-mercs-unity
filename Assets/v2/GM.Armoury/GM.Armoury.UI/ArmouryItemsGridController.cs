@@ -1,5 +1,6 @@
 using GM.Utils;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using ScreenSpace = GM.UI_.ScreenSpace;
@@ -10,29 +11,27 @@ namespace GM.Armoury.UI_
     {
         [Header("Prefabs")]
         public GameObject ArmouryItemSlotObject;
-        public GameObject ArmouryItemRowObject;
 
         [Header("References")]
         public GridLayoutGroup ItemsGridLayout;
         public Transform ItemsSlotsParent;
 
         [Header("Properties")]
-        public int NumItemColumns = 3;
+        public int NumColumns = 3;
 
         Dictionary<int, ArmouryItemSlot> ItemSlots = new Dictionary<int, ArmouryItemSlot>();
 
-        void Start()
-        {
-            UpdateGridLayoutCellSize();
-        }
-
         public void Populate(List<Models.ArmouryItemUserDataModel> items)
         {
+            ItemSlots.Values.ToList().ForEach(obj => obj.gameObject.SetActive(false));
+
             for (int i = 0; i < items.Count; ++i)
             {
                 var currentItem = items[i];
 
-                GetItemSlot(currentItem.Id);
+                ArmouryItemSlot slot = GetItemSlot(currentItem.Id);
+
+                slot.gameObject.SetActive(true);
             }
 
             UpdateGridLayoutCellSize();
@@ -46,7 +45,7 @@ namespace GM.Armoury.UI_
 
                 slot.AssignItem(itemId);
 
-                //ItemSlots[itemId] = slot;
+                //ItemSlots[itemId] = slot; // Cache the object so we don't recreate it for no reason
             }
 
             return slot;
@@ -54,7 +53,7 @@ namespace GM.Armoury.UI_
 
         void UpdateGridLayoutCellSize()
         {
-            ItemsGridLayout.cellSize = new Vector3(ScreenSpace.Width / NumItemColumns, ItemsGridLayout.cellSize.y);
+            ItemsGridLayout.cellSize = new Vector3(ScreenSpace.Width / NumColumns, ItemsGridLayout.cellSize.y);
 
             ItemsGridLayout.CalculateLayoutInputHorizontal();
             ItemsGridLayout.CalculateLayoutInputVertical();

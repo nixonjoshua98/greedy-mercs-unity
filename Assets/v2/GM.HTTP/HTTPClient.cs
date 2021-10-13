@@ -40,27 +40,19 @@ namespace GM.HTTP
             });
         }
 
-
         // == Prestige == ..
-        public void Prestige(UnityAction<ServerResponse> callback)
-        {
-            Post(ServerConfig.UrlFor("prestige"), new AuthorisedRequest(), callback);
-        }
-
+        public void Prestige(UnityAction<ServerResponse> callback) => Post(ServerConfig.UrlFor("prestige"), new AuthorisedRequest(), callback);
 
         // == Bounties == //
         public void Bounty_Claim(UnityAction<BountyClaimResponse> callback) => Post(ServerConfig.UrlFor("bounty/claim"), new AuthorisedRequest(), callback);
         public void Bounty_UpdateActives(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback) => Post(ServerConfig.UrlFor("bounty/setactive"), req, callback);
 
-
         // == Bounty Shop == //
         public void BShop_PurchaseItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback) => Post(ServerConfig.UrlFor("bountyshop/purchase"), req, callback);
-
 
         // == Armoury == //
         public void Armoury_UpgradeItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) => Post(ServerConfig.UrlFor("armoury/upgrade"), req, callback);
         public void Armoury_EvolveItem(EvolveArmouryItemRequest req, UnityAction<EvolveArmouryItemResponse> callback) => Post(ServerConfig.UrlFor("armoury/evolve"), req, callback);
-
 
         // == Artefacts == //
         public void Artefact_UpgradeArtefact(UpgradeArtefactRequest req, UnityAction<UpgradeArtefactResponse> callback) => Post(ServerConfig.UrlFor("artefact/upgrade"), req, callback);
@@ -70,17 +62,15 @@ namespace GM.HTTP
         public void FetchUserData(UnityAction<FetchUserDataResponse> callback) => Post(ServerConfig.UrlFor("userdata"), new FetchUserDataRequest(), callback);
         public void FetchGameData(UnityAction<FetchGameDataResponse> callback) => Get(ServerConfig.UrlFor("gamedata"), callback);
 
-
         /// <summary>
         /// Authorised server POST request
         /// </summary>
-        void Post<T>(string url, IAuthorisedRequest req, UnityAction<T> callback) where T: IServerResponse, new()
+        void Post<T>(string url, IAuthorisedRequest req, UnityAction<T> callback) where T : IServerResponse, new()
         {
             var www = UnityWebRequest.Post(url, PrepareRequest(req));
 
-            StartCoroutine(Send<T>(www, (resp) => { InvokeRequestCallback(resp, callback); }));
+            StartCoroutine(Send<T>(www, callback));
         }
-
 
         /// <summary>
         /// Login POST request. Special kind of request seperate from Authorised, and Public
@@ -89,7 +79,7 @@ namespace GM.HTTP
         {
             var www = UnityWebRequest.Post(url, PrepareRequest(req));
 
-            StartCoroutine(Send<T>(www, (resp) => { InvokeRequestCallback(resp, callback); }));
+            StartCoroutine(Send<T>(www, callback));
         }
 
         /// <summary>
@@ -99,7 +89,7 @@ namespace GM.HTTP
         {
             var www = UnityWebRequest.Get(url);
 
-            StartCoroutine(Send<T>(www, (resp) => { InvokeRequestCallback(resp, callback); }));
+            StartCoroutine(Send<T>(www, callback));
         }
 
         /// <summary>
@@ -114,24 +104,26 @@ namespace GM.HTTP
 
             yield return www.SendWebRequest();
 
-            callback.Invoke(DeserializeResponse<T>(www));
+            InvokeRequestCallback(www, callback);
         }
 
         /// <summary>
         /// Performs some post request logic and calls the request callback
         /// </summary>
-        void InvokeRequestCallback<T>(T resp, UnityAction<T> callback) where T : IServerResponse
+        void InvokeRequestCallback<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
         {
             try
             {
+                T resp = DeserializeResponse<T>(www);
+
+                UpdateResponseErrorMessage(www, resp);
+
                 callback.Invoke(resp);
             }
             finally
             {
-
             }
         }
-
 
         /// <summary>
         /// Deserialize the response into the request response object
@@ -169,8 +161,24 @@ namespace GM.HTTP
                     StatusCode = HTTPCodes.FailedToDeserialize
                 };
             }
-            
+
+            UpdateResponseErrorMessage(www, model);
+
             return model;
+        }
+
+        /// <summary>
+        /// Update the error message if a generic response
+        /// </summary>
+        void UpdateResponseErrorMessage(UnityWebRequest www, IServerResponse response)
+        {
+            switch (www.responseCode)
+            {
+                case HTTPCodes.NoServerResponse:
+                    response.ErrorMessage = "Failed to connect to server";
+                    break;
+            }
+
         }
 
         /// <summary>

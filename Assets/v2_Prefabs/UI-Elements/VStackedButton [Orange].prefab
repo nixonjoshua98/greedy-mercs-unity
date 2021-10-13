@@ -243,12 +243,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 58
+  m_fontSize: 52
   m_fontSizeBase: 58
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 52
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -544,9 +544,9 @@ GameObject:
   - component: {fileID: 8994090150515151711}
   - component: {fileID: 8489018742281765473}
   - component: {fileID: 6724793586456287976}
-  - component: {fileID: 4441460749406492780}
+  - component: {fileID: -1369034769387035811}
   m_Layer: 5
-  m_Name: VStackedButton
+  m_Name: VStackedButton [Orange]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -630,7 +630,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 8994090149721073379}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -646,7 +646,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!95 &4441460749406492780
+--- !u!95 &-1369034769387035811
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0

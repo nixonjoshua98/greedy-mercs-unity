@@ -7,9 +7,9 @@ namespace GM.Common
     {
         DateTime NextDailyReset { get; set; }
 
-        List<GM.Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
-        GM.Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
-        GM.Armoury.Models.ArmouryGameDataModel Armoury { get; set; }
-        List<GM.Mercs.Models.MercGameDataModel> Mercs { get; set; }
+        List<Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
+        Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
+        List<Armoury.Models.ArmouryItemGameDataModel> Armoury { get; set; }
+        List<Mercs.Models.MercGameDataModel> Mercs { get; set; }
     }
 }

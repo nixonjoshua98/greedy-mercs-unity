@@ -18,14 +18,16 @@ from src.mongo.repositories.armoury import ArmouryRepository, armoury_repository
 from src.mongo.repositories.artefacts import ArtefactsRepository, artefacts_repository
 from src.mongo.repositories.bounties import BountiesRepository, bounties_repository
 
-from src.resources.artefacts import get_static_artefacts
+from src.resources import inject_static_armoury_data
+from src.resources.artefacts import inject_static_artefacts
 
 router = APIRouter(prefix="/api")
 
 
 @router.get("/gamedata")
 def game_data(
-        static_artefacts=Depends(get_static_artefacts)
+        s_armoury=Depends(inject_static_armoury_data),
+        static_artefacts=Depends(inject_static_artefacts)
 ):
     svr_state = ServerState()
 
@@ -34,7 +36,7 @@ def game_data(
 
         "artefacts": [art.response_dict() for art in static_artefacts],
         "bounties": res2.get_bounty_data(as_list=True),
-        "armoury": res2.get_armoury_resources(as_list=True),
+        "armoury": [it.response_dict() for it in s_armoury],
         "mercs": resources.get_mercs(as_list=True),
     })
 

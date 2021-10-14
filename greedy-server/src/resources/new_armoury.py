@@ -7,7 +7,7 @@ from src.common.basemodels import BaseModel
 
 
 def inject_static_armoury_data() -> list[StaticArmouryItem]:
-    """ Inject an instance of the static armoury data """
+    """ Inject an instance of the static data """
     d: list[dict] = load_static_data_file("armoury.json")
 
     return [StaticArmouryItem.parse_obj(art) for art in d]

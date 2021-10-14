@@ -71,7 +71,7 @@ async def upgrade(
     return ServerResponse({"updatedItem": updated_item.response_dict(), "currencyItems": currencies.response_dict()})
 
 
-@router.post("/evolve")
+@router.post("/upgrade-star-level")
 async def evolve(
         data: ArmouryItemActionModel,
 
@@ -95,7 +95,7 @@ async def evolve(
     # Update the item document
     updated_item = await armoury_repo.update_item(uid, data.item_id, {
         "$inc": {
-            ArmouryFieldKeys.EVO_LEVEL: 1,
+            ArmouryFieldKeys.STAR_LEVEL: 1,
             ArmouryFieldKeys.NUM_OWNED: -resources.get_armoury_resources().evo_level_cost
         }}, upsert=False)
 
@@ -117,7 +117,7 @@ def calc_upgrade_cost(item: ArmouryItemModel):
 def check_can_evolve_weapon(item: ArmouryItemModel):
     armoury = resources.get_armoury_resources()
 
-    is_max_level = item.evo_level >= armoury.max_evo_level
+    is_max_level = item.star_level >= armoury.max_evo_level
     can_evolve = item.owned >= armoury.evo_level_cost
 
     if is_max_level or not can_evolve:

@@ -10,7 +10,7 @@ from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.routing.common.checks import check_greater_than, check_is_not_none
 
-from src.resources.artefacts import get_static_artefacts, StaticArtefact
+from src.resources.artefacts import inject_static_artefacts, StaticArtefact
 
 from src.mongo.repositories.artefacts import (
     ArtefactsRepository, ArtefactModel, Fields as ArtefactsRepoFields, artefacts_repository
@@ -37,7 +37,7 @@ async def upgrade(
         data: ArtefactUpgradeModel,
 
         # = Static Game Data = #
-        static_artefacts=Depends(get_static_artefacts),
+        static_artefacts=Depends(inject_static_artefacts),
 
         # = Database Repositories = #
         artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
@@ -91,7 +91,7 @@ async def unlock(
         data: UserIdentifier,
 
         # = Static Game Data = #
-        static_artefacts=Depends(get_static_artefacts),
+        static_artefacts=Depends(inject_static_artefacts),
 
         # = Database Repositories = #
         artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),

@@ -20,7 +20,12 @@ namespace GM.Armoury.UI_
         public override void AssignItem(int itemId)
         {
             base.AssignItem(itemId);
+            SetStaticUIElements();
+            RefreshUI();
+        }
 
+        void SetStaticUIElements()
+        {
             TierText.color = AssignedItem.DisplayConfig.Colour;
             TierText.text = AssignedItem.DisplayConfig.DisplayText;
 
@@ -28,23 +33,23 @@ namespace GM.Armoury.UI_
             NameText.text = AssignedItem.ItemName;
         }
 
-        void FixedUpdate()
+        void RefreshUI()
         {
-            LevelText.text = $"Level: {AssignedItem.CurrentLevel}";
-            EvolveButton.interactable = AssignedItem.ReadyToEvolve;
-            OwnedText.text = $"{AssignedItem.CurrentNumOwned} / {AssignedItem.EvolveCost}";
-            EvolveProgressSlider.value = AssignedItem.CurrentNumOwned / (float)AssignedItem.EvolveCost;
+            LevelText.text = $"Level {AssignedItem.CurrentLevel}";
+            EvolveButton.interactable = AssignedItem.CanStarUpgrade;
+            OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.StarLevelCost}";
+            EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.StarLevelCost;
         }
 
         // == Callbacks == //
         public void OnEvolveButton()
         {
-            App.Data.Armoury.EvolveItem(AssignedItemId, (success) => {  });
+            App.Data.Armoury.EvolveItem(AssignedItemId, (success) => { RefreshUI(); });
         }
 
         public void OnUpgradeButton()
         {
-            App.Data.Armoury.UpgradeItem(AssignedItemId, (success) => {  });
+            App.Data.Armoury.UpgradeItem(AssignedItemId, (success) => { RefreshUI(); });
         }
     }
 }

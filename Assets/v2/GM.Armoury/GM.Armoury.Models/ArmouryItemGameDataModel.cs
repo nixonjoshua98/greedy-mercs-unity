@@ -21,9 +21,9 @@ namespace GM.Armoury.Models
         public Sprite Icon;
 
         [JsonIgnore]
-        public int MaxEvolveLevel;
+        public int MaxStarLevel;
 
         [JsonIgnore]
-        public int EvoLevelCost;
+        public int BaseStarLevelCost;
     }
 }

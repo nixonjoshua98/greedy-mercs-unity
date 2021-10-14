@@ -45,8 +45,8 @@ namespace GM.Armoury.Data
                 item.Name = localMerc.Name;
                 item.Icon = localMerc.Icon;
 
-                item.EvoLevelCost = data.EvoLEvelCost;
-                item.MaxEvolveLevel = data.MaxEvoLevel;
+                item.BaseStarLevelCost = data.BaseStarLevelCost;
+                item.MaxStarLevel = data.MaxStarLevel;
             }
         }
 

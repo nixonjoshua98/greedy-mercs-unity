@@ -2,6 +2,9 @@
   "maxEvoLevel": 100,
   "evoLevelCost": 5,
 
+  "MaxStarLevel": 100,
+  "BaseStarLevelCost": 5,
+
   "items": {
     "0": {
       "itemTier": 0,

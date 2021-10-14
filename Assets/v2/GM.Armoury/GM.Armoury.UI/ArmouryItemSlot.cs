@@ -27,10 +27,8 @@ namespace GM.Armoury.UI_
 
         void SetStaticElements()
         {
-            ItemTierDisplayConfig config = ArmouryUtils.GetDisplayConfig(AssignedItem.Tier);
-
-            TierText.color = config.Colour;
-            TierText.text = config.DisplayText;
+            TierText.color = AssignedItem.DisplayConfig.Colour;
+            TierText.text = AssignedItem.DisplayConfig.DisplayText;
 
             IconImage.sprite = AssignedItem.Icon;
             NameText.text = AssignedItem.ItemName;
@@ -38,9 +36,9 @@ namespace GM.Armoury.UI_
 
         void FixedUpdate()
         {
-            OwnedText.text = $"{AssignedItem.CurrentNumOwned} / {AssignedItem.EvolveCost}";
+            OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.StarLevelCost}";
 
-            EvolveProgressSlider.value = AssignedItem.CurrentNumOwned / (float)AssignedItem.EvolveCost;
+            EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.StarLevelCost;
         }
 
         // == Callbacks == //

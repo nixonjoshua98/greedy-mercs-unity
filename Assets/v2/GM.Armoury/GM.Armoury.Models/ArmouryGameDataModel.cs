@@ -4,8 +4,8 @@ namespace GM.Armoury.Models
 {
     public class ArmouryGameDataModel
     {
-        public int MaxEvoLevel;
-        public int EvoLEvelCost;
+        public int MaxStarLevel;
+        public int BaseStarLevelCost;
 
         public List<ArmouryItemGameDataModel> Items;
     }

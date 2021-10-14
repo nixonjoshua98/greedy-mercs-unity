@@ -4,13 +4,6 @@ namespace GM.Utils
 {
     public static class GameObjectUtils
     {
-        public static T Instantiate<T>(GameObject obj) where T : Component
-        {
-            GameObject objInst = Object.Instantiate(obj);
-
-            return objInst.GetComponent<T>();
-        }
-
         public static T Instantiate<T>(GameObject obj, Transform parent) where T: Component
         {
             GameObject objInst = Object.Instantiate(obj, parent);

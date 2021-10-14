@@ -10,5 +10,4 @@ namespace GM.Common
         List<Artefacts.Models.ArtefactUserDataModel> Artefacts { get; set; }
         BountyShop.Models.CompleteBountyShopDataModel BountyShop { get; set; }
     }
-
 }

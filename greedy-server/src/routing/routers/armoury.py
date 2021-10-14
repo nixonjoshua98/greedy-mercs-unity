@@ -30,6 +30,8 @@ router = APIRouter(prefix="/api/armoury")
 @router.post("/upgrade")
 async def upgrade(
         data: ArmouryItemActionModel,
+
+        # = Database Repositories = #
         armoury_repo: ArmouryRepository = Depends(armoury_repository),
         currency_repo: CurrenciesRepository = Depends(currencies_repository)
 ):

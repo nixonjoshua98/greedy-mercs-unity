@@ -10,7 +10,7 @@ from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.routing.common.checks import check_greater_than, check_is_not_none
 
-from src.resources.artefacts import get_static_artefacts, StaticArtefactModel
+from src.resources.artefacts import get_static_artefacts, StaticArtefact
 
 from src.mongo.repositories.artefacts import (
     ArtefactsRepository, ArtefactModel, Fields as ArtefactsRepoFields, artefacts_repository
@@ -136,26 +136,26 @@ def calc_unlock_cost(artefacts: list[ArtefactModel]):
     return math.floor(max(1, num_arts := len(artefacts) - 2) * math.pow(1.35, num_arts))
 
 
-def get_new_artefact(artefacts: list[ArtefactModel], s_artefacts: list[StaticArtefactModel]):
+def get_new_artefact(artefacts: list[ArtefactModel], s_artefacts: list[StaticArtefact]):
     ids: list[int] = [art.id for art in s_artefacts]
     u_arts_ids: list[int] = [art.artefact_id for art in artefacts]
 
     return random.choice(list(set(ids) - set(u_arts_ids)))
 
 
-def calc_upgrade_cost(u_art: ArtefactModel, s_art: StaticArtefactModel, levels: int) -> int:
+def calc_upgrade_cost(u_art: ArtefactModel, s_art: StaticArtefact, levels: int) -> int:
     return formulas.artefact_upgrade_cost(s_art.cost_coeff, s_art.cost_expo, u_art.level, levels)
 
 
 # == Checks == #
 
-def check_not_unlocked_all_artefacts(artefacts: list[ArtefactModel], static_artefacts: list[StaticArtefactModel]):
+def check_not_unlocked_all_artefacts(artefacts: list[ArtefactModel], static_artefacts: list[StaticArtefact]):
 
     if len(artefacts) >= len(static_artefacts):
         raise HTTPException(400, detail="Max number of artefacts unlocked")
 
 
-def check_artefact_within_max_level(artefact: ArtefactModel, static_art: StaticArtefactModel, levels: int):
+def check_artefact_within_max_level(artefact: ArtefactModel, static_art: StaticArtefact, levels: int):
     """ Confirm that levelling the artefact will not exceed the artefact max level """
 
     if (artefact.level + levels) > static_art.max_level:

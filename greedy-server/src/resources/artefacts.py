@@ -6,13 +6,13 @@ from src.utils import load_static_data_file
 from src.common.basemodels import BaseModel
 
 
-def get_static_artefacts() -> list[StaticArtefactModel]:
+def get_static_artefacts() -> list[StaticArtefact]:
     d: list[dict] = load_static_data_file("artefacts.json")
 
-    return [StaticArtefactModel.parse_obj(art) for art in d]
+    return [StaticArtefact.parse_obj(art) for art in d]
 
 
-class StaticArtefactModel(BaseModel):
+class StaticArtefact(BaseModel):
     id: int = Field(..., alias="artefactId")
 
     cost_expo: float = Field(..., alias="costExpo")

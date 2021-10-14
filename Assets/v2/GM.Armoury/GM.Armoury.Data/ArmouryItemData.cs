@@ -35,7 +35,7 @@ namespace GM.Armoury.Data
         /// <summary>
         /// Check if the user can evolve the item (A more detailed check is on the server)
         /// </summary>
-        public bool ReadyToEvolve => User.NumOwned >= (Game.EvoLevelCost + 1) && User.EvoLevel < Game.MaxEvolveLevel;
+        public bool ReadyToEvolve => User.NumOwned >= Game.EvoLevelCost && User.EvoLevel < Game.MaxEvolveLevel;
 
         /// <summary>
         /// Calculate the weapon damage based on the current item level

@@ -114,7 +114,7 @@ def check_can_evolve_weapon(item: ArmouryItemModel):
     armoury = resources.get_armoury_resources()
 
     is_max_level = item.evo_level >= armoury.max_evo_level
-    can_evolve = item.owned >= (armoury.evo_level_cost + 1)
+    can_evolve = item.owned >= armoury.evo_level_cost
 
     if is_max_level or not can_evolve:
         raise HTTPException(400, detail="Cannot evolve item")

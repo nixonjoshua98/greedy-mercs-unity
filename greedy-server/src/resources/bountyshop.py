@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from random import Random
 from pydantic import Field
 
@@ -5,9 +7,12 @@ from src import utils
 from src.common.basemodels import BaseModel
 
 
-def inject_dynamic_bounty_shop():
+def inject_dynamic_bounty_shop() -> BountyShop:
+    """ Inject a bounty shop instance into the request. """
     return BountyShop()
 
+
+# = Models = #
 
 class StaticArmouryItem(BaseModel):
     id: str = Field(..., alias="itemId")
@@ -17,6 +22,8 @@ class StaticArmouryItem(BaseModel):
     purchase_cost: int = Field(..., alias="purchaseCost")
     purchase_limit: int = Field(1, alias="purchaseLimit")
 
+
+# = Container = #
 
 class BountyShop:
     def __init__(self):

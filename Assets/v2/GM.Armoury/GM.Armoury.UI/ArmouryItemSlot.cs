@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using GM.Utils;
 using UnityEngine.UI;
 
 namespace GM.Armoury.UI_
@@ -12,7 +11,6 @@ namespace GM.Armoury.UI_
         [Space]
         public TMP_Text TierText;
         public TMP_Text NameText;
-        public TMP_Text LevelText;
         public TMP_Text OwnedText;
         [Space]
         public Slider EvolveProgressSlider;
@@ -40,7 +38,6 @@ namespace GM.Armoury.UI_
 
         void FixedUpdate()
         {
-            LevelText.text = $"Level {AssignedItem.CurrentLevel}";
             OwnedText.text = $"{AssignedItem.CurrentNumOwned} / {AssignedItem.EvolveCost}";
 
             EvolveProgressSlider.value = AssignedItem.CurrentNumOwned / (float)AssignedItem.EvolveCost;

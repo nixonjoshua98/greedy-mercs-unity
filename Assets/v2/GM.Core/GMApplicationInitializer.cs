@@ -86,7 +86,7 @@ namespace GM.Core
 
         void Initialize(Common.IServerUserData userDataResp, Common.IServerGameData gameDataResp)
         {
-            var app = GMApplication.Create(userDataResp, gameDataResp);
+            GMApplication.Create(userDataResp, gameDataResp);
 
             GameState.Restore();
 

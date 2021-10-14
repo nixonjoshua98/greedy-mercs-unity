@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace GM.HTTP
 {
-    class AuthDetails
+    class ServerAuthenticationDetails
     {
         public string UserId = null;
     }
@@ -21,7 +21,7 @@ namespace GM.HTTP
             Address = "86.153.58.47"
         };
 
-        AuthDetails Auth = new AuthDetails();
+        ServerAuthenticationDetails serverAuthDetails = new ServerAuthenticationDetails();
         
 
         // == Login == //
@@ -29,22 +29,22 @@ namespace GM.HTTP
         {
             Post<UserLoginReponse>(ServerConfig.UrlFor("login"), new UserLoginRequest(), (resp) =>
             {
-                Auth = new AuthDetails();
+                serverAuthDetails = new ServerAuthenticationDetails();
 
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    Auth.UserId = resp.UserId;
+                    serverAuthDetails.UserId = resp.UserId;
                 }
 
                 callback.Invoke(resp);
             });
         }
 
-        // == Prestige == ..
-        public void Prestige(UnityAction<ServerResponse> callback) => Post(ServerConfig.UrlFor("prestige"), new AuthorisedRequest(), callback);
+        // == Prestige == //
+        public void Prestige(UnityAction<ServerResponse> callback) => Post(ServerConfig.UrlFor("prestige"), new AuthenticatedRequest(), callback);
 
         // == Bounties == //
-        public void Bounty_Claim(UnityAction<BountyClaimResponse> callback) => Post(ServerConfig.UrlFor("bounty/claim"), new AuthorisedRequest(), callback);
+        public void Bounty_Claim(UnityAction<BountyClaimResponse> callback) => Post(ServerConfig.UrlFor("bounty/claim"), new AuthenticatedRequest(), callback);
         public void Bounty_UpdateActives(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback) => Post(ServerConfig.UrlFor("bounty/setactive"), req, callback);
 
         // == Bounty Shop == //
@@ -56,24 +56,18 @@ namespace GM.HTTP
 
         // == Artefacts == //
         public void Artefact_UpgradeArtefact(UpgradeArtefactRequest req, UnityAction<UpgradeArtefactResponse> callback) => Post(ServerConfig.UrlFor("artefact/upgrade"), req, callback);
-        public void Artefact_UnlockArtefact(UnityAction<UnlockArtefactResponse> callback) => Post(ServerConfig.UrlFor("artefact/unlock"), new AuthorisedRequest(), callback);
+        public void Artefact_UnlockArtefact(UnityAction<UnlockArtefactResponse> callback) => Post(ServerConfig.UrlFor("artefact/unlock"), new AuthenticatedRequest(), callback);
 
         // == Data == //
         public void FetchUserData(UnityAction<FetchUserDataResponse> callback) => Post(ServerConfig.UrlFor("userdata"), new FetchUserDataRequest(), callback);
         public void FetchGameData(UnityAction<FetchGameDataResponse> callback) => Get(ServerConfig.UrlFor("gamedata"), callback);
 
         /// <summary>
-        /// Authorised server POST request
         /// </summary>
-        void Post<T>(string url, IAuthorisedRequest req, UnityAction<T> callback) where T : IServerResponse, new()
-        {
-            var www = UnityWebRequest.Post(url, PrepareRequest(req));
-
-            StartCoroutine(Send<T>(www, callback));
-        }
+        void Post<T>(string url, IAuthenticatedRequest req, UnityAction<T> callback) where T : IServerResponse, new() => 
+            SendAuthenticatedRequest("POST", url, req, callback);
 
         /// <summary>
-        /// Login POST request. Special kind of request seperate from Authorised, and Public
         /// </summary>
         void Post<T>(string url, ILoginRequest req, UnityAction<T> callback) where T : IServerResponse, new()
         {
@@ -83,7 +77,6 @@ namespace GM.HTTP
         }
 
         /// <summary>
-        /// Public server GET request
         /// </summary>
         void Get<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
         {
@@ -93,9 +86,7 @@ namespace GM.HTTP
         }
 
         /// <summary>
-        /// Sends the actual web request
         /// </summary>
-        /// <returns></returns>
         IEnumerator Send<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
         {
             www.timeout = 5;
@@ -105,6 +96,28 @@ namespace GM.HTTP
             yield return www.SendWebRequest();
 
             InvokeRequestCallback(www, callback);
+        }
+
+        void SendAuthenticatedRequest<T>(string method, string url, IAuthenticatedRequest request, UnityAction<T> callback) where T : IServerResponse, new()
+        {
+            if (serverAuthDetails == null)
+            {
+                T resp = new T() {
+                    ErrorMessage = "A game relaunch is required as you are playing in offline mode", 
+                    StatusCode = HTTPCodes.IsOfflineMode
+                };
+
+                callback.Invoke(resp);
+            }
+            else
+            {
+                var www = method switch
+                {
+                    "POST" => UnityWebRequest.Post(url, PrepareRequest(request)),
+                };
+
+                StartCoroutine(Send<T>(www, callback));
+            }
         }
 
         /// <summary>
@@ -122,6 +135,7 @@ namespace GM.HTTP
             }
             finally
             {
+
             }
         }
 
@@ -184,9 +198,9 @@ namespace GM.HTTP
         /// <summary>
         /// Pre-request setup. Sets up Auth values etc
         /// </summary>
-        string PrepareRequest(IAuthorisedRequest request)
+        string PrepareRequest(IAuthenticatedRequest request)
         {
-            request.UserId = Auth.UserId;
+            request.UserId = serverAuthDetails.UserId;
             request.DeviceId = SystemInfo.deviceUniqueIdentifier;
 
             return JsonConvert.SerializeObject(request);

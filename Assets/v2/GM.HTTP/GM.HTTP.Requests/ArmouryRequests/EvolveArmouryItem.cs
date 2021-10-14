@@ -2,7 +2,7 @@
 
 namespace GM.HTTP.Requests
 {
-    public class EvolveArmouryItemRequest : AuthorisedRequest
+    public class EvolveArmouryItemRequest : AuthenticatedRequest
     {
         public int ItemId;
     }

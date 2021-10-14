@@ -4,8 +4,8 @@ namespace GM.Armoury.Data
 {
     public struct ArmouryItemData
     {
-        public Models.ArmouryItemGameDataModel Game;
-        public Models.ArmouryItemUserDataModel User;
+        Models.ArmouryItemGameDataModel Game { get; set; }
+        Models.ArmouryItemUserDataModel User { get; set; }
 
         public ArmouryItemData(Models.ArmouryItemGameDataModel game, Models.ArmouryItemUserDataModel user)
         {
@@ -13,9 +13,10 @@ namespace GM.Armoury.Data
             User = user;
         }
 
+        public ItemTierDisplayConfig DisplayConfig => ArmouryUtils.GetDisplayConfig(Tier);
+
         public Sprite Icon => Game.Icon;
         public string ItemName => Game.Name;
-
         public int EvolveCost => Game.EvoLevelCost;
 
         /// <summary>

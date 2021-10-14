@@ -39,11 +39,11 @@ namespace GM.Armoury.UI
 
         void SetStaticInterface()
         {
-            nameText.text = ItemData.Game.Name.ToUpper();
+            nameText.text = ItemData.ItemName.ToUpper();
 
-            colouredWeapon.sprite = shadowWeapon.sprite = ItemData.Game.Icon;
+            colouredWeapon.sprite = shadowWeapon.sprite = ItemData.Icon;
 
-            stars.Show(ItemData.Game.Tier + 1);
+            stars.Show(ItemData.Tier + 1);
         }
 
 
@@ -62,8 +62,8 @@ namespace GM.Armoury.UI
             levelCostText.text = levelCost.ToString();
 
             // Update the evolve level slider
-            evolveSlider.maxValue = ItemData.Game.EvoLevelCost;
-            evolveSlider.value = (ItemData.User.NumOwned - 1);
+            evolveSlider.maxValue = ItemData.EvolveCost;
+            evolveSlider.value = (ItemData.CurrentNumOwned - 1);
 
             // Buttons
             evolveButton.interactable = ItemData.ReadyToEvolve;

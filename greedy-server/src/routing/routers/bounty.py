@@ -27,6 +27,8 @@ router = APIRouter(prefix="/api/bounty")
 @router.post("/claim")
 async def claim_points(
         user: UserIdentifier,
+
+        # = Database Repositories = #
         bounties_repo: BountiesRepository = Depends(bounties_repository),
         currency_repo: CurrenciesRepository = Depends(currencies_repository)
 ):
@@ -53,6 +55,8 @@ async def claim_points(
 @router.post("/setactive")
 async def set_active_bounties(
         data: ActiveBountyUpdateModel,
+
+        # = Database Repositories = #
         bounties_repo: BountiesRepository = Depends(bounties_repository)
 ):
     uid = await user_or_raise(data)

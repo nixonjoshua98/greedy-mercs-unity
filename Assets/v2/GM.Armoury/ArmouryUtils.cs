@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GM.Utils
+namespace GM.Armoury
 {
     public struct ItemTierDisplayConfig
     {
@@ -8,7 +8,7 @@ namespace GM.Utils
         public string DisplayText;
     }
 
-    public static class ItemTierUtils
+    public static class ArmouryUtils
     {
         public static ItemTierDisplayConfig GetDisplayConfig(int tier)
         {

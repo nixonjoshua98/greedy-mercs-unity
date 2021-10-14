@@ -21,10 +21,10 @@ namespace GM.Armoury.UI
         {
             GM.Armoury.Data.ArmouryItemData data = App.Data.Armoury.GetItem(item);
 
-            itemImage.sprite    = data.Game.Icon;
-            nameText.text       = data.Game.Name.ToUpper();
+            itemImage.sprite    = data.Icon;
+            nameText.text       = data.ItemName.ToUpper();
 
-            stars.Show(data.Game.Tier + 1);
+            stars.Show(data.Tier + 1);
         }
 
 

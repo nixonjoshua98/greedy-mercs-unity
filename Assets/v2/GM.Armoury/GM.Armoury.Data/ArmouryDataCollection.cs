@@ -70,7 +70,7 @@ namespace GM.Armoury.Data
             {
                 ArmouryItemData itemData = GetItem(item.Id);
 
-                if (itemData.User.Level > 0)
+                if (itemData.CurrentLevel > 0)
                 {
                     val += itemData.WeaponDamage;
                 }

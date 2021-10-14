@@ -1,15 +1,28 @@
 from random import Random
+from pydantic import Field
 
 from src import utils
+from src.common.basemodels import BaseModel
 
-from .models import ArmouryItem
+
+def inject_dynamic_bounty_shop():
+    return BountyShop()
+
+
+class StaticArmouryItem(BaseModel):
+    id: str = Field(..., alias="itemId")
+
+    armoury_item: int = Field(..., alias="armouryItem")
+
+    purchase_cost: int = Field(..., alias="purchaseCost")
+    purchase_limit: int = Field(1, alias="purchaseLimit")
 
 
 class BountyShop:
     def __init__(self):
         self.items = self._generate()
 
-    def get_item(self, item: str) -> ArmouryItem:
+    def get_item(self, item: str) -> StaticArmouryItem:
         return utils.get(self.items, id=item)
 
     def to_dict(self) -> dict[str, list]:
@@ -40,7 +53,7 @@ class BountyShop:
         for i, key in enumerate(keys):
             _id = f"AI-{days_since_epoch}{key}{i}"
 
-            item = ArmouryItem.parse_obj({
+            item = StaticArmouryItem.parse_obj({
                 "itemId": _id,
                 "armouryItem": key,
                 "purchaseCost": -1

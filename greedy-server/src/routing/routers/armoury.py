@@ -60,7 +60,7 @@ async def upgrade(
         }
     })
 
-    # Update the request item data
+    # Update the requested item data
     updated_item = await armoury_repo.update_item(uid, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.LEVEL: 1

@@ -7,6 +7,9 @@ namespace GM.Armoury.UI_
 {
     public class ArmouryItemSlot : ArmouryItemUIObject
     {
+        [Header("Prefabs")]
+        public GameObject PopupObject;
+        [Space]
         public TMP_Text TierText;
         public TMP_Text NameText;
         public TMP_Text LevelText;
@@ -26,7 +29,7 @@ namespace GM.Armoury.UI_
 
         void SetStaticElements()
         {
-            ItemTierDisplayConfig config = ItemTierUtils.GetDisplayConfig(AssignedItem.Tier);
+            ItemTierDisplayConfig config = ArmouryUtils.GetDisplayConfig(AssignedItem.Tier);
 
             TierText.color = config.Colour;
             TierText.text = config.DisplayText;
@@ -47,6 +50,12 @@ namespace GM.Armoury.UI_
         public void OnEvolveProgressSliderValueChanged()
         {
             EvolveProgressSliderFill.color = Color.Lerp(Color.red, new Color(0.0f, 0.8f, 0.0f), EvolveProgressSlider.value);
+        }
+
+        public void OnPopupButton()
+        {
+            CanvasUtils.Instantiate<ArmouryItemPopup>(PopupObject).
+                AssignItem(AssignedItemId);
         }
     }
 }

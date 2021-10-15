@@ -20,9 +20,6 @@ def _camel_to_snake(data: dict) -> dict:
 
 class ServerRequest(_Request):
 
-    def __init__(self, *args, **kwargs):
-        super(ServerRequest, self).__init__(*args, **kwargs)
-
     async def json(self):
         if not hasattr(self, "_json"):
             body = await self.body()

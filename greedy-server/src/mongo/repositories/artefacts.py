@@ -12,7 +12,7 @@ from src.routing import ServerRequest
 from src.common.basemodels import BaseDocument
 
 
-def artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
+def inject_artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
     """ Used to inject a repository instance. """
     return ArtefactsRepository(request.app.state.mongo)
 

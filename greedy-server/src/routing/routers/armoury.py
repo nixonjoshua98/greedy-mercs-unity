@@ -1,27 +1,23 @@
-from fastapi import HTTPException, Depends
+from fastapi import Depends
 
+from src import utils
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.models import ArmouryItemActionModel
-
-from src import resources
-
-from src.routing.common.checks import (
-    check_greater_than,
-    check_is_not_none
-)
+from src.resources.armoury import inject_static_armoury, StaticArmouryItem
+from src.routing.common.checks import check_greater_than, check_is_not_none
 
 from src.mongo.repositories.armoury import (
     ArmouryRepository,
     ArmouryItemModel,
     Fields as ArmouryFieldKeys,
-    armoury_repository
+    inject_armoury_repository
 )
 
 from src.mongo.repositories.currencies import (
     CurrenciesRepository,
     Fields as CurrencyRepoFields,
-    currencies_repository
+    inject_currencies_repository
 )
 
 router = APIRouter(prefix="/api/armoury")
@@ -31,23 +27,28 @@ router = APIRouter(prefix="/api/armoury")
 async def upgrade(
         data: ArmouryItemActionModel,
 
+        # = Static Data = #
+        s_armoury_items: list[StaticArmouryItem] = Depends(inject_static_armoury),
+
         # = Database Repositories = #
-        armoury_repo: ArmouryRepository = Depends(armoury_repository),
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
     uid = await user_or_raise(data)
 
+    s_item = utils.get(s_armoury_items, id=data.item_id)
+
     # Verify the item is valid
-    check_item_is_valid(data.item_id)
+    check_is_not_none(s_item, error="Invalid item")
 
     # Fetch the item data
-    user_item = await armoury_repo.get_one_item(uid, data.item_id)
+    u_item = await armoury_repo.get_one_item(uid, data.item_id)
 
     # Verify the item exists
-    check_is_not_none(user_item, error="Attempted to upgrade a locked armoury item")
+    check_is_not_none(u_item, error="Attempted to upgrade a locked armoury item")
 
     # Calculate the upgrade cost for the item
-    upgrade_cost = calc_upgrade_cost(user_item)
+    upgrade_cost = calc_upgrade_cost(s_item, u_item)
 
     # Fetch the currency we need
     currencies = await currency_repo.get_user(uid)
@@ -72,31 +73,41 @@ async def upgrade(
 
 
 @router.post("/upgrade-star-level")
-async def evolve(
+async def upgrade_star_level(
         data: ArmouryItemActionModel,
-
+        # = Static Data = #
+        s_armoury_items: list[StaticArmouryItem] = Depends(inject_static_armoury),
         # = Database Repositories = #
-        armoury_repo: ArmouryRepository = Depends(armoury_repository)
+        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository)
 ):
     uid = await user_or_raise(data)
 
+    # Pull the static item from the list
+    s_item = utils.get(s_armoury_items, id=data.item_id)
+
     # Verify the item is valid
-    check_item_is_valid(data.item_id)
+    check_is_not_none(s_item, error="Invalid item")
 
     # Fetch the armoury item from the database
-    armoury_item = await armoury_repo.get_one_item(uid, data.item_id)
+    u_item = await armoury_repo.get_one_item(uid, data.item_id)
 
     # Check that the item exists
-    check_is_not_none(armoury_item, error="User has not unlocked armoury item")
+    check_is_not_none(u_item, error="User has not unlocked armoury item")
 
-    # Verify the user can evolve the weapon
-    check_can_evolve_weapon(armoury_item)
+    # Check that the user will not exceed the max level
+    check_greater_than(s_item.max_star_level, u_item.star_level, error="Item is at max star level")
+
+    # Calculate the upgrade cost (This is the # of owned item required)
+    star_upgrade_cost: int = calc_star_upgrade_cost(s_item, u_item)
+
+    # Verify that the user has enough owned items to do the upgrade
+    check_greater_than(u_item.owned, star_upgrade_cost, error="Cannot afford upgrade")
 
     # Update the item document
     updated_item = await armoury_repo.update_item(uid, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.STAR_LEVEL: 1,
-            ArmouryFieldKeys.NUM_OWNED: -resources.get_armoury_resources().evo_level_cost
+            ArmouryFieldKeys.NUM_OWNED: -star_upgrade_cost
         }}, upsert=False)
 
     return ServerResponse({"updateditem": updated_item.response_dict()})
@@ -104,30 +115,9 @@ async def evolve(
 
 # == Calculations == #
 
-def calc_upgrade_cost(item: ArmouryItemModel):
-    armoury = resources.get_armoury_resources()
-
-    static_item = armoury.items[item.item_id]
-
-    return 5 + (static_item.tier + 1) + item.level
+def calc_upgrade_cost(s_item: StaticArmouryItem, item: ArmouryItemModel) -> int:
+    return 5 + (s_item.item_tier + 1) + item.level
 
 
-# == Checks == #
-
-def check_can_evolve_weapon(item: ArmouryItemModel):
-    armoury = resources.get_armoury_resources()
-
-    is_max_level = item.star_level >= armoury.max_evo_level
-    can_evolve = item.owned >= armoury.evo_level_cost
-
-    if is_max_level or not can_evolve:
-        raise HTTPException(400, detail="Cannot evolve item")
-
-    return True
-
-
-def check_item_is_valid(artefact_id):
-    s_items = resources.get_armoury_resources()
-
-    if artefact_id not in s_items.items.keys():
-        raise HTTPException(400, detail="Armoury item is not valid")
+def calc_star_upgrade_cost(s_item: StaticArmouryItem, item: ArmouryItemModel) -> int:
+    return s_item.base_star_level_cost

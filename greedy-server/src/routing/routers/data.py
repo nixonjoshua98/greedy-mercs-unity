@@ -11,30 +11,29 @@ from src import resources as res2
 
 from src.checks import user_or_raise
 
-from src.resources.bountyshop import BountyShop
+from src.mongo.repositories.currencies import CurrenciesRepository, inject_currencies_repository
+from src.mongo.repositories.armoury import ArmouryRepository, inject_armoury_repository
+from src.mongo.repositories.artefacts import ArtefactsRepository, inject_artefacts_repository
+from src.mongo.repositories.bounties import BountiesRepository, inject_bounties_repository
 
-from src.mongo.repositories.currencies import CurrenciesRepository, currencies_repository
-from src.mongo.repositories.armoury import ArmouryRepository, armoury_repository
-from src.mongo.repositories.artefacts import ArtefactsRepository, artefacts_repository
-from src.mongo.repositories.bounties import BountiesRepository, bounties_repository
-
-from src.resources import inject_static_armoury_data
-from src.resources.artefacts import inject_static_artefacts
+from src.resources.armoury import inject_static_armoury, StaticArmouryItem
+from src.resources.artefacts import inject_static_artefacts, StaticArtefact
+from src.resources.bountyshop import inject_dynamic_bounty_shop
 
 router = APIRouter(prefix="/api")
 
 
 @router.get("/gamedata")
 def game_data(
-        s_armoury=Depends(inject_static_armoury_data),
-        static_artefacts=Depends(inject_static_artefacts)
+        s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
+        s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts)
 ):
     svr_state = ServerState()
 
     return ServerResponse({
         "nextDailyReset": svr_state.next_daily_reset,
 
-        "artefacts": [art.response_dict() for art in static_artefacts],
+        "artefacts": [art.response_dict() for art in s_artefacts],
         "bounties": res2.get_bounty_data(as_list=True),
         "armoury": [it.response_dict() for it in s_armoury],
         "mercs": resources.get_mercs(as_list=True),
@@ -44,12 +43,13 @@ def game_data(
 @router.post("/userdata")
 async def user_data(
         data: UserIdentifier,
-
+        # = Static/Game Data = #
+        s_bounty_shop=Depends(inject_dynamic_bounty_shop),
         # = Database Repositories = #
-        currency_repo: CurrenciesRepository = Depends(currencies_repository),
-        armoury_repo: ArmouryRepository = Depends(armoury_repository),
-        bounties_repo: BountiesRepository = Depends(bounties_repository),
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
+        bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
+        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
 ):
     uid = await user_or_raise(data)
 
@@ -64,7 +64,7 @@ async def user_data(
         "armouryItems": [ai.response_dict() for ai in armoury],
         "artefacts": [art.response_dict() for art in artefacts],
 
-        "bountyShop": {"dailyPurchases": {}, "shopItems": BountyShop().to_dict()}
+        "bountyShop": {"dailyPurchases": {}, "shopItems": s_bounty_shop.to_dict()}
     }
 
     return ServerResponse(data)

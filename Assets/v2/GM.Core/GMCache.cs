@@ -10,11 +10,11 @@ namespace GM.Core
 
         public GMCache()
         {
-            cache = new TTLCache(3);
+            cache = new TTLCache(-1);
         }
 
         // == Armoury == //
-        public double ArmouryMercDamageMultiplier => cache.Get<double>("ArmouryMercDamageMultiplier", () => App.Data.Armoury.TotalMercDamageMultiplier());
+        public double ArmouryMercDamageMultiplier => App.Data.Armoury.TotalMercDamageMultiplier();
 
         // == Artefacts == //
         public BigInteger NextArtefactUnlockCost(int owned) => Formulas.NextArtefactUnlockCost(owned);

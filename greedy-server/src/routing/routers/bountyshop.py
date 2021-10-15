@@ -8,10 +8,10 @@ from src.models import UserIdentifier
 from src.routing import ServerResponse, APIRouter
 from src.routing.common.checks import check_is_not_none, check_greater_than
 
-from src.resources.bountyshop import BountyShop, StaticArmouryItem as BSArmouryItem, inject_dynamic_bounty_shop
+from src.resources.bountyshop import StaticBountyShopArmouryItem as BSArmouryItem, inject_dynamic_bounty_shop
 
-from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, currencies_repository
-from src.mongo.repositories.armoury import ArmouryRepository, Fields as ArmouryRepoFields, armoury_repository
+from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, inject_currencies_repository
+from src.mongo.repositories.armoury import ArmouryRepository, Fields as ArmouryRepoFields, inject_armoury_repository
 
 router = APIRouter(prefix="/api/bountyshop")
 
@@ -27,11 +27,11 @@ async def purchase(
         data: ItemData,
 
         # = Database Repositories = #
-        currency_repo: CurrenciesRepository = Depends(currencies_repository),
-        armoury_repo: ArmouryRepository = Depends(armoury_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
 
-        # = Static Data = #
-        bounty_shop: BountyShop = Depends(inject_dynamic_bounty_shop)
+        # = Static/Game Data = #
+        bounty_shop=Depends(inject_dynamic_bounty_shop)
 ):
     uid = await user_or_raise(data)
 

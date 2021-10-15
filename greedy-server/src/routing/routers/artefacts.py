@@ -13,11 +13,11 @@ from src.routing.common.checks import check_greater_than, check_is_not_none
 from src.resources.artefacts import inject_static_artefacts, StaticArtefact
 
 from src.mongo.repositories.artefacts import (
-    ArtefactsRepository, ArtefactModel, Fields as ArtefactsRepoFields, artefacts_repository
+    ArtefactsRepository, ArtefactModel, Fields as ArtefactsRepoFields, inject_artefacts_repository
 )
 
 from src.mongo.repositories.currencies import (
-    CurrenciesRepository, Fields as CurrencyRepoFields, currencies_repository
+    CurrenciesRepository, Fields as CurrencyRepoFields, inject_currencies_repository
 )
 
 router = APIRouter(prefix="/api/artefact")
@@ -40,8 +40,8 @@ async def upgrade(
         static_artefacts=Depends(inject_static_artefacts),
 
         # = Database Repositories = #
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
     uid = await user_or_raise(data)
 
@@ -94,8 +94,8 @@ async def unlock(
         static_artefacts=Depends(inject_static_artefacts),
 
         # = Database Repositories = #
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
     uid = await user_or_raise(data)
 

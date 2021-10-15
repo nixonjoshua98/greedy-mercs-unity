@@ -10,7 +10,7 @@ from src.routing import ServerRequest
 from src.common.basemodels import BaseDocument
 
 
-def armoury_repository(request: ServerRequest) -> ArmouryRepository:
+def inject_armoury_repository(request: ServerRequest) -> ArmouryRepository:
     """ Used to inject a repository instance. """
     return ArmouryRepository(request.app.state.mongo)
 

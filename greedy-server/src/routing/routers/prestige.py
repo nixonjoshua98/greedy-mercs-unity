@@ -10,9 +10,9 @@ from src.models import UserIdentifier
 
 from src import resources
 
-from src.mongo.repositories.bounties import BountiesRepository, bounties_repository
-from src.mongo.repositories.artefacts import ArtefactsRepository, ArtefactModel, artefacts_repository
-from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, currencies_repository
+from src.mongo.repositories.bounties import BountiesRepository, inject_bounties_repository
+from src.mongo.repositories.artefacts import ArtefactsRepository, ArtefactModel, inject_artefacts_repository
+from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, inject_currencies_repository
 
 
 router = APIRouter(prefix="/api")
@@ -26,9 +26,9 @@ class PrestigeData(UserIdentifier):
 @router.post("/prestige")
 async def prestige(
         data: PrestigeData,
-        bounties_repo: BountiesRepository = Depends(bounties_repository),
-        currency_repo: CurrenciesRepository = Depends(currencies_repository),
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository)
+        bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository)
 ):
     uid = await user_or_raise(data)
 

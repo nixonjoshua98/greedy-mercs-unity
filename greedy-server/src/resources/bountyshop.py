@@ -60,7 +60,7 @@ class BountyShop:
 
         generated_items = []
 
-        items: list[StaticArmouryItem] = rnd.choices(self._static_armoury_items, k=9)
+        items: list[StaticArmouryItem] = rnd.choices(self._static_armoury_items, k=5)
 
         for i, it in enumerate(items):
             _id = f"AI-{days_since_epoch}{it.id}{i}"

@@ -3,29 +3,21 @@ import random
 
 from fastapi import HTTPException, Depends
 
-from src.resources.artefacts import ArtefactResourceData
-from src.checks import user_or_raise
-from src.common import formulas
-from src.routing import ServerResponse, APIRouter
+from src import utils
 from src.models import UserIdentifier
-from src import resources
+from src.common import formulas
+from src.checks import user_or_raise
+from src.routing import ServerResponse, APIRouter
+from src.routing.common.checks import check_greater_than, check_is_not_none
 
-from src.routing.common.checks import (
-    check_greater_than,
-    check_is_not_none
-)
+from src.resources.artefacts import inject_static_artefacts, StaticArtefact
 
 from src.mongo.repositories.artefacts import (
-    ArtefactsRepository,
-    ArtefactModel,
-    Fields as ArtefactsRepoFields,
-    artefacts_repository
+    ArtefactsRepository, ArtefactModel, Fields as ArtefactsRepoFields, inject_artefacts_repository
 )
 
 from src.mongo.repositories.currencies import (
-    CurrenciesRepository,
-    Fields as CurrencyRepoFields,
-    currencies_repository
+    CurrenciesRepository, Fields as CurrencyRepoFields, inject_currencies_repository
 )
 
 router = APIRouter(prefix="/api/artefact")
@@ -43,13 +35,21 @@ class ArtefactUpgradeModel(UserIdentifier):
 @router.post("/upgrade")
 async def upgrade(
         data: ArtefactUpgradeModel,
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+
+        # = Static Game Data = #
+        static_artefacts=Depends(inject_static_artefacts),
+
+        # = Database Repositories = #
+        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
     uid = await user_or_raise(data)
 
+    # Pull the artefact in question
+    s_artefact = utils.get(static_artefacts, id=data.artefact_id)
+
     # Check that the request artefact actually exists
-    check_valid_artefact(data.artefact_id)
+    check_is_not_none(s_artefact, error="Artefact is not valid")
 
     # Load the related artefact
     user_art = await artefacts_repo.get_one_artefact(uid, data.artefact_id)
@@ -58,10 +58,10 @@ async def upgrade(
     check_is_not_none(user_art, error="Artefact is not unlocked")
 
     # Check that upgrading this artefact will not exceed the max level
-    check_artefact_within_max_level(user_art, data.upgrade_levels)
+    check_artefact_within_max_level(user_art, s_artefact, data.upgrade_levels)
 
     # Calculate the upgrade cost for the artefact
-    upgrade_cost = calc_upgrade_cost(user_art, data.upgrade_levels)
+    upgrade_cost = calc_upgrade_cost(user_art, s_artefact, data.upgrade_levels)
 
     # Fetch the currency to upgrade the item
     currencies = await currency_repo.get_user(uid)
@@ -89,27 +89,33 @@ async def upgrade(
 @router.post("/unlock")
 async def unlock(
         data: UserIdentifier,
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+
+        # = Static Game Data = #
+        static_artefacts=Depends(inject_static_artefacts),
+
+        # = Database Repositories = #
+        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
     uid = await user_or_raise(data)
 
     # Fetch all user artefacts
-    u_artefacts = await artefacts_repo.get_all_artefacts(uid)
-
-    currencies = await currency_repo.get_user(uid)
+    user_arts = await artefacts_repo.get_all_artefacts(uid)
 
     # Verify that the user still has an artefact available to unlock
-    check_not_unlocked_all_artefacts(u_artefacts)
+    check_not_unlocked_all_artefacts(user_arts, static_artefacts)
 
     # Calculate the artefact cost
-    unlock_cost = calc_unlock_cost(u_artefacts)
+    unlock_cost = calc_unlock_cost(user_arts)
+
+    # Fetch the currencies from the database
+    currencies = await currency_repo.get_user(uid)
 
     # Verify that the user can afford the unlock cost
     check_greater_than(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
 
     # Get the new artefact id
-    new_art_id = get_new_artefact(u_artefacts)
+    new_art_id = get_new_artefact(user_arts, static_artefacts)
 
     # Add the new artefact
     new_artefact = await artefacts_repo.add_new_artefact(uid, new_art_id)
@@ -130,36 +136,27 @@ def calc_unlock_cost(artefacts: list[ArtefactModel]):
     return math.floor(max(1, num_arts := len(artefacts) - 2) * math.pow(1.35, num_arts))
 
 
-def get_new_artefact(artefacts: list[ArtefactModel]):
-    s_arts = resources.get_artefacts_data().artefacts
+def get_new_artefact(artefacts: list[ArtefactModel], s_artefacts: list[StaticArtefact]):
+    ids: list[int] = [art.id for art in s_artefacts]
+    u_arts_ids: list[int] = [art.artefact_id for art in artefacts]
 
-    return random.choice(list(set(list(s_arts.keys())) - set(list([art.id for art in artefacts]))))
+    return random.choice(list(set(ids) - set(u_arts_ids)))
 
 
-def calc_upgrade_cost(artefact: ArtefactModel, levels: int) -> int:
-    static_art = resources.get_artefacts_data().artefacts[artefact.artefact_id]
-
-    return formulas.artefact_upgrade_cost(static_art.cost_coeff, static_art.cost_expo, artefact.level, levels)
+def calc_upgrade_cost(u_art: ArtefactModel, s_art: StaticArtefact, levels: int) -> int:
+    return formulas.artefact_upgrade_cost(s_art.cost_coeff, s_art.cost_expo, u_art.level, levels)
 
 
 # == Checks == #
 
-def check_not_unlocked_all_artefacts(artefacts: list[ArtefactModel]):
-    static_artefacts = resources.get_artefacts_data().artefacts
+def check_not_unlocked_all_artefacts(artefacts: list[ArtefactModel], static_artefacts: list[StaticArtefact]):
 
     if len(artefacts) >= len(static_artefacts):
         raise HTTPException(400, detail="Max number of artefacts unlocked")
 
 
-def check_valid_artefact(artefact_id: int):
-    s_arts = resources.get_artefacts_data().artefacts
+def check_artefact_within_max_level(artefact: ArtefactModel, static_art: StaticArtefact, levels: int):
+    """ Confirm that levelling the artefact will not exceed the artefact max level """
 
-    if artefact_id not in s_arts.keys():
-        raise HTTPException(400, detail="Artefact is not valid")
-
-
-def check_artefact_within_max_level(artefact: ArtefactModel, levels: int):
-    static_artefact: ArtefactResourceData = resources.get_artefacts_data().artefacts[artefact.artefact_id]
-
-    if (artefact.level + levels) > static_artefact.max_level:
+    if (artefact.level + levels) > static_art.max_level:
         raise HTTPException(400, detail="Level will exceed max level")

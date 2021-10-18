@@ -9,31 +9,23 @@ namespace GM.BountyShop.Data
     {
         Dictionary<string, BountyShopPurchaseData> Purchases;
 
-        public List<BountyShopCurrencyItemData> CurrencyItems;
         public List<BountyShopArmouryItem> ArmouryItems;
 
         public BountyShopDataCollection(Models.CompleteBountyShopDataModel data)
         {
             Purchases = new Dictionary<string, BountyShopPurchaseData>();
 
-            CurrencyItems = data.ShopItems.CurrencyItems;
             ArmouryItems = data.ShopItems.ArmouryItems;
         }
 
         public IBountyShopItem GetItem(string id)
         {
-            BountyShopCurrencyItemData item = GetCurrencyItem(id);
-
-            if (item != null)
-                return item;
-
             return GetArmouryItem(id);
         }
 
 
-        public BountyShopCurrencyItemData GetCurrencyItem(string id) => CurrencyItems.Where(ele => ele.Id == id).FirstOrDefault();
         public BountyShopArmouryItem GetArmouryItem(string id) => ArmouryItems.Where(ele => ele.Id == id).FirstOrDefault();
-
+        public BountyShopCurrencyItemData GetCurrencyItem(string id) => null;
         public BountyShopPurchaseData GetItemPurchaseData(string id)
         {
             if (!Purchases.ContainsKey(id))

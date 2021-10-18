@@ -1,9 +1,9 @@
+using GM.Artefacts.Models;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Events;
 using UnityEngine;
-using GM.Artefacts.Models;
-using GM.Extensions;
+using HTTPCodes = GM.HTTP.HTTPCodes;
+using UnityEngine.Events;
 
 
 namespace GM.Artefacts.Data
@@ -22,8 +22,9 @@ namespace GM.Artefacts.Data
 
 
         // == User == //
-        public ArtefactUserDataModel GetUserArtefact(int key) => UserArtefactsList.Where(art => art.Id == key).FirstOrDefault();
-        public void UpdateUserArtefact(ArtefactUserDataModel art) => UserArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
+        public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
+        ArtefactUserDataModel GetUserArtefact(int key) => UserArtefactsList.Where(art => art.Id == key).FirstOrDefault();
+        void UpdateUserArtefact(ArtefactUserDataModel art) => UserArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
         public int NumUnlockedArtefacts => UserArtefactsList.Count;
 
 
@@ -42,7 +43,6 @@ namespace GM.Artefacts.Data
 
                 art.Name = localArtData.Name;
                 art.Icon = localArtData.Icon;
-                art.Slot = localArtData.Slot;
             }
         }
 
@@ -52,7 +52,7 @@ namespace GM.Artefacts.Data
 
 
         // == Combined == //
-        public ArtefactData[] OwnedArtefacts => UserArtefactsList.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
+        public ArtefactData[] UserOwnedArtefacts => UserArtefactsList.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
         public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));
 
 
@@ -62,29 +62,29 @@ namespace GM.Artefacts.Data
 
             App.HTTP.Artefact_UpgradeArtefact(req, (resp) =>
             {
-                if (resp.StatusCode == 200)
+                if (resp.StatusCode == HTTPCodes.Success)
                 {
                     UpdateUserArtefact(resp.UpdatedArtefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
-                call.Invoke(resp.StatusCode == 200);
+                call.Invoke(resp.StatusCode == HTTPCodes.Success);
             });
         }
 
-        public void UnlockArtefact(UnityAction<bool, int> call)
+        public void UnlockArtefact(UnityAction<bool, ArtefactData> call)
         {
             App.HTTP.Artefact_UnlockArtefact((resp) =>
             {
-                if (resp.StatusCode == 200)
+                if (resp.StatusCode == HTTPCodes.Success)
                 {
                     UpdateUserArtefact(resp.NewArtefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
-                call.Invoke(resp.StatusCode == 200, resp.StatusCode == 200 ? resp.NewArtefact.Id : -1);
+                call.Invoke(resp.StatusCode == HTTPCodes.Success, resp.NewArtefact == null ? null : GetArtefact(resp.NewArtefact.Id));
             });
         }
 
@@ -94,7 +94,7 @@ namespace GM.Artefacts.Data
         {
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
 
-            foreach (ArtefactData state in OwnedArtefacts)
+            foreach (ArtefactData state in UserOwnedArtefacts)
             {
                 ls.Add(new KeyValuePair<BonusType, double>(state.Bonus, state.BaseEffect));
             }

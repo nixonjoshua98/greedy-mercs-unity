@@ -9,7 +9,7 @@ namespace GM.UI
 
         Color originalImageColor;
 
-        public void Setup(GM.CurrencyItems.Data.CurrencyType item, string val)
+        public void Setup(Common.Enums.CurrencyType item, string val)
         {
             Setup(val);
 

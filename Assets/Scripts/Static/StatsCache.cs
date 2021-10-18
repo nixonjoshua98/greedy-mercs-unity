@@ -16,8 +16,6 @@ namespace GM
         static List<KeyValuePair<BonusType, double>> ArtefactBonus => App.Data.Arts.Bonuses();
         static List<KeyValuePair<BonusType, double>> CharacterBonus => App.Data.Mercs.Bonuses();
 
-        public static BigDouble ArmouryMercDamageMultiplier { get { return AddSource(BonusType.MERC_DAMAGE, ArmouryBonus); } }
-
         public static class StageEnemy
         {
             public static BigDouble GetEnemyGold(int stage)
@@ -86,21 +84,21 @@ namespace GM
 
         public static BigDouble BaseMercDamage(MercID merc)
         {
-            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-            BigDouble baseDamage = data.Game.BaseDamage > 0 ? data.Game.BaseDamage : (data.Game.UnlockCost / (10.0f + BigDouble.Log10(data.Game.UnlockCost)));
+            BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
 
-            return Formulas.MercBaseDamage(baseDamage, data.User.Level);
+            return Formulas.MercBaseDamage(baseDamage, data.CurrentLevel);
         }
 
         public static BigDouble TotalMercDamage(MercID merc)
         {
-            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-            BigDouble val = data.BaseDamage;
+            BigDouble val = data.BaseDamageFor;
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(data.Game.Attack.ToBonusType());
+            val *= MultiplyAllSources(data.Attack.ToBonusType());
 
             return val;
         }

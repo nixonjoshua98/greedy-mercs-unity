@@ -27,7 +27,7 @@ namespace GM.Units
 
         int _buyAmount;
 
-        protected GM.Mercs.Data.FullMercData MercData => App.Data.Mercs[_MercID];
+        protected GM.Mercs.Data.FullMercData MercData => App.Data.Mercs.GetMerc(_MercID);
 
         protected int BuyAmount
         {
@@ -36,7 +36,7 @@ namespace GM.Units
                 if (_buyAmount == -1)
                     return Formulas.AffordCharacterLevels(_MercID);
 
-                return Mathf.Min(_buyAmount, global::Constants.MAX_CHAR_LEVEL - MercData.User.Level);
+                return Mathf.Min(_buyAmount, global::Constants.MAX_CHAR_LEVEL - MercData.CurrentLevel);
             }
         }
 
@@ -60,18 +60,18 @@ namespace GM.Units
 
         void SetInterfaceElements()
         {
-            iconImage.sprite = MercData.Game.Icon;
+            iconImage.sprite = MercData.Icon;
         }
 
 
         void UpdateInterfaceElements()
         {
             DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(_MercID), prefix: " ATK");
-            nameText.text   = $"(Lvl. {MercData.User.Level}) {MercData.Game.Name}";
+            nameText.text   = $"(Lvl. {MercData.CurrentLevel}) {MercData.Name}";
 
             upgradeButton.SetText("MAX", "-");
 
-            if (MercData.User.Level < global::Constants.MAX_CHAR_LEVEL)
+            if (MercData.CurrentLevel < global::Constants.MAX_CHAR_LEVEL)
             {
                 BigDouble cost = MercData.CostToUpgrade(BuyAmount);
 
@@ -88,9 +88,9 @@ namespace GM.Units
 
             BigDouble cost = MercData.CostToUpgrade(BuyAmount);
 
-            if (MercData.User.Level + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && App.Data.Inv.Gold >= cost)
+            if (MercData.CurrentLevel + levelsBuying <= global::Constants.MAX_CHAR_LEVEL && App.Data.Inv.Gold >= cost)
             {
-                MercData.User.Level += levelsBuying;
+                MercData.LevelUp(levelsBuying);
 
                 App.Data.Inv.Gold -= cost;
 

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace GM.Mercs.Data
+namespace GM.Mercs.Models
 {
     public struct MercPassiveSkillData
     {

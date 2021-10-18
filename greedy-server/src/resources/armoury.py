@@ -1,44 +1,21 @@
+from __future__ import annotations
 
-from src import utils
+from pydantic import Field
 
-
-def get_armoury_resources(*, as_dict: bool = False, as_list=False) -> "ArmouryResources":
-    if as_dict:
-        return utils.load_resource("armoury.json")
-
-    elif as_list:
-        d = utils.load_resource("armoury.json")
-
-        bounties = d["items"]
-        d["items"] = []
-
-        for k, v in bounties.items():
-            d["items"].append({"itemId": k, **v})
-
-        return d
-
-    return ArmouryResources(utils.load_resource("armoury.json"))
+from src.utils import load_static_data_file
+from src.common.basemodels import BaseModel
 
 
-class ArmouryResources:
-    def __init__(self, data: dict):
-        self.max_evo_level = data["maxEvoLevel"]
-        self.evo_level_cost = data["evoLevelCost"]
+def inject_static_armoury() -> list[StaticArmouryItem]:
+    """ Inject an instance of the static data """
+    d: list[dict] = load_static_data_file("armoury.json")
 
-        self.items: dict[int, "ArmouryItem"] = {k: ArmouryItem.from_dict(v) for k, v in data["items"].items()}
+    return [StaticArmouryItem.parse_obj(art) for art in d]
 
 
-class ArmouryItem:
-    __slots__ = ("tier", "base_damage")
-
-    @classmethod
-    def from_dict(cls, data: dict):
-        inst = ArmouryItem()
-
-        inst.tier = data["itemTier"]
-        inst.base_damage = data["baseDamageMultiplier"]
-
-        return inst
-
-    def level_cost(self, level: int) -> int:
-        return 5 + (self.tier + 1) + level
+class StaticArmouryItem(BaseModel):
+    id: int = Field(..., alias="itemId")
+    item_tier: int = Field(..., alias="itemTier")
+    max_star_level: int = Field(..., alias="maxStarLevel")
+    base_star_level_cost: int = Field(..., alias="baseStarLevelCost")
+    base_damage_multiplier: float = Field(..., alias="baseDamageMultiplier")

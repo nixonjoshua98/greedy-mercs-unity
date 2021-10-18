@@ -2,13 +2,13 @@
 
 namespace GM.HTTP.Requests
 {
-    public class EvolveArmouryItemRequest : AuthorisedRequest
+    public class UpgradeStarLevelArmouryItemRequest : AuthenticatedRequest
     {
         public int ItemId;
     }
 
 
-    public class EvolveArmouryItemResponse : ServerResponse
+    public class UpgradeStarLevelArmouryItemResponse : ServerResponse
     {
         public Armoury.Models.ArmouryItemUserDataModel UpdatedItem;
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GM.BountyShop.Models
 {
@@ -15,7 +11,5 @@ namespace GM.BountyShop.Models
     public class BountyShopItemsDataModel
     {
         public List<Data.BountyShopArmouryItem> ArmouryItems;
-        [Newtonsoft.Json.JsonIgnore]
-        public List<Data.BountyShopCurrencyItemData> CurrencyItems = new List<Data.BountyShopCurrencyItemData>();
     }
 }

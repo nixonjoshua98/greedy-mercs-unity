@@ -16,7 +16,10 @@ namespace GM.BountyShop.Data
         [JsonIgnore]
         public string ItemName => ItemData.Name;
 
+        /// <summary>
+        /// Shorthand method to fetch the game data for the armoury item
+        /// </summary>
         [JsonIgnore]
-        Armoury.Models.ArmouryItemGameDataModel ItemData => App.Data.Armoury.GetGameItem(ArmouryItem); // Private
+        public Armoury.Models.ArmouryItemGameDataModel ItemData => App.Data.Armoury.GetGameItem(ArmouryItem);
     }
 }

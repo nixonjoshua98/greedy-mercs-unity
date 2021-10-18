@@ -18,9 +18,9 @@ namespace GM
 
         IEnumerator Create(MercID merc)
         {
-            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-            foreach (GM.Mercs.Data.MercPassiveSkillData passive in data.Game.Passives)
+            foreach (var passive in data.Passives)
             {
                 GameObject skillRow = Instantiate(SkillRow, ScrollContent.transform);
 

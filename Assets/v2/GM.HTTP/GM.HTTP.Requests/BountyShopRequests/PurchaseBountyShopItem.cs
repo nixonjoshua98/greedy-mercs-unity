@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GM.HTTP.Requests
 {
-    public class PurchaseBountyShopItemRequest : AuthorisedRequest
+    public class PurchaseBountyShopItemRequest : AuthenticatedRequest
     {
         public string ShopItem;
     }

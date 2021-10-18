@@ -1,5 +1,6 @@
 using GM.HTTP.Requests;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,13 +9,77 @@ namespace GM.Bounties.Data
 {
     public class BountiesData : Core.GMClass
     {
-        public BountiesGameDataCollection Game;
-        public BountiesUserDataCollection User;
+        Models.CompleteBountyDataModel UserData;
+        Models.CompleteBountyGameDataModel GameData;
 
-        public BountiesData(Models.CompleteBountyDataModel userData, Models.AllBountyGameDataModel gameData)
+        public BountiesData(Models.CompleteBountyDataModel userData, Models.CompleteBountyGameDataModel gameData)
         {
-            Game = new BountiesGameDataCollection(gameData);
-            User = new BountiesUserDataCollection(userData);
+            Update(userData);
+            Update(gameData);
+        }
+
+        /// <summary>
+        /// Forward the user bounty list
+        /// </summary>
+        public List<Models.SingleBountyUserDataModel> UserBountiesList => UserData.Bounties;
+
+        /// <summary>
+        /// Update the complete user bounty data
+        /// </summary>
+        public void Update(Models.CompleteBountyDataModel data) => UserData = data;
+
+        /// <summary>
+        /// Update only the user bounties
+        /// </summary>
+        public void Update(List<Models.SingleBountyUserDataModel> bounties) => UserData.Bounties = bounties;
+
+        /// <summary>
+        /// Load local data stored as scriptable objects
+        /// </summary>
+        Dictionary<int, ScripableObjects.BountyLocalGameData> LoadLocalData()
+            => Resources.LoadAll<ScripableObjects.BountyLocalGameData>("Bounties").ToDictionary(ele => ele.Id, ele => ele);
+
+        /// <summary>
+        /// Forward the 'MaxActiveBounties' attribute from the game data
+        /// </summary>
+        public int MaxActiveBounties => GameData.MaxActiveBounties;
+
+        /// <summary>
+        /// Get data for a single bounty
+        /// </summary>
+        public Models.BountyGameData GetGameBounty(int key) => GameData.Bounties.Where(ele => ele.Id == key).FirstOrDefault();
+
+        // Update the complete bounty data model
+        void Update(Models.CompleteBountyGameDataModel data)
+        {
+            GameData = data;
+
+            var allLocalBounties = LoadLocalData();
+
+            foreach (var bounty in GameData.Bounties)
+            {
+                var localBounty = allLocalBounties[bounty.Id];
+
+                bounty.Name = localBounty.Name;
+                bounty.Icon = localBounty.Icon;
+                bounty.Slot = localBounty.Slot;
+
+                bounty.Prefab = localBounty.Prefab;
+            }
+        }
+
+
+        public bool GetStageBounty(int stage, out Models.BountyGameData result)
+        {
+            result = default;
+
+            foreach (Models.BountyGameData bounty in GameData.Bounties)
+            {
+                if (bounty.UnlockStage == stage)
+                    return true;
+            }
+
+            return false;
         }
 
         public BountySnapshot CreateSnapshot()
@@ -24,20 +89,20 @@ namespace GM.Bounties.Data
             int hourlyIncome = 0;
 
             // Calculate the attributes we want for the snapshot
-            foreach (var state in User.States)
+            foreach (var state in UserData.Bounties)
             {
                 if (state.IsActive)
                 {
                     // Grab the static data for the struct
-                    Bounties.Models.BountyGameData dataStruct = Game.Get(state.BountyId);
+                    var bountyGameData = GetGameBounty(state.BountyId);
 
                     // We cap the hours since claim to the value returned from the server
-                    float hoursSinceClaim = Math.Max(0, Math.Min(Game.MaxUnclaimedHours, (float)(DateTime.UtcNow - User.LastClaimTime).TotalHours));
+                    float hoursSinceClaim = Math.Max(0, Math.Min(GameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - UserData.LastClaimTime).TotalHours));
 
-                    capacity += Mathf.FloorToInt(dataStruct.HourlyIncome * Game.MaxUnclaimedHours);
-                    unclaimed += Mathf.FloorToInt(dataStruct.HourlyIncome * hoursSinceClaim);
+                    capacity += Mathf.FloorToInt(bountyGameData.HourlyIncome * GameData.MaxUnclaimedHours);
+                    unclaimed += Mathf.FloorToInt(bountyGameData.HourlyIncome * hoursSinceClaim);
 
-                    hourlyIncome += dataStruct.HourlyIncome;
+                    hourlyIncome += bountyGameData.HourlyIncome;
                 }
             }
 
@@ -62,7 +127,7 @@ namespace GM.Bounties.Data
 
                 if (resp.StatusCode == 200)
                 {
-                    User.Update(resp.Bounties);
+                    Update(resp.Bounties);
                 }
 
                 action(resp.StatusCode == 200, resp);
@@ -76,7 +141,7 @@ namespace GM.Bounties.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    User.LastClaimTime = resp.ClaimTime;
+                    UserData.LastClaimTime = resp.ClaimTime;
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }

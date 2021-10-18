@@ -8,31 +8,33 @@ from src.routing import ServerRequest
 from src.common.basemodels import BaseDocument
 
 
-def currencies_repository(request: ServerRequest) -> CurrenciesRepository:
+def inject_currencies_repository(request: ServerRequest) -> CurrenciesRepository:
     """ Used to inject a repository instance. """
     return CurrenciesRepository(request.app.state.mongo)
 
 
-# === Field Keys === #
+# = Field Keys = #
 
 class Fields:
-    PRESTIGE_POINTS = "prestigePoints"
+    DIAMONDS = "diamonds"
     BOUNTY_POINTS = "bountyPoints"
     ARMOURY_POINTS = "armouryPoints"
+    PRESTIGE_POINTS = "prestigePoints"
 
 
-# == Models == #
+# = Models = #
 
 class CurrenciesModel(BaseDocument):
     prestige_points: int = Field(0, alias=Fields.PRESTIGE_POINTS)
     bounty_points: int = Field(0, alias=Fields.BOUNTY_POINTS)
     armoury_points: int = Field(0, alias=Fields.ARMOURY_POINTS)
+    diamonds: int = Field(0, alias=Fields.DIAMONDS)
 
     def response_dict(self):
         return self.dict(exclude={"id"})
 
 
-# == Repository == #
+# = Repository = #
 
 
 class CurrenciesRepository:
@@ -42,14 +44,14 @@ class CurrenciesRepository:
         self.collection = db["currencyItems"]
 
     async def get_user(self, uid) -> CurrenciesModel:
-        r = await self.collection.find_one({"_id": uid}) or dict()
+        r = await self.collection.find_one({"_id": uid})
 
-        return CurrenciesModel(**(r or {"_id": uid}))
+        return CurrenciesModel.parse_obj(r or {"_id": uid})
 
-    async def update_one(self, uid, update: dict):
+    async def update_one(self, uid, update: dict) -> CurrenciesModel:
         r = await self.collection.find_one_and_update(
             {"_id": uid}, update,
             upsert=True, return_document=ReturnDocument.AFTER
         )
 
-        return CurrenciesModel(**r)
+        return CurrenciesModel.parse_obj(r)

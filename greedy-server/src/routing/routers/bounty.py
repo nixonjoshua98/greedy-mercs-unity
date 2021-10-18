@@ -12,13 +12,13 @@ from src.models import UserIdentifier, ActiveBountyUpdateModel
 from src.mongo.repositories.bounties import (
     UserBountiesModel,
     BountiesRepository,
-    bounties_repository
+    inject_bounties_repository
 )
 
 from src.mongo.repositories.currencies import (
     CurrenciesRepository,
     Fields as CurrencyRepoFields,
-    currencies_repository
+    inject_currencies_repository
 )
 
 router = APIRouter(prefix="/api/bounty")
@@ -27,8 +27,10 @@ router = APIRouter(prefix="/api/bounty")
 @router.post("/claim")
 async def claim_points(
         user: UserIdentifier,
-        bounties_repo: BountiesRepository = Depends(bounties_repository),
-        currency_repo: CurrenciesRepository = Depends(currencies_repository)
+
+        # = Database Repositories = #
+        bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
     uid = await user_or_raise(user)
 
@@ -53,7 +55,9 @@ async def claim_points(
 @router.post("/setactive")
 async def set_active_bounties(
         data: ActiveBountyUpdateModel,
-        bounties_repo: BountiesRepository = Depends(bounties_repository)
+
+        # = Database Repositories = #
+        bounties_repo: BountiesRepository = Depends(inject_bounties_repository)
 ):
     uid = await user_or_raise(data)
 

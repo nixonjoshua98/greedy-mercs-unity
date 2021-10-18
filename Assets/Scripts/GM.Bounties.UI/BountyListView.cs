@@ -56,9 +56,9 @@ namespace GM.Bounties.UI
 
         void CreateBountySlots()
         {
-            foreach (var bounty in App.Data.Bounties.User.States)
+            foreach (var bounty in App.Data.Bounties.UserBountiesList)
             {
-                Bounties.Models.BountyGameData data = App.Data.Bounties.Game.Get(bounty.BountyId);
+                Bounties.Models.BountyGameData data = App.Data.Bounties.GetGameBounty(bounty.BountyId);
 
                 BountySlot slot;
 
@@ -194,7 +194,7 @@ namespace GM.Bounties.UI
 
         void OnAvailableSlotClick(int selectedBountyID)
         {
-            if (activeSlots.Count < App.Data.Bounties.Game.MaxActiveBounties)
+            if (activeSlots.Count < App.Data.Bounties.MaxActiveBounties)
             {
                 if (availableSlots.TryGetValue(selectedBountyID, out BountySlot slot))
                 {

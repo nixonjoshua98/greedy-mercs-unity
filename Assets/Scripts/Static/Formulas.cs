@@ -6,6 +6,8 @@ namespace GM
 {
     public class Formulas : Core.GMClass
     {
+        public static BigInteger NextArtefactUnlockCost(int owned) => (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned).Floor()).ToBigInteger();
+
         // === Armoury Items === //
         public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
         {
@@ -65,11 +67,11 @@ namespace GM
 
         public static int AffordCharacterLevels(MercID merc)
         {
-            GM.Mercs.Data.FullMercData data = App.Data.Mercs[merc];
+            GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-            BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.Game.UnlockCost, 1.075 + ((int)merc / 1000.0), data.User.Level);
+            BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), data.CurrentLevel);
 
-            return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.User.Level, int.Parse(val.ToString()));
+            return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.CurrentLevel, int.Parse(val.ToString()));
         }
 
 

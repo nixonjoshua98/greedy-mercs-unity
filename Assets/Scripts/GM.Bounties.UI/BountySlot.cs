@@ -1,5 +1,4 @@
-﻿using GM.Bounties.Data;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace GM.Bounties.UI
@@ -21,7 +20,7 @@ namespace GM.Bounties.UI
         {
             BountyID = bounty;
 
-            Bounties.Models.BountyGameData data = App.Data.Bounties.Game.Get(BountyID);
+            Models.BountyGameData data = App.Data.Bounties.GetGameBounty(BountyID);
 
             bountyName.text = data.Name.ToUpper();
             pointsText.text = string.Format("{0}", data.HourlyIncome);

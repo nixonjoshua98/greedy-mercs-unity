@@ -20,10 +20,11 @@ namespace GM.Armoury.Models
         [JsonIgnore]
         public Sprite Icon;
 
-        [JsonIgnore]
-        public int MaxEvolveLevel;
+        public int MaxStarLevel;
+
+        public int BaseStarLevelCost;
 
         [JsonIgnore]
-        public int EvoLevelCost;
+        public ItemTierDisplayConfig Config => ArmouryUtils.GetDisplayConfig(Tier);
     }
 }

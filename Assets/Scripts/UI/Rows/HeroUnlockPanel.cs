@@ -21,7 +21,7 @@ namespace GM
 
             if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.Game.Get(chara);
+                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.GetGameMerc(chara);
 
                 CostText.text = FormatString.Number(mercData.UnlockCost);
             }
@@ -33,17 +33,13 @@ namespace GM
         {
             if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
-                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.Game.Get(chara);
+                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.GetGameMerc(chara);
 
                 if (App.Data.Inv.Gold >= mercData.UnlockCost)
                 {
                     App.Data.Inv.Gold -= mercData.UnlockCost;
 
-                    // Unlock the merc
-                    App.Data.Mercs.User[chara] = new Mercs.Data.MercUserData
-                    {
-                        Level = 1
-                    };
+                    App.Data.Mercs.UnlockUserMerc(chara);
 
                     GlobalEvents.E_OnMercUnlocked.Invoke(chara);
                 }

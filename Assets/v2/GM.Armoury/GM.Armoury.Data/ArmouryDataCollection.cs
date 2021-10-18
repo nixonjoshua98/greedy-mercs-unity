@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Linq;
-using GM.Extensions;
 using UnityEngine;
+using GM.Armoury.ScriptableObjects;
 
 namespace GM.Armoury.Data
 {
@@ -11,24 +11,37 @@ namespace GM.Armoury.Data
         List<Models.ArmouryItemUserDataModel> UserItemsList;
         List<Models.ArmouryItemGameDataModel> GameItemsList;
 
-        public ArmouryDataCollection(List<Models.ArmouryItemUserDataModel> userItems, Models.ArmouryGameDataModel gameData)
+        public ArmouryDataCollection(List<Models.ArmouryItemUserDataModel> userItems, List<Armoury.Models.ArmouryItemGameDataModel> gameData)
         {
             UserItemsList = userItems;
 
             UpdateGameData(gameData);
         }
 
-        // == User == //
+        /// <summary>
+        /// Get user data for an item
+        /// </summary>
         public Models.ArmouryItemUserDataModel GetUserItem(int key) => UserItemsList.Where(ele => ele.Id == key).FirstOrDefault();
-        public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsList.Where(ele => ele.NumOwned > 0).OrderBy(ele => ele.Id).ToList();
+
+        /// <summary>
+        /// </summary>
+        public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsList.Where(ele => ele.NumOwned > 0 || ele.Level > 0).OrderBy(ele => ele.Id).ToList();
+
+        /// <summary>
+        /// Update the cached user data for a single item
+        /// </summary>
         public void UpdateUserItem(Models.ArmouryItemUserDataModel item) => UserItemsList.UpdateOrInsertElement(item, (ele) => ele.Id == item.Id);
 
-
-        // == Game == //
+        /// <summary>
+        /// </summary>
         public Models.ArmouryItemGameDataModel GetGameItem(int key) => GameItemsList.Where(ele => ele.Id == key).FirstOrDefault();
-        void UpdateGameData(Models.ArmouryGameDataModel data)
+
+        /// <summary>
+        /// Update all cached game data
+        /// </summary>
+        void UpdateGameData(List<Models.ArmouryItemGameDataModel> data)
         {
-            GameItemsList = data.Items;
+            GameItemsList = data;
 
             var localItemsDict = LoadLocalData();
 
@@ -38,21 +51,21 @@ namespace GM.Armoury.Data
 
                 item.Name = localMerc.Name;
                 item.Icon = localMerc.Icon;
-
-                item.EvoLevelCost = data.EvoLEvelCost;
-                item.MaxEvolveLevel = data.MaxEvoLevel;
             }
         }
 
-        // == Local == //
-        Dictionary<int, ScriptableObjects.LocalArmouryItemData> LoadLocalData() =>
-            Resources.LoadAll<ScriptableObjects.LocalArmouryItemData>("Armoury/Items").ToDictionary(ele => ele.Id, ele => ele);
+        /// <summary>
+        /// Load local scriptable objects and return them as a dictionary
+        /// </summary>
+        Dictionary<int, LocalArmouryItemData> LoadLocalData() => Resources.LoadAll<LocalArmouryItemData>("Armoury/Items").ToDictionary(ele => ele.Id, ele => ele);
 
-
-        // == Combined == //
+        /// <summary>
+        /// Get a combined class of user data and game data for a single item
+        /// </summary>
         public ArmouryItemData GetItem(int key) => new ArmouryItemData(GetGameItem(key), GetUserItem(key));
 
-
+        /// <summary>
+        /// </summary>
         public double DamageBonus()
         {
             double val = 0;
@@ -61,7 +74,7 @@ namespace GM.Armoury.Data
             {
                 ArmouryItemData itemData = GetItem(item.Id);
 
-                if (itemData.User.Level > 0)
+                if (itemData.CurrentLevel > 0)
                 {
                     val += itemData.WeaponDamage;
                 }
@@ -70,11 +83,20 @@ namespace GM.Armoury.Data
             return val;
         }
 
-        public List<KeyValuePair<BonusType, double>> Bonuses()
+        /// <summary>
+        /// </summary>
+        public double TotalMercDamageMultiplier()
         {
             double dmgBonus = DamageBonus();
 
-            dmgBonus = dmgBonus > 0 ? dmgBonus : 1;
+            return dmgBonus > 0 ? dmgBonus : 1;
+        }
+
+        /// <summary>
+        /// </summary>
+        public List<KeyValuePair<BonusType, double>> Bonuses()
+        {
+            double dmgBonus = TotalMercDamageMultiplier();
 
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>
             {
@@ -84,7 +106,8 @@ namespace GM.Armoury.Data
             return ls;
         }
 
-        // === Server Methods === //
+        /// <summary>
+        /// </summary>
         public void UpgradeItem(int item, UnityAction<bool> call)
         {
             var req = new GM.HTTP.Requests.UpgradeArmouryItemRequest { ItemId = item };
@@ -102,11 +125,13 @@ namespace GM.Armoury.Data
             });
         }
 
+        /// <summary>
+        /// </summary>
         public void EvolveItem(int item, UnityAction<bool> call)
         {
-            var req = new HTTP.Requests.EvolveArmouryItemRequest { ItemId = item };
+            var req = new HTTP.Requests.UpgradeStarLevelArmouryItemRequest { ItemId = item };
 
-            App.HTTP.Armoury_EvolveItem(req, (resp) =>
+            App.HTTP.Armoury_UpgradeStarLevelItem(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

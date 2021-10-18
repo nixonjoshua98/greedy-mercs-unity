@@ -5,15 +5,13 @@ from fastapi import HTTPException, Depends
 from src.checks import user_or_raise
 from src.models import UserIdentifier
 
-from src.dataloader import DataLoader
-
 from src.routing import ServerResponse, APIRouter
 from src.routing.common.checks import check_is_not_none, check_greater_than
 
-from src.resources.bountyshop import BountyShop, ArmouryItem as BSArmouryItem
+from src.resources.bountyshop import StaticBountyShopArmouryItem as BSArmouryItem, inject_dynamic_bounty_shop
 
-from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, currencies_repository
-from src.mongo.repositories.armoury import ArmouryRepository, Fields as ArmouryRepoFields, armoury_repository
+from src.mongo.repositories.currencies import CurrenciesRepository, Fields as CurrencyRepoFields, inject_currencies_repository
+from src.mongo.repositories.armoury import ArmouryRepository, Fields as ArmouryRepoFields, inject_armoury_repository
 
 router = APIRouter(prefix="/api/bountyshop")
 
@@ -27,19 +25,22 @@ class ItemData(UserIdentifier):
 @router.post("/purchase")
 async def purchase(
         data: ItemData,
-        currency_repo: CurrenciesRepository = Depends(currencies_repository),
-        armoury_repo: ArmouryRepository = Depends(armoury_repository)
+
+        # = Database Repositories = #
+        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
+
+        # = Static/Game Data = #
+        bounty_shop=Depends(inject_dynamic_bounty_shop)
 ):
     uid = await user_or_raise(data)
 
-    shop = BountyShop()
-
-    item = shop.get_item(data.shop_item)
+    item = bounty_shop.get_item(data.shop_item)
 
     # Verify that the item exists
     check_is_not_none(item, error="Item was not found")
 
-    item_purchases = await DataLoader().bounty_shop.get_daily_purchases(uid, item.id)
+    item_purchases = 0
 
     # Check the user still has 'stock' left
     check_greater_than(item.purchase_limit, item_purchases, error="Reached purchase limit")
@@ -52,9 +53,11 @@ async def purchase(
 
     response_dict = dict()
 
-    # Perform the purchase on 'ArmouryItem's
+    # Perform the purchase on ArmouryItems
     if isinstance(item, BSArmouryItem):
-        response_dict.update(await _purchase_armoury_item(uid, item, repo=armoury_repo))
+        return_dict = await _purchase_armoury_item(uid, item, repo=armoury_repo)
+
+        response_dict.update(return_dict)
 
     else:  # Show an error if we got this far
         raise HTTPException(400, detail="Invalid item")

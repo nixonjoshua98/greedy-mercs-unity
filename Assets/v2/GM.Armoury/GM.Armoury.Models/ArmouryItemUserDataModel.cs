@@ -7,11 +7,11 @@ namespace GM.Armoury.Models
         [JsonProperty(PropertyName = "itemId")]
         public int Id;
 
-        public int Level;
+        public int Level = 0;
 
         [JsonProperty(PropertyName = "owned")]
-        public int NumOwned;
+        public int NumOwned = 0;
 
-        public int EvoLevel;
+        public int StarLevel = 0;
     }
 }

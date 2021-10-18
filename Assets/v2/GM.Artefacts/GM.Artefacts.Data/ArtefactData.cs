@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GM.Artefacts.Data
 {
-    public struct ArtefactData
+    public class ArtefactData
     {
         ArtefactGameDataModel Game;
         ArtefactUserDataModel User;
@@ -14,7 +14,7 @@ namespace GM.Artefacts.Data
             User = state;
         }
 
-        public int ID => Game.Id;
+        public int Id => Game.Id;
 
         // == User == //
         public int CurrentLevel => User.Level;
@@ -25,10 +25,11 @@ namespace GM.Artefacts.Data
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
         public BonusType Bonus => Game.Bonus;
-        public UI.ArtefactSlot Slot => Game.Slot;
 
 
         // == Combined == //
+        public float CostExpo => Game.CostExpo;
+        public float CostCoeff => Game.CostCoeff;
         public double BaseEffect => Formulas.BaseArtefactEffect(User.Level, Game.BaseEffect, Game.LevelEffect);
         public bool IsMaxLevel => User.Level >= Game.MaxLevel;
         public System.Numerics.BigInteger CostToUpgrade(int levels) => Formulas.ArtefactLevelUpCost(User.Level, levels, Game.CostExpo, Game.CostCoeff);

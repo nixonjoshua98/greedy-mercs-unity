@@ -4,7 +4,7 @@ namespace GM.BountyShop.Data
 {
     public class BountyShopCurrencyItemData : BountyShopItem
     {
-        public CurrencyItems.Data.CurrencyType ItemType;
+        public Common.Enums.CurrencyType ItemType;
         public int QuantityPerPurchase;
 
         public Sprite Icon => ItemData.Icon;

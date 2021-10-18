@@ -14,6 +14,7 @@ namespace GM.Core
         public BountyShop.Data.BountyShopDataCollection BountyShop;
 
         public DateTime NextDailyReset;
+        public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
 
         public GMData(Common.IServerUserData userData, Common.IServerGameData gameData)
         {

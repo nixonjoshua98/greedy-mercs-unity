@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import datetime as dt
+
 from random import Random
 from pydantic import Field
 from fastapi import Depends
@@ -35,22 +37,21 @@ class BountyShop:
     def __init__(self, static_armoury):
         self._static_armoury_items = static_armoury
 
-        self.items = self._generate()
+        self.armoury_item = self._generate()
 
     def get_item(self, item: str) -> StaticBountyShopArmouryItem:
-        return utils.get(self.items, id=item)
+        return utils.get(self.armoury_item, id=item)
 
     def to_dict(self) -> dict[str, list]:
         return {
             "items": [],
-            "armouryItems": [ai.response_dict() for ai in self.items]
+            "armouryItems": [ai.response_dict() for ai in self.armoury_item]
         }
 
     # == Internal Methods == #
 
     def _generate(self):
         from src.classes import ServerState
-        import datetime as dt
 
         state = ServerState()
 
@@ -68,7 +69,7 @@ class BountyShop:
             item = StaticBountyShopArmouryItem.parse_obj({
                 "itemId": _id,
                 "armouryItem": it.id,
-                "purchaseCost": -1
+                "purchaseCost": it.id * 3
             })
 
             generated_items.append(item)

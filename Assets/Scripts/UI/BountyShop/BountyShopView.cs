@@ -37,7 +37,7 @@ namespace GM.Bounties
         {
             TimeSpan timeUntilReset = App.Data.NextDailyReset - DateTime.UtcNow;
 
-            refreshText.text = $"{FormatString.Seconds(timeUntilReset.TotalSeconds)}";
+            refreshText.text = $"{timeUntilReset.Format()}";
         }
 
         void InstantiateShopItems()

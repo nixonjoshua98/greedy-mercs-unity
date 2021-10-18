@@ -48,21 +48,6 @@ public static class FormatString
     #endregion
 
 
-    #region Seconds
-    public static string Seconds(double seconds) => Seconds((long)seconds);
-    public static string Seconds(long seconds)
-    {
-        long hours = seconds / 3_600;
-        seconds -= (3_600 * hours);
-
-        long mins = seconds / 60;
-        seconds -= (60 * mins);
-
-        return string.Format("{0}h {1}m {2}s", hours.ToString().PadLeft(2, '0'), mins.ToString().PadLeft(2, '0'), seconds.ToString().PadLeft(2, '0'));
-    }
-    #endregion
-
-
     public static string Bonus(BonusType bonusType, double value)
     {
         return bonusType switch

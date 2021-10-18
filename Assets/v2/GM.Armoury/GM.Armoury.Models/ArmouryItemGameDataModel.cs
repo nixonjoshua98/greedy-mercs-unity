@@ -23,5 +23,8 @@ namespace GM.Armoury.Models
         public int MaxStarLevel;
 
         public int BaseStarLevelCost;
+
+        [JsonIgnore]
+        public ItemTierDisplayConfig Config => ArmouryUtils.GetDisplayConfig(Tier);
     }
 }

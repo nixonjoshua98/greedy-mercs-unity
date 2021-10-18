@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using AmountSelector = GM.UI_.AmountSelector;
 using BigInteger = System.Numerics.BigInteger;
-using GameObjectUtils = GM.Utils.GameObjectUtils;
 
 namespace GM.Artefacts.UI
 {
@@ -57,7 +56,7 @@ namespace GM.Artefacts.UI
 
         void InstantiateSingleArtefact(ArtefactData data)
         {
-            ArtefactSlot slotScript = GameObjectUtils.Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
+            ArtefactSlot slotScript = Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
 
             slotScript.AssignArtefact(data.Id, UpgradeAmountSelector);
         }

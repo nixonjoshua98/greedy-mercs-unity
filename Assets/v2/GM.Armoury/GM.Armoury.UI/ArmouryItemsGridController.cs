@@ -1,4 +1,3 @@
-using GM.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +6,7 @@ using ScreenSpace = GM.UI_.ScreenSpace;
 
 namespace GM.Armoury.UI_
 {
-    public class ArmouryItemsGridController : MonoBehaviour
+    public class ArmouryItemsGridController : Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         public GameObject ArmouryItemSlotObject;
@@ -41,11 +40,11 @@ namespace GM.Armoury.UI_
         {
             if (!ItemSlots.TryGetValue(itemId, out ArmouryItemSlot slot))
             {
-                slot = GameObjectUtils.Instantiate<ArmouryItemSlot>(ArmouryItemSlotObject, ItemsGridLayout.transform);
+                slot = Instantiate<ArmouryItemSlot>(ArmouryItemSlotObject, ItemsGridLayout.transform);
 
                 slot.AssignItem(itemId);
 
-                //ItemSlots[itemId] = slot; // Cache the object so we don't recreate it for no reason
+                ItemSlots[itemId] = slot; // Cache the object so we don't recreate it
             }
 
             return slot;

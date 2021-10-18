@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 9091436940288440889}
   - component: {fileID: 9091436940288440888}
   m_Layer: 5
-  m_Name: EvolveLevel [Text + Slider]
+  m_Name: StarLevel [Text + Slider]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

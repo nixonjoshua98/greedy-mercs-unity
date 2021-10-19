@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using GM.Bounties.ScripableObjects;
 
 namespace GM.Bounties.Data
 {
@@ -19,25 +20,41 @@ namespace GM.Bounties.Data
         }
 
         /// <summary>
-        /// Forward the user bounty list
+        /// Fetch the data for all unlocked bounties
         /// </summary>
-        public List<Models.SingleBountyUserDataModel> UserBountiesList => UserData.Bounties;
+        public List<UnlockedBountyData> UserBountiesList => UserData.Bounties.Select(ele => GetUnlockedBounty(ele.BountyId)).ToList();
 
         /// <summary>
         /// Update the complete user bounty data
         /// </summary>
-        public void Update(Models.CompleteBountyDataModel data) => UserData = data;
+        void Update(Models.CompleteBountyDataModel data) => UserData = data;
 
         /// <summary>
         /// Update only the user bounties
         /// </summary>
-        public void Update(List<Models.SingleBountyUserDataModel> bounties) => UserData.Bounties = bounties;
+        void Update(List<Models.BountyUserDataModel> bounties) => UserData.Bounties = bounties;
 
         /// <summary>
         /// Load local data stored as scriptable objects
         /// </summary>
-        Dictionary<int, ScripableObjects.BountyLocalGameData> LoadLocalData()
-            => Resources.LoadAll<ScripableObjects.BountyLocalGameData>("Bounties").ToDictionary(ele => ele.Id, ele => ele);
+        Dictionary<int, BountyLocalGameData> LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Bounties").ToDictionary(ele => ele.Id, ele => ele);
+
+        /// <summary>
+        /// Fetch the bounty user data
+        /// </summary>
+        Models.BountyUserDataModel _GetUserBountyData(int key)
+        {
+            var data = UserData.Bounties.Where(ele => ele.BountyId == key).FirstOrDefault();
+
+            Core.GMLog.LogIfNull(data, $"User bounty '{key}' is null");
+
+            return data;
+        }
+
+        /// <summary>
+        /// Fetch data for an unlocked bounty
+        /// </summary>
+        public UnlockedBountyData GetUnlockedBounty(int key) => new UnlockedBountyData(GetGameBounty(key), _GetUserBountyData(key));
 
         /// <summary>
         /// Forward the 'MaxActiveBounties' attribute from the game data

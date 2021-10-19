@@ -5,8 +5,7 @@
   "bounties": {
     "0": {
       "hourlyIncome": 100000,
-      "unlockStage": 1,
-      "spawnChance": 0.5
+      "unlockStage": 1
     },
     "1": {
       "hourlyIncome": 200,

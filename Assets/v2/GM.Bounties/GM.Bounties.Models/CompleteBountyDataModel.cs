@@ -10,6 +10,6 @@ namespace GM.Bounties.Models
         [JsonConverter(typeof(UnixMillisecondUTCDateTimeConverter))]
         public DateTime LastClaimTime;
 
-        public List<SingleBountyUserDataModel> Bounties;
+        public List<BountyUserDataModel> Bounties;
     }
 }

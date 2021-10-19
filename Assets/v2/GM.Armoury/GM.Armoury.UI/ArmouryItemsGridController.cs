@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using ExpandableGridLayout = GM.UI_.Layouts.ExpandableGridLayout;
+using ExpandableGridLayout = GM.UI.Layouts.ExpandableGridLayout;
 
 namespace GM.Armoury.UI_
 {

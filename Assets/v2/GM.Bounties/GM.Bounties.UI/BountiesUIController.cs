@@ -15,7 +15,7 @@ namespace GM.Bounties.UI
 
         [Header("References")]
         public Transform BountySlotParent;
-        public GM.UI_.Layouts.ExpandableGridLayout Bountylayout;
+        public GM.UI.Layouts.ExpandableGridLayout Bountylayout;
 
         bool isEditing = false;
 

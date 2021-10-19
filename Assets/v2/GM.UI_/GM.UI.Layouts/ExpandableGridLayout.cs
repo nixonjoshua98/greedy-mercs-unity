@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.UI_.Layouts
+namespace GM.UI.Layouts
 {
     public class ExpandableGridLayout : GridLayoutGroup
     {
@@ -9,7 +9,7 @@ namespace GM.UI_.Layouts
         {
             if (constraint == Constraint.FixedColumnCount)
             {
-                float cellWidth = (ScreenSpace.Width / constraintCount) - (m_Spacing.x / constraintCount);
+                float cellWidth = (GM.UI_.ScreenSpace.Width / constraintCount) - (m_Spacing.x / constraintCount);
 
                 m_CellSize = new Vector3(cellWidth, cellSize.y);
 

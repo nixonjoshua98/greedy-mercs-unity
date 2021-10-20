@@ -45,7 +45,7 @@ namespace GM.Bounties.Data
 
                 if (ts.TotalHours > GameData.MaxUnclaimedHours)
                 {
-                    return new TimeSpan(0, 0, (int)GameData.MaxUnclaimedHours * 3_600);
+                    return new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600));
                 } 
                 else if (ts.TotalHours < 0)
                 {
@@ -55,6 +55,11 @@ namespace GM.Bounties.Data
                 return ts;
             }
         }
+
+        /// <summary>
+        /// Time until the user has reached the cap for idle collection time
+        /// </summary>
+        public TimeSpan TimeUntilMaxUnclaimedHours => new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600)) - TimeSinceClaim;
 
         /// <summary>
         /// Update the complete user bounty data

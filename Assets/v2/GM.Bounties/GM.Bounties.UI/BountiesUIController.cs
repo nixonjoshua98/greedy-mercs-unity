@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace GM.Bounties.UI
 {
@@ -8,12 +9,11 @@ namespace GM.Bounties.UI
         [Header("Prefabs")]
         public GameObject BountySlotObject;
 
-        [Header("Buttons")]
+        [Header("References")]
         public Button EditButton;
         public Button CancelButton;
         public Button ConfirmButton;
-
-        [Header("References")]
+        [Space]
         public Transform BountySlotParent;
         public GM.UI.Layouts.ExpandableGridLayout Bountylayout;
 
@@ -53,6 +53,12 @@ namespace GM.Bounties.UI
         public void OnConfirmButton()
         {
             SetActiveButtons(false);
+        }
+
+        public void OnClaimButton()
+        {
+            App.Data.Bounties.ClaimPoints((success, resp) => {
+            });
         }
     }
 }

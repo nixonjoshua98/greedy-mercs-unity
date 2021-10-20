@@ -99,7 +99,7 @@ namespace GM.Bounties.Data
             return false;
         }
 
-        public BountySnapshot CreateSnapshot()
+        public BountySnapshot GetSnapshot()
         {
             int capacity = 0;
             int unclaimed = 0;

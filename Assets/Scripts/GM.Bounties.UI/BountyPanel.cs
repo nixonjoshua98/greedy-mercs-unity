@@ -36,7 +36,7 @@ namespace GM.Bounties.UI
 
         void UpdatePointsCollection()
         {
-            GM.Bounties.Data.BountySnapshot snapshot = App.Data.Bounties.CreateSnapshot();
+            GM.Bounties.Data.BountySnapshot snapshot = App.Data.Bounties.GetSnapshot();
 
             bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyPoints);
             bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";

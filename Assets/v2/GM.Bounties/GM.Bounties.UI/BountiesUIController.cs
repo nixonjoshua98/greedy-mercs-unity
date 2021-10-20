@@ -14,8 +14,11 @@ namespace GM.Bounties.UI
         public Button CancelButton;
         public Button ConfirmButton;
         [Space]
+        public TMP_Text IncomeText;
+        public TMP_Text UnclaimedText;
+        [Space]
         public Transform BountySlotParent;
-        public GM.UI.Layouts.ExpandableGridLayout Bountylayout;
+        public GM.UI.Layouts.ExpandableGridLayout BountiesLayout;
 
         bool isEditing = false;
 
@@ -23,13 +26,19 @@ namespace GM.Bounties.UI
         {
             SetActiveButtons(isEditing);
 
-            foreach (var bounty in App.Data.Bounties.UserBountiesList)
+            foreach (var bounty in App.Data.Bounties.UnlockedBountiesList)
             {
                 Instantiate<UI_.BountySlot>(BountySlotObject, BountySlotParent)
                     .Assign(bounty.Id);
             }
 
-            Bountylayout.UpdateCellSize();
+            BountiesLayout.UpdateCellSize();
+        }
+
+        void FixedUpdate()
+        {
+            IncomeText.text = $"Points per Hour: <color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color>";
+            UnclaimedText.text = $"Max. Unclaimed Points: <color=white>{FormatString.Number(App.Data.Bounties.MaxUnclaimedCapacity)}</color>";
         }
 
         void SetActiveButtons(bool isEditMode)

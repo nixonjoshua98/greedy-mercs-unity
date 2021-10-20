@@ -36,15 +36,15 @@ namespace GM.Bounties.UI
 
         void UpdatePointsCollection()
         {
-            GM.Bounties.Data.BountySnapshot snapshot = App.Data.Bounties.GetSnapshot();
+            //GM.Bounties.Data.BountySnapshot snapshot = App.Data.Bounties.GetSnapshot();
 
-            bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyPoints);
-            bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";
-            unclaimedTotalText.text = $"Collect ({snapshot.Unclaimed})";
+            ////bountyPointsText.text   = FormatString.Number(App.Data.Inv.BountyPoints);
+            ////bountyIncomeText.text   = $"{snapshot.HourlyIncome} / hour (Max {snapshot.Capacity})";
+            ////unclaimedTotalText.text = $"Collect ({snapshot.Unclaimed})";
 
-            bountySlider.value = snapshot.PercentFilled;
+            ////bountySlider.value = snapshot.PercentFilled;
 
-            claimButtonAnim.Play(snapshot.PercentFilled >= 0.5f && snapshot.Capacity > 0 ? "Pulse" : "Idle");
+            ////claimButtonAnim.Play(snapshot.PercentFilled >= 0.5f && snapshot.Capacity > 0 ? "Pulse" : "Idle");
         }
 
 

@@ -1,7 +1,6 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 namespace GM.Bounties.UI
 {
@@ -16,7 +15,6 @@ namespace GM.Bounties.UI
         public Button ConfirmButton;
         [Space]
         public TMP_Text IncomeText;
-        public TMP_Text MaxCapText;
         public TMP_Text TimeUntilMaxClaimText;
         [Space]
         public Transform BountySlotParent;
@@ -40,7 +38,6 @@ namespace GM.Bounties.UI
         void FixedUpdate()
         {
             IncomeText.text = $"<color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / Hour";
-            MaxCapText.text = $"<color=white>{FormatString.Number(App.Data.Inv.BountyPoints)} / 100.0K</color>";
             TimeUntilMaxClaimText.text = $"Time until max claim <color=white>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
         }
 

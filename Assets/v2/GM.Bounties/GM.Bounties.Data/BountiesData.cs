@@ -30,11 +30,6 @@ namespace GM.Bounties.Data
         public List<UnlockedBountyData> ActiveBountiesList => UnlockedBountiesList.Where(ele => ele.IsActive).ToList();
 
         /// <summary>
-        /// maximum unclaimed idle capacity
-        /// </summary>
-        public int MaxUnclaimedCapacity => ActiveBountiesList.Sum(ele => Mathf.FloorToInt(ele.Income * GameData.MaxUnclaimedHours));
-
-        /// <summary>
         /// Time since the last claim
         /// </summary>
         TimeSpan TimeSinceClaim

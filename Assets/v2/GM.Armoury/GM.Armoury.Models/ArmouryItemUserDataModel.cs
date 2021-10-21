@@ -12,6 +12,6 @@ namespace GM.Armoury.Models
         [JsonProperty(PropertyName = "owned")]
         public int NumOwned = 0;
 
-        public int StarLevel = 0;
+        public int MergeLevel = 0;
     }
 }

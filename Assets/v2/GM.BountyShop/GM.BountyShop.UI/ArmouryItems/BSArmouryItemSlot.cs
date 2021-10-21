@@ -8,8 +8,10 @@ namespace GM.BountyShop.UI
     {
         [Header("Prefabs")]
         public GameObject PopupObject;
-        
+
         [Header("References")]
+        public GameObject OutStockObject;
+        [Space]
         public TMP_Text TierText;
         public TMP_Text PurchaseCostText;
         [Space]
@@ -17,8 +19,8 @@ namespace GM.BountyShop.UI
 
         protected override void OnAssignedItem()
         {
-            TierText.color = AssignedItem.ItemData.Config.Colour;
-            TierText.text = AssignedItem.ItemData.Config.DisplayText;
+            TierText.color = AssignedItem.Item.Config.Colour;
+            TierText.text = AssignedItem.Item.Config.DisplayText;
 
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
 
@@ -27,9 +29,17 @@ namespace GM.BountyShop.UI
 
         // == Callbacks == //
 
+        void OnItemPurchased()
+        {
+            if (!AssignedItem.InStock)
+            {
+                OutStockObject.SetActive(true);
+            }
+        }
+
         public void OnClick()
         {
-            InstantiateUI<BsArmouryItemPopup>(PopupObject).Assign(AssignedItem);
+            InstantiateUI<BsArmouryItemPopup>(PopupObject).Assign(AssignedItem, OnItemPurchased);
         }
     }
 }

@@ -8,15 +8,15 @@ namespace GM.BountyShop.Data
         public int ArmouryItem;
 
         [JsonIgnore]
-        public Sprite Icon => ItemData.Icon;
+        public Sprite Icon => Item.Icon;
 
         [JsonIgnore]
-        public int ItemTier => ItemData.Tier;
+        public int ItemTier => Item.Tier;
 
         [JsonIgnore]
-        public string ItemName => ItemData.Name;
+        public string ItemName => Item.Name;
 
         [JsonIgnore]
-        public Armoury.Models.ArmouryItemGameDataModel ItemData => App.Data.Armoury.GetGameItem(ArmouryItem);
+        public Armoury.Models.ArmouryItemGameDataModel Item => App.Data.Armoury.GetGameItem(ArmouryItem);
     }
 }

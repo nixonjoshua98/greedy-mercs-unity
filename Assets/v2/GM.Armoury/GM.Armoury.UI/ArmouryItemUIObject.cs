@@ -7,7 +7,11 @@ namespace GM.Armoury.UI_
         public virtual void AssignItem(int itemId)
         {
             AssignedItemId = itemId;
+
+            OnAssignedItem();
         }
+
+        protected virtual void OnAssignedItem() { }
 
         protected Data.ArmouryItemData AssignedItem { get => App.Data.Armoury.GetItem(AssignedItemId); }
     }

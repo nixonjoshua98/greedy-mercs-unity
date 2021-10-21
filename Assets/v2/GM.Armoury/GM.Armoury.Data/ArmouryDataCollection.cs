@@ -112,7 +112,7 @@ namespace GM.Armoury.Data
         {
             var req = new GM.HTTP.Requests.UpgradeArmouryItemRequest { ItemId = item };
 
-            App.HTTP.Armoury_UpgradeItem(req, (resp) =>
+            App.HTTP.Armoury_Upgrade(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
@@ -131,7 +131,7 @@ namespace GM.Armoury.Data
         {
             var req = new HTTP.Requests.UpgradeStarLevelArmouryItemRequest { ItemId = item };
 
-            App.HTTP.Armoury_UpgradeStarLevelItem(req, (resp) =>
+            App.HTTP.Armoury_Merge(req, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

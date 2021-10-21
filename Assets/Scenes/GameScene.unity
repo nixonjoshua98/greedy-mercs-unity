@@ -9063,7 +9063,6 @@ MonoBehaviour:
   CancelButton: {fileID: 1541464522}
   ConfirmButton: {fileID: 1368108570}
   IncomeText: {fileID: 8643487}
-  MaxCapText: {fileID: 0}
   TimeUntilMaxClaimText: {fileID: 1735696958}
   BountySlotParent: {fileID: 1578127485}
   BountiesLayout: {fileID: 1578127487}
@@ -12298,7 +12297,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 480, y: 270}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!114 &1333794736

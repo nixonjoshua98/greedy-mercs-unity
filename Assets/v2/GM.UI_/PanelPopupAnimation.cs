@@ -2,10 +2,10 @@
 
 using UnityEngine;
 
-namespace GM
+namespace GM.UI
 {
     [RequireComponent(typeof(RectTransform))]
-    public class PanelPopup : MonoBehaviour
+    public class PanelPopupAnimation : MonoBehaviour
     {
         void OnEnable()
         {
@@ -21,6 +21,8 @@ namespace GM
             yield return Lerp(rt, Vector3.one, Vector3.one * 1.1f, 0.075f);
 
             yield return Lerp(rt, Vector3.one * 1.1f, Vector3.one, 0.075f);
+
+            Destroy(this);
         }
 
         public IEnumerator Lerp(RectTransform rt, Vector3 start, Vector3 end, float dur)

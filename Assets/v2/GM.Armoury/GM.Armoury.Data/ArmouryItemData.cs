@@ -13,11 +13,12 @@ namespace GM.Armoury.Data
             User = user;
         }
 
-        public ItemTierDisplayConfig DisplayConfig => ArmouryUtils.GetDisplayConfig(Tier);
+        public ItemTierDisplayConfig Config => ArmouryUtils.GetDisplayConfig(Tier);
 
         public Sprite Icon => Game.Icon;
         public string ItemName => Game.Name;
-        public int StarLevelCost => Game.BaseStarLevelCost;
+        public int MergeCost => Game.BaseMergeCost;
+        public int CurrentMergeLevel => User.MergeLevel;
 
         /// <summary>
         /// </summary>
@@ -35,12 +36,12 @@ namespace GM.Armoury.Data
         /// <summary>
         /// Check if the user can evolve the item (A more detailed check is on the server)
         /// </summary>
-        public bool CanStarUpgrade => User.NumOwned >= Game.BaseStarLevelCost && User.StarLevel < Game.MaxStarLevel;
+        public bool CanMerge => User.NumOwned >= Game.BaseMergeCost && User.MergeLevel < Game.MaxMergeLevel;
 
         /// <summary>
         /// Current weapon damage based on the level and evolve level
         /// </summary>
-        public double WeaponDamage => WeaponDamageFor(User.Level, User.StarLevel);
+        public double WeaponDamage => WeaponDamageFor(User.Level, User.MergeLevel);
 
         /// <summary>
         /// Weapon damage for the supplied values

@@ -25,11 +25,11 @@ namespace GM.HTTP
 
 
         // == Armoury Requests == //
-        public void Armoury_UpgradeItem(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) =>
+        public void Armoury_Upgrade(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) =>
             Post(ServerConfig.UrlFor("armoury/upgrade"), req, callback);
 
-        public void Armoury_UpgradeStarLevelItem(UpgradeStarLevelArmouryItemRequest req, UnityAction<UpgradeStarLevelArmouryItemResponse> callback) =>
-            Post(ServerConfig.UrlFor("armoury/upgrade-star-level"), req, callback);
+        public void Armoury_Merge(UpgradeStarLevelArmouryItemRequest req, UnityAction<UpgradeStarLevelArmouryItemResponse> callback) =>
+            Post(ServerConfig.UrlFor("armoury/merge"), req, callback);
 
 
         // == Login == //
@@ -135,17 +135,20 @@ namespace GM.HTTP
         /// </summary>
         void InvokeRequestCallback<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
         {
+            T resp = DeserializeResponse<T>(www);
+
             try
             {
-                T resp = DeserializeResponse<T>(www);
-
                 UpdateResponseErrorMessage(www, resp);
 
                 callback.Invoke(resp);
             }
             finally
             {
-
+                if (resp == null || resp.StatusCode != 200)
+                {
+                    Debug.Log($"{www.url} ({resp.StatusCode}) - {resp.ErrorMessage}");
+                }
             }
         }
 

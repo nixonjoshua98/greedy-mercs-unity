@@ -21,7 +21,7 @@ class Fields:
     USER_ID = "userId"
     ITEM_ID = "itemId"
     LEVEL = "level"
-    STAR_LEVEL = "starLevel"
+    MERGE_LEVEL = "mergeLevel"
     NUM_OWNED = "owned"
 
 
@@ -33,7 +33,7 @@ class ArmouryItemModel(BaseDocument):
 
     level: int = Field(1, alias=Fields.LEVEL)
     owned: int = Field(..., alias=Fields.NUM_OWNED)
-    star_level: int = Field(0, alias=Fields.STAR_LEVEL)
+    merge_lvl: int = Field(0, alias=Fields.MERGE_LEVEL)
 
     def response_dict(self):
         return self.dict(exclude={"id", "user_id"})

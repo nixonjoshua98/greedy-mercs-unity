@@ -4,7 +4,7 @@ import random
 from fastapi import HTTPException, Depends
 
 from src import utils
-from src.models import UserIdentifier
+from src.routing.models import UserIdentifier
 from src.common import formulas
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter

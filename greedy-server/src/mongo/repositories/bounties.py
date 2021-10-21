@@ -9,7 +9,7 @@ import datetime as dt
 
 from src.routing import ServerRequest
 
-from src.common.basemodels import BaseDocument, BaseModel
+from src.pymodels import BaseDocument, BaseModel
 
 
 def inject_bounties_repository(request: ServerRequest) -> BountiesRepository:
@@ -56,7 +56,7 @@ class BountiesRepository:
     async def get_user(self, uid) -> UserBountiesModel:
         row = await self._find_or_create_one(uid)
 
-        return UserBountiesModel(**row)  # Unpack the query return dict into the model
+        return UserBountiesModel.parse_obj(row)
 
     async def add_new_bounty(self, uid, bid) -> None:
         _ = await self._find_or_create_one(uid)  # Verify that the user document exists

@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import HTTPException, Depends
 
 from src.checks import user_or_raise
-from src.models import UserIdentifier
+from src.routing.models import UserIdentifier
 
 from src.routing import ServerResponse, APIRouter
 from src.routing.common.checks import check_is_not_none, check_greater_than

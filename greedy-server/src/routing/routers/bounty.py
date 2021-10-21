@@ -7,7 +7,7 @@ from fastapi import HTTPException, Depends
 from src import resources
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
-from src.models import UserIdentifier, ActiveBountyUpdateModel
+from src.routing.models import UserIdentifier, ActiveBountyUpdateModel
 
 from src.mongo.repositories.bounties import (
     UserBountiesModel,

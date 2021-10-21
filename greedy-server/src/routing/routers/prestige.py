@@ -6,7 +6,7 @@ from src.common import formulas
 from src.common.enums import BonusType
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
-from src.models import UserIdentifier
+from src.routing.models import UserIdentifier
 
 from src import resources
 

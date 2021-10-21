@@ -3,7 +3,7 @@ from fastapi import Depends
 from src import utils
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
-from src.models import ArmouryItemActionModel
+from src.routing.models import ArmouryItemActionModel
 from src.resources.armoury import inject_static_armoury, StaticArmouryItem
 from src.routing.common.checks import check_greater_than, check_is_not_none
 

@@ -2,7 +2,7 @@ import datetime as dt
 
 from fastapi import Depends
 
-from src.models import UserIdentifier
+from src.routing.models import UserIdentifier
 from src.common import resources
 from src.routing import ServerResponse, APIRouter
 from src.classes import ServerState

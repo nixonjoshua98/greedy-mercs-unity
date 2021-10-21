@@ -7,7 +7,7 @@ from pydantic import Field
 from fastapi import Depends
 
 from src import utils
-from src.common.basemodels import BaseModel
+from src.pymodels import BaseModel
 
 from .armoury import inject_static_armoury, StaticArmouryItem
 

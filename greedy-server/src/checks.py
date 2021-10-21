@@ -1,7 +1,7 @@
 
 from fastapi import HTTPException
 
-from src.models import UserIdentifier
+from src.routing.models import UserIdentifier
 from src.dataloader import DataLoader
 
 

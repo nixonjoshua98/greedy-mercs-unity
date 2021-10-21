@@ -17,9 +17,5 @@ namespace GM.Bounties.ScripableObjects
 
         [Header("Objects")]
         public GameObject Prefab;
-
-        [Space]
-
-        public UI.BountySlot Slot;
     }
 }

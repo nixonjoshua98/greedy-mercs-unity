@@ -69,7 +69,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Load local data stored as scriptable objects
         /// </summary>
-        Dictionary<int, BountyLocalGameData> LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Bounties").ToDictionary(ele => ele.Id, ele => ele);
+        Dictionary<int, BountyLocalGameData> LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Scriptables/Bounties").ToDictionary(ele => ele.Id, ele => ele);
 
         /// <summary>
         /// Fetch the bounty user data
@@ -118,7 +118,6 @@ namespace GM.Bounties.Data
 
                 bounty.Name = localBounty.Name;
                 bounty.Icon = localBounty.Icon;
-                bounty.Slot = localBounty.Slot;
 
                 bounty.Prefab = localBounty.Prefab;
             }

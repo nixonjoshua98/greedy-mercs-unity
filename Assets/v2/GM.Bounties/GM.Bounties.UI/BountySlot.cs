@@ -19,7 +19,7 @@ namespace GM.Bounties.UI_
             NameText.text = AssignedBounty.Name;
             IconImage.sprite = AssignedBounty.Icon;
 
-            IncomeText.text = $"{AssignedBounty.Income}/hour";
+            IncomeText.text = $"<color=white>{AssignedBounty.Income}</color> / hour";
             ActiveIndicator.SetActive(AssignedBounty.IsActive);
         }
     }

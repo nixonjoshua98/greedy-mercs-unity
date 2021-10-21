@@ -37,7 +37,7 @@ namespace GM.Bounties.UI
 
         void FixedUpdate()
         {
-            IncomeText.text = $"<color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / Hour";
+            IncomeText.text = $"<color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / hour";
             TimeUntilMaxClaimText.text = $"Time until max claim <color=white>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
         }
 

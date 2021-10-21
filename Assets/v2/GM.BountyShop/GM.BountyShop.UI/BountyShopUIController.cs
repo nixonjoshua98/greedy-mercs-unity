@@ -26,7 +26,7 @@ namespace GM.BountyShop.UI
             foreach (var item in App.Data.BountyShop.ArmouryItems)
             {
                 Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent)
-                    .AssignShopItem(item);
+                    .Assign(item);
             }
         }
 

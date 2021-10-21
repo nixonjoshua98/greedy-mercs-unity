@@ -1,32 +1,35 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using BountyShopArmouryItem = GM.BountyShop.Data.BountyShopArmouryItem;
 
 namespace GM.BountyShop.UI
 {
-    public class BSArmouryItemSlot : Core.GMMonoBehaviour
+    public class BSArmouryItemSlot : BSArmouryItemObject
     {
         [Header("Prefabs")]
         public GameObject PopupObject;
-        [Space]
+        
+        [Header("References")]
         public TMP_Text TierText;
         public TMP_Text PurchaseCostText;
         [Space]
         public Image IconImage;
 
-        BountyShopArmouryItem AssignedItem;
-
-        public void AssignShopItem(BountyShopArmouryItem item)
+        protected override void OnAssignedItem()
         {
-            AssignedItem = item;
-
             TierText.color = AssignedItem.ItemData.Config.Colour;
             TierText.text = AssignedItem.ItemData.Config.DisplayText;
 
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
 
             IconImage.sprite = AssignedItem.Icon;
+        }
+
+        // == Callbacks == //
+
+        public void OnClick()
+        {
+            InstantiateUI<BsArmouryItemPopup>(PopupObject).Assign(AssignedItem);
         }
     }
 }

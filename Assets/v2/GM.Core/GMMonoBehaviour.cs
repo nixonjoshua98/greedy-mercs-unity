@@ -6,9 +6,18 @@ namespace GM.Core
     {
         protected static GMApplication App => GMApplication.Instance;
 
-        public static T Instantiate<T>(GameObject obj, Transform parent) where T : Component
+        public T Instantiate<T>(GameObject obj, Transform parent) where T : Component
         {
             GameObject objInst = Instantiate(obj, parent);
+
+            return objInst.GetComponent<T>();
+        }
+
+        public T InstantiateUI<T>(GameObject obj) where T : Component
+        {
+            GameObject mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas");
+
+            GameObject objInst = Instantiate(obj, mainCanvas.transform);
 
             return objInst.GetComponent<T>();
         }

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public class ArmouryItemSlot : ArmouryItemUIObject
     {

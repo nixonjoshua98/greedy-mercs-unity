@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public class ArmouryUIController : GM.UI.PanelController
     {

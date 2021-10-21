@@ -2,12 +2,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public class ArmouryItemPopup : ArmouryItemUIObject
     {
         [Header("References")]
-        public UI.StarsController Stars;
+        public GM.UI.StarsController Stars;
         [Space]
         public Button EvolveButton;
         [Space]

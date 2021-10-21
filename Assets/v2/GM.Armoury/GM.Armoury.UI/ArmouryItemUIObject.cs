@@ -1,4 +1,4 @@
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public abstract class ArmouryItemUIObject : Core.GMMonoBehaviour
     {

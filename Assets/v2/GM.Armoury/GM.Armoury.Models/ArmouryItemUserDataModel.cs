@@ -5,6 +5,7 @@ namespace GM.Armoury.Models
     public class ArmouryItemUserDataModel
     {
         [JsonProperty(PropertyName = "itemId")]
+        [JsonRequired]
         public int Id;
 
         public int Level = 0;

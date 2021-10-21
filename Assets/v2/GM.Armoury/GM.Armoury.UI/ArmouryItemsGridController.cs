@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using ExpandableGridLayout = GM.UI.Layouts.ExpandableGridLayout;
 
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public class ArmouryItemsGridController : Core.GMMonoBehaviour
     {

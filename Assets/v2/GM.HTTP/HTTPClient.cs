@@ -124,6 +124,7 @@ namespace GM.HTTP
                 var www = method switch
                 {
                     "POST" => UnityWebRequest.Post(url, PrepareRequest(request)),
+                    _ => throw new Exception($"Invalid HTTP method: {method}")
                 };
 
                 StartCoroutine(Send<T>(www, callback));

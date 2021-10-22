@@ -7,7 +7,6 @@ from src.common import resources
 from src.routing import ServerResponse, APIRouter
 from src.classes import ServerState
 from src.dataloader import DataLoader
-from src import resources as res2
 
 from src.checks import user_or_raise
 
@@ -16,15 +15,17 @@ from src.mongo.repositories.armoury import ArmouryRepository, inject_armoury_rep
 from src.mongo.repositories.artefacts import ArtefactsRepository, inject_artefacts_repository
 from src.mongo.repositories.bounties import BountiesRepository, inject_bounties_repository
 
+from src.resources.bounties import inject_static_bounties, StaticBounties
 from src.resources.armoury import inject_static_armoury, StaticArmouryItem
 from src.resources.artefacts import inject_static_artefacts, StaticArtefact
-from src.resources.bountyshop import inject_dynamic_bounty_shop
+from src.resources.bountyshop import inject_dynamic_bounty_shop, DynamicBountyShop
 
 router = APIRouter(prefix="/api")
 
 
 @router.get("/gamedata")
 def game_data(
+        s_bounties: StaticBounties = Depends(inject_static_bounties),
         s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
         s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts)
 ):
@@ -34,9 +35,9 @@ def game_data(
         "nextDailyReset": svr_state.next_daily_reset,
 
         "artefacts": [art.response_dict() for art in s_artefacts],
-        "bounties": res2.get_bounty_data(as_list=True),
+        "bounties": s_bounties.response_dict(),
         "armoury": [it.response_dict() for it in s_armoury],
-        "mercs": resources.get_mercs(as_list=True),
+        "mercs": resources.get_mercs(),
     })
 
 
@@ -44,7 +45,7 @@ def game_data(
 async def user_data(
         data: UserIdentifier,
         # = Static/Game Data = #
-        s_bounty_shop=Depends(inject_dynamic_bounty_shop),
+        s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
         # = Database Repositories = #
         currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
         armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),

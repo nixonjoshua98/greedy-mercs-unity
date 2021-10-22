@@ -1,35 +1,23 @@
-from typing import Union
+from __future__ import annotations
 
 from src import utils
+from src.pymodels import BaseModel, Field
 
 
-def get_bounty_data(*, as_dict: bool = False, as_list=False) -> "BountyResources":
-    if as_dict:
-        return utils.load_resource("bounties.json")
+def inject_static_bounties() -> StaticBounties:
+    d: dict = utils.load_static_data_file("bounties.json")
 
-    elif as_list:
-        d = utils.load_resource("bounties.json")
-
-        bounties = d["bounties"]
-        d["bounties"] = []
-
-        for k, v in bounties.items():
-            d["bounties"].append({"bountyId": k, **v})
-
-        return d
-
-    return BountyResources(utils.load_resource("bounties.json"))
+    return StaticBounties.parse_obj(d)
 
 
-class BountyResources:
-    def __init__(self, data: dict):
-        self.max_unclaimed_hours: Union[int, float] = data["maxUnclaimedHours"]
-        self.max_active_bounties: int = data["maxActiveBounties"]
-
-        self.bounties: dict[int, BountyData] = {k: BountyData(v) for k, v in data["bounties"].items()}
+class StaticBounty(BaseModel):
+    id: int = Field(..., alias="bountyId")
+    income: int = Field(..., alias="hourlyIncome")
+    stage: int = Field(..., alias="unlockStage")
 
 
-class BountyData:
-    def __init__(self, data: dict):
-        self.income: Union[float, int] = data["hourlyIncome"]
-        self.stage: int = data["unlockStage"]
+class StaticBounties(BaseModel):
+    max_unclaimed_hours: float = Field(..., alias="maxUnclaimedHours")
+    max_active_bounties: int = Field(..., alias="maxActiveBounties")
+
+    bounties: list[StaticBounty]

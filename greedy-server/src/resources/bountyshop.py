@@ -12,13 +12,13 @@ from src.pymodels import BaseModel
 from .armoury import inject_static_armoury, StaticArmouryItem
 
 
-def inject_dynamic_bounty_shop(s_armoury=Depends(inject_static_armoury)) -> BountyShop:
+def inject_dynamic_bounty_shop(s_armoury=Depends(inject_static_armoury)) -> DynamicBountyShop:
     """ Inject a bounty shop instance into the request.
 
     We inject dependencies here (which have a tiny chance of not aligning with the other injections) but we are going
     to take that risk! We could potentially cache dependencies on the request but this works for now
     """
-    return BountyShop(static_armoury=s_armoury)
+    return DynamicBountyShop(static_armoury=s_armoury)
 
 
 # = Models = #
@@ -33,7 +33,7 @@ class StaticBountyShopArmouryItem(BaseModel):
 
 # = Container = #
 
-class BountyShop:
+class DynamicBountyShop:
     def __init__(self, static_armoury):
         self._static_armoury_items: list[StaticArmouryItem] = static_armoury
 

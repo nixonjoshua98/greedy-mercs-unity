@@ -3,7 +3,7 @@ from fastapi import Depends
 from src import utils
 from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
-from src.routing.models import ArmouryItemActionModel
+from src.routing.models import UserIdentifier
 from src.resources.armoury import inject_static_armoury, StaticArmouryItem
 from src.routing.common.checks import check_greater_than, check_is_not_none
 
@@ -19,6 +19,11 @@ from src.mongo.repositories.currencies import (
     Fields as CurrencyRepoFields,
     inject_currencies_repository
 )
+
+
+class ArmouryItemActionModel(UserIdentifier):
+    item_id: int
+
 
 router = APIRouter(prefix="/api/armoury")
 
@@ -119,5 +124,5 @@ def calc_upgrade_cost(s_item: StaticArmouryItem, item: ArmouryItemModel) -> int:
     return 5 + (s_item.item_tier + 1) + item.level
 
 
-def calc_merge_cost(s_item: StaticArmouryItem, item: ArmouryItemModel) -> int:
+def calc_merge_cost(s_item: StaticArmouryItem, _: ArmouryItemModel) -> int:
     return s_item.base_merge_cost

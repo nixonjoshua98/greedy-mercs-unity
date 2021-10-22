@@ -7,7 +7,6 @@ from src.pymodels import BaseModel
 
 
 def inject_static_artefacts() -> list[StaticArtefact]:
-    """ Inject an instance of the static data """
     d: list[dict] = load_static_data_file("artefacts.json")
 
     return [StaticArtefact.parse_obj(art) for art in d]

@@ -1,7 +1,7 @@
 from typing import Union
 from bson import ObjectId
 
-from pydantic import BaseModel as _BaseModel, Field as _Field
+from pydantic import BaseModel as _BaseModel, Field
 
 
 class BaseModel(_BaseModel):
@@ -27,5 +27,5 @@ class BaseModel(_BaseModel):
 
 
 class BaseDocument(BaseModel):
-    id: Union[str, ObjectId] = _Field(..., alias="_id")
+    id: Union[str, ObjectId] = Field(..., alias="_id")
 

@@ -61,7 +61,7 @@ async def upgrade(
     check_artefact_within_max_level(user_art, s_artefact, data.upgrade_levels)
 
     # Calculate the upgrade cost for the artefact
-    upgrade_cost = calc_upgrade_cost(user_art, s_artefact, data.upgrade_levels)
+    upgrade_cost = formulas.artefact_upgrade_cost(s_artefact, user_art.level, data.upgrade_levels)
 
     # Fetch the currency to upgrade the item
     currencies = await currency_repo.get_user(uid)
@@ -141,10 +141,6 @@ def get_new_artefact(artefacts: list[ArtefactModel], s_artefacts: list[StaticArt
     u_arts_ids: list[int] = [art.artefact_id for art in artefacts]
 
     return random.choice(list(set(ids) - set(u_arts_ids)))
-
-
-def calc_upgrade_cost(u_art: ArtefactModel, s_art: StaticArtefact, levels: int) -> int:
-    return formulas.artefact_upgrade_cost(s_art.cost_coeff, s_art.cost_expo, u_art.level, levels)
 
 
 # == Checks == #

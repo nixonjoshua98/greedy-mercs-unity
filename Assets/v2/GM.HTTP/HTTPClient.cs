@@ -21,7 +21,7 @@ namespace GM.HTTP
             Address = "86.153.58.47"
         };
 
-        ServerAuthenticationDetails serverAuthDetails = new ServerAuthenticationDetails();
+        IServerAuthentication serverAuthDetails;
 
 
         // == Armoury Requests == //
@@ -37,11 +37,11 @@ namespace GM.HTTP
         {
             Post<UserLoginReponse>(ServerConfig.UrlFor("login"), new UserLoginRequest(), (resp) =>
             {
-                serverAuthDetails = new ServerAuthenticationDetails();
+                serverAuthDetails = null;
 
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    serverAuthDetails.UserId = resp.UserId;
+                    serverAuthDetails = resp;
                 }
 
                 callback.Invoke(resp);
@@ -126,6 +126,10 @@ namespace GM.HTTP
                     "POST" => UnityWebRequest.Post(url, PrepareRequest(request)),
                     _ => throw new Exception($"Invalid HTTP method: {method}")
                 };
+
+                www.SetRequestHeader("x-userid", serverAuthDetails.UserId);
+                www.SetRequestHeader("x-sessionid", serverAuthDetails.SessionId);
+                www.SetRequestHeader("x-deviceid", SystemInfo.deviceUniqueIdentifier);
 
                 StartCoroutine(Send<T>(www, callback));
             }

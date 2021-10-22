@@ -54,7 +54,7 @@ class ArtefactsRepository:
     async def get_one_artefact(self, uid, artid) -> Union[ArtefactModel, None]:
         r = await self._col.find_one({Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid})
 
-        return ArtefactModel.parse_obj(r) if r is not None else None
+        return ArtefactModel.parse_obj(r) if r else None
 
     async def add_new_artefact(self, uid, artid) -> ArtefactModel:
         r = await self._col.insert_one(doc := {

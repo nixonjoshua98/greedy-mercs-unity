@@ -1,3 +1,4 @@
+import secrets
 import datetime as dt
 
 from fastapi import Depends
@@ -8,7 +9,9 @@ from src.routing import ServerResponse, APIRouter
 from src.classes import ServerState
 from src.dataloader import DataLoader
 
-from src.checks import user_or_raise
+from src.cache import MemoryCache
+from src.routing.dependencies.memory_cache import inject_memory_cache
+from src.routing.dependencies.authenticated_user import inject_user, AuthenticatedUser
 
 from src.mongo.repositories.currencies import CurrenciesRepository, inject_currencies_repository
 from src.mongo.repositories.armoury import ArmouryRepository, inject_armoury_repository
@@ -43,7 +46,7 @@ def game_data(
 
 @router.post("/userdata")
 async def user_data(
-        data: UserIdentifier,
+        user: AuthenticatedUser = Depends(inject_user),
         # = Static/Game Data = #
         s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
         # = Database Repositories = #
@@ -52,12 +55,10 @@ async def user_data(
         bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
         artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
 ):
-    uid = await user_or_raise(data)
-
-    currencies = await currency_repo.get_user(uid)
-    bounties = await bounties_repo.get_user(uid)
-    armoury = await armoury_repo.get_all_items(uid)
-    artefacts = await artefacts_repo.get_all_artefacts(uid)
+    currencies = await currency_repo.get_user(user.user_id)
+    bounties = await bounties_repo.get_user(user.user_id)
+    armoury = await armoury_repo.get_all_items(user.user_id)
+    artefacts = await artefacts_repo.get_all_artefacts(user.user_id)
 
     data = {
         "currencyItems": currencies.response_dict(),
@@ -73,7 +74,8 @@ async def user_data(
 
 @router.post("/login")
 async def player_login(
-        data: UserIdentifier
+        data: UserIdentifier,
+        mem_cache: MemoryCache = Depends(inject_memory_cache)
 ):
     user = await DataLoader().users.get_user(data.device_id)
 
@@ -86,4 +88,6 @@ async def player_login(
     else:
         uid = user["_id"]
 
-    return ServerResponse({"userId": uid})
+    mem_cache.set_session_id(uid, session_id := secrets.token_hex(16))
+
+    return ServerResponse({"userId": uid, "sessionId": session_id})

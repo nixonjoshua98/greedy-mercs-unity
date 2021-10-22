@@ -1,4 +1,6 @@
-﻿namespace GM.HTTP.Requests
+﻿using Newtonsoft.Json;
+
+namespace GM.HTTP.Requests
 {
     public interface ILoginRequest : IServerRequest
     {
@@ -11,8 +13,12 @@
     }
 
 
-    public class UserLoginReponse : ServerResponse
+    public class UserLoginReponse : ServerResponse, IServerAuthentication
     {
-        public string UserId;
+        [JsonRequired]
+        public string UserId { get; set; }
+
+        [JsonRequired]
+        public string SessionId { get; set; }
     }
 }

@@ -1,9 +1,9 @@
 from fastapi import Depends
 
 from src import utils
-from src.checks import user_or_raise
+from src.pymodels import BaseModel
 from src.routing import ServerResponse, APIRouter
-from src.routing.models import UserIdentifier
+from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
 from src.resources.armoury import inject_static_armoury, StaticArmouryItem
 from src.routing.common.checks import check_greater_than, check_is_not_none
 
@@ -21,7 +21,7 @@ from src.mongo.repositories.currencies import (
 )
 
 
-class ArmouryItemActionModel(UserIdentifier):
+class ArmouryItemActionModel(BaseModel):
     item_id: int
 
 
@@ -31,6 +31,7 @@ router = APIRouter(prefix="/api/armoury")
 @router.post("/upgrade")
 async def upgrade(
         data: ArmouryItemActionModel,
+        user: AuthenticatedUser = Depends(inject_user),
 
         # = Static Data = #
         s_armoury_items: list[StaticArmouryItem] = Depends(inject_static_armoury),
@@ -39,15 +40,13 @@ async def upgrade(
         armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
         currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
-    uid = await user_or_raise(data)
-
     s_item = utils.get(s_armoury_items, id=data.item_id)
 
     # Verify the item is valid
     check_is_not_none(s_item, error="Invalid item")
 
     # Fetch the item data
-    u_item = await armoury_repo.get_one_item(uid, data.item_id)
+    u_item = await armoury_repo.get_one_item(user.id, data.item_id)
 
     # Verify the item exists
     check_is_not_none(u_item, error="Attempted to upgrade a locked armoury item")
@@ -56,20 +55,20 @@ async def upgrade(
     upgrade_cost = calc_upgrade_cost(s_item, u_item)
 
     # Fetch the currency we need
-    currencies = await currency_repo.get_user(uid)
+    currencies = await currency_repo.get_user(user.id)
 
     # Verify the user can afford to upgrade the requested item
     check_greater_than(currencies.armoury_points, upgrade_cost, error="Cannot afford upgrade")
 
     # Deduct the upgrade cost and return all user items AFTER the update
-    currencies = await currency_repo.update_one(uid, {
+    currencies = await currency_repo.update_one(user.id, {
         "$inc": {
             CurrencyRepoFields.ARMOURY_POINTS: -upgrade_cost
         }
     })
 
     # Update the requested item data
-    updated_item = await armoury_repo.update_item(uid, data.item_id, {
+    updated_item = await armoury_repo.update_item(user.id, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.LEVEL: 1
         }}, upsert=False)
@@ -80,13 +79,12 @@ async def upgrade(
 @router.post("/merge")
 async def merge(
         data: ArmouryItemActionModel,
+        user: AuthenticatedUser = Depends(inject_user),
         # = Static Data = #
         s_armoury_items: list[StaticArmouryItem] = Depends(inject_static_armoury),
         # = Database Repositories = #
         armoury_repo: ArmouryRepository = Depends(inject_armoury_repository)
 ):
-    uid = await user_or_raise(data)
-
     # Pull the static item from the list
     s_item = utils.get(s_armoury_items, id=data.item_id)
 
@@ -94,7 +92,7 @@ async def merge(
     check_is_not_none(s_item, error="Invalid item")
 
     # Fetch the armoury item from the database
-    u_item = await armoury_repo.get_one_item(uid, data.item_id)
+    u_item = await armoury_repo.get_one_item(user.id, data.item_id)
 
     # Check that the item exists
     check_is_not_none(u_item, error="User has not unlocked armoury item")
@@ -109,7 +107,7 @@ async def merge(
     check_greater_than(u_item.owned, merge_cost, error="Cannot afford upgrade")
 
     # Update the item document
-    updated_item = await armoury_repo.update_item(uid, data.item_id, {
+    updated_item = await armoury_repo.update_item(user.id, data.item_id, {
         "$inc": {
             ArmouryFieldKeys.MERGE_LEVEL: 1,
             ArmouryFieldKeys.NUM_OWNED: -merge_cost

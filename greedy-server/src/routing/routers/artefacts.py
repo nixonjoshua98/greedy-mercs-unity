@@ -5,13 +5,10 @@ from fastapi import HTTPException, Depends
 
 from src import utils
 from src.pymodels import BaseModel
-from src.routing.models import UserIdentifier
 from src.common import formulas
-from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
 from src.routing.common.checks import check_greater_than, check_is_not_none
 
-# Dependencies
 from src.routing.dependencies.authenticated_user import inject_user, AuthenticatedUser
 
 from src.resources.artefacts import inject_static_artefacts, StaticArtefact
@@ -56,7 +53,7 @@ async def upgrade(
     check_is_not_none(s_artefact, error="Artefact is not valid")
 
     # Load the related artefact
-    user_art = await artefacts_repo.get_one_artefact(user.user_id, data.artefact_id)
+    user_art = await artefacts_repo.get_one_artefact(user.id, data.artefact_id)
 
     # Verify that the user has the artefact unlocked
     check_is_not_none(user_art, error="Artefact is not unlocked")
@@ -68,20 +65,20 @@ async def upgrade(
     upgrade_cost = formulas.artefact_upgrade_cost(s_artefact, user_art.level, data.upgrade_levels)
 
     # Fetch the currency to upgrade the item
-    currencies = await currency_repo.get_user(user.user_id)
+    currencies = await currency_repo.get_user(user.id)
 
     # Check that the user can afford the upgrade cost
     check_greater_than(currencies.prestige_points, upgrade_cost, error="Cannot afford to upgrade artefact")
 
     # Update the database
-    currencies = await currency_repo.update_one(user.user_id, {
+    currencies = await currency_repo.update_one(user.id, {
         "$inc": {
             CurrencyRepoFields.PRESTIGE_POINTS: -upgrade_cost
         }
     })
 
     # Update the artefact
-    artefact = await artefacts_repo.update_artefact(user.user_id, data.artefact_id, {
+    artefact = await artefacts_repo.update_artefact(user.id, data.artefact_id, {
         "$inc": {
             ArtefactsRepoFields.LEVEL: data.upgrade_levels
         }
@@ -90,9 +87,9 @@ async def upgrade(
     return ServerResponse({"currencyItems": currencies.response_dict(), "updatedArtefact": artefact.response_dict()})
 
 
-@router.post("/unlock")
+@router.get("/unlock")
 async def unlock(
-        data: UserIdentifier,
+        user: AuthenticatedUser = Depends(inject_user),
 
         # = Static Game Data = #
         static_artefacts=Depends(inject_static_artefacts),
@@ -101,10 +98,8 @@ async def unlock(
         artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
         currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
-    uid = await user_or_raise(data)
-
     # Fetch all user artefacts
-    user_arts = await artefacts_repo.get_all_artefacts(uid)
+    user_arts = await artefacts_repo.get_all_artefacts(user.id)
 
     # Verify that the user still has an artefact available to unlock
     check_not_unlocked_all_artefacts(user_arts, static_artefacts)
@@ -113,7 +108,7 @@ async def unlock(
     unlock_cost = calc_unlock_cost(user_arts)
 
     # Fetch the currencies from the database
-    currencies = await currency_repo.get_user(uid)
+    currencies = await currency_repo.get_user(user.id)
 
     # Verify that the user can afford the unlock cost
     check_greater_than(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
@@ -122,10 +117,10 @@ async def unlock(
     new_art_id = get_new_artefact(user_arts, static_artefacts)
 
     # Add the new artefact
-    new_artefact = await artefacts_repo.add_new_artefact(uid, new_art_id)
+    new_artefact = await artefacts_repo.add_new_artefact(user.id, new_art_id)
 
     # Update the database
-    currencies = await currency_repo.update_one(uid, {
+    currencies = await currency_repo.update_one(user.id, {
         "$inc": {
             CurrencyRepoFields.PRESTIGE_POINTS: -unlock_cost
         }

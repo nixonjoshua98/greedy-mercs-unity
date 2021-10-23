@@ -3,14 +3,13 @@ import datetime as dt
 
 from fastapi import Depends
 
-from src.routing.models import UserIdentifier
 from src.common import resources
 from src.routing import ServerResponse, APIRouter
 from src.classes import ServerState
 from src.dataloader import DataLoader
 
-from src.cache import MemoryCache
-from src.routing.dependencies.memory_cache import inject_memory_cache
+from src.pymodels import BaseModel
+from src.cache import MemoryCache, inject_memory_cache
 from src.routing.dependencies.authenticated_user import inject_user, AuthenticatedUser
 
 from src.mongo.repositories.currencies import CurrenciesRepository, inject_currencies_repository
@@ -26,8 +25,15 @@ from src.resources.bountyshop import inject_dynamic_bounty_shop, DynamicBountySh
 router = APIRouter(prefix="/api")
 
 
+# = Models = #
+
+class LoginModel(BaseModel):
+    device_id: str
+
+
 @router.get("/gamedata")
 def game_data(
+        # = Static/Game Data = #
         s_bounties: StaticBounties = Depends(inject_static_bounties),
         s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
         s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts)
@@ -44,7 +50,7 @@ def game_data(
     })
 
 
-@router.post("/userdata")
+@router.get("/userdata")
 async def user_data(
         user: AuthenticatedUser = Depends(inject_user),
         # = Static/Game Data = #
@@ -55,10 +61,10 @@ async def user_data(
         bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
         artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
 ):
-    currencies = await currency_repo.get_user(user.user_id)
-    bounties = await bounties_repo.get_user(user.user_id)
-    armoury = await armoury_repo.get_all_items(user.user_id)
-    artefacts = await artefacts_repo.get_all_artefacts(user.user_id)
+    currencies = await currency_repo.get_user(user.id)
+    bounties = await bounties_repo.get_user(user.id)
+    armoury = await armoury_repo.get_all_items(user.id)
+    artefacts = await artefacts_repo.get_all_artefacts(user.id)
 
     data = {
         "currencyItems": currencies.response_dict(),
@@ -73,10 +79,7 @@ async def user_data(
 
 
 @router.post("/login")
-async def player_login(
-        data: UserIdentifier,
-        mem_cache: MemoryCache = Depends(inject_memory_cache)
-):
+async def player_login(data: LoginModel, mem_cache: MemoryCache = Depends(inject_memory_cache)):
     user = await DataLoader().users.get_user(data.device_id)
 
     if user is None:

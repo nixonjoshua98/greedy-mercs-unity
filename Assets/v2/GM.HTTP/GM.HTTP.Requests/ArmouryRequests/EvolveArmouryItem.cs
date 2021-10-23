@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace GM.HTTP.Requests
+﻿namespace GM.HTTP.Requests
 {
-    public class UpgradeStarLevelArmouryItemRequest : AuthenticatedRequest
+    public class UpgradeStarLevelArmouryItemRequest : IServerRequest
     {
         public int ItemId;
     }

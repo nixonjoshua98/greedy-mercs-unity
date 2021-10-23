@@ -5,16 +5,11 @@ import datetime as dt
 from fastapi import HTTPException, Depends
 
 from src import utils
-from src.checks import user_or_raise
+from src.pymodels import BaseModel
 from src.routing import ServerResponse, APIRouter
-from src.routing.models import UserIdentifier
+from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
 
-from src.mongo.repositories.bounties import (
-    UserBountiesModel,
-    BountiesRepository,
-    inject_bounties_repository
-)
-
+from src.mongo.repositories.bounties import UserBountiesModel, BountiesRepository, inject_bounties_repository
 from src.mongo.repositories.currencies import (
     CurrenciesRepository,
     Fields as CurrencyRepoFields,
@@ -24,16 +19,17 @@ from src.mongo.repositories.currencies import (
 from src.resources.bounties import inject_static_bounties, StaticBounties
 
 
-class ActiveBountyUpdateModel(UserIdentifier):
-    bounty_ids: list[int]
-
-
 router = APIRouter(prefix="/api/bounty")
 
 
-@router.post("/claim")
+# = Models = #
+class ActiveBountyUpdateModel(BaseModel):
+    bounty_ids: list[int]
+
+
+@router.get("/claim")
 async def claim_points(
-        user: UserIdentifier,
+        user: AuthenticatedUser = Depends(inject_user),
 
         # = Static Game Data = #,
         static_bounties: StaticBounties = Depends(inject_static_bounties),
@@ -42,18 +38,16 @@ async def claim_points(
         bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
         currency_repo: CurrenciesRepository = Depends(inject_currencies_repository)
 ):
-    uid = await user_or_raise(user)
-
     # Load data from mongo
-    bounties_user_data: UserBountiesModel = await bounties_repo.get_user(uid)
+    bounties_user_data: UserBountiesModel = await bounties_repo.get_user(user.id)
 
     # Calculate the unclaimed points
     unclaimed = calc_unclaimed_points(bounties_user_data, now := dt.datetime.utcnow(), s_bounties=static_bounties)
 
     # Update the claim time
-    await bounties_repo.set_claim_time(uid, claim_time=now)
+    await bounties_repo.set_claim_time(user.id, claim_time=now)
 
-    currencies = await currency_repo.update_one(uid, {
+    currencies = await currency_repo.update_one(user.id, {
         "$inc": {
             CurrencyRepoFields.BOUNTY_POINTS: unclaimed
         }
@@ -65,6 +59,7 @@ async def claim_points(
 @router.post("/setactive")
 async def set_active_bounties(
         data: ActiveBountyUpdateModel,
+        user: AuthenticatedUser = Depends(inject_user),
 
         # = Static Game Data = #,
         static_bounties: StaticBounties = Depends(inject_static_bounties),
@@ -72,22 +67,20 @@ async def set_active_bounties(
         # = Database Repositories = #
         bounties_repo: BountiesRepository = Depends(inject_bounties_repository)
 ):
-    uid = await user_or_raise(data)
-
     # Check that the user is attempting to activate an acceptable num of bounties
     check_num_active_bounties(data, s_bounties=static_bounties)
 
     # Load data from the mongo database
-    bounty_data: UserBountiesModel = await bounties_repo.get_user(uid)
+    bounty_data: UserBountiesModel = await bounties_repo.get_user(user.id)
 
     # Confirm that the user has the bounty unlocked
     check_unlocked_bounty(data, bounty_data)
 
     # Enable (or disable) the relevant bounties
-    await bounties_repo.update_active_bounties(uid, data.bounty_ids)
+    await bounties_repo.update_active_bounties(user.id, data.bounty_ids)
 
     # Refresh the user data from the database, ready to return it back to the user
-    bounty_data: UserBountiesModel = await bounties_repo.get_user(uid)
+    bounty_data: UserBountiesModel = await bounties_repo.get_user(user.id)
 
     return ServerResponse(bounty_data.response_dict())
 

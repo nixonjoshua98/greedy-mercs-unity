@@ -1,13 +1,14 @@
 from fastapi import Depends
 
+from src.pymodels import BaseModel
 from src.common import formulas
 from src.common.enums import BonusType
-from src.checks import user_or_raise
 from src.routing import ServerResponse, APIRouter
-from src.routing.models import UserIdentifier
 
 from src.resources.bounties import inject_static_bounties, StaticBounties
 from src.resources.artefacts import inject_static_artefacts, StaticArtefact
+
+from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
 
 from src.mongo.repositories.bounties import BountiesRepository, inject_bounties_repository
 from src.mongo.repositories.artefacts import ArtefactsRepository, ArtefactModel, inject_artefacts_repository
@@ -22,13 +23,14 @@ router = APIRouter(prefix="/api")
 
 
 # Models
-class PrestigeData(UserIdentifier):
-    prestige_stage: int = 500
+class PrestigeData(BaseModel):
+    prestige_stage: int = 5000
 
 
 @router.post("/prestige")
 async def prestige(
         data: PrestigeData,
+        user: AuthenticatedUser = Depends(inject_user),
 
         # = Game Data = #
         s_bounties: StaticBounties = Depends(inject_static_bounties),
@@ -38,12 +40,12 @@ async def prestige(
         currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
         artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository)
 ):
-    uid = await user_or_raise(data)
+    user_arts = await artefacts_repo.get_all_artefacts(user.id)
 
-    user_arts = await artefacts_repo.get_all_artefacts(uid)
-
-    await process_prestige_points(uid, data, artefacts=user_arts, currency_repo=currency_repo, s_artefacts=s_artefacts)
-    await process_new_bounties(uid, data, bounties_repo=bounties_repo, s_bounties=s_bounties)
+    await process_prestige_points(
+        user.id, data, artefacts=user_arts, currency_repo=currency_repo, s_artefacts=s_artefacts
+    )
+    await process_new_bounties(user.id, data, bounties_repo=bounties_repo, s_bounties=s_bounties)
 
     return ServerResponse({})
 

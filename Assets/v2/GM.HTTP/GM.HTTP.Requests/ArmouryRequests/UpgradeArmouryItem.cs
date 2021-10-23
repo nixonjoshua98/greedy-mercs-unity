@@ -1,6 +1,6 @@
 ﻿namespace GM.HTTP.Requests
 {
-    public class UpgradeArmouryItemRequest : AuthenticatedRequest
+    public class UpgradeArmouryItemRequest : IServerRequest
     {
         public int ItemId;
     }

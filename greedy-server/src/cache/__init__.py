@@ -1,6 +1,12 @@
 from typing import Any
 
+from fastapi import Request
+
 VOID = "<VOID>"
+
+
+def inject_memory_cache(request: Request):
+    return request.app.state.memory_cache
 
 
 class MemoryCache:

@@ -2,11 +2,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public class ArmouryItemPopup : ArmouryItemUIObject
     {
         [Header("References")]
+        public GM.UI.StarsController Stars;
+        [Space]
         public Button EvolveButton;
         [Space]
         public TMP_Text TierText;
@@ -17,17 +19,16 @@ namespace GM.Armoury.UI_
         public Image IconImage;
         public Slider EvolveProgressSlider;
 
-        public override void AssignItem(int itemId)
+        protected override void OnAssignedItem()
         {
-            base.AssignItem(itemId);
             SetStaticUIElements();
             RefreshUI();
         }
 
         void SetStaticUIElements()
         {
-            TierText.color = AssignedItem.DisplayConfig.Colour;
-            TierText.text = AssignedItem.DisplayConfig.DisplayText;
+            TierText.color = AssignedItem.Config.Colour;
+            TierText.text = AssignedItem.Config.DisplayText;
 
             IconImage.sprite = AssignedItem.Icon;
             NameText.text = AssignedItem.ItemName;
@@ -35,14 +36,16 @@ namespace GM.Armoury.UI_
 
         void RefreshUI()
         {
+            Stars.Show(AssignedItem.CurrentMergeLevel);
+
             LevelText.text = $"Level {AssignedItem.CurrentLevel}";
-            EvolveButton.interactable = AssignedItem.CanStarUpgrade;
-            OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.StarLevelCost}";
-            EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.StarLevelCost;
+            EvolveButton.interactable = AssignedItem.CanMerge;
+            OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.MergeCost}";
+            EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.MergeCost;
         }
 
         // == Callbacks == //
-        public void OnEvolveButton()
+        public void OnMergeButton()
         {
             App.Data.Armoury.EvolveItem(AssignedItemId, (success) => { RefreshUI(); });
         }

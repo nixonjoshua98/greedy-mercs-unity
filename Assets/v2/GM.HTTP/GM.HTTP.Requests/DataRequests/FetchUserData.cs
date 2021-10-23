@@ -2,7 +2,7 @@
 
 namespace GM.HTTP.Requests
 {
-    public class FetchUserDataRequest : AuthenticatedRequest
+    public class FetchUserDataRequest : IServerRequest
     {
 
     }

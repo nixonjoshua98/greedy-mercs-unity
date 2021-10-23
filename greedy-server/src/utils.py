@@ -15,7 +15,7 @@ def get(ls: Iterable[T], **attrs: Any) -> Optional[T]:
     :return: The result or None
     """
     for val in ls:
-        if all(val.__dict__[k] == v == v for k, v in attrs.items()):
+        if all(val.__dict__[k] == v for k, v in attrs.items()):
             return val
 
     return None
@@ -26,26 +26,8 @@ def load_static_data_file(fp: str):
     Load a file from the /static root folder
 
     :param fp: File name
-    :return: Dict of the loaded file
     """
     path = os.path.join(os.getcwd(), "static", fp)
 
     with open(path, "r") as fh:
         return json.load(fh)
-
-
-def load_resource(fp):
-    return load_json(_resource_path(fp))
-
-
-def load_json(fp):
-
-    def hook(d):
-        return {int(k) if k.isdigit() else k: v for k, v in d.items()}
-
-    with open(fp, "r") as fh:
-        return json.loads(fh.read(), object_hook=hook)
-
-
-def _resource_path(*sections):
-    return os.path.join(os.getcwd(), "resources", *sections)

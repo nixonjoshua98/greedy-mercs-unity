@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 using TMPro;
 
 namespace GM.BountyShop.UI
@@ -12,7 +13,7 @@ namespace GM.BountyShop.UI
         public GameObject ItemSlotObject;
 
         [Header("References")]
-        public TMP_Text RefreshText;
+        public Text RefreshText;
         public Transform ItemsParent;
 
         void Awake()
@@ -25,7 +26,7 @@ namespace GM.BountyShop.UI
             foreach (var item in App.Data.BountyShop.ArmouryItems)
             {
                 Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent)
-                    .AssignShopItem(item);
+                    .Assign(item);
             }
         }
 

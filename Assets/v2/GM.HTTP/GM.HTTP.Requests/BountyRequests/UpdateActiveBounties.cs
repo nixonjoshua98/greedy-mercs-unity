@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GM.HTTP.Requests
 {
-    public class UpdateActiveBountiesRequest : AuthenticatedRequest
+    public class UpdateActiveBountiesRequest : IServerRequest
     {
         [JsonProperty(PropertyName = "bountyIds")]
         public List<int> BountyIds; // List of target active bounties
@@ -11,6 +11,6 @@ namespace GM.HTTP.Requests
 
     public class UpdateActiveBountiesResponse : ServerResponse
     {
-        public List<Bounties.Models.SingleBountyUserDataModel> Bounties;
+        public List<Bounties.Models.BountyUserDataModel> Bounties;
     }
 }

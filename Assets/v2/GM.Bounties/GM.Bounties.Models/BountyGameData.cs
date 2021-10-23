@@ -6,11 +6,16 @@ namespace GM.Bounties.Models
     public class BountyGameData
     {
         [JsonProperty(PropertyName = "bountyId")]
+        [JsonRequired]
         public int Id;
 
+        [JsonRequired]
         public int UnlockStage;
+
+        [JsonRequired]
         public int HourlyIncome;
 
+        [JsonIgnore]
         public float SpawnChance = 1.0f;
 
         [JsonIgnore]
@@ -21,8 +26,5 @@ namespace GM.Bounties.Models
 
         [JsonIgnore]
         public GameObject Prefab;
-
-        [JsonIgnore]
-        public UI.BountySlot Slot;
     }
 }

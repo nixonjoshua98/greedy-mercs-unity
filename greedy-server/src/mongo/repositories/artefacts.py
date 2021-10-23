@@ -9,7 +9,7 @@ import datetime as dt
 
 from src.routing import ServerRequest
 
-from src.common.basemodels import BaseDocument
+from src.pymodels import BaseDocument
 
 
 def inject_artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
@@ -49,12 +49,12 @@ class ArtefactsRepository:
     async def get_all_artefacts(self, uid) -> list[ArtefactModel]:
         ls = await self._col.find({Fields.USER_ID: uid}).to_list(length=None)
 
-        return [ArtefactModel(**ele) for ele in ls]
+        return [ArtefactModel.parse_obj(ele) for ele in ls]
 
     async def get_one_artefact(self, uid, artid) -> Union[ArtefactModel, None]:
         r = await self._col.find_one({Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid})
 
-        return ArtefactModel(**r) if r is not None else None
+        return ArtefactModel.parse_obj(r) if r else None
 
     async def add_new_artefact(self, uid, artid) -> ArtefactModel:
         r = await self._col.insert_one(doc := {
@@ -64,7 +64,7 @@ class ArtefactsRepository:
             Fields.UNLOCK_TIME: dt.datetime.utcnow()
         })
 
-        return ArtefactModel(**{"_id": r.inserted_id, **doc})
+        return ArtefactModel.parse_obj({"_id": r.inserted_id, **doc})
 
     async def update_artefact(self, uid, artid, update: dict) -> ArtefactModel:
         r = await self._col.find_one_and_update({
@@ -72,4 +72,4 @@ class ArtefactsRepository:
                 Fields.ARTEFACT_ID: artid
             }, update, upsert=False, return_document=ReturnDocument.AFTER)
 
-        return ArtefactModel(**r)
+        return ArtefactModel.parse_obj(r)

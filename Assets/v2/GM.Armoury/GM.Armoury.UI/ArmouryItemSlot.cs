@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public class ArmouryItemSlot : ArmouryItemUIObject
     {
@@ -27,8 +27,8 @@ namespace GM.Armoury.UI_
 
         void SetStaticElements()
         {
-            TierText.color = AssignedItem.DisplayConfig.Colour;
-            TierText.text = AssignedItem.DisplayConfig.DisplayText;
+            TierText.color = AssignedItem.Config.Colour;
+            TierText.text = AssignedItem.Config.DisplayText;
 
             IconImage.sprite = AssignedItem.Icon;
             NameText.text = AssignedItem.ItemName;
@@ -36,9 +36,9 @@ namespace GM.Armoury.UI_
 
         void FixedUpdate()
         {
-            OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.StarLevelCost}";
+            OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.MergeCost}";
 
-            EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.StarLevelCost;
+            EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.MergeCost;
         }
 
         // == Callbacks == //

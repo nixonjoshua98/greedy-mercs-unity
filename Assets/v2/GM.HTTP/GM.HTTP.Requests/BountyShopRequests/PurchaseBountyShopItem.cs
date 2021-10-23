@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace GM.HTTP.Requests
+﻿namespace GM.HTTP.Requests
 {
-    public class PurchaseBountyShopItemRequest : AuthenticatedRequest
+    public class PurchaseBountyShopItemRequest : IServerRequest
     {
         public string ShopItem;
     }

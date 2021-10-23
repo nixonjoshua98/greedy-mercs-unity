@@ -7,7 +7,7 @@ from bson import ObjectId
 
 from src.routing import ServerRequest
 
-from src.common.basemodels import BaseDocument
+from src.pymodels import BaseDocument
 
 
 def inject_armoury_repository(request: ServerRequest) -> ArmouryRepository:
@@ -21,7 +21,7 @@ class Fields:
     USER_ID = "userId"
     ITEM_ID = "itemId"
     LEVEL = "level"
-    STAR_LEVEL = "starLevel"
+    MERGE_LEVEL = "mergeLevel"
     NUM_OWNED = "owned"
 
 
@@ -33,7 +33,7 @@ class ArmouryItemModel(BaseDocument):
 
     level: int = Field(1, alias=Fields.LEVEL)
     owned: int = Field(..., alias=Fields.NUM_OWNED)
-    star_level: int = Field(0, alias=Fields.STAR_LEVEL)
+    merge_lvl: int = Field(0, alias=Fields.MERGE_LEVEL)
 
     def response_dict(self):
         return self.dict(exclude={"id", "user_id"})
@@ -50,12 +50,12 @@ class ArmouryRepository:
     async def get_one_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
         item = await self._col.find_one({Fields.USER_ID: uid, Fields.ITEM_ID: iid})
 
-        return ArmouryItemModel(**item) if item is not None else item
+        return ArmouryItemModel.parse_obj(item) if item is not None else item
 
     async def get_all_items(self, uid) -> list[ArmouryItemModel]:
         ls = await self._col.find({Fields.USER_ID: uid}).to_list(length=None)
 
-        return [ArmouryItemModel(**ele) for ele in ls]
+        return [ArmouryItemModel.parse_obj(ele) for ele in ls]
 
     async def update_item(self, uid, iid: int, update: dict, *, upsert: bool) -> Union[ArmouryItemModel, None]:
         r = await self._col.find_one_and_update(
@@ -64,4 +64,4 @@ class ArmouryRepository:
                 Fields.ITEM_ID: iid
             }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
 
-        return ArmouryItemModel(**r) if r is not None else None
+        return ArmouryItemModel.parse_obj(r) if r is not None else None

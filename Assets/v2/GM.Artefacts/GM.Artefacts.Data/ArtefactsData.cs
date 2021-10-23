@@ -2,8 +2,8 @@ using GM.Artefacts.Models;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using HTTPCodes = GM.HTTP.HTTPCodes;
 using UnityEngine.Events;
+using HTTPCodes = GM.HTTP.HTTPCodes;
 
 
 namespace GM.Artefacts.Data

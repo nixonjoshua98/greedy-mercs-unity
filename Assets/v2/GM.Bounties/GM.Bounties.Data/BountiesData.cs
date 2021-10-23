@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using GM.Bounties.ScripableObjects;
 
 namespace GM.Bounties.Data
 {
@@ -19,25 +20,78 @@ namespace GM.Bounties.Data
         }
 
         /// <summary>
-        /// Forward the user bounty list
+        /// Fetch the data for all unlocked bounties
         /// </summary>
-        public List<Models.SingleBountyUserDataModel> UserBountiesList => UserData.Bounties;
+        public List<UnlockedBountyData> UnlockedBountiesList => UserData.Bounties.Select(ele => GetUnlockedBounty(ele.BountyId)).ToList();
+
+        /// <summary>
+        /// Get only the active bounties
+        /// </summary>
+        public List<UnlockedBountyData> ActiveBountiesList => UnlockedBountiesList.Where(ele => ele.IsActive).ToList();
+
+        /// <summary>
+        /// Time since the last claim
+        /// </summary>
+        TimeSpan TimeSinceClaim
+        {
+            get
+            {
+                TimeSpan ts = DateTime.UtcNow - UserData.LastClaimTime;
+
+                if (ts.TotalHours > GameData.MaxUnclaimedHours)
+                {
+                    return new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600));
+                } 
+                else if (ts.TotalHours < 0)
+                {
+                    return new TimeSpan();
+                }
+
+                return ts;
+            }
+        }
+
+        /// <summary>
+        /// Time until the user has reached the cap for idle collection time
+        /// </summary>
+        public TimeSpan TimeUntilMaxUnclaimedHours => new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600)) - TimeSinceClaim;
 
         /// <summary>
         /// Update the complete user bounty data
         /// </summary>
-        public void Update(Models.CompleteBountyDataModel data) => UserData = data;
+        void Update(Models.CompleteBountyDataModel data) => UserData = data;
 
         /// <summary>
         /// Update only the user bounties
         /// </summary>
-        public void Update(List<Models.SingleBountyUserDataModel> bounties) => UserData.Bounties = bounties;
+        void Update(List<Models.BountyUserDataModel> bounties) => UserData.Bounties = bounties;
 
         /// <summary>
         /// Load local data stored as scriptable objects
         /// </summary>
-        Dictionary<int, ScripableObjects.BountyLocalGameData> LoadLocalData()
-            => Resources.LoadAll<ScripableObjects.BountyLocalGameData>("Bounties").ToDictionary(ele => ele.Id, ele => ele);
+        Dictionary<int, BountyLocalGameData> LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Scriptables/Bounties").ToDictionary(ele => ele.Id, ele => ele);
+
+        /// <summary>
+        /// Fetch the bounty user data
+        /// </summary>
+        Models.BountyUserDataModel GetUserBountyData(int key)
+        {
+            var data = UserData.Bounties.Where(ele => ele.BountyId == key).FirstOrDefault();
+
+            Core.GMLog.LogIfNull(data, $"User bounty '{key}' is null");
+
+            return data;
+        }
+
+        /// <summary>
+        /// Calculate the total hourly income from all active bounties
+        /// </summary>
+        public int TotalHourlyIncome => ActiveBountiesList.Sum(ele => ele.Income);
+
+        /// <summary>
+        /// Fetch data for an unlocked bounty
+        /// </summary>
+        public UnlockedBountyData GetUnlockedBounty(int key) => new UnlockedBountyData(GetGameBounty(key), GetUserBountyData(key));
 
         /// <summary>
         /// Forward the 'MaxActiveBounties' attribute from the game data
@@ -49,7 +103,9 @@ namespace GM.Bounties.Data
         /// </summary>
         public Models.BountyGameData GetGameBounty(int key) => GameData.Bounties.Where(ele => ele.Id == key).FirstOrDefault();
 
-        // Update the complete bounty data model
+        /// <summary>
+        /// Update the complete bounty data model
+        /// </summary>
         void Update(Models.CompleteBountyGameDataModel data)
         {
             GameData = data;
@@ -62,7 +118,6 @@ namespace GM.Bounties.Data
 
                 bounty.Name = localBounty.Name;
                 bounty.Icon = localBounty.Icon;
-                bounty.Slot = localBounty.Slot;
 
                 bounty.Prefab = localBounty.Prefab;
             }
@@ -81,41 +136,6 @@ namespace GM.Bounties.Data
 
             return false;
         }
-
-        public BountySnapshot CreateSnapshot()
-        {
-            int capacity = 0;
-            int unclaimed = 0;
-            int hourlyIncome = 0;
-
-            // Calculate the attributes we want for the snapshot
-            foreach (var state in UserData.Bounties)
-            {
-                if (state.IsActive)
-                {
-                    // Grab the static data for the struct
-                    var bountyGameData = GetGameBounty(state.BountyId);
-
-                    // We cap the hours since claim to the value returned from the server
-                    float hoursSinceClaim = Math.Max(0, Math.Min(GameData.MaxUnclaimedHours, (float)(DateTime.UtcNow - UserData.LastClaimTime).TotalHours));
-
-                    capacity += Mathf.FloorToInt(bountyGameData.HourlyIncome * GameData.MaxUnclaimedHours);
-                    unclaimed += Mathf.FloorToInt(bountyGameData.HourlyIncome * hoursSinceClaim);
-
-                    hourlyIncome += bountyGameData.HourlyIncome;
-                }
-            }
-
-            // Create and return a new snapshot structure
-            return new BountySnapshot
-            {
-                Capacity = capacity,
-                Unclaimed = unclaimed,
-                HourlyIncome = hourlyIncome,
-                PercentFilled = capacity > 0 ? unclaimed / (float)capacity : 0 // Cast to float to allow for a decimal answer
-            };
-        }
-
 
         // === Server Methods === //
 

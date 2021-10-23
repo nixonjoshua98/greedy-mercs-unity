@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GM.Bounties.ScripableObjects
 {
-    [CreateAssetMenu(menuName = "Scriptables/LocalBountyData")]
+    [CreateAssetMenu(menuName = "Scriptables/BountyLocalGameData")]
     public class BountyLocalGameData : ScriptableObject
     {
         // 0_Bounty or 1_OgreMan or 2_Little_Jimmy
@@ -17,9 +17,5 @@ namespace GM.Bounties.ScripableObjects
 
         [Header("Objects")]
         public GameObject Prefab;
-
-        [Space]
-
-        public UI.BountySlot Slot;
     }
 }

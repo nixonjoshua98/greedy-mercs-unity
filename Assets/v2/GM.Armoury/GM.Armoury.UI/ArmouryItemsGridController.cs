@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using ScreenSpace = GM.UI_.ScreenSpace;
+using ExpandableGridLayout = GM.UI.Layouts.ExpandableGridLayout;
 
-namespace GM.Armoury.UI_
+namespace GM.Armoury.UI
 {
     public class ArmouryItemsGridController : Core.GMMonoBehaviour
     {
@@ -12,7 +11,7 @@ namespace GM.Armoury.UI_
         public GameObject ArmouryItemSlotObject;
 
         [Header("References")]
-        public GridLayoutGroup ItemsGridLayout;
+        public ExpandableGridLayout ItemsGridLayout;
         public Transform ItemsSlotsParent;
 
         [Header("Properties")]
@@ -33,7 +32,7 @@ namespace GM.Armoury.UI_
                 slot.gameObject.SetActive(true);
             }
 
-            UpdateGridLayoutCellSize();
+            ItemsGridLayout.UpdateCellSize();
         }
 
         ArmouryItemSlot GetItemSlot(int itemId)
@@ -48,14 +47,6 @@ namespace GM.Armoury.UI_
             }
 
             return slot;
-        }
-
-        void UpdateGridLayoutCellSize()
-        {
-            ItemsGridLayout.cellSize = new Vector3(ScreenSpace.Width / NumColumns, ItemsGridLayout.cellSize.y);
-
-            ItemsGridLayout.CalculateLayoutInputHorizontal();
-            ItemsGridLayout.CalculateLayoutInputVertical();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace GM.HTTP.Requests
 {
-    public class UpgradeArtefactRequest : AuthenticatedRequest
+    public class UpgradeArtefactRequest : IServerRequest
     {
         public int ArtefactId;
         public int UpgradeLevels;

@@ -23,6 +23,8 @@ namespace GM.HTTP
 
         IServerAuthentication serverAuthDetails;
 
+        public int maxRequestId;
+        public int currentRequestId;
 
         // == Armoury Requests == //
         public void Armoury_Upgrade(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) =>
@@ -35,7 +37,11 @@ namespace GM.HTTP
         // == Login == //
         public void Login(UnityAction<UserLoginReponse> callback)
         {
-            Post<UserLoginReponse>(ServerConfig.UrlFor("login"), new UserLoginRequest(), (resp) =>
+            UserLoginRequest request = new UserLoginRequest { DeviceId = SystemInfo.deviceUniqueIdentifier };
+
+            var www = UnityWebRequest.Post(ServerConfig.UrlFor("login"), JsonConvert.SerializeObject(request));
+
+            StartCoroutine(SendRequest<UserLoginReponse>(www, (resp) =>
             {
                 serverAuthDetails = null;
 
@@ -45,7 +51,7 @@ namespace GM.HTTP
                 }
 
                 callback.Invoke(resp);
-            });
+            }));
         }
 
 
@@ -74,17 +80,8 @@ namespace GM.HTTP
 
         /// <summary>
         /// </summary>
-        void Post<T>(string url, IAuthenticatedRequest req, UnityAction<T> callback) where T : IServerResponse, new() => 
-            SendAuthenticatedRequest("POST", url, req, callback);
-
-        /// <summary>
-        /// </summary>
-        void Post<T>(string url, ILoginRequest req, UnityAction<T> callback) where T : IServerResponse, new()
-        {
-            var www = UnityWebRequest.Post(url, PrepareRequest(req));
-
-            StartCoroutine(Send<T>(www, callback));
-        }
+        void Post<T>(string url, IAuthenticatedRequest req, UnityAction<T> callback) where T : IServerResponse, new() =>
+            StartCoroutine(SendAuthenticatedRequest("POST", url, req, callback));
 
         /// <summary>
         /// </summary>
@@ -92,12 +89,12 @@ namespace GM.HTTP
         {
             var www = UnityWebRequest.Get(url);
 
-            StartCoroutine(Send<T>(www, callback));
+            StartCoroutine(SendRequest<T>(www, callback));
         }
 
         /// <summary>
         /// </summary>
-        IEnumerator Send<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
+        IEnumerator SendRequest<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
         {
             www.timeout = 5;
 
@@ -108,7 +105,7 @@ namespace GM.HTTP
             InvokeRequestCallback(www, callback);
         }
 
-        void SendAuthenticatedRequest<T>(string method, string url, IAuthenticatedRequest request, UnityAction<T> callback) where T : IServerResponse, new()
+        IEnumerator SendAuthenticatedRequest<T>(string method, string url, IAuthenticatedRequest request, UnityAction<T> callback) where T : IServerResponse, new()
         {
             if (serverAuthDetails == null)
             {
@@ -121,6 +118,8 @@ namespace GM.HTTP
             }
             else
             {
+                yield return WaitForRequestReady();
+
                 var www = method switch
                 {
                     "POST" => UnityWebRequest.Post(url, PrepareRequest(request)),
@@ -131,8 +130,18 @@ namespace GM.HTTP
                 www.SetRequestHeader("x-sessionid", serverAuthDetails.SessionId);
                 www.SetRequestHeader("x-deviceid", SystemInfo.deviceUniqueIdentifier);
 
-                StartCoroutine(Send<T>(www, callback));
+                yield return SendRequest<T>(www, callback);
             }
+        }
+
+        IEnumerator WaitForRequestReady()
+        {
+            maxRequestId++;
+
+            int requestId = maxRequestId;
+
+            // Send the request in order as they are created
+            yield return new WaitUntil(() => currentRequestId == requestId);
         }
 
         /// <summary>
@@ -154,6 +163,8 @@ namespace GM.HTTP
                 {
                     Debug.Log($"{www.url} ({resp.StatusCode}) - {resp.ErrorMessage}");
                 }
+
+                currentRequestId++; // Increment the current request id, so that the next queued request is sent and processed
             }
         }
 
@@ -219,16 +230,6 @@ namespace GM.HTTP
         string PrepareRequest(IAuthenticatedRequest request)
         {
             request.UserId = serverAuthDetails.UserId;
-            request.DeviceId = SystemInfo.deviceUniqueIdentifier;
-
-            return JsonConvert.SerializeObject(request);
-        }
-
-        /// <summary>
-        /// Pre-request setup. Sets identifer details for login
-        /// </summary>
-        string PrepareRequest(ILoginRequest request)
-        {
             request.DeviceId = SystemInfo.deviceUniqueIdentifier;
 
             return JsonConvert.SerializeObject(request);

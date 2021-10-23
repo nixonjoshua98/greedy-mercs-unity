@@ -88,6 +88,6 @@ async def player_login(
     else:
         uid = user["_id"]
 
-    mem_cache.set_session_id(uid, session_id := secrets.token_hex(16))
+    mem_cache.set_value(f"session/{uid}", session_id := secrets.token_hex(16))
 
     return ServerResponse({"userId": uid, "sessionId": session_id})

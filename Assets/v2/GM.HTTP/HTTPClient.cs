@@ -21,11 +21,11 @@ namespace GM.HTTP
         public int maxRequestId;
         public int currentRequestId;
 
-        // == Armoury Requests == //
+        // = Armoury = //
         public void Armoury_Upgrade(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("armoury/upgrade"), req, callback);
         public void Armoury_Merge(UpgradeStarLevelArmouryItemRequest req, UnityAction<UpgradeStarLevelArmouryItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("armoury/merge"), req, callback);
 
-        // == Login == //
+        // = Login = //
         public void Login(UnityAction<UserLoginReponse> callback)
         {
             UserLoginRequest request = new UserLoginRequest { DeviceId = SystemInfo.deviceUniqueIdentifier };
@@ -45,21 +45,21 @@ namespace GM.HTTP
             }));
         }
 
-        // == Prestige == //
+        // = Prestige = //
         public void Prestige(UnityAction<ServerResponse> callback) => Auth_POST(ServerConfig.UrlFor("prestige"), new ServerRequest(), callback);
 
-        // == Bounties == //
+        // = Bounties = //
         public void Bounty_Claim(UnityAction<BountyClaimResponse> callback) => Auth_GET(ServerConfig.UrlFor("bounty/claim"), callback);
         public void Bounty_UpdateActives(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback) => Auth_POST(ServerConfig.UrlFor("bounty/setactive"), req, callback);
 
-        // == Bounty Shop == //
+        // = Bounty Shop = //
         public void BShop_PurchaseItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("bountyshop/purchase"), req, callback);
 
-        // == Artefacts == //
+        // = Artefacts = //
         public void Artefact_UpgradeArtefact(UpgradeArtefactRequest req, UnityAction<UpgradeArtefactResponse> callback) => Auth_POST(ServerConfig.UrlFor("artefact/upgrade"), req, callback);
         public void Artefact_UnlockArtefact(UnityAction<UnlockArtefactResponse> callback) => Auth_GET(ServerConfig.UrlFor("artefact/unlock"), callback);
 
-        // == Data == //
+        // = Data = //
         public void FetchUserData(UnityAction<FetchUserDataResponse> callback) => Auth_GET(ServerConfig.UrlFor("userdata"), callback);
         public void FetchGameData(UnityAction<FetchGameDataResponse> callback) => Public_GET(ServerConfig.UrlFor("gamedata"), callback);
 

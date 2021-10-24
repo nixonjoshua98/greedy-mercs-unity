@@ -17,6 +17,7 @@ namespace GM.Bounties.UI
         public Button ConfirmButton;
         [Space]
         public TMP_Text IncomeText;
+        public TMP_Text ClaimAmountText;
         public TMP_Text TimeUntilMaxClaimText;
         public Text HeaderText;
         [Space]
@@ -25,8 +26,8 @@ namespace GM.Bounties.UI
 
         bool isEditing = false;
 
-        List<UI.BountySlot> slots = new List<UI.BountySlot>();
-        List<UI.BountySlot> activeBountySlots = new List<UI.BountySlot>();
+        List<BountySlot> slots = new List<BountySlot>();
+        List<BountySlot> activeBountySlots = new List<BountySlot>();
         
 
         void Awake()
@@ -49,8 +50,8 @@ namespace GM.Bounties.UI
         {
             IncomeText.text = $"<color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / hour";
             TimeUntilMaxClaimText.text = $"Time until max claim <color=white>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
-
-            HeaderText.text = $"Unlocked Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+            ClaimAmountText.text = $"{FormatString.Number(App.Data.Bounties.TotalUnclaimedPoints)}";
+            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
         }
 
         void SetActiveButtons(bool isEditMode)

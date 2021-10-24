@@ -46,7 +46,7 @@ namespace GM.BountyShop.UI
             else
             {
                 OwnedText.text = "Owned <color=orange>0</color>";
-                LevelText.text = "Level <color=orange>0</color>";
+                LevelText.text = "Level <color=orange>1</color>";
             }
         }
 

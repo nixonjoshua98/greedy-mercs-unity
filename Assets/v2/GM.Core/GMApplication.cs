@@ -6,20 +6,23 @@ namespace GM.Core
 
         public GMData Data;
         public GMCache Cache;
+        public GeneralEventManager Events;
 
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
-        public static GMApplication Create(Common.IServerUserData userData, Common.IServerGameData gameData)
+        public static GMApplication Create(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
         {
             Instance = new GMApplication(userData, gameData);
 
             return Instance;
         }
 
-        GMApplication(Common.IServerUserData userData, Common.IServerGameData gameData)
+        GMApplication(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
         {
-            Data = new GMData(userData, gameData);
+            Events = new GeneralEventManager();
             Cache = new GMCache();
+
+            Data = new GMData(userData, gameData);
         }
     }
 }

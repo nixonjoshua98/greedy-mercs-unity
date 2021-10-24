@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GM.Common
+namespace GM.Common.Data
 {
     public interface IServerUserData
     {

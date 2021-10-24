@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace GM.Common
+namespace GM.Common.Data
 {
     public interface IServerGameData
     {

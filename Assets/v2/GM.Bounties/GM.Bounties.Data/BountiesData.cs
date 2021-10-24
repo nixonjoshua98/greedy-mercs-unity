@@ -56,6 +56,9 @@ namespace GM.Bounties.Data
         /// </summary>
         public TimeSpan TimeUntilMaxUnclaimedHours => new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600)) - TimeSinceClaim;
 
+        /// <summary>
+        /// Total unclaimed points ready to claim
+        /// </summary>
         public long TotalUnclaimedPoints => (long)(TimeSinceClaim.TotalHours * TotalHourlyIncome);
 
         /// <summary>
@@ -76,14 +79,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Fetch the bounty user data
         /// </summary>
-        Models.BountyUserDataModel GetUserBountyData(int key)
-        {
-            var data = UserData.Bounties.Where(ele => ele.BountyId == key).FirstOrDefault();
-
-            Core.GMLog.LogIfNull(data, $"User bounty '{key}' is null");
-
-            return data;
-        }
+        Models.BountyUserDataModel GetUserBountyData(int key) => UserData.Bounties.Where(ele => ele.BountyId == key).FirstOrDefault();
 
         /// <summary>
         /// Calculate the total hourly income from all active bounties
@@ -166,6 +162,8 @@ namespace GM.Bounties.Data
                     UserData.LastClaimTime = resp.ClaimTime;
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+
+                    App.Events.E_BountyPointsChange.Invoke(resp.PointsClaimed);
                 }
 
                 action(resp.StatusCode == 200, resp);

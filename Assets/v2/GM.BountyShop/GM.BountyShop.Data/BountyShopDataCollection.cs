@@ -17,6 +17,8 @@ namespace GM.BountyShop.Data
             Update(data.ShopItems.ArmouryItems);
         }
 
+        BountyShopArmouryItem GetArmouryItem(string key) => ArmouryItemsDict[key];
+
         public BountyShopPurchaseData GetItemPurchaseData(string id)
         {
             if (!Purchases.ContainsKey(id))
@@ -40,8 +42,14 @@ namespace GM.BountyShop.Data
             {
                 if (resp.StatusCode == 200)
                 {
+                    // Most likely should split purchase code up for each type
                     if (resp.ArmouryItem != null)
+                    {
                         App.Data.Armoury.Update(resp.ArmouryItem);
+                    }
+
+                    // Invoke the event (for UI animation etc)
+                    App.Events.E_BountyPointsChange.Invoke(resp.PurchaseCost * -1);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }

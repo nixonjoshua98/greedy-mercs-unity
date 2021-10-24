@@ -5,7 +5,7 @@ using GM.Common.Json;
 
 namespace GM.HTTP.Requests
 {
-    public class FetchGameDataResponse : ServerResponse, Common.IServerGameData
+    public class FetchGameDataResponse : ServerResponse, Common.Data.IServerGameData
     {
         [JsonConverter(typeof(UnixMillisecondUTCDateTimeConverter))]
         public DateTime NextDailyReset { get; set; }

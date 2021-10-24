@@ -61,7 +61,7 @@ namespace GM.Artefacts.UI
 
         void UpdateUnlockArtefactText()
         {
-            UnlockArtefactButton.SetText("All Unlocked", "-");
+            UnlockArtefactButton.SetText("", "-");
             UnlockArtefactButton.interactable = !App.Data.Arts.UserUnlockedAll;
 
             if (!App.Data.Arts.UserUnlockedAll)

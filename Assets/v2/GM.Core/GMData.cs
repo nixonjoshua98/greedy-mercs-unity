@@ -16,7 +16,7 @@ namespace GM.Core
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
 
-        public GMData(Common.IServerUserData userData, Common.IServerGameData gameData)
+        public GMData(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
         {
             Items = new CurrencyItems.Data.CurrencyItemsDataCollection();
 

@@ -17,21 +17,17 @@ namespace GM.Artefacts.Data
         {
             UserArtefactsList = userArtefacts;
 
-            UpdateAllGameArtefacts(gameArtefacts);
+            Update(gameArtefacts);
         }
 
-
-        // == User == //
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
         ArtefactUserDataModel GetUserArtefact(int key) => UserArtefactsList.Where(art => art.Id == key).FirstOrDefault();
-        void UpdateUserArtefact(ArtefactUserDataModel art) => UserArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
+        void Update(ArtefactUserDataModel art) => UserArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
         public int NumUnlockedArtefacts => UserArtefactsList.Count;
 
-
-        // == Game == //
         public int MaxArtefacts => GameArtefactsList.Count;
         public ArtefactGameDataModel GetGameArtefact(int key) => GameArtefactsList.Where(art => art.Id == key).FirstOrDefault();
-        void UpdateAllGameArtefacts(List<ArtefactGameDataModel> artefacts)
+        void Update(List<ArtefactGameDataModel> artefacts)
         {
             GameArtefactsList = artefacts;
 
@@ -46,12 +42,7 @@ namespace GM.Artefacts.Data
             }
         }
 
-
-        // == Local == //
-        Dictionary<int, LocalArtefactData> LoadLocalData() => Resources.LoadAll<LocalArtefactData>("Artefacts").ToDictionary(ele => ele.Id, ele => ele);
-
-
-        // == Combined == //
+        Dictionary<int, LocalArtefactData> LoadLocalData() => Resources.LoadAll<LocalArtefactData>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
         public ArtefactData[] UserOwnedArtefacts => UserArtefactsList.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
         public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));
 
@@ -64,9 +55,11 @@ namespace GM.Artefacts.Data
             {
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    UpdateUserArtefact(resp.UpdatedArtefact);
+                    Update(resp.UpdatedArtefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+
+                    App.Events.E_PrestigePointsChange.Invoke(resp.UpgradeCost * -1);
                 }
 
                 call.Invoke(resp.StatusCode == HTTPCodes.Success);
@@ -79,7 +72,7 @@ namespace GM.Artefacts.Data
             {
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    UpdateUserArtefact(resp.NewArtefact);
+                    Update(resp.NewArtefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }

@@ -2,7 +2,7 @@
 
 namespace GM.Inventory.Data
 {
-    public class UserInventoryCollection
+    public class UserInventoryCollection : Core.GMCache
     {
         public BigInteger PrestigePoints;
 

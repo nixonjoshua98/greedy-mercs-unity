@@ -7,6 +7,10 @@ namespace GM.UI
 {
     public class CurrencyBanner : Core.GMMonoBehaviour
     {
+        [Header("Prefabs")]
+        public GameObject ItemTextPopup;
+
+        [Header("References")]
         public TMP_Text GoldText;
         public TMP_Text BountyPointsText;
         public TMP_Text ArmouryPointsText;
@@ -18,6 +22,12 @@ namespace GM.UI
             StartTextUpdate(BountyPointsText, () => FormatString.Number(App.Data.Inv.BountyPoints), () => true);
             StartTextUpdate(ArmouryPointsText, () => FormatString.Number(App.Data.Inv.ArmouryPoints), () => true);
             StartTextUpdate(PrestigePointsText, () => FormatString.Number(App.Data.Inv.PrestigePoints), () => true);
+        }
+
+        void Start()
+        {
+            App.Events.E_BountyPointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, BountyPointsText.transform.parent.position).Set(change); });
+            App.Events.E_PrestigePointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, PrestigePointsText.transform.parent.position).Set(change); });
         }
 
         void StartTextUpdate(TMP_Text txt, Func<string> action, Func<bool> check) => StartCoroutine(TextUpdateLoop(txt, action, check));

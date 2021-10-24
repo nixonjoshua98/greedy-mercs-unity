@@ -72,7 +72,9 @@ async def purchase(
     })
 
     # Return the response. We unpack the reponse_dict here
-    return ServerResponse({"currencyItems": currencies.response_dict(), **response_dict})
+    return ServerResponse(
+        {"currencyItems": currencies.response_dict(), "purchaseCost": item.purchase_cost, **response_dict}
+    )
 
 
 async def _purchase_armoury_item(uid, item, *, repo: ArmouryRepository) -> dict[str, Any]:

@@ -84,7 +84,12 @@ async def upgrade(
         }
     })
 
-    return ServerResponse({"currencyItems": currencies.response_dict(), "updatedArtefact": artefact.response_dict()})
+    return ServerResponse(
+        {
+            "currencyItems": currencies.response_dict(), "updatedArtefact": artefact.response_dict(),
+            "upgradeCost": upgrade_cost
+         }
+    )
 
 
 @router.get("/unlock")

@@ -6,7 +6,7 @@ using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Artefacts.UI
 {
-    public class ArtefactsUIController : GM.UI.PanelController
+    public class ArtefactsUIController : GM.UI.Panels.Panel
     {
         [Header("Prefabs")]
         public GameObject ArtefactSlotObject;
@@ -28,17 +28,14 @@ namespace GM.Artefacts.UI
             UnlockedArtefactsText.text = $"Artefacts Unlocked: {App.Data.Arts.NumUnlockedArtefacts}/{App.Data.Arts.MaxArtefacts}";
         }
 
-        // == Callbacks == //
-        public void OnUnlockArtefactButton()
+        protected override void OnHidden()
         {
-            App.Data.Arts.UnlockArtefact((success, newArtefact) =>
-            {
-                if (success)
-                {
-                    InstantiateSingleArtefact(newArtefact);
-                    UpdateUnlockArtefactText();
-                }
-            });
+
+        }
+
+        protected override void OnShown()
+        {
+
         }
 
         // == Instantiation == //
@@ -70,6 +67,19 @@ namespace GM.Artefacts.UI
 
                 UnlockArtefactButton.SetText("Unlock", Format.Number(unlockCost));
             }
+        }
+
+        // == Callbacks == //
+        public void OnUnlockArtefactButton()
+        {
+            App.Data.Arts.UnlockArtefact((success, newArtefact) =>
+            {
+                if (success)
+                {
+                    InstantiateSingleArtefact(newArtefact);
+                    UpdateUnlockArtefactText();
+                }
+            });
         }
     }
 }

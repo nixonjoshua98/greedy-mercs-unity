@@ -9,7 +9,7 @@ namespace GM.UI
 
     using GM.Units;
 
-    public class MercsTab : PanelController
+    public class MercsTab : GM.UI.Panels.Panel
     {
         [SerializeField] BuyController buyAmountController;
 
@@ -33,6 +33,16 @@ namespace GM.UI
             CharacterRow row = spawnedRow.GetComponent<CharacterRow>();
 
             row.Setup(chara, buyAmountController);
+        }
+
+        protected override void OnHidden()
+        {
+
+        }
+
+        protected override void OnShown()
+        {
+
         }
     }
 }

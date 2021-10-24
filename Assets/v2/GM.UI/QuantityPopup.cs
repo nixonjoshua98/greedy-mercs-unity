@@ -18,13 +18,6 @@ namespace GM.UI
         float fadeTimer;
         Color originalColour;
 
-        public void Set(long val)
-        {
-            QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
-
-            QuantityText.text = Format.Number(val);
-        }
-
         public void Set(BigInteger val)
         {
             QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;

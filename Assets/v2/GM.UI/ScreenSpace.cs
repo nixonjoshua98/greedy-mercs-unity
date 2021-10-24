@@ -17,11 +17,11 @@ namespace GM.UI
         {
             get
             {
-                if (_Width == 0)
+                if (_Width == default)
                 {
                     FetchWidth();
 
-                    if (_Width == 0)
+                    if (_Width == default)
                     {
                         Debug.LogWarning("ScreenSpace.Width either has not been set or has failed to be updated");
                     }

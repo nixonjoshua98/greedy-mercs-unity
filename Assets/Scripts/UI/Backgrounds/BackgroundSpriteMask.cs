@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace GM.Background
 {
-    public class BackgroundSpriteMask : ExtendedMonoBehaviour
+    public class BackgroundSpriteMask : MonoBehaviour
     {
         public RectTransform rt;
 
-        protected override void PeriodicUpdate()
+        void Awake()
         {
             ResizeSpriteMask();
         }

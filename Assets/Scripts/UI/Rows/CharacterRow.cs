@@ -4,12 +4,11 @@ using UnityEngine.UI;
 
 namespace GM.Units
 {
-    using GM.Core;
 
     using GM.Events;
     using GM.UI;
 
-    public class CharacterRow : ExtendedMonoBehaviour
+    public class CharacterRow : Core.GMMonoBehaviour
     {
         [SerializeField] StackedButton upgradeButton;
 
@@ -52,7 +51,7 @@ namespace GM.Units
         }
         
 
-        protected override void PeriodicUpdate()
+        void FixedUpdate()
         {
             UpdateInterfaceElements();
         }

@@ -36,12 +36,14 @@ namespace GM.Bounties.UI
 
             foreach (var bounty in App.Data.Bounties.UnlockedBountiesList)
             {
-                var slot = Instantiate<UI.BountySlot>(BountySlotObject, BountySlotParent);
+                var slot = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
 
                 slot.Assign(bounty.Id);
 
                 slots.Add(slot);
             }
+
+            UpdateUI();
 
             BountiesLayout.UpdateCellSize();
         }

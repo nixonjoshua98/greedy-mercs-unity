@@ -52,14 +52,12 @@ namespace GM.UI.Panels
 
         protected virtual void Dispatch_ShowPanel()
         {
-            Debug.Log($"Shown {name}");
             isShowing = true;
         }
 
 
         protected virtual void Dispatch_HidePanel()
         {
-            Debug.Log($"Hidden {name}");
             isShowing = false;
         }
 

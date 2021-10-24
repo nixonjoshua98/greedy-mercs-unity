@@ -11,6 +11,5 @@ namespace GM.Inventory.Models
 
         public long BountyPoints;
         public long ArmouryPoints;
-        public long Diamonds;
     }
 }

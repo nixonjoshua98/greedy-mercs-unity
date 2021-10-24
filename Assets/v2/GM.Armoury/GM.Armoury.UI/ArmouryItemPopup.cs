@@ -15,6 +15,7 @@ namespace GM.Armoury.UI
         public TMP_Text NameText;
         public TMP_Text LevelText;
         public TMP_Text OwnedText;
+        public TMP_Text DamageText;
         [Space]
         public Image IconImage;
         public Slider EvolveProgressSlider;
@@ -42,6 +43,7 @@ namespace GM.Armoury.UI
             EvolveButton.interactable = AssignedItem.CanMerge;
             OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.MergeCost}";
             EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.MergeCost;
+            DamageText.text = $"Damage <color=orange>{FormatString.Percentage(AssignedItem.WeaponDamage)}</color>";
         }
 
         // == Callbacks == //

@@ -7,7 +7,12 @@ public static class FormatString
 {
     readonly static Dictionary<int, string> units = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
 
-    #region Number
+    public static string Percentage(BigDouble val)
+    {
+        return Number(val * 100, "%");
+    }
+
+
     public static string Number(BigDouble val, string prefix = "")
     {
         if (BigDouble.Abs(val) < 1) // Value is less than 1.0 so we just return it rounded
@@ -45,7 +50,6 @@ public static class FormatString
     {
         return Number(new BigDouble(val), prefix: prefix);
     }
-    #endregion
 
 
     public static string Bonus(BonusType bonusType, double value)

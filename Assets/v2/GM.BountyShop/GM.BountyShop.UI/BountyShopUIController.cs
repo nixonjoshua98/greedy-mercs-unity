@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
-using TMPro;
 
 namespace GM.BountyShop.UI
 {
@@ -25,8 +21,7 @@ namespace GM.BountyShop.UI
         {
             foreach (var item in App.Data.BountyShop.ArmouryItems)
             {
-                Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent)
-                    .Assign(item);
+                Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item);
             }
         }
 

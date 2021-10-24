@@ -42,29 +42,22 @@
     "baseDamageMultiplier": 1.1
   },
   {
-    "itemId": 5,
-    "itemTier": 2,
-    "maxMergeLevel": 5,
-    "baseMergeCost": 5,
-    "baseDamageMultiplier": 1.1
-  },
-  {
     "itemId": 6,
-    "itemTier": 0,
+    "itemTier": 2,
     "maxMergeLevel": 5,
     "baseMergeCost": 5,
     "baseDamageMultiplier": 1.1
   },
   {
     "itemId": 7,
-    "itemTier": 1,
+    "itemTier": 0,
     "maxMergeLevel": 5,
     "baseMergeCost": 5,
     "baseDamageMultiplier": 1.1
   },
   {
     "itemId": 8,
-    "itemTier": 2,
+    "itemTier": 1,
     "maxMergeLevel": 5,
     "baseMergeCost": 5,
     "baseDamageMultiplier": 1.1

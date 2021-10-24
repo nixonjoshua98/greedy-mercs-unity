@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace GM.UI_
+namespace GM.UI
 {
     enum OptionsViewState { SHOWN = 0, HIDDEN = 1 }
 

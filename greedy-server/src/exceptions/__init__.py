@@ -5,6 +5,6 @@ from src import logger
 
 
 async def handle_http_exception(req: Request, exc: HTTPException):
-    logger.info(exc.detail)
+    logger.warning(exc.detail)
 
     return JSONResponse(status_code=exc.status_code, content={"code": exc.status_code, "error": exc.detail})

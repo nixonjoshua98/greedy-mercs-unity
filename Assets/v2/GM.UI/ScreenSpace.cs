@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GM.UI_
+namespace GM.UI
 {
     /*
      Important. It is difficult to get the screen space width. Screen.Width, Displays..., etc. are not always accurate when it comes to mobile devices

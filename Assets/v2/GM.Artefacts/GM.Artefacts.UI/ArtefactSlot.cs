@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using AmountSelector = GM.UI_.AmountSelector;
+using AmountSelector = GM.UI.AmountSelector;
 using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Artefacts.UI
@@ -18,7 +18,7 @@ namespace GM.Artefacts.UI
         public TMP_Text LevelText;
         public TMP_Text BonusText;
         [Space]
-        public UI_.VStackedButton UpgradeButton;
+        public GM.UI.VStackedButton UpgradeButton;
 
         int _BuyAmount; // Raw value. We should use BuyAmount for most upgrading cases
 

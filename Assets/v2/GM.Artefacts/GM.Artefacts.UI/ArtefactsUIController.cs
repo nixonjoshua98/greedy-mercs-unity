@@ -1,7 +1,7 @@
 using GM.Artefacts.Data;
 using TMPro;
 using UnityEngine;
-using AmountSelector = GM.UI_.AmountSelector;
+using AmountSelector = GM.UI.AmountSelector;
 using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Artefacts.UI
@@ -14,10 +14,8 @@ namespace GM.Artefacts.UI
         [Header("References")]
         public Transform ArtefactsContent;
         public AmountSelector UpgradeAmountSelector;
-
-        [Header("UI References")]
         public TMP_Text UnlockedArtefactsText;
-        public UI_.VStackedButton UnlockArtefactButton;
+        public GM.UI.VStackedButton UnlockArtefactButton;
 
         void Start()
         {

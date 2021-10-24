@@ -1,5 +1,7 @@
 using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.UI;
 
 namespace GM.Bounties.UI
@@ -16,11 +18,16 @@ namespace GM.Bounties.UI
         [Space]
         public TMP_Text IncomeText;
         public TMP_Text TimeUntilMaxClaimText;
+        public Text HeaderText;
         [Space]
         public Transform BountySlotParent;
         public GM.UI.Layouts.ExpandableGridLayout BountiesLayout;
 
         bool isEditing = false;
+
+        List<UI.BountySlot> slots = new List<UI.BountySlot>();
+        List<UI.BountySlot> activeBountySlots = new List<UI.BountySlot>();
+        
 
         void Awake()
         {
@@ -28,8 +35,11 @@ namespace GM.Bounties.UI
 
             foreach (var bounty in App.Data.Bounties.UnlockedBountiesList)
             {
-                Instantiate<UI_.BountySlot>(BountySlotObject, BountySlotParent)
-                    .Assign(bounty.Id);
+                var slot = Instantiate<UI.BountySlot>(BountySlotObject, BountySlotParent);
+
+                slot.Assign(bounty.Id);
+
+                slots.Add(slot);
             }
 
             BountiesLayout.UpdateCellSize();
@@ -39,6 +49,8 @@ namespace GM.Bounties.UI
         {
             IncomeText.text = $"<color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / hour";
             TimeUntilMaxClaimText.text = $"Time until max claim <color=white>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
+
+            HeaderText.text = $"Unlocked Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
         }
 
         void SetActiveButtons(bool isEditMode)
@@ -48,25 +60,79 @@ namespace GM.Bounties.UI
             ConfirmButton.gameObject.SetActive(isEditMode);
         }
 
+        void StartEditMode()
+        {
+            isEditing = true;
+
+            SetActiveButtons(true);
+
+            activeBountySlots.Clear();
+
+            foreach (var slot in slots)
+            {
+                slot.StartEdit(OnBountySelected);
+
+                if (slot.AssignedBounty.IsActive)
+                {
+                    activeBountySlots.Add(slot);
+                }
+            }
+        }
+
+        void StopEditMode()
+        {
+            isEditing = false;
+
+            SetActiveButtons(false);
+
+            foreach (var slot in slots)
+            {
+                slot.StopEdit();
+            }
+        }
+
         // == Callbacks == //
+        public void OnBountySelected(UI.BountySlot slot)
+        {
+            if (activeBountySlots.Contains(slot))
+            {
+                activeBountySlots.Remove(slot);
+                slot.SetSelected(false);
+            }
+            else if (activeBountySlots.Count < App.Data.Bounties.MaxActiveBounties)
+            {
+                activeBountySlots.Add(slot);
+                slot.SetSelected(true);
+            }
+        }
+
         public void OnEditButton()
         {
-            SetActiveButtons(true);
+            StartEditMode();
         }
 
         public void OnCancelButton()
         {
-            SetActiveButtons(false);
+            StopEditMode();
         }
 
         public void OnConfirmButton()
         {
-            SetActiveButtons(false);
+            List<int> ids = activeBountySlots.Select(slot => slot.AssignedBounty.Id).ToList();
+
+            App.Data.Bounties.SetActiveBounties(ids, (success, resp) =>
+            {
+                if (success)
+                {
+                    StopEditMode();
+                }
+            });
         }
 
         public void OnClaimButton()
         {
             App.Data.Bounties.ClaimPoints((success, resp) => {
+
             });
         }
     }

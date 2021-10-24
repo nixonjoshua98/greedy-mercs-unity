@@ -8,24 +8,15 @@ namespace GM.BountyShop.Data
     public class BountyShopDataCollection : Core.GMClass
     {
         Dictionary<string, BountyShopPurchaseData> Purchases;
-
-        public List<BountyShopArmouryItem> ArmouryItems;
+        Dictionary<string, BountyShopArmouryItem> ArmouryItemsDict;
 
         public BountyShopDataCollection(Models.CompleteBountyShopDataModel data)
         {
             Purchases = new Dictionary<string, BountyShopPurchaseData>();
 
-            ArmouryItems = data.ShopItems.ArmouryItems;
+            Update(data.ShopItems.ArmouryItems);
         }
 
-        public IBountyShopItem GetItem(string id)
-        {
-            return GetArmouryItem(id);
-        }
-
-
-        public BountyShopArmouryItem GetArmouryItem(string id) => ArmouryItems.Where(ele => ele.Id == id).FirstOrDefault();
-        public BountyShopCurrencyItemData GetCurrencyItem(string id) => null;
         public BountyShopPurchaseData GetItemPurchaseData(string id)
         {
             if (!Purchases.ContainsKey(id))
@@ -39,7 +30,8 @@ namespace GM.BountyShop.Data
             return Purchases[id];
         }
 
-
+        public List<BountyShopArmouryItem> ArmouryItems => ArmouryItemsDict.Values.ToList();
+        void Update(List<BountyShopArmouryItem> items) => ArmouryItemsDict = items.ToDictionary(ele => ele.Id, ele => ele);
         public void PurchaseItem(string itemId, UnityAction<bool> action)
         {
             var req = new PurchaseBountyShopItemRequest { ShopItem = itemId };
@@ -49,10 +41,12 @@ namespace GM.BountyShop.Data
                 if (resp.StatusCode == 200)
                 {
                     if (resp.ArmouryItem != null)
-                        App.Data.Armoury.UpdateUserItem(resp.ArmouryItem);
+                        App.Data.Armoury.Update(resp.ArmouryItem);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
+
+                action.Invoke(resp.StatusCode == 200);
             });
         }
     }

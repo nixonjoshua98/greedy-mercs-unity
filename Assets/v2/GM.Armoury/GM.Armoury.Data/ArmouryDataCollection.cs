@@ -8,50 +8,75 @@ namespace GM.Armoury.Data
 {
     public class ArmouryDataCollection : Core.GMClass
     {
-        List<Models.ArmouryItemUserDataModel> UserItemsList;
-        List<Models.ArmouryItemGameDataModel> GameItemsList;
 
-        public ArmouryDataCollection(List<Models.ArmouryItemUserDataModel> userItems, List<Armoury.Models.ArmouryItemGameDataModel> gameData)
+        Dictionary<int, Models.ArmouryItemUserDataModel> UserItemsDict;
+        Dictionary<int, Models.ArmouryItemGameDataModel> GameItemsDict;
+
+        public ArmouryDataCollection(List<Models.ArmouryItemUserDataModel> userItems, List<Models.ArmouryItemGameDataModel> gameData)
         {
-            UserItemsList = userItems;
-
-            UpdateGameData(gameData);
+            Update(userItems);
+            Update(gameData);
         }
 
         /// <summary>
-        /// Get user data for an item
         /// </summary>
-        public Models.ArmouryItemUserDataModel GetUserItem(int key) => UserItemsList.Where(ele => ele.Id == key).FirstOrDefault();
-
-        /// <summary>
-        /// </summary>
-        public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsList.Where(ele => ele.NumOwned > 0 || ele.Level > 0).OrderBy(ele => ele.Id).ToList();
+        public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).ToList();
 
         /// <summary>
         /// Update the cached user data for a single item
         /// </summary>
-        public void UpdateUserItem(Models.ArmouryItemUserDataModel item) => UserItemsList.UpdateOrInsertElement(item, (ele) => ele.Id == item.Id);
-
-        /// <summary>
-        /// </summary>
-        public Models.ArmouryItemGameDataModel GetGameItem(int key) => GameItemsList.Where(ele => ele.Id == key).FirstOrDefault();
+        public void Update(Models.ArmouryItemUserDataModel item) => UserItemsDict[item.Id] = item;
 
         /// <summary>
         /// Update all cached game data
         /// </summary>
-        void UpdateGameData(List<Models.ArmouryItemGameDataModel> data)
+        void Update(List<Models.ArmouryItemGameDataModel> data)
         {
-            GameItemsList = data;
+            GameItemsDict = data.ToDictionary(ele => ele.Id, ele => ele);
 
             var localItemsDict = LoadLocalData();
 
-            foreach (var item in GameItemsList)
+            foreach (var item in GameItemsDict.Values)
             {
                 var localMerc = localItemsDict[item.Id];
 
                 item.Name = localMerc.Name;
                 item.Icon = localMerc.Icon;
             }
+        }
+
+        /// <summary>
+        /// Update user items data
+        /// </summary>
+        void Update(List<Models.ArmouryItemUserDataModel> userItems) => UserItemsDict = userItems.ToDictionary(ele => ele.Id, ele => ele);
+
+        /// <summary>
+        /// </summary>
+        public Models.ArmouryItemGameDataModel GetGameItem(int key) => GameItemsDict[key];
+
+        public bool TryGetOwnedItem(int key, out ArmouryItemData result)
+        {
+            result = default;
+
+            if (DoesUserOwnItem(key))
+            {
+                result = GetItem(key);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Check if the user owns the item
+        /// </summary>
+        public bool DoesUserOwnItem(int key)
+        {
+            if (UserItemsDict.TryGetValue(key, out var result))
+            {
+                return result.NumOwned > 0 || result.Level > 0;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -62,7 +87,7 @@ namespace GM.Armoury.Data
         /// <summary>
         /// Get a combined class of user data and game data for a single item
         /// </summary>
-        public ArmouryItemData GetItem(int key) => new ArmouryItemData(GetGameItem(key), GetUserItem(key));
+        public ArmouryItemData GetItem(int key) => new ArmouryItemData(GetGameItem(key), UserItemsDict[key]);
 
         /// <summary>
         /// </summary>
@@ -116,7 +141,7 @@ namespace GM.Armoury.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    UpdateUserItem(resp.UpdatedItem);
+                    Update(resp.UpdatedItem);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
@@ -135,7 +160,7 @@ namespace GM.Armoury.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    UpdateUserItem(resp.UpdatedItem);
+                    Update(resp.UpdatedItem);
                 }
 
                 call(resp.StatusCode == 200);

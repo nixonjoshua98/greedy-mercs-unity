@@ -16,7 +16,6 @@ def inject_currencies_repository(request: ServerRequest) -> CurrenciesRepository
 # = Field Keys = #
 
 class Fields:
-    DIAMONDS = "diamonds"
     BOUNTY_POINTS = "bountyPoints"
     ARMOURY_POINTS = "armouryPoints"
     PRESTIGE_POINTS = "prestigePoints"
@@ -28,7 +27,6 @@ class CurrenciesModel(BaseDocument):
     prestige_points: int = Field(0, alias=Fields.PRESTIGE_POINTS)
     bounty_points: int = Field(0, alias=Fields.BOUNTY_POINTS)
     armoury_points: int = Field(0, alias=Fields.ARMOURY_POINTS)
-    diamonds: int = Field(0, alias=Fields.DIAMONDS)
 
     def response_dict(self):
         return self.dict(exclude={"id"})

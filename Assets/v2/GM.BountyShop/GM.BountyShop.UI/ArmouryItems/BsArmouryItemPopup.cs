@@ -10,6 +10,8 @@ namespace GM.BountyShop.UI
         [Header("References")]
         public TMP_Text NameText;
         public TMP_Text TierText;
+        public TMP_Text LevelText;
+        public TMP_Text OwnedText;
         public TMP_Text PurchaseCostText;
         [Space]
         public Image IconImage;
@@ -21,6 +23,8 @@ namespace GM.BountyShop.UI
             purchaseCallback = _purchaseCallback;
 
             Assign(item);
+
+            UpdateUI();
         }
 
         protected override void OnAssignedItem()
@@ -32,11 +36,27 @@ namespace GM.BountyShop.UI
             TierText.text = AssignedItem.Item.Config.DisplayText;
         }
 
+        void UpdateUI()
+        {
+            if (App.Data.Armoury.TryGetOwnedItem(AssignedItem.ArmouryItem, out Armoury.Data.ArmouryItemData result))
+            {
+                OwnedText.text = $"Owned <color=orange>{result.NumOwned}</color>";
+                LevelText.text = $"Level <color=orange>{result.CurrentLevel}</color>";
+            }
+            else
+            {
+                OwnedText.text = "Owned <color=orange>0</color>";
+                LevelText.text = "Level <color=orange>0</color>";
+            }
+        }
+
         // == Callbacks == //
         public void OnPurchaseButton()
         {
             App.Data.BountyShop.PurchaseItem(AssignedItem.Id, (success) =>
             {
+                UpdateUI();
+
                 purchaseCallback?.Invoke();
 
                 if (!AssignedItem.InStock)

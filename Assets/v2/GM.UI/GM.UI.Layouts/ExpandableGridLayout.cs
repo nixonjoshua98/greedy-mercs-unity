@@ -9,7 +9,7 @@ namespace GM.UI.Layouts
         {
             if (constraint == Constraint.FixedColumnCount)
             {
-                float cellWidth = (GM.UI_.ScreenSpace.Width - (m_Spacing.x * (constraintCount - 1))) / constraintCount;
+                float cellWidth = (GM.UI.ScreenSpace.Width - (m_Spacing.x * (constraintCount - 1))) / constraintCount;
 
                 m_CellSize = new Vector3(cellWidth, cellSize.y);
 

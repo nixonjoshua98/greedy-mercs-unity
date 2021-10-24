@@ -9,11 +9,6 @@ namespace GM.Armoury.UI
         public ArmouryItemsGridController ItemGrid;
         public TMP_Text DamageBonusText;
 
-        void Awake()
-        {
-            ItemGrid.Populate(App.Data.Armoury.UserOwnedItems);
-        }
-
         protected override void OnShown()
         {
             ItemGrid.Populate(App.Data.Armoury.UserOwnedItems);

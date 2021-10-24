@@ -6,7 +6,6 @@ namespace GM.UI.Panels
     {
         ACTIVE = 0,
         CANVAS = 1,
-        NOTHING = 2
     }
 
     public abstract class Panel : Core.GMMonoBehaviour

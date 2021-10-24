@@ -16,9 +16,6 @@ namespace GM.Bounties.Models
         public int HourlyIncome;
 
         [JsonIgnore]
-        public float SpawnChance = 1.0f;
-
-        [JsonIgnore]
         public string Name;
 
         [JsonIgnore]

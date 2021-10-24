@@ -8,15 +8,18 @@ namespace GM.Armoury.UI
     {
         [Header("Prefabs")]
         public GameObject PopupObject;
-        [Space]
+
+        [Header("References")]
         public TMP_Text TierText;
         public TMP_Text NameText;
         public TMP_Text OwnedText;
         [Space]
         public Slider EvolveProgressSlider;
-        public Image EvolveProgressSliderFill;
         [Space]
+        public Image EvolveProgressSliderFill;
         public Image IconImage;
+        [Space]
+        public GM.UI.StarsController Stars;
 
         public override void AssignItem(int itemId)
         {
@@ -32,6 +35,7 @@ namespace GM.Armoury.UI
 
             IconImage.sprite = AssignedItem.Icon;
             NameText.text = AssignedItem.ItemName;
+
         }
 
         void FixedUpdate()
@@ -39,12 +43,13 @@ namespace GM.Armoury.UI
             OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.MergeCost}";
 
             EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.MergeCost;
+            Stars.Show(AssignedItem.CurrentMergeLevel);
         }
 
         // == Callbacks == //
         public void OnEvolveProgressSliderValueChanged()
         {
-            EvolveProgressSliderFill.color = Color.Lerp(Color.red, new Color(0.0f, 0.8f, 0.0f), EvolveProgressSlider.value);
+            EvolveProgressSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, EvolveProgressSlider.value);
         }
 
         public void OnPopupButton()

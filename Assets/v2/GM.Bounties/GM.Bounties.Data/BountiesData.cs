@@ -129,7 +129,10 @@ namespace GM.Bounties.Data
             foreach (Models.BountyGameData bounty in GameData.Bounties)
             {
                 if (bounty.UnlockStage == stage)
+                {
+                    result = bounty;
                     return true;
+                }
             }
 
             return false;
@@ -163,7 +166,7 @@ namespace GM.Bounties.Data
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
 
-                    App.Events.E_BountyPointsChange.Invoke(resp.PointsClaimed);
+                    App.Data.Inv.E_BountyPointsChange.Invoke(resp.PointsClaimed);
                 }
 
                 action(resp.StatusCode == 200, resp);

@@ -26,8 +26,8 @@ namespace GM.UI
 
         void Start()
         {
-            App.Events.E_BountyPointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, BountyPointsText.transform.parent.position).Set(change); });
-            App.Events.E_PrestigePointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, PrestigePointsText.transform.parent.position).Set(change); });
+            App.Data.Inv.E_BountyPointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, BountyPointsText.transform.parent.position).Set(change); });
+            App.Data.Inv.E_PrestigePointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, PrestigePointsText.transform.parent.position).Set(change); });
         }
 
         void StartTextUpdate(TMP_Text txt, Func<string> action, Func<bool> check) => StartCoroutine(TextUpdateLoop(txt, action, check));

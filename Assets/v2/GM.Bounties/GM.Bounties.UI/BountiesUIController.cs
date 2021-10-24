@@ -46,12 +46,16 @@ namespace GM.Bounties.UI
             BountiesLayout.UpdateCellSize();
         }
 
-        void FixedUpdate()
+        void UpdateUI()
         {
             IncomeText.text = $"<color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / hour";
+            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+        }
+
+        void FixedUpdate()
+        {
             TimeUntilMaxClaimText.text = $"Time until max claim <color=white>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
             ClaimAmountText.text = $"{FormatString.Number(App.Data.Bounties.TotalUnclaimedPoints)}";
-            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
         }
 
         void SetActiveButtons(bool isEditMode)
@@ -105,6 +109,8 @@ namespace GM.Bounties.UI
                 activeBountySlots.Add(slot);
                 slot.SetSelected(true);
             }
+
+            UpdateUI();
         }
 
         public void OnEditButton()
@@ -127,6 +133,8 @@ namespace GM.Bounties.UI
                 {
                     StopEditMode();
                 }
+
+                UpdateUI();
             });
         }
 

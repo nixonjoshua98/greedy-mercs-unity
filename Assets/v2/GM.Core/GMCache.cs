@@ -2,6 +2,7 @@ using ArtefactData = GM.Artefacts.Data.ArtefactData;
 using BigInteger = System.Numerics.BigInteger;
 using TTLCache = GM.Common.TTLCache;
 
+
 namespace GM.Core
 {
     public class GMCache : GMClass
@@ -20,7 +21,8 @@ namespace GM.Core
         public BigInteger NextArtefactUnlockCost(int owned) => Formulas.NextArtefactUnlockCost(owned);
         public BigInteger ArtefactUpgradeCost(ArtefactData data, int levels)
         {
-            return Formulas.ArtefactLevelUpCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff);
+            return cache.Get<BigInteger>($"ArtefactUpgradeCost/{data.CurrentLevel + levels + data.CostExpo + data.CostCoeff}", 60,
+                () => Formulas.ArtefactLevelUpCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff));
         }
     }
 }

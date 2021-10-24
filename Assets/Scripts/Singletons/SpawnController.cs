@@ -31,7 +31,7 @@ namespace GM
         {
             bool isBountyBoss = App.Data.Bounties.GetStageBounty(state.Stage, out var result);
 
-            if (isBountyBoss && MathUtils.PercentChance(result.SpawnChance))
+            if (isBountyBoss)
                 return SpawnBountyBoss(result);
 
             else

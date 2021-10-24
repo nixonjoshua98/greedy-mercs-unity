@@ -49,7 +49,7 @@ namespace GM.BountyShop.Data
                     }
 
                     // Invoke the event (for UI animation etc)
-                    App.Events.E_BountyPointsChange.Invoke(resp.PurchaseCost * -1);
+                    App.Data.Inv.E_BountyPointsChange.Invoke(resp.PurchaseCost * -1);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }

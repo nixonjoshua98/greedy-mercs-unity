@@ -59,7 +59,7 @@ namespace GM.Artefacts.Data
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
 
-                    App.Events.E_PrestigePointsChange.Invoke(resp.UpgradeCost * -1);
+                    App.Data.Inv.E_PrestigePointsChange.Invoke(resp.UpgradeCost * -1);
                 }
 
                 call.Invoke(resp.StatusCode == HTTPCodes.Success);

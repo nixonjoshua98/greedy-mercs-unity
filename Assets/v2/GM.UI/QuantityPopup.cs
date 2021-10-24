@@ -22,14 +22,13 @@ namespace GM.UI
         {
             QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
 
-            QuantityText.text = FormatString.Number(val);
+            QuantityText.text = Format.Number(val);
         }
 
         public void Set(BigInteger val)
         {
             QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
-
-            QuantityText.text = FormatString.Number(val);
+            QuantityText.text = Format.Number(val);
         }
 
         void Awake()

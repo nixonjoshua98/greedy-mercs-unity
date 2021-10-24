@@ -1,56 +1,53 @@
-
 using System.Collections.Generic;
 using System.Numerics;
 
+// I think this could benefit from being converted to a lazy loaded singleton (non monobehaviour) and using a TTLCache with a long timer
 
-public static class FormatString
+public static class Format
 {
     readonly static Dictionary<int, string> units = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
 
-    public static string Percentage(BigDouble val)
-    {
-        return Number(val * 100, "%");
-    }
+    public static string Percentage(BigDouble val) => Number(val * 100) + "%";
+    public static string Number(double val) => Number(new BigDouble(val));
+    public static string Number(long val) => Number(new BigInteger(val));
 
-
-    public static string Number(BigDouble val, string prefix = "")
+    public static string Number(BigDouble val)
     {
-        if (BigDouble.Abs(val) < 1) // Value is less than 1.0 so we just return it rounded
-            return string.Format("{0}{1}", val.ToString("F2"), prefix);
+        if (BigDouble.Abs(val) < 1_000)
+            return val.ToString("F2");
 
         int n = (int)BigDouble.Log(val, 1000);
 
-        BigDouble m = val / BigDouble.Pow(1000.0f, n);
+        // Show M, T, Q etc...
+        if (n < units.Count)
+        {
+            BigDouble m = val / BigDouble.Pow(1000.0f, n);
 
-        if (n < units.Count) // Value is within the stored units
-            return string.Format("{0}{1}{2}", m.ToString("F2"), units[n], prefix);
+            return string.Format("{0}{1}", m.ToString("F2"), units[n]);
+        }
 
-        string toStringResult = val.ToString("E2").Replace("+", "").Replace("E", "e");
-
-        // Value is larger than the units provded, so return a exponent/mantissa
-        return string.Format("{0}{1}", toStringResult, prefix);
+        // Fall back to exponent view
+        return val.ToString("E2").Replace("+", "").Replace("E", "e");
     }
 
     public static string Number(BigInteger val)
     {
-        if (val < 1_000)
+        if (BigInteger.Abs(val) < 1_000)
             return val.ToString();
 
         int n = (int)BigInteger.Log(val, 1000);
 
-        BigDouble m = val.ToBigDouble() / BigInteger.Pow(1000, n).ToBigDouble();
-
+        // Show M, T, Q etc...
         if (n < units.Count)
-            return m.ToString("F2") + units[n];
+        {
+            BigDouble m = val.ToBigDouble() / BigInteger.Pow(1000, n).ToBigDouble();
 
+            return m.ToString("F2") + units[n];
+        }
+
+        // Fall back to exponent view
         return val.ToString("E2").Replace("+", "").Replace("E", "e");
     }
-
-    public static string Number(double val, string prefix = "")
-    {
-        return Number(new BigDouble(val), prefix: prefix);
-    }
-
 
     public static string Bonus(BonusType bonusType, double value)
     {

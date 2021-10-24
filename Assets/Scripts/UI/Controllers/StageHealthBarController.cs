@@ -38,12 +38,12 @@ namespace GM.UI
                 HealthController hp = boss.GetComponent<HealthController>();
 
                 // Set the current health
-                healthValue.text = FormatString.Number(hp.CurrentHealth);
+                healthValue.text = Format.Number(hp.CurrentHealth);
 
                 // Update the display upon the boss takign damage
                 hp.E_OnDamageTaken.AddListener(damageTaken =>
                 {
-                    healthValue.text = FormatString.Number(hp.CurrentHealth);
+                    healthValue.text = Format.Number(hp.CurrentHealth);
                     targetSliderValue = hp.Percent();
                 });
 
@@ -62,7 +62,7 @@ namespace GM.UI
             {
                 BigDouble current = payload.CombinedHealth;
 
-                healthValue.text = FormatString.Number(payload.CombinedHealth);
+                healthValue.text = Format.Number(payload.CombinedHealth);
 
                 targetSliderValue = 1.0f;
 
@@ -73,7 +73,7 @@ namespace GM.UI
                     {
                         current -= damageTaken;
 
-                        healthValue.text = FormatString.Number(current);
+                        healthValue.text = Format.Number(current);
                         targetSliderValue = (float)(current / payload.CombinedHealth).ToDouble();
                     });
                 }

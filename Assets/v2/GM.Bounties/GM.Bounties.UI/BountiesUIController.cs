@@ -48,14 +48,14 @@ namespace GM.Bounties.UI
 
         void UpdateUI()
         {
-            IncomeText.text = $"<color=white>{FormatString.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / hour";
+            IncomeText.text = $"<color=white>{Format.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / hour";
             HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
         }
 
         void FixedUpdate()
         {
             TimeUntilMaxClaimText.text = $"Time until max claim <color=white>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
-            ClaimAmountText.text = $"{FormatString.Number(App.Data.Bounties.TotalUnclaimedPoints)}";
+            ClaimAmountText.text = $"{Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}";
         }
 
         void SetActiveButtons(bool isEditMode)

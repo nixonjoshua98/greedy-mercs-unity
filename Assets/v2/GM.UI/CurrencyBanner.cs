@@ -18,10 +18,10 @@ namespace GM.UI
 
         void Awake()
         {
-            StartTextUpdate(GoldText, () => FormatString.Number(App.Data.Inv.Gold));
-            StartTextUpdate(BountyPointsText, () => FormatString.Number(App.Data.Inv.BountyPoints));
-            StartTextUpdate(ArmouryPointsText, () => FormatString.Number(App.Data.Inv.ArmouryPoints));
-            StartTextUpdate(PrestigePointsText, () => FormatString.Number(App.Data.Inv.PrestigePoints));
+            StartTextUpdate(GoldText, () => Format.Number(App.Data.Inv.Gold));
+            StartTextUpdate(BountyPointsText, () => Format.Number(App.Data.Inv.BountyPoints));
+            StartTextUpdate(ArmouryPointsText, () => Format.Number(App.Data.Inv.ArmouryPoints));
+            StartTextUpdate(PrestigePointsText, () => Format.Number(App.Data.Inv.PrestigePoints));
         }
 
         void Start()

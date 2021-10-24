@@ -11,7 +11,7 @@ namespace GM.Core
 
         public GMCache()
         {
-            cache = new TTLCache(-1);
+            cache = new TTLCache();
         }
 
         // == Armoury == //
@@ -21,7 +21,8 @@ namespace GM.Core
         public BigInteger NextArtefactUnlockCost(int owned) => Formulas.NextArtefactUnlockCost(owned);
         public BigInteger ArtefactUpgradeCost(ArtefactData data, int levels)
         {
-            return cache.Get<BigInteger>($"ArtefactUpgradeCost/{data.CurrentLevel + levels + data.CostExpo + data.CostCoeff}", 60,
+            // We cache the result using the method name and arguments as the key which *hopefully* will be unique forever
+            return cache.Get<BigInteger>($"ArtefactUpgradeCost/{data.CurrentLevel}{levels}{data.CostExpo}{data.CostCoeff}", 60,
                 () => Formulas.ArtefactLevelUpCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff));
         }
     }

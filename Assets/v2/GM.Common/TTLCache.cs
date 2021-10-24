@@ -1,56 +1,72 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace GM.Common
 {
     struct CachedValue
     {
-        public DateTime CachedTime;
+        public DateTime ExpireAt;
         public object Value;
     }
 
     public class TTLCache
     {
-        Dictionary<string, CachedValue> _Cache = new Dictionary<string, CachedValue>();
+        Dictionary<string, CachedValue> cacheDict = new Dictionary<string, CachedValue>();
 
-        float DefaultLifeTime;
+        long cacheHitsCounter = 0;
 
-        private TTLCache() { }
-
-        public TTLCache(float lifetime)
+        public void Remove(string key)
         {
-            DefaultLifeTime = lifetime;
+            if (cacheDict.ContainsKey(key))
+            {
+                cacheDict.Remove(key);
+            }
         }
 
-        public void Clear() => _Cache.Clear();
-
-        public T Get<T>(string key, Func<object> fallback) => Get<T>(key, DefaultLifeTime, fallback);
-        public T Get<T>(string key, float lifetime, Func<object> fallback)
+        public T Get<T>(string key, int lifetime, Func<object> fallback)
         {
-            if (!TryGetValue(key, lifetime, out CachedValue result))
+            if (!ContainsKey(key))
             {
-                CacheValue(key, fallback);
+                cacheHitsCounter++;
+
+                if (cacheHitsCounter % 100 == 0)
+                {
+                    ClearExpiredValues();
+                }
+
+                CacheValue(key, lifetime, fallback());
             }
 
-            return (T)_Cache[key].Value;
+            return (T)cacheDict[key].Value;
         }
 
-        void CacheValue(string key, Func<object> func)
+        void ClearExpiredValues()
         {
-            _Cache[key] = new CachedValue { CachedTime = DateTime.UtcNow, Value = func() };
-        }
+            DateTime now = DateTime.UtcNow;
 
-
-        bool TryGetValue(string key, float lifetime, out CachedValue result)
-        {
-            if (_Cache.TryGetValue(key, out result))
+            foreach (string key in cacheDict.Keys.ToList())
             {
-                TimeSpan timeSinceCached = DateTime.UtcNow - result.CachedTime;
-
-                if (timeSinceCached.TotalSeconds > lifetime)
+                if (now > cacheDict[key].ExpireAt)
                 {
-                    _Cache.Remove(key);
+                    Remove(key);
+                }
+            }
+        }
+
+        void CacheValue(string key, int timer, object obj)
+        {
+            cacheDict[key] = new CachedValue { ExpireAt = DateTime.UtcNow + new TimeSpan(0, 0, timer), Value = obj };
+        }
+
+
+        bool ContainsKey(string key)
+        {
+            if (cacheDict.TryGetValue(key, out var result))
+            {
+                if (DateTime.UtcNow > result.ExpireAt)
+                {
+                    Remove(key);
 
                     return false;
                 }

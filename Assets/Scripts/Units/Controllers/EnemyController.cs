@@ -53,7 +53,7 @@ namespace GM.Units
 
             DamageTextPopup popup = CanvasUtils.Instantiate<DamageTextPopup>(TextPopupObject);
 
-            popup.Setup(FormatString.Number(damageTaken), Camera.main.WorldToScreenPoint(transform.position));
+            popup.Setup(Format.Number(damageTaken), Camera.main.WorldToScreenPoint(transform.position));
         }
 
 

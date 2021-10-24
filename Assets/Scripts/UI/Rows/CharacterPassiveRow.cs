@@ -16,7 +16,7 @@ namespace GM.Units
         {
             UnlockText.text = passive.UnlockLevel.ToString();
 
-            DescriptionText.text = FormatString.Bonus(passive.Type, passive.Value);
+            DescriptionText.text = Format.Bonus(passive.Type, passive.Value);
 
             if (!state.UnlockedPassives.Contains(passive))
             {

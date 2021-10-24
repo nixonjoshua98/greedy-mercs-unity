@@ -68,7 +68,7 @@ namespace GM.Artefacts.UI
             {
                 BigInteger unlockCost = App.Cache.NextArtefactUnlockCost(App.Data.Arts.NumUnlockedArtefacts);
 
-                UnlockArtefactButton.SetText("Unlock", FormatString.Number(unlockCost));
+                UnlockArtefactButton.SetText("Unlock", Format.Number(unlockCost));
             }
         }
     }

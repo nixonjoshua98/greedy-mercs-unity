@@ -66,7 +66,7 @@ namespace GM.Units
 
         void UpdateInterfaceElements()
         {
-            DamageText.text = FormatString.Number(StatsCache.TotalMercDamage(_MercID), prefix: " ATK");
+            DamageText.text = $"{Format.Number(StatsCache.TotalMercDamage(_MercID))} ATK";
             nameText.text   = $"(Lvl. {MercData.CurrentLevel}) {MercData.Name}";
 
             upgradeButton.SetText("MAX", "-");
@@ -75,7 +75,7 @@ namespace GM.Units
             {
                 BigDouble cost = MercData.CostToUpgrade(BuyAmount);
 
-                upgradeButton.SetText($"x{BuyAmount}", FormatString.Number(cost));
+                upgradeButton.SetText($"x{BuyAmount}", Format.Number(cost));
             }
         }
 

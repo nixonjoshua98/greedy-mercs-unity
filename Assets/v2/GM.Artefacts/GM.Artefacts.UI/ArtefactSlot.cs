@@ -56,11 +56,11 @@ namespace GM.Artefacts.UI
             {
                 ugradeCost = App.Cache.ArtefactUpgradeCost(AssignedArtefact, BuyAmount);
 
-                UpgradeButton.SetText($"x{BuyAmount}", FormatString.Number(ugradeCost));
+                UpgradeButton.SetText($"x{BuyAmount}", Format.Number(ugradeCost));
             }
 
             LevelText.text = $"Level {AssignedArtefact.CurrentLevel}";
-            BonusText.text = FormatString.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect);
+            BonusText.text = Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect);
 
             UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Data.Inv.PrestigePoints;
         }

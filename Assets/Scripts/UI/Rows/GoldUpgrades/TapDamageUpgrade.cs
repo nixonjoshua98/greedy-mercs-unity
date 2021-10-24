@@ -47,7 +47,7 @@ namespace GM
         {
             UpdateButtonText();
 
-            damageText.text = FormatString.Number(StatsCache.GetTapDamage());
+            damageText.text = Format.Number(StatsCache.GetTapDamage());
 
             nameText.text = string.Format("(Lvl. {0}) Tap Damage", State.level);
 
@@ -62,7 +62,7 @@ namespace GM
             if (State.level < global::Constants.MAX_TAP_UPGRADE_LEVEL)
             {
                 top = string.Format("x{0}", buyAmount);
-                btm = FormatString.Number(Formulas.CalcTapDamageLevelUpCost(buyAmount));
+                btm = Format.Number(Formulas.CalcTapDamageLevelUpCost(buyAmount));
             }
 
             upgradeButton.SetText(top, btm);

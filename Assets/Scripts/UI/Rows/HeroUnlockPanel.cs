@@ -23,7 +23,7 @@ namespace GM
             {
                 GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.GetGameMerc(chara);
 
-                CostText.text = FormatString.Number(mercData.UnlockCost);
+                CostText.text = Format.Number(mercData.UnlockCost);
             }
         }
 

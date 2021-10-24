@@ -21,7 +21,7 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            DamageBonusText.text = string.Format("{0}% Mercenary Damage", FormatString.Number(App.Cache.ArmouryMercDamageMultiplier * 100));
+            DamageBonusText.text = string.Format("{0}% Mercenary Damage", Format.Number(App.Cache.ArmouryMercDamageMultiplier * 100));
         }
     }
 }

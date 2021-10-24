@@ -18,10 +18,10 @@ namespace GM.UI
 
         void Awake()
         {
-            StartTextUpdate(GoldText, () => FormatString.Number(App.Data.Inv.Gold), () => true);
-            StartTextUpdate(BountyPointsText, () => FormatString.Number(App.Data.Inv.BountyPoints), () => true);
-            StartTextUpdate(ArmouryPointsText, () => FormatString.Number(App.Data.Inv.ArmouryPoints), () => true);
-            StartTextUpdate(PrestigePointsText, () => FormatString.Number(App.Data.Inv.PrestigePoints), () => true);
+            StartTextUpdate(GoldText, () => FormatString.Number(App.Data.Inv.Gold));
+            StartTextUpdate(BountyPointsText, () => FormatString.Number(App.Data.Inv.BountyPoints));
+            StartTextUpdate(ArmouryPointsText, () => FormatString.Number(App.Data.Inv.ArmouryPoints));
+            StartTextUpdate(PrestigePointsText, () => FormatString.Number(App.Data.Inv.PrestigePoints));
         }
 
         void Start()
@@ -30,13 +30,13 @@ namespace GM.UI
             App.Data.Inv.E_PrestigePointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, PrestigePointsText.transform.parent.position).Set(change); });
         }
 
-        void StartTextUpdate(TMP_Text txt, Func<string> action, Func<bool> check) => StartCoroutine(TextUpdateLoop(txt, action, check));
+        void StartTextUpdate(TMP_Text txt, Func<string> action) => StartCoroutine(TextUpdateLoop(txt, action));
 
-        IEnumerator TextUpdateLoop(TMP_Text txt, Func<string> action, Func<bool> check)
+        IEnumerator TextUpdateLoop(TMP_Text txt, Func<string> action)
         {
             while (Application.isPlaying)
             {
-                if (check())
+                if (txt.gameObject.activeInHierarchy)
                 {
                     txt.text = action();
                 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GM.Common
 {
@@ -45,7 +44,7 @@ namespace GM.Common
         {
             DateTime now = DateTime.UtcNow;
 
-            foreach (string key in cacheDict.Keys.ToList())
+            foreach (string key in cacheDict.Keys)
             {
                 if (now > cacheDict[key].ExpireAt)
                 {
@@ -64,7 +63,7 @@ namespace GM.Common
         {
             if (cacheDict.TryGetValue(key, out var result))
             {
-                if (DateTime.UtcNow > result.ExpireAt)
+                if (DateTime.UtcNow >= result.ExpireAt)
                 {
                     Remove(key);
 

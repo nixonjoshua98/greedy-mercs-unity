@@ -7,12 +7,7 @@ namespace GM.Core
 {
     public class GMCache : GMClass
     {
-        TTLCache cache;
-
-        public GMCache()
-        {
-            cache = new TTLCache();
-        }
+        TTLCache cache = new TTLCache();
 
         // == Armoury == //
         public double ArmouryMercDamageMultiplier => App.Data.Armoury.TotalMercDamageMultiplier();

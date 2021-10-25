@@ -87,8 +87,6 @@ namespace GM
         {
             return bonusType switch
             {
-                BonusType.FLAT_ENERGY_CAPACITY => $"{value} Energy Capacity",
-                BonusType.FLAT_ENERGY_INCOME => $"{Number(value)} Energy per Minute",
                 BonusType.FLAT_CRIT_CHANCE => $"{Number(value * 100)}% Critical Hit Chance",
                 BonusType.FLAT_CRIT_DMG => $"{Number(value * 100)}% Critical Hit Damage",
                 BonusType.MULTIPLY_PRESTIGE_BONUS => $"{Number(value * 100)}% Runestones",

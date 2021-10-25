@@ -1,6 +1,5 @@
 ﻿using UnityEngine.Events;
 using BigInteger = System.Numerics.BigInteger;
-using UnityEngine;
 
 namespace GM.Inventory.Data
 {
@@ -42,8 +41,6 @@ namespace GM.Inventory.Data
 
         public long ArmouryPoints;
 
-        public float Energy;
-
         public BigDouble Gold;
 
         // == Events == //
@@ -53,7 +50,6 @@ namespace GM.Inventory.Data
         public UserInventoryCollection(Models.UserCurrenciesModel currencies)
         {
             Gold = 0;
-            Energy = 0;
 
             UpdateCurrencies(currencies);
         }

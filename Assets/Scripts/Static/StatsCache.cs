@@ -40,21 +40,6 @@ namespace GM
         }
 
 
-        // # === Energy === #
-        public static float EnergyPerMinute()
-        {
-            double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_INCOME);
-
-            return (float)(BASE_ENERGY_MIN + flatExtraCapacity);
-        }
-
-        public static float MaxEnergyCapacity()
-        {
-            double flatExtraCapacity = AddAllSources(BonusType.FLAT_ENERGY_CAPACITY);
-
-            return (float)(BASE_ENERGY_CAP + flatExtraCapacity);
-        }
-
         // = = = Critical Hits = = = //
         public static BigDouble CriticalHitChance()
         {

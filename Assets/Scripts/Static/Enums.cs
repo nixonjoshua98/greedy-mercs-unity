@@ -1,12 +1,6 @@
 ﻿
 public enum BonusType
 {
-    // Energy Capacity
-    FLAT_ENERGY_CAPACITY = 100,
-
-    // Energy Income (Per Minute)
-    FLAT_ENERGY_INCOME = 200,
-
     // Critical Chance
     FLAT_CRIT_CHANCE = 300,
 

@@ -108,13 +108,6 @@ namespace GM
             return BigInteger.Parse(big.Ceiling().ToString("F0"));
         }
 
-        // ===
-
-        public static BigInteger CalcNextLootCost(int numRelics)
-        {
-            return BigInteger.Parse((Mathf.Max(1, numRelics - 2) * BigDouble.Pow(1.35, numRelics).Floor()).ToString("F0"));
-        }
-
         // === General ===
 
         public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float exponent)

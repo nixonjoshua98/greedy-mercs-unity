@@ -121,24 +121,6 @@
         "levelEffect": 0.25
     },
     {
-        "artefactId": 15,
-        "bonusType": 100,
-        "maxLevel": 40,
-        "costCoeff": 0.5,
-        "costExpo": 2.5,
-        "baseEffect": 1,
-        "levelEffect": 1
-    },
-    {
-        "artefactId": 16,
-        "bonusType": 200,
-        "maxLevel": 25,
-        "costCoeff": 0.5,
-        "costExpo": 2.5,
-        "baseEffect": 0.1,
-        "levelEffect": 0.1
-    },
-    {
         "artefactId": 17,
         "bonusType": 5,
         "costCoeff": 0.6,

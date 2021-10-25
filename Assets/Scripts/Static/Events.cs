@@ -15,7 +15,6 @@ namespace GM.Events
 {
     public static class GlobalEvents
     {
-        public static CharacterEvent E_OnMercUnlocked { get; set; } = new CharacterEvent();
         public static CharacterEvent E_OnMercLevelUp { get; set; } = new CharacterEvent();
     }
 }

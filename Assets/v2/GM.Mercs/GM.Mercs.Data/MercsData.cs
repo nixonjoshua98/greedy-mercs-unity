@@ -2,6 +2,7 @@ using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Mercs.Data
 {
@@ -9,6 +10,8 @@ namespace GM.Mercs.Data
     {
         List<Models.MercGameDataModel> GameMercs;
         Dictionary<MercID, MercUserData> UserMercs;
+
+        public UnityEvent<MercID> E_MercUnlocked = new UnityEvent<MercID>();
 
         public MercsData(List<Models.MercGameDataModel> mercs)
         {
@@ -49,12 +52,17 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Fetch user merc data
         /// </summary>
-        public MercUserData GetUserMerc(MercID key) => UserMercs.ContainsKey(key) ? UserMercs[key] : null;
+        MercUserData GetUserMerc(MercID key) => UserMercs.ContainsKey(key) ? UserMercs[key] : null;
 
         /// <summary>
         /// Update the user merc dictionary with the default values
         /// </summary>
-        public void UnlockUserMerc(MercID key) => UserMercs[key] = new MercUserData { Level = 1 };
+        public void UnlockUserMerc(MercID key)
+        {
+            UserMercs[key] = new MercUserData { Level = 1 };
+
+            E_MercUnlocked.Invoke(key);
+        }
 
         public FullMercData GetMerc(MercID key) => new FullMercData(GetGameMerc(key), GetUserMerc(key));
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace GM.UI
 {
-    using GM.Events;
 
 
     using GM.Units;
@@ -21,7 +20,7 @@ namespace GM.UI
 
         void Awake()
         {
-            GlobalEvents.E_OnMercUnlocked.AddListener((chara) => { AddRow(chara); });
+            App.Data.Mercs.E_MercUnlocked.AddListener((chara) => { AddRow(chara); });
         }
 
         void AddRow(MercID chara)

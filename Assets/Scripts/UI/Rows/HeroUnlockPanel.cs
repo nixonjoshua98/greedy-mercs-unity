@@ -40,8 +40,6 @@ namespace GM
                     App.Data.Inv.Gold -= mercData.UnlockCost;
 
                     App.Data.Mercs.UnlockUserMerc(chara);
-
-                    GlobalEvents.E_OnMercUnlocked.Invoke(chara);
                 }
 
                 UpdatePanel();

@@ -50,7 +50,7 @@ namespace GM.Artefacts.UI
         {
             BigInteger ugradeCost;
 
-            UpgradeButton.SetText("Max Level", "-");
+            UpgradeButton.SetText("Max Level", "");
 
             if (!AssignedArtefact.IsMaxLevel)
             {

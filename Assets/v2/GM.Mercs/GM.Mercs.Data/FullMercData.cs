@@ -15,7 +15,7 @@ namespace GM.Mercs.Data
         }
 
         // == User == //
-        public int CurrentLevel { get => User.Level; }
+        public int CurrentLevel { get { return User.Level; } set { User.Level = value; } }
 
         public void LevelUp(int level)
         {
@@ -29,8 +29,6 @@ namespace GM.Mercs.Data
         public Common.Enums.AttackType Attack => Game.Attack;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
-
-
         public BigDouble BaseDamageFor => StatsCache.BaseMercDamage(Game.Id);
         public BigDouble CostToUpgrade(int levels) => Formulas.MercLevelUpCost(User.Level, levels, Game.UnlockCost);
         public Models.MercPassiveDataModel[] UnlockedPassives

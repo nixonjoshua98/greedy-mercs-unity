@@ -43,7 +43,7 @@ namespace GM
 
         void SubscribeToEvents()
         {
-            GlobalEvents.E_OnMercUnlocked.AddListener(OnHeroUnlocked);
+            App.Data.Mercs.E_MercUnlocked.AddListener(OnHeroUnlocked);
             GlobalEvents.E_OnMercLevelUp.AddListener(OnMercLeveledUp);
 
             GameManager.Get.E_OnBossSpawn.AddListener(OnBossSpawn);

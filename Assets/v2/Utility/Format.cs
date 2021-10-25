@@ -42,7 +42,7 @@ namespace GM
         {
             int n = (int)BigDouble.Log(val, 1000);
 
-            BigDouble m = val / BigDouble.Pow(1000.0f, n);
+            BigDouble m = val / BigDouble.Pow(1000, n);
 
             return $"{(val < 0 ? "-" : string.Empty)}{m.ToString("F2") + UnitsTable[n]}";
         }

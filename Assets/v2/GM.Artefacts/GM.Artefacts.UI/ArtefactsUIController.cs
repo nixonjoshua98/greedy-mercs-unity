@@ -25,7 +25,7 @@ namespace GM.Artefacts.UI
 
         void FixedUpdate()
         {
-            UnlockedArtefactsText.text = $"Artefacts Unlocked: {App.Data.Arts.NumUnlockedArtefacts}/{App.Data.Arts.MaxArtefacts}";
+            UnlockedArtefactsText.text = $"Artefacts Unlocked {App.Data.Arts.NumUnlockedArtefacts}/{App.Data.Arts.MaxArtefacts}";
         }
 
         protected override void OnHidden()

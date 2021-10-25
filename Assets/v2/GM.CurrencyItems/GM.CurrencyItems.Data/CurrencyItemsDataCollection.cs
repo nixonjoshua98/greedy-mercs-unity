@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GM.Common.Enums;
+
 namespace GM.CurrencyItems.Data
 {
     public class CurrencyItemsDataCollection

@@ -9,6 +9,11 @@ namespace GM.Armoury.UI
         public ArmouryItemsGridController ItemGrid;
         public TMP_Text DamageBonusText;
 
+        void Awake()
+        {
+            ItemGrid.Populate(App.Data.Armoury.UserOwnedItems);
+        }
+
         protected override void OnShown()
         {
             ItemGrid.Populate(App.Data.Armoury.UserOwnedItems);
@@ -21,7 +26,7 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            DamageBonusText.text = string.Format("{0}% Mercenary Damage", Format.Number(App.Cache.ArmouryMercDamageMultiplier * 100));
+            DamageBonusText.text = $"{Format.Percentage(App.Cache.ArmouryMercDamageMultiplier)} Mercenary Damage";
         }
     }
 }

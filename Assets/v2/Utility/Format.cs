@@ -10,8 +10,8 @@ namespace GM
         // String format cache
         Common.TTLCache cache = new Common.TTLCache();
 
-        // == Static Methods == //
 
+        // == Static Methods == //
         public static string Percentage(BigDouble val) => Number(val * 100) + "%";
         public static string Number(double val) => Number(new BigDouble(val));
         public static string Number(long val) => Number(new BigInteger(val));

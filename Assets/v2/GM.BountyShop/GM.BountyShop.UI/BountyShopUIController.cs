@@ -27,7 +27,7 @@ namespace GM.BountyShop.UI
 
         void FixedUpdate()
         {
-            RefreshText.text = $"Daily Bounty Shop | <color=orange>{App.Data.TimeUntilDailyReset.Format()}</color>";
+            RefreshText.text = $"Daily Shop | <color=orange>{App.Data.TimeUntilDailyReset.Format()}</color>";
         }
     }
 }

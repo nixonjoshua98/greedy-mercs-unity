@@ -7,9 +7,8 @@ namespace GM
     {
         public readonly static Dictionary<int, string> UnitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
 
-        // Format cache
+        // String format cache
         Common.TTLCache cache = new Common.TTLCache();
-
 
         // == Static Methods == //
 
@@ -26,7 +25,7 @@ namespace GM
 
                 if (absVal < 1_000)
                 {
-                    return val.ToString();
+                    return val.ToString("F2");
                 }
                 else if (BigDouble.Log(absVal, 1000) < UnitsTable.Count)
                 {

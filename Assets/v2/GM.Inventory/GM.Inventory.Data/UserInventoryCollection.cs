@@ -1,13 +1,45 @@
 ﻿using UnityEngine.Events;
 using BigInteger = System.Numerics.BigInteger;
+using UnityEngine;
 
 namespace GM.Inventory.Data
 {
     public class UserInventoryCollection : Core.GMCache
     {
-        public BigInteger PrestigePoints;
+        #region long BountyPoints
+        long _BountyPoints;
+        public long BountyPoints
+        {
+            get => _BountyPoints;
+            set
+            {
+                var change = value - _BountyPoints;
 
-        public long BountyPoints;
+                _BountyPoints = value;
+
+                if (change != 0)
+                    E_BountyPointsChange.Invoke(change);
+            }
+        }
+        #endregion
+
+        #region BigInteger PrestigePoints
+        BigInteger _PrestigePoints;
+        public BigInteger PrestigePoints
+        {
+            get => _PrestigePoints;
+            set
+            {
+                var change = value - _PrestigePoints;
+
+                _PrestigePoints = value;
+
+                if (change != 0)
+                    E_PrestigePointsChange.Invoke(change);
+            }
+        }
+        #endregion
+
         public long ArmouryPoints;
 
         public float Energy;

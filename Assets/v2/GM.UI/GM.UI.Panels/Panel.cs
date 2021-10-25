@@ -60,7 +60,7 @@ namespace GM.UI.Panels
             isShowing = false;
         }
 
-        protected abstract void OnHidden();
         protected abstract void OnShown();
+        protected abstract void OnHidden();
     }
 }

@@ -10,6 +10,20 @@ namespace GM.Mercs.UI
         public Image IconImage;
         public TMP_Text NameText;
         public TMP_Text LevelText;
+        [Space]
+        public GM.UI.VStackedButton Button;
+
+        int _buyAmount;
+        protected int buyAmount
+        {
+            get
+            {
+                if (_buyAmount == -1)
+                    return Formulas.AffordCharacterLevels(AssignedMerc.Id);
+
+                return Mathf.Min(_buyAmount, global::Constants.MAX_CHAR_LEVEL - AssignedMerc.CurrentLevel);
+            }
+        }
 
         protected override void OnAssigned()
         {
@@ -20,6 +34,13 @@ namespace GM.Mercs.UI
         void FixedUpdate()
         {
             LevelText.text = $"Level {AssignedMerc.CurrentLevel}";
+
+            Button.SetText("", "");
+
+            if (!AssignedMerc.IsMaxLevel)
+            {
+                Button.SetText($"x{buyAmount}", Format.Number(Formulas.MercLevelUpCost(AssignedMerc.CurrentLevel, buyAmount, AssignedMerc.UnlockCost)));
+            }
         }
     }
 }

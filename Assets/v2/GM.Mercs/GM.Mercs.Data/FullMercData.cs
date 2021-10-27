@@ -22,8 +22,9 @@ namespace GM.Mercs.Data
             User.Level += level;
         }
 
-        // == Game == //
+        public MercID Id => Game.Id;
         public string Name => Game.Name;
+        public bool IsMaxLevel => User.Level >= GM.Constants.MAX_MERC_LEVEL;
         public Sprite Icon => Game.Icon;
         public double UnlockCost => Game.UnlockCost;
         public Common.Enums.AttackType Attack => Game.Attack;

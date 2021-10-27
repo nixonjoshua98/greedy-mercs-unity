@@ -6,7 +6,11 @@ namespace GM
 {
     public class Formulas : Core.GMClass
     {
-        public static BigInteger NextArtefactUnlockCost(int owned) => (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned).Floor()).ToBigInteger();
+        public static class Artefacts
+        {
+            public static BigInteger UnlockCost(int owned) => (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned).Floor()).ToBigInteger();
+            public static BigInteger UpgradeCost(int currentLevel, int levels, float expo, float coeff) => (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
+        }
 
         // === Armoury Items === //
         public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
@@ -16,12 +20,6 @@ namespace GM
             return val > 1 ? val : 0; // Return 0 if the multiplier is 1 (Fixes issue when adding damage values 1 + 1 = 2x which is wrong)
         }
 
-
-        // = = = Artefacts = = = /
-        public static BigInteger ArtefactLevelUpCost(int currentLevel, int levels, float expo, float coeff)
-        {
-            return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
-        }
 
         public static double BaseArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
         {
@@ -69,7 +67,7 @@ namespace GM
         {
             GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-            BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.UnlockCost, 1.075 + ((int)merc / 1000.0), data.CurrentLevel);
+            BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.UnlockCost, 1.077, data.CurrentLevel);
 
             return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.CurrentLevel, int.Parse(val.ToString()));
         }
@@ -113,7 +111,6 @@ namespace GM
         public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float exponent)
         {
             // https://math.stackexchange.com/questions/82588/is-there-a-formula-for-sums-of-consecutive-powers-where-the-powers-are-non-inte
-
 
             BigDouble Predicate(int startValue)
             {

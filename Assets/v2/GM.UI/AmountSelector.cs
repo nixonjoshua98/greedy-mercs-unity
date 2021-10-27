@@ -9,12 +9,10 @@ namespace GM.UI
 
     public class AmountSelector : MonoBehaviour
     {
-        [Header("Select Button References")]
+        [Header("References")]
         public Button SelectButton;
         public TMP_Text SelectButtonText;
 
-        [Header("Options")]
-        public int DefaultOptionIndex;
         [Space]
         public Button[] Options;
         public int[] OptionValues;
@@ -22,7 +20,7 @@ namespace GM.UI
         OptionsViewState optionsState;
 
         [HideInInspector] public UnityEvent<int> E_OnChange = new UnityEvent<int>();
-        [HideInInspector] public int Current;
+        [HideInInspector] public int Value;
 
         void Awake()
         {
@@ -47,17 +45,15 @@ namespace GM.UI
 
         void SetDefaultValues()
         {
-            Button btn = Options[DefaultOptionIndex];
-            int value = OptionValues[DefaultOptionIndex];
+            Button btn = Options[0];
+            int value = OptionValues[0];
 
             TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
 
-            Current = value;
+            Value = value;
             SelectButtonText.text = txt.text;
 
             HideOptions();
-
-            E_OnChange.Invoke(value);
         }
 
         // == Callbacks == //

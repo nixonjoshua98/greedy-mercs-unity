@@ -18,7 +18,6 @@ public enum BonusType
 
     // Tap Damage
     MULTIPLY_TAP_DMG = 700,
-    MULTIPLY_TAP_DMG_FROM_MERC = 701,
 
     // Gold
     MULTIPLY_ALL_GOLD = 800,
@@ -29,7 +28,6 @@ public enum BonusType
     ENEMY_GOLD = 1,
     TAP_DAMAGE = 2,
     BOSS_GOLD = 3,
-    CHAR_TAP_DAMAGE_ADD = 4,
     MELEE_DAMAGE = 5,
     RANGED_DAMAGE = 7,
     ALL_GOLD = 9,

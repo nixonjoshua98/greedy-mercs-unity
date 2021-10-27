@@ -6,9 +6,6 @@ namespace GM
 {
     public class StatsCache : Core.GMClass
     {
-        const float BASE_ENERGY_CAP = 50.0f;
-        const float BASE_ENERGY_MIN = 1.0f;
-
         const float BASE_CRIT_CHANCE = 0.01f;
         const float BASE_CRIT_MULTIPLIER = 2.5f;
         
@@ -67,20 +64,11 @@ namespace GM
             return false;
         }
 
-        public static BigDouble BaseMercDamage(MercID merc)
-        {
-            GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
-
-            BigDouble baseDamage = data.BaseDamage > 0 ? data.BaseDamage : (data.UnlockCost / (10.0f + BigDouble.Log10(data.UnlockCost)));
-
-            return Formulas.MercBaseDamage(baseDamage, data.CurrentLevel);
-        }
-
         public static BigDouble TotalMercDamage(MercID merc)
         {
             GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-            BigDouble val = data.BaseDamageFor;
+            BigDouble val = App.Cache.MercBaseDamage(data);
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
             val *= MultiplyAllSources(data.Attack.ToBonusType());
@@ -97,7 +85,7 @@ namespace GM
 
         public static BigDouble GetTapDamage()
         {
-            return (Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE)) + App.Data.Mercs.CalcTapDamageBonus();
+            return Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE);
         }
 
 

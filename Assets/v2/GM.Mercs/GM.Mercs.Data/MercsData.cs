@@ -110,29 +110,5 @@ namespace GM.Mercs.Data
 
             return ls;
         }
-
-
-        public BigDouble CalcTapDamageBonus()
-        {
-            BigDouble val = 0;
-
-            foreach (MercID merc in System.Enum.GetValues(typeof(MercID)))
-            {
-                MercUserData userMerc = GetUserMerc(merc);
-
-                if (userMerc != null)
-                {
-                    foreach (Models.MercPassiveDataModel passive in GetMerc(merc).UnlockedPassives)
-                    {
-                        if (passive.Type == BonusType.CHAR_TAP_DAMAGE_ADD)
-                        {
-                            val += passive.Value * StatsCache.TotalMercDamage(merc);
-                        }
-                    }
-                }
-            }
-
-            return val;
-        }
     }
 }

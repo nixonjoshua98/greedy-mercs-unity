@@ -7,6 +7,7 @@ namespace GM.Mercs.Models
         [JsonProperty(PropertyName = "bonusType")]
         public BonusType Type;
 
+        [JsonProperty(PropertyName = "bonusValue")]
         public float Value;
 
         public int UnlockLevel;

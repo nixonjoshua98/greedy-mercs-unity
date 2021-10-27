@@ -1,4 +1,5 @@
 using UnityEngine;
+using AmountSelector = GM.UI.AmountSelector;
 
 namespace GM.Mercs.UI
 {
@@ -6,6 +7,7 @@ namespace GM.Mercs.UI
     {
         [Header("References")]
         public Transform SlotsParent;
+        public AmountSelector UpgradeAmountSelector;
 
         [Header("Prefabs")]
         public GameObject SlotObject;
@@ -20,7 +22,7 @@ namespace GM.Mercs.UI
         {
             var slot = Instantiate<MercSlot>(SlotObject, SlotsParent);
 
-            slot.Assign(merc);
+            slot.Assign(merc, UpgradeAmountSelector);
         }
 
 

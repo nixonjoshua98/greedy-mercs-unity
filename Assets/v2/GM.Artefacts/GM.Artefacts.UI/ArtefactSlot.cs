@@ -36,7 +36,7 @@ namespace GM.Artefacts.UI
             });
 
             // Assign a default buy amount
-            _BuyAmount = selector.Current;
+            _BuyAmount = selector.Value;
 
             // Set some static values
             NameText.text = AssignedArtefact.Name;
@@ -50,7 +50,7 @@ namespace GM.Artefacts.UI
         {
             BigInteger ugradeCost;
 
-            UpgradeButton.SetText("Max Level", "");
+            UpgradeButton.SetText("MAX LEVEL", "");
 
             if (!AssignedArtefact.IsMaxLevel)
             {

@@ -1,6 +1,7 @@
 {
   "attackType": 0,
-  "unlockCost": 2.5e6,
+  "unlockCost": 50,
+  "baseDamage": 10,
   "passives": [
     {
       "bonusType": 2,

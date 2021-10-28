@@ -5,9 +5,9 @@ from fastapi import Depends, HTTPException
 from src.mongo.repositories.armoury import ArmouryRepository
 from src.mongo.repositories.armoury import Fields as ArmouryRepoFields
 from src.mongo.repositories.armoury import inject_armoury_repository
-from src.mongo.repositories.currencies import CurrenciesRepository
+from src.mongo.repositories.currencies import CurrencyRepository
 from src.mongo.repositories.currencies import Fields as CurrencyRepoFields
-from src.mongo.repositories.currencies import inject_currencies_repository
+from src.mongo.repositories.currencies import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.bountyshop import \
     StaticBountyShopArmouryItem as BSArmouryItem
@@ -32,7 +32,7 @@ async def purchase(
     data: ItemData,
     user: AuthenticatedUser = Depends(inject_user),
     # = Database Repositories = #
-    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
     armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
     # = Static/Game Data = #
     bounty_shop=Depends(inject_dynamic_bounty_shop),
@@ -45,17 +45,13 @@ async def purchase(
     item_purchases = 0
 
     # Check the user still has 'stock' left
-    gt(
-        item.purchase_limit, item_purchases, error="Reached purchase limit"
-    )
+    gt(item.purchase_limit, item_purchases, error="Reached purchase limit")
 
     # Fetch the user currencies
     currencies = await currency_repo.get_user(user.id)
 
     # Verify that the user can afford to purchase the item
-    gt(
-        currencies.bounty_points, item.purchase_cost, error="Cannot afford purchase"
-    )
+    gt(currencies.bounty_points, item.purchase_cost, error="Cannot afford purchase")
 
     response_dict = dict()
 

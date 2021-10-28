@@ -4,14 +4,17 @@ import math
 from fastapi import Depends, HTTPException
 
 from src import utils
-from src.mongo.repositories.bounties import BountiesRepository, UserBountiesModel, inject_bounties_repository
-from src.mongo.repositories.currencies import CurrenciesRepository
+from src.mongo.repositories.bounties import (BountiesRepository,
+                                             UserBountiesModel,
+                                             inject_bounties_repository)
+from src.mongo.repositories.currencies import CurrencyRepository
 from src.mongo.repositories.currencies import Fields as CurrencyRepoFields
-from src.mongo.repositories.currencies import inject_currencies_repository
+from src.mongo.repositories.currencies import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.dependencies.authenticated_user import (AuthenticatedUser,
+                                                         inject_user)
 
 router = APIRouter(prefix="/api/bounty")
 
@@ -28,7 +31,7 @@ async def claim_points(
     static_bounties: StaticBounties = Depends(inject_static_bounties),
     # = Database Repositories = #
     bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
 ):
     # Load data from mongo
     bounties_user_data: UserBountiesModel = await bounties_repo.get_user(user.id)

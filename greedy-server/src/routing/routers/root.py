@@ -13,8 +13,8 @@ from src.mongo.repositories.artefacts import (ArtefactsRepository,
                                               inject_artefacts_repository)
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              inject_bounties_repository)
-from src.mongo.repositories.currencies import (CurrenciesRepository,
-                                               inject_currencies_repository)
+from src.mongo.repositories.currencies import (CurrencyRepository,
+                                               inject_currency_repository)
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
@@ -61,7 +61,7 @@ async def user_data(
     # = Static/Game Data = #
     s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
     # = Database Repositories = #
-    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
     armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
     bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
     artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),

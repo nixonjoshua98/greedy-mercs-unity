@@ -7,9 +7,9 @@ from src.mongo.repositories.artefacts import (ArtefactModel,
                                               inject_artefacts_repository)
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              inject_bounties_repository)
-from src.mongo.repositories.currencies import CurrenciesRepository
+from src.mongo.repositories.currencies import CurrencyRepository
 from src.mongo.repositories.currencies import Fields as CurrencyRepoFields
-from src.mongo.repositories.currencies import inject_currencies_repository
+from src.mongo.repositories.currencies import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
@@ -33,7 +33,7 @@ async def prestige(
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts),
     bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
     artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
 ):
     user_arts = await artefacts_repo.get_all_artefacts(user.id)

@@ -6,8 +6,7 @@ from src.pymodels import BaseModel
 
 
 async def inject_user(
-        request: Request,
-        mem_cache: MemoryCache = Depends(inject_memory_cache)
+    request: Request, mem_cache: MemoryCache = Depends(inject_memory_cache)
 ):
     uid = request.headers.get("x-userid")
     did = request.headers.get("x-deviceid")

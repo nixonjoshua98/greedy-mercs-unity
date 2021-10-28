@@ -4,14 +4,15 @@ from src import utils
 from src.mongo.repositories.armoury import ArmouryItemModel, ArmouryRepository
 from src.mongo.repositories.armoury import Fields as ArmouryFieldKeys
 from src.mongo.repositories.armoury import inject_armoury_repository
-from src.mongo.repositories.currencies import CurrenciesRepository
+from src.mongo.repositories.currencies import CurrencyRepository
 from src.mongo.repositories.currencies import Fields as CurrencyRepoFields
-from src.mongo.repositories.currencies import inject_currencies_repository
+from src.mongo.repositories.currencies import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.dependencies.authenticated_user import (AuthenticatedUser,
+                                                         inject_user)
 
 
 class ArmouryItemActionModel(BaseModel):
@@ -29,7 +30,7 @@ async def upgrade(
     s_armoury_items: list[StaticArmouryItem] = Depends(inject_static_armoury),
     # = Database Repositories = #
     armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
-    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
 ):
     s_item = utils.get(s_armoury_items, id=data.item_id)
 
@@ -49,7 +50,7 @@ async def upgrade(
     currencies = await currency_repo.get_user(user.id)
 
     # Verify the user can afford to upgrade the requested item
-    checks.gt(currencies.armoury_points, upgrade_cost, error="Cannot afford upgrade")
+    checks.gte(currencies.armoury_points, upgrade_cost, error="Cannot afford upgrade")
 
     # Deduct the upgrade cost and return all user items AFTER the update
     currencies = await currency_repo.update_one(
@@ -99,7 +100,7 @@ async def merge(
     merge_cost: int = calc_merge_cost(s_item, u_item)
 
     # Verify that the user has enough owned items to do the upgrade
-    checks.gt(u_item.owned, merge_cost, error="Cannot afford upgrade")
+    checks.gte(u_item.owned, merge_cost, error="Cannot afford upgrade")
 
     # Update the item document
     updated_item = await armoury_repo.update_item(

@@ -7,9 +7,8 @@ from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 
-def inject_currencies_repository(request: ServerRequest) -> CurrenciesRepository:
-    """Used to inject a repository instance."""
-    return CurrenciesRepository(request.app.state.mongo)
+def inject_currency_repository(request: ServerRequest) -> CurrencyRepository:
+    return CurrencyRepository(request.app.state.mongo)
 
 
 # = Field Keys = #
@@ -36,7 +35,7 @@ class CurrenciesModel(BaseDocument):
 # = Repository = #
 
 
-class CurrenciesRepository:
+class CurrencyRepository:
     def __init__(self, client):
         db = client.get_default_database()
 

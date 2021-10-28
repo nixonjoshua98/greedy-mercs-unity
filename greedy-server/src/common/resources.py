@@ -6,7 +6,7 @@ def get_mercs():
     d = dict()
 
     for file in os.listdir(_res_path("mercs")):
-        id_ = int(file[file.find("merc_") + 5: file.find(".json")])
+        id_ = int(file[file.find("merc_") + 5 : file.find(".json")])
 
         d[id_] = _load_json(_res_path("mercs", file))
 

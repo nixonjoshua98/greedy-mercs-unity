@@ -8,14 +8,15 @@ from src.common import formulas
 from src.mongo.repositories.artefacts import ArtefactModel, ArtefactsRepository
 from src.mongo.repositories.artefacts import Fields as ArtefactsRepoFields
 from src.mongo.repositories.artefacts import inject_artefacts_repository
-from src.mongo.repositories.currencies import CurrenciesRepository
+from src.mongo.repositories.currencies import CurrencyRepository
 from src.mongo.repositories.currencies import Fields as CurrencyRepoFields
-from src.mongo.repositories.currencies import inject_currencies_repository
+from src.mongo.repositories.currencies import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.routing import APIRouter, ServerResponse
 from src.routing.common.checks import gt, is_not_none
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.dependencies.authenticated_user import (AuthenticatedUser,
+                                                         inject_user)
 
 router = APIRouter(prefix="/api/artefact")
 
@@ -39,7 +40,7 @@ async def upgrade(
     static_artefacts=Depends(inject_static_artefacts),
     # = Database Repositories = #
     artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
-    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
 ):
     # Pull the artefact in question
     s_artefact = utils.get(static_artefacts, id=data.artefact_id)
@@ -99,7 +100,7 @@ async def unlock(
     static_artefacts=Depends(inject_static_artefacts),
     # = Database Repositories = #
     artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
-    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
 ):
     # Fetch all user artefacts
     user_arts = await artefacts_repo.get_all_artefacts(user.id)
@@ -114,9 +115,7 @@ async def unlock(
     currencies = await currency_repo.get_user(user.id)
 
     # Verify that the user can afford the unlock cost
-    gt(
-        currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost"
-    )
+    gt(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
 
     # Get the new artefact id
     new_art_id = get_new_artefact(user_arts, static_artefacts)

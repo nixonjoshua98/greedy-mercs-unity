@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from src.utils import load_static_data_file
 from src.pymodels import BaseModel
+from src.utils import load_static_data_file
 
 
 def inject_static_armoury() -> list[StaticArmouryItem]:

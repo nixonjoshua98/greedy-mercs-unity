@@ -1,11 +1,11 @@
 from typing import Union
-from bson import ObjectId
 
-from pydantic import BaseModel as _BaseModel, Field
+from bson import ObjectId
+from pydantic import BaseModel as _BaseModel
+from pydantic import Field
 
 
 class BaseModel(_BaseModel):
-
     class Config:
         arbitrary_types_allowed = True
 
@@ -15,7 +15,7 @@ class BaseModel(_BaseModel):
         return super().dict(**kwargs)
 
     def json(self, *args, **kwargs):
-        """ We most likely will not use this encoder and instead rely on the request/response encoder. """
+        """We most likely will not use this encoder and instead rely on the request/response encoder."""
         raise RuntimeError("'.json()' should most likely not be used")
 
     def response_dict(self):
@@ -28,4 +28,3 @@ class BaseModel(_BaseModel):
 
 class BaseDocument(BaseModel):
     id: Union[str, ObjectId] = Field(..., alias="_id")
-

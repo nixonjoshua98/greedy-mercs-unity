@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace GM.UI
 {
@@ -12,15 +14,17 @@ namespace GM.UI
         [Header("References")]
         public Button SelectButton;
         public TMP_Text SelectButtonText;
-
+        public List<Button> Options;
         [Space]
-        public Button[] Options;
         public int[] OptionValues;
 
         OptionsViewState optionsState;
 
         [HideInInspector] public UnityEvent<int> E_OnChange = new UnityEvent<int>();
-        [HideInInspector] public int Value;
+
+        int currentButtonIndex = 0; // Current index for button selected
+
+        public int Current => OptionValues[currentButtonIndex];
 
         void Awake()
         {
@@ -28,35 +32,47 @@ namespace GM.UI
 
             HideOptions();
             AssignOptionCallbacks();
-            SetDefaultValues();
         }
 
-        void AssignOptionCallbacks()
-        {
-            for (int i = 0; i < Options.Length; ++i)
-            {
-                Button t = Options[i];
-
-                AssignCallback(t, OptionValues[i]);
-            }
-        }
-
-        void AssignCallback(Button t, int value) => t.onClick.AddListener(() => { OnOptionButtonDown(t, value); });
-
-        void SetDefaultValues()
+        /// <summary>
+        /// Set some default values after creation
+        /// </summary>
+        void Start()
         {
             Button btn = Options[0];
-            int value = OptionValues[0];
 
             TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
 
-            Value = value;
             SelectButtonText.text = txt.text;
 
             HideOptions();
         }
 
-        // == Callbacks == //
+        /// <summary>
+        /// Assign all callbacks to each button
+        /// </summary>
+        void AssignOptionCallbacks()
+        {
+            for (int i = 0; i < Options.Count; ++i)
+            {
+                Button t = Options[i];
+
+                AssignCallback(t, i);
+            }
+        }
+
+        /// <summary>
+        /// Assign the callback to the button and remove all other listeners
+        /// </summary>
+        void AssignCallback(Button t, int index)
+        {
+            t.onClick.RemoveAllListeners();
+            t.onClick.AddListener(() => { OnOptionButtonDown(t, index); });
+        }
+
+        /// <summary>
+        /// Button callback for when slector is first clicked
+        /// </summary>
         public void OnSelectButton()
         {
             if (optionsState == OptionsViewState.HIDDEN)
@@ -65,7 +81,10 @@ namespace GM.UI
             }
         }
 
-        void OnOptionButtonDown(Button btn, int value)
+        /// <summary>
+        /// Callback for when an option button is clicked (e.g 1x, 10x, 100x...)
+        /// </summary>
+        void OnOptionButtonDown(Button btn, int index)
         {
             TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
 
@@ -73,19 +92,16 @@ namespace GM.UI
 
             HideOptions();
 
-            E_OnChange.Invoke(value);
+            currentButtonIndex = index;
+
+            E_OnChange.Invoke(Current);
         }
 
-
-        // == Animations == //
         void HideOptions()
         {
             SelectButton.gameObject.SetActive(true);
 
-            foreach (Button t in Options)
-            {
-                t.gameObject.SetActive(false);
-            }
+            Options.ForEach(opt => opt.gameObject.SetActive(false));
 
             optionsState = OptionsViewState.HIDDEN;
         }
@@ -94,10 +110,7 @@ namespace GM.UI
         {
             SelectButton.gameObject.SetActive(false);
 
-            foreach (Button t in Options)
-            {
-                t.gameObject.SetActive(true);
-            }
+            Options.ForEach(opt => opt.gameObject.SetActive(true));
 
             optionsState = OptionsViewState.SHOWN;
         }

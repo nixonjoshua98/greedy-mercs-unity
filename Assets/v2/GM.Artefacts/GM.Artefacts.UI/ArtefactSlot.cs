@@ -36,7 +36,7 @@ namespace GM.Artefacts.UI
             });
 
             // Assign a default buy amount
-            _BuyAmount = selector.Value;
+            _BuyAmount = selector.Current;
 
             // Set some static values
             NameText.text = AssignedArtefact.Name;

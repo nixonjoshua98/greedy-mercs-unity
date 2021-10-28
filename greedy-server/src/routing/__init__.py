@@ -1,20 +1,18 @@
-import re
-import json
-import bson
-
-import urllib.parse
-from fastapi import Request as _Request
-
 import datetime as dt
+import json
+import re
+import urllib.parse
 
-from fastapi.responses import Response as _Response
+import bson
+from fastapi import Request as _Request
 from fastapi.encoders import jsonable_encoder as _jsonable_encoder
-
-from fastapi.routing import APIRoute as _APIRoute, APIRouter as _APIRouter
+from fastapi.responses import Response as _Response
+from fastapi.routing import APIRoute as _APIRoute
+from fastapi.routing import APIRouter as _APIRouter
 
 
 def _camel_to_snake(data: dict) -> dict:
-    regex_pattern = re.compile(r'(?<!^)(?=[A-Z])')
+    regex_pattern = re.compile(r"(?<!^)(?=[A-Z])")
 
     new_dict = dict()
 
@@ -27,7 +25,6 @@ def _camel_to_snake(data: dict) -> dict:
 
 
 class ServerRequest(_Request):
-
     async def json(self):
         if not hasattr(self, "_json"):
             body = await self.body()
@@ -45,7 +42,9 @@ class ServerRequest(_Request):
 
 class ServerResponse(_Response):
     def __init__(self, content: dict, *args, **kwargs):
-        super(ServerResponse, self).__init__(self._dump_content(content), *args, **kwargs)
+        super(ServerResponse, self).__init__(
+            self._dump_content(content), *args, **kwargs
+        )
 
     def _dump_content(self, content):
         if isinstance(content, str):
@@ -65,7 +64,6 @@ class ServerResponse(_Response):
 
 
 class ServerRoute(_APIRoute):
-
     def get_route_handler(self):
         original_route_handler = super().get_route_handler()
 

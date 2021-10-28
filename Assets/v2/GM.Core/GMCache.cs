@@ -1,13 +1,10 @@
-using ArtefactData = GM.Artefacts.Data.ArtefactData;
 using BigInteger = System.Numerics.BigInteger;
-using TTLCache = GM.Common.TTLCache;
-
 
 namespace GM.Core
 {
     public class GMCache : GMClass
     {
-        TTLCache cache = new TTLCache();
+        GM.Common.TTLCache cache = new GM.Common.TTLCache();
         
         /// <summary>
         /// Merc damage multiplier from armoury
@@ -22,7 +19,7 @@ namespace GM.Core
         /// <summary>
         /// Artefact upgrade cost. CurrentLevel -> (CurrentLevel + levels)
         /// </summary>
-        public BigInteger ArtefactUpgradeCost(ArtefactData data, int levels) => 
+        public BigInteger ArtefactUpgradeCost(GM.Artefacts.Data.ArtefactData data, int levels) => 
             cache.Get<BigInteger>($"ArtefactUpgradeCost/{data.CurrentLevel}/{levels}/{data.CostExpo}/{data.CostCoeff}", 60, 
                 () => Formulas.Artefacts.UpgradeCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff));
 

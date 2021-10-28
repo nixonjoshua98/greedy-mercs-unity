@@ -1,7 +1,6 @@
-import os
 import json
-
-from typing import Iterable, Any, Optional, TypeVar
+import os
+from typing import Any, Iterable, Optional, TypeVar
 
 T = TypeVar("T")
 

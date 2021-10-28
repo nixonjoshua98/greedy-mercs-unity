@@ -1,25 +1,27 @@
 from typing import Any
 
-from fastapi import HTTPException, Depends
+from fastapi import Depends, HTTPException
 
+from src.mongo.repositories.armoury import ArmouryRepository
+from src.mongo.repositories.armoury import Fields as ArmouryRepoFields
+from src.mongo.repositories.armoury import inject_armoury_repository
+from src.mongo.repositories.currencies import CurrenciesRepository
+from src.mongo.repositories.currencies import Fields as CurrencyRepoFields
+from src.mongo.repositories.currencies import inject_currencies_repository
 from src.pymodels import BaseModel
-from src.routing import ServerResponse, APIRouter
-from src.routing.common.checks import check_is_not_none, check_greater_than
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
-
-from src.resources.bountyshop import StaticBountyShopArmouryItem as BSArmouryItem, inject_dynamic_bounty_shop
-
-from src.mongo.repositories.currencies import (
-    CurrenciesRepository,
-    Fields as CurrencyRepoFields,
-    inject_currencies_repository
-)
-from src.mongo.repositories.armoury import ArmouryRepository, Fields as ArmouryRepoFields, inject_armoury_repository
+from src.resources.bountyshop import \
+    StaticBountyShopArmouryItem as BSArmouryItem
+from src.resources.bountyshop import inject_dynamic_bounty_shop
+from src.routing import APIRouter, ServerResponse
+from src.routing.common.checks import gt, is_not_none
+from src.routing.dependencies.authenticated_user import (AuthenticatedUser,
+                                                         inject_user)
 
 router = APIRouter(prefix="/api/bountyshop")
 
 
 # == Request Models == #
+
 
 class ItemData(BaseModel):
     shop_item: str
@@ -27,31 +29,33 @@ class ItemData(BaseModel):
 
 @router.post("/purchase")
 async def purchase(
-        data: ItemData,
-        user: AuthenticatedUser = Depends(inject_user),
-
-        # = Database Repositories = #
-        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
-        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
-
-        # = Static/Game Data = #
-        bounty_shop=Depends(inject_dynamic_bounty_shop)
+    data: ItemData,
+    user: AuthenticatedUser = Depends(inject_user),
+    # = Database Repositories = #
+    currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
+    armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
+    # = Static/Game Data = #
+    bounty_shop=Depends(inject_dynamic_bounty_shop),
 ):
     item = bounty_shop.get_item(data.shop_item)
 
     # Verify that the item exists
-    check_is_not_none(item, error="Item was not found")
+    is_not_none(item, error="Item was not found")
 
     item_purchases = 0
 
     # Check the user still has 'stock' left
-    check_greater_than(item.purchase_limit, item_purchases, error="Reached purchase limit")
+    gt(
+        item.purchase_limit, item_purchases, error="Reached purchase limit"
+    )
 
     # Fetch the user currencies
     currencies = await currency_repo.get_user(user.id)
 
     # Verify that the user can afford to purchase the item
-    check_greater_than(currencies.bounty_points, item.purchase_cost, error="Cannot afford purchase")
+    gt(
+        currencies.bounty_points, item.purchase_cost, error="Cannot afford purchase"
+    )
 
     response_dict = dict()
 
@@ -65,25 +69,27 @@ async def purchase(
         raise HTTPException(400, detail="Invalid item")
 
     # Deduct the purchase cost from the user
-    currencies = await currency_repo.update_one(user.id, {
-        "$inc": {
-            CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost
-        }
-    })
+    currencies = await currency_repo.update_one(
+        user.id, {"$inc": {CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost}}
+    )
 
     # Return the response. We unpack the reponse_dict here
     return ServerResponse(
-        {"currencyItems": currencies.response_dict(), "purchaseCost": item.purchase_cost, **response_dict}
+        {
+            "currencyItems": currencies.response_dict(),
+            "purchaseCost": item.purchase_cost,
+            **response_dict,
+        }
     )
 
 
-async def _purchase_armoury_item(uid, item, *, repo: ArmouryRepository) -> dict[str, Any]:
-    """ Process the actual purchase and return a dict to be added to the response. """
+async def _purchase_armoury_item(
+    uid, item, *, repo: ArmouryRepository
+) -> dict[str, Any]:
+    """Process the actual purchase and return a dict to be added to the response."""
 
-    armoury_item = await repo.update_item(uid, item.armoury_item, {
-        "$inc": {
-            ArmouryRepoFields.NUM_OWNED: 1
-        }
-    }, upsert=True)
+    armoury_item = await repo.update_item(
+        uid, item.armoury_item, {"$inc": {ArmouryRepoFields.NUM_OWNED: 1}}, upsert=True
+    )
 
     return {"armouryItem": armoury_item.response_dict()}

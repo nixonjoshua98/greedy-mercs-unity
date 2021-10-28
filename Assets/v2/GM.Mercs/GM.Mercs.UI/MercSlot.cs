@@ -19,9 +19,6 @@ namespace GM.Mercs.UI
         {
             get
             {
-                if (_buyAmount == -1)
-                    return Formulas.AffordCharacterLevels(AssignedMerc.Id);
-
                 return Mathf.Min(_buyAmount, GM.Constants.MAX_MERC_LEVEL - AssignedMerc.CurrentLevel);
             }
         }
@@ -30,7 +27,7 @@ namespace GM.Mercs.UI
         {
             Assign(merc);
 
-            _buyAmount = selector.Value;
+            _buyAmount = selector.Current;
 
             selector.E_OnChange.AddListener((val) => { _buyAmount = val; });
         }
@@ -39,12 +36,19 @@ namespace GM.Mercs.UI
         {
             IconImage.sprite = AssignedMerc.Icon;
             NameText.text = AssignedMerc.Name;
+
+            UpdateUI();
         }
 
         void FixedUpdate()
         {
+            UpdateUI();
+        }
+
+        void UpdateUI()
+        {
             LevelText.text = $"Level {AssignedMerc.CurrentLevel}";
-            DamageText.text = $"{Format.Number(StatsCache.TotalMercDamage(AssignedMerc.Id))}";
+            DamageText.text = $"{Format.Number(StatsCache.TotalMercDamage(AssignedMerc.Id))} DMG";
 
             Button.SetText("Max Level", "");
 

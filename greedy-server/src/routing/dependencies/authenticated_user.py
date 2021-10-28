@@ -1,12 +1,14 @@
-from fastapi import HTTPException, Request, Depends
-
 from bson import ObjectId
+from fastapi import Depends, HTTPException, Request
 
-from src.pymodels import BaseModel
 from src.cache import MemoryCache, inject_memory_cache
+from src.pymodels import BaseModel
 
 
-async def inject_user(request: Request, mem_cache: MemoryCache = Depends(inject_memory_cache)):
+async def inject_user(
+        request: Request,
+        mem_cache: MemoryCache = Depends(inject_memory_cache)
+):
     uid = request.headers.get("x-userid")
     did = request.headers.get("x-deviceid")
     sid = request.headers.get("x-sessionid")

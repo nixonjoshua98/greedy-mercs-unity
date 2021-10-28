@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using ExpandableGridLayout = GM.UI.Layouts.ExpandableGridLayout;
 
 namespace GM.Armoury.UI
 {
@@ -11,7 +10,7 @@ namespace GM.Armoury.UI
         public GameObject ArmouryItemSlotObject;
 
         [Header("References")]
-        public ExpandableGridLayout ItemsGridLayout;
+        public GM.UI.Layouts.ExpandableGridLayout ItemsGridLayout;
         public Transform ItemsSlotsParent;
 
         [Header("Properties")]

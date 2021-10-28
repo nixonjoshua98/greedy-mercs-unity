@@ -7,11 +7,8 @@ namespace GM
     {
         public readonly static Dictionary<int, string> UnitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
 
-        // String format cache
         Common.TTLCache cache = new Common.TTLCache();
 
-
-        // == Static Methods == //
         public static string Percentage(BigDouble val) => Number(val * 100) + "%";
         public static string Number(double val) => Number(new BigDouble(val));
         public static string Number(long val) => Number(new BigInteger(val));
@@ -85,19 +82,29 @@ namespace GM
 
         public static string Bonus(BonusType bonusType, double value)
         {
-            return bonusType switch
+            string valueString = bonusType switch
             {
-                BonusType.FLAT_CRIT_CHANCE => $"{Number(value * 100)}% Critical Hit Chance",
-                BonusType.FLAT_CRIT_DMG => $"{Number(value * 100)}% Critical Hit Damage",
-                BonusType.MULTIPLY_PRESTIGE_BONUS => $"{Number(value * 100)}% Runestones",
-                BonusType.TAP_DAMAGE => $"{Number(value * 100)}% Tap Damage",
-                BonusType.MERC_DAMAGE => $"{Number(value * 100)}% Merc Damage",
-                BonusType.MELEE_DAMAGE => $"{Number(value * 100)}% Melee Damage",
-                BonusType.RANGED_DAMAGE => $"{Number(value * 100)}% Ranged Damage",
-                BonusType.ENEMY_GOLD => $"{Number(value * 100)}% Enemy Gold",
-                BonusType.BOSS_GOLD => $"{Number(value * 100)}% Boss Gold",
-                BonusType.ALL_GOLD => $"{Number(value * 100)}% All Gold",
-                _ => $"{Number(value)} {bonusType}",
+                _ => Percentage(value)
+            };
+
+            return $"{valueString} {Bonus(bonusType)}";
+        }
+
+        public static string Bonus(BonusType type)
+        {
+            return type switch
+            {
+                BonusType.FLAT_CRIT_CHANCE => "Critical Hit Chance",
+                BonusType.FLAT_CRIT_DMG => "Critical Hit Damage",
+                BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
+                BonusType.TAP_DAMAGE => "Tap Damage",
+                BonusType.MERC_DAMAGE => "Merc Damage",
+                BonusType.MELEE_DAMAGE => "Melee Damage",
+                BonusType.RANGED_DAMAGE => "Ranged Damage",
+                BonusType.ENEMY_GOLD => "Enemy Gold",
+                BonusType.BOSS_GOLD => "Boss Gold",
+                BonusType.ALL_GOLD => "All Gold",
+                _ => type.ToString(),
             };
         }
     }

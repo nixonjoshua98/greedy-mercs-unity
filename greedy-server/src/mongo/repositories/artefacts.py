@@ -1,20 +1,20 @@
 from __future__ import annotations
 
+import datetime as dt
 from typing import Union
+
 from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
 
-import datetime as dt
-
-from src.routing import ServerRequest
-
 from src.pymodels import BaseDocument
+from src.routing import ServerRequest
 
 
 def inject_artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
-    """ Used to inject a repository instance. """
+    """Used to inject a repository instance."""
     return ArtefactsRepository(request.app.state.mongo)
+
 
 # == Fields == #
 
@@ -28,6 +28,7 @@ class Fields:
 
 # == Models == #
 
+
 class ArtefactModel(BaseDocument):
     artefact_id: int = Field(..., alias=Fields.ARTEFACT_ID)
     user_id: ObjectId = Field(..., alias=Fields.USER_ID)
@@ -39,6 +40,7 @@ class ArtefactModel(BaseDocument):
 
 
 # == Repository == #
+
 
 class ArtefactsRepository:
     def __init__(self, client):
@@ -57,19 +59,23 @@ class ArtefactsRepository:
         return ArtefactModel.parse_obj(r) if r else None
 
     async def add_new_artefact(self, uid, artid) -> ArtefactModel:
-        r = await self._col.insert_one(doc := {
-            Fields.LEVEL: 1,
-            Fields.USER_ID: uid,
-            Fields.ARTEFACT_ID: artid,
-            Fields.UNLOCK_TIME: dt.datetime.utcnow()
-        })
+        r = await self._col.insert_one(
+            doc := {
+                Fields.LEVEL: 1,
+                Fields.USER_ID: uid,
+                Fields.ARTEFACT_ID: artid,
+                Fields.UNLOCK_TIME: dt.datetime.utcnow(),
+            }
+        )
 
         return ArtefactModel.parse_obj({"_id": r.inserted_id, **doc})
 
     async def update_artefact(self, uid, artid, update: dict) -> ArtefactModel:
-        r = await self._col.find_one_and_update({
-                Fields.USER_ID: uid,
-                Fields.ARTEFACT_ID: artid
-            }, update, upsert=False, return_document=ReturnDocument.AFTER)
+        r = await self._col.find_one_and_update(
+            {Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid},
+            update,
+            upsert=False,
+            return_document=ReturnDocument.AFTER,
+        )
 
         return ArtefactModel.parse_obj(r)

@@ -1,19 +1,21 @@
 from __future__ import annotations
 
 import datetime as dt
-
 from random import Random
-from pydantic import Field
+
 from fastapi import Depends
+from pydantic import Field
 
 from src import utils
 from src.pymodels import BaseModel
 
-from .armoury import inject_static_armoury, StaticArmouryItem
+from .armoury import StaticArmouryItem, inject_static_armoury
 
 
-def inject_dynamic_bounty_shop(s_armoury=Depends(inject_static_armoury)) -> DynamicBountyShop:
-    """ Inject a bounty shop instance into the request.
+def inject_dynamic_bounty_shop(
+    s_armoury=Depends(inject_static_armoury),
+) -> DynamicBountyShop:
+    """Inject a bounty shop instance into the request.
 
     We inject dependencies here (which have a tiny chance of not aligning with the other injections) but we are going
     to take that risk! We could potentially cache dependencies on the request but this works for now
@@ -22,6 +24,7 @@ def inject_dynamic_bounty_shop(s_armoury=Depends(inject_static_armoury)) -> Dyna
 
 
 # = Models = #
+
 
 class StaticBountyShopArmouryItem(BaseModel):
     id: str = Field(..., alias="itemId")
@@ -32,6 +35,7 @@ class StaticBountyShopArmouryItem(BaseModel):
 
 
 # = Container = #
+
 
 class DynamicBountyShop:
     def __init__(self, static_armoury):
@@ -45,7 +49,7 @@ class DynamicBountyShop:
     def to_dict(self) -> dict[str, list]:
         return {
             "items": [],
-            "armouryItems": [ai.response_dict() for ai in self.armoury_item]
+            "armouryItems": [ai.response_dict() for ai in self.armoury_item],
         }
 
     # == Internal Methods == #
@@ -66,11 +70,9 @@ class DynamicBountyShop:
         for i, it in enumerate(items):
             _id = f"AI-{days_since_epoch}{it.id}{i}"
 
-            item = StaticBountyShopArmouryItem.parse_obj({
-                "itemId": _id,
-                "armouryItem": it.id,
-                "purchaseCost": it.id * 3
-            })
+            item = StaticBountyShopArmouryItem.parse_obj(
+                {"itemId": _id, "armouryItem": it.id, "purchaseCost": it.id * 3}
+            )
 
             generated_items.append(item)
 

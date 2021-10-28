@@ -1,21 +1,22 @@
 from __future__ import annotations
 
 from typing import Union
-from pymongo import ReturnDocument
-from pydantic import Field
-from bson import ObjectId
 
-from src.routing import ServerRequest
+from bson import ObjectId
+from pydantic import Field
+from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument
+from src.routing import ServerRequest
 
 
 def inject_armoury_repository(request: ServerRequest) -> ArmouryRepository:
-    """ Used to inject a repository instance. """
+    """Used to inject a repository instance."""
     return ArmouryRepository(request.app.state.mongo)
 
 
 # === Fields === #
+
 
 class Fields:
     USER_ID = "userId"
@@ -26,6 +27,7 @@ class Fields:
 
 
 # == Models == #
+
 
 class ArmouryItemModel(BaseDocument):
     user_id: ObjectId = Field(..., alias=Fields.USER_ID)
@@ -40,6 +42,7 @@ class ArmouryItemModel(BaseDocument):
 
 
 # == Repository == #
+
 
 class ArmouryRepository:
     def __init__(self, client):
@@ -57,11 +60,14 @@ class ArmouryRepository:
 
         return [ArmouryItemModel.parse_obj(ele) for ele in ls]
 
-    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool) -> Union[ArmouryItemModel, None]:
+    async def update_item(
+        self, uid, iid: int, update: dict, *, upsert: bool
+    ) -> Union[ArmouryItemModel, None]:
         r = await self._col.find_one_and_update(
-            {
-                Fields.USER_ID: uid,
-                Fields.ITEM_ID: iid
-            }, update, upsert=upsert, return_document=ReturnDocument.AFTER)
+            {Fields.USER_ID: uid, Fields.ITEM_ID: iid},
+            update,
+            upsert=upsert,
+            return_document=ReturnDocument.AFTER,
+        )
 
         return ArmouryItemModel.parse_obj(r) if r is not None else None

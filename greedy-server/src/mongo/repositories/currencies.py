@@ -1,19 +1,19 @@
 from __future__ import annotations
 
-from pymongo import ReturnDocument
 from pydantic import Field
-
-from src.routing import ServerRequest
+from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument
+from src.routing import ServerRequest
 
 
 def inject_currencies_repository(request: ServerRequest) -> CurrenciesRepository:
-    """ Used to inject a repository instance. """
+    """Used to inject a repository instance."""
     return CurrenciesRepository(request.app.state.mongo)
 
 
 # = Field Keys = #
+
 
 class Fields:
     BOUNTY_POINTS = "bountyPoints"
@@ -22,6 +22,7 @@ class Fields:
 
 
 # = Models = #
+
 
 class CurrenciesModel(BaseDocument):
     prestige_points: int = Field(0, alias=Fields.PRESTIGE_POINTS)
@@ -48,8 +49,7 @@ class CurrenciesRepository:
 
     async def update_one(self, uid, update: dict) -> CurrenciesModel:
         r = await self.collection.find_one_and_update(
-            {"_id": uid}, update,
-            upsert=True, return_document=ReturnDocument.AFTER
+            {"_id": uid}, update, upsert=True, return_document=ReturnDocument.AFTER
         )
 
         return CurrenciesModel.parse_obj(r)

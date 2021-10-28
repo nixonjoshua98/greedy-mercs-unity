@@ -7,23 +7,26 @@ from src.cache import MemoryCache, inject_memory_cache
 from src.classes import ServerState
 from src.common import resources
 from src.dataloader import DataLoader
-from src.mongo.repositories.armoury import (ArmouryRepository,
-                                            inject_armoury_repository)
-from src.mongo.repositories.artefacts import (ArtefactsRepository,
-                                              inject_artefacts_repository)
-from src.mongo.repositories.bounties import (BountiesRepository,
-                                             inject_bounties_repository)
-from src.mongo.repositories.currencies import (CurrencyRepository,
-                                               inject_currency_repository)
+from src.mongo.repositories.armoury import ArmouryRepository, inject_armoury_repository
+from src.mongo.repositories.artefacts import (
+    ArtefactsRepository,
+    inject_artefacts_repository,
+)
+from src.mongo.repositories.bounties import (
+    BountiesRepository,
+    inject_bounties_repository,
+)
+from src.mongo.repositories.currency import (
+    CurrencyRepository,
+    inject_currency_repository,
+)
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.resources.bountyshop import (DynamicBountyShop,
-                                      inject_dynamic_bounty_shop)
+from src.resources.bountyshop import DynamicBountyShop, inject_dynamic_bounty_shop
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authenticated_user import (AuthenticatedUser,
-                                                         inject_user)
+from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
 
 router = APIRouter(prefix="/api")
 
@@ -96,6 +99,6 @@ async def player_login(
     else:
         uid = user["_id"]
 
-    mem_cache.set_value(f"session/{uid}", session_id := secrets.token_hex(16))
+    mem_cache.set_session(uid, session_id := secrets.token_hex(16))
 
     return ServerResponse({"userId": uid, "sessionId": session_id})

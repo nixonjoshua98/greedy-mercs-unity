@@ -5,17 +5,15 @@ from fastapi import Depends, HTTPException
 from src.mongo.repositories.armoury import ArmouryRepository
 from src.mongo.repositories.armoury import Fields as ArmouryRepoFields
 from src.mongo.repositories.armoury import inject_armoury_repository
-from src.mongo.repositories.currencies import CurrencyRepository
-from src.mongo.repositories.currencies import Fields as CurrencyRepoFields
-from src.mongo.repositories.currencies import inject_currency_repository
+from src.mongo.repositories.currency import CurrencyRepository
+from src.mongo.repositories.currency import Fields as CurrencyRepoFields
+from src.mongo.repositories.currency import inject_currency_repository
 from src.pymodels import BaseModel
-from src.resources.bountyshop import \
-    StaticBountyShopArmouryItem as BSArmouryItem
+from src.resources.bountyshop import StaticBountyShopArmouryItem as BSArmouryItem
 from src.resources.bountyshop import inject_dynamic_bounty_shop
 from src.routing import APIRouter, ServerResponse
 from src.routing.common.checks import gt, is_not_none
-from src.routing.dependencies.authenticated_user import (AuthenticatedUser,
-                                                         inject_user)
+from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
 
 router = APIRouter(prefix="/api/bountyshop")
 

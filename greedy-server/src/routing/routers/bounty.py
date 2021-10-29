@@ -4,18 +4,17 @@ import math
 from fastapi import Depends, HTTPException
 
 from src import utils
-from src.mongo.repositories.bounties import (
-    BountiesRepository,
-    UserBountiesModel,
-    inject_bounties_repository,
-)
+from src.mongo.repositories.bounties import (BountiesRepository,
+                                             UserBountiesModel,
+                                             inject_bounties_repository)
 from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
+from src.routing.dependencies.authentication import (AuthenticatedUser,
+                                                     inject_authenticated_user)
 
 router = APIRouter(prefix="/api/bounty")
 
@@ -27,7 +26,7 @@ class ActiveBountyUpdateModel(BaseModel):
 
 @router.get("/claim")
 async def claim_points(
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Static Game Data = #,
     static_bounties: StaticBounties = Depends(inject_static_bounties),
     # = Database Repositories = #
@@ -61,7 +60,7 @@ async def claim_points(
 @router.post("/setactive")
 async def set_active_bounties(
     data: ActiveBountyUpdateModel,
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Static Game Data = #,
     static_bounties: StaticBounties = Depends(inject_static_bounties),
     # = Database Repositories = #

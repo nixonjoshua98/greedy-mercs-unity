@@ -7,7 +7,7 @@ def gt(currency, cost, *, error):
 
 
 def gte(currency, cost, *, error):
-    if cost < currency:
+    if not (currency >= cost):
         raise HTTPException(400, detail=error)
 
 

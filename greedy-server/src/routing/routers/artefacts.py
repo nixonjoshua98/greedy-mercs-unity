@@ -15,7 +15,8 @@ from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
+from src.routing.dependencies.authentication import (AuthenticatedUser,
+                                                     inject_authenticated_user)
 
 router = APIRouter(prefix="/api/artefact")
 
@@ -34,7 +35,7 @@ class ArtefactUpgradeModel(BaseModel):
 @router.post("/upgrade")
 async def upgrade(
     data: ArtefactUpgradeModel,
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Static Game Data = #
     static_artefacts=Depends(inject_static_artefacts),
     # = Database Repositories = #
@@ -94,7 +95,7 @@ async def upgrade(
 
 @router.get("/unlock")
 async def unlock(
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Static Game Data = #
     static_artefacts=Depends(inject_static_artefacts),
     # = Database Repositories = #

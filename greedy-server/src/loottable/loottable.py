@@ -4,7 +4,7 @@ from collections import defaultdict
 from random import Random
 from typing import Any, Union
 
-from lootitem import LootItem
+from .lootitem import LootItem
 
 
 class LootTable:

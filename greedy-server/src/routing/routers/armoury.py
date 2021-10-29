@@ -11,7 +11,8 @@ from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
+from src.routing.dependencies.authentication import (AuthenticatedUser,
+                                                     inject_authenticated_user)
 
 
 class ArmouryItemActionModel(BaseModel):
@@ -24,7 +25,7 @@ router = APIRouter(prefix="/api/armoury")
 @router.post("/upgrade")
 async def upgrade(
     data: ArmouryItemActionModel,
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Static Data = #
     s_armoury_items: list[StaticArmouryItem] = Depends(inject_static_armoury),
     # = Database Repositories = #
@@ -72,7 +73,7 @@ async def upgrade(
 @router.post("/merge")
 async def merge(
     data: ArmouryItemActionModel,
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Static Data = #
     s_armoury_items: list[StaticArmouryItem] = Depends(inject_static_armoury),
     # = Database Repositories = #

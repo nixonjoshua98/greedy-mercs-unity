@@ -4,29 +4,27 @@ import secrets
 from fastapi import Depends
 
 from src.cache import MemoryCache, inject_memory_cache
-from src.classes import ServerState
 from src.common import resources
 from src.dataloader import DataLoader
-from src.mongo.repositories.armoury import ArmouryRepository, inject_armoury_repository
-from src.mongo.repositories.artefacts import (
-    ArtefactsRepository,
-    inject_artefacts_repository,
-)
-from src.mongo.repositories.bounties import (
-    BountiesRepository,
-    inject_bounties_repository,
-)
-from src.mongo.repositories.currency import (
-    CurrencyRepository,
-    inject_currency_repository,
-)
+from src.mongo.repositories.armoury import (ArmouryRepository,
+                                            inject_armoury_repository)
+from src.mongo.repositories.artefacts import (ArtefactsRepository,
+                                              inject_artefacts_repository)
+from src.mongo.repositories.bounties import (BountiesRepository,
+                                             inject_bounties_repository)
+from src.mongo.repositories.currency import (CurrencyRepository,
+                                             inject_currency_repository)
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.resources.bountyshop import DynamicBountyShop, inject_dynamic_bounty_shop
+from src.resources.bountyshop import (DynamicBountyShop,
+                                      inject_dynamic_bounty_shop)
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.dependencies.authentication import (AuthenticatedUser,
+                                                     inject_authenticated_user)
+from src.routing.dependencies.serverstate import (ServerState,
+                                                  inject_server_state)
 
 router = APIRouter(prefix="/api")
 
@@ -44,9 +42,8 @@ def game_data(
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
     s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts),
+    svr_state: ServerState = Depends(inject_server_state),
 ):
-    svr_state = ServerState()
-
     return ServerResponse(
         {
             "nextDailyReset": svr_state.next_daily_reset,
@@ -60,7 +57,7 @@ def game_data(
 
 @router.get("/userdata")
 async def user_data(
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Static/Game Data = #
     s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
     # = Database Repositories = #

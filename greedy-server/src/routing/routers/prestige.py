@@ -2,15 +2,11 @@ from fastapi import Depends
 
 from src.common import formulas
 from src.common.enums import BonusType
-from src.mongo.repositories.artefacts import (
-    ArtefactModel,
-    ArtefactsRepository,
-    inject_artefacts_repository,
-)
-from src.mongo.repositories.bounties import (
-    BountiesRepository,
-    inject_bounties_repository,
-)
+from src.mongo.repositories.artefacts import (ArtefactModel,
+                                              ArtefactsRepository,
+                                              inject_artefacts_repository)
+from src.mongo.repositories.bounties import (BountiesRepository,
+                                             inject_bounties_repository)
 from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import inject_currency_repository
@@ -18,7 +14,8 @@ from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
+from src.routing.dependencies.authentication import (AuthenticatedUser,
+                                                     inject_authenticated_user)
 
 router = APIRouter(prefix="/api")
 
@@ -31,7 +28,7 @@ class PrestigeData(BaseModel):
 @router.post("/prestige")
 async def prestige(
     data: PrestigeData,
-    user: AuthenticatedUser = Depends(inject_user),
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
     # = Game Data = #
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts),

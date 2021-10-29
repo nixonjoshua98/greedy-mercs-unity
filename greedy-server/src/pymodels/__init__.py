@@ -9,6 +9,9 @@ class BaseModel(_BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
+    def __hash__(self):
+        return hash((type(self),) + tuple(self.__dict__.values()))
+
     def dict(self, *args, **kwargs):
         kwargs["by_alias"] = True  # We only want to use the aliases
 

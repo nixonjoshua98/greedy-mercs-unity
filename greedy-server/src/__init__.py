@@ -1,28 +1,30 @@
 import functools as ft
 
-from fastapi import FastAPI, HTTPException
+from fastapi import HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from src.cache import MemoryCache
-from src.dataloader import DataLoader
-from src.exceptions import handle_http_exception
+from src.application import Application
+
+from .cache import MemoryCache
+from .dataloader import DataLoader
+from .exceptions import handle_http_exception
 
 
-def _on_app_start(app):
+def _on_app_start(fast_app):
     DataLoader.create_client("mongodb://localhost:27017/g0")
-    app.state.mongo = AsyncIOMotorClient("mongodb://localhost:27017/g0")
-    app.state.memory_cache = MemoryCache()
+    fast_app.state.mongo = AsyncIOMotorClient("mongodb://localhost:27017/g0")
+    fast_app.state.memory_cache = MemoryCache()
 
 
 def create_app():
-    app = FastAPI(
+    fast_app = Application(
         redoc_url=None,
         docs_url=None,
         openapi_url=None,
         swagger_ui_oauth2_redirect_url=None,
     )
 
-    app.add_exception_handler(HTTPException, handle_http_exception)
-    app.add_event_handler("startup", ft.partial(_on_app_start, app))
+    fast_app.add_exception_handler(HTTPException, handle_http_exception)
+    fast_app.add_event_handler("startup", ft.partial(_on_app_start, fast_app))
 
-    return app
+    return fast_app

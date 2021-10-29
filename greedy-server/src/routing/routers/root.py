@@ -71,7 +71,7 @@ async def user_data(
 ):
     currencies = await currency_repo.get_user(user.id)
     bounties = await bounties_repo.get_user(user.id)
-    armoury = await armoury_repo.get_all_items(user.id)
+    armoury = await armoury_repo.get_all_user_items(user.id)
     artefacts = await artefacts_repo.get_all_artefacts(user.id)
 
     data = {

@@ -53,7 +53,7 @@ namespace GM.BountyShop.UI
         // == Callbacks == //
         public void OnPurchaseButton()
         {
-            App.Data.BountyShop.PurchaseItem(AssignedItem.Id, (success) =>
+            App.Data.BountyShop.PurchaseArmouryItem(AssignedItem.Id, (success) =>
             {
                 UpdateUI();
 

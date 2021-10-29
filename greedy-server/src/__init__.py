@@ -10,7 +10,6 @@ from src.exceptions import handle_http_exception
 
 def _on_app_start(app):
     DataLoader.create_client("mongodb://localhost:27017/g0")
-
     app.state.mongo = AsyncIOMotorClient("mongodb://localhost:27017/g0")
     app.state.memory_cache = MemoryCache()
 

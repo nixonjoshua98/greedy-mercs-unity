@@ -14,7 +14,10 @@ def inject_static_armoury() -> list[StaticArmouryItem]:
 
 class StaticArmouryItem(BaseModel):
     id: int = Field(..., alias="itemId")
-    item_tier: int = Field(..., alias="itemTier")
+    tier: int = Field(..., alias="itemTier")
     max_merge_lvl: int = Field(..., alias="maxMergeLevel")
     base_merge_cost: int = Field(..., alias="baseMergeCost")
     base_damage_multiplier: float = Field(..., alias="baseDamageMultiplier")
+
+    def __hash__(self):
+        return hash(self.id)

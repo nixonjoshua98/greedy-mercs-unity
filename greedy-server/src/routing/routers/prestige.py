@@ -18,7 +18,7 @@ from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
 
 router = APIRouter(prefix="/api")
 

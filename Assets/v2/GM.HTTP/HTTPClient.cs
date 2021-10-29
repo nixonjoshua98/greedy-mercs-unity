@@ -52,8 +52,10 @@ namespace GM.HTTP
         public void Bounty_Claim(UnityAction<BountyClaimResponse> callback) => Auth_GET(ServerConfig.UrlFor("bounty/claim"), callback);
         public void Bounty_UpdateActives(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback) => Auth_POST(ServerConfig.UrlFor("bounty/setactive"), req, callback);
 
-        // = Bounty Shop = //
-        public void BShop_PurchaseItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("bountyshop/purchase"), req, callback);
+        /// <summary>
+        /// Send the request for purchasing an armoury item from the bounty shop
+        /// </summary>
+        public void BShop_PurchaseArmouryItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("bountyshop/purchase/armouryitem"), req, callback);
 
         // = Artefacts = //
         public void Artefact_UpgradeArtefact(UpgradeArtefactRequest req, UnityAction<UpgradeArtefactResponse> callback) => Auth_POST(ServerConfig.UrlFor("artefact/upgrade"), req, callback);

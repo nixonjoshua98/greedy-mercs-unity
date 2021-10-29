@@ -47,10 +47,7 @@ class DynamicBountyShop:
         return utils.get(self.armoury_item, id=item)
 
     def to_dict(self) -> dict[str, list]:
-        return {
-            "items": [],
-            "armouryItems": [ai.response_dict() for ai in self.armoury_item],
-        }
+        return {"armouryItems": [ai.response_dict() for ai in self.armoury_item]}
 
     # == Internal Methods == #
 

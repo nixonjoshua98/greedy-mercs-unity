@@ -14,3 +14,8 @@ def gte(currency, cost, *, error):
 def is_not_none(item, *, error):
     if item is None:
         raise HTTPException(400, detail=error)
+
+
+def is_instance(item, type_, *, error):
+    if not isinstance(item, type_):
+        raise HTTPException(400, detail=error)

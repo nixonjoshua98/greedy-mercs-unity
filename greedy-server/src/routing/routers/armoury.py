@@ -11,7 +11,7 @@ from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
 
 
 class ArmouryItemActionModel(BaseModel):
@@ -37,7 +37,7 @@ async def upgrade(
     checks.is_not_none(s_item, error="Invalid item")
 
     # Fetch the item data
-    u_item = await armoury_repo.get_one_item(user.id, data.item_id)
+    u_item = await armoury_repo.get_one_user_item(user.id, data.item_id)
 
     # Verify the item exists
     checks.is_not_none(u_item, error="Attempted to upgrade a locked armoury item")
@@ -85,7 +85,7 @@ async def merge(
     checks.is_not_none(s_item, error="Invalid item")
 
     # Fetch the armoury item from the database
-    u_item = await armoury_repo.get_one_item(user.id, data.item_id)
+    u_item = await armoury_repo.get_one_user_item(user.id, data.item_id)
 
     # Check that the item exists
     checks.is_not_none(u_item, error="User has not unlocked armoury item")
@@ -121,7 +121,7 @@ async def merge(
 
 
 def calc_upgrade_cost(s_item: StaticArmouryItem, item: ArmouryItemModel) -> int:
-    return 5 + (s_item.item_tier + 1) + item.level
+    return 5 + (s_item.tier + 1) + item.level
 
 
 def calc_merge_cost(s_item: StaticArmouryItem, _: ArmouryItemModel) -> int:

@@ -16,8 +16,8 @@ async def inject_user(
     if (not ObjectId.is_valid(uid)) or any(ele is None for ele in (uid, did, sid)):
         raise HTTPException(401, detail="Missing authentication credentials")
 
-    elif mem_cache.get_session(uid) != sid:
-        raise HTTPException(401, detail="Invalid session")
+    """    elif mem_cache.get_session(uid) != sid:
+        raise HTTPException(401, detail="Invalid session")"""
 
     return AuthenticatedUser(id=ObjectId(uid))
 

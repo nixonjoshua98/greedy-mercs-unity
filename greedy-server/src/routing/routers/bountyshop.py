@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends
 
 from src.mongo.repositories.armoury import ArmouryRepository
 from src.mongo.repositories.armoury import Fields as ArmouryRepoFields
@@ -9,11 +9,11 @@ from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import inject_currency_repository
 from src.pymodels import BaseModel
-from src.resources.bountyshop import StaticBountyShopArmouryItem as BSArmouryItem
+from src.resources.bountyshop import StaticBountyShopArmouryItem
 from src.resources.bountyshop import inject_dynamic_bounty_shop
 from src.routing import APIRouter, ServerResponse
-from src.routing.common.checks import gt, is_not_none
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.common import checks
+from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
 
 router = APIRouter(prefix="/api/bountyshop")
 
@@ -25,8 +25,8 @@ class ItemData(BaseModel):
     shop_item: str
 
 
-@router.post("/purchase")
-async def purchase(
+@router.post("/purchase/armouryitem")
+async def purchase_armoury_item(
     data: ItemData,
     user: AuthenticatedUser = Depends(inject_user),
     # = Database Repositories = #
@@ -35,44 +35,38 @@ async def purchase(
     # = Static/Game Data = #
     bounty_shop=Depends(inject_dynamic_bounty_shop),
 ):
-    item = bounty_shop.get_item(data.shop_item)
+    item: StaticBountyShopArmouryItem = bounty_shop.get_item(data.shop_item)
 
-    # Verify that the item exists
-    is_not_none(item, error="Item was not found")
+    # Ensure the item is the correct type, otherwise throw an error
+    checks.is_instance(item, StaticBountyShopArmouryItem, error="Invalid item")
 
     item_purchases = 0
 
     # Check the user still has 'stock' left
-    gt(item.purchase_limit, item_purchases, error="Reached purchase limit")
+    checks.gt(item.purchase_limit, item_purchases, error="Reached purchase limit")
 
     # Fetch the user currencies
     currencies = await currency_repo.get_user(user.id)
 
     # Verify that the user can afford to purchase the item
-    gt(currencies.bounty_points, item.purchase_cost, error="Cannot afford purchase")
-
-    response_dict = dict()
-
-    # Perform the purchase on ArmouryItems
-    if isinstance(item, BSArmouryItem):
-        return_dict = await _purchase_armoury_item(user.id, item, repo=armoury_repo)
-
-        response_dict.update(return_dict)
-
-    else:  # Show an error if we got this far
-        raise HTTPException(400, detail="Invalid item")
+    checks.gte(
+        currencies.bounty_points, item.purchase_cost, error="Cannot afford purchase"
+    )
 
     # Deduct the purchase cost from the user
     currencies = await currency_repo.update_one(
         user.id, {"$inc": {CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost}}
     )
 
+    # Perform the actual item purchase
+    purchase_dict = await _purchase_armoury_item(user.id, item, repo=armoury_repo)
+
     # Return the response. We unpack the reponse_dict here
     return ServerResponse(
         {
             "currencyItems": currencies.response_dict(),
             "purchaseCost": item.purchase_cost,
-            **response_dict,
+            **purchase_dict,
         }
     )
 

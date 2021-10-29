@@ -14,8 +14,8 @@ from src.mongo.repositories.currency import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.routing import APIRouter, ServerResponse
-from src.routing.common.checks import gt, is_not_none
-from src.routing.dependencies.authenticated_user import AuthenticatedUser, inject_user
+from src.routing.common import checks
+from src.routing.dependencies.authenticateduser import AuthenticatedUser, inject_user
 
 router = APIRouter(prefix="/api/artefact")
 
@@ -45,13 +45,13 @@ async def upgrade(
     s_artefact = utils.get(static_artefacts, id=data.artefact_id)
 
     # Check that the request artefact actually exists
-    is_not_none(s_artefact, error="Artefact is not valid")
+    checks.is_not_none(s_artefact, error="Artefact is not valid")
 
     # Load the related artefact
     user_art = await artefacts_repo.get_one_artefact(user.id, data.artefact_id)
 
     # Verify that the user has the artefact unlocked
-    is_not_none(user_art, error="Artefact is not unlocked")
+    checks.is_not_none(user_art, error="Artefact is not unlocked")
 
     # Check that upgrading this artefact will not exceed the max level
     check_artefact_within_max_level(user_art, s_artefact, data.upgrade_levels)
@@ -65,7 +65,7 @@ async def upgrade(
     currencies = await currency_repo.get_user(user.id)
 
     # Check that the user can afford the upgrade cost
-    gt(
+    checks.gte(
         currencies.prestige_points,
         upgrade_cost,
         error="Cannot afford to upgrade artefact",
@@ -114,7 +114,9 @@ async def unlock(
     currencies = await currency_repo.get_user(user.id)
 
     # Verify that the user can afford the unlock cost
-    gt(currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost")
+    checks.gte(
+        currencies.prestige_points, unlock_cost, error="Cannot afford unlock cost"
+    )
 
     # Get the new artefact id
     new_art_id = get_new_artefact(user_arts, static_artefacts)

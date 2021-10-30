@@ -4,17 +4,21 @@ import math
 from fastapi import Depends, HTTPException
 
 from src import utils
-from src.mongo.repositories.bounties import (BountiesRepository,
-                                             UserBountiesModel,
-                                             inject_bounties_repository)
+from src.mongo.repositories.bounties import (
+    BountiesRepository,
+    UserBountiesModel,
+    inject_bounties_repository,
+)
 from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import inject_currency_repository
 from src.pymodels import BaseModel
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authentication import (AuthenticatedUser,
-                                                     inject_authenticated_user)
+from src.routing.dependencies.authentication import (
+    AuthenticatedUser,
+    inject_authenticated_user,
+)
 
 router = APIRouter(prefix="/api/bounty")
 

@@ -6,17 +6,19 @@ from fastapi import Depends
 from pydantic import Field
 
 from src import utils
-from src.loottable import LootTable
 from src.pymodels import BaseModel
-from src.routing.dependencies.serverstate import (ServerState,
-                                                  inject_server_state)
+from src.routing.dependencies.serverstate import ServerState, inject_server_state
 
 from ..armoury import StaticArmouryItem, inject_static_armoury
-from .shopconfig import (BountyShopConfig, LevelBountyShopConfig,
-                         inject_bounty_shop_config)
+from .loottable import generate_from_config as generate_loot_table
+from .shopconfig import (
+    BountyShopConfig,
+    LevelBountyShopConfig,
+    inject_bounty_shop_config,
+)
 
 
-def inject_dynamic_bounty_shop(
+async def inject_dynamic_bounty_shop(
     s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
     server_state: ServerState = Depends(inject_server_state),
     shop_config: BountyShopConfig = Depends(inject_bounty_shop_config),
@@ -59,48 +61,33 @@ class DynamicBountyShop:
     def get_item(self, item: str) -> StaticBountyShopArmouryItem:
         return utils.get(self.armoury_item, id=item)
 
-    def to_dict(self) -> dict[str, list]:
+    def response_dict(self) -> dict[str, list]:
         return {"armouryItems": [ai.response_dict() for ai in self.armoury_item]}
 
-    # == Internal Methods == #
+    # = Shop Generation Methods = #
 
     def _generate(self):
-        epoch_days = self.svr_state.days_since_epoch
-
-        def _gen_key(item_: StaticArmouryItem):
-            return f"AI-{epoch_days}-{item_.id}-{rnd.uniform(0, 1)}"
+        loot_table = generate_loot_table(self.s_armoury, self.config)
 
         rnd = Random(x=f"{self.svr_state.days_since_epoch}")
 
-        root_table = LootTable()
-
-        _add_armoury_items_table(root_table, self)
-
         items = []
-        for item in root_table.get_items(5, rnd=rnd):
-            items.append(
-                StaticBountyShopArmouryItem.parse_obj(
-                    {
-                        "itemId": _gen_key(item),
-                        "armouryItem": item.id,
-                        "purchaseCost": item.id * 3,
-                    }
-                )
-            )
+
+        # Fetch the items and iterate over them to create a bounty shop item variant of them
+        for item in loot_table.get_items(5, rnd=rnd):
+
+            # Create the 'Armoury Item' shop item
+            if isinstance(item, StaticArmouryItem):
+                items.append(self._create_ai_item(item, rnd))
 
         return items
 
+    def _create_ai_item(self, item: StaticArmouryItem, rnd: Random):
+        epoch_days = self.svr_state.days_since_epoch
 
-def _add_armoury_items_table(root_table: LootTable, shop: DynamicBountyShop):
-    def _get_tier(tier_: int):
-        return [it for it in shop.s_armoury if it.tier == tier_]
+        # This random integer could screw us in the future
+        key = f"AI-{epoch_days}-{item.id}-{rnd.randint(0, 1_000)}"
 
-    for i, tier in enumerate((0, 1, 2), start=1):
-        tier_config = utils.get(shop.config.armoury_items, tier=tier)
-
-        t = LootTable()
-
-        for j, item in enumerate(_get_tier(tier)):
-            t.add_item(item)
-
-        root_table.add_item(t, weight=tier_config.weight)
+        return StaticBountyShopArmouryItem.parse_obj(
+            {"itemId": key, "armouryItem": item.id, "purchaseCost": item.id * 3}
+        )

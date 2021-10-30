@@ -11,8 +11,10 @@ from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authentication import (AuthenticatedUser,
-                                                     inject_authenticated_user)
+from src.routing.dependencies.authentication import (
+    AuthenticatedUser,
+    inject_authenticated_user,
+)
 
 
 class ArmouryItemActionModel(BaseModel):

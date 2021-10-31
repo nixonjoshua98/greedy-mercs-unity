@@ -22,6 +22,10 @@ namespace GM.Armoury.Data
         /// </summary>
         public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).ToList();
 
+        public int NumUnlockedItems => UserOwnedItems.Count;
+
+        public int NumItems => GameItemsDict.Count;
+
         /// <summary>
         /// Update the cached user data for a single item
         /// </summary>

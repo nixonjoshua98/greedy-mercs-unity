@@ -111,7 +111,7 @@ async def unlock(
     check_not_unlocked_all_artefacts(user_arts, static_artefacts)
 
     # Calculate the artefact cost
-    unlock_cost = calc_unlock_cost(user_arts)
+    unlock_cost = calc_unlock_cost(len(user_arts))
 
     # Fetch the currencies from the database
     currencies = await currency_repo.get_user(user.id)
@@ -136,6 +136,7 @@ async def unlock(
         {
             "currencyItems": currencies.response_dict(),
             "newArtefact": new_artefact.response_dict(),
+            "unlockCost": unlock_cost
         }
     )
 
@@ -143,8 +144,8 @@ async def unlock(
 # == Calculations == #
 
 
-def calc_unlock_cost(artefacts: list[ArtefactModel]):
-    return math.floor(max(1, num_arts := len(artefacts) - 2) * math.pow(1.35, num_arts))
+def calc_unlock_cost(num_unlocked_arts: int):
+    return math.ceil(max(1, num_unlocked_arts - 2) * math.pow(1.35, num_unlocked_arts))
 
 
 def get_new_artefact(artefacts: list[ArtefactModel], s_artefacts: list[StaticArtefact]):

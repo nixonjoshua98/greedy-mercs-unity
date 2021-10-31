@@ -1,11 +1,9 @@
-import datetime as dt
 import secrets
 
 from fastapi import Depends
 
 from src.cache import MemoryCache, inject_memory_cache
 from src.common import resources
-from src.dataloader import DataLoader
 from src.mongo.repositories.armoury import ArmouryRepository, inject_armoury_repository
 from src.mongo.repositories.artefacts import (
     ArtefactsRepository,
@@ -19,6 +17,7 @@ from src.mongo.repositories.currency import (
     CurrencyRepository,
     inject_currency_repository,
 )
+from src.mongo.repositories.accounts import inject_account_repo, AccountsRepository
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
@@ -62,14 +61,14 @@ def game_data(
 
 @router.get("/userdata")
 async def user_data(
-    user: AuthenticatedUser = Depends(inject_authenticated_user),
-    # = Static/Game Data = #
-    s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
-    # = Database Repositories = #
-    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
-    armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
-    bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-    artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+        user: AuthenticatedUser = Depends(inject_authenticated_user),
+        # = Static/Game Data = #
+        s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
+        # = Database Repositories = #
+        currency_repo: CurrencyRepository = Depends(inject_currency_repository),
+        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
+        bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
+        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository)
 ):
     currencies = await currency_repo.get_user(user.id)
     bounties = await bounties_repo.get_user(user.id)
@@ -92,18 +91,13 @@ async def user_data(
 
 @router.post("/login")
 async def player_login(
-    data: LoginModel, mem_cache: MemoryCache = Depends(inject_memory_cache)
+    data: LoginModel, mem_cache: MemoryCache = Depends(inject_memory_cache), acc_repo: AccountsRepository = Depends(inject_account_repo)
 ):
-    user = await DataLoader().users.get_user(data.device_id)
+    user = await acc_repo.get_user_by_did(data.device_id)
 
     if user is None:
-        uid = await DataLoader().users.insert_new_user(
-            {"deviceId": data.device_id, "accountCreationTime": dt.datetime.utcnow()}
-        )
+        user = await acc_repo.insert_new_user({"deviceId": data.device_id})
 
-    else:
-        uid = user["_id"]
+    mem_cache.set_session(user.id, session_id := secrets.token_hex(16))
 
-    mem_cache.set_session(uid, session_id := secrets.token_hex(16))
-
-    return ServerResponse({"userId": uid, "sessionId": session_id})
+    return ServerResponse({"userId": user.id, "sessionId": session_id})

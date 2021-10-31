@@ -3,7 +3,7 @@ using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Inventory.Data
 {
-    public class UserInventoryCollection : Core.GMCache
+    public class UserInventoryCollection
     {
         #region long BountyPoints
         long _BountyPoints;
@@ -22,22 +22,7 @@ namespace GM.Inventory.Data
         }
         #endregion
 
-        #region BigInteger PrestigePoints
-        BigInteger _PrestigePoints;
-        public BigInteger PrestigePoints
-        {
-            get => _PrestigePoints;
-            set
-            {
-                var change = value - _PrestigePoints;
-
-                _PrestigePoints = value;
-
-                if (change != 0)
-                    E_PrestigePointsChange.Invoke(change);
-            }
-        }
-        #endregion
+        public BigInteger PrestigePoints;
 
         public long ArmouryPoints;
 

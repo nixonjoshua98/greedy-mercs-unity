@@ -6,12 +6,10 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from src.application import Application
 
 from .cache import MemoryCache
-from .dataloader import DataLoader
 from .exceptions import handle_http_exception
 
 
-def _on_app_start(fast_app):
-    DataLoader.create_client("mongodb://localhost:27017/g0")
+def _on_app_start(fast_app: Application):
     fast_app.state.mongo = AsyncIOMotorClient("mongodb://localhost:27017/g0")
     fast_app.state.memory_cache = MemoryCache()
 

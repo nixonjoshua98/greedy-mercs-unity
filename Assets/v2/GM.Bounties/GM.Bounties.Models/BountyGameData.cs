@@ -13,7 +13,7 @@ namespace GM.Bounties.Models
         public int UnlockStage;
 
         [JsonRequired]
-        public int HourlyIncome;
+        public long HourlyIncome;
 
         [JsonIgnore]
         public string Name;

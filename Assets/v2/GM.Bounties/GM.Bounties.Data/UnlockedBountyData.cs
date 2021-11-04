@@ -23,6 +23,6 @@ namespace GM.Bounties.Data
         public bool IsActive => _UserData.IsActive;
         public string Name => _GameData.Name;
         public Sprite Icon => _GameData.Icon;
-        public int Income => _GameData.HourlyIncome;
+        public long Income => _GameData.HourlyIncome;
     }
 }

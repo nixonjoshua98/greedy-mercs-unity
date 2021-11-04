@@ -56,7 +56,10 @@ namespace GM.Bounties.Data
         /// </summary>
         public TimeSpan TimeUntilMaxUnclaimedHours => new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600)) - TimeSinceClaim;
 
-        public float ClaimPercentFilled => (float)TimeSinceClaim.TotalSeconds / (GameData.MaxUnclaimedHours * 3_600);
+        /// <summary>
+        /// Percentage
+        /// </summary>
+        public float ClaimPercentFilled => TotalUnclaimedPoints / MaxClaimPoints;
 
         /// <summary>
         /// Total unclaimed points ready to claim
@@ -86,9 +89,12 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Calculate the total hourly income from all active bounties
         /// </summary>
-        public int TotalHourlyIncome => ActiveBountiesList.Sum(ele => ele.Income);
+        public long TotalHourlyIncome => ActiveBountiesList.Sum(ele => ele.Income);
 
-        public int MaxClaimPoints => Mathf.FloorToInt(GameData.MaxUnclaimedHours * TotalHourlyIncome);
+        /// <summary>
+        /// Maximum points which can be claimed at once
+        /// </summary>
+        public long MaxClaimPoints => Mathf.FloorToInt(GameData.MaxUnclaimedHours * TotalHourlyIncome);
 
         /// <summary>
         /// Fetch data for an unlocked bounty
@@ -125,7 +131,6 @@ namespace GM.Bounties.Data
             }
         }
 
-
         public bool GetStageBounty(int stage, out Models.BountyGameData result)
         {
             result = default;
@@ -142,8 +147,9 @@ namespace GM.Bounties.Data
             return false;
         }
 
-        // === Server Methods === //
-
+        /// <summary>
+        /// Send the request to update the active bounties
+        /// </summary>
         public void SetActiveBounties(List<int> ids, UnityAction<bool, UpdateActiveBountiesResponse> action)
         {
             UpdateActiveBountiesRequest req = new UpdateActiveBountiesRequest() { BountyIds = ids };
@@ -159,7 +165,9 @@ namespace GM.Bounties.Data
             });
         }
 
-
+        /// <summary>
+        /// Send the request to claim the current unclaimed points
+        /// </summary>
         public void ClaimPoints(UnityAction<bool, BountyClaimResponse> action)
         {
             App.HTTP.Bounty_Claim((resp) =>

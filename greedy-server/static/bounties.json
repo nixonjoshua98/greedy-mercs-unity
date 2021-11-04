@@ -1,5 +1,5 @@
 {
-  "maxUnclaimedHours": 6,
+  "maxUnclaimedHours": 0.01,
   "maxActiveBounties": 4,
 
   "bounties": [

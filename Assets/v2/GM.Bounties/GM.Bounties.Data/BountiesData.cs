@@ -88,6 +88,8 @@ namespace GM.Bounties.Data
         /// </summary>
         public int TotalHourlyIncome => ActiveBountiesList.Sum(ele => ele.Income);
 
+        public int MaxClaimPoints => Mathf.FloorToInt(GameData.MaxUnclaimedHours * TotalHourlyIncome);
+
         /// <summary>
         /// Fetch data for an unlocked bounty
         /// </summary>

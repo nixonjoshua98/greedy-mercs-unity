@@ -52,7 +52,7 @@ namespace GM.Bounties.UI
         void UpdateUI()
         {
             TimeUntilMaxClaimText.text = App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format();
-            ClaimAmountText.text = $"Claim ({Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Data.Bounties.TotalHourlyIncome)}";
+            ClaimAmountText.text = $"Claim ({Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Data.Bounties.MaxClaimPoints)}";
 
             ClaimSlider.value = App.Data.Bounties.ClaimPercentFilled;
             ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);

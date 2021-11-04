@@ -30,11 +30,8 @@ class ServerRequest(_Request):
             body = await self.body()
 
             if self.method == "POST":
-                decoded = urllib.parse.unquote(body.decode("UTF-8"))
+                body = urllib.parse.unquote(body.decode("UTF-8"))
 
-                self._json = _camel_to_snake(json.loads(decoded))
-
-            else:
-                self._json = _camel_to_snake(json.loads(body))
+            self._json = _camel_to_snake(json.loads(body))
 
         return self._json

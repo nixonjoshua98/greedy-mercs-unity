@@ -9,16 +9,12 @@ from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import inject_currency_repository
 from src.pymodels import BaseModel
-from src.resources.bountyshop import (
-    StaticBountyShopArmouryItem,
-    inject_dynamic_bounty_shop,
-)
+from src.resources.bountyshop import (StaticBountyShopArmouryItem,
+                                      inject_dynamic_bounty_shop)
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authentication import (
-    AuthenticatedUser,
-    inject_authenticated_user,
-)
+from src.routing.dependencies.authentication import (AuthenticatedUser,
+                                                     inject_authenticated_user)
 
 router = APIRouter(prefix="/api/bountyshop")
 

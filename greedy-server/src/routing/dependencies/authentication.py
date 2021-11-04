@@ -2,9 +2,10 @@ from bson import ObjectId
 from fastapi import Depends, HTTPException
 
 from src.cache import MemoryCache, inject_memory_cache
+from src.mongo.repositories.accounts import (AccountsRepository,
+                                             inject_account_repo)
 from src.pymodels import BaseModel
 from src.routing import ServerRequest
-from src.mongo.repositories.accounts import inject_account_repo, AccountsRepository
 
 
 class AuthenticatedUser(BaseModel):

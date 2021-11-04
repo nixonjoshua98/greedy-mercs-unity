@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from src.pymodels import BaseDocument
 from typing import Union
+
+from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 

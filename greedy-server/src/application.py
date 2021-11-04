@@ -1,9 +1,9 @@
 from typing import Union
 
+from cachetools import TTLCache
 from fastapi import FastAPI
 
 from src import utils
-from cachetools import TTLCache
 
 
 class Application(FastAPI):

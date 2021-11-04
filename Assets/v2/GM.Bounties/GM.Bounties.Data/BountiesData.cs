@@ -167,6 +167,8 @@ namespace GM.Bounties.Data
                     UserData.LastClaimTime = resp.ClaimTime;
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+
+                    App.Data.Inv.E_BountyPointsChange.Invoke(resp.PointsClaimed);
                 }
 
                 action(resp.StatusCode == 200, resp);

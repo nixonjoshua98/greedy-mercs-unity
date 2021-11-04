@@ -4,16 +4,8 @@ using UnityEngine;
 
 namespace GM
 {
-    public class T_PlayerTab : GM.UI.Panels.Panel
+    public class T_PlayerTab : GM.UI.Panels.TogglablePanel
     {
-        protected override void OnHidden()
-        {
-        }
-
-        protected override void OnShown()
-        {
-        }
-
         // Start is called before the first frame update
         void Start()
         {

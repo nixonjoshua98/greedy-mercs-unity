@@ -5,26 +5,10 @@ namespace GM.Inventory.Data
 {
     public class UserInventoryCollection
     {
-        #region long BountyPoints
-        long _BountyPoints;
-        public long BountyPoints
-        {
-            get => _BountyPoints;
-            set
-            {
-                var change = value - _BountyPoints;
-
-                _BountyPoints = value;
-
-                if (change != 0)
-                    E_BountyPointsChange.Invoke(change);
-            }
-        }
-        #endregion
-
         public BigInteger PrestigePoints;
 
-        public long ArmouryPoints;
+        public long BountyPoints { get; private set; }
+        public long ArmouryPoints { get; private set; }
 
         public BigDouble Gold;
 

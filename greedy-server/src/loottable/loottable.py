@@ -11,8 +11,8 @@ class LootTable:
     def __init__(self):
         self._items = []
 
-    def add_item(self, item: Any, *, weight: int = 1, unique: bool = False):
-        self._items.append(LootItem(item=item, weight=weight, unique=unique))
+    def add_item(self, item: Any, *, weight: int = 1):
+        self._items.append(LootItem(item=item, weight=weight))
 
     def get_items(self, count: int, rnd: Random):
         top_level_drops = self._get_top_level_drops(count, rnd)
@@ -40,9 +40,6 @@ class LootTable:
             item: Union[LootTable, LootItem] = self._get_next_item(droppables, rnd)
 
             dropped_items[item] += 1
-
-            if item.unique:
-                droppables.remove(item)
 
         return dropped_items
 

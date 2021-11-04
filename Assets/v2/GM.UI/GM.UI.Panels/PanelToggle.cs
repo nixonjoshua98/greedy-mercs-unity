@@ -6,7 +6,7 @@ namespace GM.UI.Panels
     [RequireComponent(typeof(Toggle))]
     public class PanelToggle: MonoBehaviour
     {
-        public Panel targetPanel;
+        public TogglablePanel targetPanel;
 
         void Awake()
         {

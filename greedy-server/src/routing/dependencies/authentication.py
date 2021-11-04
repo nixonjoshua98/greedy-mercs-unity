@@ -1,11 +1,10 @@
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src import logger
 from src.cache import MemoryCache, inject_memory_cache
 from src.pymodels import BaseModel
 from src.routing import ServerRequest
-from src.mongo.repositories.accounts import inject_account_repo, AccountsRepository, AccountModel
+from src.mongo.repositories.accounts import inject_account_repo, AccountsRepository
 
 
 class AuthenticatedUser(BaseModel):
@@ -13,9 +12,9 @@ class AuthenticatedUser(BaseModel):
 
 
 async def inject_authenticated_user(
-        request: ServerRequest,
-        mem_cache: MemoryCache = Depends(inject_memory_cache),
-        acc_repo: AccountsRepository = Depends(inject_account_repo)
+    request: ServerRequest,
+    mem_cache: MemoryCache = Depends(inject_memory_cache),
+    acc_repo: AccountsRepository = Depends(inject_account_repo),
 ):
     uid, did, sid = _grab_headers_from_request(request)
 

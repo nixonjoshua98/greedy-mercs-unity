@@ -1,15 +1,44 @@
-﻿namespace GM.UI.Panels
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+namespace GM.UI.Panels
 {
-    class PanelController : Panel
+    class PanelController : TogglablePanel
     {
-        protected override void OnHidden()
+        [SerializeField] List<Panel> childPanels;
+
+        protected virtual void Awake()
         {
-            
+            UpdateLoop(); // VS stops crying about no references
+
+            InvokeRepeating("UpdateLoop", 0.0f, 0.5f);
         }
 
-        protected override void OnShown()
+        private void OnDestroy()
         {
+            CancelInvoke();
+        }
 
+        public override void OnHidden()
+        {
+            childPanels.ForEach(x => x.OnHidden());
+            UpdateLoop();
+        }
+
+        public override void OnShown()
+        {
+            childPanels.ForEach(x => x.OnShown());
+            UpdateLoop();
+        }
+
+        private void UpdateLoop()
+        {
+            if (IsShown)
+            {
+                WhileShownUpdate();
+
+                childPanels.ForEach(x => x.WhileShownUpdate());
+            }
         }
     }
 }

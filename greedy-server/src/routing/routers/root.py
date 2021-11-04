@@ -61,14 +61,14 @@ def game_data(
 
 @router.get("/userdata")
 async def user_data(
-        user: AuthenticatedUser = Depends(inject_authenticated_user),
-        # = Static/Game Data = #
-        s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
-        # = Database Repositories = #
-        currency_repo: CurrencyRepository = Depends(inject_currency_repository),
-        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
-        bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository)
+    user: AuthenticatedUser = Depends(inject_authenticated_user),
+    # = Static/Game Data = #
+    s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
+    # = Database Repositories = #
+    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
+    armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
+    bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
+    artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
 ):
     currencies = await currency_repo.get_user(user.id)
     bounties = await bounties_repo.get_user(user.id)
@@ -91,7 +91,9 @@ async def user_data(
 
 @router.post("/login")
 async def player_login(
-    data: LoginModel, mem_cache: MemoryCache = Depends(inject_memory_cache), acc_repo: AccountsRepository = Depends(inject_account_repo)
+    data: LoginModel,
+    mem_cache: MemoryCache = Depends(inject_memory_cache),
+    acc_repo: AccountsRepository = Depends(inject_account_repo),
 ):
     user = await acc_repo.get_user_by_did(data.device_id)
 

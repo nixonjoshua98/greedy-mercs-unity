@@ -76,7 +76,7 @@ namespace GM.Artefacts.Data
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
 
-                    App.Data.Inv.E_PrestigePointsChange.Invoke(resp.UnlockCost);
+                    App.Data.Inv.E_PrestigePointsChange.Invoke(resp.UnlockCost * -1);
                 }
 
                 call.Invoke(resp.StatusCode == HTTPCodes.Success, resp.NewArtefact == null ? null : GetArtefact(resp.NewArtefact.Id));

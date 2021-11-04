@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.Bounties.UI
 {
-    public class BountiesUIController : Core.GMMonoBehaviour
+    public class BountiesUIController : GM.UI.Panels.Panel
     {
         [Header("Prefabs")]
         public GameObject BountySlotObject;
@@ -16,11 +16,12 @@ namespace GM.Bounties.UI
         public Button CancelButton;
         public Button ConfirmButton;
         [Space]
-        public TMP_Text IncomeText;
         public TMP_Text ClaimAmountText;
         public TMP_Text TimeUntilMaxClaimText;
         public Text HeaderText;
         [Space]
+        public Slider ClaimSlider;
+        public Image ClaimSliderFill;
         public Transform BountySlotParent;
         public GM.UI.Layouts.ExpandableGridLayout BountiesLayout;
 
@@ -50,14 +51,24 @@ namespace GM.Bounties.UI
 
         void UpdateUI()
         {
-            IncomeText.text = $"<color=white>{Format.Number(App.Data.Bounties.TotalHourlyIncome)}</color> / hour";
-            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+            TimeUntilMaxClaimText.text = App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format();
+            ClaimAmountText.text = $"Claim ({Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Data.Bounties.TotalHourlyIncome)}";
+
+            ClaimSlider.value = App.Data.Bounties.ClaimPercentFilled;
+            ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);
         }
 
         void FixedUpdate()
         {
-            TimeUntilMaxClaimText.text = $"Time until max claim <color=white>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
-            ClaimAmountText.text = $"{Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}";
+            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+        }
+
+        /// <summary>
+        /// Periodic call while the panel is shown
+        /// </summary>
+        public override void WhileShownUpdate()
+        {
+            UpdateUI();
         }
 
         void SetActiveButtons(bool isEditMode)
@@ -143,7 +154,7 @@ namespace GM.Bounties.UI
         public void OnClaimButton()
         {
             App.Data.Bounties.ClaimPoints((success, resp) => {
-
+                UpdateUI();
             });
         }
     }

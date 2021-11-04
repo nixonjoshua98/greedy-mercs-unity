@@ -136,7 +136,7 @@ async def unlock(
         {
             "currencyItems": currencies.response_dict(),
             "newArtefact": new_artefact.response_dict(),
-            "unlockCost": unlock_cost
+            "unlockCost": unlock_cost,
         }
     )
 

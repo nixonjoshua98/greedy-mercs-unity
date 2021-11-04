@@ -56,6 +56,8 @@ namespace GM.Bounties.Data
         /// </summary>
         public TimeSpan TimeUntilMaxUnclaimedHours => new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600)) - TimeSinceClaim;
 
+        public float ClaimPercentFilled => (float)TimeSinceClaim.TotalSeconds / (GameData.MaxUnclaimedHours * 3_600);
+
         /// <summary>
         /// Total unclaimed points ready to claim
         /// </summary>

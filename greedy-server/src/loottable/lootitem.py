@@ -6,4 +6,3 @@ from typing import Any
 class LootItem:
     item: Any
     weight: int
-    unique: bool

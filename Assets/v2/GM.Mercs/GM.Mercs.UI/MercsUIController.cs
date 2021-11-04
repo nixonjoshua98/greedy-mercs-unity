@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GM.Mercs.UI
 {
-    public class MercsUIController : GM.UI.Panels.Panel
+    public class MercsUIController : GM.UI.Panels.TogglablePanel
     {
         [Header("References")]
         public Transform SlotsParent;
@@ -55,17 +55,6 @@ namespace GM.Mercs.UI
                     App.Data.Mercs.UnlockUserMerc(chara);
                 }
             }
-        }
-
-
-        protected override void OnShown()
-        {
-
-        }
-
-        protected override void OnHidden()
-        {
-
         }
     }
 }

@@ -6,7 +6,7 @@ using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Artefacts.UI
 {
-    public class ArtefactsUIController : GM.UI.Panels.Panel
+    public class ArtefactsUIController : GM.UI.Panels.TogglablePanel
     {
         [Header("Prefabs")]
         public GameObject ArtefactSlotObject;
@@ -21,22 +21,15 @@ namespace GM.Artefacts.UI
         {
             InstantiateArtefactSlots();
             UpdateUnlockArtefactText();
+
+            UpdateUI();
         }
 
-        void FixedUpdate()
+        void UpdateUI()
         {
-            UnlockedArtefactsText.text = $"<color=white>{App.Data.Arts.NumUnlockedArtefacts} / {App.Data.Arts.MaxArtefacts}</color> Artefacts unlocked";
+            UnlockedArtefactsText.text = $"<color=white>{App.Data.Arts.NumUnlockedArtefacts} of {App.Data.Arts.MaxArtefacts}</color> Artefacts unlocked";
         }
 
-        protected override void OnHidden()
-        {
-
-        }
-
-        protected override void OnShown()
-        {
-
-        }
 
         // == Instantiation == //
         void InstantiateArtefactSlots()
@@ -79,6 +72,8 @@ namespace GM.Artefacts.UI
                     InstantiateSingleArtefact(newArtefact);
                     UpdateUnlockArtefactText();
                 }
+
+                UpdateUI();
             });
         }
     }

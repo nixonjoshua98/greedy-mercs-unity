@@ -16,7 +16,7 @@ namespace GM.UI
         {
             RectTransform rt = GetComponent<RectTransform>();
 
-            yield return Lerp(rt, Vector3.zero, Vector3.one, 0.075f);
+            yield return Lerp(rt, Vector3.one * 0.8f, Vector3.one, 0.075f);
 
             yield return Lerp(rt, Vector3.one, Vector3.one * 1.1f, 0.075f);
 

@@ -6,6 +6,9 @@ namespace GM.Mercs.UI
 {
     public class MercSlot : MercUIObject
     {
+        [Header("Prefabs")]
+        public GameObject PopupObject;
+
         [Header("References")]
         public Image IconImage;
         public TMP_Text NameText;
@@ -68,12 +71,20 @@ namespace GM.Mercs.UI
 
             if (!willExceedMaxLevel && canAffordUpgrade)
             {
-                AssignedMerc.LevelUp(buyAmount);
+                AssignedMerc.IncrementLevel(buyAmount);
 
                 App.Data.Inv.Gold -= upgradeCost;
 
                 GM.Events.GlobalEvents.E_OnMercLevelUp.Invoke(AssignedMerc.Id);
             }
+        }
+
+        /// <summary>
+        /// Callback from UI to open the merc popup
+        /// </summary>
+        public void OnInfoButton()
+        {
+            InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.Id);
         }
     }
 }

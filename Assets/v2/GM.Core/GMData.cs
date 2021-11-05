@@ -11,7 +11,7 @@ namespace GM.Core
         public Artefacts.Data.ArtefactsData Arts;
         public CurrencyItems.Data.CurrencyItemsDataCollection Items;
         public Bounties.Data.BountiesData Bounties;
-        public BountyShop.Data.BountyShopDataCollection BountyShop;
+        public BountyShop.Data.BountyShopData BountyShop;
 
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
@@ -27,7 +27,7 @@ namespace GM.Core
             Arts = new Artefacts.Data.ArtefactsData(userData.Artefacts, gameData.Artefacts);
             Armoury = new Armoury.Data.ArmouryDataCollection(userData.ArmouryItems, gameData.Armoury);
             Bounties = new Bounties.Data.BountiesData(userData.BountyData, gameData.Bounties);
-            BountyShop = new BountyShop.Data.BountyShopDataCollection(userData.BountyShop);
+            BountyShop = new BountyShop.Data.BountyShopData(userData.BountyShop);
         }
 
         public void Prestige(UnityAction<bool> callback)

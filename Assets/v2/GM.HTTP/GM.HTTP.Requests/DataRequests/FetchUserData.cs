@@ -2,11 +2,6 @@
 
 namespace GM.HTTP.Requests
 {
-    public class FetchUserDataRequest : IServerRequest
-    {
-
-    }
-
     public class FetchUserDataResponse : ServerResponse, Common.Data.IServerUserData
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems { get; set; }

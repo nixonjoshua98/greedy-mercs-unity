@@ -14,7 +14,7 @@ namespace GM.Mercs.Data
             User = userData;
         }
 
-        public void LevelUp(int level)
+        public void IncrementLevel(int level)
         {
             User.Level += level;
         }

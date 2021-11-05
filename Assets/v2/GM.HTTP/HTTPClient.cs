@@ -253,6 +253,6 @@ namespace GM.HTTP
         /// <summary>
         /// Utility method to create the response for invalid client credentials
         /// </summary>
-        T InvalidAuthResponse<T>() where T : IServerResponse, new() => new T { ErrorMessage = "A game relaunch is required as you are playing in offline mode", StatusCode = HTTPCodes.IsOfflineMode };
+        T InvalidAuthResponse<T>() where T : IServerResponse, new() => new T { ErrorMessage = "A game relaunch is required as you are playing in offline mode", StatusCode = HTTPCodes.OfflineMode };
     }
 }

@@ -96,6 +96,6 @@ async def player_login(
     if user is None:
         user = await acc_repo.insert_new_user({"deviceId": data.device_id})
 
-    mem_cache.set_session(user.id, session_id := secrets.token_hex(16))
+    mem_cache.sessions.set(user.id, session_id := secrets.token_hex(16))
 
     return ServerResponse({"userId": user.id, "sessionId": session_id})

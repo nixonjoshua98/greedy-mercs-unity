@@ -177,6 +177,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonArcherAvatar
       objectReference: {fileID: 0}
+    - target: {fileID: 9093681299010706259, guid: f36d3b6206b1d6b4bb56e91c9a2ba836,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093681299010706259, guid: f36d3b6206b1d6b4bb56e91c9a2ba836,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093681299010706259, guid: f36d3b6206b1d6b4bb56e91c9a2ba836,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 19f1199eaae41f747848733867f685de,
+        type: 3}
+    - target: {fileID: 9093681299010706259, guid: f36d3b6206b1d6b4bb56e91c9a2ba836,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f36d3b6206b1d6b4bb56e91c9a2ba836, type: 3}
 --- !u!1 &7899367474490319989 stripped

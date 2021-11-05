@@ -59,7 +59,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Percentage
         /// </summary>
-        public float ClaimPercentFilled => (float)TimeSinceClaim.TotalSeconds / GameData.MaxUnclaimedHours * 3_600;
+        public float ClaimPercentFilled => (float)TimeSinceClaim.TotalSeconds / (GameData.MaxUnclaimedHours * 3_600);
 
         /// <summary>
         /// Total unclaimed points ready to claim

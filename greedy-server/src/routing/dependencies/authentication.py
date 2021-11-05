@@ -24,7 +24,7 @@ async def inject_authenticated_user(
         raise HTTPException(401, detail="Missing authentication")
 
     # Invalid session
-    elif False and mem_cache.get_session(uid) != sid:
+    elif False and mem_cache.sessions.get(uid) != sid:
         raise HTTPException(401, detail="Invalid session")
 
     # Throw an error if the user suddenly is on a different device now

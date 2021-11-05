@@ -5,12 +5,12 @@ using UnityEngine.Events;
 
 namespace GM.BountyShop.Data
 {
-    public class BountyShopDataCollection : Core.GMClass
+    public class BountyShopData : Core.GMClass
     {
         Dictionary<string, BountyShopPurchaseData> Purchases;
         Dictionary<string, BountyShopArmouryItem> ArmouryItemsDict;
 
-        public BountyShopDataCollection(Models.CompleteBountyShopDataModel data)
+        public BountyShopData(Models.CompleteBountyShopDataModel data)
         {
             Purchases = new Dictionary<string, BountyShopPurchaseData>();
 
@@ -54,6 +54,8 @@ namespace GM.BountyShop.Data
                     App.Data.Armoury.Update(resp.ArmouryItem);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+
+                    App.Data.Inv.E_BountyPointsChange.Invoke(resp.PurchaseCost * -1);
                 }
 
                 action.Invoke(resp.StatusCode == 200);

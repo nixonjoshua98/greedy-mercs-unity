@@ -1061,6 +1061,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84c0bf612aed8a49813f36e967928dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PopupObject: {fileID: 1053974343620271903, guid: 243be5412ab4b5e4b9a1e69228e1803b,
+    type: 3}
   IconImage: {fileID: 8807199816838140942}
   NameText: {fileID: 8807199816791533621}
   LevelText: {fileID: 8807199817183282850}
@@ -1188,7 +1190,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8807199816838140942}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8085817220072421445}
+        m_TargetAssemblyTypeName: GM.Mercs.UI.MercSlot, Assembly-CSharp
+        m_MethodName: OnInfoButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &5194000711753781019
 CanvasRenderer:
   m_ObjectHideFlags: 0

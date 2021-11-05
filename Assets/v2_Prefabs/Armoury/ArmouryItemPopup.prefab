@@ -2507,9 +2507,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8158352032913681477}
+  - component: {fileID: 2355871446606462220}
   - component: {fileID: 8158352032913681479}
   - component: {fileID: 8403226941953919489}
-  - component: {fileID: 2355871446606462220}
   - component: {fileID: 5433640320949044856}
   m_Layer: 5
   m_Name: ArmouryItemPopup
@@ -2538,6 +2538,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2355871446606462220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158352032913681476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b622206801039dd4f9d9f60797f8b58a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stars: {fileID: 6140142315140314972}
+  EvolveButton: {fileID: 1166965760136258706}
+  TierText: {fileID: 3376096285691041748}
+  NameText: {fileID: 8158352032539839700}
+  LevelText: {fileID: 3919945819543322667}
+  OwnedText: {fileID: 2119642828073671766}
+  DamageText: {fileID: 3520160618394483469}
+  IconImage: {fileID: 8158352032078672693}
+  EvolveProgressSlider: {fileID: 2281736079364033379}
 --- !u!222 &8158352032913681479
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2576,27 +2597,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2355871446606462220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8158352032913681476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b622206801039dd4f9d9f60797f8b58a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Stars: {fileID: 6140142315140314972}
-  EvolveButton: {fileID: 1166965760136258706}
-  TierText: {fileID: 3376096285691041748}
-  NameText: {fileID: 8158352032539839700}
-  LevelText: {fileID: 3919945819543322667}
-  OwnedText: {fileID: 2119642828073671766}
-  DamageText: {fileID: 3520160618394483469}
-  IconImage: {fileID: 8158352032078672693}
-  EvolveProgressSlider: {fileID: 2281736079364033379}
 --- !u!114 &5433640320949044856
 MonoBehaviour:
   m_ObjectHideFlags: 0

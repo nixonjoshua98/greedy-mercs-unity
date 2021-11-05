@@ -68,26 +68,41 @@ namespace GM.HTTP
         /// <summary>
         /// Shorthand method for starting the coroutine
         /// </summary>
-        void Public_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new() => StartCoroutine(IPublic_GET(url, callback));
-
-        /// <summary>
-        /// Send a public GET request
-        /// </summary>
-        IEnumerator IPublic_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
+        void Public_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
         {
-            yield return WaitForRequestReady();
-            yield return SendRequest<T>(UnityWebRequest.Get(url), callback);
+            IEnumerator _Send()
+            {
+                yield return WaitForRequestReady();
+                yield return SendRequest(UnityWebRequest.Get(url), callback);
+            }
+
+            StartCoroutine(_Send());
         }
 
         /// <summary>
         /// Shorthand method for starting the coroutine
         /// </summary>
-        void Auth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new() => StartCoroutine(IAuth_GET(url, callback));
+        void Auth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
+        {
+            var www = UnityWebRequest.Get(url);
+
+            StartCoroutine(SendAuthenticatedRequest(www, callback));
+        }
 
         /// <summary>
-        /// Send an authenticated GET request
+        /// Shorthand method for starting the coroutine
         /// </summary>
-        IEnumerator IAuth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
+        void Auth_POST<T>(string url, IServerRequest request, UnityAction<T> callback) where T : IServerResponse, new()
+        {
+            var www = UnityWebRequest.Post(url, SerializeRequest(request));
+
+            StartCoroutine(SendAuthenticatedRequest(www, callback));
+        }
+
+        /// <summary>
+        /// Send all authenticated requests through here. Handles Auth checks and headers
+        /// </summary>>
+        IEnumerator SendAuthenticatedRequest<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
         {
             if (serverAuthDetails == null)
             {
@@ -96,32 +111,8 @@ namespace GM.HTTP
             else
             {
                 yield return WaitForRequestReady();
-                var www = UnityWebRequest.Get(url);
                 SetAuthenticationHeaders(ref www);
-                yield return SendRequest<T>(www, callback);
-            }
-        }
-
-        /// <summary>
-        /// Shorthand method for starting the coroutine
-        /// </summary>
-        void Auth_POST<T>(string url, IServerRequest request, UnityAction<T> callback) where T : IServerResponse, new() => StartCoroutine(IAuth_POST(url, request, callback));
-
-        /// <summary>
-        /// Send an authenticated POST request
-        /// </summary>
-        IEnumerator IAuth_POST<T>(string url, IServerRequest request, UnityAction<T> callback) where T : IServerResponse, new()
-        {
-            if (serverAuthDetails == null)
-            {
-                callback.Invoke(InvalidAuthResponse<T>());
-            }
-            else
-            {
-                yield return WaitForRequestReady();
-                var www = UnityWebRequest.Post(url, SerializeRequest(request));
-                SetAuthenticationHeaders(ref www);
-                yield return SendRequest<T>(www, callback);
+                yield return SendRequest(www, callback);
             }
         }
 

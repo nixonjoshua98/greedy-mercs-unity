@@ -7,16 +7,16 @@ namespace GM.Mercs.UI
 {
     public class MercPopup : MercUIObject
     {
-        public TMP_Text PassiveText;
+        [Header("Prefabs")]
+        public GameObject TextObject;
 
-        protected override void OnAssigned()
+        [Header("References")]
+        public TMP_Text NameText;
+        public Transform BonusTextParent;
+
+        void FixedUpdate()
         {
-            List<Models.MercPassiveDataModel> passives = AssignedMerc.UnlockedPassives;
-
-            foreach (Models.MercPassiveDataModel passive in passives)
-            {
-                PassiveText.text += $"{Format.Bonus(passive.Type, passive.Value)}\n";
-            }
+            NameText.text = $"{AssignedMerc.Name} Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>";
         }
     }
 }

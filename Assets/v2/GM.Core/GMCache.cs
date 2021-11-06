@@ -1,10 +1,17 @@
 using BigInteger = System.Numerics.BigInteger;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GM.Core
 {
     public class GMCache : GMClass
     {
         GM.Common.TTLCache cache = new GM.Common.TTLCache();
+
+        public Dictionary<BonusType, double> BonusesFromMercPassives(GM.Mercs.Data.FullMercData merc)
+        {
+            return SourceBonusProduct(merc.UnlockedPassives.Select(x => new KeyValuePair<BonusType, double>(x.Type, x.Value)));
+        }
         
         /// <summary>
         /// Merc damage multiplier from armoury
@@ -41,6 +48,34 @@ namespace GM.Core
         {
             return cache.Get<BigDouble>($"MercBaseDamage/{merc.Id}/{merc.CurrentLevel}", 60,
                 () => Formulas.MercBaseDamage(merc.BaseDamage, merc.CurrentLevel));
+        }
+
+
+        private Dictionary<BonusType, double> SourceBonusProduct(IEnumerable<KeyValuePair<BonusType, double>> ls)
+        {
+            Dictionary<BonusType, double> result = new Dictionary<BonusType, double>();
+
+            foreach (var pair in ls)
+            {
+                BonusType bonus = pair.Key;
+                double value = pair.Value;
+
+                if (!result.TryGetValue(bonus, out double totalValue))
+                {
+                    result[bonus] = value;
+                }
+                else
+                {
+                    result[bonus] = bonus switch
+                    {
+                        BonusType.FLAT_CRIT_CHANCE => totalValue + value,
+
+                        _ => totalValue * value
+                    };
+                }
+            }
+
+            return result;
         }
     }
 }

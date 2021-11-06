@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GM.Mercs.Data
 {
-    public class FullMercData
+    public class FullMercData : Core.GMClass
     {
         Models.MercGameDataModel Game;
         MercUserData User;
@@ -29,6 +29,7 @@ namespace GM.Mercs.Data
         public Common.Enums.AttackType Attack => Game.Attack;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
+        public Dictionary<BonusType, double> BonusesFromPassives => App.Cache.BonusesFromMercPassives(this);
         public List<Models.MercPassiveDataModel> UnlockedPassives
         {
             get

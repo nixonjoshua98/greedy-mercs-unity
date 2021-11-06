@@ -4,8 +4,8 @@
   "baseDamage": 10,
   "passives": [
     {
-      "bonusType": 100,
-      "bonusValue": 10,
+      "bonusType": 1,
+      "bonusValue": 1.1,
       "unlockLevel": 25
     },
     {

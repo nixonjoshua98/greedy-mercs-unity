@@ -20,7 +20,7 @@ namespace GM.Artefacts.UI
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
 
-        int _BuyAmount; // Raw value. We should use BuyAmount for most upgrading cases
+        int _BuyAmount; // Raw value. We should use BuyAmount for most cases
 
         int BuyAmount => MathUtils.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
 
@@ -59,7 +59,7 @@ namespace GM.Artefacts.UI
                 UpgradeButton.SetText($"x{BuyAmount}", Format.Number(ugradeCost));
             }
 
-            LevelText.text = $"Level {AssignedArtefact.CurrentLevel}";
+            LevelText.text = $"Lvl. <color=orange>{AssignedArtefact.CurrentLevel}</color>";
             BonusText.text = Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect);
 
             UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Data.Inv.PrestigePoints;
@@ -69,7 +69,7 @@ namespace GM.Artefacts.UI
         // == Callbacks == //
         public void OnUpgradeButton()
         {
-            App.Data.Arts.UpgradeArtefact(AssignedArtefactId, BuyAmount, (success) =>
+            App.Data.Arts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
             {
                 SetUpgradeRelatedText();
             });
@@ -78,7 +78,7 @@ namespace GM.Artefacts.UI
         public void OnShowPopupButton()
         {
             CanvasUtils.Instantiate<ArtefactPopup>(ArtefactPopupObject)
-                .AssignArtefact(AssignedArtefactId);
+                .AssignArtefact(AssignedArtefact.Id);
         }
     }
 }

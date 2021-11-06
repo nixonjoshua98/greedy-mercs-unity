@@ -50,7 +50,7 @@ namespace GM.Mercs.UI
 
         void UpdateUI()
         {
-            LevelText.text = $"Level {AssignedMerc.CurrentLevel}";
+            LevelText.text = $"Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>";
             DamageText.text = $"{Format.Number(StatsCache.TotalMercDamage(AssignedMerc.Id))} DMG";
 
             UpgradeButton.SetText("MAX LEVEL", "");

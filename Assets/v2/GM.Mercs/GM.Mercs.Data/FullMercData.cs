@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace GM.Mercs.Data
 {
@@ -28,14 +29,13 @@ namespace GM.Mercs.Data
         public Common.Enums.AttackType Attack => Game.Attack;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
-        public BigDouble CostToUpgrade(int levels) => Formulas.MercLevelUpCost(User.Level, levels, Game.UnlockCost);
-        public Models.MercPassiveDataModel[] UnlockedPassives
+        public List<Models.MercPassiveDataModel> UnlockedPassives
         {
             get
             {
                 var temp = this; // Linq weirdness
 
-                return Game.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToArray();
+                return Game.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToList();
             }
         }
         bool IsPassiveUnlocked(Models.MercPassiveDataModel passive) => User.Level >= passive.UnlockLevel;

@@ -1067,7 +1067,7 @@ MonoBehaviour:
   NameText: {fileID: 8807199816791533621}
   LevelText: {fileID: 8807199817183282850}
   DamageText: {fileID: 346597997700636257}
-  Button: {fileID: 1199712191183407286}
+  UpgradeButton: {fileID: 1199712191183407286}
 --- !u!222 &8807199818165093172
 CanvasRenderer:
   m_ObjectHideFlags: 0

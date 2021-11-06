@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using System.Linq;
 using UnityEngine;
 using GM.Armoury.ScriptableObjects;
+using System;
 
 namespace GM.Armoury.Data
 {
@@ -114,18 +115,13 @@ namespace GM.Armoury.Data
 
         /// <summary>
         /// </summary>
-        public double TotalMercDamageMultiplier()
-        {
-            double dmgBonus = DamageBonus();
-
-            return dmgBonus > 0 ? dmgBonus : 1;
-        }
+        public double ArmouryMercDamageMultiplier => Math.Max(1, DamageBonus());
 
         /// <summary>
         /// </summary>
         public List<KeyValuePair<BonusType, double>> Bonuses()
         {
-            double dmgBonus = TotalMercDamageMultiplier();
+            double dmgBonus = ArmouryMercDamageMultiplier;
 
             List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>
             {
@@ -143,14 +139,14 @@ namespace GM.Armoury.Data
 
             App.HTTP.Armoury_Upgrade(req, (resp) =>
             {
-                if (resp.StatusCode == 200)
+                if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
                     Update(resp.UpdatedItem);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
-                call(resp.StatusCode == 200);
+                call(resp.StatusCode == HTTP.HTTPCodes.Success);
             });
         }
 
@@ -162,12 +158,12 @@ namespace GM.Armoury.Data
 
             App.HTTP.Armoury_Merge(req, (resp) =>
             {
-                if (resp.StatusCode == 200)
+                if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
                     Update(resp.UpdatedItem);
                 }
 
-                call(resp.StatusCode == 200);
+                call(resp.StatusCode == HTTP.HTTPCodes.Success);
             });
         }
     }

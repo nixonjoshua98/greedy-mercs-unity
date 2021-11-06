@@ -45,9 +45,7 @@ class ArmouryItemModel(BaseDocument):
 
 class ArmouryRepository:
     def __init__(self, client):
-        db = client.get_default_database()
-
-        self._col = db["armouryItems"]
+        self._col = client.db["armouryItems"]
 
     async def get_one_user_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
         item = await self._col.find_one({Fields.USER_ID: uid, Fields.ITEM_ID: iid})

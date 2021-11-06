@@ -37,9 +37,7 @@ class CurrenciesModel(BaseDocument):
 
 class CurrencyRepository:
     def __init__(self, client):
-        db = client.get_default_database()
-
-        self.collection = db["currencyItems"]
+        self.collection = client.db["currencyItems"]
 
     async def get_user(self, uid) -> CurrenciesModel:
         r = await self.collection.find_one({"_id": uid})

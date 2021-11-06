@@ -8,9 +8,25 @@ namespace GM
     {
         public static class Artefacts
         {
-            public static BigInteger UnlockCost(int owned) => (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned).Floor()).ToBigInteger();
-            public static BigInteger UpgradeCost(int currentLevel, int levels, float expo, float coeff) => (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
+            public static BigInteger UnlockCost(int owned)
+            {
+                return BigDouble.Ceiling(Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).ToBigInteger();
+            }
+
+            public static BigInteger UpgradeCost(int currentLevel, int levels, float expo, float coeff)
+            {
+                return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
+            }
         }
+
+        public static class Mercs
+        {
+            public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying, double unlockCost)
+            {
+                return BigMath.SumGeometricSeries(levelsBuying, unlockCost, 1.077f, currentLevel);
+            }
+        }
+
 
         // === Armoury Items === //
         public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
@@ -24,12 +40,6 @@ namespace GM
         public static double BaseArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
         {
             return baseEffect + (levelEffect * (currentLevel - 1));
-        }
-
-        // = = = Mercs = = = //
-        public static BigDouble MercLevelUpCost(int currentLevel, int levelsBuying, double unlockCost)
-        {
-            return BigMath.SumGeometricSeries(levelsBuying, unlockCost, 1.077, currentLevel);
         }
 
         public static BigDouble MercBaseDamage(BigDouble baseDamage, int level)
@@ -63,14 +73,14 @@ namespace GM
             return CalcEnemyGold(stage) * 7.3f;
         }
 
-        public static int AffordCharacterLevels(MercID merc)
-        {
-            GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
+        //public static int AffordCharacterLevels(MercID merc)
+        //{
+        //    GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
 
-            BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.UnlockCost, 1.077, data.CurrentLevel);
+        //    BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.UnlockCost, 1.077, data.CurrentLevel);
 
-            return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.CurrentLevel, int.Parse(val.ToString()));
-        }
+        //    return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.CurrentLevel, int.Parse(val.ToString()));
+        //}
 
 
         // # === Tap Damage === #

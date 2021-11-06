@@ -1,7 +1,7 @@
 import functools as ft
 
 from fastapi import HTTPException
-from motor.motor_asyncio import AsyncIOMotorClient
+from src.mongo.motorclient import MotorClient
 
 from src.application import Application
 
@@ -10,7 +10,7 @@ from .exceptions import handle_http_exception
 
 
 def _on_app_start(fast_app: Application):
-    fast_app.state.mongo = AsyncIOMotorClient("mongodb://localhost:27017/g0")
+    fast_app.state.mongo = MotorClient("mongodb://localhost:27017/g0")
     fast_app.state.memory_cache = MemoryCache()
 
 

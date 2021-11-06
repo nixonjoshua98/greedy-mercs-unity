@@ -44,9 +44,7 @@ class ArtefactModel(BaseDocument):
 
 class ArtefactsRepository:
     def __init__(self, client):
-        db = client.get_default_database()
-
-        self._col = db["userArtefacts"]
+        self._col = client.db["userArtefacts"]
 
     async def get_all_artefacts(self, uid) -> list[ArtefactModel]:
         ls = await self._col.find({Fields.USER_ID: uid}).to_list(length=None)

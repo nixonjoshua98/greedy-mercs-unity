@@ -17,7 +17,7 @@ class AccountModel(BaseDocument):
 
 class AccountsRepository:
     def __init__(self, client):
-        self._col = client.get_default_database()["userAccounts"]
+        self._col = client.db["userAccounts"]
 
     async def get_user(self, uid, did) -> Union[AccountModel, None]:
         r = await self._col.find_one({"_id": uid, "deviceId": did})

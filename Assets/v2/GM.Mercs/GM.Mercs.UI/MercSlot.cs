@@ -15,7 +15,7 @@ namespace GM.Mercs.UI
         public TMP_Text LevelText;
         public TMP_Text DamageText;
         [Space]
-        public GM.UI.VStackedButton Button;
+        public GM.UI.VStackedButton UpgradeButton;
 
         int _buyAmount;
         protected int buyAmount
@@ -28,7 +28,7 @@ namespace GM.Mercs.UI
 
         public void Assign(MercID merc, GM.UI.AmountSelector selector)
         {
-            Assign(merc);
+            Assign(merc); 
 
             _buyAmount = selector.Current;
 
@@ -53,12 +53,14 @@ namespace GM.Mercs.UI
             LevelText.text = $"Level {AssignedMerc.CurrentLevel}";
             DamageText.text = $"{Format.Number(StatsCache.TotalMercDamage(AssignedMerc.Id))} DMG";
 
-            Button.SetText("Max Level", "");
+            UpgradeButton.SetText("MAX LEVEL", "");
 
             if (!AssignedMerc.IsMaxLevel)
             {
-                Button.SetText($"x{buyAmount}", Format.Number(Formulas.MercLevelUpCost(AssignedMerc.CurrentLevel, buyAmount, AssignedMerc.UnlockCost)));
+                UpgradeButton.SetText($"x{buyAmount}", Format.Number(App.Cache.MercUpgradeCost(AssignedMerc, buyAmount)));
             }
+
+            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel;
         }
 
         // == Callbacks == //

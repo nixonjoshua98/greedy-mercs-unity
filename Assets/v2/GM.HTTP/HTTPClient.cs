@@ -66,7 +66,6 @@ namespace GM.HTTP
         public void FetchGameData(UnityAction<FetchGameDataResponse> callback) => Public_GET(ServerConfig.UrlFor("gamedata"), callback);
 
         /// <summary>
-        /// Shorthand method for starting the coroutine
         /// </summary>
         void Public_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
         {
@@ -80,7 +79,6 @@ namespace GM.HTTP
         }
 
         /// <summary>
-        /// Shorthand method for starting the coroutine
         /// </summary>
         void Auth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
         {
@@ -90,7 +88,6 @@ namespace GM.HTTP
         }
 
         /// <summary>
-        /// Shorthand method for starting the coroutine
         /// </summary>
         void Auth_POST<T>(string url, IServerRequest request, UnityAction<T> callback) where T : IServerResponse, new()
         {

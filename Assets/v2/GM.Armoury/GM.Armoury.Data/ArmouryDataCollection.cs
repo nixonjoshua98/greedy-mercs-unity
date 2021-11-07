@@ -135,16 +135,10 @@ namespace GM.Armoury.Data
         /// </summary>
         public void UpgradeItem(int itemId, UnityAction<bool> call)
         {
-            Models.ArmouryItemUserDataModel item = UserItemsDict[itemId];
-
-            item.DummyLevel++; // Increment the level before the server request
-
             var req = new GM.HTTP.Requests.UpgradeArmouryItemRequest { ItemId = itemId };
 
             App.HTTP.Armoury_Upgrade(req, (resp) =>
             {
-                item.DummyLevel--; // Remove the temp dummy level
-
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
                     Update(resp.UpdatedItem);

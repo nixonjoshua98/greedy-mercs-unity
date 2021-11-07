@@ -48,18 +48,12 @@ namespace GM.Artefacts.Data
 
         public void UpgradeArtefact(int artefact, int levels, UnityAction<bool> call)
         {
-            ArtefactUserDataModel art = GetUserArtefact(artefact);
-
-            art.DummyLevel += levels; // We increment the dummy level before the request to hide the server latency
-
             // Server request
             var req = new HTTP.Requests.UpgradeArtefactRequest { ArtefactId = artefact, UpgradeLevels = levels };
 
             // Send the request to the server
             App.HTTP.Artefact_UpgradeArtefact(req, (resp) =>
             {
-                art.DummyLevel -= levels; // Remove the dummy levels after the server has responded
-
                 // Artefact was successfully upgraded
                 if (resp.StatusCode == HTTPCodes.Success)
                 {

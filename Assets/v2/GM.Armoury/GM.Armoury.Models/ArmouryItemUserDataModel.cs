@@ -11,11 +11,10 @@ namespace GM.Armoury.Models
         [JsonProperty(PropertyName = "owned")]
         public int NumOwned = 0;
 
+        [JsonProperty]
         public int MergeLevel = 0;
 
-        [JsonProperty(PropertyName = "level")]
-        public int ActualLevel = 0;
-        public int DummyLevel;
-        public int Level => ActualLevel + DummyLevel;
+        [JsonProperty]
+        public int Level = 0;
     }
 }

@@ -1,13 +1,5 @@
 [
     {
-        "artefactId": 0,
-        "bonusType": 2,
-        "costCoeff": 0.7,
-        "costExpo": 1.2,
-        "baseEffect": 2.0,
-        "levelEffect": 1.0
-    },
-    {
         "artefactId": 1,
         "bonusType": 0,
         "costCoeff": 0.5,
@@ -38,14 +30,6 @@
         "costExpo": 1.5,
         "baseEffect": 1.4,
         "levelEffect": 0.4
-    },
-    {
-        "artefactId": 5,
-        "bonusType": 2,
-        "costCoeff": 0.4,
-        "costExpo": 1.2,
-        "baseEffect": 2.0,
-        "levelEffect": 1.0
     },
     {
         "artefactId": 6,

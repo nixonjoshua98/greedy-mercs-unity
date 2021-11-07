@@ -7,6 +7,13 @@ namespace GM.Artefacts.Models
         [JsonProperty(PropertyName = "artefactId")]
         public int Id;
 
-        public int Level;
+        [JsonProperty(PropertyName = "level")]
+        public int ActualLevel;
+
+        [JsonIgnore]
+        public int DummyLevel;
+
+        [JsonIgnore]
+        public int Level => ActualLevel + DummyLevel;
     }
 }

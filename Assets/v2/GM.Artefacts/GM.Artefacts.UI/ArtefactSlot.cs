@@ -51,8 +51,6 @@ namespace GM.Artefacts.UI
 
         void UpdateUI()
         {
-            Debug.Log(BuyAmount);
-
             BigInteger ugradeCost;
 
             UpgradeButton.SetText("MAX LEVEL", "");

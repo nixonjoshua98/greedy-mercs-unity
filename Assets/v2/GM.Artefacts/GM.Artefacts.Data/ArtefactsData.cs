@@ -10,30 +10,29 @@ namespace GM.Artefacts.Data
 {
     public class ArtefactsData : Core.GMClass
     {
-        List<ArtefactGameDataModel> GameArtefactsList;
-        List<ArtefactUserDataModel> UserArtefactsList;
+        Dictionary<int, ArtefactGameDataModel> gameArtefacts;
+        Dictionary<int, ArtefactUserDataModel> userArtefacts;
 
         public ArtefactsData(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
         {
-            UserArtefactsList = userArtefacts;
-
+            Update(userArtefacts);
             Update(gameArtefacts);
         }
 
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
-        ArtefactUserDataModel GetUserArtefact(int key) => UserArtefactsList.Where(art => art.Id == key).FirstOrDefault();
-        void Update(ArtefactUserDataModel art) => UserArtefactsList.UpdateOrInsertElement(art, (ele) => ele.Id == art.Id);
-        public int NumUnlockedArtefacts => UserArtefactsList.Count;
-
-        public int MaxArtefacts => GameArtefactsList.Count;
-        public ArtefactGameDataModel GetGameArtefact(int key) => GameArtefactsList.Where(art => art.Id == key).FirstOrDefault();
+        ArtefactUserDataModel GetUserArtefact(int key) => userArtefacts[key];
+        void Update(ArtefactUserDataModel art) => userArtefacts[art.Id] = art;
+        void Update(List<ArtefactUserDataModel> arts) => userArtefacts = arts.ToDictionary(x => x.Id, x => x);
+        public int NumUnlockedArtefacts => userArtefacts.Count;
+        public int MaxArtefacts => gameArtefacts.Count;
+        public ArtefactGameDataModel GetGameArtefact(int key) => gameArtefacts[key];
         void Update(List<ArtefactGameDataModel> artefacts)
         {
-            GameArtefactsList = artefacts;
+            gameArtefacts = artefacts.ToDictionary(x => x.Id, x => x);
 
             var allLocalMercData = LoadLocalData();
 
-            foreach (var art in GameArtefactsList)
+            foreach (var art in gameArtefacts.Values)
             {
                 LocalArtefactData localArtData = allLocalMercData[art.Id];
 
@@ -43,16 +42,25 @@ namespace GM.Artefacts.Data
         }
 
         Dictionary<int, LocalArtefactData> LoadLocalData() => Resources.LoadAll<LocalArtefactData>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
-        public ArtefactData[] UserOwnedArtefacts => UserArtefactsList.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
+        public ArtefactData[] UserOwnedArtefacts => userArtefacts.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
         public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));
 
 
         public void UpgradeArtefact(int artefact, int levels, UnityAction<bool> call)
         {
+            ArtefactUserDataModel art = GetUserArtefact(artefact);
+
+            art.DummyLevel += levels; // We increment the dummy level before the request to hide the server latency
+
+            // Server request
             var req = new HTTP.Requests.UpgradeArtefactRequest { ArtefactId = artefact, UpgradeLevels = levels };
 
+            // Send the request to the server
             App.HTTP.Artefact_UpgradeArtefact(req, (resp) =>
             {
+                art.DummyLevel -= levels; // Remove the dummy levels after the server has responded
+
+                // Artefact was successfully upgraded
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
                     Update(resp.UpdatedArtefact);

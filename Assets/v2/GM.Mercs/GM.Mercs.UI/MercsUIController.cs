@@ -25,16 +25,15 @@ namespace GM.Mercs.UI
         void UpdateUnlockButton()
         {
             MercUnlockButton.SetText("UNLOCKED", "");
+            MercUnlockButton.interactable = false;
 
             if (App.Data.Mercs.GetNextHero(out MercID chara))
             {
                 GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.GetGameMerc(chara);
 
                 MercUnlockButton.SetText("UNLOCK", Format.Number(mercData.UnlockCost));
-            }
-            else
-            {
-                MercUnlockButton.interactable = false;
+
+                MercUnlockButton.interactable = App.Data.Inv.Gold >= mercData.UnlockCost;
             }
         }
 

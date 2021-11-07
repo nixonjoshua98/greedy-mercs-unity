@@ -40,15 +40,11 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
+            Stars.Show(AssignedItem.CurrentMergeLevel);
+
             OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.MergeCost}";
 
             EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.MergeCost;
-            Stars.Show(AssignedItem.CurrentMergeLevel);
-        }
-
-        // == Callbacks == //
-        public void OnEvolveProgressSliderValueChanged()
-        {
             EvolveProgressSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, EvolveProgressSlider.value);
         }
 

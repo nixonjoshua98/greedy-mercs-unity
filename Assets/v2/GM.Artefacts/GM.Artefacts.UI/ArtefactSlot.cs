@@ -76,6 +76,8 @@ namespace GM.Artefacts.UI
             {
                 UpdateUI();
             });
+
+            UpdateUI(); // We have this here to force an update with the new dummy level
         }
 
         public void OnShowPopupButton()

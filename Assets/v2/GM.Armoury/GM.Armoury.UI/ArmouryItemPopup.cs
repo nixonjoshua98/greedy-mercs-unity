@@ -23,7 +23,6 @@ namespace GM.Armoury.UI
         protected override void OnAssignedItem()
         {
             SetStaticUIElements();
-            RefreshUI();
         }
 
         void SetStaticUIElements()
@@ -35,7 +34,7 @@ namespace GM.Armoury.UI
             NameText.text = AssignedItem.ItemName;
         }
 
-        void RefreshUI()
+        void FixedUpdate()
         {
             Stars.Show(AssignedItem.CurrentMergeLevel);
 
@@ -49,12 +48,12 @@ namespace GM.Armoury.UI
         // == Callbacks == //
         public void OnMergeButton()
         {
-            App.Data.Armoury.EvolveItem(AssignedItemId, (success) => { RefreshUI(); });
+            App.Data.Armoury.EvolveItem(AssignedItemId, (success) => { });
         }
 
         public void OnUpgradeButton()
         {
-            App.Data.Armoury.UpgradeItem(AssignedItemId, (success) => { RefreshUI(); });
+            App.Data.Armoury.UpgradeItem(AssignedItemId, (success) => { });
         }
     }
 }

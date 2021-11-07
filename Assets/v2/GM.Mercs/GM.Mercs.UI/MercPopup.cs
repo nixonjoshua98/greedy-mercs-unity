@@ -8,11 +8,19 @@ namespace GM.Mercs.UI
     public class MercPopup : MercUIObject
     {
         [Header("Prefabs")]
-        public GameObject TextObject;
+        public GameObject PassiveSlotObject;
 
         [Header("References")]
         public TMP_Text NameText;
-        public Transform BonusTextParent;
+        public Transform PassivesParent;
+
+        protected override void OnAssigned()
+        {
+            foreach (GM.Mercs.Models.MercPassiveDataModel p in AssignedMerc.Passives)
+            {
+                Instantiate<MercPassiveSlot>(PassiveSlotObject, PassivesParent).Assign(p, AssignedMerc.IsPassiveUnlocked(p));
+            }
+        }
 
         void FixedUpdate()
         {

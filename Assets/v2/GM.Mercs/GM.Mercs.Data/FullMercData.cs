@@ -39,6 +39,6 @@ namespace GM.Mercs.Data
                 return Game.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToList();
             }
         }
-        bool IsPassiveUnlocked(Models.MercPassiveDataModel passive) => User.Level >= passive.UnlockLevel;
+        public bool IsPassiveUnlocked(Models.MercPassiveDataModel passive) => User.Level >= passive.UnlockLevel;
     }
 }

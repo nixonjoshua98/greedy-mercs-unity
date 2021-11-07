@@ -32,6 +32,10 @@ namespace GM.Mercs.UI
 
                 MercUnlockButton.SetText("UNLOCK", Format.Number(mercData.UnlockCost));
             }
+            else
+            {
+                MercUnlockButton.interactable = false;
+            }
         }
 
         // == Callbacks == //

@@ -16,9 +16,6 @@ public enum BonusType
     MULTIPLY_MELEE_DMG = 602,
     MULTIPLY_RANGED_DMG = 603,
 
-    // Tap Damage
-    MULTIPLY_TAP_DMG = 700,
-
     // Gold
     MULTIPLY_ALL_GOLD = 800,
     MULTIPLY_BOSS_GOLD = 801,
@@ -26,7 +23,6 @@ public enum BonusType
 
     MERC_DAMAGE = 0,
     ENEMY_GOLD = 1,
-    TAP_DAMAGE = 2,
     BOSS_GOLD = 3,
     MELEE_DAMAGE = 5,
     RANGED_DAMAGE = 7,
@@ -47,10 +43,4 @@ public enum MercID
     JUNIOR_DARK_MAGE, 
     DEMON_KNIGHT, 
     FIRE_SATYR 
-}
-
-
-public enum GoldUpgradeID
-{
-    TAP_DAMAGE = 0
 }

@@ -7,7 +7,11 @@ namespace GM.Artefacts.UI
         public virtual void AssignArtefact(int artefactId)
         {
             AssignedArtefactId = artefactId;
+
+            OnAssigned();
         }
+
+        protected virtual void OnAssigned() { }
 
         protected Data.ArtefactData AssignedArtefact => App.Data.Arts.GetArtefact(AssignedArtefactId);
     }

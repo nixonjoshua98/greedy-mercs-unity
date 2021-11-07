@@ -97,7 +97,6 @@ namespace GM
                 BonusType.FLAT_CRIT_CHANCE => "Critical Hit Chance",
                 BonusType.FLAT_CRIT_DMG => "Critical Hit Damage",
                 BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
-                BonusType.TAP_DAMAGE => "Tap Damage",
                 BonusType.MERC_DAMAGE => "Merc Damage",
                 BonusType.MELEE_DAMAGE => "Melee Damage",
                 BonusType.RANGED_DAMAGE => "Ranged Damage",

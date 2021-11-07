@@ -82,31 +82,6 @@ namespace GM
         //    return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.CurrentLevel, int.Parse(val.ToString()));
         //}
 
-
-        // # === Tap Damage === #
-        public static BigDouble CalcTapDamage()
-        {
-            UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
-
-            return state.level * BigDouble.Pow(2.0f, (state.level - 1) / 50.0f);
-        }
-
-        public static BigDouble CalcTapDamageLevelUpCost(int levels)
-        {
-            UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
-
-            return BigMath.SumGeometricSeries(levels, 5, 1.09, (state.level - 1));
-        }
-
-        public static int AffordTapDamageLevels()
-        {
-            UpgradeState state = GameState.Upgrades.GetUpgrade(GoldUpgradeID.TAP_DAMAGE);
-
-            int maxLevels = int.Parse(BigMath.AffordGeometricSeries(App.Data.Inv.Gold, 5, 1.09, state.level - 1).ToString());
-
-            return Mathf.Min(global::Constants.MAX_TAP_UPGRADE_LEVEL - state.level, maxLevels);
-        }
-
         // === Prestige Points ===
 
         public static BigInteger CalcPrestigePoints(int stage)

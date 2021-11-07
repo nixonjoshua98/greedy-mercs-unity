@@ -88,8 +88,6 @@ namespace GM.Core
         {
             GMApplication.Create(userDataResp, gameDataResp);
 
-            GameState.Restore();
-
             SceneManager.LoadScene("GameScene");
         }
     }

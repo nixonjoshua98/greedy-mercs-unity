@@ -26,28 +26,33 @@ namespace GM.Artefacts.UI
 
         public void AssignArtefact(int artefactId, AmountSelector selector)
         {
-            base.AssignArtefact(artefactId);
-
             // Set the callback for when the user changes the buy amount
             selector.E_OnChange.AddListener(val => {
                 _BuyAmount = val;
 
-                SetUpgradeRelatedText();
+                UpdateUI();
             });
 
             // Assign a default buy amount
             _BuyAmount = selector.Current;
 
+            base.AssignArtefact(artefactId);
+        }
+
+        protected override void OnAssigned()
+        {
             // Set some static values
             NameText.text = AssignedArtefact.Name;
             IconImage.sprite = AssignedArtefact.Icon;
 
             // Update the level related values to default
-            SetUpgradeRelatedText();
+            UpdateUI();
         }
 
-        void SetUpgradeRelatedText()
+        void UpdateUI()
         {
+            Debug.Log(BuyAmount);
+
             BigInteger ugradeCost;
 
             UpgradeButton.SetText("MAX LEVEL", "");
@@ -71,14 +76,13 @@ namespace GM.Artefacts.UI
         {
             App.Data.Arts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
             {
-                SetUpgradeRelatedText();
+                UpdateUI();
             });
         }
 
         public void OnShowPopupButton()
         {
-            CanvasUtils.Instantiate<ArtefactPopup>(ArtefactPopupObject)
-                .AssignArtefact(AssignedArtefact.Id);
+            CanvasUtils.Instantiate<ArtefactPopup>(ArtefactPopupObject).AssignArtefact(AssignedArtefact.Id);
         }
     }
 }

@@ -83,11 +83,6 @@ namespace GM
             return BigInteger.Parse(big.Ceiling().ToString("F0"));
         }
 
-        public static BigDouble GetTapDamage()
-        {
-            return Formulas.CalcTapDamage() * MultiplyAllSources(BonusType.TAP_DAMAGE);
-        }
-
 
         // === Helper Methods ===
 

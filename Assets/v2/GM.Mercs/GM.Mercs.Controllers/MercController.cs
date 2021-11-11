@@ -1,85 +1,64 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 using MercID = GM.Common.Enums.MercID;
+using GM.Targets;
 
 namespace GM.Mercs.Controllers
 {
-    public class MercController : MonoBehaviour
+    public class MercController : GM.Core.GMMonoBehaviour
     {
         [SerializeField] protected MercID _ID = MercID.NONE;
         public MercID ID { get => _ID; }
 
         [Header("References")]
         [SerializeField] MercAttackController attackController;
+        [SerializeField] MercMovement moveController;
 
-        [Header("Debug")]
         [SerializeField] MercActivity status = MercActivity.IDLE;
+        [SerializeField] AttackerTarget target;
 
-        GameObject currentTarget;
+        protected GM.Mercs.Data.FullMercData MercData => App.Data.Mercs.GetMerc(_ID);
+        protected bool IsCurrentTargetValid { get => GameManager.Instance.IsTargetValid(target); }
 
         void FixedUpdate()
         {
-            switch (status)
-            {
-                case MercActivity.IDLE:
-                    HandleIdleFixedUpdate();
-                    break;
-
-                case MercActivity.ATTACKING_BOSS:
-                    HandleBossFightFixedUpdate();
-                    break;
-            }
-        }
-
-        void HandleIdleFixedUpdate()
-        {
             if (attackController.IsReady)
             {
-                // We do not have a current target or the current target is already dead
-                if (currentTarget == null || (currentTarget.TryGetComponent(out HealthController health) && health.CurrentHealth == 0))
+                if (!IsCurrentTargetValid)
                 {
-                    GameManager.Instance.TryGetWaveEnemy(out currentTarget);
-                }
-                else
-                {
-                    transform.position = currentTarget.transform.position;
+                    bool hasTarget = GameManager.Instance.GetWaveTarget(ref target, MercData.AttackType);
 
-                    attackController.AttackTarget(currentTarget);
+                    status = hasTarget ? MercActivity.FIGHTING : MercActivity.IDLE;
+                }
+
+                else if (status == MercActivity.FIGHTING)
+                {
+                    HandleFightingUpdate();
                 }
             }
         }
 
-        void HandleBossFightFixedUpdate()
+        void HandleFightingUpdate()
         {
-            if (attackController.IsReady)
+            Vector3 attackPosition = attackController.GetAttackPosition(target);
+
+            if (Vector2.Distance(attackPosition, transform.position) == 0.0f)
             {
-                attackController.AttackTarget(currentTarget);
+                moveController.FaceTowards(target.Object);
+
+                attackController.AttackTarget(target.Object);
+            }
+            else
+            {
+                moveController.MoveTowards(attackPosition);
             }
         }
 
-        /// <summary>Move to a new position and callback once we reach the target position</summary>
-        public void MoveTo(Vector3 pos, Action callback)
+        public void AssignTarget(AttackerTarget newTarget)
         {
-            //status = MercActivity.PRIORITY_MOVING;
+            status = MercActivity.FIGHTING;
+            target = newTarget;
 
-            transform.position = pos;
-
-            status = MercActivity.IDLE;
-
-            callback.Invoke();
-        }
-
-        /// <summary>Merc will instantly start attacking the boss from wherever they are currently</summary>
-        public void StartBossBattle(GameObject boss)
-        {
-            status = MercActivity.ATTACKING_BOSS;
-
-            currentTarget = boss;
-
-            // Reset the activity once the boss has died
-            boss.GetComponent<HealthController>().E_OnZeroHealth.AddListener(() => {
+            target.Object.GetComponent<HealthController>().E_OnZeroHealth.AddListener(() => {
                 status = MercActivity.IDLE;
             });
         }

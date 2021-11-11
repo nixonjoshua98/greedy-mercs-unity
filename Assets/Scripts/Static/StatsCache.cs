@@ -73,7 +73,7 @@ namespace GM
             BigDouble val = App.Cache.MercBaseDamage(data);
 
             val *= MultiplyAllSources(BonusType.MERC_DAMAGE);
-            val *= MultiplyAllSources(data.Attack.ToBonusType());
+            val *= MultiplyAllSources(data.AttackType.ToBonusType());
 
             return val;
         }

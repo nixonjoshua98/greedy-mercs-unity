@@ -6,9 +6,7 @@ namespace GM.Events
 {
     public struct WaveSpawnEventData
     {
-        public BigDouble CombinedHealth;
-
-        public List<GameObject> Enemies;
-        public List<HealthController> HealthControllers;
+        public BigDouble CombinedHealth { get; set; }
+        public List<HealthController> HealthControllers { get; set; }
     }
 }

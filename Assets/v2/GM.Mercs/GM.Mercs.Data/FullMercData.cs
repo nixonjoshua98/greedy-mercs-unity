@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using BonusType = GM.Common.Enums.BonusType;
 using MercID = GM.Common.Enums.MercID;
+using AttackType = GM.Common.Enums.AttackType;
 
 namespace GM.Mercs.Data
 {
@@ -28,7 +29,7 @@ namespace GM.Mercs.Data
         public bool IsMaxLevel => User.Level >= GM.Constants.MAX_MERC_LEVEL;
         public Sprite Icon => Game.Icon;
         public double UnlockCost => Game.UnlockCost;
-        public Common.Enums.AttackType Attack => Game.Attack;
+        public AttackType AttackType => Game.AttackType;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
         public Dictionary<BonusType, double> BonusesFromPassives => App.Cache.BonusesFromMercPassives(this);

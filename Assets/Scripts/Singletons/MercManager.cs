@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using GM.Targets;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using GM.Core;
 using MercID = GM.Common.Enums.MercID;
 
 namespace GM
@@ -122,9 +122,13 @@ namespace GM
                 }
                 else
                 {
-                    unit.NewController.MoveTo(targetPosition, () => {
-                        unit.NewController.StartBossBattle(boss);
-                    });
+                    AttackerTarget target = new AttackerTarget
+                    {
+                        Object = boss,
+                        Position = targetPosition
+                    };
+
+                    unit.NewController.AssignTarget(target);
                 }
             }
         }

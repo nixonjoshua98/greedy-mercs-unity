@@ -38,11 +38,12 @@ namespace GM.Mercs.Data
 
             foreach (var merc in GameMercs)
             {
-                LocalMercData localMerc = allLocalMercData[merc.Id];
+                LocalMercData local = allLocalMercData[merc.Id];
 
-                merc.Name = localMerc.Name;
-                merc.Icon = localMerc.Icon;
-                merc.Prefab = localMerc.Prefab;
+                merc.Name = local.Name;
+                merc.Icon = local.Icon;
+                merc.Prefab = local.Prefab;
+                merc.AttackType = local.AttackType;
             }
         }
 

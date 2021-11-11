@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using System.Linq;
+using AttackType = GM.Common.Enums.AttackType;
 using UnityEngine.Events;
+using GM.Targets;
 
 namespace GM
 {
@@ -13,7 +14,7 @@ namespace GM
     {
         public int Stage = 1;
         public int Wave = 1;
-        public int WavesPerStage = 3;
+        public int WavesPerStage = 1;
 
         [System.NonSerialized]
         public bool IsBossAvailable = false;
@@ -29,7 +30,6 @@ namespace GM
         }
     }
 
-
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance = null;
@@ -39,8 +39,7 @@ namespace GM
 
         public CurrentStageState state;
 
-        public List<GameObject> WaveEnemies { get; private set; }
-        GameObject CurrentBossEenemy;
+        GameObject currentStageBoss;
 
         // Events
         public UnityEvent<GameObject> E_BossSpawn = new UnityEvent<GameObject>();
@@ -48,29 +47,15 @@ namespace GM
         [HideInInspector] public UnityEvent E_OnWaveCleared;
         [HideInInspector] public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
 
-        public bool TryGetWaveEnemy(out GameObject enemy)
-        {
-            enemy = null;
-
-            foreach (GameObject obj in WaveEnemies.OrderBy(x => Random.value))
-            {
-                if (obj.TryGetComponent(out HealthController health) && health.CurrentHealth > 0)
-                {
-                    enemy = obj;
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        TargetCollection waveEnemies;
 
         void Awake()
         {
             Instance = this;
 
+            waveEnemies = new TargetCollection();
+
             state = new CurrentStageState();
-            WaveEnemies = new List<GameObject>();
         }
 
 
@@ -80,13 +65,50 @@ namespace GM
         }
 
 
+        public bool GetWaveTarget(ref AttackerTarget target, AttackType attackerAttackType)
+        {
+            bool hasTarget = waveEnemies.TryGetTarget(ref target, attackerAttackType);
+
+            if (hasTarget)
+            {
+                target.AttackID = waveEnemies.AddAttacker(target, attackerAttackType);
+            }
+
+            return hasTarget;
+        }
+
+        public bool IsTargetValid(AttackerTarget target)
+        {
+            // Attacker has no target
+            if (target.Object == null)
+            {
+                return false;
+            }
+
+            // Target is neither the stage boss or a wave enemy
+            if (target.Object != currentStageBoss && !waveEnemies.IsTargetExists(target))
+            {
+                return false;
+            }
+
+            return target.Object.TryGetComponent(out HealthController health) && health.CurrentHealth > 0;
+        }
+
+
+
+
+
+
+
+
+
         // = = = Public Methods = = = //
         public static GameManager Get => Instance;
         public CurrentStageState State() => state.Copy();
 
         public bool TryGetBoss(out GameObject boss)
         {
-            boss = CurrentBossEenemy;
+            boss = currentStageBoss;
 
             return state.IsBossAvailable;
         }
@@ -100,17 +122,17 @@ namespace GM
             {
                 yield return SpawnDelay();
 
-                WaveEnemies = spawner.SpawnWave();
+                List<GameObject> spawnedEnemies = spawner.SpawnWave();
 
                 BigDouble combinedHealth = Formulas.EnemyHealth(state.Stage);
 
                 List<HealthController> healthControllers = new List<HealthController>();
 
-                foreach (GameObject o in WaveEnemies)
+                foreach (GameObject o in spawnedEnemies)
                 {
                     HealthController hp = o.GetComponent<HealthController>();
 
-                    hp.Setup(combinedHealth / WaveEnemies.Count);
+                    hp.Setup(combinedHealth / spawnedEnemies.Count);
 
                     hp.E_OnZeroHealth.AddListener(() => {
                         OnEnemyZeroHealth(o);
@@ -119,9 +141,10 @@ namespace GM
                     healthControllers.Add(hp);
                 }
 
+                waveEnemies.Populate(spawnedEnemies);
+
                 E_OnWaveSpawn.Invoke(new WaveSpawnEventData()
                 {
-                    Enemies = WaveEnemies,
                     CombinedHealth = combinedHealth,
                     HealthControllers = healthControllers
                 });
@@ -138,10 +161,10 @@ namespace GM
                 yield return SpawnDelay();
 
                 // Spawn the object
-                CurrentBossEenemy = spawner.SpawnBoss(state);
+                currentStageBoss = spawner.SpawnBoss(state);
 
                 // Grab components
-                HealthController hp = CurrentBossEenemy.GetComponent<HealthController>();
+                HealthController hp = currentStageBoss.GetComponent<HealthController>();
 
                 hp.Setup(val: Formulas.BossHealth(state.Stage));
 
@@ -149,7 +172,7 @@ namespace GM
 
                 OnBossSpawn();
 
-                E_BossSpawn.Invoke(CurrentBossEenemy);
+                E_BossSpawn.Invoke(currentStageBoss);
             }
 
             StartCoroutine(ISpawnNextEnemy());
@@ -162,21 +185,23 @@ namespace GM
             state.IsBossAvailable = true;
         }
 
+        /// <summary>
+        /// Called once a wave enemy has their health reduced to 0
+        /// </summary>
         void OnEnemyZeroHealth(GameObject obj)
         {
-            WaveEnemies.Remove(obj);
+            waveEnemies.RemoveTarget(obj);
 
-            if (WaveEnemies.Count == 0)
+            if (waveEnemies.Count == 0)
             {
                 OnWaveCleared();
             }
         }
 
-
         void OnBossZeroHealth()
         {
             E_BossDeath.Invoke();
-            CurrentBossEenemy = null;
+            currentStageBoss = null;
 
             state.Stage++;
             state.Wave = 1;

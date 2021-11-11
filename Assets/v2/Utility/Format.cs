@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
+using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM
 {

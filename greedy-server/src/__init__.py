@@ -1,9 +1,9 @@
 import functools as ft
 
 from fastapi import HTTPException
-from src.mongo.motorclient import MotorClient
 
 from src.application import Application
+from src.mongo.motorclient import MotorClient
 
 from .cache import MemoryCache
 from .exceptions import handle_http_exception

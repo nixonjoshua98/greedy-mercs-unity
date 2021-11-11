@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using GM.Armoury.ScriptableObjects;
 using System;
+using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Armoury.Data
 {

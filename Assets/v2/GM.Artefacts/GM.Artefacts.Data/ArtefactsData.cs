@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using HTTPCodes = GM.HTTP.HTTPCodes;
-
+using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Artefacts.Data
 {

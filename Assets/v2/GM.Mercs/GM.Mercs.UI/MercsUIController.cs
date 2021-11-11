@@ -1,4 +1,5 @@
 using UnityEngine;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.UI
 {

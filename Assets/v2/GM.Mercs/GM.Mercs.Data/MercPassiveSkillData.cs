@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Mercs.Models
 {

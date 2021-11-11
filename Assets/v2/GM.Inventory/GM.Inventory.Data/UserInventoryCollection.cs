@@ -18,7 +18,7 @@ namespace GM.Inventory.Data
 
         public UserInventoryCollection(Models.UserCurrenciesModel currencies)
         {
-            Gold = 0;
+            Gold = BigDouble.Parse("1e500");
 
             UpdateCurrencies(currencies);
         }

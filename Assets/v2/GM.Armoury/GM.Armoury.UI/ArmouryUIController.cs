@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Armoury.UI
 {

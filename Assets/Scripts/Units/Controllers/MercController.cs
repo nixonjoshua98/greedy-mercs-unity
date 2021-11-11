@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using MercID = GM.Common.Enums.MercID;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -47,7 +48,7 @@ namespace GM.Units
         {
             Attack.E_OnAttackImpact.AddListener(OnAttackImpact);
 
-            GameManager.Get.E_OnBossSpawn.AddListener(boss => {
+            GameManager.Get.E_BossSpawn.AddListener(boss => {
                 Attack.Disable();
 
                 CurrentTarget = boss;

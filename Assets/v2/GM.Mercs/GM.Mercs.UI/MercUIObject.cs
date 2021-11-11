@@ -1,3 +1,5 @@
+using MercID = GM.Common.Enums.MercID;
+
 namespace GM.Mercs.UI
 {
     public abstract class MercUIObject : Core.GMMonoBehaviour

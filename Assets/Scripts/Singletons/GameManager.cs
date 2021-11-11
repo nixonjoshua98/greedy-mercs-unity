@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using System.Linq;
 using UnityEngine.Events;
 
 namespace GM
@@ -42,15 +43,31 @@ namespace GM
         GameObject CurrentBossEenemy;
 
         // Events
-        [HideInInspector] public GameObjectEvent E_OnBossSpawn;
+        public UnityEvent<GameObject> E_BossSpawn = new UnityEvent<GameObject>();
+        public UnityEvent E_BossDeath = new UnityEvent();
         [HideInInspector] public UnityEvent E_OnWaveCleared;
         [HideInInspector] public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
+
+        public bool TryGetWaveEnemy(out GameObject enemy)
+        {
+            enemy = null;
+
+            foreach (GameObject obj in WaveEnemies.OrderBy(x => Random.value))
+            {
+                if (obj.TryGetComponent(out HealthController health) && health.CurrentHealth > 0)
+                {
+                    enemy = obj;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         void Awake()
         {
             Instance = this;
-
-            E_OnBossSpawn = new GameObjectEvent();
 
             state = new CurrentStageState();
             WaveEnemies = new List<GameObject>();
@@ -132,7 +149,7 @@ namespace GM
 
                 OnBossSpawn();
 
-                E_OnBossSpawn.Invoke(CurrentBossEenemy);
+                E_BossSpawn.Invoke(CurrentBossEenemy);
             }
 
             StartCoroutine(ISpawnNextEnemy());
@@ -158,6 +175,7 @@ namespace GM
 
         void OnBossZeroHealth()
         {
+            E_BossDeath.Invoke();
             CurrentBossEenemy = null;
 
             state.Stage++;

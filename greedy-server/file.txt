@@ -1,3 +1,0 @@
-Bugs:
-    Artefacts:
-        Unlock cost formula does not match between client and server

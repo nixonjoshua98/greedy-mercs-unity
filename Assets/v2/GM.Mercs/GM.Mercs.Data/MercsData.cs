@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using BonusType = GM.Common.Enums.BonusType;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.Data
 {

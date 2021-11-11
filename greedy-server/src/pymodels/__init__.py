@@ -19,7 +19,7 @@ class BaseModel(_BaseModel):
 
     def json(self, *args, **kwargs):
         """We most likely will not use this encoder and instead rely on the request/response encoder."""
-        raise RuntimeError("'.json()' should most likely not be used")
+        raise RuntimeError("'.json()' should likely not be used")
 
     def response_dict(self):
         """

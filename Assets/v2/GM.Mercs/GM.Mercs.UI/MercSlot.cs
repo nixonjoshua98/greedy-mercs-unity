@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.UI
 {

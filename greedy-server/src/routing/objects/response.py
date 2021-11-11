@@ -12,7 +12,6 @@ class ServerResponse(_Response):
         super(ServerResponse, self).__init__(content, *args, **kwargs)
 
     def render(self, content: Any) -> bytes:
-
         def _render():
             if isinstance(content, str):
                 return content

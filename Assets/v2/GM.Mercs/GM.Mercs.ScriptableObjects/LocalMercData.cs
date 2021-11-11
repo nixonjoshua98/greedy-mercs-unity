@@ -1,3 +1,4 @@
+using MercID = GM.Common.Enums.MercID;
 
 using UnityEngine;
 

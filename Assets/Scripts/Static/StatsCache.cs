@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using Random = UnityEngine.Random;
+using BonusType = GM.Common.Enums.BonusType;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM
 {

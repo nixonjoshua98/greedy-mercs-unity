@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 6
   Name: Fire Golem
-  Prefab: {fileID: 527510453790322700, guid: bdf108923f0a3a948a411a5ff5529712, type: 3}
+  Prefab: {fileID: 5097099789489235668, guid: 53919c009bfaf934da524f433d75d1df, type: 3}
   Icon: {fileID: 21300000, guid: 5d92da31ebf29a54fa6d7cb13577bf51, type: 3}

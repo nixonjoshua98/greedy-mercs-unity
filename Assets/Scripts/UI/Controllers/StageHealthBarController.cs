@@ -31,7 +31,7 @@ namespace GM.UI
 
         void SetupBossEvents()
         {
-            GameManager.Get.E_OnBossSpawn.AddListener(boss =>
+            GameManager.Get.E_BossSpawn.AddListener(boss =>
             {
                 targetSliderValue = 1.0f; // Fill up the slider to 100%
 

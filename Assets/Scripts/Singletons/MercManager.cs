@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using GM.Core;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM
 {
@@ -15,6 +16,8 @@ namespace GM
         public MercID ID;
         public GameObject Object;
         public MercController Controller;
+
+        public GM.Mercs.Controllers.MercController NewController;
     }
 
 
@@ -46,7 +49,7 @@ namespace GM
             App.Data.Mercs.E_MercUnlocked.AddListener(OnHeroUnlocked);
             GlobalEvents.E_OnMercLevelUp.AddListener(OnMercLeveledUp);
 
-            GameManager.Get.E_OnBossSpawn.AddListener(OnBossSpawn);
+            GameManager.Get.E_BossSpawn.AddListener(OnBossSpawn);
         }
 
 
@@ -80,13 +83,17 @@ namespace GM
 
             MercController controller = o.GetComponent<MercController>();
 
-            controller.Setup(merc);
+            if (controller != null)
+            {
+                controller.Setup(merc);
+            }
 
             mercs.Add(new SpawnedUnit()
             {
                 ID = merc,
                 Object = o,
-                Controller = controller
+                Controller = controller,
+                NewController = o.GetComponent<GM.Mercs.Controllers.MercController>()
             });
         }
 
@@ -106,10 +113,19 @@ namespace GM
 
                 Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Constants.CENTER_BATTLE_Y);
 
-                unit.Controller.PriorityMove(targetPosition, (controller) =>
+                if (unit.Controller != null)
                 {
-                    controller.Attack.Enable();
-                });
+                    unit.Controller.PriorityMove(targetPosition, (controller) =>
+                    {
+                        controller.Attack.Enable();
+                    });
+                }
+                else
+                {
+                    unit.NewController.MoveTo(targetPosition, () => {
+                        unit.NewController.StartBossBattle(boss);
+                    });
+                }
             }
         }
 

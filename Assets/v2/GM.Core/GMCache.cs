@@ -1,6 +1,7 @@
 using BigInteger = System.Numerics.BigInteger;
 using System.Collections.Generic;
 using System.Linq;
+using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Core
 {

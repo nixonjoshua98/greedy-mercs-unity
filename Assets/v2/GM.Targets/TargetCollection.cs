@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using AttackType = GM.Common.Enums.AttackType;
 
 namespace GM.Targets
 {
@@ -16,14 +15,9 @@ namespace GM.Targets
             _targets = ls.Select(x => new Target(x)).ToList();
         }
 
-        public bool IsTargetExists(GameObject target)
+        public bool IsTargetExists(Target target)
         {
-            return _targets.Exists(x => x.Object == target);
-        }
-
-        public bool IsTargetExists(AttackerTarget target)
-        {
-            return IsTargetExists(target.Object);
+            return _targets.Exists(x => x == target);
         }
 
         public void RemoveTarget(GameObject trgt)
@@ -31,21 +25,15 @@ namespace GM.Targets
             _targets.RemoveAll(x => x.Object == trgt);
         }
 
-        public int AddAttacker(AttackerTarget target, AttackType attacker)
+        public bool TryGetTarget(ref Target trgt, GameObject attacker)
         {
-            return _targets.Where(x => x.Object == target.Object).First().AddAttacker(attacker);
-        }
-
-        public bool TryGetTarget(ref AttackerTarget trgt, AttackType attackerAttackType)
-        {
-            foreach (Target target in _targets)
+            foreach (Target target in _targets.OrderBy(x => Random.value))
             {
                 if (target.AttackersCount < 2)
                 {
-                    trgt = new AttackerTarget
-                    {
-                        Object = target.Object
-                    };
+                    trgt = target;
+
+                    target.AddAttacker(attacker);
 
                     return true;
                 }

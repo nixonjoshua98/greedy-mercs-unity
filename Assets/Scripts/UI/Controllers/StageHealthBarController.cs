@@ -31,7 +31,7 @@ namespace GM.UI
 
         void SetupBossEvents()
         {
-            GameManager.Get.E_BossSpawn.AddListener(boss =>
+            GameManager.Instance.E_BossSpawn.AddListener(boss =>
             {
                 targetSliderValue = 1.0f; // Fill up the slider to 100%
 
@@ -58,7 +58,7 @@ namespace GM.UI
 
         void SetupWaveSpawnEvent()
         {
-            GameManager.Get.E_OnWaveSpawn.AddListener(payload =>
+            GameManager.Instance.E_OnWaveSpawn.AddListener(payload =>
             {
                 BigDouble current = payload.CombinedHealth;
 
@@ -80,7 +80,7 @@ namespace GM.UI
             });
 
             // Display a wave clear message
-            GameManager.Get.E_OnWaveCleared.AddListener(() =>
+            GameManager.Instance.E_OnWaveCleared.AddListener(() =>
             {
                 healthValue.text = "CLEAR";
             });

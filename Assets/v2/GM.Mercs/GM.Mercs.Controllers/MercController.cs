@@ -10,11 +10,14 @@ namespace GM.Mercs.Controllers
         public MercID ID { get => _ID; }
 
         [Header("References")]
+        public AnimationStrings Animations;
+        [Space]
+        public Animator AvatarAnimator;
         [SerializeField] MercAttackController attackController;
-        [SerializeField] MercMovement moveController;
+        public MercMovement Movement;
 
         [SerializeField] MercActivity status = MercActivity.IDLE;
-        [SerializeField] AttackerTarget target;
+        [SerializeField] Target target;
 
         protected GM.Mercs.Data.FullMercData MercData => App.Data.Mercs.GetMerc(_ID);
         protected bool IsCurrentTargetValid { get => GameManager.Instance.IsTargetValid(target); }
@@ -25,14 +28,20 @@ namespace GM.Mercs.Controllers
             {
                 if (!IsCurrentTargetValid)
                 {
-                    bool hasTarget = GameManager.Instance.GetWaveTarget(ref target, MercData.AttackType);
+                    bool hasTarget = GameManager.Instance.GetWaveTarget(ref target, gameObject, MercData.AttackType);
 
                     status = hasTarget ? MercActivity.FIGHTING : MercActivity.IDLE;
                 }
 
-                else if (status == MercActivity.FIGHTING)
+                switch (status)
                 {
-                    HandleFightingUpdate();
+                    case MercActivity.IDLE:
+                        AvatarAnimator.Play(Animations.Idle);
+                        break;
+
+                    case MercActivity.FIGHTING:
+                        HandleFightingUpdate();
+                        break;
                 }
             }
         }
@@ -41,19 +50,19 @@ namespace GM.Mercs.Controllers
         {
             Vector3 attackPosition = attackController.GetAttackPosition(target);
 
-            if (Vector2.Distance(attackPosition, transform.position) == 0.0f)
+            if (Vector2.Distance(attackPosition, transform.position) <= 0.25f)
             {
-                moveController.FaceTowards(target.Object);
+                Movement.FaceTowards(target.Object);
 
                 attackController.AttackTarget(target.Object);
             }
             else
             {
-                moveController.MoveTowards(attackPosition);
+                Movement.MoveTowards(attackPosition);
             }
         }
 
-        public void AssignTarget(AttackerTarget newTarget)
+        public void AssignTarget(Target newTarget)
         {
             status = MercActivity.FIGHTING;
             target = newTarget;

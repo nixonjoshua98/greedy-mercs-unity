@@ -1,10 +1,9 @@
-﻿using System.Collections;
+﻿using GM.Targets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using AttackType = GM.Common.Enums.AttackType;
 using UnityEngine.Events;
-using GM.Targets;
+using AttackType = GM.Common.Enums.AttackType;
 
 namespace GM
 {
@@ -65,22 +64,15 @@ namespace GM
         }
 
 
-        public bool GetWaveTarget(ref AttackerTarget target, AttackType attackerAttackType)
+        public bool GetWaveTarget(ref Target target, GameObject attacker, AttackType _)
         {
-            bool hasTarget = waveEnemies.TryGetTarget(ref target, attackerAttackType);
-
-            if (hasTarget)
-            {
-                target.AttackID = waveEnemies.AddAttacker(target, attackerAttackType);
-            }
-
-            return hasTarget;
+            return waveEnemies.TryGetTarget(ref target, attacker);
         }
 
-        public bool IsTargetValid(AttackerTarget target)
+        public bool IsTargetValid(Target target)
         {
             // Attacker has no target
-            if (target.Object == null)
+            if (target == null || target.Object == null)
             {
                 return false;
             }
@@ -102,8 +94,6 @@ namespace GM
 
 
 
-        // = = = Public Methods = = = //
-        public static GameManager Get => Instance;
         public CurrentStageState State() => state.Copy();
 
         public bool TryGetBoss(out GameObject boss)

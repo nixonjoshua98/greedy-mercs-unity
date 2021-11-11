@@ -10,7 +10,7 @@ namespace GM.Units.Formations
     {
         [SerializeField] List<Vector2> positions;
 
-        public int numPositions { get { return positions.Count; } }
+        public int NumPositions { get { return positions.Count; } }
 
         public Vector2 GetPosition(int i)
         {

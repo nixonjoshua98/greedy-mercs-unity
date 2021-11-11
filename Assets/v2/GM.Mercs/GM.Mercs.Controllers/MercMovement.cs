@@ -1,22 +1,26 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
 {
-    public class MercMovement : MonoBehaviour
+    public class MercMovement : MercComponent
     {
         [Header("Properties")]
         [SerializeField] float moveSpeed = 1.5f;
 
-        [Header("Components")]
         [SerializeField] GameObject avatar;
 
         public void MoveTowards(Vector3 target)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
 
+            AvatarAnimator.Play(Animations.Walk);
+
             FaceTowards(target);
+        }
+
+        public void MoveDirection(Vector3 dir)
+        {
+            MoveTowards(transform.position + (dir * moveSpeed));
         }
 
         public void FaceTowards(GameObject o)

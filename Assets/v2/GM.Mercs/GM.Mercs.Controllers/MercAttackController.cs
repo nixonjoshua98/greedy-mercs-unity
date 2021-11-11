@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
 using GM.Targets;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
@@ -50,23 +47,14 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        public Vector3 GetAttackPosition(AttackerTarget target)
+        public Vector2 GetAttackPosition(Target target)
         {
-            if (target.Position.HasValue)
+            if (target.AttackPosition.HasValue)
             {
-                return (Vector3)target.Position;
+                return (Vector3)target.AttackPosition;
             }
 
-            Vector3 pos = target.Object.transform.position;
-
-            pos = target.AttackID switch
-            {
-                0 => pos + Vector3.left,
-                1 => pos + Vector3.right,
-                _ => pos
-            };
-
-            return pos;
+            return target.Object.transform.position;
         }
 
         /// <summary>Animation Event</summary>

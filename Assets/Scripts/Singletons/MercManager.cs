@@ -6,18 +6,15 @@ using MercID = GM.Common.Enums.MercID;
 
 namespace GM
 {
-    using GM.Events;
 
     using GM.Units;
     using GM.Units.Formations;
 
     struct SpawnedUnit
     {
-        public MercID ID;
-        public GameObject Object;
-        public MercController Controller;
-
-        public GM.Mercs.Controllers.MercController NewController;
+        public GameObject Object { get; set; }
+        public MercController Controller { get; set; }
+        public GM.Mercs.Controllers.MercController NewController { get; set; }
     }
 
 
@@ -47,33 +44,14 @@ namespace GM
         void SubscribeToEvents()
         {
             App.Data.Mercs.E_MercUnlocked.AddListener(OnHeroUnlocked);
-            GlobalEvents.E_OnMercLevelUp.AddListener(OnMercLeveledUp);
 
-            GameManager.Get.E_BossSpawn.AddListener(OnBossSpawn);
+            GameManager.Instance.E_BossSpawn.AddListener(OnBossSpawn);
         }
 
 
         // = = = Public = = = //
         public List<Vector3> UnitPositions => mercs.Where(obj => obj.Object != null).Select(obj => obj.Object.transform.position).ToList();
         // = = = ^
-
-        void ReplaceWeakestMerc(MercID merc)
-        {
-            SpawnedUnit weakest = GetWeakestUnit();
-
-            mercs.Remove(weakest);
-
-            InstantiateAndSetupMerc(merc, weakest.Object.transform.position);
-
-            Destroy(weakest.Object);
-        }
-
-
-
-        SpawnedUnit GetWeakestUnit() => mercs.OrderBy(ele => StatsCache.TotalMercDamage(ele.ID)).First();
-        bool MercInFormation(MercID mercId) => mercs.Where(ele => ele.ID == mercId).Count() == 1;
-        bool MercIsStrongerThanWeakest(MercID mercid) => StatsCache.TotalMercDamage(mercid) > StatsCache.TotalMercDamage(GetWeakestUnit().ID);
-
 
         void InstantiateAndSetupMerc(MercID merc, Vector2 pos)
         {
@@ -90,7 +68,6 @@ namespace GM
 
             mercs.Add(new SpawnedUnit()
             {
-                ID = merc,
                 Object = o,
                 Controller = controller,
                 NewController = o.GetComponent<GM.Mercs.Controllers.MercController>()
@@ -105,7 +82,7 @@ namespace GM
 
             float offsetX = Mathf.Abs(formation.MinBounds().x) + 1.0f;
 
-            for (int i = 0; i < mercs.Count; ++i)
+            for (int i = 0; i < Mathf.Min(formation.NumPositions, mercs.Count); ++i)
             {
                 SpawnedUnit unit = mercs[i];
 
@@ -122,11 +99,7 @@ namespace GM
                 }
                 else
                 {
-                    AttackerTarget target = new AttackerTarget
-                    {
-                        Object = boss,
-                        Position = targetPosition
-                    };
+                    Target target = new Target(boss, targetPosition);
 
                     unit.NewController.AssignTarget(target);
                 }
@@ -136,26 +109,9 @@ namespace GM
 
         void OnHeroUnlocked(MercID merc)
         {
-            if (mercs.Count < 5)
-            {
-                Vector2 pos = new Vector2(Camera.main.MinBounds().x, Constants.CENTER_BATTLE_Y);
+            Vector2 pos = new Vector2(Camera.main.MinBounds().x, Constants.CENTER_BATTLE_Y);
 
-                InstantiateAndSetupMerc(merc, pos);
-            }
-
-            else
-            {
-                ReplaceWeakestMerc(merc);
-            }
-        }
-
-
-        void OnMercLeveledUp(MercID merc)
-        {
-            if (!MercInFormation(merc) && MercIsStrongerThanWeakest(merc))
-            {
-                ReplaceWeakestMerc(merc);
-            }
+            InstantiateAndSetupMerc(merc, pos);
         }
     }
 }

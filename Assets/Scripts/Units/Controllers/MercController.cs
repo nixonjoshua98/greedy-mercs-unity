@@ -16,7 +16,7 @@ namespace GM.Units
         public Animator anim;
         
         public UnitMovement Movement { get; private set; }
-        public UnitAttack Attack{ get; private set; }
+        public UnitAttack Attack { get; private set; }
 
         GameObject CurrentTarget;
 
@@ -37,7 +37,7 @@ namespace GM.Units
         // and it has missed a Boss spawn event.
         void GetInitialTarget()
         {
-            if (GameManager.Get.TryGetBoss(out GameObject boss))
+            if (GameManager.Instance.TryGetBoss(out GameObject boss))
             {
                 CurrentTarget = boss;
             }
@@ -48,7 +48,7 @@ namespace GM.Units
         {
             Attack.E_OnAttackImpact.AddListener(OnAttackImpact);
 
-            GameManager.Get.E_BossSpawn.AddListener(boss => {
+            GameManager.Instance.E_BossSpawn.AddListener(boss => {
                 Attack.Disable();
 
                 CurrentTarget = boss;

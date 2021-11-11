@@ -1,17 +1,14 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using AttackType = GM.Common.Enums.AttackType;
 
 namespace GM.Targets
 {
     public class Target
     {
-        public GameObject Object;
-
-        public List<AttackType> Attackers { get; private set; } = new List<AttackType>();
-
-        public int AttackersCount => Attackers.Count;
+        public GameObject Object { get; private set; }
+        List<GameObject> Attackers = new List<GameObject>();
+        public int AttackersCount { get => Attackers.Count; }
+        public Vector2? AttackPosition { get; private set; } // Optional position to attack from
 
         private Target() { }
 
@@ -20,17 +17,15 @@ namespace GM.Targets
             Object = obj;
         }
 
-        public int AddAttacker(AttackType attacker)
+        public Target(GameObject obj, Vector2 pos)
+        {
+            Object = obj;
+            AttackPosition = pos;
+        }
+
+        public void AddAttacker(GameObject attacker)
         {
             Attackers.Add(attacker);
-
-            return GetAttackerId();
         }
-
-        int GetAttackerId()
-        {
-            return AttackersCount - 1;
-        }
-
     }
 }

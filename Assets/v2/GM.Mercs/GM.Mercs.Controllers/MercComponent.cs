@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using MercID = GM.Common.Enums.MercID;
 
@@ -9,11 +7,18 @@ namespace GM.Mercs.Controllers
     {
         public MercID ID { get; private set; }
 
+        protected Animator AvatarAnimator;
+        protected MercMovement Movement;
+        protected AnimationStrings Animations;
+
         protected virtual void Awake()
         {
-            if (TryGetComponent(out GM.Mercs.Controllers.MercController controller))
+            if (TryGetComponent(out MercController controller))
             {
                 ID = controller.ID;
+                Movement = controller.Movement;
+                AvatarAnimator = controller.AvatarAnimator;
+                Animations = controller.Animations;
             }
             else
             {

@@ -5,10 +5,6 @@ namespace GM.Mercs.Controllers
 {
     public class MercAttackController : MercComponent
     {
-        [Header("References")]
-        [SerializeField] AnimationStrings animStrings;
-        [SerializeField] Animator anim;
-
         GameObject currentAttackTarget;
 
         public bool IsReady { get; private set; } = true;
@@ -19,7 +15,7 @@ namespace GM.Mercs.Controllers
 
             currentAttackTarget = target;
 
-            anim.Play(animStrings.Attack);
+            AvatarAnimator.Play(Animations.Attack);
         }
 
         void DealDamageToTarget()

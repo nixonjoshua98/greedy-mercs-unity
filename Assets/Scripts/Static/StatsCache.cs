@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using Random = UnityEngine.Random;
 using BonusType = GM.Common.Enums.BonusType;
 using MercID = GM.Common.Enums.MercID;
 
@@ -40,23 +39,21 @@ namespace GM
 
 
         // = = = Critical Hits = = = //
-        public static BigDouble CriticalHitChance()
+        public static float CriticalHitChance()
         {
-            return BASE_CRIT_CHANCE + 
-                AddAllSources(BonusType.FLAT_CRIT_CHANCE);
+            return BASE_CRIT_CHANCE + (float)AddAllSources(BonusType.FLAT_CRIT_CHANCE);
         }
 
         public static BigDouble CriticalHitMultiplier()
         {
-            return BASE_CRIT_MULTIPLIER + 
-                MultiplyAllSources(BonusType.FLAT_CRIT_DMG);
+            return BASE_CRIT_MULTIPLIER + MultiplyAllSources(BonusType.FLAT_CRIT_DMG);
         }
 
         public static bool ApplyCritHit(ref BigDouble val)
         {
-            BigDouble critChance = CriticalHitChance();
+            float critChance = CriticalHitChance();
 
-            if (critChance >= 1.0 || Random.Range(0.0f, 1.0f) < critChance)
+            if (MathUtils.PercentChance(critChance))
             {
                 val *= CriticalHitMultiplier();
 

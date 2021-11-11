@@ -26,16 +26,12 @@ namespace GM.Mercs.Controllers
         {
             if (currentAttackTarget == null)
             {
-                Debug.Log("Attempted to attack destroyed object");
             }
-
             else if (!currentAttackTarget.TryGetComponent(out HealthController health))
             {
-                Debug.Log("Target is missing 'HealthController' component");
             }
             else if (health.CurrentHealth == 0)
             {
-                Debug.Log("Attempted to attack an already dead unit");
             }
             else
             {

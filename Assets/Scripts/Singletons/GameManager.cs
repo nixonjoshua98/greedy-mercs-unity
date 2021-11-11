@@ -146,26 +146,19 @@ namespace GM
 
         void SpawnBoss()
         {
-            IEnumerator ISpawnNextEnemy()
-            {
-                yield return SpawnDelay();
+            // Spawn the object
+            currentStageBoss = spawner.SpawnBoss(state);
 
-                // Spawn the object
-                currentStageBoss = spawner.SpawnBoss(state);
+            // Grab components
+            HealthController hp = currentStageBoss.GetComponent<HealthController>();
 
-                // Grab components
-                HealthController hp = currentStageBoss.GetComponent<HealthController>();
+            hp.Setup(val: Formulas.BossHealth(state.Stage));
 
-                hp.Setup(val: Formulas.BossHealth(state.Stage));
+            hp.E_OnZeroHealth.AddListener(OnBossZeroHealth);
 
-                hp.E_OnZeroHealth.AddListener(OnBossZeroHealth);
+            OnBossSpawn();
 
-                OnBossSpawn();
-
-                E_BossSpawn.Invoke(currentStageBoss);
-            }
-
-            StartCoroutine(ISpawnNextEnemy());
+            E_BossSpawn.Invoke(currentStageBoss);
         }
 
 

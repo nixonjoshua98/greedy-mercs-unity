@@ -9,6 +9,9 @@ namespace GM.Mercs.Controllers
         [SerializeField] protected MercID _ID = MercID.NONE;
         public MercID ID { get => _ID; }
 
+        [Header("Attributes")]
+        public float AttackRange = 0.25f;
+
         [Header("References")]
         public AnimationStrings Animations;
         [Space]
@@ -16,8 +19,8 @@ namespace GM.Mercs.Controllers
         [SerializeField] MercAttackController attackController;
         public MercMovement Movement;
 
-        [SerializeField] MercActivity status = MercActivity.IDLE;
-        [SerializeField] Target target;
+        Target target;
+        MercActivity status = MercActivity.IDLE;
 
         protected GM.Mercs.Data.FullMercData MercData => App.Data.Mercs.GetMerc(_ID);
         protected bool IsCurrentTargetValid { get => GameManager.Instance.IsTargetValid(target); }
@@ -50,7 +53,7 @@ namespace GM.Mercs.Controllers
         {
             Vector3 attackPosition = attackController.GetAttackPosition(target);
 
-            if (Vector2.Distance(attackPosition, transform.position) <= 0.25f)
+            if (Vector2.Distance(attackPosition, transform.position) <= AttackRange)
             {
                 Movement.FaceTowards(target.Object);
 

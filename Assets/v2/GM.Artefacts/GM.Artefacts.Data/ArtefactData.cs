@@ -23,7 +23,7 @@ namespace GM.Artefacts.Data
         public BonusType Bonus => Game.Bonus;
         public float CostExpo => Game.CostExpo;
         public float CostCoeff => Game.CostCoeff;
-        public double BaseEffect => Formulas.BaseArtefactEffect(User.Level, Game.BaseEffect, Game.LevelEffect);
+        public double BaseEffect => GM.Common.GameFormulas.BaseArtefactEffect(User.Level, Game.BaseEffect, Game.LevelEffect);
         public bool IsMaxLevel => User.Level >= Game.MaxLevel;
     }
 }

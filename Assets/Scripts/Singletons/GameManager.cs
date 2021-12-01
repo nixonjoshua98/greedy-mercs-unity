@@ -29,7 +29,7 @@ namespace GM
         }
     }
 
-    public class GameManager : MonoBehaviour
+    public class GameManager : Core.GMMonoBehaviour
     {
         public static GameManager Instance = null;
 
@@ -114,7 +114,7 @@ namespace GM
 
                 List<GameObject> spawnedEnemies = spawner.SpawnWave();
 
-                BigDouble combinedHealth = Formulas.EnemyHealth(state.Stage);
+                BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(state.Stage);
 
                 List<HealthController> healthControllers = new List<HealthController>();
 
@@ -152,7 +152,7 @@ namespace GM
             // Grab components
             HealthController hp = currentStageBoss.GetComponent<HealthController>();
 
-            hp.Setup(val: Formulas.BossHealth(state.Stage));
+            hp.Setup(val: App.Cache.StageBossHealthAtStage(state.Stage));
 
             hp.E_OnZeroHealth.AddListener(OnBossZeroHealth);
 

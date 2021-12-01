@@ -64,8 +64,8 @@ public static class BigNumberExtensions
         return BigInteger.Parse(@this.Floor().ToString("F0"));
     }
 
-    public static BigInteger ToBigInteger(this BigDouble val)
+    public static BigInteger CeilToBigInteger(this BigDouble @this)
     {
-        return BigInteger.Parse(val.Ceiling().ToString("F0"));
+        return BigInteger.Parse(@this.Ceiling().ToString("F0"));
     }
 }

@@ -2,18 +2,18 @@
 
 using UnityEngine;
 
-namespace GM
+namespace GM.Common
 {
-    public class Formulas : Core.GMClass
+    public static class GameFormulas
     {
         public static BigInteger ArtefactUnlockCost(int owned)
         {
-            return BigDouble.Ceiling(Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).ToBigInteger();
+            return (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).CeilToBigInteger();
         }
 
-        public static BigInteger UpgradeCost(int currentLevel, int levels, float expo, float coeff)
+        public static BigInteger ArtefactUpgradeCost(int currentLevel, int levels, float expo, float coeff)
         {
-            return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
+            return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).CeilToBigInteger();
         }
 
         public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying, double unlockCost)
@@ -22,7 +22,6 @@ namespace GM
         }
 
 
-        // === Armoury Items === //
         public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
         {
             double val = ((evolveLevel + 1) * (baseDamage - 1) * level) + 1;
@@ -67,25 +66,12 @@ namespace GM
             return CalcEnemyGold(stage) * 7.3f;
         }
 
-        //public static int AffordCharacterLevels(MercID merc)
-        //{
-        //    GM.Mercs.Data.FullMercData data = App.Data.Mercs.GetMerc(merc);
-
-        //    BigDouble val = BigMath.AffordGeometricSeries(App.Data.Inv.Gold, data.UnlockCost, 1.077, data.CurrentLevel);
-
-        //    return Mathf.Min(global::Constants.MAX_CHAR_LEVEL - data.CurrentLevel, int.Parse(val.ToString()));
-        //}
-
-        // === Prestige Points ===
-
         public static BigInteger CalcPrestigePoints(int stage)
         {
             BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2.2);
 
-            return BigInteger.Parse(big.Ceiling().ToString("F0"));
+            return big.CeilToBigInteger();
         }
-
-        // === General ===
 
         public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float exponent)
         {

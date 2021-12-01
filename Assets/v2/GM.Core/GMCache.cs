@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BigInteger = System.Numerics.BigInteger;
 using BonusType = GM.Common.Enums.BonusType;
+using GameFormulas = GM.Common.GameFormulas;
 
 namespace GM.Core
 {
@@ -55,20 +56,29 @@ namespace GM.Core
             }
         }
 
+        public BigDouble EnemyHealthAtStage(int stage)
+        {
+            return GameFormulas.EnemyHealth(stage);
+        }
+
+        public BigDouble StageBossHealthAtStage(int stage)
+        {
+            return GameFormulas.BossHealth(stage);
+        }
 
         public BigDouble GoldPerEnemyAtStage(int stage)
         {
-            return Formulas.CalcEnemyGold(stage) * CombinedBonuses.Get(BonusType.ENEMY_GOLD, 1) * CombinedBonuses.Get(BonusType.ALL_GOLD, 1);
+            return GameFormulas.CalcEnemyGold(stage) * CombinedBonuses.Get(BonusType.ENEMY_GOLD, 1) * CombinedBonuses.Get(BonusType.ALL_GOLD, 1);
         }
 
         public BigDouble GoldPerStageBossAtStage(int stage)
         {
-            return Formulas.CalcBossGold(stage) * CombinedBonuses.Get(BonusType.BOSS_GOLD, 1) * CombinedBonuses.Get(BonusType.ALL_GOLD, 1);
+            return GameFormulas.CalcBossGold(stage) * CombinedBonuses.Get(BonusType.BOSS_GOLD, 1) * CombinedBonuses.Get(BonusType.ALL_GOLD, 1);
         }
 
         public BigInteger PrestigePointsForStage(int stage)
         {
-            BigDouble big = Formulas.CalcPrestigePoints(stage).ToBigDouble() * CombinedBonuses.Get(BonusType.MULTIPLY_PRESTIGE_BONUS, 1);
+            BigDouble big = GameFormulas.CalcPrestigePoints(stage).ToBigDouble() * CombinedBonuses.Get(BonusType.MULTIPLY_PRESTIGE_BONUS, 1);
 
             return big.FloorToBigInteger();
         }
@@ -95,7 +105,7 @@ namespace GM.Core
         public double ArmouryMercDamageMultiplier => cache.Get<double>($"ArmouryMercDamageMultiplier", 1, () => App.Data.Armoury.ArmouryMercDamageMultiplier);
 
         /// <summary>Unlock cost for next artefact</summary>
-        public BigInteger ArtefactUnlockCost(int owned) => Formulas.ArtefactUnlockCost(owned);
+        public BigInteger ArtefactUnlockCost(int owned) => GameFormulas.ArtefactUnlockCost(owned);
 
         /// <summary>
         /// Artefact upgrade cost. CurrentLevel -> (CurrentLevel + levels)
@@ -103,7 +113,7 @@ namespace GM.Core
         public BigInteger ArtefactUpgradeCost(GM.Artefacts.Data.ArtefactData data, int levels)
         {
             return cache.Get<BigInteger>($"ArtefactUpgradeCost/{data.CurrentLevel}/{levels}/{data.CostExpo}/{data.CostCoeff}", 60,
-                () => Formulas.UpgradeCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff));
+                () => GameFormulas.ArtefactUpgradeCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff));
         }
 
         /// <summary>
@@ -112,7 +122,7 @@ namespace GM.Core
         public BigDouble MercUpgradeCost(GM.Mercs.Data.FullMercData merc, int levels)
         {
             return cache.Get<BigDouble>($"MercUpgradeCost/{merc.Id}/{merc.CurrentLevel}/{levels}", 60,
-                () => Formulas.MercUpgradeCost(merc.CurrentLevel, levels, merc.UnlockCost));
+                () => GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels, merc.UnlockCost));
         }
 
         /// <summary>
@@ -121,7 +131,7 @@ namespace GM.Core
         public BigDouble MercBaseDamageAtLevel(GM.Mercs.Data.FullMercData merc)
         {
             return cache.Get<BigDouble>($"MercBaseDamageAtLevel/{merc.Id}/{merc.CurrentLevel}", 60,
-                () => Formulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel));
+                () => GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel));
         }
 
         public BigDouble MercDamage(GM.Mercs.Data.FullMercData merc)

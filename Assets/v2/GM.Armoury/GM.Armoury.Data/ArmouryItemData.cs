@@ -46,6 +46,6 @@ namespace GM.Armoury.Data
         /// <summary>
         /// Weapon damage for the supplied values
         /// </summary>
-        public double WeaponDamageFor(int level, int starLevel) => Formulas.ArmouryItemDamage(level, starLevel, Game.BaseDamage);
+        public double WeaponDamageFor(int level, int starLevel) => GM.Common.GameFormulas.ArmouryItemDamage(level, starLevel, Game.BaseDamage);
     }
 }

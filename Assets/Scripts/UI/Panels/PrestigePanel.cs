@@ -26,7 +26,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            if (state.Stage >= global::Constants.MIN_PRESTIGE_STAGE)
+            if (state.Stage >= Common.Constants.MIN_PRESTIGE_STAGE)
             {
                 prestigeButton.interactable = false;
 

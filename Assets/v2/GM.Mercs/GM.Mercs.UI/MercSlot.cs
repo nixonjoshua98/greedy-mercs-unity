@@ -23,7 +23,7 @@ namespace GM.Mercs.UI
         {
             get
             {
-                return Mathf.Min(_buyAmount, GM.Constants.MAX_MERC_LEVEL - AssignedMerc.CurrentLevel);
+                return Mathf.Min(_buyAmount, Common.Constants.MAX_MERC_LEVEL - AssignedMerc.CurrentLevel);
             }
         }
 
@@ -71,7 +71,7 @@ namespace GM.Mercs.UI
         {
             BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, buyAmount);
 
-            bool willExceedMaxLevel = AssignedMerc.CurrentLevel + buyAmount > Constants.MAX_MERC_LEVEL;
+            bool willExceedMaxLevel = AssignedMerc.CurrentLevel + buyAmount > Common.Constants.MAX_MERC_LEVEL;
             bool canAffordUpgrade = App.Data.Inv.Gold >= upgradeCost;
 
             if (!willExceedMaxLevel && canAffordUpgrade)

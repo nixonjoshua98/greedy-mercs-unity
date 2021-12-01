@@ -87,7 +87,7 @@ namespace GM.Core
         {
             get
             {
-                return (float)(Constants.BASE_CRIT_CHANCE + CombinedBonuses.Get(BonusType.FLAT_CRIT_CHANCE, 0));
+                return (float)(Common.Constants.BASE_CRIT_CHANCE + CombinedBonuses.Get(BonusType.FLAT_CRIT_CHANCE, 0));
             }
         }
 
@@ -95,7 +95,7 @@ namespace GM.Core
         {
             get
             {
-                return Constants.BASE_CRIT_MULTIPLIER + CombinedBonuses.Get(BonusType.FLAT_CRIT_DMG, 1);
+                return Common.Constants.BASE_CRIT_MULTIPLIER + CombinedBonuses.Get(BonusType.FLAT_CRIT_DMG, 1);
             }
         }
 

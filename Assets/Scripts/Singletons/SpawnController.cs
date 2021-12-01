@@ -93,7 +93,7 @@ namespace GM
         {
             Vector3 pos = Camera.main.MaxBounds();
 
-            return new Vector3(pos.x - 2.0f, Constants.CENTER_BATTLE_Y);
+            return new Vector3(pos.x - 2.0f, Common.Constants.CENTER_BATTLE_Y);
         }
 
 

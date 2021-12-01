@@ -26,7 +26,7 @@ namespace GM.Mercs.Data
         public MercID Id => Game.Id;
         public string Name => Game.Name;
         public int CurrentLevel => User.Level;
-        public bool IsMaxLevel => User.Level >= GM.Constants.MAX_MERC_LEVEL;
+        public bool IsMaxLevel => User.Level >= Common.Constants.MAX_MERC_LEVEL;
         public Sprite Icon => Game.Icon;
         public double UnlockCost => Game.UnlockCost;
         public AttackType AttackType => Game.AttackType;

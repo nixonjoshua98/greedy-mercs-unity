@@ -88,7 +88,7 @@ namespace GM
 
                 Vector2 relPos = formation.GetPosition(i);
 
-                Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Constants.CENTER_BATTLE_Y);
+                Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Common.Constants.CENTER_BATTLE_Y);
 
                 if (unit.Controller != null)
                 {
@@ -109,7 +109,7 @@ namespace GM
 
         void OnHeroUnlocked(MercID merc)
         {
-            Vector2 pos = new Vector2(Camera.main.MinBounds().x, Constants.CENTER_BATTLE_Y);
+            Vector2 pos = new Vector2(Camera.main.MinBounds().x, Common.Constants.CENTER_BATTLE_Y);
 
             InstantiateAndSetupMerc(merc, pos);
         }

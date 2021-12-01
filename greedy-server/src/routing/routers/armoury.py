@@ -11,8 +11,8 @@ from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authentication import (AuthenticatedUser,
-                                                     inject_authenticated_user)
+from src.authentication.authentication import (AuthenticatedUser,
+                                               inject_authenticated_user)
 
 
 class ArmouryItemActionModel(BaseModel):
@@ -64,8 +64,8 @@ async def upgrade(
 
     return ServerResponse(
         {
-            "updatedItem": updated_item.response_dict(),
-            "currencyItems": currencies.response_dict(),
+            "updatedItem": updated_item.to_client_dict(),
+            "currencyItems": currencies.to_client_dict(),
         }
     )
 
@@ -115,7 +115,7 @@ async def merge(
         upsert=False,
     )
 
-    return ServerResponse({"updateditem": updated_item.response_dict()})
+    return ServerResponse({"updateditem": updated_item.to_client_dict()})
 
 
 # == Calculations == #

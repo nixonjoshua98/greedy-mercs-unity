@@ -35,7 +35,7 @@ class ArtefactModel(BaseDocument):
 
     level: int = Field(..., alias=Fields.LEVEL)
 
-    def response_dict(self):
+    def to_client_dict(self):
         return self.dict(exclude={"id", "user_id"})
 
 

@@ -4,24 +4,23 @@ from typing import Any
 
 import bson
 from fastapi.encoders import jsonable_encoder as _jsonable_encoder
-from fastapi.responses import Response as _Response
+from fastapi.responses import JSONResponse as _JSONResponse
 
 
-class ServerResponse(_Response):
+class ServerResponse(_JSONResponse):
     def __init__(self, content: dict, *args, **kwargs):
         super(ServerResponse, self).__init__(content, *args, **kwargs)
 
     def render(self, content: Any) -> bytes:
-        def _render():
-            if isinstance(content, str):
-                return content
-
-            return json.dumps(content, default=self.jsonable_encoder)
-
-        return super(ServerResponse, self).render(_render())
+        return json.dumps(
+            content,
+            ensure_ascii=False,
+            allow_nan=False,
+            default=self.default_json_dump
+        ).encode("utf-8")
 
     @staticmethod
-    def jsonable_encoder(o):
+    def default_json_dump(o):
         if isinstance(o, bson.ObjectId):
             return str(o)
 

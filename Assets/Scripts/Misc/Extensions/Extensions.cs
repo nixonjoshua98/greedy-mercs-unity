@@ -10,7 +10,7 @@ namespace GM
 {
     public static class AttackTypeExtensions
     {
-        public static BonusType ToBonusType(this AttackType val)
+        public static BonusType Bonus(this AttackType val)
         {
             switch (val)
             {
@@ -21,8 +21,6 @@ namespace GM
                     return BonusType.RANGED_DAMAGE;
 
                 default:
-                    Debug.LogError($"Invalid AttackType - Defaulting to Melee.");
-
                     return BonusType.MELEE_DAMAGE;
             }
         }
@@ -59,6 +57,11 @@ public static class BigNumberExtensions
     public static BigDouble ToBigDouble(this BigInteger val)
     {
         return BigDouble.Parse(val.ToString());
+    }
+
+    public static BigInteger FloorToBigInteger(this BigDouble @this)
+    {
+        return BigInteger.Parse(@this.Floor().ToString("F0"));
     }
 
     public static BigInteger ToBigInteger(this BigDouble val)

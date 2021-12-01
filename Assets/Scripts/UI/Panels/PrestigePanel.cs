@@ -18,7 +18,7 @@ namespace GM
         {
             CurrentStageState state = GameManager.Instance.State();
 
-            prestigePointText.text = Format.Number(StatsCache.GetPrestigePoints(state.Stage));
+            prestigePointText.text = Format.Number(App.Cache.PrestigePointsForStage(state.Stage));
         }
 
 

@@ -15,8 +15,7 @@ from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authentication import (AuthenticatedUser,
-                                                     inject_authenticated_user)
+from src.authentication.authentication import AuthenticatedUser, inject_authenticated_user
 
 router = APIRouter(prefix="/api/artefact")
 
@@ -86,8 +85,8 @@ async def upgrade(
 
     return ServerResponse(
         {
-            "currencyItems": currencies.response_dict(),
-            "updatedArtefact": artefact.response_dict(),
+            "currencyItems": currencies.to_client_dict(),
+            "updatedArtefact": artefact.to_client_dict(),
             "upgradeCost": upgrade_cost,
         }
     )
@@ -132,8 +131,8 @@ async def unlock(
 
     return ServerResponse(
         {
-            "currencyItems": currencies.response_dict(),
-            "newArtefact": new_artefact.response_dict(),
+            "currencyItems": currencies.to_client_dict(),
+            "newArtefact": new_artefact.to_client_dict(),
             "unlockCost": unlock_cost,
         }
     )

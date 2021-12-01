@@ -1,12 +1,13 @@
 import functools as ft
 
 from fastapi import HTTPException
+from fastapi.exceptions import RequestValidationError
 
 from src.application import Application
 from src.mongo.motorclient import MotorClient
 
 from .cache import MemoryCache
-from .exceptions import handle_http_exception
+from src import exception_handlers
 
 
 def _on_app_start(fast_app: Application):
@@ -22,7 +23,9 @@ def create_app():
         swagger_ui_oauth2_redirect_url=None,
     )
 
-    fast_app.add_exception_handler(HTTPException, handle_http_exception)
+    fast_app.add_exception_handler(HTTPException, exception_handlers.handle_http_exception)
+    fast_app.add_exception_handler(RequestValidationError, exception_handlers.handle_request_validation_error)
+
     fast_app.add_event_handler("startup", ft.partial(_on_app_start, fast_app))
 
     return fast_app

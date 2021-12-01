@@ -42,7 +42,7 @@ class UserBountiesModel(BaseDocument):
     def active_bounties(self) -> list[UserBountyModel]:
         return [b for b in self.bounties if b.is_active]
 
-    def response_dict(self):
+    def to_client_dict(self):
         return self.dict(exclude={"id"})  # Field names instead of aliases
 
 

@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Any, Iterable, Optional, TypeVar
+from typing import Any, Iterable, Optional, TypeVar, Union
 
 T = TypeVar("T")
 
@@ -20,7 +20,7 @@ def get(ls: Iterable[T], **attrs: Any) -> Optional[T]:
     return None
 
 
-def load_static_data_file(fp: str):
+def load_static_data_file(fp: str) -> Union[dict, list]:
     """
     Load a file from the /static root folder
 

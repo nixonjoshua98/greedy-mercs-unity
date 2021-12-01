@@ -84,19 +84,5 @@ namespace GM.Artefacts.Data
                 call.Invoke(resp.StatusCode == HTTPCodes.Success, resp.NewArtefact == null ? null : GetArtefact(resp.NewArtefact.Id));
             });
         }
-
-
-        // === Special Methods === //
-        public List<KeyValuePair<BonusType, double>> Bonuses()
-        {
-            List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
-
-            foreach (ArtefactData state in UserOwnedArtefacts)
-            {
-                ls.Add(new KeyValuePair<BonusType, double>(state.Bonus, state.BaseEffect));
-            }
-
-            return ls;
-        }
     }
 }

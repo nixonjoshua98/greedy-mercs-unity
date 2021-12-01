@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Union
+from typing import Optional
 
 from src.pymodels import BaseDocument
 from src.routing import ServerRequest
@@ -19,22 +19,17 @@ class AccountsRepository:
     def __init__(self, client):
         self._col = client.db["userAccounts"]
 
-    async def get_user(self, uid, did) -> Union[AccountModel, None]:
-        r = await self._col.find_one({"_id": uid, "deviceId": did})
-
-        return AccountModel.parse_obj(r) if r else None
-
-    async def get_user_by_id(self, uid) -> Union[AccountModel, None]:
+    async def get_user_by_id(self, uid) -> Optional[AccountModel]:
         r = await self._col.find_one({"_id": uid})
 
         return AccountModel.parse_obj(r) if r else None
 
-    async def get_user_by_did(self, uid) -> Union[AccountModel, None]:
+    async def get_user_by_did(self, uid) -> Optional[AccountModel]:
         r = await self._col.find_one({"deviceId": uid})
 
         return AccountModel.parse_obj(r) if r else None
 
-    async def insert_new_user(self, data: dict) -> Union[AccountModel, None]:
-        r = await self._col.insert_one(data)
+    async def insert_new_user(self, device_id: str) -> Optional[AccountModel]:
+        r = await self._col.insert_one({"deviceId": device_id})
 
         return await self.get_user_by_id(r.inserted_id)

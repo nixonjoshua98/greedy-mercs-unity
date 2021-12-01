@@ -21,7 +21,7 @@ class BaseModel(_BaseModel):
         """We most likely will not use this encoder and instead rely on the request/response encoder."""
         raise RuntimeError("'.json()' should likely not be used")
 
-    def response_dict(self):
+    def to_client_dict(self):
         """
         Dict encoder used when returning data back to the client.
         Useful for excluding or renaming fields

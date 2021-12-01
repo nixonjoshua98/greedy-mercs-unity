@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace GM.Units
 {
-    public abstract class UnitController : MonoBehaviour
+    public abstract class UnitController : Core.GMMonoBehaviour
     {
         /*
          * UnitController is the base class for Mercs, Bosses, and Enemies.

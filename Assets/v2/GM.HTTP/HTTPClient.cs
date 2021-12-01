@@ -18,9 +18,6 @@ namespace GM.HTTP
 
         IServerAuthentication serverAuthDetails;
 
-        public int maxRequestId;
-        public int currentRequestId;
-
         // = Armoury = //
         public void Armoury_Upgrade(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("armoury/upgrade"), req, callback);
         public void Armoury_Merge(UpgradeStarLevelArmouryItemRequest req, UnityAction<UpgradeStarLevelArmouryItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("armoury/merge"), req, callback);
@@ -71,7 +68,6 @@ namespace GM.HTTP
         {
             IEnumerator _Send()
             {
-                yield return WaitForRequestReady();
                 yield return SendRequest(UnityWebRequest.Get(url), callback);
             }
 
@@ -82,6 +78,7 @@ namespace GM.HTTP
         /// </summary>
         void Auth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
         {
+            Debug.Log(url);
             var www = UnityWebRequest.Get(url);
 
             StartCoroutine(SendAuthenticatedRequest(www, callback));
@@ -107,7 +104,6 @@ namespace GM.HTTP
             }
             else
             {
-                yield return WaitForRequestReady();
                 SetAuthenticationHeaders(ref www);
                 yield return SendRequest(www, callback);
             }
@@ -125,19 +121,6 @@ namespace GM.HTTP
             yield return www.SendWebRequest();
 
             InvokeRequestCallback(www, callback);
-        }
-
-        /// <summary>
-        /// Queue up the request in the order that it was created/requested to be sent
-        /// </summary>
-        IEnumerator WaitForRequestReady()
-        {
-            maxRequestId++;
-
-            int requestId = maxRequestId;
-
-            // Send the request in order as they are created
-            yield return new WaitUntil(() => currentRequestId == requestId);
         }
 
         /// <summary>
@@ -169,8 +152,6 @@ namespace GM.HTTP
                 {
                     Debug.Log($"{www.url} ({resp.StatusCode}) - {resp.ErrorMessage}");
                 }
-
-                currentRequestId++; // Increment the current request id, so that the next queued request is sent and processed
             }
         }
 

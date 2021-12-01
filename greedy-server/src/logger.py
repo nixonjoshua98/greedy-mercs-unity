@@ -39,7 +39,7 @@ def _create_file_handler(level: int):
     os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
 
     handler = RotatingFileHandler(
-        filename=LOG_FILE_PATH, backupCount=5, maxBytes=1_000_000
+        filename=LOG_FILE_PATH, backupCount=5, maxBytes=100_000
     )
 
     handler.setLevel(level)

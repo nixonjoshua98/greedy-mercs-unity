@@ -9,12 +9,10 @@ from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import inject_currency_repository
 from src.pymodels import BaseModel
-from src.resources.bountyshop import (StaticBountyShopArmouryItem,
-                                      inject_dynamic_bounty_shop)
+from src.resources.bountyshop import StaticBountyShopArmouryItem, inject_dynamic_bounty_shop
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.routing.dependencies.authentication import (AuthenticatedUser,
-                                                     inject_authenticated_user)
+from src.authentication.authentication import AuthenticatedUser, inject_authenticated_user
 
 router = APIRouter(prefix="/api/bountyshop")
 
@@ -65,7 +63,7 @@ async def purchase_armoury_item(
     # Return the response. We unpack the reponse_dict here
     return ServerResponse(
         {
-            "currencyItems": currencies.response_dict(),
+            "currencyItems": currencies.to_client_dict(),
             "purchaseCost": item.purchase_cost,
             **purchase_dict,
         }
@@ -81,4 +79,4 @@ async def _purchase_armoury_item(
         uid, item.armoury_item, {"$inc": {ArmouryRepoFields.NUM_OWNED: 1}}, upsert=True
     )
 
-    return {"armouryItem": armoury_item.response_dict()}
+    return {"armouryItem": armoury_item.to_client_dict()}

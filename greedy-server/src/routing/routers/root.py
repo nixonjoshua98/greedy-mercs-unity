@@ -1,5 +1,3 @@
-import secrets
-
 from fastapi import Depends
 
 from src.cache import MemoryCache, inject_memory_cache
@@ -14,6 +12,7 @@ from src.mongo.repositories.bounties import (BountiesRepository,
                                              inject_bounties_repository)
 from src.mongo.repositories.currency import (CurrencyRepository,
                                              inject_currency_repository)
+from src.authentication.session import Session
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
@@ -21,8 +20,8 @@ from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.resources.bountyshop import (DynamicBountyShop,
                                       inject_dynamic_bounty_shop)
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.authentication import (AuthenticatedUser,
-                                                     inject_authenticated_user)
+from src.authentication.authentication import (AuthenticatedUser,
+                                               inject_authenticated_user)
 from src.routing.dependencies.serverstate import (ServerState,
                                                   inject_server_state)
 
@@ -47,9 +46,9 @@ def game_data(
     return ServerResponse(
         {
             "nextDailyReset": svr_state.next_daily_reset,
-            "artefacts": [art.response_dict() for art in s_artefacts],
-            "bounties": s_bounties.response_dict(),
-            "armoury": [it.response_dict() for it in s_armoury],
+            "artefacts": [art.to_client_dict() for art in s_artefacts],
+            "bounties": s_bounties.to_client_dict(),
+            "armoury": [it.to_client_dict() for it in s_armoury],
             "mercs": resources.get_mercs(),
         }
     )
@@ -72,10 +71,10 @@ async def user_data(
     artefacts = await artefacts_repo.get_all_artefacts(user.id)
 
     data = {
-        "currencyItems": currencies.response_dict(),
-        "bountyData": bounties.response_dict(),
-        "armouryItems": [ai.response_dict() for ai in armoury],
-        "artefacts": [art.response_dict() for art in artefacts],
+        "currencyItems": currencies.to_client_dict(),
+        "bountyData": bounties.to_client_dict(),
+        "armouryItems": [ai.to_client_dict() for ai in armoury],
+        "artefacts": [art.to_client_dict() for art in artefacts],
         "bountyShop": {
             "dailyPurchases": {},
             "shopItems": s_bounty_shop.response_dict(),
@@ -94,8 +93,8 @@ async def player_login(
     user = await acc_repo.get_user_by_did(data.device_id)
 
     if user is None:
-        user = await acc_repo.insert_new_user({"deviceId": data.device_id})
+        user = await acc_repo.insert_new_user(data.device_id)
 
-    mem_cache.sessions.set(user.id, session_id := secrets.token_hex(16))
+    mem_cache.set_session(session := Session(user.id, data.device_id))
 
-    return ServerResponse({"userId": user.id, "sessionId": session_id})
+    return ServerResponse({"userId": user.id, "sessionId": session.id})

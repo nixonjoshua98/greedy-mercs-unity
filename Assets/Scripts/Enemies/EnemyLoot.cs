@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace GM
+﻿namespace GM
 {
     public class EnemyLoot : Core.GMMonoBehaviour, ILootDrop
     {
@@ -14,7 +12,9 @@ namespace GM
 
         public virtual void Process()
         {
-            App.Data.Inv.Gold += StatsCache.StageEnemy.GetEnemyGold(spawnStageState.Stage);
+            BigDouble goldGainedForDefeat = App.Cache.GoldPerEnemyAtStage(spawnStageState.Stage);
+
+            App.Data.Inv.Gold += goldGainedForDefeat;
         }
     }
 }

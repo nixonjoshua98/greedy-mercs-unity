@@ -23,15 +23,14 @@ async def inject_authenticated_user(
     if (not ObjectId.is_valid(uid)) or any(ele is None for ele in (uid, did, sid)):
         raise HTTPException(401, detail="Missing authentication")
 
+    session = mem_cache.get_session(uid := ObjectId(uid))
+
     # Invalid session
-    elif False and mem_cache.sessions.get(uid) != sid:
+    if False and not session.is_valid():
         raise HTTPException(401, detail="Invalid session")
 
-    # Throw an error if the user suddenly is on a different device now
-    # Logging in will change the registered deviceId, so if this error is thrown
-    # it's most likely due to someone replicating the API (or my mistake)
-    elif (user := await acc_repo.get_user(ObjectId(uid), did)) is None:
-        raise HTTPException(400, detail="Error")
+    elif (user := await acc_repo.get_user_by_id(uid)) is None:
+        raise HTTPException(401, detail="Client Login Error")
 
     return AuthenticatedUser(id=user.id)
 

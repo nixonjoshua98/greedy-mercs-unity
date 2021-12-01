@@ -120,20 +120,6 @@ namespace GM.Armoury.Data
 
         /// <summary>
         /// </summary>
-        public List<KeyValuePair<BonusType, double>> Bonuses()
-        {
-            double dmgBonus = ArmouryMercDamageMultiplier;
-
-            List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>
-            {
-                new KeyValuePair<BonusType, double>(BonusType.MERC_DAMAGE, dmgBonus)
-            };
-
-            return ls;
-        }
-
-        /// <summary>
-        /// </summary>
         public void UpgradeItem(int itemId, UnityAction<bool> call)
         {
             var req = new GM.HTTP.Requests.UpgradeArmouryItemRequest { ItemId = itemId };

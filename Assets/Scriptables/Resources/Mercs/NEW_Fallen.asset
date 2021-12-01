@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
-  m_Name: ReaperMan
+  m_Name: NEW_Fallen
   m_EditorClassIdentifier: 
-  ID: 1
-  Name: Reaper Man
-  Prefab: {fileID: 5097099789489235668, guid: 53919c009bfaf934da524f433d75d1df, type: 3}
-  Icon: {fileID: 21300000, guid: 3c299a60449c8b24eb8bd21c5826f879, type: 3}
+  ID: 3
+  AttackType: 0
+  Name: Fallen
+  Prefab: {fileID: 4044917154262169182, guid: 3f92fb98b45d54a498005a527d7f0852, type: 3}
+  Icon: {fileID: 21300000, guid: 8981acd73b083464fb81f5cfc3f35073, type: 3}

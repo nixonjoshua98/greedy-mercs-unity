@@ -36,7 +36,7 @@ class ArmouryItemModel(BaseDocument):
     owned: int = Field(..., alias=Fields.NUM_OWNED)
     merge_lvl: int = Field(0, alias=Fields.MERGE_LEVEL)
 
-    def response_dict(self):
+    def to_client_dict(self):
         return self.dict(exclude={"id", "user_id"})
 
 

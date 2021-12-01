@@ -6,25 +6,19 @@ namespace GM
 {
     public class Formulas : Core.GMClass
     {
-        public static class Artefacts
+        public static BigInteger ArtefactUnlockCost(int owned)
         {
-            public static BigInteger UnlockCost(int owned)
-            {
-                return BigDouble.Ceiling(Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).ToBigInteger();
-            }
-
-            public static BigInteger UpgradeCost(int currentLevel, int levels, float expo, float coeff)
-            {
-                return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
-            }
+            return BigDouble.Ceiling(Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).ToBigInteger();
         }
 
-        public static class Mercs
+        public static BigInteger UpgradeCost(int currentLevel, int levels, float expo, float coeff)
         {
-            public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying, double unlockCost)
-            {
-                return BigMath.SumGeometricSeries(levelsBuying, unlockCost, 1.077f, currentLevel);
-            }
+            return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToBigInteger();
+        }
+
+        public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying, double unlockCost)
+        {
+            return BigMath.SumGeometricSeries(levelsBuying, unlockCost, 1.077f, currentLevel);
         }
 
 
@@ -42,7 +36,7 @@ namespace GM
             return baseEffect + (levelEffect * (currentLevel - 1));
         }
 
-        public static BigDouble MercBaseDamage(BigDouble baseDamage, int level)
+        public static BigDouble MercBaseDamageAtLevel(BigDouble baseDamage, int level)
         {
             return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f) * (1 - 0.035f);
         }

@@ -31,9 +31,9 @@ namespace GM.Mercs.Controllers
             }
             else
             {
-                BigDouble dmg = StatsCache.TotalMercDamage(ID);
+                BigDouble dmg = App.Cache.MercDamage(App.Data.Mercs.GetMerc(ID));
 
-                StatsCache.ApplyCritHit(ref dmg);
+                App.Cache.ApplyCritHit(ref dmg);
 
                 health.TakeDamage(dmg);
             }

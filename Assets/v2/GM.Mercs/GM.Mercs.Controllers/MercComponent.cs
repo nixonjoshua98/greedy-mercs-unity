@@ -3,7 +3,7 @@ using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.Controllers
 {
-    public class MercComponent : MonoBehaviour
+    public class MercComponent : Core.GMMonoBehaviour
     {
         public MercID ID { get; private set; }
 

@@ -1,6 +1,7 @@
 from fastapi import Request
-
-from .prefixedcache import PrefixedCache
+from bson import ObjectId
+from src.authentication.session import Session
+from typing import Optional
 
 
 def inject_memory_cache(request: Request):
@@ -11,10 +12,5 @@ class MemoryCache:
     def __init__(self):
         self.__internal_dict: dict = {}
 
-        self.sessions = PrefixedCache(self, "sessions")
-
-    def get(self, key, default=None):
-        return self.__internal_dict.get(key, default)
-
-    def set(self, key, value):
-        self.__internal_dict[key] = value
+    def get_session(self, uid: ObjectId) -> Optional[Session]: return self.__internal_dict.get(f"session/{uid}")
+    def set_session(self, session: Session): self.__internal_dict[f"session/{session.user_id}"] = session

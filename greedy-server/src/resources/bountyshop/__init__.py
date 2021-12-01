@@ -60,7 +60,7 @@ class DynamicBountyShop:
         return utils.get(self.armoury_item, id=item)
 
     def response_dict(self) -> dict[str, list]:
-        return {"armouryItems": [ai.response_dict() for ai in self.armoury_item]}
+        return {"armouryItems": [ai.to_client_dict() for ai in self.armoury_item]}
 
     # = Shop Generation Methods = #
 

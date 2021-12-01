@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using BonusType = GM.Common.Enums.BonusType;
 using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.Data
@@ -95,23 +94,6 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Fetch the full data for all user unlocked mercs
         /// </summary>
-        public FullMercData[] UnlockedMercs => UserMercs.Where(pair => pair.Value.Level > 0).Select(pair => GetMerc(pair.Key)).ToArray();
-
-
-        // = = = Special Methods = = = //
-        public List<KeyValuePair<BonusType, double>> Bonuses()
-        {
-            List<KeyValuePair<BonusType, double>> ls = new List<KeyValuePair<BonusType, double>>();
-
-            foreach (FullMercData merc in UnlockedMercs)
-            {
-                foreach (Models.MercPassiveDataModel passive in merc.UnlockedPassives)
-                {
-                    ls.Add(new KeyValuePair<BonusType, double>(passive.Type, passive.Value));
-                }
-            }
-
-            return ls;
-        }
+        public List<FullMercData> UnlockedMercs => UserMercs.Where(pair => pair.Value.Level > 0).Select(pair => GetMerc(pair.Key)).ToList();
     }
 }

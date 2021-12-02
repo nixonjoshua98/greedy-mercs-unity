@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5097099789489235669}
-  - component: {fileID: 3114770058117950156}
-  - component: {fileID: 6664383917408467878}
-  - component: {fileID: 3037161840975356433}
+  - component: {fileID: 9120910436495260565}
+  - component: {fileID: 4808322265676788142}
+  - component: {fileID: 7127857024422436009}
   m_Layer: 0
   m_Name: StoneGolem
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3114770058117950156
+--- !u!114 &9120910436495260565
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,30 +43,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f91d21cab76a3d4081993d92a1595ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0
-  Animations: {fileID: 8353299322418157762}
-  AvatarAnimator: {fileID: 1791531129569585673}
-  attackController: {fileID: 6664383917408467878}
-  Movement: {fileID: 3037161840975356433}
-  status: 0
---- !u!114 &6664383917408467878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5097099789489235668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87d0efee9c97e70449d4f7cc2be5b8ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animStrings: {fileID: 8353299322418157762}
   anim: {fileID: 1791531129569585673}
---- !u!114 &3037161840975356433
+--- !u!114 &4808322265676788142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,12 +56,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ff27bf92fc31248bfc253bb4009943, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fda14d60ebca58448878508f3b2e400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 1791531129569585673}
+--- !u!114 &7127857024422436009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5097099789489235668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  Animations: {fileID: 8353299322418157762}
-  avatar: {fileID: 7830280867725703765}
+  avatar: {fileID: 5097099789489235668}
+--- !u!114 &5217797652623836851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7830280867725703765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  E_OnAttackAnimation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4808322265676788142}
+        m_TargetAssemblyTypeName: GM.Units.UnitAttack, Assembly-CSharp
+        m_MethodName: OnAttackAnimationEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  E_OnDeathAnimation:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102,7 +125,7 @@ PrefabInstance:
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6664383917408467878}
+      objectReference: {fileID: 0}
     - target: {fileID: 167853971174993374, guid: ce9de6eff68268441bd3dbe5c5b088c9,
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -183,7 +206,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 167853971174993374, guid: ce9de6eff68268441bd3dbe5c5b088c9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ce9de6eff68268441bd3dbe5c5b088c9, type: 3}
 --- !u!1 &7830280867725703765 stripped
 GameObject:
@@ -197,18 +221,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5097099789426097143}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8353299322418157762 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -5381686959036226763, guid: ce9de6eff68268441bd3dbe5c5b088c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 5097099789426097143}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7830280867725703765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &1791531129569585673 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6800511658964374014, guid: ce9de6eff68268441bd3dbe5c5b088c9,

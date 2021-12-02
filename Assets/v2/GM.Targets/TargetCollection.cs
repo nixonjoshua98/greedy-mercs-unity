@@ -39,14 +39,9 @@ namespace GM.Targets
         {
             foreach (Target target in _targets.OrderBy(x => Random.value))
             {
-                if (target.AttackersCount < 2)
-                {
-                    trgt = target;
+                trgt = target;
 
-                    target.AddAttacker(attacker);
-
-                    return true;
-                }
+                return true;
             }
 
             return false;

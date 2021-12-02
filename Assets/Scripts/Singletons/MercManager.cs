@@ -1,5 +1,4 @@
-﻿using GM.Targets;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MercID = GM.Common.Enums.MercID;

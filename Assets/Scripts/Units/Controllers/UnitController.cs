@@ -9,11 +9,7 @@ namespace GM.Units
 {
     public abstract class UnitController : Core.GMMonoBehaviour
     {
-        /*
-         * UnitController is the base class for Mercs, Bosses, and Enemies.
-         * Methods should have a generic cross-class purpose
-         */
-
+        public GameObject Target;
 
         protected void FadeOut(float duration, UnityAction action)
         {

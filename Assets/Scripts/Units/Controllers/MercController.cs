@@ -18,8 +18,6 @@ namespace GM.Units
         public UnitMovement Movement { get; private set; }
         public UnitAttack Attack { get; private set; }
 
-        GameObject CurrentTarget;
-
         bool _setupCalled = false;
 
         void Start()
@@ -39,7 +37,7 @@ namespace GM.Units
         {
             if (GameManager.Instance.TryGetBoss(out GameObject boss))
             {
-                CurrentTarget = boss;
+                Target = boss;
             }
         }
 
@@ -51,7 +49,7 @@ namespace GM.Units
             GameManager.Instance.E_BossSpawn.AddListener(boss => {
                 Attack.Disable();
 
-                CurrentTarget = boss;
+                Target = boss;
             });
         }
 
@@ -65,14 +63,14 @@ namespace GM.Units
 
         void FixedUpdate()
         {
-            switch (CurrentTarget == null ? "..." : CurrentTarget.tag)
+            switch (Target == null ? "..." : Target.tag)
             {
                 case Tags.Enemy:
-                    Attack.Process(CurrentTarget);
+                    Attack.Process(Target);
                     break;
 
                 case Tags.Boss:
-                    Attack.DirtyAttack(CurrentTarget);
+                    Attack.DirtyAttack(Target);
                     break;
 
                 default:
@@ -86,7 +84,7 @@ namespace GM.Units
         {
             if (!Attack.IsAttacking)
             {
-                CurrentTarget = GetTarget();
+                Target = GetTarget();
 
                 Movement.MoveDirection(Vector2.right);
             }

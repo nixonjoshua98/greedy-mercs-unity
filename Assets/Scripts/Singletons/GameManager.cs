@@ -1,9 +1,6 @@
-﻿using GM.Targets;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using AttackType = GM.Common.Enums.AttackType;
 
 namespace GM
 {
@@ -46,15 +43,13 @@ namespace GM
         [HideInInspector] public UnityEvent E_OnWaveCleared;
         [HideInInspector] public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
 
-        TargetCollection waveEnemies;
+        List<GameObject> waveEnemies = new List<GameObject>();
 
         public DamageClickController ClickController;
 
         void Awake()
         {
             Instance = this;
-
-            waveEnemies = new TargetCollection();
 
             state = new CurrentStageState();
 
@@ -70,43 +65,13 @@ namespace GM
 
         void OnDamageClick(Vector2 worldSpaceClickPosition)
         {
-            if (waveEnemies.TryGetTarget(out Target target))
+            if (waveEnemies.Count >= 1)
             {
-                Debug.Log($"Click attacked {target.Object.name} {worldSpaceClickPosition}");
+                GameObject target = waveEnemies[0];
+
+                Debug.Log($"Click attacked {target.name} {worldSpaceClickPosition}");
             }
         }
-
-
-
-        public bool GetWaveTarget(ref Target target, GameObject attacker, AttackType _)
-        {
-           return waveEnemies.TryGetTarget(ref target, attacker);
-        }
-
-        public bool IsTargetValid(Target target)
-        {
-            // Attacker has no target
-            if (target == null || target.Object == null)
-            {
-                return false;
-            }
-
-            // Target is neither the stage boss or a wave enemy
-            if (target.Object != currentStageBoss && !waveEnemies.IsTargetExists(target))
-            {
-                return false;
-            }
-
-            return target.Object.TryGetComponent(out HealthController health) && health.CurrentHealth > 0;
-        }
-
-
-
-
-
-
-
-
 
         public CurrentStageState State() => state.Copy();
 
@@ -122,39 +87,30 @@ namespace GM
 
         void SpawnWave()
         {
-            IEnumerator ISpawnNextEnemy()
+            waveEnemies = spawner.SpawnWave();
+
+            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(state.Stage);
+
+            List<HealthController> healthControllers = new List<HealthController>();
+
+            foreach (GameObject o in waveEnemies)
             {
-                yield return SpawnDelay();
+                HealthController hp = o.GetComponent<HealthController>();
 
-                List<GameObject> spawnedEnemies = spawner.SpawnWave();
+                hp.Setup(combinedHealth / waveEnemies.Count);
 
-                BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(state.Stage);
-
-                List<HealthController> healthControllers = new List<HealthController>();
-
-                foreach (GameObject o in spawnedEnemies)
-                {
-                    HealthController hp = o.GetComponent<HealthController>();
-
-                    hp.Setup(combinedHealth / spawnedEnemies.Count);
-
-                    hp.E_OnZeroHealth.AddListener(() => {
-                        OnEnemyZeroHealth(o);
-                    });
-
-                    healthControllers.Add(hp);
-                }
-
-                waveEnemies.Populate(spawnedEnemies);
-
-                E_OnWaveSpawn.Invoke(new WaveSpawnEventData()
-                {
-                    CombinedHealth = combinedHealth,
-                    HealthControllers = healthControllers
+                hp.E_OnZeroHealth.AddListener(() => {
+                    OnEnemyZeroHealth(o);
                 });
+
+                healthControllers.Add(hp);
             }
 
-            StartCoroutine(ISpawnNextEnemy());
+            E_OnWaveSpawn.Invoke(new WaveSpawnEventData()
+            {
+                CombinedHealth = combinedHealth,
+                HealthControllers = healthControllers
+            });
         }
 
 
@@ -187,7 +143,7 @@ namespace GM
         /// </summary>
         void OnEnemyZeroHealth(GameObject obj)
         {
-            waveEnemies.RemoveTarget(obj);
+            waveEnemies.Remove(obj);
 
             if (waveEnemies.Count == 0)
             {
@@ -223,11 +179,5 @@ namespace GM
             }
         }
         // = = = ^ //
-
-
-        IEnumerator SpawnDelay()
-        {
-            yield return new WaitForSeconds(0.25f);
-        }
     }
 }

@@ -14,7 +14,6 @@ namespace GM
     {
         public GameObject Object { get; set; }
         public MercController Controller { get; set; }
-        public GM.Mercs.Controllers.MercController NewController { get; set; }
     }
 
 
@@ -70,7 +69,6 @@ namespace GM
             {
                 Object = o,
                 Controller = controller,
-                NewController = o.GetComponent<GM.Mercs.Controllers.MercController>()
             });
         }
 
@@ -96,12 +94,6 @@ namespace GM
                     {
                         controller.Attack.Enable();
                     });
-                }
-                else
-                {
-                    Target target = new Target(boss, targetPosition);
-
-                    unit.NewController.AssignTarget(target);
                 }
             }
         }

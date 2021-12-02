@@ -12,5 +12,17 @@ namespace GM
         {
             return source.OrderBy(propSelector).FirstOrDefault();
         }
+
+        public static BigDouble Sum(this IEnumerable<BigDouble> source)
+        {
+            BigDouble total = 0;
+
+            foreach (BigDouble val in source)
+            {
+                total += val;
+            }
+
+            return total;
+        }
     }
 }

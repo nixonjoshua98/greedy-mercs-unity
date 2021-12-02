@@ -13,12 +13,11 @@ namespace GM.Units
         public Target CurrentTarget;
         protected override TargetList CurrentTargetList => GameManager.Instance.Enemies;
 
-
         public MercID ID { get; private set; } = MercID.NONE;
 
         [Header("Components")]
         public Animator anim;
-        
+      
         public UnitMovement Movement { get; private set; }
         public UnitAttack Attack { get; private set; }
 
@@ -59,7 +58,7 @@ namespace GM.Units
 
         void FixedUpdate()
         {
-            if (!IsTargetValid(CurrentTarget))
+            if (IsTargetValid(CurrentTarget))
             {
                 switch (CurrentTarget.Type)
                 {
@@ -70,24 +69,16 @@ namespace GM.Units
                     case TargetType.Boss:
                         Attack.DirtyAttack(CurrentTarget.GameObject);
                         break;
-
-                    default:
-                        WhileMissingTarget();
-                        break;
                 }
             }
             else
             {
                 CurrentTarget = GetTargetFromTargetList();
-            }
-        }
 
-
-        void WhileMissingTarget()
-        {
-            if (!Attack.IsAttacking)
-            {
-                Movement.MoveDirection(Vector2.right);
+                if (!Attack.IsAttacking)
+                {
+                    Movement.MoveDirection(Vector2.right);
+                }
             }
         }
 

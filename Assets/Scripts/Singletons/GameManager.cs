@@ -4,16 +4,11 @@ using UnityEngine.Events;
 
 namespace GM
 {
-    using GM.Events;
-
     public class CurrentStageState
     {
         public int Stage = 1;
         public int Wave = 1;
         public int WavesPerStage = 1;
-
-        [System.NonSerialized]
-        public bool IsBossAvailable = false;
 
         public CurrentStageState Copy()
         {
@@ -35,13 +30,14 @@ namespace GM
 
         public CurrentStageState state;
 
-        // Events
-        public UnityEvent<Target> E_BossSpawn = new UnityEvent<Target>();
-        public UnityEvent E_BossDeath = new UnityEvent();
-        [HideInInspector] public UnityEvent E_OnWaveCleared;
-        [HideInInspector] public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
+        [HideInInspector] public UnityEvent<Target> E_BossSpawn { get; private set; } = new UnityEvent<Target>();
+        [HideInInspector] public UnityEvent E_OnWaveCleared { get; private set; } = new UnityEvent();
+        [HideInInspector] public UnityEvent<TargetList> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList>();
 
         public DamageClickController ClickController;
+
+        // Contains the wave enemies, but can also contain the stage-end boss
+        // Enemies.TryGetWithType(TargetType.Boss) can be used to fetch the boss
         public TargetList Enemies { get; private set; } = new TargetList();
 
         void Awake()
@@ -65,8 +61,6 @@ namespace GM
             if (Enemies.Count >= 1)
             {
                 Target target = Enemies[0];
-
-                Debug.Log($"Click attacked {target.GameObject.name} {worldSpaceClickPosition}");
             }
         }
 
@@ -84,20 +78,13 @@ namespace GM
             {
                 trgt.Health.Setup(val: combinedHealth / Enemies.Count);
 
-                trgt.Health.E_OnZeroHealth.AddListener(() => {
-                    OnEnemyZeroHealth(trgt.GameObject);
-                });
+                trgt.Health.E_OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
 
                 healthControllers.Add(trgt.Health);
             }
 
-            E_OnWaveSpawn.Invoke(new WaveSpawnEventData()
-            {
-                CombinedHealth = combinedHealth,
-                HealthControllers = healthControllers
-            });
+            E_OnWaveSpawn.Invoke(Enemies);
         }
-
 
         void SpawnBoss()
         {
@@ -107,24 +94,14 @@ namespace GM
 
             boss.Health.E_OnZeroHealth.AddListener(OnBossZeroHealth);
 
-            OnBossSpawn();
-
             E_BossSpawn.Invoke(boss);
         }
 
 
-        // = = = Events = = = //
-        void OnBossSpawn()
+        /// <summary>Callback for when a wave enemy has been defeated</summary>
+        void OnEnemyZeroHealth(Target trgt)
         {
-            state.IsBossAvailable = true;
-        }
-
-        /// <summary>
-        /// Called once a wave enemy has their health reduced to 0
-        /// </summary>
-        void OnEnemyZeroHealth(GameObject obj)
-        {
-            Enemies.Remove(obj);
+            Enemies.Remove(trgt);
 
             if (Enemies.Count == 0)
             {
@@ -136,11 +113,8 @@ namespace GM
         {
             Enemies.Clear();
 
-            E_BossDeath.Invoke();
-
             state.Stage++;
             state.Wave = 1;
-            state.IsBossAvailable = false;
 
             SpawnWave();
         }
@@ -160,6 +134,5 @@ namespace GM
                 state.Wave++;
             }
         }
-        // = = = ^ //
     }
 }

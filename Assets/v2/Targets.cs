@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace GM
 {
@@ -35,6 +34,21 @@ namespace GM
             this.GameObject = obj;
             Type = type;
         }
+
+        public override bool Equals(object obj)
+        {
+            Target other = obj as Target;
+
+            if (other == null)
+                return false;
+
+            return GameObject == other.GameObject;
+        }
+
+        public override int GetHashCode()
+        {
+            return GameObject.GetHashCode();
+        }
     }
 
 
@@ -55,11 +69,6 @@ namespace GM
             {
                 Add(new Target(o, targetType));
             }
-        }
-
-        public void Remove(GameObject obj)
-        {
-            RemoveAll(t => t.GameObject == obj);
         }
 
         public bool TryGetWithType(TargetType type, ref Target target)

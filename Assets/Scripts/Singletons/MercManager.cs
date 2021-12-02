@@ -79,11 +79,13 @@ namespace GM
 
             float offsetX = Mathf.Abs(formation.MinBounds().x) + 1.0f;
 
-            for (int i = 0; i < Mathf.Min(formation.NumPositions, mercs.Count); ++i)
+            int mercsMoved = 0;
+
+            for (int i = 0; i < mercs.Count; ++i)
             {
                 SpawnedUnit unit = mercs[i];
 
-                Vector2 relPos = formation.GetPosition(i);
+                Vector2 relPos = formation.GetPosition(Mathf.Min(formation.NumPositions - 1, i));
 
                 Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Common.Constants.CENTER_BATTLE_Y);
 
@@ -91,7 +93,15 @@ namespace GM
                 {
                     unit.Controller.PriorityMove(targetPosition, (controller) =>
                     {
-                        controller.Attack.Enable();
+                        mercsMoved++;
+
+                        if (mercsMoved == mercs.Count)
+                        {
+                            foreach (SpawnedUnit unit in mercs)
+                            {
+                                unit.Controller.Attack.Enable();
+                            }
+                        }
                     });
                 }
             }

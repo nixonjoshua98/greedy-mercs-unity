@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Linq;
 
 namespace GM.UI
 {
@@ -53,23 +53,25 @@ namespace GM.UI
 
         void SetupWaveSpawnEvent()
         {
-            GameManager.Instance.E_OnWaveSpawn.AddListener(payload =>
+            GameManager.Instance.E_OnWaveSpawn.AddListener(waveEnemies =>
             {
-                BigDouble current = payload.CombinedHealth;
+                BigDouble maxHealth = waveEnemies.Select(w => w.Health.MaxHealth).Sum();
 
-                healthValue.text = Format.Number(payload.CombinedHealth);
+                BigDouble current = maxHealth;
+
+                healthValue.text = Format.Number(maxHealth);
 
                 targetSliderValue = 1.0f;
 
-                foreach (HealthController hp in payload.HealthControllers)
+                foreach (Target trgt in waveEnemies)
                 {
                     // Update the slider/text upon the enemy taking damage
-                    hp.E_OnDamageTaken.AddListener(damageTaken =>
+                    trgt.Health.E_OnDamageTaken.AddListener(damageTaken =>
                     {
                         current -= damageTaken;
 
                         healthValue.text = Format.Number(current);
-                        targetSliderValue = (float)(current / payload.CombinedHealth).ToDouble();
+                        targetSliderValue = (float)(current / maxHealth).ToDouble();
                     });
                 }
             });

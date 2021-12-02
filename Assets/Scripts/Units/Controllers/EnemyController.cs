@@ -118,5 +118,10 @@ namespace GM.Units
 
             action.Invoke();
         }
+
+        protected override Target GetTargetFromTargetList()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

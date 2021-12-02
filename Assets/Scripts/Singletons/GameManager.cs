@@ -35,17 +35,14 @@ namespace GM
 
         public CurrentStageState state;
 
-        GameObject currentStageBoss;
-
         // Events
-        public UnityEvent<GameObject> E_BossSpawn = new UnityEvent<GameObject>();
+        public UnityEvent<Target> E_BossSpawn = new UnityEvent<Target>();
         public UnityEvent E_BossDeath = new UnityEvent();
         [HideInInspector] public UnityEvent E_OnWaveCleared;
         [HideInInspector] public UnityEvent<WaveSpawnEventData> E_OnWaveSpawn;
 
-        List<GameObject> waveEnemies = new List<GameObject>();
-
         public DamageClickController ClickController;
+        public TargetList Enemies { get; private set; } = new TargetList();
 
         void Awake()
         {
@@ -65,45 +62,33 @@ namespace GM
 
         void OnDamageClick(Vector2 worldSpaceClickPosition)
         {
-            if (waveEnemies.Count >= 1)
+            if (Enemies.Count >= 1)
             {
-                GameObject target = waveEnemies[0];
+                Target target = Enemies[0];
 
-                Debug.Log($"Click attacked {target.name} {worldSpaceClickPosition}");
+                Debug.Log($"Click attacked {target.GameObject.name} {worldSpaceClickPosition}");
             }
         }
 
         public CurrentStageState State() => state.Copy();
 
-        public bool TryGetBoss(out GameObject boss)
-        {
-            boss = currentStageBoss;
-
-            return state.IsBossAvailable;
-        }
-
-        // = = = ^ //
-
-
         void SpawnWave()
         {
-            waveEnemies = spawner.SpawnWave();
+            Enemies.AddRange(spawner.SpawnWave(), TargetType.WaveEnemy);
 
             BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(state.Stage);
 
             List<HealthController> healthControllers = new List<HealthController>();
 
-            foreach (GameObject o in waveEnemies)
+            foreach (Target trgt in Enemies)
             {
-                HealthController hp = o.GetComponent<HealthController>();
+                trgt.Health.Setup(val: combinedHealth / Enemies.Count);
 
-                hp.Setup(combinedHealth / waveEnemies.Count);
-
-                hp.E_OnZeroHealth.AddListener(() => {
-                    OnEnemyZeroHealth(o);
+                trgt.Health.E_OnZeroHealth.AddListener(() => {
+                    OnEnemyZeroHealth(trgt.GameObject);
                 });
 
-                healthControllers.Add(hp);
+                healthControllers.Add(trgt.Health);
             }
 
             E_OnWaveSpawn.Invoke(new WaveSpawnEventData()
@@ -116,19 +101,15 @@ namespace GM
 
         void SpawnBoss()
         {
-            // Spawn the object
-            currentStageBoss = spawner.SpawnBoss(state);
+            Target boss = Enemies.Add(spawner.SpawnBoss(state), TargetType.Boss);
 
-            // Grab components
-            HealthController hp = currentStageBoss.GetComponent<HealthController>();
+            boss.Health.Setup(val: App.Cache.StageBossHealthAtStage(state.Stage));
 
-            hp.Setup(val: App.Cache.StageBossHealthAtStage(state.Stage));
-
-            hp.E_OnZeroHealth.AddListener(OnBossZeroHealth);
+            boss.Health.E_OnZeroHealth.AddListener(OnBossZeroHealth);
 
             OnBossSpawn();
 
-            E_BossSpawn.Invoke(currentStageBoss);
+            E_BossSpawn.Invoke(boss);
         }
 
 
@@ -143,9 +124,9 @@ namespace GM
         /// </summary>
         void OnEnemyZeroHealth(GameObject obj)
         {
-            waveEnemies.Remove(obj);
+            Enemies.Remove(obj);
 
-            if (waveEnemies.Count == 0)
+            if (Enemies.Count == 0)
             {
                 OnWaveCleared();
             }
@@ -153,8 +134,9 @@ namespace GM
 
         void OnBossZeroHealth()
         {
+            Enemies.Clear();
+
             E_BossDeath.Invoke();
-            currentStageBoss = null;
 
             state.Stage++;
             state.Wave = 1;

@@ -21,6 +21,8 @@ namespace GM
         [HideInInspector] public UnityEvent E_OnZeroHealth;
         [HideInInspector] public BigDoubleEvent E_OnDamageTaken;
 
+        public bool IsDead = false;
+
         void Awake()
         {
             E_OnZeroHealth = new UnityEvent();
@@ -45,7 +47,11 @@ namespace GM
                 E_OnDamageTaken.Invoke(damageTaken);
 
                 if (CurrentHealth <= 0.0f)
+                {
+                    IsDead = true;
+
                     E_OnZeroHealth.Invoke();
+                }
             }
         }
 

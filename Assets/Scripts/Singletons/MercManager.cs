@@ -73,7 +73,7 @@ namespace GM
 
 
         // = = = Event Listeners = = = //
-        void OnBossSpawn(GameObject boss)
+        void OnBossSpawn(Target boss)
         {
             Vector3 cameraPosition = Camera.main.MinBounds();
 

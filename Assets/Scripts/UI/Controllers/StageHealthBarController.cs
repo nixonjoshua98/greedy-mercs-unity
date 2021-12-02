@@ -1,7 +1,4 @@
 using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 
@@ -35,20 +32,18 @@ namespace GM.UI
             {
                 targetSliderValue = 1.0f; // Fill up the slider to 100%
 
-                HealthController hp = boss.GetComponent<HealthController>();
-
                 // Set the current health
-                healthValue.text = Format.Number(hp.CurrentHealth);
+                healthValue.text = Format.Number(boss.Health.CurrentHealth);
 
                 // Update the display upon the boss takign damage
-                hp.E_OnDamageTaken.AddListener(damageTaken =>
+                boss.Health.E_OnDamageTaken.AddListener(damageTaken =>
                 {
-                    healthValue.text = Format.Number(hp.CurrentHealth);
-                    targetSliderValue = hp.Percent();
+                    healthValue.text = Format.Number(boss.Health.CurrentHealth);
+                    targetSliderValue = boss.Health.Percent();
                 });
 
                 // Display the boss has been defeated
-                hp.E_OnZeroHealth.AddListener(() =>
+                boss.Health.E_OnZeroHealth.AddListener(() =>
                 {
                     healthValue.text = "CLEAR";
                 });

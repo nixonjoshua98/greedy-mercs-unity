@@ -10,6 +10,10 @@ namespace GM.Units
 {
     public class MercController : UnitController
     {
+        public Target CurrentTarget;
+        protected override TargetList CurrentTargetList => GameManager.Instance.Enemies;
+
+
         public MercID ID { get; private set; } = MercID.NONE;
 
         [Header("Components")]
@@ -18,16 +22,11 @@ namespace GM.Units
         public UnitMovement Movement { get; private set; }
         public UnitAttack Attack { get; private set; }
 
-        bool _setupCalled = false;
-
         void Start()
         {
             GetComponents();
             SubscribeToEvents();
             GetInitialTarget();
-
-            if (!_setupCalled)
-                Debug.LogError($"Setup not called on {name}");
         }
 
 
@@ -35,10 +34,7 @@ namespace GM.Units
         // and it has missed a Boss spawn event.
         void GetInitialTarget()
         {
-            if (GameManager.Instance.TryGetBoss(out GameObject boss))
-            {
-                Target = boss;
-            }
+            TryGetBossFromTargetList(ref CurrentTarget);
         }
 
 
@@ -49,7 +45,7 @@ namespace GM.Units
             GameManager.Instance.E_BossSpawn.AddListener(boss => {
                 Attack.Disable();
 
-                Target = boss;
+                CurrentTarget = boss;
             });
         }
 
@@ -63,19 +59,26 @@ namespace GM.Units
 
         void FixedUpdate()
         {
-            switch (Target == null ? "..." : Target.tag)
+            if (!IsTargetValid(CurrentTarget))
             {
-                case Tags.Enemy:
-                    Attack.Process(Target);
-                    break;
+                switch (CurrentTarget.Type)
+                {
+                    case TargetType.WaveEnemy:
+                        Attack.Process(CurrentTarget.GameObject);
+                        break;
 
-                case Tags.Boss:
-                    Attack.DirtyAttack(Target);
-                    break;
+                    case TargetType.Boss:
+                        Attack.DirtyAttack(CurrentTarget.GameObject);
+                        break;
 
-                default:
-                    WhileMissingTarget();
-                    break;
+                    default:
+                        WhileMissingTarget();
+                        break;
+                }
+            }
+            else
+            {
+                CurrentTarget = GetTargetFromTargetList();
             }
         }
 
@@ -84,8 +87,6 @@ namespace GM.Units
         {
             if (!Attack.IsAttacking)
             {
-                Target = GetTarget();
-
                 Movement.MoveDirection(Vector2.right);
             }
         }
@@ -94,8 +95,6 @@ namespace GM.Units
 
         public void Setup(MercID _mercId)
         {
-            _setupCalled = true;
-
             ID = _mercId;
         }
 
@@ -109,7 +108,6 @@ namespace GM.Units
             });
         }
 
-        // = = = Callbacks/Events = = = //
 
         void OnAttackImpact(GameObject target)
         {
@@ -123,12 +121,14 @@ namespace GM.Units
             }
         }
 
-        // = = = ^
-        GameObject GetTarget()
+        protected override Target GetTargetFromTargetList()
         {
-            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
+            if (CurrentTargetList.Count > 0)
+            {
+                return CurrentTargetList[Random.Range(0, CurrentTargetList.Count)];
+            }
 
-            return targets.Length == 0 ? null : targets[Random.Range(0, targets.Length)];
+            return null;
         }
     }
 }

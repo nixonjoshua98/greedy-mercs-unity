@@ -11,7 +11,7 @@ namespace GM.Common.Enums
         // Prestige
         MULTIPLY_PRESTIGE_BONUS = 500,
 
-        // All Damage + Merc Damage
+        // Damage
         MULTIPLY_ALL_DMG = 600,
         MULTIPLY_MERC_DMG = 601,
         MULTIPLY_MELEE_DMG = 602,

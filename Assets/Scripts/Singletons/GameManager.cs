@@ -48,6 +48,8 @@ namespace GM
 
         TargetCollection waveEnemies;
 
+        public DamageClickController ClickController;
+
         void Awake()
         {
             Instance = this;
@@ -55,6 +57,8 @@ namespace GM
             waveEnemies = new TargetCollection();
 
             state = new CurrentStageState();
+
+            ClickController.E_OnClick.AddListener(OnDamageClick);
         }
 
 
@@ -64,9 +68,19 @@ namespace GM
         }
 
 
+        void OnDamageClick(Vector2 worldSpaceClickPosition)
+        {
+            if (waveEnemies.TryGetTarget(out Target target))
+            {
+                Debug.Log($"Click attacked {target.Object.name} {worldSpaceClickPosition}");
+            }
+        }
+
+
+
         public bool GetWaveTarget(ref Target target, GameObject attacker, AttackType _)
         {
-            return waveEnemies.TryGetTarget(ref target, attacker);
+           return waveEnemies.TryGetTarget(ref target, attacker);
         }
 
         public bool IsTargetValid(Target target)

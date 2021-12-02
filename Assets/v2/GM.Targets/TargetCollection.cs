@@ -25,6 +25,16 @@ namespace GM.Targets
             _targets.RemoveAll(x => x.Object == trgt);
         }
 
+        public bool TryGetTarget(out Target trgt)
+        {
+            trgt = default;
+
+            if (_targets.Count >= 1)
+                trgt = _targets[0];
+
+            return _targets.Count >= 1;
+        }
+
         public bool TryGetTarget(ref Target trgt, GameObject attacker)
         {
             foreach (Target target in _targets.OrderBy(x => Random.value))

@@ -16,14 +16,14 @@ from src.mongo.repositories.bounties import (BountiesRepository,
 from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
 from src.pymodels import BaseModel
-from src.resources.armoury import StaticArmouryItem, inject_static_armoury
-from src.resources.artefacts import StaticArtefact, inject_static_artefacts
-from src.resources.bounties import StaticBounties, inject_static_bounties
+from src.resources.armoury import StaticArmouryItem, static_armoury
+from src.resources.artefacts import StaticArtefact, static_artefacts
+from src.resources.bounties import StaticBounties, static_bounties
 from src.resources.bountyshop import (DynamicBountyShop,
-                                      inject_dynamic_bounty_shop)
+                                      dynamic_bounty_shop)
 from src.routing import APIRouter, ServerResponse
 from src.routing.dependencies.serverstate import (ServerState,
-                                                  server_state)
+                                                  inject_server_state)
 
 router = APIRouter(prefix="/api")
 
@@ -38,10 +38,10 @@ class LoginModel(BaseModel):
 @router.get("/gamedata")
 def game_data(
     # = Static/Game Data = #
-    s_bounties: StaticBounties = Depends(inject_static_bounties),
-    s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
-    s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts),
-    svr_state: ServerState = Depends(server_state),
+    s_bounties: StaticBounties = Depends(static_bounties),
+    s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
+    s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
+    svr_state: ServerState = Depends(inject_server_state),
 ):
     return ServerResponse(
         {
@@ -58,7 +58,7 @@ def game_data(
 async def user_data(
     user: AuthenticatedUser = Depends(authenticated_user),
     # = Static/Game Data = #
-    s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
+    s_bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),
     # = Database Repositories = #
     currency_repo: CurrencyRepository = Depends(currency_repository),
     armoury_repo: ArmouryRepository = Depends(armoury_repository),

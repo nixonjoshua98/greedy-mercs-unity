@@ -2,8 +2,7 @@ from src.pymodels import BaseModel, Field
 from src.routing import ServerRequest
 
 
-def inject_bounty_shop_config(request: ServerRequest):
-    """Inject an instance of the Bounty Shop config. Config is stored on the server only"""
+def bounty_shop_config(request: ServerRequest):
     data: dict = request.app.get_static_file("server/bountyshop.json")
 
     return BountyShopConfig.parse_obj(data)

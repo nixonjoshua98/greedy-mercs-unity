@@ -7,37 +7,28 @@ from pydantic import Field
 
 from src import utils
 from src.pymodels import BaseModel
-from src.routing.dependencies.serverstate import (ServerState,
-                                                  server_state)
+from src.routing.dependencies.serverstate import ServerState, inject_server_state
 
-from ..armoury import StaticArmouryItem, inject_static_armoury
+from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import generate_from_config as generate_loot_table
 from .shopconfig import (BountyShopConfig, LevelBountyShopConfig,
-                         inject_bounty_shop_config)
+                         bounty_shop_config)
 
 
-async def inject_dynamic_bounty_shop(
-    s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
-    server_state: ServerState = Depends(server_state),
-    shop_config: BountyShopConfig = Depends(inject_bounty_shop_config),
+async def dynamic_bounty_shop(
+    s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
+    server_state: ServerState = Depends(inject_server_state),
+    shop_config: BountyShopConfig = Depends(bounty_shop_config),
 ) -> DynamicBountyShop:
-    """Inject a bounty shop instance into the request.
-
-    We inject dependencies here (which have a tiny chance of not aligning with the other injections) but we are going
-    to take that risk! We could potentially cache dependencies on the request but this works for now
-    """
-
     config = shop_config.get_level_config(0)
 
-    return DynamicBountyShop(
-        static_armoury=s_armoury, server_state=server_state, config=config
-    )
+    return DynamicBountyShop(s_armoury, server_state, config)
 
 
 # = Models = #
 
 
-class StaticBountyShopArmouryItem(BaseModel):
+class BountyShopArmouryItem(BaseModel):
     id: str = Field(..., alias="itemId")
 
     armoury_item: int = Field(..., alias="armouryItem")
@@ -49,14 +40,14 @@ class StaticBountyShopArmouryItem(BaseModel):
 
 
 class DynamicBountyShop:
-    def __init__(self, static_armoury, server_state, config: LevelBountyShopConfig):
+    def __init__(self, s_armoury, server_state, config: LevelBountyShopConfig):
         self.svr_state: ServerState = server_state
         self.config = config
-        self.s_armoury: list[StaticArmouryItem] = static_armoury
+        self.s_armoury: list[StaticArmouryItem] = s_armoury
 
         self.armoury_item = self._generate()
 
-    def get_item(self, item: str) -> StaticBountyShopArmouryItem:
+    def get_item(self, item: str) -> BountyShopArmouryItem:
         return utils.get(self.armoury_item, id=item)
 
     def response_dict(self) -> dict[str, list]:
@@ -86,6 +77,6 @@ class DynamicBountyShop:
         # This random integer could screw us in the future
         key = f"AI-{epoch_days}-{item.id}-{rnd.randint(0, 1_000)}"
 
-        return StaticBountyShopArmouryItem.parse_obj(
+        return BountyShopArmouryItem.parse_obj(
             {"itemId": key, "armouryItem": item.id, "purchaseCost": (item.tier + 1) * 3}
         )

@@ -11,7 +11,7 @@ from src.mongo.repositories.artefacts import (ArtefactModel,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.artefacts import StaticArtefact, inject_static_artefacts
+from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.routing.handlers.abc import (BaseHandler, BaseHandlerException,
                                       BaseResponse)
 
@@ -30,7 +30,7 @@ class UnlockArtefactException(BaseHandlerException):
 class UnlockArtefactHandler(BaseHandler):
     def __init__(
             self,
-            artefacts_data: list[StaticArtefact] = Depends(inject_static_artefacts),
+            artefacts_data: list[StaticArtefact] = Depends(static_artefacts),
             artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
             currency_repo: CurrencyRepository = Depends(currency_repository),
     ):

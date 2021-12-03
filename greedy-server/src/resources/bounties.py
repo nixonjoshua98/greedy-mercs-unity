@@ -4,7 +4,7 @@ from src import utils
 from src.pymodels import BaseModel, Field
 
 
-def inject_static_bounties() -> StaticBounties:
+def static_bounties() -> StaticBounties:
     d: dict = utils.load_static_data_file("bounties.json")
 
     return StaticBounties.parse_obj(d)

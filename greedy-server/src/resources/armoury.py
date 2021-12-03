@@ -6,7 +6,7 @@ from src.pymodels import BaseModel
 from src.utils import load_static_data_file
 
 
-def inject_static_armoury() -> list[StaticArmouryItem]:
+def static_armoury() -> list[StaticArmouryItem]:
     d: list[dict] = load_static_data_file("armoury.json")
 
     return [StaticArmouryItem.parse_obj(art) for art in d]

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Union
 
 from bson import ObjectId
 from fastapi import Request
@@ -15,7 +15,13 @@ def memory_cache(request: Request):
 
 class MemoryCache:
     def __init__(self):
-        self.__internal_dict: dict = {}
+        self.__dict: dict = {}
 
-    def get_session(self, uid: ObjectId) -> Optional[Session]: return self.__internal_dict.get(f"session/{uid}")
-    def set_session(self, session: Session): self.__internal_dict[f"session/{session.user_id}"] = session
+    def del_session(self, session: Union[ObjectId, Session]):
+        if isinstance(session, Session):
+            self.__dict.pop(f"session/{session.user_id}", None)
+        else:
+            self.__dict.pop(f"session/{session}", None)
+
+    def get_session(self, uid: ObjectId) -> Optional[Session]: return self.__dict.get(f"session/{uid}")
+    def set_session(self, session: Session): self.__dict[f"session/{session.user_id}"] = session

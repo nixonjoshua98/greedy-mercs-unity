@@ -18,18 +18,16 @@ class SetActiveModel(BaseModel):
 
 @router.get("/claim")
 async def claim_points(
-        user: AuthenticatedUser = Depends(authenticated_user),
-        handler: BountyClaimHandler = Depends()
+    user: AuthenticatedUser = Depends(authenticated_user),
+    handler: BountyClaimHandler = Depends()
 ):
     resp: BountyClaimResponse = await handler.handle(user)
 
-    return ServerResponse(
-        {
-            "claimTime": resp.claim_time,
-            "currencyItems": resp.currencies.to_client_dict(),
-            "pointsClaimed": resp.claim_amount,
-        }
-    )
+    return ServerResponse({
+        "claimTime": resp.claim_time,
+        "currencyItems": resp.currencies.to_client_dict(),
+        "pointsClaimed": resp.claim_amount,
+    })
 
 
 @router.post("/setactive")

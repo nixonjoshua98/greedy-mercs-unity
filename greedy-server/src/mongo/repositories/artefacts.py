@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime as dt
-from typing import Union
+from typing import Optional, Union
 
 from bson import ObjectId
 from pydantic import Field
@@ -51,29 +51,37 @@ class ArtefactsRepository:
 
         return [ArtefactModel.parse_obj(ele) for ele in ls]
 
-    async def get_one_artefact(self, uid, artid) -> Union[ArtefactModel, None]:
+    async def inc_level(self, uid: ObjectId, art_id: int, levels: int) -> Optional[ArtefactModel]:
+        return await self.update_artefact(uid, art_id, {"$inc": {Fields.LEVEL: levels}})
+
+    async def get_artefact(self, uid, artid) -> Union[ArtefactModel, None]:
         r = await self._col.find_one({Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid})
 
         return ArtefactModel.parse_obj(r) if r else None
 
     async def add_new_artefact(self, uid, artid) -> ArtefactModel:
-        r = await self._col.insert_one(
-            doc := {
-                Fields.LEVEL: 1,
-                Fields.USER_ID: uid,
-                Fields.ARTEFACT_ID: artid,
-                Fields.UNLOCK_TIME: dt.datetime.utcnow(),
-            }
+        r = await self._col.find_one_and_update(
+            {
+                Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid
+            },
+            {
+                "$set": {
+                    Fields.LEVEL: 1,
+                    Fields.UNLOCK_TIME: dt.datetime.utcnow()
+                }
+            },
+            upsert=True,
+            return_document=ReturnDocument.AFTER
         )
 
-        return ArtefactModel.parse_obj({"_id": r.inserted_id, **doc})
+        return ArtefactModel.parse_obj(r) if r else None
 
-    async def update_artefact(self, uid, artid, update: dict) -> ArtefactModel:
+    async def update_artefact(self, uid, artid, update: dict, *, upsert: bool = False) -> Optional[ArtefactModel]:
         r = await self._col.find_one_and_update(
             {Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid},
             update,
-            upsert=False,
+            upsert=upsert,
             return_document=ReturnDocument.AFTER,
         )
 
-        return ArtefactModel.parse_obj(r)
+        return ArtefactModel.parse_obj(r) if r else None

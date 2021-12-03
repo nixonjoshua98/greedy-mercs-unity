@@ -38,4 +38,6 @@ async def merge(
 ):
     resp: MergeItemResponse = await handler.handle(user, data.item_id)
 
-    return ServerResponse({"item": resp.item.to_client_dict()})
+    return ServerResponse({
+        "item": resp.item.to_client_dict()
+    })

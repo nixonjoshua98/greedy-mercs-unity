@@ -14,18 +14,14 @@ async def handle_http_exception(_: Request, exc: HTTPException):
     )
 
 
-async def handle_request_validation_exception(_: Request, exc: RequestValidationError):
-    logger.warning(exc.errors())
-
+async def handle_request_validation_exception(_: Request, __: RequestValidationError):
     return ServerResponse({"code": 400, "error": "Client request error"}, status_code=400)
 
 
 async def handle_handler_exception(_: Request, exc: BaseHandlerException):
-    d = {
-        "code": exc.status_code if exc.status_code > 0 else 500,
-        "error": exc.message if exc.message != "" else "Internal server error"
-    }
+    code = exc.status_code if exc.status_code > 0 else 500
+    message = exc.message if exc.message != "" else "Internal server error"
 
-    logger.warning(d)
+    logger.debug(f"{code} - {message}")
 
-    return ServerResponse(d, status_code=d["code"])
+    return ServerResponse({"code": code, "error": message}, status_code=code)

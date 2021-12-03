@@ -8,6 +8,6 @@
 
     public class UpgradeStarLevelArmouryItemResponse : ServerResponse
     {
-        public Armoury.Models.ArmouryItemUserDataModel UpdatedItem;
+        public Armoury.Models.ArmouryItemUserDataModel Item;
     }
 }

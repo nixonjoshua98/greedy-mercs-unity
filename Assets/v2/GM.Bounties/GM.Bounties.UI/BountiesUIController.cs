@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using StopWatch = System.Diagnostics.Stopwatch;
 
 namespace GM.Bounties.UI
 {
@@ -27,48 +28,59 @@ namespace GM.Bounties.UI
 
         bool isEditing = false;
 
-        List<BountySlot> slots = new List<BountySlot>();
+        StopWatch sliderUpdateTimer;
+
+        Dictionary<int, BountySlot> slots = new Dictionary<int, BountySlot>();
         List<BountySlot> activeBountySlots = new List<BountySlot>();
         
 
         void Awake()
         {
-            SetActiveButtons(isEditing);
+            sliderUpdateTimer = StopWatch.StartNew();
 
-            foreach (var bounty in App.Data.Bounties.UnlockedBountiesList)
-            {
-                var slot = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
+            UpdateUI(force: true);
 
-                slot.Assign(bounty.Id);
+            SetActiveButtons(isEditMode: false);
 
-                slots.Add(slot);
-            }
-
-            UpdateUI();
-
-            BountiesLayout.UpdateCellSize();
-        }
-
-        void UpdateUI()
-        {
-            TimeUntilMaxClaimText.text = $"Full in <color=orange>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
-            ClaimAmountText.text = $"{Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Data.Bounties.MaxClaimPoints)}";
-
-            ClaimSlider.value = App.Data.Bounties.ClaimPercentFilled;
-            ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);
+            InstantiateBountySlots();
         }
 
         void FixedUpdate()
         {
-            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+            UpdateUI();
         }
 
-        /// <summary>
-        /// Periodic call while the panel is shown
-        /// </summary>
-        public override void WhileShownUpdate()
+        void InstantiateBountySlots()
         {
-            UpdateUI();
+            foreach (var bounty in App.Data.Bounties.UnlockedBountiesList)
+            {
+                if (!slots.ContainsKey(bounty.Id))
+                {
+                    var slot = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
+
+                    slot.Assign(bounty.Id);
+
+                    slots[bounty.Id] = slot;
+                }
+            }
+
+            BountiesLayout.UpdateCellSize();
+        }
+
+        void UpdateUI(bool force = false)
+        {
+            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+
+            if (force || sliderUpdateTimer.ElapsedMilliseconds >= 500)
+            {
+                sliderUpdateTimer.Restart();
+
+                TimeUntilMaxClaimText.text = $"Full in <color=orange>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
+                ClaimAmountText.text = $"{Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Data.Bounties.MaxClaimPoints)}";
+
+                ClaimSlider.value = App.Data.Bounties.ClaimPercentFilled;
+                ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);
+            }
         }
 
         void SetActiveButtons(bool isEditMode)
@@ -86,7 +98,7 @@ namespace GM.Bounties.UI
 
             activeBountySlots.Clear();
 
-            foreach (var slot in slots)
+            foreach (var slot in slots.Values)
             {
                 slot.StartEdit(OnBountySelected);
 
@@ -103,7 +115,7 @@ namespace GM.Bounties.UI
 
             SetActiveButtons(false);
 
-            foreach (var slot in slots)
+            foreach (var slot in slots.Values)
             {
                 slot.StopEdit();
             }
@@ -122,8 +134,6 @@ namespace GM.Bounties.UI
                 activeBountySlots.Add(slot);
                 slot.SetSelected(true);
             }
-
-            UpdateUI();
         }
 
         public void OnEditButton()
@@ -146,15 +156,13 @@ namespace GM.Bounties.UI
                 {
                     StopEditMode();
                 }
-
-                UpdateUI();
             });
         }
 
         public void OnClaimButton()
         {
             App.Data.Bounties.ClaimPoints((success, resp) => {
-                UpdateUI();
+                UpdateUI(force: true);
             });
         }
     }

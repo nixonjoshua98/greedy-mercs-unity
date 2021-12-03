@@ -39,7 +39,7 @@ namespace GM.UI
                 boss.Health.E_OnDamageTaken.AddListener(damageTaken =>
                 {
                     healthValue.text = Format.Number(boss.Health.Current);
-                    targetSliderValue = boss.Health.Percent();
+                    targetSliderValue = boss.Health.Percent;
                 });
 
                 // Display the boss has been defeated

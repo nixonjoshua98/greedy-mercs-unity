@@ -9,6 +9,6 @@
     public class UpgradeArmouryItemResponse : ServerResponse
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems;
-        public Armoury.Models.ArmouryItemUserDataModel UpdatedItem;
+        public Armoury.Models.ArmouryItemUserDataModel Item;
     }
 }

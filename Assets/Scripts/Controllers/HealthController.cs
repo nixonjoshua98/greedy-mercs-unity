@@ -3,28 +3,21 @@ using UnityEngine.Events;
 
 namespace GM
 {
-    public interface IHealthController
-    {
-        void Setup(BigDouble val);
-        void TakeDamage(BigDouble amount);
-    }
-
-
-    public class HealthController : MonoBehaviour, IHealthController
+    public class HealthController : MonoBehaviour
     {
         public BigDouble MaxHealth { get; private set; }
         public BigDouble Current { get; private set; }
 
-        [HideInInspector] public UnityEvent E_OnZeroHealth { get; set; } = new UnityEvent();
-        [HideInInspector] public UnityEvent<BigDouble> E_OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
+        public UnityEvent E_OnZeroHealth { get; set; } = new UnityEvent();
+        public UnityEvent<BigDouble> E_OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
 
-        public bool IsDead = false;
+        public bool IsDead { get; private set; } = false;
+        public float Percent => (float)(Current / MaxHealth).ToDouble();
 
         public void Setup(BigDouble val)
         {
             MaxHealth = Current = val;
         }
-
 
         public virtual void TakeDamage(BigDouble amount)
         {
@@ -43,12 +36,6 @@ namespace GM
                     E_OnZeroHealth.Invoke();
                 }
             }
-        }
-
-
-        public float Percent()
-        {
-            return (float)(Current / MaxHealth).ToDouble();
         }
     }
 }

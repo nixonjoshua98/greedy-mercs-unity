@@ -128,7 +128,7 @@ namespace GM.Armoury.Data
             {
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
-                    Update(resp.UpdatedItem);
+                    Update(resp.Item);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
@@ -147,7 +147,7 @@ namespace GM.Armoury.Data
             {
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
-                    Update(resp.UpdatedItem);
+                    Update(resp.Item);
                 }
 
                 call(resp.StatusCode == HTTP.HTTPCodes.Success);

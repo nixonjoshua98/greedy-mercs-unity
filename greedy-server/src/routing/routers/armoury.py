@@ -26,7 +26,7 @@ async def upgrade(
 
     return ServerResponse(
         {
-            "updatedItem": resp.item.to_client_dict(),
+            "item": resp.item.to_client_dict(),
             "currencyItems": resp.currencies.to_client_dict(),
         }
     )
@@ -40,4 +40,4 @@ async def merge(
 ):
     resp: MergeItemResponse = await handler.handle(user, data.item_id)
 
-    return ServerResponse({"updatedItem": resp.item.to_client_dict()})
+    return ServerResponse({"item": resp.item.to_client_dict()})

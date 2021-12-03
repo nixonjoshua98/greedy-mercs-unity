@@ -1,5 +1,7 @@
 from fastapi import Depends
 
+from src.authentication.authentication import (AuthenticatedUser,
+                                               authenticated_user)
 from src.common import formulas
 from src.common.enums import BonusType
 from src.mongo.repositories.artefacts import (ArtefactModel,
@@ -14,8 +16,6 @@ from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
-from src.authentication.authentication import (AuthenticatedUser,
-                                               inject_authenticated_user)
 
 router = APIRouter(prefix="/api")
 
@@ -28,7 +28,7 @@ class PrestigeData(BaseModel):
 @router.post("/prestige")
 async def prestige(
     data: PrestigeData,
-    user: AuthenticatedUser = Depends(inject_authenticated_user),
+    user: AuthenticatedUser = Depends(authenticated_user),
     # = Game Data = #
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts),
@@ -77,7 +77,7 @@ async def process_new_bounties(
     bounties_repo: BountiesRepository,
     s_bounties: StaticBounties
 ):
-    u_bounty_data = await bounties_repo.get_user(uid)
+    u_bounty_data = await bounties_repo.get_user_bounties(uid)
 
     u_bounty_ids = [b.bounty_id for b in u_bounty_data.bounties]
 

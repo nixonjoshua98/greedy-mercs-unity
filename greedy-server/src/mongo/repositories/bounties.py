@@ -53,7 +53,7 @@ class BountiesRepository:
     def __init__(self, client):
         self._col = client.db["userBounties"]
 
-    async def get_user(self, uid) -> UserBountiesModel:
+    async def get_user_bounties(self, uid) -> UserBountiesModel:
         row = await self._find_or_create_one(uid)
 
         return UserBountiesModel.parse_obj(row)
@@ -73,7 +73,7 @@ class BountiesRepository:
         )
 
     async def update_active_bounties(self, uid, ids: list) -> None:
-        user = await self.get_user(uid)  # Load the user bounties
+        user = await self.get_user_bounties(uid)  # Load the user bounties
 
         for b in user.bounties:
             is_active = (

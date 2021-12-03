@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import json
 import re
+from typing import TYPE_CHECKING
 import urllib.parse
 
 from fastapi import Request as _Request
 
-from src import Application
+if TYPE_CHECKING:
+    from src import Application
 
 
 def _camel_to_snake(data: dict) -> dict:

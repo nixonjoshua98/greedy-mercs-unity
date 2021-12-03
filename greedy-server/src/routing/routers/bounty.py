@@ -1,16 +1,13 @@
-from fastapi import Depends, HTTPException
+from fastapi import Depends
 
-from src.routing.handlers.bounties import (
-    BountyClaimHandler,
-    BountyClaimResponse,
-    UpdateBountiesHandler,
-    UpdateBountiesException,
-    UpdateBountiesResponse
-)
-
+from src.authentication.authentication import (AuthenticatedUser,
+                                               authenticated_user)
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
-from src.authentication.authentication import AuthenticatedUser, inject_authenticated_user
+from src.routing.handlers.bounties import (BountyClaimHandler,
+                                           BountyClaimResponse,
+                                           UpdateBountiesHandler,
+                                           UpdateBountiesResponse)
 
 router = APIRouter(prefix="/api/bounty")
 
@@ -21,8 +18,8 @@ class SetActiveModel(BaseModel):
 
 @router.get("/claim")
 async def claim_points(
-        user: AuthenticatedUser = Depends(inject_authenticated_user),
-        handler: BountyClaimHandler = Depends(),
+        user: AuthenticatedUser = Depends(authenticated_user),
+        handler: BountyClaimHandler = Depends()
 ):
     resp: BountyClaimResponse = await handler.handle(user)
 
@@ -38,11 +35,9 @@ async def claim_points(
 @router.post("/setactive")
 async def set_active_bounties(
     model: SetActiveModel,
-    user: AuthenticatedUser = Depends(inject_authenticated_user),
+    user: AuthenticatedUser = Depends(authenticated_user),
     handler: UpdateBountiesHandler = Depends(),
 ):
-    try:
-        resp: UpdateBountiesResponse = await handler.handle(user, model.bounty_ids)
-        return ServerResponse(resp.bounties.to_client_dict())
-    except UpdateBountiesException:
-        raise HTTPException(400, detail="Error")
+    resp: UpdateBountiesResponse = await handler.handle(user, model.bounty_ids)
+
+    return ServerResponse(resp.bounties.to_client_dict())

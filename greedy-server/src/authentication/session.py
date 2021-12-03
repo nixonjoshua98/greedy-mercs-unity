@@ -1,6 +1,7 @@
-from bson import ObjectId
 import datetime as dt
 import secrets
+
+from bson import ObjectId
 
 
 class Session:

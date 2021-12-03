@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Union
+from typing import Optional, Union
 
 from bson import ObjectId
 from pydantic import Field
@@ -47,19 +47,17 @@ class ArmouryRepository:
     def __init__(self, client):
         self._col = client.db["armouryItems"]
 
-    async def get_one_user_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
+    async def get_user_item(self, uid, iid) -> Union[ArmouryItemModel, None]:
         item = await self._col.find_one({Fields.USER_ID: uid, Fields.ITEM_ID: iid})
 
         return ArmouryItemModel.parse_obj(item) if item is not None else item
 
-    async def get_all_user_items(self, uid) -> list[ArmouryItemModel]:
+    async def get_user_items(self, uid) -> list[ArmouryItemModel]:
         ls = await self._col.find({Fields.USER_ID: uid}).to_list(length=None)
 
         return [ArmouryItemModel.parse_obj(ele) for ele in ls]
 
-    async def update_item(
-        self, uid, iid: int, update: dict, *, upsert: bool
-    ) -> Union[ArmouryItemModel, None]:
+    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool) -> Optional[ArmouryItemModel]:
         r = await self._col.find_one_and_update(
             {Fields.USER_ID: uid, Fields.ITEM_ID: iid},
             update,
@@ -68,3 +66,9 @@ class ArmouryRepository:
         )
 
         return ArmouryItemModel.parse_obj(r) if r is not None else None
+
+    async def inc_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
+        return await self.update_item(uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False)
+
+    async def inc_merge_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
+        return await self.update_item(uid, iid, {"$inc": {Fields.MERGE_LEVEL: val}}, upsert=False)

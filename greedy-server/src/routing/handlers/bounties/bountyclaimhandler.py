@@ -1,19 +1,19 @@
-from src.routing.handlers.abc import BaseHandler, BaseResponse
-
+import dataclasses
 import datetime as dt
 import math
-import dataclasses
+
 from fastapi import Depends
 
 from src import utils
+from src.authentication.authentication import AuthenticatedUser
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesModel,
                                              inject_bounties_repository)
-from src.mongo.repositories.currency import CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyRepoFields, CurrenciesModel
+from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
+from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import inject_currency_repository
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.authentication.authentication import AuthenticatedUser
+from src.routing.handlers.abc import BaseHandler, BaseResponse
 
 
 @dataclasses.dataclass()
@@ -35,23 +35,30 @@ class BountyClaimHandler(BaseHandler):
         self.currency_repo = currency_repo
 
     async def handle(self, user: AuthenticatedUser) -> BountyClaimResponse:
+        """
+        Perform the 'Bounty Claim' for the provided user
+
+        :param user: Authenticated user we are performing the claim for
+        """
+
+        # We use the current server time for the claim
         claim_time = dt.datetime.utcnow()
 
         # Fetch bounties data for the user
-        user_bounties: UserBountiesModel = await self.bounties_repo.get_user(user.id)
+        user_bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(user.id)
 
         # Calculate the total unclaimed points
-        points = self.calc_unclaimed_points(claim_time, user_bounties)
+        points = self.unclaimed_points(claim_time, user_bounties)
 
         # Update the users' claim time
         await self.bounties_repo.set_claim_time(user.id, claim_time)
 
         # Increment the currency and fetch the updated document
-        currencies = await self.currency_repo.update_one(user.id, {"$inc": {CurrencyRepoFields.BOUNTY_POINTS: points}})
+        currencies = await self.currency_repo.increment_value(user.id, CurrencyFields.BOUNTY_POINTS, points)
 
         return BountyClaimResponse(claim_time=claim_time, claim_amount=points, currencies=currencies)
 
-    def calc_unclaimed_points(self, now: dt.datetime, user_bounties: UserBountiesModel) -> int:
+    def unclaimed_points(self, now: dt.datetime, user_bounties: UserBountiesModel) -> int:
         points = 0  # Total unclaimed points (ready to be claimed)
 
         # Interate over each active bounty available

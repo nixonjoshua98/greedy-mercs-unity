@@ -1,7 +1,9 @@
-from fastapi import Request
-from bson import ObjectId
-from src.authentication.session import Session
 from typing import Optional
+
+from bson import ObjectId
+from fastapi import Request
+
+from src.authentication.session import Session
 
 
 def inject_memory_cache(request: Request):

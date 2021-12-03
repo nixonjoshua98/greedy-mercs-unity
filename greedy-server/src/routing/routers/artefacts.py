@@ -4,6 +4,8 @@ import random
 from fastapi import Depends, HTTPException
 
 from src import utils
+from src.authentication.authentication import (AuthenticatedUser,
+                                               authenticated_user)
 from src.common import formulas
 from src.mongo.repositories.artefacts import ArtefactModel, ArtefactsRepository
 from src.mongo.repositories.artefacts import Fields as ArtefactsRepoFields
@@ -15,7 +17,6 @@ from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
-from src.authentication.authentication import AuthenticatedUser, inject_authenticated_user
 
 router = APIRouter(prefix="/api/artefact")
 
@@ -34,7 +35,7 @@ class ArtefactUpgradeModel(BaseModel):
 @router.post("/upgrade")
 async def upgrade(
     data: ArtefactUpgradeModel,
-    user: AuthenticatedUser = Depends(inject_authenticated_user),
+    user: AuthenticatedUser = Depends(authenticated_user),
     # = Static Game Data = #
     static_artefacts=Depends(inject_static_artefacts),
     # = Database Repositories = #
@@ -94,7 +95,7 @@ async def upgrade(
 
 @router.get("/unlock")
 async def unlock(
-    user: AuthenticatedUser = Depends(inject_authenticated_user),
+    user: AuthenticatedUser = Depends(authenticated_user),
     # = Static Game Data = #
     static_artefacts=Depends(inject_static_artefacts),
     # = Database Repositories = #

@@ -4,15 +4,17 @@ from fastapi import Depends, HTTPException
 from src.cache import MemoryCache, inject_memory_cache
 from src.mongo.repositories.accounts import (AccountsRepository,
                                              inject_account_repo)
-from src.pymodels import BaseModel
 from src.routing import ServerRequest
 
 
-class AuthenticatedUser(BaseModel):
+class AuthenticatedUser:
     id: ObjectId
 
+    def __init__(self, id_: ObjectId):
+        self.id = id_
 
-async def inject_authenticated_user(
+
+async def authenticated_user(
     request: ServerRequest,
     mem_cache: MemoryCache = Depends(inject_memory_cache),
     acc_repo: AccountsRepository = Depends(inject_account_repo),
@@ -32,7 +34,7 @@ async def inject_authenticated_user(
     elif (user := await acc_repo.get_user_by_id(uid)) is None:
         raise HTTPException(401, detail="Client Login Error")
 
-    return AuthenticatedUser(id=user.id)
+    return AuthenticatedUser(id_=user.id)
 
 
 def _grab_headers_from_request(request: ServerRequest) -> tuple[str, str, str]:

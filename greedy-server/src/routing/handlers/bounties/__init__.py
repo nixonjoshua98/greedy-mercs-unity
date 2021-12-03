@@ -1,8 +1,5 @@
 
 from .bountyclaimhandler import BountyClaimHandler, BountyClaimResponse
-
-from .updatebountieshandler import (
-    UpdateBountiesHandler,
-    UpdateBountiesException,
-    UpdateBountiesResponse
-)
+from .updatebountieshandler import (UpdateBountiesException,
+                                    UpdateBountiesHandler,
+                                    UpdateBountiesResponse)

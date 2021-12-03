@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from typing import Union
+
+from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
 
@@ -50,3 +53,6 @@ class CurrencyRepository:
         )
 
         return CurrenciesModel.parse_obj(r)
+
+    async def increment_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
+        return await self.update_one(uid, {"$inc": {field: value}})

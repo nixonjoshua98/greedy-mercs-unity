@@ -1,6 +1,6 @@
 using System.IO;
-using System.Text;
 using System.IO.Compression;
+using System.Text;
 
 public class GZip
 {

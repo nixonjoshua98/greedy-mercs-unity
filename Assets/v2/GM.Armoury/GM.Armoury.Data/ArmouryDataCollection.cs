@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using UnityEngine.Events;
-using System.Linq;
-using UnityEngine;
 using GM.Armoury.ScriptableObjects;
 using System;
-using BonusType = GM.Common.Enums.BonusType;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Armoury.Data
 {

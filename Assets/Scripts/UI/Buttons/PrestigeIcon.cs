@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-namespace GM
+﻿namespace GM
 {
     public class PrestigeIcon : PanelIcon
     {
@@ -13,11 +8,6 @@ namespace GM
 
             if (state.Stage >= Common.Constants.MIN_PRESTIGE_STAGE)
                 base.OnClick();
-
-            else
-            {
-                CanvasUtils.ShowInfo("Prestige", "You have not unlocked this yet");
-            }
         }
     }
 }

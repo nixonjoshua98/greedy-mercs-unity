@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace GM
 {
-    public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
+    public class DestroyWhenClicked : Core.GMMonoBehaviour, IPointerDownHandler
     {
         public void OnPointerDown(PointerEventData eventData)
         {
-            GraphicRaycaster raycaster = CanvasUtils.MainCanvas.GetComponent<GraphicRaycaster>();
+            GraphicRaycaster raycaster = GameObject.Find("MainCanvas").GetComponent<GraphicRaycaster>();
 
             List<RaycastResult> results = new List<RaycastResult>();
 

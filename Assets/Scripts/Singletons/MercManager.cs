@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using MercID = GM.Common.Enums.MercID;
+using GM.Targets;
 
 namespace GM
 {

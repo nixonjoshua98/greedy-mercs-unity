@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM
+namespace GM.Common.Enums
 {
-    public class PlayerUpgradeUIController : GM.UI.Panels.TogglablePanel
+    public enum PlayerUpgradeID
     {
-
+        MINOR_TAP_DAMAGE = 0
     }
 }

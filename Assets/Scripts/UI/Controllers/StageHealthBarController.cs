@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using HealthController = GM.Controllers.HealthController;
+using GM.Targets;
 
 namespace GM.UI
 {

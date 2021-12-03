@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+using GM.Targets;
+using HealthController = GM.Controllers.HealthController;
+using DamageClickController = GM.Controllers.DamageClickController;
 
 namespace GM
 {

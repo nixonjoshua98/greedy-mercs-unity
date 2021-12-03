@@ -5,6 +5,8 @@ using MercID = GM.Common.Enums.MercID;
 
 using UnityEngine;
 using UnityEngine.Events;
+using GM.Targets;
+using HealthController = GM.Controllers.HealthController;
 
 namespace GM.Units
 {

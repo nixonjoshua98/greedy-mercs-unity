@@ -104,6 +104,7 @@ namespace GM
                 BonusType.ENEMY_GOLD => "Enemy Gold",
                 BonusType.BOSS_GOLD => "Boss Gold",
                 BonusType.ALL_GOLD => "All Gold",
+                BonusType.FLAT_TAP_DAMAGE => "Tap Damage",
                 _ => type.ToString(),
             };
         }

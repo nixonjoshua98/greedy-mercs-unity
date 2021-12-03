@@ -4,7 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using DamageTextPopup = GM.UI.DamageTextPopup;
-
+using HealthController = GM.Controllers.HealthController;
+using GM.Targets;
 
 namespace GM.Units
 {
@@ -55,7 +56,7 @@ namespace GM.Units
         {
             anim.Play(hurtAnimation);
 
-            DamageTextPopup popup = CanvasUtils.Instantiate<DamageTextPopup>(TextPopupObject);
+            DamageTextPopup popup = InstantiateUI<DamageTextPopup>(TextPopupObject);
 
             popup.Setup(Format.Number(damageTaken), Camera.main.WorldToScreenPoint(transform.position));
         }

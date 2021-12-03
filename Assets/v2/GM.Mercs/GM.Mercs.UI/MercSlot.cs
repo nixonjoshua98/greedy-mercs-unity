@@ -67,7 +67,7 @@ namespace GM.Mercs.UI
         }
 
         // == Callbacks == //
-        public void OnUpgrade()
+        public void OnUpgradeButton()
         {
             BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, buyAmount);
 

@@ -1248,6 +1248,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5074239799273150323}
     m_Modifications:
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3928256981741592872}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnUpgradeButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GM.Artefacts.UI.ArtefactSlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GM.PlayerUpgrades.UI.TapDamageUpgradeSlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6724793586456287976, guid: 7354b49bc7b5fc448886453e7b76daa3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

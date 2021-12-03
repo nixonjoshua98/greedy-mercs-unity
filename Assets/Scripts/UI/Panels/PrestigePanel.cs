@@ -43,7 +43,7 @@ namespace GM
 
                 if (success)
                 {
-                    SceneTransition transition = CanvasUtils.Instantiate<SceneTransition>(sceneTransitionObject);
+                    SceneTransition transition = InstantiateUI<SceneTransition>(sceneTransitionObject);
 
                     transition.E_OnFinished.AddListener(() =>
                     {

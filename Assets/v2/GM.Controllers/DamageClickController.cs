@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM
+namespace GM.Controllers
 {
     [RequireComponent(typeof(RectTransform))]
     public class DamageClickController : MonoBehaviour

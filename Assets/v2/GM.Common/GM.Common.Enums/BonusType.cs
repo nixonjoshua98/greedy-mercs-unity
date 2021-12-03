@@ -17,6 +17,9 @@ namespace GM.Common.Enums
         MULTIPLY_MELEE_DMG = 602,
         MULTIPLY_RANGED_DMG = 603,
 
+        // Tap Damage
+        FLAT_TAP_DAMAGE = 700,
+
         // Gold
         MULTIPLY_ALL_GOLD = 800,
         MULTIPLY_BOSS_GOLD = 801,

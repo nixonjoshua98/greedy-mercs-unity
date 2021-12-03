@@ -50,8 +50,7 @@ namespace GM.Armoury.UI
 
         public void OnPopupButton()
         {
-            CanvasUtils.Instantiate<ArmouryItemPopup>(PopupObject).
-                AssignItem(AssignedItemId);
+            InstantiateUI<ArmouryItemPopup>(PopupObject).AssignItem(AssignedItemId);
         }
     }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GM.Bounties.Models;
 using UnityEngine;
-using System.Text;
-using System.Threading.Tasks;
-using GM.Bounties.Models;
 
 namespace GM.Bounties.Data
 {

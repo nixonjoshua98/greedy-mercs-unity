@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
-
+using GM.Targets;
+using HealthController = GM.Controllers.HealthController;
 
 namespace GM
 {

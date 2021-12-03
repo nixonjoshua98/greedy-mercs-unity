@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Events;
+using GM.Targets;
 
 namespace GM.Units
 {

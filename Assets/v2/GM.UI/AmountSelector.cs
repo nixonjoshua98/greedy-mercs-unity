@@ -1,9 +1,8 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace GM.UI
 {

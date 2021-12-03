@@ -24,12 +24,10 @@ async def upgrade(
 ):
     resp: UpgradeItemResponse = await handler.handle(user, data.item_id)
 
-    return ServerResponse(
-        {
-            "item": resp.item.to_client_dict(),
-            "currencyItems": resp.currencies.to_client_dict(),
-        }
-    )
+    return ServerResponse({
+        "item": resp.item.to_client_dict(),
+        "currencyItems": resp.currencies.to_client_dict(),
+    })
 
 
 @router.post("/merge")

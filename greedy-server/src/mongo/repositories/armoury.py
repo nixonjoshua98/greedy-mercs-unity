@@ -10,7 +10,7 @@ from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 
-def inject_armoury_repository(request: ServerRequest) -> ArmouryRepository:
+def armoury_repository(request: ServerRequest) -> ArmouryRepository:
     return ArmouryRepository(request.app.state.mongo)
 
 

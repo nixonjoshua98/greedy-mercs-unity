@@ -11,7 +11,7 @@ from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 
-def inject_artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
+def artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
     """Used to inject a repository instance."""
     return ArtefactsRepository(request.app.state.mongo)
 

@@ -3,18 +3,18 @@ from fastapi import Depends
 from src.authentication.authentication import (AuthenticatedUser,
                                                authenticated_user)
 from src.authentication.session import Session
-from src.cache import MemoryCache, inject_memory_cache
+from src.cache import MemoryCache, memory_cache
 from src.common import resources
 from src.mongo.repositories.accounts import (AccountsRepository,
-                                             inject_account_repo)
+                                             accounts_collection)
 from src.mongo.repositories.armoury import (ArmouryRepository,
-                                            inject_armoury_repository)
+                                            armoury_repository)
 from src.mongo.repositories.artefacts import (ArtefactsRepository,
-                                              inject_artefacts_repository)
+                                              artefacts_repository)
 from src.mongo.repositories.bounties import (BountiesRepository,
-                                             inject_bounties_repository)
+                                             bounties_repository)
 from src.mongo.repositories.currency import (CurrencyRepository,
-                                             inject_currency_repository)
+                                             currency_repository)
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
@@ -23,7 +23,7 @@ from src.resources.bountyshop import (DynamicBountyShop,
                                       inject_dynamic_bounty_shop)
 from src.routing import APIRouter, ServerResponse
 from src.routing.dependencies.serverstate import (ServerState,
-                                                  inject_server_state)
+                                                  server_state)
 
 router = APIRouter(prefix="/api")
 
@@ -41,7 +41,7 @@ def game_data(
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
     s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts),
-    svr_state: ServerState = Depends(inject_server_state),
+    svr_state: ServerState = Depends(server_state),
 ):
     return ServerResponse(
         {
@@ -60,10 +60,10 @@ async def user_data(
     # = Static/Game Data = #
     s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
     # = Database Repositories = #
-    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
-    armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
-    bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-    artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+    currency_repo: CurrencyRepository = Depends(currency_repository),
+    armoury_repo: ArmouryRepository = Depends(armoury_repository),
+    bounties_repo: BountiesRepository = Depends(bounties_repository),
+    artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
 ):
     currencies = await currency_repo.get_user(user.id)
     bounties = await bounties_repo.get_user_bounties(user.id)
@@ -87,8 +87,8 @@ async def user_data(
 @router.post("/login")
 async def player_login(
     data: LoginModel,
-    mem_cache: MemoryCache = Depends(inject_memory_cache),
-    acc_repo: AccountsRepository = Depends(inject_account_repo),
+    mem_cache: MemoryCache = Depends(memory_cache),
+    acc_repo: AccountsRepository = Depends(accounts_collection),
 ):
     user = await acc_repo.get_user_by_did(data.device_id)
 

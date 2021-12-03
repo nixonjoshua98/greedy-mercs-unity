@@ -6,10 +6,10 @@ from src import utils
 from src.authentication.authentication import AuthenticatedUser
 from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,
-                                            inject_armoury_repository)
+                                            armoury_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
-from src.mongo.repositories.currency import inject_currency_repository
+from src.mongo.repositories.currency import currency_repository
 from src.resources.armoury import StaticArmouryItem, inject_static_armoury
 from src.routing.handlers.abc import (BaseHandler, BaseHandlerException,
                                       BaseResponse)
@@ -29,8 +29,8 @@ class UpgradeItemHandler(BaseHandler):
     def __init__(
             self,
             armoury_data: list[StaticArmouryItem] = Depends(inject_static_armoury),
-            armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
-            currency_repo: CurrencyRepository = Depends(inject_currency_repository),
+            armoury_repo: ArmouryRepository = Depends(armoury_repository),
+            currency_repo: CurrencyRepository = Depends(currency_repository),
     ):
         self.armoury_data = armoury_data
         self.armoury_repo = armoury_repo

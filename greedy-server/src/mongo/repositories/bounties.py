@@ -11,7 +11,7 @@ from src.pymodels import BaseDocument, BaseModel
 from src.routing import ServerRequest
 
 
-def inject_bounties_repository(request: ServerRequest) -> BountiesRepository:
+def bounties_repository(request: ServerRequest) -> BountiesRepository:
     """Used to inject a repository instance."""
     return BountiesRepository(request.app.state.mongo)
 

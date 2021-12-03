@@ -9,7 +9,7 @@ from src.routing.handlers.bounties import (BountyClaimHandler,
                                            UpdateBountiesHandler,
                                            UpdateBountiesResponse)
 
-router = APIRouter(prefix="/api/bounty")
+router = APIRouter()
 
 
 class SetActiveModel(BaseModel):

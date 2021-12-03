@@ -8,10 +8,10 @@ from src import utils
 from src.authentication.authentication import AuthenticatedUser
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesModel,
-                                             inject_bounties_repository)
+                                             bounties_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
-from src.mongo.repositories.currency import inject_currency_repository
+from src.mongo.repositories.currency import currency_repository
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing.handlers.abc import BaseHandler, BaseResponse
 
@@ -27,8 +27,8 @@ class BountyClaimHandler(BaseHandler):
     def __init__(
             self,
             static_bounties: StaticBounties = Depends(inject_static_bounties),
-            bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-            currency_repo: CurrencyRepository = Depends(inject_currency_repository),
+            bounties_repo: BountiesRepository = Depends(bounties_repository),
+            currency_repo: CurrencyRepository = Depends(currency_repository),
     ):
         self.bounties_data = static_bounties
         self.bounties_repo = bounties_repo

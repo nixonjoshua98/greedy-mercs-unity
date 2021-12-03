@@ -1,7 +1,7 @@
 import datetime as dt
 
 
-def inject_server_state():
+def server_state():
     return ServerState()
 
 

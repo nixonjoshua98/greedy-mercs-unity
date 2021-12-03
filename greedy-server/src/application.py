@@ -13,7 +13,7 @@ class Application(FastAPI):
         self._static_files = TTLCache(maxsize=1024, ttl=0)
 
     def get_static_file(self, f: str) -> Union[dict, list]:
-        """Fetch a static data file from cache if it exists, otherwise load it."""
+        """Fetch a static data file from cache or file"""
 
         if not (d := self._static_files.get(f)):
             d = self._static_files[f] = utils.load_static_data_file(f)

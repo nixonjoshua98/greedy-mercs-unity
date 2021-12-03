@@ -10,7 +10,7 @@ from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 
-def inject_currency_repository(request: ServerRequest) -> CurrencyRepository:
+def currency_repository(request: ServerRequest) -> CurrencyRepository:
     return CurrencyRepository(request.app.state.mongo)
 
 
@@ -47,12 +47,15 @@ class CurrencyRepository:
 
         return CurrenciesModel.parse_obj(r or {"_id": uid})
 
+    async def increment_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
+        return await self.update_one(uid, {"$inc": {field: value}})
+
     async def update_one(self, uid, update: dict) -> CurrenciesModel:
         r = await self.collection.find_one_and_update(
-            {"_id": uid}, update, upsert=True, return_document=ReturnDocument.AFTER
+            {"_id": uid},
+            update,
+            upsert=True,
+            return_document=ReturnDocument.AFTER
         )
 
         return CurrenciesModel.parse_obj(r)
-
-    async def increment_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
-        return await self.update_one(uid, {"$inc": {field: value}})

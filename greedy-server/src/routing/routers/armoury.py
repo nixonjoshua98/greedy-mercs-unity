@@ -13,7 +13,7 @@ class ArmouryItemActionModel(BaseModel):
     item_id: int
 
 
-router = APIRouter(prefix="/api/armoury")
+router = APIRouter()
 
 
 @router.post("/upgrade")

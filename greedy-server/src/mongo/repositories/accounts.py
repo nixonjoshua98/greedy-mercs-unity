@@ -6,8 +6,7 @@ from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 
-def inject_account_repo(request: ServerRequest) -> AccountsRepository:
-    """Dependancy injection for the repository"""
+def accounts_collection(request: ServerRequest) -> AccountsRepository:
     return AccountsRepository(request.app.state.mongo)
 
 

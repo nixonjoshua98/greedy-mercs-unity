@@ -10,7 +10,7 @@ from ..handlers.artefacts import (UnlockArtefactHandler,
                                   UpgradeArtefactHandler,
                                   UpgradeArtefactResponse)
 
-router = APIRouter(prefix="/api/artefact")
+router = APIRouter()
 
 
 class ArtefactUpgradeModel(BaseModel):

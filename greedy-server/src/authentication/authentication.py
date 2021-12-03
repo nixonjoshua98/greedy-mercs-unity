@@ -1,23 +1,28 @@
+from __future__ import annotations
+
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src.cache import MemoryCache, inject_memory_cache
+from src.cache import MemoryCache, memory_cache
 from src.mongo.repositories.accounts import (AccountsRepository,
-                                             inject_account_repo)
+                                             accounts_collection)
 from src.routing import ServerRequest
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .session import Session
 
 
 class AuthenticatedUser:
-    id: ObjectId
-
-    def __init__(self, id_: ObjectId):
-        self.id = id_
+    def __init__(self, id_: ObjectId, session: Session):
+        self.id: ObjectId = id_
+        self.session: Session = session
 
 
 async def authenticated_user(
     request: ServerRequest,
-    mem_cache: MemoryCache = Depends(inject_memory_cache),
-    acc_repo: AccountsRepository = Depends(inject_account_repo),
+    mem_cache: MemoryCache = Depends(memory_cache),
+    acc_repo: AccountsRepository = Depends(accounts_collection),
 ):
     uid, did, sid = _grab_headers_from_request(request)
 
@@ -34,7 +39,7 @@ async def authenticated_user(
     elif (user := await acc_repo.get_user_by_id(uid)) is None:
         raise HTTPException(401, detail="Client Login Error")
 
-    return AuthenticatedUser(id_=user.id)
+    return AuthenticatedUser(id_=user.id, session=session)
 
 
 def _grab_headers_from_request(request: ServerRequest) -> tuple[str, str, str]:

@@ -7,10 +7,10 @@ from fastapi import Depends
 from src.authentication.authentication import AuthenticatedUser
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
-                                              inject_artefacts_repository)
+                                              artefacts_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
-from src.mongo.repositories.currency import inject_currency_repository
+from src.mongo.repositories.currency import currency_repository
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.routing.handlers.abc import (BaseHandler, BaseHandlerException,
                                       BaseResponse)
@@ -31,8 +31,8 @@ class UnlockArtefactHandler(BaseHandler):
     def __init__(
             self,
             artefacts_data: list[StaticArtefact] = Depends(inject_static_artefacts),
-            artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
-            currency_repo: CurrencyRepository = Depends(inject_currency_repository),
+            artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
+            currency_repo: CurrencyRepository = Depends(currency_repository),
     ):
         self.artefacts_data = artefacts_data
         self.artefacts_repo = artefacts_repo

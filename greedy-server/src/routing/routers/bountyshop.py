@@ -6,17 +6,17 @@ from src.authentication.authentication import (AuthenticatedUser,
                                                authenticated_user)
 from src.mongo.repositories.armoury import ArmouryRepository
 from src.mongo.repositories.armoury import Fields as ArmouryRepoFields
-from src.mongo.repositories.armoury import inject_armoury_repository
+from src.mongo.repositories.armoury import armoury_repository
 from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
-from src.mongo.repositories.currency import inject_currency_repository
+from src.mongo.repositories.currency import currency_repository
 from src.pymodels import BaseModel
 from src.resources.bountyshop import (StaticBountyShopArmouryItem,
                                       inject_dynamic_bounty_shop)
 from src.routing import APIRouter, ServerResponse
 from src.routing.common import checks
 
-router = APIRouter(prefix="/api/bountyshop")
+router = APIRouter()
 
 
 # == Request Models == #
@@ -31,8 +31,8 @@ async def purchase_armoury_item(
     data: ItemData,
     user: AuthenticatedUser = Depends(authenticated_user),
     # = Database Repositories = #
-    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
-    armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
+    currency_repo: CurrencyRepository = Depends(currency_repository),
+    armoury_repo: ArmouryRepository = Depends(armoury_repository),
     # = Static/Game Data = #
     bounty_shop=Depends(inject_dynamic_bounty_shop),
 ):

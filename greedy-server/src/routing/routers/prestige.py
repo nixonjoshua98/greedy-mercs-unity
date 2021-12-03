@@ -6,12 +6,12 @@ from src.common import formulas
 from src.common.enums import BonusType
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
-                                              inject_artefacts_repository)
+                                              artefacts_repository)
 from src.mongo.repositories.bounties import (BountiesRepository,
-                                             inject_bounties_repository)
+                                             bounties_repository)
 from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
-from src.mongo.repositories.currency import inject_currency_repository
+from src.mongo.repositories.currency import currency_repository
 from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, inject_static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
@@ -32,9 +32,9 @@ async def prestige(
     # = Game Data = #
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts),
-    bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-    currency_repo: CurrencyRepository = Depends(inject_currency_repository),
-    artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+    bounties_repo: BountiesRepository = Depends(bounties_repository),
+    currency_repo: CurrencyRepository = Depends(currency_repository),
+    artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
 ):
     user_arts = await artefacts_repo.get_all_artefacts(user.id)
 

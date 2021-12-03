@@ -78,7 +78,6 @@ namespace GM.HTTP
         /// </summary>
         void Auth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
         {
-            Debug.Log(url);
             var www = UnityWebRequest.Get(url);
 
             StartCoroutine(SendAuthenticatedRequest(www, callback));

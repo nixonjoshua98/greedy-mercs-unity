@@ -60,6 +60,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1791531129569585673}
+  E_OnAttackImpact:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7127857024422436009
 MonoBehaviour:
   m_ObjectHideFlags: 0

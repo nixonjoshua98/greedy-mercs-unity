@@ -1,6 +1,4 @@
-﻿
-using GM.Events;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM
@@ -15,38 +13,30 @@ namespace GM
     public class HealthController : MonoBehaviour, IHealthController
     {
         public BigDouble MaxHealth { get; private set; }
-        public BigDouble CurrentHealth { get; private set; }
+        public BigDouble Current { get; private set; }
 
-        // Events
-        [HideInInspector] public UnityEvent E_OnZeroHealth;
-        [HideInInspector] public BigDoubleEvent E_OnDamageTaken;
+        [HideInInspector] public UnityEvent E_OnZeroHealth { get; set; } = new UnityEvent();
+        [HideInInspector] public UnityEvent<BigDouble> E_OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
 
         public bool IsDead = false;
 
-        void Awake()
-        {
-            E_OnZeroHealth = new UnityEvent();
-            E_OnDamageTaken = new BigDoubleEvent();
-        }
-
-
         public void Setup(BigDouble val)
         {
-            MaxHealth = CurrentHealth = val;
+            MaxHealth = Current = val;
         }
 
 
         public virtual void TakeDamage(BigDouble amount)
         {
-            BigDouble damageTaken = amount > CurrentHealth ? CurrentHealth : amount;
+            BigDouble damageTaken = amount > Current ? Current : amount;
 
-            if (CurrentHealth > 0.0f)
+            if (!IsDead)
             {
-                CurrentHealth = BigDouble.Max(0, CurrentHealth - amount);
+                Current -= amount;
 
                 E_OnDamageTaken.Invoke(damageTaken);
 
-                if (CurrentHealth <= 0.0f)
+                if (Current <= 0.0f)
                 {
                     IsDead = true;
 
@@ -58,7 +48,7 @@ namespace GM
 
         public float Percent()
         {
-            return (float)(CurrentHealth / MaxHealth).ToDouble();
+            return (float)(Current / MaxHealth).ToDouble();
         }
     }
 }

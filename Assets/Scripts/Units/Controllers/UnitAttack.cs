@@ -1,28 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Units
 {
-    using GM.Events;
-
     public abstract class UnitAttack : MonoBehaviour
     {
         [Header("Components")]
         public Animator anim;
 
-        [Header("Events")]
-        public GameObjectEvent E_OnAttackImpact;
-
         // Properties
         float attackCooldown = 0.5f;
-
 
         public bool IsAttacking { get; private set; } = false;
         public bool OnCooldown { get; private set; } = false;
         public bool IsToggled { get; private set; } = true;
 
+        public UnityEvent<GameObject> E_OnAttackImpact { get; private set; } = new UnityEvent<GameObject>();
 
         // Components
         UnitMovement movement;
@@ -30,11 +24,8 @@ namespace GM.Units
 
         protected GameObject currentTarget;
 
-
         void Awake()
         {
-            E_OnAttackImpact = new GameObjectEvent();
-
             GetComponents();
         }
 

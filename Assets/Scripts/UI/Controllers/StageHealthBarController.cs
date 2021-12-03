@@ -13,7 +13,7 @@ namespace GM.UI
 
         float targetSliderValue = 1.0f;
 
-        void Start()
+        void Awake()
         {
             SetupWaveSpawnEvent();
             SetupBossEvents();
@@ -33,12 +33,12 @@ namespace GM.UI
                 targetSliderValue = 1.0f; // Fill up the slider to 100%
 
                 // Set the current health
-                healthValue.text = Format.Number(boss.Health.CurrentHealth);
+                healthValue.text = Format.Number(boss.Health.Current);
 
                 // Update the display upon the boss takign damage
                 boss.Health.E_OnDamageTaken.AddListener(damageTaken =>
                 {
-                    healthValue.text = Format.Number(boss.Health.CurrentHealth);
+                    healthValue.text = Format.Number(boss.Health.Current);
                     targetSliderValue = boss.Health.Percent();
                 });
 
@@ -65,7 +65,6 @@ namespace GM.UI
 
                 foreach (Target trgt in waveEnemies)
                 {
-                    // Update the slider/text upon the enemy taking damage
                     trgt.Health.E_OnDamageTaken.AddListener(damageTaken =>
                     {
                         current -= damageTaken;

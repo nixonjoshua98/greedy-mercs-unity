@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
 namespace GM
 {
@@ -49,18 +50,18 @@ namespace GM
             ClickController.E_OnClick.AddListener(OnDamageClick);
         }
 
-
         void Start()
         {
             SpawnWave();
         }
 
-
         void OnDamageClick(Vector2 worldSpaceClickPosition)
         {
-            if (Enemies.Count >= 1)
+            if (Enemies.Count > 0)
             {
-                Target target = Enemies[0];
+                Target target = Enemies.OrderBy(t => t.Health.Current).First();
+
+                target.Health.TakeDamage(1);
             }
         }
 
@@ -97,8 +98,6 @@ namespace GM
             E_BossSpawn.Invoke(boss);
         }
 
-
-        /// <summary>Callback for when a wave enemy has been defeated</summary>
         void OnEnemyZeroHealth(Target trgt)
         {
             Enemies.Remove(trgt);
@@ -119,13 +118,14 @@ namespace GM
             SpawnWave();
         }
 
-
         void OnWaveCleared()
         {
             E_OnWaveCleared.Invoke();
 
             if (state.Wave == state.WavesPerStage)
+            {
                 SpawnBoss();
+            }
 
             else
             {

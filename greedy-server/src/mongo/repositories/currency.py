@@ -14,16 +14,10 @@ def currency_repository(request: ServerRequest) -> CurrencyRepository:
     return CurrencyRepository(request.app.state.mongo)
 
 
-# = Field Keys = #
-
-
 class Fields:
     BOUNTY_POINTS = "bountyPoints"
     ARMOURY_POINTS = "armouryPoints"
     PRESTIGE_POINTS = "prestigePoints"
-
-
-# = Models = #
 
 
 class CurrenciesModel(BaseDocument):
@@ -35,9 +29,6 @@ class CurrenciesModel(BaseDocument):
         return self.dict(exclude={"id"})
 
 
-# = Repository = #
-
-
 class CurrencyRepository:
     def __init__(self, client):
         self.collection = client.db["currencyItems"]
@@ -47,7 +38,7 @@ class CurrencyRepository:
 
         return CurrenciesModel.parse_obj(r or {"_id": uid})
 
-    async def increment_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
+    async def inc_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": {field: value}})
 
     async def update_one(self, uid, update: dict) -> CurrenciesModel:

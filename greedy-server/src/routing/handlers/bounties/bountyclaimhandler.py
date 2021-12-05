@@ -12,7 +12,7 @@ from src.mongo.repositories.bounties import (BountiesRepository,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.bounties import StaticBounties, static_bounties
+from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing.handlers.abc import BaseHandler, BaseResponse
 
 
@@ -26,21 +26,15 @@ class BountyClaimResponse(BaseResponse):
 class BountyClaimHandler(BaseHandler):
     def __init__(
             self,
-            static_bounties: StaticBounties = Depends(static_bounties),
+            bounties_data: StaticBounties = Depends(inject_static_bounties),
             bounties_repo: BountiesRepository = Depends(bounties_repository),
             currency_repo: CurrencyRepository = Depends(currency_repository),
     ):
-        self.bounties_data = static_bounties
+        self.bounties_data = bounties_data
         self.bounties_repo = bounties_repo
         self.currency_repo = currency_repo
 
     async def handle(self, user: AuthenticatedUser) -> BountyClaimResponse:
-        """
-        Perform the 'Bounty Claim' for the provided user
-
-        :param user: Authenticated user we are performing the claim for
-        """
-
         # We use the current server time for the claim
         claim_time = dt.datetime.utcnow()
 
@@ -54,7 +48,7 @@ class BountyClaimHandler(BaseHandler):
         await self.bounties_repo.set_claim_time(user.id, claim_time)
 
         # Increment the currency and fetch the updated document
-        currencies = await self.currency_repo.increment_value(user.id, CurrencyFields.BOUNTY_POINTS, points)
+        currencies = await self.currency_repo.inc_value(user.id, CurrencyFields.BOUNTY_POINTS, points)
 
         return BountyClaimResponse(claim_time=claim_time, claim_amount=points, currencies=currencies)
 

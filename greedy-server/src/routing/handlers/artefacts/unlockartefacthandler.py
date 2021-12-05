@@ -53,7 +53,7 @@ class UnlockArtefactHandler(BaseHandler):
 
         new_art_id = self.get_new_artefact(u_artefacts)
 
-        currencies: CurrenciesModel = await self.currency_repo.increment_value(
+        currencies: CurrenciesModel = await self.currency_repo.inc_value(
             user.id, CurrencyFields.PRESTIGE_POINTS, -unlock_cost
         )
 

@@ -6,7 +6,7 @@ from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 
-def accounts_collection(request: ServerRequest) -> AccountsRepository:
+def accounts_repository(request: ServerRequest) -> AccountsRepository:
     return AccountsRepository(request.app.state.mongo)
 
 

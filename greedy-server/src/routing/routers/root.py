@@ -6,7 +6,7 @@ from src.authentication.session import Session
 from src.cache import MemoryCache, memory_cache
 from src.common import resources
 from src.mongo.repositories.accounts import (AccountsRepository,
-                                             accounts_collection)
+                                             accounts_repository)
 from src.mongo.repositories.armoury import (ArmouryRepository,
                                             armoury_repository)
 from src.mongo.repositories.artefacts import (ArtefactsRepository,
@@ -18,7 +18,7 @@ from src.mongo.repositories.currency import (CurrencyRepository,
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
-from src.resources.bounties import StaticBounties, static_bounties
+from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.resources.bountyshop import (DynamicBountyShop,
                                       dynamic_bounty_shop)
 from src.routing import APIRouter, ServerResponse
@@ -38,7 +38,7 @@ class LoginModel(BaseModel):
 @router.get("/gamedata")
 def game_data(
     # = Static/Game Data = #
-    s_bounties: StaticBounties = Depends(static_bounties),
+    s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
     s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
     svr_state: ServerState = Depends(inject_server_state),
@@ -88,7 +88,7 @@ async def user_data(
 async def player_login(
     data: LoginModel,
     mem_cache: MemoryCache = Depends(memory_cache),
-    acc_repo: AccountsRepository = Depends(accounts_collection),
+    acc_repo: AccountsRepository = Depends(accounts_repository),
 ):
     user = await acc_repo.get_user_by_did(data.device_id)
 

@@ -14,7 +14,7 @@ from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, static_artefacts
-from src.resources.bounties import StaticBounties, static_bounties
+from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
 
 router = APIRouter(prefix="/api")
@@ -30,7 +30,7 @@ async def prestige(
     data: PrestigeData,
     user: AuthenticatedUser = Depends(authenticated_user),
     # = Game Data = #
-    s_bounties: StaticBounties = Depends(static_bounties),
+    s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
     bounties_repo: BountiesRepository = Depends(bounties_repository),
     currency_repo: CurrencyRepository = Depends(currency_repository),

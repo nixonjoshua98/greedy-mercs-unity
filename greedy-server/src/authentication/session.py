@@ -1,12 +1,12 @@
 import datetime as dt
-import secrets
+import random
 
 from bson import ObjectId
 
 
 class Session:
     def __init__(self, uid: ObjectId, device_id: str):
-        self.id = secrets.token_hex(16)
+        self.id = self.generate_id(uid, device_id)
 
         self.user_id: ObjectId = uid
         self.device_id: str = device_id
@@ -15,3 +15,8 @@ class Session:
 
     def is_valid(self) -> bool:
         return True
+
+    @classmethod
+    def generate_id(cls, uid: ObjectId, device_id: str):
+        return "".join(random.sample(f"{uid}{device_id}", 32))
+

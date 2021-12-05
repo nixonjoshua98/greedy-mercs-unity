@@ -115,6 +115,7 @@ namespace GM.Core
                 return GameFormulas.MinorTapUpgradeDamage(state.Level);
             }
         }
+        #endregion
 
         public BigDouble TapDamage
         {
@@ -123,8 +124,6 @@ namespace GM.Core
                 return MinorTapUpgradeDamage;
             }
         }
-        #endregion
-
 
         /// <summary>
         /// Merc damage multiplier from armoury

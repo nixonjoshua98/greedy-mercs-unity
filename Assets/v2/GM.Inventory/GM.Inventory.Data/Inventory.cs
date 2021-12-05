@@ -3,7 +3,7 @@ using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Inventory.Data
 {
-    public class UserInventoryCollection
+    public class Inventory
     {
         public BigInteger PrestigePoints;
 
@@ -14,11 +14,12 @@ namespace GM.Inventory.Data
 
         // == Events == //
         public UnityEvent<long> E_BountyPointsChange = new UnityEvent<long>();
+        public UnityEvent<BigDouble> E_GoldChange = new UnityEvent<BigDouble>();
         public UnityEvent<BigInteger> E_PrestigePointsChange = new UnityEvent<BigInteger>();
 
-        public UserInventoryCollection(Models.UserCurrenciesModel currencies)
+        public Inventory(Models.UserCurrenciesModel currencies)
         {
-            Gold = BigDouble.Parse("1e500");
+            Gold = BigDouble.Parse("1000000000");
 
             UpdateCurrencies(currencies);
         }

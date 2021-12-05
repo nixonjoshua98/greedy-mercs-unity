@@ -66,7 +66,7 @@ namespace GM.Mercs.Data
             E_MercUnlocked.Invoke(key);
         }
 
-        public FullMercData GetMerc(MercID key) => new FullMercData(GetGameMerc(key), GetUserMerc(key));
+        public MercData GetMerc(MercID key) => new MercData(GetGameMerc(key), GetUserMerc(key));
 
         /// <summary>
         /// Check if the user has unlocked a merc
@@ -94,6 +94,6 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Fetch the full data for all user unlocked mercs
         /// </summary>
-        public List<FullMercData> UnlockedMercs => UserMercs.Where(pair => pair.Value.Level > 0).Select(pair => GetMerc(pair.Key)).ToList();
+        public List<MercData> UnlockedMercs => UserMercs.Where(pair => pair.Value.Level > 0).Select(pair => GetMerc(pair.Key)).ToList();
     }
 }

@@ -18,7 +18,13 @@ namespace GM.UI
         float fadeTimer;
         Color originalColour;
 
+        public void Set(long val) => Set((BigInteger)val);
         public void Set(BigInteger val)
+        {
+            QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
+            QuantityText.text = Format.Number(val);
+        }
+        public void Set(BigDouble val)
         {
             QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
             QuantityText.text = Format.Number(val);
@@ -48,13 +54,10 @@ namespace GM.UI
                 }
             }
         }
-
         void UpdatePosition()
         {
             transform.position += moveVector.ToVector3() * Time.deltaTime;
         }
-
-
         protected float ProcessFade()
         {
             fadeTimer -= Time.deltaTime;

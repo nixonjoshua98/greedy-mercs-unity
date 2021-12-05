@@ -8,12 +8,12 @@ using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Artefacts.Data
 {
-    public class ArtefactsData : Core.GMClass
+    public class Artefacts : Core.GMClass
     {
         Dictionary<int, ArtefactGameDataModel> gameArtefacts;
         Dictionary<int, ArtefactUserDataModel> userArtefacts;
 
-        public ArtefactsData(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
+        public Artefacts(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
         {
             Update(userArtefacts);
             Update(gameArtefacts);

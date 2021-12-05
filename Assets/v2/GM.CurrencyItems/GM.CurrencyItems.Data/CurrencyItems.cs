@@ -3,11 +3,11 @@ using GM.Common.Enums;
 
 namespace GM.CurrencyItems.Data
 {
-    public class CurrencyItemsDataCollection
+    public class CurrencyItems
     {
         Dictionary<CurrencyType, CurrencyItemData> Items;
 
-        public CurrencyItemsDataCollection()
+        public CurrencyItems()
         {
             Update();
         }

@@ -1,18 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Collections.Generic;
-using BonusType = GM.Common.Enums.BonusType;
-using MercID = GM.Common.Enums.MercID;
 using AttackType = GM.Common.Enums.AttackType;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.Data
 {
-    public class FullMercData : Core.GMClass
+    public class MercData : Core.GMClass
     {
         Models.MercGameDataModel Game;
         MercUserData User;
 
-        public FullMercData(Models.MercGameDataModel gameData, MercUserData userData)
+        public MercData(Models.MercGameDataModel gameData, MercUserData userData)
         {
             Game = gameData;
             User = userData;

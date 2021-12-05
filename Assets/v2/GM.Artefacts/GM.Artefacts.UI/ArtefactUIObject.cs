@@ -13,6 +13,6 @@ namespace GM.Artefacts.UI
 
         protected virtual void OnAssigned() { }
 
-        protected Data.ArtefactData AssignedArtefact => App.Data.Arts.GetArtefact(AssignedArtefactId);
+        protected Data.ArtefactData AssignedArtefact => App.Data.Artefacts.GetArtefact(AssignedArtefactId);
     }
 }

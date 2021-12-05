@@ -7,13 +7,13 @@ using UnityEngine.Events;
 
 namespace GM.Armoury.Data
 {
-    public class ArmouryDataCollection : Core.GMClass
+    public class Armoury : Core.GMClass
     {
 
         Dictionary<int, Models.ArmouryItemUserDataModel> UserItemsDict;
         Dictionary<int, Models.ArmouryItemGameDataModel> GameItemsDict;
 
-        public ArmouryDataCollection(List<Models.ArmouryItemUserDataModel> userItems, List<Models.ArmouryItemGameDataModel> gameData)
+        public Armoury(List<Models.ArmouryItemUserDataModel> userItems, List<Models.ArmouryItemGameDataModel> gameData)
         {
             Update(userItems);
             Update(gameData);

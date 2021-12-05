@@ -6,18 +6,19 @@ using UnityEngine.UI;
 
 namespace GM.UI
 {
-    enum OptionsViewState { SHOWN = 0, HIDDEN = 1 }
+    enum OptionsViewState { SHOWN, HIDDEN }
 
     public class AmountSelector : MonoBehaviour
     {
         [Header("References")]
         public Button SelectButton;
         public TMP_Text SelectButtonText;
-        public List<Button> Options;
+        public HorizontalLayoutGroup ButtonsGroup;
         [Space]
+        public List<Button> Options;
         public int[] OptionValues;
 
-        OptionsViewState optionsState;
+        OptionsViewState optionsState = OptionsViewState.HIDDEN;
 
         [HideInInspector] public UnityEvent<int> E_OnChange = new UnityEvent<int>();
 
@@ -27,8 +28,6 @@ namespace GM.UI
 
         void Awake()
         {
-            optionsState = OptionsViewState.HIDDEN;
-
             HideOptions();
             AssignOptionCallbacks();
         }

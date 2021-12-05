@@ -27,14 +27,14 @@ namespace GM.Artefacts.UI
 
         void UpdateUI()
         {
-            UnlockedArtefactsText.text = $"<color=white>{App.Data.Arts.NumUnlockedArtefacts} of {App.Data.Arts.MaxArtefacts}</color> Artefacts unlocked";
+            UnlockedArtefactsText.text = $"<color=white>{App.Data.Artefacts.NumUnlockedArtefacts} of {App.Data.Artefacts.MaxArtefacts}</color> Artefacts unlocked";
         }
 
 
         // == Instantiation == //
         void InstantiateArtefactSlots()
         {
-            ArtefactData[] unlockArtefacts = App.Data.Arts.UserOwnedArtefacts;
+            ArtefactData[] unlockArtefacts = App.Data.Artefacts.UserOwnedArtefacts;
 
             foreach (ArtefactData art in unlockArtefacts)
             {
@@ -52,11 +52,11 @@ namespace GM.Artefacts.UI
         void UpdateUnlockArtefactText()
         {
             UnlockArtefactButton.SetText("Unlocked", "");
-            UnlockArtefactButton.interactable = !App.Data.Arts.UserUnlockedAll;
+            UnlockArtefactButton.interactable = !App.Data.Artefacts.UserUnlockedAll;
 
-            if (!App.Data.Arts.UserUnlockedAll)
+            if (!App.Data.Artefacts.UserUnlockedAll)
             {
-                BigInteger unlockCost = App.Cache.ArtefactUnlockCost(App.Data.Arts.NumUnlockedArtefacts);
+                BigInteger unlockCost = App.Cache.ArtefactUnlockCost(App.Data.Artefacts.NumUnlockedArtefacts);
 
                 UnlockArtefactButton.SetText("Unlock", Format.Number(unlockCost));
             }
@@ -65,7 +65,7 @@ namespace GM.Artefacts.UI
         // == Callbacks == //
         public void OnUnlockArtefactButton()
         {
-            App.Data.Arts.UnlockArtefact((success, newArtefact) =>
+            App.Data.Artefacts.UnlockArtefact((success, newArtefact) =>
             {
                 if (success)
                 {

@@ -3,6 +3,7 @@ using System.Linq;
 using BigInteger = System.Numerics.BigInteger;
 using BonusType = GM.Common.Enums.BonusType;
 using GameFormulas = GM.Common.GameFormulas;
+using GM.PlayerUpgrades.Data;
 
 namespace GM.Core
 {
@@ -23,7 +24,6 @@ namespace GM.Core
             return false;
         }
 
-
         GM.Common.TTLCache cache = new GM.Common.TTLCache();
 
         // = = Bonuses == //
@@ -38,9 +38,8 @@ namespace GM.Core
                 return ls;
             }
         }
-        IEnumerable<KeyValuePair<BonusType, double>> ArtefactBonuses => App.Data.Arts.UserOwnedArtefacts.Select(s => new KeyValuePair<BonusType, double>(s.Bonus, s.BaseEffect));
+        IEnumerable<KeyValuePair<BonusType, double>> ArtefactBonuses => App.Data.Artefacts.UserOwnedArtefacts.Select(s => new KeyValuePair<BonusType, double>(s.Bonus, s.BaseEffect));
         // == == = == == //
-
 
         Dictionary<BonusType, double> CombinedBonuses
         {
@@ -99,6 +98,34 @@ namespace GM.Core
             }
         }
 
+        #region Minor Tap Upgrade
+        public BigDouble MinorTapUpgradeCost(int levels)
+        {
+            PlayerUpgradeState state = App.Data.Upgrades.GetUpgradeState(UpgradeID.MINOR_TAP_DAMAGE);
+
+            return GameFormulas.MinorTapUpgradeCost(state.Level, levels);
+        }
+
+        public BigDouble MinorTapUpgradeDamage
+        {
+            get
+            {
+                PlayerUpgradeState state = App.Data.Upgrades.GetUpgradeState(UpgradeID.MINOR_TAP_DAMAGE);
+
+                return GameFormulas.MinorTapUpgradeDamage(state.Level);
+            }
+        }
+
+        public BigDouble TapDamage
+        {
+            get
+            {
+                return MinorTapUpgradeDamage;
+            }
+        }
+        #endregion
+
+
         /// <summary>
         /// Merc damage multiplier from armoury
         /// </summary>
@@ -119,7 +146,7 @@ namespace GM.Core
         /// <summary>
         /// Upgrade cost for merc. CurrentLevel -> (CurrentLevel + levels)
         /// </summary>
-        public BigDouble MercUpgradeCost(GM.Mercs.Data.FullMercData merc, int levels)
+        public BigDouble MercUpgradeCost(GM.Mercs.Data.MercData merc, int levels)
         {
             return cache.Get<BigDouble>($"MercUpgradeCost/{merc.Id}/{merc.CurrentLevel}/{levels}", 60,
                 () => GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels, merc.UnlockCost));
@@ -128,15 +155,15 @@ namespace GM.Core
         /// <summary>
         /// Base merc damage for current level. Does not apply any bonuses
         /// </summary>
-        public BigDouble MercBaseDamageAtLevel(GM.Mercs.Data.FullMercData merc)
+        public BigDouble MercBaseDamageAtLevel(GM.Mercs.Data.MercData merc)
         {
             return cache.Get<BigDouble>($"MercBaseDamageAtLevel/{merc.Id}/{merc.CurrentLevel}", 60,
                 () => GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel));
         }
 
-        public BigDouble MercDamage(GM.Mercs.Data.FullMercData merc)
+        public BigDouble MercDamage(GM.Mercs.Data.MercData merc)
         {
-           return MercBaseDamageAtLevel(merc) * CombinedBonuses.Get(BonusType.MERC_DAMAGE, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
+           return MercBaseDamageAtLevel(merc) * CombinedBonuses.Get(BonusType.MERC_DAMAGE, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1) * ArmouryMercDamageMultiplier;
         }
 
         private Dictionary<BonusType, double> CreateBonusDictionary(IEnumerable<KeyValuePair<BonusType, double>> ls)

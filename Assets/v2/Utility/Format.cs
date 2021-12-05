@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using BonusType = GM.Common.Enums.BonusType;
+using UnityEngine;
 
 namespace GM
 {
@@ -38,9 +39,11 @@ namespace GM
 
         static string Number_Units(BigDouble val)
         {
-            int n = (int)BigDouble.Log(val, 1000);
+            BigDouble absVal = BigDouble.Abs(val);
 
-            BigDouble m = val / BigDouble.Pow(1000, n);
+            int n = (int)BigDouble.Log(absVal, 1000);
+
+            BigDouble m = absVal / BigDouble.Pow(1000, n);
 
             return $"{(val < 0 ? "-" : string.Empty)}{m.ToString("F2") + UnitsTable[n]}";
         }

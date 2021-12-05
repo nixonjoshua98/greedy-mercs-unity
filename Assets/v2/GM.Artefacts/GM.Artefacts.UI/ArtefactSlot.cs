@@ -72,7 +72,7 @@ namespace GM.Artefacts.UI
         // == Callbacks == //
         public void OnUpgradeButton()
         {
-            App.Data.Arts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
+            App.Data.Artefacts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
             {
                 UpdateUI();
             });

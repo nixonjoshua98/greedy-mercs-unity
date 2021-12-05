@@ -6,6 +6,16 @@ namespace GM.Common
 {
     public static class GameFormulas
     {
+        public static BigDouble MinorTapUpgradeDamage(int currentLevel)
+        {
+            return currentLevel * BigDouble.Pow(2.0f, (currentLevel - 1) / 50.0f);
+        }
+
+        public static BigDouble MinorTapUpgradeCost(int currentLevel, int levels)
+        {
+            return BigMath.SumGeometricSeries(levels, 5, 1.09, (currentLevel - 1));
+        }
+
         public static BigInteger ArtefactUnlockCost(int owned)
         {
             return (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).CeilToBigInteger();

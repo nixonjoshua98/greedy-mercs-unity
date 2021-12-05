@@ -26,6 +26,7 @@ namespace GM.UI
         {
             App.Data.Inv.E_BountyPointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, BountyPointsText.transform.parent.position).Set(change); });
             App.Data.Inv.E_PrestigePointsChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, PrestigePointsText.transform.parent.position).Set(change); });
+            App.Data.Inv.E_GoldChange.AddListener((change) => { Instantiate<QuantityPopup>(ItemTextPopup, GoldText.transform.parent.position).Set(change); });
         }
     }
 }

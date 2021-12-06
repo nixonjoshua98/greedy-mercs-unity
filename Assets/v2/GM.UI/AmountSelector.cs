@@ -46,6 +46,12 @@ namespace GM.UI
             HideOptions();
         }
 
+        public void ReInvoke()
+        {
+            E_OnChange.Invoke(Current);
+        }
+
+
         /// <summary>
         /// Assign all callbacks to each button
         /// </summary>

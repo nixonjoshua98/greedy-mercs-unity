@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GM.Upgrades.Data;
 
-namespace GM.PlayerUpgrades.UI
+namespace GM.Upgrades.UI
 {
     public class PlayerUpgradeUIController : GM.UI.Panels.TogglablePanel
     {
@@ -16,7 +17,7 @@ namespace GM.PlayerUpgrades.UI
 
         void Awake()
         {
-            Instantiate<PlayerUpgradeUIObject>(MinorTapUpgradeSlot, UpgradeSlotParent).Init(UpgradeAmountSelector);
+            Instantiate<UpgradeSlot<UpgradeState>>(MinorTapUpgradeSlot, UpgradeSlotParent).Init(UpgradeAmountSelector);
         }
     }
 }

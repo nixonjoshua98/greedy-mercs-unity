@@ -1,8 +1,9 @@
 using MercID = GM.Common.Enums.MercID;
+using GM.UI;
 
 namespace GM.Mercs.UI
 {
-    public abstract class MercUIObject : Core.GMMonoBehaviour
+    public abstract class MercUIObject : SlotObject
     {
         MercID AssignedId;
 

@@ -3,7 +3,7 @@ using System.Linq;
 using BigInteger = System.Numerics.BigInteger;
 using BonusType = GM.Common.Enums.BonusType;
 using GameFormulas = GM.Common.GameFormulas;
-using GM.PlayerUpgrades.Data;
+using GM.Upgrades.Data;
 
 namespace GM.Core
 {
@@ -99,22 +99,8 @@ namespace GM.Core
         }
 
         #region Minor Tap Upgrade
-        public BigDouble MinorTapUpgradeCost(int levels)
-        {
-            PlayerUpgradeState state = App.Data.Upgrades.GetUpgradeState(UpgradeID.MINOR_TAP_DAMAGE);
-
-            return GameFormulas.MinorTapUpgradeCost(state.Level, levels);
-        }
-
-        public BigDouble MinorTapUpgradeDamage
-        {
-            get
-            {
-                PlayerUpgradeState state = App.Data.Upgrades.GetUpgradeState(UpgradeID.MINOR_TAP_DAMAGE);
-
-                return GameFormulas.MinorTapUpgradeDamage(state.Level);
-            }
-        }
+        public BigDouble MinorTapUpgradeCost(int levels) => GameFormulas.MinorTapUpgradeCost(App.Data.Upgrades.MinorTapUpgrade.Level, levels);
+        public BigDouble MinorTapUpgradeDamage => GameFormulas.MinorTapUpgradeDamage(App.Data.Upgrades.MinorTapUpgrade.Level);
         #endregion
 
         public BigDouble TapDamage
@@ -130,7 +116,9 @@ namespace GM.Core
         /// </summary>
         public double ArmouryMercDamageMultiplier => cache.Get<double>($"ArmouryMercDamageMultiplier", 1, () => App.Data.Armoury.ArmouryMercDamageMultiplier);
 
-        /// <summary>Unlock cost for next artefact</summary>
+        /// <summary>
+        /// Unlock cost for next artefact
+        /// </summary>
         public BigInteger ArtefactUnlockCost(int owned) => GameFormulas.ArtefactUnlockCost(owned);
 
         /// <summary>

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using AmountSelector = GM.UI.AmountSelector;
+using GM.UI;
 using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Artefacts.UI
@@ -18,14 +18,17 @@ namespace GM.Artefacts.UI
         public TMP_Text LevelText;
         public TMP_Text BonusText;
         [Space]
-        public GM.UI.VStackedButton UpgradeButton;
+        public VStackedButton UpgradeButton;
 
+        AmountSelector amountSelector;
         int _BuyAmount; // Raw value. We should use BuyAmount for most cases
 
         int BuyAmount => MathUtils.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
 
         public void AssignArtefact(int artefactId, AmountSelector selector)
         {
+            amountSelector = selector;
+
             // Set the callback for when the user changes the buy amount
             selector.E_OnChange.AddListener(val => {
                 _BuyAmount = val;
@@ -62,11 +65,13 @@ namespace GM.Artefacts.UI
                 UpgradeButton.SetText($"x{BuyAmount}", Format.Number(ugradeCost));
             }
 
-            LevelText.text = $"Lvl. <color=orange>{AssignedArtefact.CurrentLevel}</color>";
-            BonusText.text = Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect);
+            LevelText.text = FormatLevel(AssignedArtefact.CurrentLevel);
+            BonusText.text = GetBonusText();
 
             UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Data.Inv.PrestigePoints;
         }
+
+        string GetBonusText() => $"<color=orange>{Format.Number(AssignedArtefact.BaseEffect)}</color> {Format.Bonus(AssignedArtefact.Bonus)}";
 
 
         // == Callbacks == //
@@ -75,6 +80,8 @@ namespace GM.Artefacts.UI
             App.Data.Artefacts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
             {
                 UpdateUI();
+
+                amountSelector.ReInvoke(); // Force a UI update for the other artefacts
             });
         }
 

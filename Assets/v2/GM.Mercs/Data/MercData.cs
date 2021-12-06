@@ -31,6 +31,7 @@ namespace GM.Mercs.Data
         public AttackType AttackType => Game.AttackType;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
+        public BigDouble DamagePerAttack => App.Cache.MercDamage(this);
         public List<Models.MercPassiveDataModel> UnlockedPassives
         {
             get

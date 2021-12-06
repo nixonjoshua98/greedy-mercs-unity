@@ -107,11 +107,11 @@ RectTransform:
   m_Father: {fileID: 7269102494062170612}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 200, y: 25}
-  m_SizeDelta: {x: 500, y: 50}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -300, y: 12.5}
+  m_SizeDelta: {x: 250, y: 75}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &7269102492161422085
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: + <color=orange>17</color> Tap Damage
+  m_text: <color=orange>17</color> DMG
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d83a2d1c974da674f91de9eb336819ae, type: 2}
   m_sharedMaterial: {fileID: 1861299339541508876, guid: d83a2d1c974da674f91de9eb336819ae,
@@ -168,15 +168,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.8
+  m_fontSize: 48
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 48
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -244,8 +244,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -25}
-  m_SizeDelta: {x: 715, y: 50}
+  m_AnchoredPosition: {x: 200, y: -12.5}
+  m_SizeDelta: {x: 715, y: 75}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7269102492684155594
 CanvasRenderer:
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -452,11 +452,11 @@ RectTransform:
   m_Father: {fileID: 7269102494062170612}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -525, y: 10}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -300, y: -87.5}
   m_SizeDelta: {x: 225, y: 75}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &7269102492829258835
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -519,9 +519,9 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 48
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 4
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -714,11 +714,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7269102494062170612}
-  - component: {fileID: 4505378796772784021}
+  - component: {fileID: 4463954919602607437}
   - component: {fileID: 7269102494062170570}
   - component: {fileID: 7269102494062170571}
   m_Layer: 5
-  m_Name: TapDamageUpgradeSlot
+  m_Name: MinorTapUpgradeSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -750,7 +750,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1440, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4505378796772784021
+--- !u!114 &4463954919602607437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -759,11 +759,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7269102494062170613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 592e0e7f56d9c384280997ca24654bd2, type: 3}
+  m_Script: {fileID: 11500000, guid: 93d81b21df6550c459446f87dfb4f2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelText: {fileID: 7269102492829258844}
-  DamageText: {fileID: 7269102492161422086}
+  BonusText: {fileID: 7269102492161422086}
   UpgradeButton: {fileID: 3883509204714346231}
 --- !u!222 &7269102494062170570
 CanvasRenderer:
@@ -891,7 +891,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4505378796772784021}
+      objectReference: {fileID: 4463954919602607437}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnUpgradeButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GM.Upgrades.UI.UpgradeSlot, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8994090150515151708, guid: 7354b49bc7b5fc448886453e7b76daa3,
         type: 3}
       propertyPath: m_Name

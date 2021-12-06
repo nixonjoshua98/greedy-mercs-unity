@@ -1,30 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using BonusType = GM.Common.Enums.BonusType;
-using GM.PlayerUpgrades.Data;
 using GM.UI;
+using GM.Upgrades.Data;
+using TMPro;
+using UnityEngine;
 
-namespace GM.PlayerUpgrades.UI
+namespace GM.Upgrades.UI
 {
-    public class TapDamageUpgradeSlot : PlayerUpgradeUIObject
+    public abstract class UpgradeSlot<T> : SlotObject where T: UpgradeState
     {
-        protected override UpgradeID UpgradeId { get; set; } = UpgradeID.MINOR_TAP_DAMAGE;
-        protected BigDouble UpgradeCost => App.Cache.MinorTapUpgradeCost(BuyAmount);
-        protected BigDouble DamageFromUpgrade => App.Cache.MinorTapUpgradeDamage;
-
-
         [Header("Components")]
         public TMP_Text LevelText;
-        public TMP_Text DamageText;
+        public TMP_Text BonusText;
         public VStackedButton UpgradeButton;
 
-        int _buyAmount;
+        protected int _buyAmount;
+
+        protected abstract BigDouble UpgradeCost { get; }
+        protected abstract T Upgrade { get; }
         protected int BuyAmount => MathUtils.NextMultipleMax(Upgrade.Level, _buyAmount, Upgrade.MaxLevel);
 
-        public override void Init(AmountSelector selector)
+        public virtual void Init(AmountSelector selector)
         {
             _buyAmount = selector.Current;
 
@@ -46,10 +40,12 @@ namespace GM.PlayerUpgrades.UI
             }
 
             LevelText.text = FormatLevel(Upgrade.Level);
-            DamageText.text = $"<color=orange>{Format.Number(DamageFromUpgrade)}</color> {Format.Bonus(BonusType.FLAT_TAP_DAMAGE)}";
+            BonusText.text = GetBonusText();
 
             UpgradeButton.interactable = !Upgrade.IsMaxLevel && App.Data.Inv.Gold >= UpgradeCost;
         }
+
+        protected abstract string GetBonusText();
 
         public void OnUpgradeButton()
         {

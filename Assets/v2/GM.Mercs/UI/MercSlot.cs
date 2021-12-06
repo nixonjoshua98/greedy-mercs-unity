@@ -53,8 +53,8 @@ namespace GM.Mercs.UI
         {
             BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, buyAmount);
 
-            LevelText.text = $"Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>";
-            DamageText.text = $"{Format.Number(App.Cache.MercDamage(AssignedMerc))} DMG";
+            LevelText.text = FormatLevel(AssignedMerc.CurrentLevel);
+            DamageText.text = GetBonusText();
 
             UpgradeButton.SetText("MAX LEVEL", "");
 
@@ -65,6 +65,8 @@ namespace GM.Mercs.UI
 
             UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Data.Inv.Gold >= upgradeCost;
         }
+
+        string GetBonusText() => $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
 
         // == Callbacks == //
         public void OnUpgradeButton()

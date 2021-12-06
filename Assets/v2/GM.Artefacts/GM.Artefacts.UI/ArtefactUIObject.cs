@@ -1,6 +1,6 @@
 namespace GM.Artefacts.UI
 {
-    public abstract class ArtefactUIObject : Core.GMMonoBehaviour
+    public abstract class ArtefactUIObject : GM.UI.SlotObject
     {
         int AssignedArtefactId = -1;
 

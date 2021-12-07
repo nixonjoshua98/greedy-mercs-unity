@@ -19,7 +19,7 @@ namespace GM.Inventory.Data
 
         public Inventory(Models.UserCurrenciesModel currencies)
         {
-            Gold = BigDouble.Parse("1000000000");
+            Gold = BigDouble.Parse("100");
 
             UpdateCurrencies(currencies);
         }

@@ -10,5 +10,10 @@ namespace GM.Upgrades.UI
         BigDouble TotalTapDamage => App.Cache.TotalTapDamage;
 
         protected override string GetBonusText() => $"<color=orange>{Format.Number(TotalTapDamage)}</color> TAP DMG";
+
+        public override void OnUnlocked()
+        {
+
+        }
     }
 }

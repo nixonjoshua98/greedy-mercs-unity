@@ -12,7 +12,7 @@ namespace GM.Core
         public CurrencyItems.Data.CurrencyItems Items;
         public Bounties.Data.BountiesData Bounties;
         public BountyShop.Data.BountyShopData BountyShop;
-        public Upgrades.Data.PlayerUpgrades Upgrades;
+        public Upgrades.Data.Upgrades Upgrades;
 
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
@@ -20,7 +20,7 @@ namespace GM.Core
         public GMData(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
         {
             Items = new CurrencyItems.Data.CurrencyItems();
-            Upgrades = new Upgrades.Data.PlayerUpgrades();
+            Upgrades = new Upgrades.Data.Upgrades();
 
             NextDailyReset = gameData.NextDailyReset;
 

@@ -5,7 +5,14 @@ using UnityEngine;
 
 namespace GM.Upgrades.UI
 {
-    public abstract class UpgradeSlot<T> : SlotObject where T: UpgradeState
+    public interface IUpgradeSlot
+    {
+        void Init(AmountSelector selector);
+        void OnUnlocked();
+        void Hide();
+    }
+
+    public abstract class UpgradeSlot<T> : SlotObject, IUpgradeSlot where T: UpgradeState
     {
         [Header("Components")]
         public TMP_Text LevelText;
@@ -25,6 +32,14 @@ namespace GM.Upgrades.UI
             selector.E_OnChange.AddListener((val) => { _buyAmount = val; });
 
             App.Data.Inv.E_GoldChange.AddListener(_ => UpdateUI());
+        }
+
+        /// <summary>
+        /// Useful when referencing the slot usin the interface
+        /// </summary>
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
 
         void FixedUpdate()
@@ -48,6 +63,7 @@ namespace GM.Upgrades.UI
         }
 
         protected abstract string GetBonusText();
+        public abstract void OnUnlocked();
 
         public void OnUpgradeButton()
         {

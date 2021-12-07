@@ -13,5 +13,9 @@ namespace GM.Upgrades.UI
         BigDouble DamageFromUpgrade => App.Cache.MajorTapUpgradeDamage;
 
         protected override string GetBonusText() => $"<color=orange>{Format.Number(DamageFromUpgrade)}x</color> TAP DMG";
+        public override void OnUnlocked()
+        {
+            gameObject.SetActive(true);
+        }
     }
 }

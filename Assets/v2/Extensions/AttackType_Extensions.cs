@@ -9,13 +9,13 @@ namespace GM
             switch (val)
             {
                 case AttackType.MELEE:
-                    return BonusType.MELEE_DAMAGE;
+                    return BonusType.MULTIPLY_MELEE_DMG;
 
                 case AttackType.RANGED:
-                    return BonusType.RANGED_DAMAGE;
+                    return BonusType.MULTIPLY_MELEE_DMG;
 
                 default:
-                    return BonusType.MELEE_DAMAGE;
+                    return BonusType.MULTIPLY_MELEE_DMG;
             }
         }
     }

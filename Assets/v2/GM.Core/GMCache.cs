@@ -1,9 +1,8 @@
+using GM.Common;
+using GM.Common.Enums;
 using System.Collections.Generic;
 using System.Linq;
-using BigInteger = System.Numerics.BigInteger;
-using BonusType = GM.Common.Enums.BonusType;
-using GameFormulas = GM.Common.GameFormulas;
-using GM.Upgrades.Data;
+using System.Numerics;
 
 namespace GM.Core
 {
@@ -67,12 +66,12 @@ namespace GM.Core
 
         public BigDouble GoldPerEnemyAtStage(int stage)
         {
-            return GameFormulas.CalcEnemyGold(stage) * CombinedBonuses.Get(BonusType.ENEMY_GOLD, 1) * CombinedBonuses.Get(BonusType.ALL_GOLD, 1);
+            return GameFormulas.CalcEnemyGold(stage) * CombinedBonuses.Get(BonusType.MULTIPLY_ENEMY_GOLD, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_GOLD, 1);
         }
 
         public BigDouble GoldPerStageBossAtStage(int stage)
         {
-            return GameFormulas.CalcBossGold(stage) * CombinedBonuses.Get(BonusType.BOSS_GOLD, 1) * CombinedBonuses.Get(BonusType.ALL_GOLD, 1);
+            return GameFormulas.CalcBossGold(stage) * CombinedBonuses.Get(BonusType.MULTIPLY_BOSS_GOLD, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_GOLD, 1);
         }
 
         public BigInteger PrestigePointsForStage(int stage)
@@ -94,20 +93,25 @@ namespace GM.Core
         {
             get
             {
-                return Common.Constants.BASE_CRIT_MULTIPLIER + CombinedBonuses.Get(BonusType.FLAT_CRIT_DMG, 1);
+                return Common.Constants.BASE_CRIT_MULTIPLIER + CombinedBonuses.Get(BonusType.MULTIPLY_CRIT_DMG, 1);
             }
         }
 
         #region Minor Tap Upgrade
         public BigDouble MinorTapUpgradeCost(int levels) => GameFormulas.MinorTapUpgradeCost(App.Data.Upgrades.MinorTapUpgrade.Level, levels);
-        public BigDouble MinorTapUpgradeDamage => GameFormulas.MinorTapUpgradeDamage(App.Data.Upgrades.MinorTapUpgrade.Level);
+        public BigDouble MinorTapUpgradeDamage => GameFormulas.MinorTapUpgradeBonusValue(App.Data.Upgrades.MinorTapUpgrade.Level);
         #endregion
 
-        public BigDouble TapDamage
+        #region Major Tap Upgrade
+        public BigDouble MajorTapUpgradeCost(int levels) => GameFormulas.MajorTapUpgradeCost(App.Data.Upgrades.MajorTapUpgrade.Level, levels);
+        public BigDouble MajorTapUpgradeDamage => GameFormulas.MajorTapUpgradeBonusValue(App.Data.Upgrades.MajorTapUpgrade.Level);
+        #endregion
+
+        public BigDouble TotalTapDamage
         {
             get
             {
-                return MinorTapUpgradeDamage;
+                return MinorTapUpgradeDamage * BigDouble.Max(1, MajorTapUpgradeDamage) * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1);
             }
         }
 
@@ -150,7 +154,7 @@ namespace GM.Core
 
         public BigDouble MercDamage(GM.Mercs.Data.MercData merc)
         {
-           return MercBaseDamageAtLevel(merc) * CombinedBonuses.Get(BonusType.MERC_DAMAGE, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1) * ArmouryMercDamageMultiplier;
+           return MercBaseDamageAtLevel(merc) * CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1) * ArmouryMercDamageMultiplier;
         }
 
         private Dictionary<BonusType, double> CreateBonusDictionary(IEnumerable<KeyValuePair<BonusType, double>> ls)

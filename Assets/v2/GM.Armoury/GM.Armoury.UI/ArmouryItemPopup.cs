@@ -43,7 +43,7 @@ namespace GM.Armoury.UI
             EvolveButton.interactable = AssignedItem.CanMerge;
             OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.MergeCost}";
             EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.MergeCost;
-            DamageText.text = $"<color=orange>{Format.Percentage(AssignedItem.WeaponDamage)}</color> {Format.Bonus(BonusType.MERC_DAMAGE)}";
+            DamageText.text = $"<color=orange>{Format.Percentage(AssignedItem.WeaponDamage)}</color> Merc Damage";
         }
 
         // == Callbacks == //

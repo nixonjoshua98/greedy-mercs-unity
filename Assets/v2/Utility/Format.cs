@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
-using BonusType = GM.Common.Enums.BonusType;
+using GM.Common.Enums;
 using UnityEngine;
 
 namespace GM
@@ -99,15 +99,15 @@ namespace GM
             return type switch
             {
                 BonusType.FLAT_CRIT_CHANCE => "Critical Hit Chance",
-                BonusType.FLAT_CRIT_DMG => "Critical Hit Damage",
+                BonusType.MULTIPLY_CRIT_DMG => "Critical Hit Damage",
                 BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
-                BonusType.MERC_DAMAGE => "Merc Damage",
-                BonusType.MELEE_DAMAGE => "Melee Damage",
-                BonusType.RANGED_DAMAGE => "Ranged Damage",
-                BonusType.ENEMY_GOLD => "Enemy Gold",
-                BonusType.BOSS_GOLD => "Boss Gold",
-                BonusType.ALL_GOLD => "All Gold",
-                BonusType.FLAT_TAP_DAMAGE => "Tap Damage",
+                BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
+                BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
+                BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
+                BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
+                BonusType.MULTIPLY_ALL_GOLD => "All Gold",
+                BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
                 _ => type.ToString(),
             };
         }

@@ -12,11 +12,7 @@ from src.routing import ServerRequest
 
 
 def bounties_repository(request: ServerRequest) -> BountiesRepository:
-    """Used to inject a repository instance."""
     return BountiesRepository(request.app.state.mongo)
-
-
-# === Field Keys === #
 
 
 class Fields:
@@ -26,12 +22,9 @@ class Fields:
     BOUNTIES = "bounties"
 
 
-# == Models == #
-
-
 class UserBountyModel(BaseModel):
     bounty_id: int = Field(..., alias=Fields.BOUNTY_ID)
-    is_active: bool = Field(default=False, alias=Fields.IS_ACTIVE)
+    is_active: bool = Field(False, alias=Fields.IS_ACTIVE)
 
 
 class UserBountiesModel(BaseDocument):

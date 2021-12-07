@@ -9,6 +9,7 @@ namespace GM.Upgrades.UI
     {
         [Header("Upgrade Slots")]
         public GameObject MinorTapUpgradeSlot;
+        public GameObject MajorTapUpgradeSlot;
 
         [Header("References")]
         public GM.UI.AmountSelector UpgradeAmountSelector;
@@ -18,6 +19,7 @@ namespace GM.Upgrades.UI
         void Awake()
         {
             Instantiate<UpgradeSlot<UpgradeState>>(MinorTapUpgradeSlot, UpgradeSlotParent).Init(UpgradeAmountSelector);
+            Instantiate<UpgradeSlot<UpgradeState>>(MajorTapUpgradeSlot, UpgradeSlotParent).Init(UpgradeAmountSelector);
         }
     }
 }

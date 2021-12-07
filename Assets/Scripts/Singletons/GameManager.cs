@@ -64,9 +64,7 @@ namespace GM
             {
                 Target target = Enemies.OrderBy(t => t.Health.Current).First();
 
-                BigDouble dmg = App.Cache.TapDamage;
-
-                target.Health.TakeDamage(dmg);
+                target.Health.TakeDamage(App.Cache.TotalTapDamage);
             }
         }
 

@@ -13,7 +13,7 @@
       "unlockLevel": 50
     },
     {
-      "bonusType": 2,
+      "bonusType": 700,
       "bonusValue": 2.0,
       "unlockLevel": 75
     },
@@ -28,7 +28,7 @@
       "unlockLevel": 125
     },
     {
-      "bonusType": 2,
+      "bonusType": 700,
       "bonusValue": 2.0,
       "unlockLevel": 150
     },

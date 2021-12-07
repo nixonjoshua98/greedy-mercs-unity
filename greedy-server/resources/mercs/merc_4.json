@@ -3,7 +3,7 @@
   "baseDamage": 10,
   "passives": [
     {
-      "bonusType": 2,
+      "bonusType": 700,
       "bonusValue": 2.0,
       "unlockLevel": 25
     },
@@ -33,8 +33,8 @@
       "unlockLevel": 150
     },
     {
-      "bonusType": 2,
-      "bonusValue": 2.0,
+      "bonusType": 700,
+      "bonusValue": 1.5,
       "unlockLevel": 200
     },
     {
@@ -43,8 +43,8 @@
       "unlockLevel": 250
     },
     {
-      "bonusType": 2,
-      "bonusValue": 2.0,
+      "bonusType": 700,
+      "bonusValue": 1.5,
       "unlockLevel": 300
     },
     {

@@ -23,6 +23,8 @@ namespace GM.Upgrades.UI
             _buyAmount = selector.Current;
 
             selector.E_OnChange.AddListener((val) => { _buyAmount = val; });
+
+            App.Data.Inv.E_GoldChange.AddListener(_ => UpdateUI());
         }
 
         void FixedUpdate()

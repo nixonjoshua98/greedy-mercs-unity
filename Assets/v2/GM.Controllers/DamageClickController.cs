@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,7 +10,7 @@ namespace GM.Controllers
 
         Vector3[] RectTransformCorners;
 
-        private void Start()
+        void Start()
         {
             RectTransformCorners = new Vector3[4];
 
@@ -24,7 +22,7 @@ namespace GM.Controllers
 #if UNITY_EDITOR
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 pos = PositionRelativeToScreenWorldPosition(Input.mousePosition);
 
                 if (CollisionCheck(pos))
                 {
@@ -32,13 +30,14 @@ namespace GM.Controllers
                 }
             }
 #else
+            // Untested
             for (int i = 0; i < Input.touchCount; ++i)
             {
                 Touch t = Input.GetTouch(i);
 
                 if (t.phase == TouchPhase.Began)
                 {
-                    Vector3 pos = Camera.main.ScreenToWorldPoint(t.position);
+                    Vector3 pos = PositionRelativeToScreenWorldPosition(t.position);
 
                     if (CollisionCheck(pos))
                     {
@@ -47,6 +46,13 @@ namespace GM.Controllers
                 }
             }
 #endif
+        }
+
+        Vector3 PositionRelativeToScreenWorldPosition(Vector3 pos)
+        {
+            // Camera moves in the screen space, so we need to 'reset' the click position so we can use the
+            // original rect corners we fetch at the beginning
+            return Camera.main.ScreenToWorldPoint(pos) - Camera.main.transform.position;
         }
 
         bool CollisionCheck(Vector3 pos)

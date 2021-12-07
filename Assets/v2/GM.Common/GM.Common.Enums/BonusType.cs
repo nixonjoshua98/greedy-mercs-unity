@@ -6,7 +6,7 @@ namespace GM.Common.Enums
         FLAT_CRIT_CHANCE = 300,
 
         // Critical Damage
-        FLAT_CRIT_DMG = 400,
+        MULTIPLY_CRIT_DMG = 400,
 
         // Prestige
         MULTIPLY_PRESTIGE_BONUS = 500,
@@ -18,18 +18,11 @@ namespace GM.Common.Enums
         MULTIPLY_RANGED_DMG = 603,
 
         // Tap Damage
-        FLAT_TAP_DAMAGE = 700,
+        MULTIPLY_TAP_DMG = 700,
 
         // Gold
         MULTIPLY_ALL_GOLD = 800,
         MULTIPLY_BOSS_GOLD = 801,
         MULTIPLY_ENEMY_GOLD = 802,
-
-        MERC_DAMAGE = 0,
-        ENEMY_GOLD = 1,
-        BOSS_GOLD = 3,
-        MELEE_DAMAGE = 5,
-        RANGED_DAMAGE = 7,
-        ALL_GOLD = 9,
     }
 }

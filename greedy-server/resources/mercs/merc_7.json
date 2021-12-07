@@ -3,7 +3,7 @@
   "unlockCost": 2.5e14,
   "passives": [
     {
-      "bonusType": 2,
+      "bonusType": 700,
       "bonusValue": 2.0,
       "unlockLevel": 25
     },

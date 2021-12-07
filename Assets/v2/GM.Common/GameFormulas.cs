@@ -6,15 +6,29 @@ namespace GM.Common
 {
     public static class GameFormulas
     {
-        public static BigDouble MinorTapUpgradeDamage(int currentLevel)
+        #region Minor Tap Upgrade
+        public static BigDouble MinorTapUpgradeBonusValue(int currentLevel)
         {
-            return currentLevel * BigDouble.Pow(2.0f, (currentLevel - 1) / 50.0f);
+            return currentLevel * BigDouble.Pow(2.0f, (currentLevel - 1) / 47.5f);
         }
 
         public static BigDouble MinorTapUpgradeCost(int currentLevel, int levels)
         {
-            return BigMath.SumGeometricSeries(levels, 5, 1.09, (currentLevel - 1));
+            return BigMath.SumGeometricSeries(levels, 5, 1.09f, (currentLevel - 1));
         }
+        #endregion
+
+        #region Major Tap Upgrade
+        public static BigDouble MajorTapUpgradeBonusValue(int currentLevel)
+        {
+            return (currentLevel * 1.25f) * BigDouble.Pow(1.55f, (currentLevel - 1) / 35.0f);
+        }
+
+        public static BigDouble MajorTapUpgradeCost(int currentLevel, int levels)
+        {
+            return BigMath.SumGeometricSeries(levels, 1_000_000_000, 1.1f, (currentLevel - 1));
+        }
+        #endregion
 
         public static BigInteger ArtefactUnlockCost(int owned)
         {
@@ -83,7 +97,7 @@ namespace GM.Common
             return big.CeilToBigInteger();
         }
 
-        public static BigDouble SumNonIntegerPowerSeq(int level, int levelsBuying, float exponent)
+        public static BigDouble SumNonIntegerPowerSeq(int start, int total, float exponent)
         {
             // https://math.stackexchange.com/questions/82588/is-there-a-formula-for-sums-of-consecutive-powers-where-the-powers-are-non-inte
 
@@ -96,7 +110,7 @@ namespace GM.Common
                 return x + y + z;
             }
 
-            return Predicate(level + levelsBuying) - Predicate(level);
+            return Predicate(start + total) - Predicate(start);
         }
     }
 }

@@ -19,13 +19,7 @@ namespace GM.Mercs.UI
         public GM.UI.VStackedButton UpgradeButton;
 
         int _buyAmount;
-        protected int buyAmount
-        {
-            get
-            {
-                return Mathf.Min(_buyAmount, Common.Constants.MAX_MERC_LEVEL - AssignedMerc.CurrentLevel);
-            }
-        }
+        protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, Common.Constants.MAX_MERC_LEVEL);
 
         public void Assign(MercID merc, GM.UI.AmountSelector selector)
         {
@@ -51,7 +45,7 @@ namespace GM.Mercs.UI
 
         void UpdateUI()
         {
-            BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, buyAmount);
+            BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, BuyAmount);
 
             LevelText.text = FormatLevel(AssignedMerc.CurrentLevel);
             DamageText.text = GetBonusText();
@@ -60,7 +54,7 @@ namespace GM.Mercs.UI
 
             if (!AssignedMerc.IsMaxLevel)
             {
-                UpgradeButton.SetText($"x{buyAmount}", Format.Number(upgradeCost));
+                UpgradeButton.SetText($"x{BuyAmount}", Format.Number(upgradeCost));
             }
 
             UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Data.Inv.Gold >= upgradeCost;
@@ -71,14 +65,14 @@ namespace GM.Mercs.UI
         // == Callbacks == //
         public void OnUpgradeButton()
         {
-            BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, buyAmount);
+            BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, BuyAmount);
 
-            bool willExceedMaxLevel = AssignedMerc.CurrentLevel + buyAmount > Common.Constants.MAX_MERC_LEVEL;
+            bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > Common.Constants.MAX_MERC_LEVEL;
             bool canAffordUpgrade = App.Data.Inv.Gold >= upgradeCost;
 
             if (!willExceedMaxLevel && canAffordUpgrade)
             {
-                AssignedMerc.IncrementLevel(buyAmount);
+                AssignedMerc.IncrementLevel(BuyAmount);
 
                 App.Data.Inv.Gold -= upgradeCost;
             }

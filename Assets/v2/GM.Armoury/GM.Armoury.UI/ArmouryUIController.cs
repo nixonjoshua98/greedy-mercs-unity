@@ -23,7 +23,7 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            DamageBonusText.text = $"<color=orange>{Format.Percentage(App.Cache.ArmouryMercDamageMultiplier)}</color> {Format.Bonus(BonusType.MERC_DAMAGE)}";
+            DamageBonusText.text = $"<color=orange>{Format.Percentage(App.Cache.ArmouryMercDamageMultiplier)}</color> Merc Damage";
             CollectionText.text = $"<color=white>{App.Data.Armoury.NumUnlockedItems} of {App.Data.Armoury.NumItems}</color> Items collected";
         }
     }

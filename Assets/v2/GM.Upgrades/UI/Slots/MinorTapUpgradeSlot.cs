@@ -1,4 +1,5 @@
 using GM.Upgrades.Data;
+using UnityEngine;
 
 namespace GM.Upgrades.UI
 {
@@ -7,13 +8,6 @@ namespace GM.Upgrades.UI
         protected override BigDouble UpgradeCost => App.Cache.MinorTapUpgradeCost(BuyAmount);
         protected override UpgradeState Upgrade => App.Data.Upgrades.MinorTapUpgrade;
 
-        BigDouble TotalTapDamage => App.Cache.TotalTapDamage;
-
-        protected override string GetBonusText() => $"<color=orange>{Format.Number(TotalTapDamage)}</color> TAP DMG";
-
-        public override void OnUnlocked()
-        {
-
-        }
+        protected override string GetBonusText() => $"<color=orange>{Format.Number(App.Cache.TotalTapDamage)}</color> TAP DMG";
     }
 }

@@ -9,7 +9,7 @@ namespace GM.Upgrades.Data
         public int Level = 0;
         public readonly int MaxLevel;
 
-        public IUpgradeUnlockRequire UnlockRequirement { get; private set; }
+        public IUpgradeRequirement UnlockRequirement { get; private set; }
 
         public bool IsMaxLevel => Level >= MaxLevel;
 
@@ -17,10 +17,10 @@ namespace GM.Upgrades.Data
         {
             Level = level;
             MaxLevel = maxLevel;
-            UnlockRequirement = DefaultUpgrade.Value;
+            UnlockRequirement = DefaultUpgradeRequirement.Value;
         }
 
-        public UpgradeState(int level, int maxLevel, IUpgradeUnlockRequire requirement)
+        public UpgradeState(int level, int maxLevel, IUpgradeRequirement requirement)
         {
             Level = level;
             MaxLevel = maxLevel;

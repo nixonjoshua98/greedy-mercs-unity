@@ -71,7 +71,7 @@ namespace GM.Artefacts.UI
             UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Data.Inv.PrestigePoints;
         }
 
-        string GetBonusText() => $"<color=orange>{Format.Number(AssignedArtefact.BaseEffect)}</color> {Format.Bonus(AssignedArtefact.Bonus)}";
+        string GetBonusText() => Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect, "orange");
 
 
         // == Callbacks == //

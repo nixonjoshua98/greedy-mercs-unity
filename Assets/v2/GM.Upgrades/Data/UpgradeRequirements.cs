@@ -4,22 +4,22 @@ using UnityEngine;
 
 namespace GM.Upgrades
 {
-    public interface IUpgradeUnlockRequire
+    public interface IUpgradeRequirement
     {
         public bool IsDefault { get; }
         bool IsUnlocked { get; }
     }
 
-    public class DefaultUpgrade : IUpgradeUnlockRequire
+    public class DefaultUpgradeRequirement : IUpgradeRequirement
     {
-        public static DefaultUpgrade Value = new DefaultUpgrade();
+        public static DefaultUpgradeRequirement Value = new DefaultUpgradeRequirement();
 
         public bool IsDefault => true;
         public bool IsUnlocked => true;
     }
 
 
-    public class UpgradeGoldRequirement : Core.GMClass, IUpgradeUnlockRequire
+    public class UpgradeGoldRequirement : Core.GMClass, IUpgradeRequirement
     {
         public bool IsDefault => false;
 

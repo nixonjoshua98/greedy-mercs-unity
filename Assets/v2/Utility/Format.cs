@@ -84,14 +84,18 @@ namespace GM
         }
         #endregion
 
-        public static string Bonus(BonusType bonusType, double value)
+        public static string Bonus(BonusType bonusType, double value, string colour = null)
         {
-            string valueString = bonusType switch
+            string str = bonusType switch
             {
                 _ => Percentage(value)
             };
 
-            return $"{valueString} {Bonus(bonusType)}";
+
+            if (colour != null)
+                ApplyColour(ref str, colour);
+
+            return $"{str} {Bonus(bonusType)}";
         }
 
         public static string Bonus(BonusType type)
@@ -111,5 +115,7 @@ namespace GM
                 _ => type.ToString(),
             };
         }
+
+        static void ApplyColour(ref string str, string colour) => str = $"<color={colour}>{str}</color>";
     }
 }

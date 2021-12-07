@@ -36,7 +36,6 @@ namespace GM.Mercs.UI
             UnlockLevelText.text = AssignedPassive.UnlockLevel.ToString();
             IconBackgroundImage.sprite = isUnlocked ? BackgroundSprites.UnlockedSprite : BackgroundSprites.LockedSprite;
             BonusText.text = Format.Bonus(AssignedPassive.Type, AssignedPassive.Value);
-
         }
     }
 }

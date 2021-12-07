@@ -8,7 +8,6 @@ namespace GM.Upgrades.UI
     public interface IUpgradeSlot
     {
         void Init(AmountSelector selector);
-        void OnUnlocked();
         void Hide();
     }
 
@@ -35,7 +34,7 @@ namespace GM.Upgrades.UI
         }
 
         /// <summary>
-        /// Useful when referencing the slot usin the interface
+        /// Useful when referencing the slot using the interface
         /// </summary>
         public void Hide()
         {
@@ -63,7 +62,6 @@ namespace GM.Upgrades.UI
         }
 
         protected abstract string GetBonusText();
-        public abstract void OnUnlocked();
 
         public void OnUpgradeButton()
         {

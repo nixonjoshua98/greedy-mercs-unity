@@ -26,7 +26,7 @@ namespace GM.Common
 
         public static BigDouble MajorTapUpgradeCost(int currentLevel, int levels)
         {
-            return BigMath.SumGeometricSeries(levels, 1_000_000_000, 1.1f, (currentLevel - 1));
+            return BigMath.SumGeometricSeries(levels, 1_000_000_000, 1.1f, currentLevel - 0);
         }
         #endregion
 

@@ -10,12 +10,6 @@ namespace GM.Upgrades.UI
         protected override BigDouble UpgradeCost => App.Cache.MajorTapUpgradeCost(BuyAmount);
         protected override UpgradeState Upgrade => App.Data.Upgrades.MajorTapUpgrade;
 
-        BigDouble DamageFromUpgrade => App.Cache.MajorTapUpgradeDamage;
-
-        protected override string GetBonusText() => $"<color=orange>{Format.Number(DamageFromUpgrade)}x</color> TAP DMG";
-        public override void OnUnlocked()
-        {
-            gameObject.SetActive(true);
-        }
+        protected override string GetBonusText() => $"<color=orange>{Format.Number(App.Cache.MajorTapUpgradeDamage)}x</color> TAP DMG";
     }
 }

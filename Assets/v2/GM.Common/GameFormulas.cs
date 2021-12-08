@@ -30,15 +30,22 @@ namespace GM.Common
         }
         #endregion
 
+        #region Artefacts
         public static BigInteger ArtefactUnlockCost(int owned)
         {
             return (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).CeilToBigInteger();
+        }
+
+        public static BigDouble ArtefactBaseEffect(int currentLevel, double baseEffect, double levelEffect)
+        {
+            return baseEffect + (levelEffect * (currentLevel - 1));
         }
 
         public static BigInteger ArtefactUpgradeCost(int currentLevel, int levels, float expo, float coeff)
         {
             return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).CeilToBigInteger();
         }
+        #endregion
 
         public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying, double unlockCost)
         {
@@ -51,12 +58,6 @@ namespace GM.Common
             double val = ((evolveLevel + 1) * (baseDamage - 1) * level) + 1;
 
             return val > 1 ? val : 0; // Return 0 if the multiplier is 1 (Fixes issue when adding damage values 1 + 1 = 2x which is wrong)
-        }
-
-
-        public static double BaseArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
-        {
-            return baseEffect + (levelEffect * (currentLevel - 1));
         }
 
         public static BigDouble MercBaseDamageAtLevel(BigDouble baseDamage, int level)

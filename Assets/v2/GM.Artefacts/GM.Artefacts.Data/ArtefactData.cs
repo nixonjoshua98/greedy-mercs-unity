@@ -4,7 +4,7 @@ using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Artefacts.Data
 {
-    public class ArtefactData
+    public class ArtefactData : Core.GMClass
     {
         ArtefactGameDataModel Game;
         ArtefactUserDataModel User;
@@ -18,12 +18,14 @@ namespace GM.Artefacts.Data
         public int Id => Game.Id;
         public int CurrentLevel => User.Level;
         public int MaxLevel => Game.MaxLevel;
+        public float LevelEffect => Game.LevelEffect;
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
         public BonusType Bonus => Game.Bonus;
+        public float BaseEffect => Game.BaseEffect;
         public float CostExpo => Game.CostExpo;
         public float CostCoeff => Game.CostCoeff;
-        public double BaseEffect => GM.Common.GameFormulas.BaseArtefactEffect(User.Level, Game.BaseEffect, Game.LevelEffect);
+        public BigDouble Effect => App.Cache.ArtefactEffect(this);
         public bool IsMaxLevel => User.Level >= Game.MaxLevel;
     }
 }

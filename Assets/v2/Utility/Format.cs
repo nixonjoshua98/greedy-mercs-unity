@@ -1,7 +1,6 @@
+using GM.Common.Enums;
 using System.Collections.Generic;
 using System.Numerics;
-using GM.Common.Enums;
-using UnityEngine;
 
 namespace GM
 {
@@ -12,8 +11,37 @@ namespace GM
         Common.TTLCache cache = new Common.TTLCache();
 
         public static string Percentage(BigDouble val) => Number(val * 100) + "%";
+
+        public static string Number(BigDouble val, BonusType bonus)
+        {
+           return bonus switch
+            {
+                BonusType.FLAT_TAP_DMG => Number(val),
+                _ => Percentage(val)
+            };
+        }
         public static string Number(double val) => Number(new BigDouble(val));
         public static string Number(long val) => Number(new BigInteger(val));
+
+        public static string Bonus(BonusType bonusType, BigDouble value) => $"{Number(value, bonusType)} {Bonus(bonusType)}";
+        public static string Bonus(BonusType bonusType, BigDouble value, string colour) => $"<color={colour}>{Number(value, bonusType)}</color> {Bonus(bonusType)}";
+        public static string Bonus(BonusType type)
+        {
+            return type switch
+            {
+                BonusType.FLAT_CRIT_CHANCE => "Critical Hit Chance",
+                BonusType.MULTIPLY_CRIT_DMG => "Critical Hit Damage",
+                BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
+                BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
+                BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
+                BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
+                BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
+                BonusType.MULTIPLY_ALL_GOLD => "All Gold",
+                BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
+                _ => type.ToString(),
+            };
+        }
 
         #region BigDouble (Cached)
         public static string Number(BigDouble val)
@@ -83,39 +111,5 @@ namespace GM
             return $"{(val < 0 ? "-" : string.Empty)}{m.ToString("F2") + UnitsTable[n]}";
         }
         #endregion
-
-        public static string Bonus(BonusType bonusType, double value, string colour = null)
-        {
-            string str = bonusType switch
-            {
-                _ => Percentage(value)
-            };
-
-
-            if (colour != null)
-                ApplyColour(ref str, colour);
-
-            return $"{str} {Bonus(bonusType)}";
-        }
-
-        public static string Bonus(BonusType type)
-        {
-            return type switch
-            {
-                BonusType.FLAT_CRIT_CHANCE => "Critical Hit Chance",
-                BonusType.MULTIPLY_CRIT_DMG => "Critical Hit Damage",
-                BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
-                BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
-                BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
-                BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
-                BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
-                BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
-                BonusType.MULTIPLY_ALL_GOLD => "All Gold",
-                BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
-                _ => type.ToString(),
-            };
-        }
-
-        static void ApplyColour(ref string str, string colour) => str = $"<color={colour}>{str}</color>";
     }
 }

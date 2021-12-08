@@ -2,6 +2,8 @@ namespace GM.Common.Enums
 {
     public enum BonusType
     {
+        None = 0,
+
         // Critical Chance
         FLAT_CRIT_CHANCE = 300,
 
@@ -19,6 +21,7 @@ namespace GM.Common.Enums
 
         // Tap Damage
         MULTIPLY_TAP_DMG = 700,
+        FLAT_TAP_DMG = 701,
 
         // Gold
         MULTIPLY_ALL_GOLD = 800,

@@ -24,7 +24,7 @@ namespace GM.Artefacts.UI
             IconImage.sprite = AssignedArtefact.Icon;
 
             NameText.text = AssignedArtefact.Name;
-            CurrentBonusText.text = Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.BaseEffect);
+            CurrentBonusText.text = Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect);
         }
     }
 }

@@ -6,7 +6,8 @@ namespace GM.Upgrades.Data
 {
     public enum UpgradeID
     {
-        MINOR_TAP = 0,
-        MAJOR_TAP = 1
+        NONE,
+        FLAT_TAP_DMG,
+        MULT_TAP_DMG
     }
 }

@@ -21,8 +21,8 @@ namespace GM.Upgrades.UI
 
         void Awake()
         {
-            UpgradeSlots[UpgradeID.MINOR_TAP] = Instantiate<UpgradeSlot<UpgradeState>>(MinorTapUpgradeSlot, UpgradeSlotParent);
-            UpgradeSlots[UpgradeID.MAJOR_TAP] = Instantiate<UpgradeSlot<UpgradeState>>(MajorTapUpgradeSlot, UpgradeSlotParent);
+            UpgradeSlots[UpgradeID.FLAT_TAP_DMG] = Instantiate<UpgradeSlot<UpgradeState>>(MinorTapUpgradeSlot, UpgradeSlotParent);
+            UpgradeSlots[UpgradeID.MULT_TAP_DMG] = Instantiate<UpgradeSlot<UpgradeState>>(MajorTapUpgradeSlot, UpgradeSlotParent);
 
             UpgradeSlots.Values.ToList().ForEach(slot => slot.Init(UpgradeAmountSelector));
         }

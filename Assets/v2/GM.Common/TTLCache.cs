@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace GM.Common
 {
@@ -14,8 +15,6 @@ namespace GM.Common
     {
         Dictionary<string, CachedValue> cacheDict = new Dictionary<string, CachedValue>();
 
-        long cacheHitsCounter = 0;
-
         public void Remove(string key)
         {
             if (cacheDict.ContainsKey(key))
@@ -26,31 +25,20 @@ namespace GM.Common
 
         public T Get<T>(string key, int lifetime, Func<object> fallback)
         {
-            if (!ContainsKey(key))
+            try
             {
-                cacheHitsCounter++;
-
-                if (cacheHitsCounter % 100 == 0)
+                if (!ContainsKey(key))
                 {
-                    ClearExpiredValues();
+                    CacheValue(key, lifetime, fallback());
                 }
 
-                CacheValue(key, lifetime, fallback());
+                return (T)cacheDict[key].Value;
             }
-
-            return (T)cacheDict[key].Value;
-        }
-
-        void ClearExpiredValues()
-        {
-            DateTime now = DateTime.UtcNow;
-
-            foreach (string key in cacheDict.Keys.ToList())
+            catch (Exception e)
             {
-                if (now > cacheDict[key].ExpireAt)
-                {
-                    Remove(key);
-                }
+                Debug.LogError($"{key} failed to case to type {typeof(T)}");
+
+                throw e;
             }
         }
 
@@ -58,7 +46,6 @@ namespace GM.Common
         {
             cacheDict[key] = new CachedValue { ExpireAt = DateTime.UtcNow + new TimeSpan(0, 0, timer), Value = obj };
         }
-
 
         bool ContainsKey(string key)
         {

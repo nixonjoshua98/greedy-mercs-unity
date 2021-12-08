@@ -14,7 +14,7 @@ namespace GM.Controllers
         public bool IsDead { get; private set; } = false;
         public float Percent => (float)(Current / MaxHealth).ToDouble();
 
-        public void Setup(BigDouble val)
+        public void Init(BigDouble val)
         {
             MaxHealth = Current = val;
         }

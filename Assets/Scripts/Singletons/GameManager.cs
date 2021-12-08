@@ -80,7 +80,7 @@ namespace GM
 
             foreach (Target trgt in Enemies)
             {
-                trgt.Health.Setup(val: combinedHealth / Enemies.Count);
+                trgt.Health.Init(val: combinedHealth / Enemies.Count);
 
                 trgt.Health.E_OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
 
@@ -94,7 +94,7 @@ namespace GM
         {
             Target boss = Enemies.Add(spawner.SpawnBoss(state), TargetType.Boss);
 
-            boss.Health.Setup(val: App.Cache.StageBossHealthAtStage(state.Stage));
+            boss.Health.Init(val: App.Cache.StageBossHealthAtStage(state.Stage));
 
             boss.Health.E_OnZeroHealth.AddListener(OnBossZeroHealth);
 

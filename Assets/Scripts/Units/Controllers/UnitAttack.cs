@@ -71,7 +71,7 @@ namespace GM.Units
                     }
 
                     // Avoid the 'moving while idle' issue
-                    else if (anim.IsName(animations.Walk))
+                    else if (anim.GetCurrentAnimatorStateInfo(0).IsName(animations.Walk))
                     {
                         anim.Play(animations.Idle);
                     }

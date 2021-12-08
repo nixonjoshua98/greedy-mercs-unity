@@ -2,23 +2,21 @@
 
 namespace GM.HTTP.Requests
 {
-    public interface ILoginRequest : IServerRequest
+    public class UserLoginRequest : IServerRequest
     {
-        string DeviceId { get; set; }
-    }
+        public string DeviceId;
 
-    public class UserLoginRequest : ILoginRequest
-    {
-        public string DeviceId { get; set; }
+        public UserLoginRequest(string device)
+        {
+            DeviceId = device;
+        }
     }
 
 
     public class UserLoginReponse : ServerResponse, IServerAuthentication
     {
         [JsonRequired]
-        public string UserId { get; set; }
-
-        [JsonRequired]
-        public string SessionId { get; set; }
+        [JsonProperty(PropertyName = "sessionId")]
+        public string Session { get; set; }
     }
 }

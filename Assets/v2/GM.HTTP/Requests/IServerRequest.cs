@@ -4,9 +4,4 @@ namespace GM.HTTP
     {
 
     }
-
-    public class ServerRequest: IServerRequest
-    {
-
-    }
 }

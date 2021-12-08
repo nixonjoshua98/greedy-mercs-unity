@@ -11,8 +11,7 @@ from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.pymodels import BaseModel
-from src.resources.bountyshop import (BountyShopArmouryItem,
-                                      dynamic_bounty_shop)
+from src.resources.bountyshop import BountyShopArmouryItem, dynamic_bounty_shop
 from src.routing import APIRouter, ServerResponse
 
 router = APIRouter()

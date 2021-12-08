@@ -2,7 +2,12 @@
 {
     public class UpgradeArmouryItemRequest : IServerRequest
     {
-        public int ItemId;
+        public readonly int ItemId;
+
+        public UpgradeArmouryItemRequest(int item)
+        {
+            ItemId = item;
+        }
     }
 
 

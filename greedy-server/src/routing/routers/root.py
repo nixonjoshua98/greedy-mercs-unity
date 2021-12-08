@@ -19,8 +19,7 @@ from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.resources.bountyshop import (DynamicBountyShop,
-                                      dynamic_bounty_shop)
+from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 from src.routing import APIRouter, ServerResponse
 from src.routing.dependencies.serverstate import (ServerState,
                                                   inject_server_state)

@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException
 
 from src.cache import MemoryCache, memory_cache
 from src.routing import ServerRequest
+
 from .session import Session
 
 
@@ -14,21 +15,12 @@ class AuthenticatedUser:
 
 
 async def authenticated_user(request: ServerRequest, mem_cache: MemoryCache = Depends(memory_cache)):
-    uid, did, sid = _grab_headers_from_request(request)
+    if (auth_header := request.headers.get("authentication")) is None:
+        raise HTTPException(401, detail="Not authorised")
 
-    # Throw an error if any required header is missing.
-    if (not ObjectId.is_valid(uid)) or any(ele is None for ele in (uid, did, sid)):
-        raise HTTPException(401, detail="Missing authentication")
+    session: Session = mem_cache.get_session(auth_header)
 
-    session: Session = mem_cache.get_session(uid := ObjectId(uid))
+    if session is None:
+        return AuthenticatedUser(id_=ObjectId(request.headers["x-userid"]))
 
-    """    
-    if session is None or not session.is_valid():
-        raise HTTPException(401, detail="Invalid session")
-    """
-
-    return AuthenticatedUser(id_=uid)
-
-
-def _grab_headers_from_request(request: ServerRequest) -> tuple[str, str, str]:
-    return request.headers.get("x-userid"), request.headers.get("x-deviceid"), request.headers.get("x-sessionid")
+    return AuthenticatedUser(session.user_id)

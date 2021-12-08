@@ -45,9 +45,7 @@ namespace GM.BountyShop.Data
         /// </summary>
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
         {
-            var req = new PurchaseBountyShopItemRequest { ShopItem = itemId };
-
-            App.HTTP.BShop_PurchaseArmouryItem(req, (resp) =>
+            App.HTTP.BuyBountyShopArmouryItem(itemId, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

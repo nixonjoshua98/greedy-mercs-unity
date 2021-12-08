@@ -48,16 +48,13 @@ namespace GM.Artefacts.Data
 
         public void UpgradeArtefact(int artefact, int levels, UnityAction<bool> call)
         {
-            // Server request
-            var req = new HTTP.Requests.UpgradeArtefactRequest { ArtefactId = artefact, UpgradeLevels = levels };
-
             // Send the request to the server
-            App.HTTP.Artefact_UpgradeArtefact(req, (resp) =>
+            App.HTTP.UpgradeArtefact(artefact, levels, (resp) =>
             {
                 // Artefact was successfully upgraded
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    Update(resp.UpdatedArtefact);
+                    Update(resp.Artefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
 
@@ -70,7 +67,7 @@ namespace GM.Artefacts.Data
 
         public void UnlockArtefact(UnityAction<bool, ArtefactData> call)
         {
-            App.HTTP.Artefact_UnlockArtefact((resp) =>
+            App.HTTP.UnlockArtefact((resp) =>
             {
                 if (resp.StatusCode == HTTPCodes.Success)
                 {

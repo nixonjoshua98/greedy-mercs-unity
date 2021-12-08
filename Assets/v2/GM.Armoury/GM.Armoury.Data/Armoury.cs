@@ -117,13 +117,9 @@ namespace GM.Armoury.Data
         /// </summary>
         public double ArmouryMercDamageMultiplier => Math.Max(1, DamageBonus());
 
-        /// <summary>
-        /// </summary>
         public void UpgradeItem(int itemId, UnityAction<bool> call)
         {
-            var req = new GM.HTTP.Requests.UpgradeArmouryItemRequest { ItemId = itemId };
-
-            App.HTTP.Armoury_Upgrade(req, (resp) =>
+            App.HTTP.UpgradeArmouryItem(itemId, (resp) =>
             {
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
@@ -136,13 +132,9 @@ namespace GM.Armoury.Data
             });
         }
 
-        /// <summary>
-        /// </summary>
         public void EvolveItem(int item, UnityAction<bool> call)
         {
-            var req = new HTTP.Requests.UpgradeStarLevelArmouryItemRequest { ItemId = item };
-
-            App.HTTP.Armoury_Merge(req, (resp) =>
+            App.HTTP.MergeArmouryItem(item, (resp) =>
             {
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {

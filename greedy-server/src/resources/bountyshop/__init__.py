@@ -7,7 +7,8 @@ from pydantic import Field
 
 from src import utils
 from src.pymodels import BaseModel
-from src.routing.dependencies.serverstate import ServerState, inject_server_state
+from src.routing.dependencies.serverstate import (ServerState,
+                                                  inject_server_state)
 
 from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import generate_from_config as generate_loot_table

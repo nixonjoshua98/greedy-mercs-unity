@@ -1,12 +1,18 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GM.HTTP.Requests
 {
     public class UpdateActiveBountiesRequest : IServerRequest
     {
         [JsonProperty(PropertyName = "bountyIds")]
-        public List<int> BountyIds; // List of target active bounties
+        public readonly List<int> BountyIds;
+
+        public UpdateActiveBountiesRequest(List<int> bounties)
+        {
+            BountyIds = bounties;
+        }
     }
 
     public class UpdateActiveBountiesResponse : ServerResponse

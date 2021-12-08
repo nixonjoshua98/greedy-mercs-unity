@@ -152,9 +152,7 @@ namespace GM.Bounties.Data
         /// </summary>
         public void SetActiveBounties(List<int> ids, UnityAction<bool, UpdateActiveBountiesResponse> action)
         {
-            UpdateActiveBountiesRequest req = new UpdateActiveBountiesRequest() { BountyIds = ids };
-
-            App.HTTP.Bounty_UpdateActives(req, (resp) => {
+            App.HTTP.SetActiveBounties(ids, (resp) => {
 
                 if (resp.StatusCode == 200)
                 {
@@ -170,7 +168,7 @@ namespace GM.Bounties.Data
         /// </summary>
         public void ClaimPoints(UnityAction<bool, BountyClaimResponse> action)
         {
-            App.HTTP.Bounty_Claim((resp) =>
+            App.HTTP.ClaimBounties((resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

@@ -1,5 +1,5 @@
-﻿using GM.Common.Json;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +7,7 @@ namespace GM.Bounties.Models
 {
     public class CompleteBountyDataModel
     {
-        [JsonConverter(typeof(UnixMillisecondUTCDateTimeConverter))]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime LastClaimTime;
 
         public List<BountyUserDataModel> Bounties;

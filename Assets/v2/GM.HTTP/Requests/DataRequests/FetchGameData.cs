@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
-using Newtonsoft.Json;
-using GM.Common.Json;
+using System.Collections.Generic;
 
 namespace GM.HTTP.Requests
 {
     public class FetchGameDataResponse : ServerResponse, Common.Data.IServerGameData
     {
-        [JsonConverter(typeof(UnixMillisecondUTCDateTimeConverter))]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime NextDailyReset { get; set; }
         public List<GM.Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         public GM.Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }

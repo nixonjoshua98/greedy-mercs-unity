@@ -2,7 +2,12 @@
 {
     public class PurchaseBountyShopItemRequest : IServerRequest
     {
-        public string ShopItem;
+        public readonly string ShopItem;
+
+        public PurchaseBountyShopItemRequest(string item)
+        {
+            ShopItem = item;
+        }
     }
 
     public class PurchaseBountyShopItemResponse : ServerResponse

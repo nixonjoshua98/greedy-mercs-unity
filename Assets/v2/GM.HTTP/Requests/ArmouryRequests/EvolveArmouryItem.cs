@@ -1,12 +1,17 @@
 ﻿namespace GM.HTTP.Requests
 {
-    public class UpgradeStarLevelArmouryItemRequest : IServerRequest
+    public class MergeArmouryItemRequest : IServerRequest
     {
-        public int ItemId;
+        public readonly int ItemId;
+
+        public MergeArmouryItemRequest(int item)
+        {
+            ItemId = item;
+        }
     }
 
 
-    public class UpgradeStarLevelArmouryItemResponse : ServerResponse
+    public class MergeArmouryItemResponse : ServerResponse
     {
         public Armoury.Models.ArmouryItemUserDataModel Item;
     }

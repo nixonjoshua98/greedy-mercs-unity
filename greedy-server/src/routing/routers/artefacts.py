@@ -28,7 +28,7 @@ async def upgrade(
 
     return ServerResponse({
         "currencyItems": resp.currencies.to_client_dict(),
-        "updatedArtefact": resp.artefact.to_client_dict(),
+        "artefact": resp.artefact.to_client_dict(),
         "upgradeCost": resp.upgrade_cost,
     })
 

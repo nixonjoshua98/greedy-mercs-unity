@@ -1,6 +1,9 @@
+import datetime as dt
 import json
 import os
 from typing import Any, Iterable, Optional, TypeVar, Union
+import bson
+from fastapi.encoders import jsonable_encoder as _jsonable_encoder
 
 T = TypeVar("T")
 
@@ -18,6 +21,20 @@ def get(ls: Iterable[T], **attrs: Any) -> Optional[T]:
             return val
 
     return None
+
+
+def json_dump(d: Union[dict, list]) -> str:
+    return json.dumps(d, ensure_ascii=False, allow_nan=False, default=json_dump_encoder)
+
+
+def json_dump_encoder(value: Any) -> Any:
+    if isinstance(value, bson.ObjectId):
+        return str(value)
+
+    elif isinstance(value, (dt.datetime, dt.datetime)):
+        return int(value.timestamp())
+
+    return _jsonable_encoder(value)
 
 
 def load_static_data_file(fp: str) -> Union[dict, list]:

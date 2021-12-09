@@ -1,56 +1,69 @@
-﻿using System.Collections.Generic;
+﻿using GM.Targets;
+using GM.Units;
+using GM.Units.Formations;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Linq;
-using GM.Targets;
-using HealthController = GM.Controllers.HealthController;
 using DamageClickController = GM.Controllers.DamageClickController;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM
 {
+    public class SquadMerc: AbstractTarget
+    {
+        public MercController Controller { get; private set; }
+
+        public SquadMerc (GameObject obj, MercController controller)
+        {
+            GameObject = obj;
+            Controller = controller;
+        }
+    }
+
     public class CurrentStageState
     {
         public int Stage = 1;
         public int Wave = 1;
         public int WavesPerStage = 1;
-
-        public CurrentStageState Copy()
-        {
-            return new CurrentStageState()
-            {
-                Stage = Stage,
-                Wave = Wave,
-                WavesPerStage = WavesPerStage
-            };
-        }
     }
 
     public class GameManager : Core.GMMonoBehaviour
     {
+        [SerializeField] UnitFormation formation;
+
         public static GameManager Instance = null;
 
         [Header("Controllers")]
         [SerializeField] SpawnController spawner;
+        [SerializeField] DamageClickController ClickController;
 
-        public CurrentStageState state;
-
+        // = Events = //
         [HideInInspector] public UnityEvent<Target> E_BossSpawn { get; private set; } = new UnityEvent<Target>();
         [HideInInspector] public UnityEvent E_OnWaveCleared { get; private set; } = new UnityEvent();
-        [HideInInspector] public UnityEvent<TargetList> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList>();
+        [HideInInspector] public UnityEvent<TargetList<Target>> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList<Target>>();
 
-        public DamageClickController ClickController;
+        public CurrentStageState State { get; private set; } = new CurrentStageState();
 
         // Contains the wave enemies, but can also contain the stage-end boss
         // Enemies.TryGetWithType(TargetType.Boss) can be used to fetch the boss
-        public TargetList Enemies { get; private set; } = new TargetList();
+        public TargetList<Target> Enemies { get; private set; } = new TargetList<Target>();
+        public TargetList<SquadMerc> Mercs { get; private set; } = new TargetList<SquadMerc>();
+
+        public List<Vector3> UnitPositions => Mercs.Where(obj => obj.GameObject != null).Select(obj => obj.GameObject.transform.position).ToList();
 
         void Awake()
         {
             Instance = this;
 
-            state = new CurrentStageState();
-
             ClickController.E_OnClick.AddListener(OnDamageClick);
+
+            App.Data.Mercs.E_MercUnlocked.AddListener((merc) =>
+            {
+                Vector2 pos = new Vector2(Camera.main.MinBounds().x, Common.Constants.CENTER_BATTLE_Y);
+
+                AddMercToSquad(merc, pos);
+            });
         }
 
         void Start()
@@ -68,23 +81,17 @@ namespace GM
             }
         }
 
-        public CurrentStageState State() => state.Copy();
-
         void SpawnWave()
         {
-            Enemies.AddRange(spawner.SpawnWave(), TargetType.WaveEnemy);
+            Enemies.AddRange(spawner.SpawnWave().Select(x => new Target(x, TargetType.WaveEnemy)));
 
-            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(state.Stage);
-
-            List<HealthController> healthControllers = new List<HealthController>();
+            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(State.Stage);
 
             foreach (Target trgt in Enemies)
             {
                 trgt.Health.Init(val: combinedHealth / Enemies.Count);
 
                 trgt.Health.E_OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
-
-                healthControllers.Add(trgt.Health);
             }
 
             E_OnWaveSpawn.Invoke(Enemies);
@@ -92,13 +99,57 @@ namespace GM
 
         void SpawnBoss()
         {
-            Target boss = Enemies.Add(spawner.SpawnBoss(state), TargetType.Boss);
+            Target boss = new Target(spawner.SpawnBoss(State), TargetType.Boss);
 
-            boss.Health.Init(val: App.Cache.StageBossHealthAtStage(state.Stage));
+            boss.Health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
 
             boss.Health.E_OnZeroHealth.AddListener(OnBossZeroHealth);
 
+            Enemies.Add(boss);
+
             E_BossSpawn.Invoke(boss);
+        }
+
+        void AddMercToSquad(MercID merc, Vector2 pos)
+        {
+            Mercs.Models.MercGameDataModel data = App.Data.Mercs.GetGameMerc(merc);
+
+            GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
+
+            MercController controller = o.GetComponent<MercController>();
+
+            controller.Setup(merc);
+
+            Mercs.Add(new SquadMerc(o, controller));
+        }
+
+
+        void MoveMercsToBossPosition()
+        {
+            Vector3 cameraPosition = Camera.main.MinBounds();
+
+            float offsetX = Mathf.Abs(formation.MinBounds().x) + 1.0f;
+
+            int mercsMoved = 0;
+
+            for (int i = 0; i < Mercs.Count; ++i)
+            {
+                SquadMerc unit = Mercs[i];
+
+                Vector2 relPos = formation.GetPosition(Mathf.Min(formation.NumPositions - 1, i));
+
+                Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Common.Constants.CENTER_BATTLE_Y);
+
+                unit.Controller.Move(targetPosition, () =>
+                {
+                    mercsMoved++;
+
+                    if (mercsMoved == Mercs.Count)
+                    {
+                        Mercs.ForEach(m => m.Controller.Attack.Enable());
+                    }
+                });
+            }
         }
 
         void OnEnemyZeroHealth(Target trgt)
@@ -115,8 +166,8 @@ namespace GM
         {
             Enemies.Clear();
 
-            state.Stage++;
-            state.Wave = 1;
+            State.Stage++;
+            State.Wave = 1;
 
             SpawnWave();
         }
@@ -125,16 +176,18 @@ namespace GM
         {
             E_OnWaveCleared.Invoke();
 
-            if (state.Wave == state.WavesPerStage)
+            if (State.Wave == State.WavesPerStage)
             {
                 SpawnBoss();
+
+                MoveMercsToBossPosition();
             }
 
             else
             {
                 SpawnWave();
 
-                state.Wave++;
+                State.Wave++;
             }
         }
     }

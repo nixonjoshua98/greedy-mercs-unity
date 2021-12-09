@@ -10,7 +10,7 @@ namespace GM.Units
 {
     public abstract class UnitController : Core.GMMonoBehaviour
     {
-        protected abstract TargetList CurrentTargetList { get; }
+        protected abstract TargetList<Target> CurrentTargetList { get; }
 
         protected bool IsTargetValid(Target target)
         {

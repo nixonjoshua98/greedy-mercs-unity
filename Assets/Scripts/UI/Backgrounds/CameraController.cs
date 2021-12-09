@@ -10,7 +10,7 @@ namespace GM.Background
     {
         void LateUpdate()
         {
-            List<Vector3> unitPositions = MercManager.Instance.UnitPositions;
+            List<Vector3> unitPositions = GameManager.Instance.UnitPositions;
 
             if (unitPositions.Count > 0)
             {

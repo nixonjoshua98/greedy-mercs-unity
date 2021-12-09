@@ -12,7 +12,7 @@ namespace GM.Units
     [RequireComponent(typeof(HealthController))]
     public class EnemyController : UnitController
     {
-        protected override TargetList CurrentTargetList => throw new System.NotImplementedException();
+        protected override TargetList<Target> CurrentTargetList => throw new System.NotImplementedException();
 
         [Header("Prefabs")]
         [SerializeField] GameObject TextPopupObject;

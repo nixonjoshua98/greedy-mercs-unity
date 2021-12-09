@@ -6,7 +6,7 @@
 
         void Awake()
         {
-            spawnStageState = GameManager.Instance.State();
+            spawnStageState = GameManager.Instance.State;
         }
 
 

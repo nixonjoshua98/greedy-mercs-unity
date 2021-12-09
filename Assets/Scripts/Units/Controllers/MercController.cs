@@ -1,19 +1,15 @@
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using MercID = GM.Common.Enums.MercID;
-
-using UnityEngine;
-using UnityEngine.Events;
 using GM.Targets;
+using System;
+using UnityEngine;
 using HealthController = GM.Controllers.HealthController;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Units
 {
     public class MercController : UnitController
     {
         public Target CurrentTarget;
-        protected override TargetList CurrentTargetList => GameManager.Instance.Enemies;
+        protected override TargetList<Target> CurrentTargetList => GameManager.Instance.Enemies;
 
         public MercID ID { get; private set; } = MercID.NONE;
 
@@ -91,13 +87,13 @@ namespace GM.Units
             ID = _mercId;
         }
 
-        public void PriorityMove(Vector3 position, UnityAction<MercController> action)
+        public void Move(Vector3 position, Action action)
         {
             Attack.Disable();
 
             Movement.MoveTowards(position, () =>
             {
-                action.Invoke(this);
+                action.Invoke();
             });
         }
 
@@ -118,7 +114,7 @@ namespace GM.Units
         {
             if (CurrentTargetList.Count > 0)
             {
-                return CurrentTargetList[Random.Range(0, CurrentTargetList.Count)];
+                return CurrentTargetList[UnityEngine.Random.Range(0, CurrentTargetList.Count)];
             }
 
             return null;

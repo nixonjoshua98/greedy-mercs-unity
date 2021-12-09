@@ -13,7 +13,7 @@ namespace GM
 
         void FixedUpdate()
         {
-            CurrentStageState state = GameManager.Instance.State();
+            CurrentStageState state = GameManager.Instance.State;
 
             GoldText.text = Format.Number(App.Data.Inv.Gold);
 

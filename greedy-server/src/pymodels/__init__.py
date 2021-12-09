@@ -8,7 +8,6 @@ from pydantic import Field
 class BaseModel(_BaseModel):
     class Config:
         arbitrary_types_allowed = True
-        use_enum_values = True
 
     def __hash__(self):
         return hash((type(self),) + tuple(self.__dict__.values()))
@@ -17,10 +16,6 @@ class BaseModel(_BaseModel):
         kwargs["by_alias"] = True  # We only want to use the aliases
 
         return super().dict(**kwargs)
-
-    def json(self, *args, **kwargs):
-        """We most likely will not use this encoder and instead rely on the request/response encoder."""
-        raise RuntimeError("'.json()' should likely not be used")
 
     def to_client_dict(self):
         """

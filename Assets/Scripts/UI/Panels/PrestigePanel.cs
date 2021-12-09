@@ -16,7 +16,7 @@ namespace GM
 
         void FixedUpdate()
         {
-            CurrentStageState state = GameManager.Instance.State();
+            CurrentStageState state = GameManager.Instance.State;
 
             prestigePointText.text = Format.Number(App.Cache.PrestigePointsAtStage(state.Stage));
         }
@@ -24,7 +24,7 @@ namespace GM
 
         public void Prestige()
         {
-            CurrentStageState state = GameManager.Instance.State();
+            CurrentStageState state = GameManager.Instance.State;
 
             if (state.Stage >= Common.Constants.MIN_PRESTIGE_STAGE)
             {

@@ -13,7 +13,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "109.154.163.5"
+            Address = "86.191.239.53"
         };
 
         IServerAuthentication Authentication;
@@ -129,7 +129,7 @@ namespace GM.HTTP
             }
             else
             {
-                SetAuthenticationHeaders(ref www);
+                SetAuthenticationHeader(ref www);
 
                 StartCoroutine(SendRequest(www, callback));
             }
@@ -160,7 +160,7 @@ namespace GM.HTTP
             }
         }
 
-        void SetAuthenticationHeaders(ref UnityWebRequest www)
+        void SetAuthenticationHeader(ref UnityWebRequest www)
         {
             www.SetRequestHeader("Authentication", Authentication.Session);
         }

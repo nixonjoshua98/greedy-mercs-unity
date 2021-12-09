@@ -4,7 +4,6 @@ from src.authentication.authentication import (AuthenticatedUser,
                                                authenticated_user)
 from src.authentication.session import Session
 from src.cache import MemoryCache, memory_cache
-from src.common import resources
 from src.mongo.repositories.accounts import (AccountsRepository,
                                              accounts_repository)
 from src.mongo.repositories.armoury import (ArmouryRepository,
@@ -20,6 +19,7 @@ from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
+from src.resources.mercs import StaticMerc, inject_merc_data
 from src.routing import APIRouter, ServerResponse
 from src.routing.dependencies.serverstate import (ServerState,
                                                   inject_server_state)
@@ -36,19 +36,19 @@ class LoginModel(BaseModel):
 
 @router.get("/gamedata")
 def game_data(
-    # = Static/Game Data = #
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
     s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
+    s_mercs: list[StaticMerc] = Depends(inject_merc_data),
     svr_state: ServerState = Depends(inject_server_state),
 ):
     return ServerResponse(
         {
             "nextDailyReset": svr_state.next_daily_reset,
-            "artefacts": [art.to_client_dict() for art in s_artefacts],
-            "bounties": s_bounties.to_client_dict(),
-            "armoury": [it.to_client_dict() for it in s_armoury],
-            "mercs": resources.get_mercs(),
+            "artefacts": [art.dict() for art in s_artefacts],
+            "bounties": s_bounties.dict(),
+            "armoury": [it.dict() for it in s_armoury],
+            "mercs": [m.dict() for m in s_mercs],
         }
     )
 

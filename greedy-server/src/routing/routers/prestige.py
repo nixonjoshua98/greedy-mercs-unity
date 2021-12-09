@@ -93,7 +93,7 @@ def calc_prestige_points_at_stage(stage, artefacts: list[ArtefactModel], s_artef
     base_points = formulas.base_points_at_stage(stage)
 
     multiplier = formulas.artefacts_bonus_product(
-        BonusType.PRESTIGE_BONUS, artefacts, s_artefacts
+        BonusType.MULTIPLY_PRESTIGE_BONUS, artefacts, s_artefacts
     )
 
     return base_points * multiplier

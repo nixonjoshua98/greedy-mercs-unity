@@ -2,7 +2,7 @@ namespace GM.Common.Enums
 {
     public enum BonusType
     {
-        None = 0,
+        NONE = 0,
 
         // Critical Chance
         FLAT_CRIT_CHANCE = 300,

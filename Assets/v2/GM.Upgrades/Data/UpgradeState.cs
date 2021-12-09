@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using GM.Common.Enums;
 
 namespace GM.Upgrades.Data
@@ -9,13 +6,13 @@ namespace GM.Upgrades.Data
     {
         public UpgradeID Id = UpgradeID.NONE;
 
-        public int Level = 0;
+        public int Level;
         public readonly int MaxLevel;
 
         public IUpgradeRequirement UnlockRequirement { get; private set; }
 
         public bool IsMaxLevel => Level >= MaxLevel;
-        public BonusType BonusType { get; private set; } = BonusType.None;
+        public BonusType BonusType { get; private set; } = BonusType.NONE;
 
         public UpgradeState(int level, int maxLevel, BonusType bonus)
         {

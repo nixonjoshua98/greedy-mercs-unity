@@ -58,9 +58,7 @@ class UpgradeArtefactHandler(BaseHandler):
             raise UpgradeArtefactException(400, "Cannot afford to upgrade artefact")
 
         # Reduce the users' currency
-        currencies: CurrenciesModel = await self.currency_repo.inc_value(
-            user.id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost
-        )
+        currencies = await self.currency_repo.inc_value(user.id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost)
 
         # Increment the artefact level
         u_artefact: ArtefactModel = await self.artefacts_repo.inc_level(user.id, artefact_id, levels)

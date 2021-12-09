@@ -21,6 +21,6 @@ async def authenticated_user(request: ServerRequest, mem_cache: MemoryCache = De
     session: Session = mem_cache.get_session(auth_header)
 
     if session is None:
-        return AuthenticatedUser(id_=ObjectId(request.headers["x-userid"]))
+        raise HTTPException(401, detail="Not authorised")
 
     return AuthenticatedUser(session.user_id)

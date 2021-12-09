@@ -1,11 +1,9 @@
-
+using TMPro;
 using UnityEngine;
 
 namespace GM.UI
 {
-    using TMPro;
-
-    public class TextPopup : MonoBehaviour
+    public class DamageTextPopup : MonoBehaviour
     {
         [SerializeField] TMP_Text Text;
 

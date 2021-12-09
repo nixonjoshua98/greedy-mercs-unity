@@ -12,11 +12,7 @@ from src.routing import ServerRequest
 
 
 def artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
-    """Used to inject a repository instance."""
     return ArtefactsRepository(request.app.state.mongo)
-
-
-# == Fields == #
 
 
 class Fields:
@@ -24,9 +20,6 @@ class Fields:
     USER_ID = "userId"
     LEVEL = "level"
     UNLOCK_TIME = "unlockTime"
-
-
-# == Models == #
 
 
 class ArtefactModel(BaseDocument):
@@ -37,9 +30,6 @@ class ArtefactModel(BaseDocument):
 
     def to_client_dict(self):
         return self.dict(exclude={"id", "user_id"})
-
-
-# == Repository == #
 
 
 class ArtefactsRepository:

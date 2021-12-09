@@ -36,10 +36,7 @@ class UserBountiesModel(BaseDocument):
         return [b for b in self.bounties if b.is_active]
 
     def to_client_dict(self):
-        return self.dict(exclude={"id"})  # Field names instead of aliases
-
-
-# == Repository == #
+        return self.dict(exclude={"id"})
 
 
 class BountiesRepository:

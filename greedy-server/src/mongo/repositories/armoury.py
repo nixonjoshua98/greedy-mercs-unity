@@ -14,18 +14,12 @@ def armoury_repository(request: ServerRequest) -> ArmouryRepository:
     return ArmouryRepository(request.app.state.mongo)
 
 
-# === Fields === #
-
-
 class Fields:
     USER_ID = "userId"
     ITEM_ID = "itemId"
     LEVEL = "level"
     MERGE_LEVEL = "mergeLevel"
     NUM_OWNED = "owned"
-
-
-# == Models == #
 
 
 class ArmouryItemModel(BaseDocument):
@@ -38,9 +32,6 @@ class ArmouryItemModel(BaseDocument):
 
     def to_client_dict(self):
         return self.dict(exclude={"id", "user_id"})
-
-
-# == Repository == #
 
 
 class ArmouryRepository:

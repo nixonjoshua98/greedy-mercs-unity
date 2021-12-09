@@ -9,9 +9,7 @@ from src.routing.handlers.abc import BaseHandlerException
 async def handle_http_exception(_: Request, exc: HTTPException):
     logger.warning(exc.detail)
 
-    return ServerResponse(
-        {"code": exc.status_code, "error": "Error"}, status_code=exc.status_code
-    )
+    return ServerResponse({"code": exc.status_code, "error": "Error"}, status_code=exc.status_code)
 
 
 async def handle_request_validation_exception(_: Request, __: RequestValidationError):

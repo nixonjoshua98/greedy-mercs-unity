@@ -18,10 +18,7 @@ class BaseModel(_BaseModel):
         return super().dict(**kwargs)
 
     def to_client_dict(self):
-        """
-        Dict encoder used when returning data back to the client.
-        Useful for excluding or renaming fields
-        """
+        """Dict encoder used when returning data back to the client. Useful for excluding or renaming fields"""
         return self.dict()
 
 

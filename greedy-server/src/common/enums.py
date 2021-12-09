@@ -1,5 +1,5 @@
 class BonusType:
-    NONE = 0,
+    NONE = 0
 
     FLAT_CRIT_CHANCE = 300
 

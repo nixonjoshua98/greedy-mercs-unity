@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
-
+using HealthController = GM.Controllers.HealthController;
 
 namespace GM
 {
@@ -31,7 +31,7 @@ namespace GM
         {
             bool isBountyBoss = App.Data.Bounties.GetStageBounty(state.Stage, out var result);
 
-            if (isBountyBoss && MathUtils.PercentChance(result.SpawnChance))
+            if (isBountyBoss)
                 return SpawnBountyBoss(result);
 
             else
@@ -76,7 +76,7 @@ namespace GM
 
             Vector3 centerPos = GetWaveReferencePosition(formation);
 
-            for (int i = 0; i < formation.numPositions; ++i)
+            for (int i = 0; i < formation.NumPositions; ++i)
             {
                 Vector3 spawnPos = centerPos + formation.GetPosition(i).ToVector3();
 
@@ -93,7 +93,7 @@ namespace GM
         {
             Vector3 pos = Camera.main.MaxBounds();
 
-            return new Vector3(pos.x - 2.0f, Constants.CENTER_BATTLE_Y);
+            return new Vector3(pos.x - 2.0f, Common.Constants.CENTER_BATTLE_Y);
         }
 
 

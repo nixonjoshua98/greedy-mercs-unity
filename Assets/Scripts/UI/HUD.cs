@@ -13,9 +13,9 @@ namespace GM
 
         void FixedUpdate()
         {
-            CurrentStageState state = GameManager.Instance.State();
+            CurrentStageState state = GameManager.Instance.State;
 
-            GoldText.text = FormatString.Number(App.Data.Inv.Gold);
+            GoldText.text = Format.Number(App.Data.Inv.Gold);
 
             stageText.text = $"Stage {state.Stage}";
             waveText.text = $"{state.Wave} / {state.WavesPerStage}";

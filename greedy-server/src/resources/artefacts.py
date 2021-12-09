@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from src.utils import load_static_data_file
 from src.pymodels import BaseModel
+from src.utils import load_static_data_file
 
 
-def inject_static_artefacts() -> list[StaticArtefact]:
+def static_artefacts() -> list[StaticArtefact]:
     d: list[dict] = load_static_data_file("artefacts.json")
 
     return [StaticArtefact.parse_obj(art) for art in d]

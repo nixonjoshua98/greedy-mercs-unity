@@ -1,23 +1,23 @@
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Optional
 
 from fastapi import Request
 
-VOID = "<VOID>"
+if TYPE_CHECKING:
+    from src.authentication.session import Session
 
 
-def inject_memory_cache(request: Request):
+def memory_cache(request: Request):
     return request.app.state.memory_cache
 
 
 class MemoryCache:
     def __init__(self):
-        self.__internal_dict: dict = {}
+        self.__dict: dict = {}
 
-    def get_value(self, key: str, default: Any = VOID) -> Any:
-        if default != VOID:
-            return self.__internal_dict.get(key, default)
+    def get_session(self, session_id: str) -> Optional[Session]:
+        return self.__dict.get(f"session/{session_id}")
 
-        return self.__internal_dict[key]
-
-    def set_value(self, key: str, value: Any):
-        self.__internal_dict[key] = value
+    def set_session(self, session: Session):
+        self.__dict[f"session/{session.id}"] = session

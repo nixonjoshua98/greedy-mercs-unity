@@ -349,7 +349,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6b6897ee3ee493d4ab596a0554d2dab9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cc9dec265a0f20340998715c89b2947c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -357,7 +357,7 @@ SpriteRenderer:
   m_Size: {x: 2.8, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2740174060980821589
@@ -400,8 +400,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5064120841244210573}
+  - component: {fileID: 167853971174993374}
   - component: {fileID: -5381686959036226763}
-  - component: {fileID: 763627710669983125}
   - component: {fileID: 6800511658964374014}
   - component: {fileID: 4484796574378713095}
   m_Layer: 0
@@ -420,7 +420,7 @@ Transform:
   m_GameObject: {fileID: 3032672657413112226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.225, y: 0.225, z: 1}
   m_Children:
   - {fileID: 7546644964956209377}
   - {fileID: 5409195532402839870}
@@ -429,6 +429,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &167853971174993374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3032672657413112226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cda6de2a3102954fbec00781dc77318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  E_OnAttackAnimation:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-5381686959036226763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,24 +459,6 @@ MonoBehaviour:
   Idle: Idle
   Walk: Walk
   Attack: Attacking
---- !u!114 &763627710669983125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3032672657413112226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  E_OnAttackAnimation:
-    m_PersistentCalls:
-      m_Calls: []
-  E_OnDeathAnimation:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!95 &6800511658964374014
 Animator:
   serializedVersion: 3

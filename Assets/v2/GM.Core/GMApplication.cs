@@ -9,17 +9,18 @@ namespace GM.Core
 
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
-        public static GMApplication Create(Common.IServerUserData userData, Common.IServerGameData gameData)
+        public static GMApplication Create(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
         {
             Instance = new GMApplication(userData, gameData);
 
             return Instance;
         }
 
-        GMApplication(Common.IServerUserData userData, Common.IServerGameData gameData)
+        GMApplication(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
         {
-            Data = new GMData(userData, gameData);
             Cache = new GMCache();
+
+            Data = new GMData(userData, gameData);
         }
     }
 }

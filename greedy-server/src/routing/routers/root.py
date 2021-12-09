@@ -1,31 +1,34 @@
-import secrets
-import datetime as dt
-
 from fastapi import Depends
 
-from src.common import resources
-from src.routing import ServerResponse, APIRouter
-from src.classes import ServerState
-from src.dataloader import DataLoader
-
+from src.authentication.authentication import (AuthenticatedUser,
+                                               authenticated_user)
+from src.authentication.session import Session
+from src.cache import MemoryCache, memory_cache
+from src.mongo.repositories.accounts import (AccountsRepository,
+                                             accounts_repository)
+from src.mongo.repositories.armoury import (ArmouryRepository,
+                                            armoury_repository)
+from src.mongo.repositories.artefacts import (ArtefactsRepository,
+                                              artefacts_repository)
+from src.mongo.repositories.bounties import (BountiesRepository,
+                                             bounties_repository)
+from src.mongo.repositories.currency import (CurrencyRepository,
+                                             currency_repository)
 from src.pymodels import BaseModel
-from src.cache import MemoryCache, inject_memory_cache
-from src.routing.dependencies.authenticated_user import inject_user, AuthenticatedUser
-
-from src.mongo.repositories.currencies import CurrenciesRepository, inject_currencies_repository
-from src.mongo.repositories.armoury import ArmouryRepository, inject_armoury_repository
-from src.mongo.repositories.artefacts import ArtefactsRepository, inject_artefacts_repository
-from src.mongo.repositories.bounties import BountiesRepository, inject_bounties_repository
-
-from src.resources.bounties import inject_static_bounties, StaticBounties
-from src.resources.armoury import inject_static_armoury, StaticArmouryItem
-from src.resources.artefacts import inject_static_artefacts, StaticArtefact
-from src.resources.bountyshop import inject_dynamic_bounty_shop, DynamicBountyShop
+from src.resources.armoury import StaticArmouryItem, static_armoury
+from src.resources.artefacts import StaticArtefact, static_artefacts
+from src.resources.bounties import StaticBounties, inject_static_bounties
+from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
+from src.resources.mercs import StaticMerc, inject_merc_data
+from src.routing import APIRouter, ServerResponse
+from src.routing.dependencies.serverstate import (ServerState,
+                                                  inject_server_state)
 
 router = APIRouter(prefix="/api")
 
 
 # = Models = #
+
 
 class LoginModel(BaseModel):
     device_id: str
@@ -33,64 +36,64 @@ class LoginModel(BaseModel):
 
 @router.get("/gamedata")
 def game_data(
-        # = Static/Game Data = #
-        s_bounties: StaticBounties = Depends(inject_static_bounties),
-        s_armoury: list[StaticArmouryItem] = Depends(inject_static_armoury),
-        s_artefacts: list[StaticArtefact] = Depends(inject_static_artefacts)
+    s_bounties: StaticBounties = Depends(inject_static_bounties),
+    s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
+    s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
+    s_mercs: list[StaticMerc] = Depends(inject_merc_data),
+    svr_state: ServerState = Depends(inject_server_state),
 ):
-    svr_state = ServerState()
-
-    return ServerResponse({
-        "nextDailyReset": svr_state.next_daily_reset,
-
-        "artefacts": [art.response_dict() for art in s_artefacts],
-        "bounties": s_bounties.response_dict(),
-        "armoury": [it.response_dict() for it in s_armoury],
-        "mercs": resources.get_mercs(),
-    })
+    return ServerResponse(
+        {
+            "nextDailyReset": svr_state.next_daily_reset,
+            "artefacts": [art.dict() for art in s_artefacts],
+            "bounties": s_bounties.dict(),
+            "armoury": [it.dict() for it in s_armoury],
+            "mercs": [m.dict() for m in s_mercs],
+        }
+    )
 
 
 @router.get("/userdata")
 async def user_data(
-        user: AuthenticatedUser = Depends(inject_user),
-        # = Static/Game Data = #
-        s_bounty_shop: DynamicBountyShop = Depends(inject_dynamic_bounty_shop),
-        # = Database Repositories = #
-        currency_repo: CurrenciesRepository = Depends(inject_currencies_repository),
-        armoury_repo: ArmouryRepository = Depends(inject_armoury_repository),
-        bounties_repo: BountiesRepository = Depends(inject_bounties_repository),
-        artefacts_repo: ArtefactsRepository = Depends(inject_artefacts_repository),
+    user: AuthenticatedUser = Depends(authenticated_user),
+    # = Static/Game Data = #
+    s_bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),
+    # = Database Repositories = #
+    currency_repo: CurrencyRepository = Depends(currency_repository),
+    armoury_repo: ArmouryRepository = Depends(armoury_repository),
+    bounties_repo: BountiesRepository = Depends(bounties_repository),
+    artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
 ):
     currencies = await currency_repo.get_user(user.id)
-    bounties = await bounties_repo.get_user(user.id)
-    armoury = await armoury_repo.get_all_items(user.id)
+    bounties = await bounties_repo.get_user_bounties(user.id)
+    armoury = await armoury_repo.get_user_items(user.id)
     artefacts = await artefacts_repo.get_all_artefacts(user.id)
 
     data = {
-        "currencyItems": currencies.response_dict(),
-        "bountyData": bounties.response_dict(),
-        "armouryItems": [ai.response_dict() for ai in armoury],
-        "artefacts": [art.response_dict() for art in artefacts],
-
-        "bountyShop": {"dailyPurchases": {}, "shopItems": s_bounty_shop.to_dict()}
+        "currencyItems": currencies.to_client_dict(),
+        "bountyData": bounties.to_client_dict(),
+        "armouryItems": [ai.to_client_dict() for ai in armoury],
+        "artefacts": [art.to_client_dict() for art in artefacts],
+        "bountyShop": {
+            "dailyPurchases": {},
+            "shopItems": s_bounty_shop.response_dict(),
+        },
     }
 
     return ServerResponse(data)
 
 
 @router.post("/login")
-async def player_login(data: LoginModel, mem_cache: MemoryCache = Depends(inject_memory_cache)):
-    user = await DataLoader().users.get_user(data.device_id)
+async def player_login(
+    data: LoginModel,
+    mem_cache: MemoryCache = Depends(memory_cache),
+    acc_repo: AccountsRepository = Depends(accounts_repository),
+):
+    user = await acc_repo.get_user_by_did(data.device_id)
 
     if user is None:
-        uid = await DataLoader().users.insert_new_user({
-            "deviceId": data.device_id,
-            "accountCreationTime": dt.datetime.utcnow()
-        })
+        user = await acc_repo.insert_new_user(data.device_id)
 
-    else:
-        uid = user["_id"]
+    mem_cache.set_session(session := Session(user.id, data.device_id))
 
-    mem_cache.set_value(f"session/{uid}", session_id := secrets.token_hex(16))
-
-    return ServerResponse({"userId": uid, "sessionId": session_id})
+    return ServerResponse({"userId": user.id, "sessionId": session.id})

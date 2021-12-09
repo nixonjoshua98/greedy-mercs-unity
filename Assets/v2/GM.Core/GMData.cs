@@ -6,28 +6,30 @@ namespace GM.Core
     public class GMData : GMClass
     {
         public Mercs.Data.MercsData Mercs;
-        public Armoury.Data.ArmouryDataCollection Armoury;
-        public Inventory.Data.UserInventoryCollection Inv;
-        public Artefacts.Data.ArtefactsData Arts;
-        public CurrencyItems.Data.CurrencyItemsDataCollection Items;
+        public Armoury.Data.Armoury Armoury;
+        public Inventory.Data.Inventory Inv;
+        public Artefacts.Data.Artefacts Artefacts;
+        public CurrencyItems.Data.CurrencyItems Items;
         public Bounties.Data.BountiesData Bounties;
-        public BountyShop.Data.BountyShopDataCollection BountyShop;
+        public BountyShop.Data.BountyShopData BountyShop;
+        public Upgrades.Data.PlayerUpgrades Upgrades;
 
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
 
-        public GMData(Common.IServerUserData userData, Common.IServerGameData gameData)
+        public GMData(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
         {
-            Items = new CurrencyItems.Data.CurrencyItemsDataCollection();
+            Items = new CurrencyItems.Data.CurrencyItems();
+            Upgrades = new Upgrades.Data.PlayerUpgrades();
 
             NextDailyReset = gameData.NextDailyReset;
 
-            Inv = new Inventory.Data.UserInventoryCollection(userData.CurrencyItems);
+            Inv = new Inventory.Data.Inventory(userData.CurrencyItems);
             Mercs = new Mercs.Data.MercsData(gameData.Mercs);
-            Arts = new Artefacts.Data.ArtefactsData(userData.Artefacts, gameData.Artefacts);
-            Armoury = new Armoury.Data.ArmouryDataCollection(userData.ArmouryItems, gameData.Armoury);
+            Artefacts = new Artefacts.Data.Artefacts(userData.Artefacts, gameData.Artefacts);
+            Armoury = new Armoury.Data.Armoury(userData.ArmouryItems, gameData.Armoury);
             Bounties = new Bounties.Data.BountiesData(userData.BountyData, gameData.Bounties);
-            BountyShop = new BountyShop.Data.BountyShopDataCollection(userData.BountyShop);
+            BountyShop = new BountyShop.Data.BountyShopData(userData.BountyShop);
         }
 
         public void Prestige(UnityAction<bool> callback)

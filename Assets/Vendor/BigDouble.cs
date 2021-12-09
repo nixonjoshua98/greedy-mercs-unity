@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Globalization;
-using UnityEngine;
 using Random = System.Random;
 
 // Script has been modified
 
 public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEquatable<BigDouble>
-    {
+{
+    public static BigDouble Billion = Parse("1000000000");
+
+
         public const double Tolerance = 1e-18;
 
         //for example: if two exponents are more than 17 apart, consider adding them together pointless, just return the larger one

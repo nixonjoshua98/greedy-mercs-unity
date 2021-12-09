@@ -2,8 +2,8 @@ using GM.HTTP.Requests;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Networking;
 
 namespace GM.HTTP
@@ -13,120 +13,129 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "86.153.58.47"
+            Address = "86.191.239.53"
         };
 
-        IServerAuthentication serverAuthDetails;
+        IServerAuthentication Authentication;
 
-        public int maxRequestId;
-        public int currentRequestId;
+        public bool IsAuthenticated => Authentication.Session != null;
 
-        // = Armoury = //
-        public void Armoury_Upgrade(UpgradeArmouryItemRequest req, UnityAction<UpgradeArmouryItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("armoury/upgrade"), req, callback);
-        public void Armoury_Merge(UpgradeStarLevelArmouryItemRequest req, UnityAction<UpgradeStarLevelArmouryItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("armoury/merge"), req, callback);
-
-        // = Login = //
-        public void Login(UnityAction<UserLoginReponse> callback)
+        public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
         {
-            UserLoginRequest request = new UserLoginRequest { DeviceId = SystemInfo.deviceUniqueIdentifier };
+            var www = UnityWebRequest.Get(ResolveURL("artefact/unlock"));
 
-            var www = UnityWebRequest.Post(ServerConfig.UrlFor("login"), JsonConvert.SerializeObject(request));
+            SendAuthenticatedRequest(www, callback);
+        }
 
-            StartCoroutine(SendRequest<UserLoginReponse>(www, (resp) =>
+        public void UpgradeArtefact(int artefactId, int levelsUpgrading, Action<UpgradeArtefactResponse> callback)
+        {
+            var req = new UpgradeArtefactRequest(artefactId, levelsUpgrading);
+            var www = UnityWebRequest.Post(ResolveURL("artefact/upgrade"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        public void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback)
+        {
+            var req = new UpgradeArmouryItemRequest(item);
+            var www = UnityWebRequest.Post(ResolveURL("armoury/upgrade"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        public void MergeArmouryItem(int item, Action<MergeArmouryItemResponse> callback)
+        {
+            var req = new MergeArmouryItemRequest(item);
+            var www = UnityWebRequest.Post(ResolveURL("armoury/merge"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        public void ClaimBounties(Action<BountyClaimResponse> callback)
+        {
+            var www = UnityWebRequest.Get(ResolveURL("bounty/claim"));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        public void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback)
+        {
+            var req = new UpdateActiveBountiesRequest(bounties);
+            var www = UnityWebRequest.Post(ResolveURL("bounty/setactive"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        public void FetchGameData(Action<FetchGameDataResponse> callback)
+        {
+            var www = UnityWebRequest.Get(ResolveURL("gamedata"));
+
+            SendPublicRequest(www, callback);
+        }
+
+        public void FetchUserData(Action<FetchUserDataResponse> callback)
+        {
+            var www = UnityWebRequest.Get(ResolveURL("userdata"));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        public void Login(Action<UserLoginReponse> callback)
+        {
+            var req = new UserLoginRequest(SystemInfo.deviceUniqueIdentifier);
+            var www = UnityWebRequest.Post(ResolveURL("login"), SerializeRequest(req));
+
+            SendPublicRequest<UserLoginReponse>(www, (response) =>
             {
-                serverAuthDetails = null;
+                Authentication = null;
 
-                if (resp.StatusCode == HTTPCodes.Success)
+                if (response.StatusCode == HTTPCodes.Success)
                 {
-                    serverAuthDetails = resp;
+                    Authentication = response;
                 }
 
-                callback.Invoke(resp);
-            }));
+                callback.Invoke(response);
+            });
         }
 
-        // = Prestige = //
-        public void Prestige(UnityAction<ServerResponse> callback) => Auth_POST(ServerConfig.UrlFor("prestige"), new ServerRequest(), callback);
-
-        // = Bounties = //
-        public void Bounty_Claim(UnityAction<BountyClaimResponse> callback) => Auth_GET(ServerConfig.UrlFor("bounty/claim"), callback);
-        public void Bounty_UpdateActives(UpdateActiveBountiesRequest req, UnityAction<UpdateActiveBountiesResponse> callback) => Auth_POST(ServerConfig.UrlFor("bounty/setactive"), req, callback);
-
-        // = Bounty Shop = //
-        public void BShop_PurchaseItem(PurchaseBountyShopItemRequest req, UnityAction<PurchaseBountyShopItemResponse> callback) => Auth_POST(ServerConfig.UrlFor("bountyshop/purchase"), req, callback);
-
-        // = Artefacts = //
-        public void Artefact_UpgradeArtefact(UpgradeArtefactRequest req, UnityAction<UpgradeArtefactResponse> callback) => Auth_POST(ServerConfig.UrlFor("artefact/upgrade"), req, callback);
-        public void Artefact_UnlockArtefact(UnityAction<UnlockArtefactResponse> callback) => Auth_GET(ServerConfig.UrlFor("artefact/unlock"), callback);
-
-        // = Data = //
-        public void FetchUserData(UnityAction<FetchUserDataResponse> callback) => Auth_GET(ServerConfig.UrlFor("userdata"), callback);
-        public void FetchGameData(UnityAction<FetchGameDataResponse> callback) => Public_GET(ServerConfig.UrlFor("gamedata"), callback);
-
-        /// <summary>
-        /// Shorthand method for starting the coroutine
-        /// </summary>
-        void Public_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new() => StartCoroutine(IPublic_GET(url, callback));
-
-        /// <summary>
-        /// Send a public GET request
-        /// </summary>
-        IEnumerator IPublic_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
+        public void Prestige(Action<PrestigeResponse> callback)
         {
-            yield return WaitForRequestReady();
-            yield return SendRequest<T>(UnityWebRequest.Get(url), callback);
+            var req = new PrestigeRequest();
+            var www = UnityWebRequest.Post(ResolveURL("prestige"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
         }
 
-        /// <summary>
-        /// Shorthand method for starting the coroutine
-        /// </summary>
-        void Auth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new() => StartCoroutine(IAuth_GET(url, callback));
-
-        /// <summary>
-        /// Send an authenticated GET request
-        /// </summary>
-        IEnumerator IAuth_GET<T>(string url, UnityAction<T> callback) where T : IServerResponse, new()
+        public void BuyBountyShopArmouryItem(string item, Action<PurchaseBountyShopItemResponse> callback)
         {
-            if (serverAuthDetails == null)
+            var req = new PurchaseBountyShopItemRequest(item);
+            var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/armouryitem"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        string ResolveURL(string endpoint) => $"{ServerConfig.Url_}/{endpoint}";
+
+        void SendPublicRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
+        {
+            StartCoroutine(SendRequest(www, callback));
+        }
+
+        void SendAuthenticatedRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
+        {
+            if (!IsAuthenticated)
             {
                 callback.Invoke(InvalidAuthResponse<T>());
             }
             else
             {
-                yield return WaitForRequestReady();
-                var www = UnityWebRequest.Get(url);
-                SetAuthenticationHeaders(ref www);
-                yield return SendRequest<T>(www, callback);
+                SetAuthenticationHeader(ref www);
+
+                StartCoroutine(SendRequest(www, callback));
             }
         }
 
-        /// <summary>
-        /// Shorthand method for starting the coroutine
-        /// </summary>
-        void Auth_POST<T>(string url, IServerRequest request, UnityAction<T> callback) where T : IServerResponse, new() => StartCoroutine(IAuth_POST(url, request, callback));
-
-        /// <summary>
-        /// Send an authenticated POST request
-        /// </summary>
-        IEnumerator IAuth_POST<T>(string url, IServerRequest request, UnityAction<T> callback) where T : IServerResponse, new()
-        {
-            if (serverAuthDetails == null)
-            {
-                callback.Invoke(InvalidAuthResponse<T>());
-            }
-            else
-            {
-                yield return WaitForRequestReady();
-                var www = UnityWebRequest.Post(url, SerializeRequest(request));
-                SetAuthenticationHeaders(ref www);
-                yield return SendRequest<T>(www, callback);
-            }
-        }
-
-        /// <summary>
-        /// Send the actual request
-        /// </summary>
-        IEnumerator SendRequest<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
+        IEnumerator SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
             www.timeout = 5;
 
@@ -134,59 +143,28 @@ namespace GM.HTTP
 
             yield return www.SendWebRequest();
 
-            InvokeRequestCallback(www, callback);
+            HandleRequestResponse(www, callback);
         }
 
-        /// <summary>
-        /// Queue up the request in the order that it was created/requested to be sent
-        /// </summary>
-        IEnumerator WaitForRequestReady()
-        {
-            maxRequestId++;
-
-            int requestId = maxRequestId;
-
-            // Send the request in order as they are created
-            yield return new WaitUntil(() => currentRequestId == requestId);
-        }
-
-        /// <summary>
-        /// Set request headers used for authentication
-        /// </summary>
-        void SetAuthenticationHeaders(ref UnityWebRequest www)
-        {
-            www.SetRequestHeader("x-userid", serverAuthDetails.UserId);
-            www.SetRequestHeader("x-sessionid", serverAuthDetails.SessionId);
-            www.SetRequestHeader("x-deviceid", SystemInfo.deviceUniqueIdentifier);
-        }
-
-        /// <summary>
-        /// Performs some post request logic and calls the request callback
-        /// </summary>
-        void InvokeRequestCallback<T>(UnityWebRequest www, UnityAction<T> callback) where T : IServerResponse, new()
+        void HandleRequestResponse<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
             T resp = DeserializeResponse<T>(www);
 
             try
             {
-                UpdateResponseErrorMessage(www, resp);
-
                 callback.Invoke(resp);
             }
             finally
             {
-                if (resp == null || resp.StatusCode != 200)
-                {
-                    Debug.Log($"{www.url} ({resp.StatusCode}) - {resp.ErrorMessage}");
-                }
 
-                currentRequestId++; // Increment the current request id, so that the next queued request is sent and processed
             }
         }
 
-        /// <summary>
-        /// Deserialize the response into the request response object
-        /// </summary>
+        void SetAuthenticationHeader(ref UnityWebRequest www)
+        {
+            www.SetRequestHeader("Authentication", Authentication.Session);
+        }
+
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
         {
             T model;
@@ -221,36 +199,14 @@ namespace GM.HTTP
                 };
             }
 
-            UpdateResponseErrorMessage(www, model);
-
             return model;
         }
 
-        /// <summary>
-        /// Serialize request (body) and encrypt
-        /// </summary>
         string SerializeRequest<T>(T request) where T: IServerRequest
         {
             return JsonConvert.SerializeObject(request);
         }
 
-        /// <summary>
-        /// Update the error message if a generic response
-        /// </summary>
-        void UpdateResponseErrorMessage(UnityWebRequest www, IServerResponse response)
-        {
-            switch (www.responseCode)
-            {
-                case HTTPCodes.NoServerResponse:
-                    response.ErrorMessage = "Failed to connect to server";
-                    break;
-            }
-
-        }
-
-        /// <summary>
-        /// Utility method to create the response for invalid client credentials
-        /// </summary>
-        T InvalidAuthResponse<T>() where T : IServerResponse, new() => new T { ErrorMessage = "A game relaunch is required as you are playing in offline mode", StatusCode = HTTPCodes.IsOfflineMode };
+        T InvalidAuthResponse<T>() where T : IServerResponse, new() => new T { ErrorMessage = "A game relaunch is required as you are playing in offline mode", StatusCode = HTTPCodes.OfflineMode };
     }
 }

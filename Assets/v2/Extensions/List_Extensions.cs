@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GM
 {
     public static class List_Extensions
     {
-        public static void UpdateOrInsertElement<T>(this List<T> ls, T val, Predicate<T> predicate)
+        public static T MinBy<T, TProp>(this IEnumerable<T> source, Func<T, TProp> propSelector)
         {
-            for (int i = 0; i < ls.Count; ++i)
-            {
-                if (predicate(ls[i]))
-                {
-                    ls[i] = val;
+            return source.OrderBy(propSelector).FirstOrDefault();
+        }
 
-                    return;
-                }
+        public static BigDouble Sum(this IEnumerable<BigDouble> source)
+        {
+            BigDouble total = 0;
+
+            foreach (BigDouble val in source)
+            {
+                total += val;
             }
 
-            ls.Add(val);
+            return total;
         }
     }
 }

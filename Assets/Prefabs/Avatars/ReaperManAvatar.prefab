@@ -1100,8 +1100,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4820803247068842}
-  - component: {fileID: -1795298783847972475}
-  - component: {fileID: 5618015060016328109}
+  - component: {fileID: 805084810329934859}
+  - component: {fileID: 1232124671873585509}
   - component: {fileID: 95854159302373372}
   - component: {fileID: 7664621298871383556}
   m_Layer: 0
@@ -1130,7 +1130,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1795298783847972475
+--- !u!114 &805084810329934859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1145,7 +1145,7 @@ MonoBehaviour:
   Idle: Idle
   Walk: Walk
   Attack: Attacking
---- !u!114 &5618015060016328109
+--- !u!114 &1232124671873585509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1154,15 +1154,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1808018432986172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cda6de2a3102954fbec00781dc77318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   E_OnAttackAnimation:
     m_PersistentCalls:
-      m_Calls: []
-  E_OnDeathAnimation:
-    m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GM.Mercs.Controllers.MercAttackController, Assembly-CSharp
+        m_MethodName: OnAttackAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &95854159302373372
 Animator:
   serializedVersion: 3

@@ -6,6 +6,8 @@
 
         public int Port;
 
-        public string UrlFor(string endpoint) => string.Format("http://{0}:{1}/api/{2}", Address, Port, endpoint);
+        public string Url_ => string.Format("http://{0}:{1}/api", Address, Port);
+
+        public string Url(string endpoint) => string.Format("http://{0}:{1}/api/{2}", Address, Port, endpoint);
     }
 }

@@ -1,34 +1,29 @@
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-
+using GM.Targets;
+using System;
 using UnityEngine;
-using UnityEngine.Events;
+using HealthController = GM.Controllers.HealthController;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Units
 {
     public class MercController : UnitController
     {
+        public Target CurrentTarget;
+        protected override TargetList<Target> CurrentTargetList => GameManager.Instance.Enemies;
+
         public MercID ID { get; private set; } = MercID.NONE;
 
         [Header("Components")]
         public Animator anim;
-        
+      
         public UnitMovement Movement { get; private set; }
-        public UnitAttack Attack{ get; private set; }
-
-        GameObject CurrentTarget;
-
-        bool _setupCalled = false;
+        public UnitAttack Attack { get; private set; }
 
         void Start()
         {
             GetComponents();
             SubscribeToEvents();
             GetInitialTarget();
-
-            if (!_setupCalled)
-                Debug.LogError($"Setup not called on {name}");
         }
 
 
@@ -36,10 +31,7 @@ namespace GM.Units
         // and it has missed a Boss spawn event.
         void GetInitialTarget()
         {
-            if (GameManager.Get.TryGetBoss(out GameObject boss))
-            {
-                CurrentTarget = boss;
-            }
+            TryGetBossFromTargetList(ref CurrentTarget);
         }
 
 
@@ -47,7 +39,7 @@ namespace GM.Units
         {
             Attack.E_OnAttackImpact.AddListener(OnAttackImpact);
 
-            GameManager.Get.E_OnBossSpawn.AddListener(boss => {
+            GameManager.Instance.E_BossSpawn.AddListener(boss => {
                 Attack.Disable();
 
                 CurrentTarget = boss;
@@ -64,30 +56,27 @@ namespace GM.Units
 
         void FixedUpdate()
         {
-            switch (CurrentTarget == null ? "..." : CurrentTarget.tag)
+            if (IsTargetValid(CurrentTarget))
             {
-                case Tags.Enemy:
-                    Attack.Process(CurrentTarget);
-                    break;
+                switch (CurrentTarget.Type)
+                {
+                    case TargetType.WaveEnemy:
+                        Attack.Process(CurrentTarget.GameObject);
+                        break;
 
-                case Tags.Boss:
-                    Attack.DirtyAttack(CurrentTarget);
-                    break;
-
-                default:
-                    WhileMissingTarget();
-                    break;
+                    case TargetType.Boss:
+                        Attack.DirtyAttack(CurrentTarget.GameObject);
+                        break;
+                }
             }
-        }
-
-
-        void WhileMissingTarget()
-        {
-            if (!Attack.IsAttacking)
+            else
             {
-                CurrentTarget = GetTarget();
+                CurrentTarget = GetTargetFromTargetList();
 
-                Movement.MoveDirection(Vector2.right);
+                if (!Attack.IsAttacking)
+                {
+                    Movement.MoveDirection(Vector2.right);
+                }
             }
         }
 
@@ -95,41 +84,40 @@ namespace GM.Units
 
         public void Setup(MercID _mercId)
         {
-            _setupCalled = true;
-
             ID = _mercId;
         }
 
-        public void PriorityMove(Vector3 position, UnityAction<MercController> action)
+        public void Move(Vector3 position, Action action)
         {
             Attack.Disable();
 
             Movement.MoveTowards(position, () =>
             {
-                action.Invoke(this);
+                action.Invoke();
             });
         }
 
-        // = = = Callbacks/Events = = = //
 
         void OnAttackImpact(GameObject target)
         {
             if (target != null && target.TryGetComponent(out HealthController hp))
             {
-                BigDouble dmg = StatsCache.TotalMercDamage(ID);
+                BigDouble dmg = App.Cache.MercDamage(App.Data.Mercs.GetMerc(ID));
 
-                StatsCache.ApplyCritHit(ref dmg);
+                App.Cache.ApplyCritHit(ref dmg);
 
                 hp.TakeDamage(dmg);
             }
         }
 
-        // = = = ^
-        GameObject GetTarget()
+        protected override Target GetTargetFromTargetList()
         {
-            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
+            if (CurrentTargetList.Count > 0)
+            {
+                return CurrentTargetList[UnityEngine.Random.Range(0, CurrentTargetList.Count)];
+            }
 
-            return targets.Length == 0 ? null : targets[Random.Range(0, targets.Length)];
+            return null;
         }
     }
 }

@@ -1,15 +1,7 @@
 [
     {
-        "artefactId": 0,
-        "bonusType": 2,
-        "costCoeff": 0.7,
-        "costExpo": 1.2,
-        "baseEffect": 2.0,
-        "levelEffect": 1.0
-    },
-    {
         "artefactId": 1,
-        "bonusType": 0,
+        "bonusType": 601,
         "costCoeff": 0.5,
         "costExpo": 1.6,
         "baseEffect": 1.5,
@@ -17,7 +9,7 @@
     },
     {
         "artefactId": 2,
-        "bonusType": 1,
+        "bonusType": 802,
         "costCoeff": 1.0,
         "costExpo": 1.4,
         "baseEffect": 1.6,
@@ -25,7 +17,7 @@
     },
     {
         "artefactId": 3,
-        "bonusType": 0,
+        "bonusType": 601,
         "costCoeff": 0.7,
         "costExpo": 1.6,
         "baseEffect": 1.8,
@@ -33,23 +25,15 @@
     },
     {
         "artefactId": 4,
-        "bonusType": 3,
+        "bonusType": 801,
         "costCoeff": 0.8,
         "costExpo": 1.5,
         "baseEffect": 1.4,
         "levelEffect": 0.4
     },
     {
-        "artefactId": 5,
-        "bonusType": 2,
-        "costCoeff": 0.4,
-        "costExpo": 1.2,
-        "baseEffect": 2.0,
-        "levelEffect": 1.0
-    },
-    {
         "artefactId": 6,
-        "bonusType": 0,
+        "bonusType": 601,
         "costCoeff": 0.6,
         "costExpo": 1.6,
         "baseEffect": 1.5,
@@ -65,7 +49,7 @@
     },
     {
         "artefactId": 8,
-        "bonusType": 5,
+        "bonusType": 602,
         "costCoeff": 0.6,
         "costExpo": 1.4,
         "baseEffect": 1.75,
@@ -90,7 +74,7 @@
     },
     {
         "artefactId": 11,
-        "bonusType": 7,
+        "bonusType": 603,
         "costCoeff": 0.6,
         "costExpo": 1.4,
         "baseEffect": 1.75,
@@ -106,7 +90,7 @@
     },
     {
         "artefactId": 13,
-        "bonusType": 1,
+        "bonusType": 802,
         "costCoeff": 0.9,
         "costExpo": 1.4,
         "baseEffect": 1.5,
@@ -121,26 +105,8 @@
         "levelEffect": 0.25
     },
     {
-        "artefactId": 15,
-        "bonusType": 100,
-        "maxLevel": 40,
-        "costCoeff": 0.5,
-        "costExpo": 2.5,
-        "baseEffect": 1,
-        "levelEffect": 1
-    },
-    {
-        "artefactId": 16,
-        "bonusType": 200,
-        "maxLevel": 25,
-        "costCoeff": 0.5,
-        "costExpo": 2.5,
-        "baseEffect": 0.1,
-        "levelEffect": 0.1
-    },
-    {
         "artefactId": 17,
-        "bonusType": 5,
+        "bonusType": 602,
         "costCoeff": 0.6,
         "costExpo": 1.4,
         "baseEffect": 1.5,
@@ -148,7 +114,7 @@
     },
     {
         "artefactId": 18,
-        "bonusType": 0,
+        "bonusType": 601,
         "costCoeff": 0.8,
         "costExpo": 1.4,
         "baseEffect": 1.4,
@@ -156,7 +122,7 @@
     },
     {
         "artefactId": 19,
-        "bonusType": 7,
+        "bonusType": 603,
         "costCoeff": 0.6,
         "costExpo": 1.4,
         "baseEffect": 1.5,
@@ -164,7 +130,7 @@
     },
     {
         "artefactId": 23,
-        "bonusType": 3,
+        "bonusType": 801,
         "costCoeff": 0.7,
         "costExpo": 1.6,
         "baseEffect": 1.5,
@@ -172,7 +138,7 @@
     },
     {
         "artefactId": 25,
-        "bonusType": 3,
+        "bonusType": 801,
         "costCoeff": 0.7,
         "costExpo": 1.6,
         "baseEffect": 1.5,

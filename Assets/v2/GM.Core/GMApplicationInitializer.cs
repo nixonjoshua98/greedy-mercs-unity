@@ -84,11 +84,9 @@ namespace GM.Core
         }
 
 
-        void Initialize(Common.IServerUserData userDataResp, Common.IServerGameData gameDataResp)
+        void Initialize(Common.Data.IServerUserData userDataResp, Common.Data.IServerGameData gameDataResp)
         {
             GMApplication.Create(userDataResp, gameDataResp);
-
-            GameState.Restore();
 
             SceneManager.LoadScene("GameScene");
         }

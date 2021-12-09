@@ -317,7 +317,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 17a363e55f713e64f84821935629a8c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 97f88a0935ca9e04ab5cf5def8ea6004, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -325,7 +325,7 @@ SpriteRenderer:
   m_Size: {x: 4, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1144027389340988
@@ -886,8 +886,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4301320719418220}
+  - component: {fileID: 3138634982400284850}
   - component: {fileID: 6384907979843923851}
-  - component: {fileID: 3513503610695780260}
   - component: {fileID: 95891482203547316}
   - component: {fileID: 7985129795591114447}
   m_Layer: 0
@@ -906,7 +906,7 @@ Transform:
   m_GameObject: {fileID: 1797753984441286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1640625, y: 0.1640625, z: 1}
   m_Children:
   - {fileID: 4127760536470868}
   - {fileID: 4558492282493154}
@@ -916,6 +916,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3138634982400284850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797753984441286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cda6de2a3102954fbec00781dc77318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  E_OnAttackAnimation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GM.Mercs.Controllers.MercAttackController, Assembly-CSharp
+        m_MethodName: OnAttackAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6384907979843923851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,24 +958,6 @@ MonoBehaviour:
   Idle: Idle
   Walk: Walk
   Attack: Slashing
---- !u!114 &3513503610695780260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797753984441286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  E_OnAttackAnimation:
-    m_PersistentCalls:
-      m_Calls: []
-  E_OnDeathAnimation:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!95 &95891482203547316
 Animator:
   serializedVersion: 3

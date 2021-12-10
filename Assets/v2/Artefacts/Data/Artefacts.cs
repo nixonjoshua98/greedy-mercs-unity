@@ -4,14 +4,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using HTTPCodes = GM.HTTP.HTTPCodes;
-using BonusType = GM.Common.Enums.BonusType;
 
 namespace GM.Artefacts.Data
 {
     public class Artefacts : Core.GMClass
     {
-        Dictionary<int, ArtefactGameDataModel> gameArtefacts;
-        Dictionary<int, ArtefactUserDataModel> userArtefacts;
+        Dictionary<int, ArtefactGameDataModel> GameArtefacts;
+        Dictionary<int, ArtefactUserDataModel> UserArtefacts;
 
         public Artefacts(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
         {
@@ -20,19 +19,19 @@ namespace GM.Artefacts.Data
         }
 
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
-        ArtefactUserDataModel GetUserArtefact(int key) => userArtefacts[key];
-        void Update(ArtefactUserDataModel art) => userArtefacts[art.Id] = art;
-        void Update(List<ArtefactUserDataModel> arts) => userArtefacts = arts.ToDictionary(x => x.Id, x => x);
-        public int NumUnlockedArtefacts => userArtefacts.Count;
-        public int MaxArtefacts => gameArtefacts.Count;
-        public ArtefactGameDataModel GetGameArtefact(int key) => gameArtefacts[key];
+        ArtefactUserDataModel GetUserArtefact(int key) => UserArtefacts[key];
+        void Update(ArtefactUserDataModel art) => UserArtefacts[art.Id] = art;
+        void Update(List<ArtefactUserDataModel> arts) => UserArtefacts = arts.ToDictionary(x => x.Id, x => x);
+        public int NumUnlockedArtefacts => UserArtefacts.Count;
+        public int MaxArtefacts => GameArtefacts.Count;
+        public ArtefactGameDataModel GetGameArtefact(int key) => GameArtefacts[key];
         void Update(List<ArtefactGameDataModel> artefacts)
         {
-            gameArtefacts = artefacts.ToDictionary(x => x.Id, x => x);
+            GameArtefacts = artefacts.ToDictionary(x => x.Id, x => x);
 
             var allLocalMercData = LoadLocalData();
 
-            foreach (var art in gameArtefacts.Values)
+            foreach (var art in GameArtefacts.Values)
             {
                 LocalArtefactData localArtData = allLocalMercData[art.Id];
 
@@ -42,7 +41,8 @@ namespace GM.Artefacts.Data
         }
 
         Dictionary<int, LocalArtefactData> LoadLocalData() => Resources.LoadAll<LocalArtefactData>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
-        public ArtefactData[] UserOwnedArtefacts => userArtefacts.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
+        public ArtefactData[] UserOwnedArtefacts => UserArtefacts.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
+        public List<ArtefactGameDataModel> GameArtefactsList => GameArtefacts.Values.ToList();
         public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));
 
 

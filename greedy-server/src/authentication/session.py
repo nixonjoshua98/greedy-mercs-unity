@@ -4,10 +4,10 @@ from bson import ObjectId
 
 
 class Session:
-    def __init__(self, uid: ObjectId, device_id: str):
+    def __init__(self, user_id: ObjectId, device_id: str):
         self.id = self._generate_id()
 
-        self.user_id: ObjectId = uid
+        self.user_id: ObjectId = user_id
         self.device_id: str = device_id
 
     @classmethod

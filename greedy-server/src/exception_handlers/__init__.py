@@ -17,9 +17,6 @@ async def handle_request_validation_exception(_: Request, __: RequestValidationE
 
 
 async def handle_handler_exception(_: Request, exc: BaseHandlerException):
-    code = exc.status_code if exc.status_code > 0 else 500
-    message = exc.message if exc.message != "" else "Internal server error"
+    logger.debug(f"{exc.status_code} - {exc.message}")
 
-    logger.debug(f"{code} - {message}")
-
-    return ServerResponse({"code": code, "error": message}, status_code=code)
+    return ServerResponse({"code": exc.status_code, "error": exc.message}, status_code=exc.status_code)

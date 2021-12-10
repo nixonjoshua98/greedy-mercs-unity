@@ -9,6 +9,7 @@ TagManager:
   - Dead
   - Boss
   - EnemyHealthbar
+  - PopupNumbersCanvas
   layers:
   - Default
   - TransparentFX

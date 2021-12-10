@@ -655,7 +655,7 @@ RectTransform:
   - {fileID: 132328120}
   - {fileID: 137138299}
   m_Father: {fileID: 1257232348}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1530,8 +1530,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 832.50006, y: 0}
+  m_SizeDelta: {x: 1665.0001, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &291466025
 MonoBehaviour:
@@ -2474,10 +2474,10 @@ RectTransform:
   m_Father: {fileID: 1035064115}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 500, y: -50}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &466315183
 MonoBehaviour:
@@ -2665,7 +2665,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477075011}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -4225,7 +4225,7 @@ RectTransform:
   - {fileID: 7362108754439888953}
   - {fileID: 1910739683}
   m_Father: {fileID: 1257232348}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4386,7 +4386,7 @@ RectTransform:
   m_Children:
   - {fileID: 751416877}
   m_Father: {fileID: 1257232348}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5470,8 +5470,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 832.50006, y: 0}
+  m_SizeDelta: {x: 1665.0001, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963363273
 MonoBehaviour:
@@ -7096,6 +7096,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1260989159}
   - {fileID: 797656982}
   - {fileID: 1281130779}
   - {fileID: 824469540}
@@ -7167,7 +7168,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: -1
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1257232352
 MonoBehaviour:
@@ -7181,6 +7182,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190176962f16ffa449af030c33c33657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1260989158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1260989159}
+  m_Layer: 0
+  m_Name: CurrencyBannerNumbers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1260989159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260989158}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -346.8749, y: 0, z: 0}
+  m_LocalScale: {x: 1.5416664, y: 1.5416664, z: 0}
+  m_Children: []
+  m_Father: {fileID: 1257232348}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1273915919
 GameObject:
   m_ObjectHideFlags: 0
@@ -7421,7 +7452,7 @@ RectTransform:
   m_Children:
   - {fileID: 1463346892}
   m_Father: {fileID: 1257232348}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7554,7 +7585,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!222 &1300563973
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8618,7 +8649,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!222 &1454797850
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10004,6 +10035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemTextPopup: {fileID: 851980827113929624, guid: a53a459f926fbce488bd22a067af905f,
     type: 3}
+  PopupParent: {fileID: 1260989159}
   GoldText: {fileID: 2008591438}
   BountyPointsText: {fileID: 1819356595}
   ArmouryPointsText: {fileID: 289959776}
@@ -10042,7 +10074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 832.50006, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1578127486
@@ -10692,7 +10724,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715904918}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -10720,6 +10752,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasToToggle: {fileID: 1715904920}
   ArtefactSlotObject: {fileID: 5074239799273150322, guid: 207e43b7e92a2fd45a30a4042d21c21b,
+    type: 3}
+  UnlockArtefactObject: {fileID: 1266166788286124126, guid: 21bdf2f3a52c42844802d45888b7825a,
     type: 3}
   ArtefactsContent: {fileID: 899071042}
   UpgradeAmountSelector: {fileID: 706735232}
@@ -13340,8 +13374,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 832.50006, y: 0}
+  m_SizeDelta: {x: 1665.0001, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2115229380
 MonoBehaviour:
@@ -13612,7 +13646,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1 &7223885430848554614
 GameObject:

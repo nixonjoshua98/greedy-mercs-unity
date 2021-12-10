@@ -7,13 +7,25 @@ namespace GM.UI
     {
         public GameObject TargetObject;
 
+        Button Button;
+
         void Awake()
         {
-            GetComponent<Button>().onClick.AddListener(() =>
-            {
-                Destroy(TargetObject);
-                Destroy(gameObject);
-            });
+            Button = GetComponent<Button>();
+
+            Button.onClick.AddListener(OnClick);
+        }
+
+        public bool interactable
+        {
+            get => Button.interactable;
+            set => Button.interactable = value;
+        }
+
+        void OnClick()
+        {
+            Destroy(TargetObject);
+            Destroy(gameObject);
         }
     }
 }

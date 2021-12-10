@@ -10,6 +10,7 @@ namespace GM.Artefacts.UI
     {
         [Header("Prefabs")]
         public GameObject ArtefactSlotObject;
+        public GameObject UnlockArtefactObject;
 
         [Header("References")]
         public Transform ArtefactsContent;
@@ -31,7 +32,6 @@ namespace GM.Artefacts.UI
         }
 
 
-        // == Instantiation == //
         void InstantiateArtefactSlots()
         {
             ArtefactData[] unlockArtefacts = App.Data.Artefacts.UserOwnedArtefacts;
@@ -54,26 +54,23 @@ namespace GM.Artefacts.UI
             UnlockArtefactButton.SetText("Unlocked", "");
             UnlockArtefactButton.interactable = !App.Data.Artefacts.UserUnlockedAll;
 
-            if (!App.Data.Artefacts.UserUnlockedAll)
-            {
-                BigInteger unlockCost = App.Cache.ArtefactUnlockCost(App.Data.Artefacts.NumUnlockedArtefacts);
+            BigInteger unlockCost = App.Cache.ArtefactUnlockCost(App.Data.Artefacts.NumUnlockedArtefacts);
 
+            if (!App.Data.Artefacts.UserUnlockedAll && App.Data.Inv.PrestigePoints >= unlockCost)
+            {
                 UnlockArtefactButton.SetText("Unlock", Format.Number(unlockCost));
             }
         }
 
-        // == Callbacks == //
         public void OnUnlockArtefactButton()
         {
-            App.Data.Artefacts.UnlockArtefact((success, newArtefact) =>
+            InstantiateUI<UnlockArtefactPopup>(UnlockArtefactObject).Init((artefact) =>
             {
-                if (success)
-                {
-                    InstantiateSingleArtefact(newArtefact);
-                    UpdateUnlockArtefactText();
-                }
-
+                InstantiateSingleArtefact(artefact);
+                UpdateUnlockArtefactText();
                 UpdateUI();
+
+                UpgradeAmountSelector.ReInvoke(); // Force a UI update
             });
         }
     }

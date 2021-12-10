@@ -30,7 +30,7 @@ namespace GM.Upgrades.UI
 
             selector.E_OnChange.AddListener((val) => { _buyAmount = val; });
 
-            App.Data.Inv.E_GoldChange.AddListener(_ => UpdateUI());
+            App.Events.GoldChanged.AddListener(_ => UpdateUI());
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace GM.Upgrades.UI
 
                 Upgrade.Level += BuyAmount;
 
-                App.Data.Inv.E_GoldChange.Invoke(UpgradeCost * -1);
+                App.Events.GoldChanged.Invoke(UpgradeCost * -1);
             }
         }
     }

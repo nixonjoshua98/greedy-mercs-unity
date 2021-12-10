@@ -75,6 +75,8 @@ namespace GM.Mercs.UI
                 AssignedMerc.IncrementLevel(BuyAmount);
 
                 App.Data.Inv.Gold -= upgradeCost;
+
+                App.Events.GoldChanged.Invoke(upgradeCost * -1);
             }
         }
 

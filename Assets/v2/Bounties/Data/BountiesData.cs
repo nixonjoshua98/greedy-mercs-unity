@@ -176,7 +176,7 @@ namespace GM.Bounties.Data
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
 
-                    App.Data.Inv.E_BountyPointsChange.Invoke(resp.PointsClaimed);
+                    App.Events.BountyPointsChanged.Invoke(resp.PointsClaimed);
                 }
 
                 action(resp.StatusCode == 200, resp);

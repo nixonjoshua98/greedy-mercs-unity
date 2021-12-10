@@ -4,7 +4,7 @@ using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.UI
 {
-    public class QuantityPopup : MonoBehaviour
+    public class TextPopup : MonoBehaviour
     {
         [Header("References")]
         public TMP_Text QuantityText;

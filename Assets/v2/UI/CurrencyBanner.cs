@@ -26,14 +26,14 @@ namespace GM.UI
 
         void Start()
         {
-            App.Data.Inv.E_BountyPointsChange.AddListener((change) => { InstantiateQuantityPopup(BountyPointsText.transform.parent.position).Set(change); });
-            App.Data.Inv.E_PrestigePointsChange.AddListener((change) => { InstantiateQuantityPopup(PrestigePointsText.transform.parent.position).Set(change); });
-            App.Data.Inv.E_GoldChange.AddListener((change) => { InstantiateQuantityPopup(GoldText.transform.parent.position).Set(change); });
+            App.Events.BountyPointsChanged.AddListener((change) => { InstantiateQuantityPopup(BountyPointsText.transform.parent.position).Set(change); });
+            App.Events.PrestigePointsChanged.AddListener((change) => { InstantiateQuantityPopup(PrestigePointsText.transform.parent.position).Set(change); });
+            App.Events.GoldChanged.AddListener((change) => { InstantiateQuantityPopup(GoldText.transform.parent.position).Set(change); });
         }
 
-        QuantityPopup InstantiateQuantityPopup(Vector3 pos)
+        TextPopup InstantiateQuantityPopup(Vector3 pos)
         {
-            return Instantiate<QuantityPopup>(ItemTextPopup, PopupParent, pos);
+            return Instantiate<TextPopup>(ItemTextPopup, PopupParent, pos);
         }
     }
 }

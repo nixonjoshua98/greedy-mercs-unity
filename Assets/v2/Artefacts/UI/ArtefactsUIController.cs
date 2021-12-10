@@ -51,14 +51,17 @@ namespace GM.Artefacts.UI
 
         void UpdateUnlockArtefactText()
         {
-            UnlockArtefactButton.SetText("Unlocked", "");
-            UnlockArtefactButton.interactable = !App.Data.Artefacts.UserUnlockedAll;
-
             BigInteger unlockCost = App.Cache.ArtefactUnlockCost(App.Data.Artefacts.NumUnlockedArtefacts);
 
-            if (!App.Data.Artefacts.UserUnlockedAll && App.Data.Inv.PrestigePoints >= unlockCost)
+            UnlockArtefactButton.interactable = !App.Data.Artefacts.UserUnlockedAll && App.Data.Inv.PrestigePoints >= unlockCost;
+
+            if (!App.Data.Artefacts.UserUnlockedAll)
             {
                 UnlockArtefactButton.SetText("Unlock", Format.Number(unlockCost));
+            }
+            else
+            {
+                UnlockArtefactButton.SetText("Unlocked", "");
             }
         }
 

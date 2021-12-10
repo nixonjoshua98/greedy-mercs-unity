@@ -53,7 +53,7 @@ namespace GM.BountyShop.Data
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
 
-                    App.Data.Inv.E_BountyPointsChange.Invoke(resp.PurchaseCost * -1);
+                    App.Events.BountyPointsChanged.Invoke(resp.PurchaseCost * -1);
                 }
 
                 action.Invoke(resp.StatusCode == 200);

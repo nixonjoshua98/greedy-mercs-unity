@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Bronze Ruler
   Icon: {fileID: 21300000, guid: a5575dcb4732f3d4ead9d4f8958019c9, type: 3}
-  Slot: {fileID: 6397354547237212127, guid: 177dd024ad0f63f419ed6882e83ca708, type: 3}
+  IconBackground: {fileID: 21300000, guid: a7a9761b8498fc3469b31675a4250f17, type: 3}

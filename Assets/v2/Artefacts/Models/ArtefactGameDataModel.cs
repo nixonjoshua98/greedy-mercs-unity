@@ -1,6 +1,7 @@
 using UnityEngine;
 using Newtonsoft.Json;
 using BonusType = GM.Common.Enums.BonusType;
+using GM.Artefacts.Data;
 
 namespace GM.Artefacts.Models
 {
@@ -24,5 +25,11 @@ namespace GM.Artefacts.Models
 
         [JsonIgnore]
         public Sprite Icon;
+
+        [JsonIgnore]
+        public Sprite IconBackground;
+
+        [JsonIgnore]
+        public ArtefactDisplayConfig DisplayConfig;
     }
 }

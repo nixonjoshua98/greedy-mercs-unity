@@ -13,11 +13,10 @@ namespace GM.Artefacts.UI
     public class UnlockArtefactPopup : Core.GMMonoBehaviour
     {
         [Header("References")]
+        public ArtefactIcon Icon;
+
         public GM.UI.DestroyButton DestroyButton;
         public Button UnlockButton;
-        public TMP_Text PlaceholderText;
-        public Image ArtefactIconImage;
-        public TMP_Text ArtefactText;
         public TMP_Text UnlockButtonText;
 
         Action<ArtefactData> OnArtefactUnlocked;
@@ -27,15 +26,15 @@ namespace GM.Artefacts.UI
             OnArtefactUnlocked = action;
         }
 
-        IEnumerator ArtefactRotationAnimation(ArtefactData unlockedArtefact, Action finishedAction)
+        IEnumerator ArtefactRotationAnimation(ArtefactGameDataModel unlockedArtefact, Action finishedAction)
         {
             // Fetch a random animation duration
             float animationTimer = UnityEngine.Random.Range(2.5f, 4.0f);
 
-            ArtefactIconImage.enabled = true; // Enable the image so we can actually see it
+            Icon.IconImage.enabled = true; // Enable the image so we can actually see it
 
             // Disable some elements while the animation is running
-            DestroyButton.interactable = UnlockButton.interactable = PlaceholderText.enabled = false;
+            DestroyButton.interactable = UnlockButton.interactable = false;
 
             List<ArtefactGameDataModel> artefacts = App.Data.Artefacts.GameArtefactsList;
 
@@ -47,8 +46,7 @@ namespace GM.Artefacts.UI
                 // Random artefact
                 ArtefactGameDataModel artefact = artefacts[UnityEngine.Random.Range(0, artefacts.Count - 1)];
 
-                // Update some UI
-                UpdateArtefactUI(artefact.Name, artefact.Icon);
+                Icon.Set(artefact);
 
                 // Patse for a period of time
                 yield return new WaitForSecondsRealtime(frameTime);
@@ -57,7 +55,7 @@ namespace GM.Artefacts.UI
                 animationTimer -= frameTime;
             }
 
-            UpdateArtefactUI(unlockedArtefact.Name, unlockedArtefact.Icon);
+            Icon.Set(unlockedArtefact);
 
             // Re-enable buttons
             DestroyButton.interactable = UnlockButton.interactable = true;
@@ -87,19 +85,15 @@ namespace GM.Artefacts.UI
             }
         }
 
-        void UpdateArtefactUI(string name, Sprite icon)
-        {
-            ArtefactText.text = name;
-            ArtefactIconImage.sprite = icon;
-        }
-
         public void OnUnlockButton()
         {
             App.Data.Artefacts.UnlockArtefact((success, artefact) =>
             {
                 if (success)
                 {
-                    var coro = ArtefactRotationAnimation(artefact, () =>
+                    ArtefactGameDataModel artefactGameData = App.Data.Artefacts.GetGameArtefact(artefact.Id);
+
+                    var coro = ArtefactRotationAnimation(artefactGameData, () =>
                     {
                         UpdateUnlockButtonText();
 

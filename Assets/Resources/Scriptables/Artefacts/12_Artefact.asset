@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Blacksmith Scroll
   Icon: {fileID: 21300000, guid: f76f89889aeb4444fa20b8aaceee8c9d, type: 3}
-  Slot: {fileID: 6397354547237212127, guid: 177dd024ad0f63f419ed6882e83ca708, type: 3}
+  IconBackground: {fileID: 21300000, guid: bd0d835805a0c5846978e1b2c3ded5d6, type: 3}

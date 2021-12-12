@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using HTTPCodes = GM.HTTP.HTTPCodes;
+using GM.Artefacts.Scriptables;
 
 namespace GM.Artefacts.Data
 {
@@ -33,14 +34,15 @@ namespace GM.Artefacts.Data
 
             foreach (var art in GameArtefacts.Values)
             {
-                LocalArtefactData localArtData = allLocalMercData[art.Id];
+                ArtefactScriptableObject localArtData = allLocalMercData[art.Id];
 
                 art.Name = localArtData.Name;
                 art.Icon = localArtData.Icon;
+                art.IconBackground = localArtData.IconBackground;
             }
         }
 
-        Dictionary<int, LocalArtefactData> LoadLocalData() => Resources.LoadAll<LocalArtefactData>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
+        Dictionary<int, ArtefactScriptableObject> LoadLocalData() => Resources.LoadAll<ArtefactScriptableObject>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
         public ArtefactData[] UserOwnedArtefacts => UserArtefacts.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
         public List<ArtefactGameDataModel> GameArtefactsList => GameArtefacts.Values.ToList();
         public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Poor Man's Ring
   Icon: {fileID: 21300000, guid: 093e4a31729199e4dbf7d1d59c61bd24, type: 3}
-  Slot: {fileID: 6397354547237212127, guid: 177dd024ad0f63f419ed6882e83ca708, type: 3}
+  IconBackground: {fileID: 21300000, guid: 9df088df15c9f2347bd8c55d54b50b84, type: 3}

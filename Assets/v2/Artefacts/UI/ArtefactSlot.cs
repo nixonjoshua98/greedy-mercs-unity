@@ -13,6 +13,7 @@ namespace GM.Artefacts.UI
 
         [Header("References")]
         public Image IconImage;
+        public Image IconBackgroundImage;
         [Space]
         public TMP_Text NameText;
         public TMP_Text LevelText;
@@ -44,12 +45,16 @@ namespace GM.Artefacts.UI
 
         protected override void OnAssigned()
         {
-            // Set some static values
+            SetStaticUI();
+            UpdateUI();
+        }
+
+        void SetStaticUI()
+        {
             NameText.text = AssignedArtefact.Name;
             IconImage.sprite = AssignedArtefact.Icon;
 
-            // Update the level related values to default
-            UpdateUI();
+            if (AssignedArtefact.IconBackground != null) IconBackgroundImage.sprite = AssignedArtefact.IconBackground;
         }
 
         void UpdateUI()
@@ -70,8 +75,6 @@ namespace GM.Artefacts.UI
 
             UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Data.Inv.PrestigePoints;
         }
-
-        string GetBonusText() => Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
 
 
         // == Callbacks == //

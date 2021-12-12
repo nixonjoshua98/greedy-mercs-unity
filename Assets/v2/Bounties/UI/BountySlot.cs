@@ -16,7 +16,7 @@ namespace GM.Bounties.UI
     public class BountySlot : UI.UnlockedBountyUIObject
     {
         [Header("References")]
-        public Text NameText;
+        public TMP_Text NameText;
         public TMP_Text IncomeText;
         public GameObject ActiveIndicator;
         public Image IconImage;
@@ -33,7 +33,7 @@ namespace GM.Bounties.UI
         {
             NameText.text = AssignedBounty.Name;
             IconImage.sprite = AssignedBounty.Icon;
-            IncomeText.text = $"<color=white>{AssignedBounty.Income}</color> / hour";
+            IncomeText.text = AssignedBounty.Income.ToString();
             ActiveIndicator.SetActive(AssignedBounty.IsActive);
         }
 

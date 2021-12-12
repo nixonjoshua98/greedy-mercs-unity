@@ -1,30 +1,20 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GM.Artefacts.UI
 {
     public class ArtefactPopup : ArtefactUIObject
     {
         [Header("UI References")]
-        public Image IconImage;
+        public ArtefactIcon Icon;
         [Space]
-        public TMP_Text NameText;
         public TMP_Text CurrentBonusText;
 
-        public override void AssignArtefact(int artefactId)
+        protected override void OnAssigned()
         {
-            base.AssignArtefact(artefactId);
+            Icon.Set(AssignedArtefact);
 
-            SetUIElements();
-        }
-
-        void SetUIElements()
-        {
-            IconImage.sprite = AssignedArtefact.Icon;
-
-            NameText.text = AssignedArtefact.Name;
-            CurrentBonusText.text = Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect);
+            CurrentBonusText.text = GetBonusText();
         }
     }
 }

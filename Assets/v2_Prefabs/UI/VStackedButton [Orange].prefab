@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1683674450399334182}
   - component: {fileID: 8867444432178522243}
   - component: {fileID: 2134200626903867673}
+  - component: {fileID: 6623186125532401607}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -75,6 +76,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6623186125532401607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634965968724752020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2e8c3f3688713418c046c154464b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Item: 300
 --- !u!1 &8994090149721073377
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +263,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 52
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -378,13 +392,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56.95
+  m_fontSize: 49.75
   m_fontSizeBase: 62
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 62
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -634,7 +648,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GM.PlayerUpgrades.UI.TapDamageUpgradeSlot, Assembly-CSharp
+        m_TargetAssemblyTypeName: GM.Artefacts.UI.ArtefactSlot, Assembly-CSharp
         m_MethodName: OnUpgradeButton
         m_Mode: 1
         m_Arguments:

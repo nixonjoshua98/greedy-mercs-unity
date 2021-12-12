@@ -1,6 +1,7 @@
 using GM.Artefacts.Models;
 using UnityEngine;
 using BonusType = GM.Common.Enums.BonusType;
+using GM.Artefacts.Data;
 
 namespace GM.Artefacts.Data
 {
@@ -21,6 +22,7 @@ namespace GM.Artefacts.Data
         public float LevelEffect => Game.LevelEffect;
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
+        public Sprite IconBackground => Game.IconBackground;
         public BonusType Bonus => Game.Bonus;
         public float BaseEffect => Game.BaseEffect;
         public float CostExpo => Game.CostExpo;

@@ -21,13 +21,9 @@ from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 from src.resources.mercs import StaticMerc, inject_merc_data
 from src.routing import APIRouter, ServerResponse
-from src.routing.dependencies.serverstate import (ServerState,
-                                                  inject_server_state)
+from src.routing.dependencies.serverstate import ServerState
 
-router = APIRouter(prefix="/api")
-
-
-# = Models = #
+router = APIRouter()
 
 
 class LoginModel(BaseModel):
@@ -40,7 +36,7 @@ def game_data(
     s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
     s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
     s_mercs: list[StaticMerc] = Depends(inject_merc_data),
-    svr_state: ServerState = Depends(inject_server_state),
+    svr_state: ServerState = Depends(ServerState),
 ):
     return ServerResponse(
         {
@@ -56,9 +52,7 @@ def game_data(
 @router.get("/userdata")
 async def user_data(
     user: AuthenticatedUser = Depends(authenticated_user),
-    # = Static/Game Data = #
     s_bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),
-    # = Database Repositories = #
     currency_repo: CurrencyRepository = Depends(currency_repository),
     armoury_repo: ArmouryRepository = Depends(armoury_repository),
     bounties_repo: BountiesRepository = Depends(bounties_repository),

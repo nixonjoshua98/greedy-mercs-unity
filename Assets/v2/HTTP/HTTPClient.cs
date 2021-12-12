@@ -106,9 +106,9 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void BuyBountyShopArmouryItem(string item, Action<PurchaseBountyShopItemResponse> callback)
+        public void BuyBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)
         {
-            var req = new PurchaseBountyShopItemRequest(item);
+            var req = new PurchaseBountyShopItem(item);
             var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/armouryitem"), SerializeRequest(req));
 
             SendAuthenticatedRequest(www, callback);

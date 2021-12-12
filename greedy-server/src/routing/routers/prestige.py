@@ -17,19 +17,17 @@ from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
 
-router = APIRouter(prefix="/api")
+router = APIRouter()
 
 
-# Models
 class PrestigeData(BaseModel):
     prestige_stage: int = 5000
 
 
-@router.post("/prestige")
+@router.post("/")
 async def prestige(
     data: PrestigeData,
     user: AuthenticatedUser = Depends(authenticated_user),
-    # = Game Data = #
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
     bounties_repo: BountiesRepository = Depends(bounties_repository),
@@ -84,9 +82,6 @@ async def process_new_bounties(
     for bounty in s_bounties.bounties:
         if bounty.id not in u_bounty_ids and req_data.prestige_stage >= bounty.stage:
             await bounties_repo.add_new_bounty(uid, bounty.id)
-
-
-# == Calculations == #
 
 
 def calc_prestige_points_at_stage(stage, artefacts: list[ArtefactModel], s_artefacts):

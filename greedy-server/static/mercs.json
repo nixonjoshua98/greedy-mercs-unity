@@ -5,32 +5,32 @@
     "baseDamage": 10,
     "passives": [
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 10
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 25
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 50
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 75
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 100
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 125
       },
@@ -45,22 +45,22 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 250
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 300
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 350
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 400
       },
@@ -70,7 +70,7 @@
         "unlockLevel": 450
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.15,
         "unlockLevel": 500
       }
@@ -82,17 +82,17 @@
     "baseDamage": 10,
     "passives": [
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 25
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 50
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 75
       },
@@ -102,12 +102,12 @@
         "unlockLevel": 100
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 125
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 150
       },
@@ -117,32 +117,32 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 250
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.15,
         "unlockLevel": 300
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 350
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 400
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 450
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 500
       }
@@ -154,12 +154,12 @@
     "baseDamage": 10,
     "passives": [
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 25
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
@@ -169,12 +169,12 @@
         "unlockLevel": 75
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 100
       },
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 125
       },
@@ -189,17 +189,17 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 250
       },
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 300
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 350
       },
@@ -209,12 +209,12 @@
         "unlockLevel": 400
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 450
       },
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 500
       }
@@ -226,12 +226,12 @@
     "baseDamage": 10,
     "passives": [
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 25
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
@@ -251,42 +251,42 @@
         "unlockLevel": 125
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 150
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 200
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 250
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 300
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 350
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 400
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 450
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 500
       }
@@ -303,27 +303,27 @@
         "unlockLevel": 25
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 75
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.15,
         "unlockLevel": 100
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 125
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 150
       },
@@ -333,7 +333,7 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 250
       },
@@ -343,22 +343,22 @@
         "unlockLevel": 300
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 350
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 400
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 450
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 500
       }
@@ -370,17 +370,17 @@
     "baseDamage": 10,
     "passives": [
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 25
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 75
       },
@@ -390,12 +390,12 @@
         "unlockLevel": 100
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 125
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.15,
         "unlockLevel": 150
       },
@@ -405,7 +405,7 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 250
       },
@@ -415,22 +415,22 @@
         "unlockLevel": 300
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 350
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 400
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 450
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 500
       }
@@ -442,32 +442,32 @@
     "baseDamage": 10,
     "passives": [
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 25
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 75
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.15,
         "unlockLevel": 100
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 125
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.15,
         "unlockLevel": 150
       },
@@ -477,32 +477,32 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 250
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.25,
         "unlockLevel": 300
       },
       {
-        "bonusType": 0,
+        "bonusType": 601,
         "bonusValue": 1.15,
         "unlockLevel": 350
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 400
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 450
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 500
       }
@@ -519,27 +519,27 @@
         "unlockLevel": 25
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 75
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.15,
         "unlockLevel": 100
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 125
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 150
       },
@@ -549,17 +549,17 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 250
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 300
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 350
       },
@@ -569,12 +569,12 @@
         "unlockLevel": 400
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 450
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 500
       }
@@ -586,12 +586,12 @@
     "unlockCost": 1e+18,
     "passives": [
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 25
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
@@ -601,12 +601,12 @@
         "unlockLevel": 75
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 100
       },
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 125
       },
@@ -621,17 +621,17 @@
         "unlockLevel": 200
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 250
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 300
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 350
       },
@@ -641,12 +641,12 @@
         "unlockLevel": 400
       },
       {
-        "bonusType": 3,
+        "bonusType": 801,
         "bonusValue": 1.1,
         "unlockLevel": 450
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 500
       }
@@ -658,17 +658,17 @@
     "unlockCost": 5e+22,
     "passives": [
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 25
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 50
       },
       {
-        "bonusType": 2,
+        "bonusType": 700,
         "bonusValue": 2.0,
         "unlockLevel": 75
       },
@@ -678,12 +678,12 @@
         "unlockLevel": 100
       },
       {
-        "bonusType": 7,
+        "bonusType": 603,
         "bonusValue": 1.25,
         "unlockLevel": 125
       },
       {
-        "bonusType": 2,
+        "bonusType": 700,
         "bonusValue": 2.0,
         "unlockLevel": 150
       },
@@ -698,12 +698,12 @@
         "unlockLevel": 250
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 300
       },
       {
-        "bonusType": 1,
+        "bonusType": 802,
         "bonusValue": 1.1,
         "unlockLevel": 350
       },
@@ -718,7 +718,7 @@
         "unlockLevel": 450
       },
       {
-        "bonusType": 5,
+        "bonusType": 602,
         "bonusValue": 1.25,
         "unlockLevel": 500
       }

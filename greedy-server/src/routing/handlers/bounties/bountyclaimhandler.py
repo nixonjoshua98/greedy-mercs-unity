@@ -70,6 +70,6 @@ class BountyClaimHandler(BaseHandler):
             hours_clamped = max(0, min(self.bounties_data.max_unclaimed_hours, total_hours))  # type: ignore
 
             # Calculate the income and increment the total
-            points += math.floor(hours_clamped * s_bounty_data.income)
+            points += hours_clamped * s_bounty_data.income
 
-        return points
+        return math.floor(points)

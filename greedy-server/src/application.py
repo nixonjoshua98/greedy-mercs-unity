@@ -1,11 +1,13 @@
+import functools as ft
+import os
 from typing import Union
 
-from cachetools import TTLCache, cached as cached_decorator
-from fastapi import FastAPI
-import functools as ft
-from src import utils
 import yaml
-import os
+from cachetools import TTLCache
+from cachetools import cached as cached_decorator
+from fastapi import FastAPI
+
+from src import utils
 
 
 class Application(FastAPI):

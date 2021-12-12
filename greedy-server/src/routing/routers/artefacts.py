@@ -42,6 +42,6 @@ async def unlock(
 
     return ServerResponse({
         "currencyItems": resp.currencies.to_client_dict(),
-        "newArtefact": resp.artefact.to_client_dict(),
+        "artefact": resp.artefact.to_client_dict(),
         "unlockCost": resp.unlock_cost,
     })

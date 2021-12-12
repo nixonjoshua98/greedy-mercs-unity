@@ -17,9 +17,6 @@ from src.routing import APIRouter, ServerResponse
 router = APIRouter()
 
 
-# == Request Models == #
-
-
 class ItemData(BaseModel):
     shop_item: str
 

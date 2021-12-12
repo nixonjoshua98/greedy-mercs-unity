@@ -4,60 +4,48 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using GM.Armoury.Models;
 
 namespace GM.Armoury.Data
 {
     public class Armoury : Core.GMClass
     {
 
-        Dictionary<int, Models.ArmouryItemUserDataModel> UserItemsDict;
-        Dictionary<int, Models.ArmouryItemGameDataModel> GameItemsDict;
+        Dictionary<int, ArmouryItemUserDataModel> UserItemsDict;
+        Dictionary<int, ArmouryItemGameDataModel> GameItemsDict;
 
-        public Armoury(List<Models.ArmouryItemUserDataModel> userItems, List<Models.ArmouryItemGameDataModel> gameData)
+        public Armoury(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> gameData)
         {
             Update(userItems);
             Update(gameData);
         }
 
-        /// <summary>
-        /// </summary>
-        public List<Models.ArmouryItemUserDataModel> UserOwnedItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).ToList();
+        public List<ArmouryItemUserDataModel> UserItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).ToList();
+        public List<ArmouryItemGameDataModel> GameItems => GameItemsDict.Values.OrderBy(ele => ele.Id).ToList();
 
-        public int NumUnlockedItems => UserOwnedItems.Count;
+        /// <summary>Update the cached user data for a single item</summary>
+        public void Update(ArmouryItemUserDataModel item) => UserItemsDict[item.Id] = item;
 
-        public int NumItems => GameItemsDict.Count;
-
-        /// <summary>
-        /// Update the cached user data for a single item
-        /// </summary>
-        public void Update(Models.ArmouryItemUserDataModel item) => UserItemsDict[item.Id] = item;
-
-        /// <summary>
-        /// Update all cached game data
-        /// </summary>
-        void Update(List<Models.ArmouryItemGameDataModel> data)
+        /// <summary>Update all cached game data</summary>
+        void Update(List<ArmouryItemGameDataModel> data)
         {
-            GameItemsDict = data.ToDictionary(ele => ele.Id, ele => ele);
-
             var localItemsDict = LoadLocalData();
 
-            foreach (var item in GameItemsDict.Values)
+            data.ForEach(item =>
             {
-                var localMerc = localItemsDict[item.Id];
+                var local = localItemsDict[item.Id];
 
-                item.Name = localMerc.Name;
-                item.Icon = localMerc.Icon;
-            }
+                item.Name = local.Name;
+                item.Icon = local.Icon;
+            });
+
+            GameItemsDict = data.ToDictionary(ele => ele.Id, ele => ele);
         }
 
-        /// <summary>
-        /// Update user items data
-        /// </summary>
-        void Update(List<Models.ArmouryItemUserDataModel> userItems) => UserItemsDict = userItems.ToDictionary(ele => ele.Id, ele => ele);
+        /// <summary>Update user items data</summary>
+        void Update(List<ArmouryItemUserDataModel> userItems) => UserItemsDict = userItems.ToDictionary(ele => ele.Id, ele => ele);
 
-        /// <summary>
-        /// </summary>
-        public Models.ArmouryItemGameDataModel GetGameItem(int key) => GameItemsDict[key];
+        public ArmouryItemGameDataModel GetGameItem(int key) => GameItemsDict[key];
 
         public bool TryGetOwnedItem(int key, out ArmouryItemData result)
         {
@@ -71,9 +59,7 @@ namespace GM.Armoury.Data
             return false;
         }
 
-        /// <summary>
-        /// Check if the user owns the item
-        /// </summary>
+        /// <summary>Check if the user owns the item</summary>
         public bool DoesUserOwnItem(int key)
         {
             if (UserItemsDict.TryGetValue(key, out var result))
@@ -84,14 +70,10 @@ namespace GM.Armoury.Data
             return false;
         }
 
-        /// <summary>
-        /// Load local scriptable objects and return them as a dictionary
-        /// </summary>
+        /// <summary>Load local scriptable objects and return them as a dictionary</summary>
         Dictionary<int, LocalArmouryItemData> LoadLocalData() => Resources.LoadAll<LocalArmouryItemData>("Armoury/Items").ToDictionary(ele => ele.Id, ele => ele);
 
-        /// <summary>
-        /// Get a combined class of user data and game data for a single item
-        /// </summary>
+        /// <summary>Get a combined class of user data and game data for a single item</summary>
         public ArmouryItemData GetItem(int key) => new ArmouryItemData(GetGameItem(key), UserItemsDict[key]);
 
         /// <summary>
@@ -100,7 +82,7 @@ namespace GM.Armoury.Data
         {
             double val = 0;
 
-            foreach (Models.ArmouryItemUserDataModel item in UserOwnedItems)
+            foreach (ArmouryItemUserDataModel item in UserItems)
             {
                 ArmouryItemData itemData = GetItem(item.Id);
 
@@ -132,7 +114,7 @@ namespace GM.Armoury.Data
             });
         }
 
-        public void EvolveItem(int item, UnityAction<bool> call)
+        public void MergeItem(int item, UnityAction<bool> call)
         {
             App.HTTP.MergeArmouryItem(item, (resp) =>
             {

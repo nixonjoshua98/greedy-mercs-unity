@@ -21,7 +21,7 @@ namespace GM.Armoury.UI
         public Image IconImage;
         public Slider EvolveProgressSlider;
 
-        protected override void OnAssignedItem()
+        protected override void OnAssigned()
         {
             SetStaticUIElements();
         }
@@ -46,10 +46,9 @@ namespace GM.Armoury.UI
             DamageText.text = $"<color=orange>{Format.Percentage(AssignedItem.WeaponDamage)}</color> Merc Damage";
         }
 
-        // == Callbacks == //
         public void OnMergeButton()
         {
-            App.Data.Armoury.EvolveItem(AssignedItemId, (success) => { });
+            App.Data.Armoury.MergeItem(AssignedItemId, (success) => { });
         }
 
         public void OnUpgradeButton()

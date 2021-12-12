@@ -1,5 +1,4 @@
-﻿using GM.HTTP.Requests;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
 
@@ -30,19 +29,13 @@ namespace GM.BountyShop.Data
             return Purchases[id];
         }
 
-        /// <summary>
-        /// Public accessor for only armoury items
-        /// </summary>
+        /// <summary>Public accessor for only armoury items</summary>
         public List<BountyShopArmouryItem> ArmouryItems => ArmouryItemsDict.Values.ToList();
 
-        /// <summary>
-        /// Update all items
-        /// </summary>
+        /// <summary>Update all items</summary>
         void Update(List<BountyShopArmouryItem> items) => ArmouryItemsDict = items.ToDictionary(ele => ele.Id, ele => ele);
 
-        /// <summary>
-        /// Send the server request for purchasing an armoury item
-        /// </summary>
+        /// <summary>Send the server request for purchasing an armoury item</summary>
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
         {
             App.HTTP.BuyBountyShopArmouryItem(itemId, (resp) =>

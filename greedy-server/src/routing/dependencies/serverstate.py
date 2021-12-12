@@ -1,10 +1,6 @@
 import datetime as dt
 
 
-def inject_server_state():
-    return ServerState()
-
-
 class ServerState:
     def __init__(self):
         self.next_daily_reset = next_daily_reset()

@@ -1,7 +1,4 @@
-using System;
 using System.IO;
-using UnityEngine;
-using System.Linq;
 using System.Security.Cryptography;
 
 namespace GM
@@ -28,6 +25,29 @@ namespace GM
                         using (StreamWriter encryptWriter = new StreamWriter(cryptoStream))
                         {
                             encryptWriter.WriteLine(text);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static string Encrypt(string text)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                using (Aes aes = Aes.Create())
+                {
+                    aes.Key = key;
+
+                    stream.Write(aes.IV, 0, aes.IV.Length);
+
+                    using (CryptoStream cryptoStream = new CryptoStream(stream, aes.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter encryptWriter = new StreamWriter(cryptoStream))
+                        {
+                            encryptWriter.WriteLine(text);
+
+                            return stream.ReadToEnd();
                         }
                     }
                 }

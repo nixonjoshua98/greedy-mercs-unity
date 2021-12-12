@@ -1,7 +1,6 @@
-using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine;
 using BonusType = GM.Common.Enums.BonusType;
-using GM.Artefacts.Data;
 
 namespace GM.Artefacts.Models
 {
@@ -15,9 +14,16 @@ namespace GM.Artefacts.Models
 
         public int MaxLevel = 1_000;
 
+        [JsonRequired]
         public float CostExpo;
+
+        [JsonRequired]
         public float CostCoeff;
+
+        [JsonRequired]
         public float BaseEffect;
+
+        [JsonRequired]
         public float LevelEffect;
 
         [JsonIgnore]
@@ -28,8 +34,5 @@ namespace GM.Artefacts.Models
 
         [JsonIgnore]
         public Sprite IconBackground;
-
-        [JsonIgnore]
-        public ArtefactDisplayConfig DisplayConfig;
     }
 }

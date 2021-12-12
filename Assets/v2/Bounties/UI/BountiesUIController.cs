@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using StopWatch = System.Diagnostics.Stopwatch;
+using GM.Bounties.Data;
 
 namespace GM.Bounties.UI
 {
@@ -31,56 +32,71 @@ namespace GM.Bounties.UI
         StopWatch sliderUpdateTimer;
 
         Dictionary<int, BountySlot> slots = new Dictionary<int, BountySlot>();
-        List<BountySlot> activeBountySlots = new List<BountySlot>();
+
+        List<int> activeBountyIds = new List<int>();
         
 
         void Awake()
         {
             sliderUpdateTimer = StopWatch.StartNew();
 
-            UpdateUI(force: true);
+            UpdateUI();
 
             SetActiveButtons(isEditMode: false);
 
-            InstantiateBountySlots();
+            UpdateBountySlots();
         }
 
         void FixedUpdate()
         {
             UpdateUI();
+
+            if (sliderUpdateTimer.ElapsedMilliseconds >= 500)
+            {
+                UpdateClaimUI();
+
+                sliderUpdateTimer.Restart();
+            }
         }
 
-        void InstantiateBountySlots()
+        public override void OnShown()
         {
-            foreach (var bounty in App.Data.Bounties.UnlockedBountiesList)
+            UpdateBountySlots();
+        }
+
+        void UpdateBountySlots()
+        {
+            List<UnlockedBountyData> bounties = App.Data.Bounties.UnlockedBountiesList.OrderBy(b => b.IsActive ? 0 : 1).ThenBy(b => b.Id).ToList();
+
+            for (int i = 0; i < bounties.Count; ++i)
             {
-                if (!slots.ContainsKey(bounty.Id))
+                UnlockedBountyData bounty = bounties[i];
+
+                if (!slots.TryGetValue(bounty.Id, out BountySlot slot))
                 {
-                    var slot = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
+                    slot = slots[bounty.Id] = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
 
                     slot.Assign(bounty.Id);
-
-                    slots[bounty.Id] = slot;
                 }
+
+                slot.transform.SetSiblingIndex(i);
             }
 
             BountiesLayout.UpdateCellSize();
         }
 
-        void UpdateUI(bool force = false)
+        void UpdateUI()
         {
-            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountySlots.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountyIds.Count : App.Data.Bounties.ActiveBountiesList.Count)}/{App.Data.Bounties.MaxActiveBounties})";
+        }
 
-            if (force || sliderUpdateTimer.ElapsedMilliseconds >= 500)
-            {
-                sliderUpdateTimer.Restart();
+        void UpdateClaimUI()
+        {
+            TimeUntilMaxClaimText.text = $"Full in <color=orange>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format(allowNegative: false)}</color>";
+            ClaimAmountText.text = $"{Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Data.Bounties.MaxClaimPoints)}";
 
-                TimeUntilMaxClaimText.text = $"Full in <color=orange>{App.Data.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
-                ClaimAmountText.text = $"{Format.Number(App.Data.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Data.Bounties.MaxClaimPoints)}";
-
-                ClaimSlider.value = App.Data.Bounties.ClaimPercentFilled;
-                ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);
-            }
+            ClaimSlider.value = App.Data.Bounties.ClaimPercentFilled;
+            ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);
         }
 
         void SetActiveButtons(bool isEditMode)
@@ -96,7 +112,7 @@ namespace GM.Bounties.UI
 
             SetActiveButtons(true);
 
-            activeBountySlots.Clear();
+            activeBountyIds.Clear();
 
             foreach (var slot in slots.Values)
             {
@@ -104,7 +120,7 @@ namespace GM.Bounties.UI
 
                 if (slot.AssignedBounty.IsActive)
                 {
-                    activeBountySlots.Add(slot);
+                    activeBountyIds.Add(slot.AssignedBounty.Id);
                 }
             }
         }
@@ -121,17 +137,19 @@ namespace GM.Bounties.UI
             }
         }
 
-        // == Callbacks == //
-        public void OnBountySelected(UI.BountySlot slot)
+        public void OnBountySelected(BountySlot slot)
         {
-            if (activeBountySlots.Contains(slot))
+            int bountyId = slot.AssignedBounty.Id;
+
+            if (activeBountyIds.Contains(bountyId))
             {
-                activeBountySlots.Remove(slot);
+                activeBountyIds.Remove(bountyId);
                 slot.SetSelected(false);
             }
-            else if (activeBountySlots.Count < App.Data.Bounties.MaxActiveBounties)
+
+            else if (activeBountyIds.Count < App.Data.Bounties.MaxActiveBounties)
             {
-                activeBountySlots.Add(slot);
+                activeBountyIds.Add(bountyId);
                 slot.SetSelected(true);
             }
         }
@@ -148,21 +166,21 @@ namespace GM.Bounties.UI
 
         public void OnConfirmButton()
         {
-            List<int> ids = activeBountySlots.Select(slot => slot.AssignedBounty.Id).ToList();
-
-            App.Data.Bounties.SetActiveBounties(ids, (success, resp) =>
+            App.Data.Bounties.SetActiveBounties(activeBountyIds, (success, resp) =>
             {
                 if (success)
                 {
                     StopEditMode();
                 }
+
+                UpdateBountySlots();
             });
         }
 
         public void OnClaimButton()
         {
             App.Data.Bounties.ClaimPoints((success, resp) => {
-                UpdateUI(force: true);
+                UpdateClaimUI();
             });
         }
     }

@@ -10,8 +10,8 @@ namespace GM.Artefacts.Data
 {
     public class Artefacts : Core.GMClass
     {
-        Dictionary<int, ArtefactGameDataModel> GameArtefacts;
-        Dictionary<int, ArtefactUserDataModel> UserArtefacts;
+        Dictionary<int, ArtefactGameDataModel> StaticArtefactData;
+        Dictionary<int, ArtefactUserDataModel> ArtefactStates;
 
         public Artefacts(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
         {
@@ -20,31 +20,37 @@ namespace GM.Artefacts.Data
         }
 
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
-        ArtefactUserDataModel GetUserArtefact(int key) => UserArtefacts[key];
-        void Update(ArtefactUserDataModel art) => UserArtefacts[art.Id] = art;
-        void Update(List<ArtefactUserDataModel> arts) => UserArtefacts = arts.ToDictionary(x => x.Id, x => x);
-        public int NumUnlockedArtefacts => UserArtefacts.Count;
-        public int MaxArtefacts => GameArtefacts.Count;
-        public ArtefactGameDataModel GetGameArtefact(int key) => GameArtefacts[key];
+        public int NumUnlockedArtefacts => ArtefactStates.Count;
+        public int MaxArtefacts => StaticArtefactData.Count;
+        ArtefactUserDataModel GetUserArtefact(int key) => ArtefactStates[key];
+        void Update(ArtefactUserDataModel art) => ArtefactStates[art.Id] = art;
+
+        /// <summary>Update all artefacts user states</summary>
+        void Update(List<ArtefactUserDataModel> arts) => ArtefactStates = arts.ToDictionary(x => x.Id, x => x);
+
+        /// <summary>Fetch only the static artefact game data</summary>
+        public ArtefactGameDataModel GetGameArtefact(int key) => StaticArtefactData[key];
+
+        /// <summary>Update all artefacts static data</summary>
         void Update(List<ArtefactGameDataModel> artefacts)
         {
-            GameArtefacts = artefacts.ToDictionary(x => x.Id, x => x);
+            Dictionary<int, ArtefactScriptableObject> scriptables = LoadScriptableObjects();
 
-            var allLocalMercData = LoadLocalData();
-
-            foreach (var art in GameArtefacts.Values)
+            artefacts.ForEach(art =>
             {
-                ArtefactScriptableObject localArtData = allLocalMercData[art.Id];
+                ArtefactScriptableObject scriptable = scriptables[art.Id];
 
-                art.Name = localArtData.Name;
-                art.Icon = localArtData.Icon;
-                art.IconBackground = localArtData.IconBackground;
-            }
+                art.Name = scriptable.Name;
+                art.Icon = scriptable.Icon;
+                art.IconBackground = scriptable.IconBackground;
+            });
+
+            StaticArtefactData = artefacts.ToDictionary(x => x.Id, x => x);
         }
 
-        Dictionary<int, ArtefactScriptableObject> LoadLocalData() => Resources.LoadAll<ArtefactScriptableObject>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
-        public ArtefactData[] UserOwnedArtefacts => UserArtefacts.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToArray();
-        public List<ArtefactGameDataModel> GameArtefactsList => GameArtefacts.Values.ToList();
+        Dictionary<int, ArtefactScriptableObject> LoadScriptableObjects() => Resources.LoadAll<ArtefactScriptableObject>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
+        public List<ArtefactData> UserOwnedArtefacts => ArtefactStates.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToList();
+        public List<ArtefactGameDataModel> GameArtefactsList => StaticArtefactData.Values.ToList();
         public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));
 
 
@@ -73,14 +79,14 @@ namespace GM.Artefacts.Data
             {
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    Update(resp.NewArtefact);
+                    Update(resp.Artefact);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
 
                     App.Events.PrestigePointsChanged.Invoke(resp.UnlockCost * -1);
                 }
 
-                call.Invoke(resp.StatusCode == HTTPCodes.Success, resp.NewArtefact == null ? null : GetArtefact(resp.NewArtefact.Id));
+                call.Invoke(resp.StatusCode == HTTPCodes.Success, resp.StatusCode == HTTPCodes.Success ? null : GetArtefact(resp.Artefact.Id));
             });
         }
     }

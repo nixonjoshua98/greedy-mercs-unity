@@ -7,8 +7,7 @@ from pydantic import Field
 
 from src import utils
 from src.pymodels import BaseModel
-from src.routing.dependencies.serverstate import (ServerState,
-                                                  inject_server_state)
+from src.routing.dependencies.serverstate import ServerState
 
 from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import generate_from_config as generate_loot_table
@@ -18,7 +17,7 @@ from .shopconfig import (BountyShopConfig, LevelBountyShopConfig,
 
 async def dynamic_bounty_shop(
     s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
-    server_state: ServerState = Depends(inject_server_state),
+    server_state: ServerState = Depends(ServerState),
     shop_config: BountyShopConfig = Depends(bounty_shop_config),
 ) -> DynamicBountyShop:
     config = shop_config.get_level_config(0)

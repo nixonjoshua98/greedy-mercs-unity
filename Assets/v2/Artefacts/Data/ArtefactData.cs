@@ -1,7 +1,7 @@
 using GM.Artefacts.Models;
 using UnityEngine;
 using BonusType = GM.Common.Enums.BonusType;
-using GM.Artefacts.Data;
+using GM.Artefacts.Scriptables;
 
 namespace GM.Artefacts.Data
 {
@@ -9,6 +9,12 @@ namespace GM.Artefacts.Data
     {
         ArtefactGameDataModel Game;
         ArtefactUserDataModel User;
+
+        public ArtefactData(ArtefactGameDataModel values, ArtefactScriptableObject scriptable, ArtefactUserDataModel state)
+        {
+            Game = values;
+            User = state;
+        }
 
         public ArtefactData(ArtefactGameDataModel values, ArtefactUserDataModel state)
         {

@@ -13,18 +13,18 @@ namespace GM.Armoury.UI
 
         void Awake()
         {
-            ItemGrid.Populate(App.Data.Armoury.UserOwnedItems);
+            ItemGrid.Populate(App.Data.Armoury.UserItems);
         }
 
         public override void OnShown()
         {
-            ItemGrid.Populate(App.Data.Armoury.UserOwnedItems);
+            ItemGrid.Populate(App.Data.Armoury.UserItems);
         }
 
         void FixedUpdate()
         {
             DamageBonusText.text = $"<color=orange>{Format.Percentage(App.Cache.ArmouryMercDamageMultiplier)}</color> Merc Damage";
-            CollectionText.text = $"<color=white>{App.Data.Armoury.NumUnlockedItems} of {App.Data.Armoury.NumItems}</color> Items collected";
+            CollectionText.text = $"<color=white>{App.Data.Armoury.UserItems.Count} of {App.Data.Armoury.GameItems.Count}</color> Items collected";
         }
     }
 }

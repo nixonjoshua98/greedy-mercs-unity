@@ -8,11 +8,11 @@ namespace GM.Armoury.UI
         {
             AssignedItemId = itemId;
 
-            OnAssignedItem();
+            OnAssigned();
         }
 
-        protected virtual void OnAssignedItem() { }
+        protected virtual void OnAssigned() { }
 
-        protected Data.ArmouryItemData AssignedItem { get => App.Data.Armoury.GetItem(AssignedItemId); }
+        protected Data.ArmouryItemData AssignedItem => App.Data.Armoury.GetItem(AssignedItemId);
     }
 }

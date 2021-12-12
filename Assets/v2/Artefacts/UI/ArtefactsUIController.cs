@@ -1,4 +1,5 @@
 using GM.Artefacts.Data;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using AmountSelector = GM.UI.AmountSelector;
@@ -18,9 +19,11 @@ namespace GM.Artefacts.UI
         public TMP_Text UnlockedArtefactsText;
         public GM.UI.VStackedButton UnlockArtefactButton;
 
+        Dictionary<int, ArtefactSlot> ArtefactSlots = new Dictionary<int, ArtefactSlot>();
+
         void Start()
         {
-            InstantiateArtefactSlots();
+            UpdateArtefactSlots();
             UpdateUnlockArtefactText();
 
             UpdateUI();
@@ -31,23 +34,25 @@ namespace GM.Artefacts.UI
             UnlockedArtefactsText.text = $"<color=white>{App.Data.Artefacts.NumUnlockedArtefacts} of {App.Data.Artefacts.MaxArtefacts}</color> Artefacts unlocked";
         }
 
-
-        void InstantiateArtefactSlots()
+        void UpdateArtefactSlots()
         {
-            ArtefactData[] unlockArtefacts = App.Data.Artefacts.UserOwnedArtefacts;
+            List<ArtefactData> artefacts = App.Data.Artefacts.UserOwnedArtefacts;
 
-            foreach (ArtefactData art in unlockArtefacts)
+            for (int i = 0; i < artefacts.Count; ++i)
             {
-                InstantiateSingleArtefact(art);
+                ArtefactData art = artefacts[i];
+
+                if (!ArtefactSlots.TryGetValue(art.Id, out ArtefactSlot slot))
+                {
+                    slot = Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
+
+                    slot.AssignArtefact(art.Id, UpgradeAmountSelector);
+                }
+
+                slot.transform.SetSiblingIndex(i);
             }
         }
 
-        void InstantiateSingleArtefact(ArtefactData data)
-        {
-            ArtefactSlot slotScript = Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
-
-            slotScript.AssignArtefact(data.Id, UpgradeAmountSelector);
-        }
 
         void UpdateUnlockArtefactText()
         {
@@ -69,7 +74,7 @@ namespace GM.Artefacts.UI
         {
             InstantiateUI<UnlockArtefactPopup>(UnlockArtefactObject).Init((artefact) =>
             {
-                InstantiateSingleArtefact(artefact);
+                UpdateArtefactSlots();
                 UpdateUnlockArtefactText();
                 UpdateUI();
 

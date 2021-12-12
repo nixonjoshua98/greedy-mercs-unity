@@ -1,21 +1,22 @@
 from typing import Union
 
-from cachetools import TTLCache
+from cachetools import TTLCache, cached as cached_decorator
 from fastapi import FastAPI
-
+import functools as ft
 from src import utils
+import yaml
+import os
 
 
 class Application(FastAPI):
-    def __init__(self, *args, **kwargs):
-        super(Application, self).__init__(*args, **kwargs)
 
-        self._static_files = TTLCache(maxsize=1024, ttl=0)
+    @ft.cached_property
+    def config(self) -> dict:
+        f: str = os.path.join(os.getcwd(), "config.yaml")
+        with open(f) as fh:
+            return yaml.safe_load(fh)
 
+    @cached_decorator(TTLCache(maxsize=1024, ttl=0))
     def get_static_file(self, f: str) -> Union[dict, list]:
-        """Fetch a static data file from cache or file"""
-
-        if not (d := self._static_files.get(f)):
-            d = self._static_files[f] = utils.load_static_data_file(f)
-
-        return d
+        """Load a static data file and cache it"""
+        return utils.load_static_data_file(f)

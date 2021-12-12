@@ -41,7 +41,7 @@ class UserBountiesModel(BaseDocument):
 
 class BountiesRepository:
     def __init__(self, client):
-        self._col = client.db["userBounties"]
+        self._col = client.database["userBounties"]
 
     async def get_user_bounties(self, uid) -> UserBountiesModel:
         row = await self._find_or_create_one(uid)

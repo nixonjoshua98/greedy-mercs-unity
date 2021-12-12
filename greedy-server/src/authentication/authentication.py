@@ -16,11 +16,11 @@ class AuthenticatedUser:
 
 async def authenticated_user(request: ServerRequest, mem_cache: MemoryCache = Depends(memory_cache)):
     if (auth_header := request.headers.get("authentication")) is None:
-        raise HTTPException(401, detail="Not authorised")
+        raise HTTPException(401, detail="Unauthorized")
 
     session: Session = mem_cache.get_session(auth_header)
 
     if session is None:
-        raise HTTPException(401, detail="Not authorised")
+        raise HTTPException(401, detail="Unauthorized")
 
     return AuthenticatedUser(session.user_id)

@@ -3,7 +3,7 @@ from fastapi.exceptions import RequestValidationError
 
 from src import logger
 from src.routing import ServerResponse
-from src.routing.handlers.abc import BaseHandlerException
+from src.routing.handlers.abc import HandlerException
 
 
 async def handle_http_exception(_: Request, exc: HTTPException):
@@ -16,7 +16,7 @@ async def handle_request_validation_exception(_: Request, __: RequestValidationE
     return ServerResponse({"code": 400, "error": "Client request error"}, status_code=400)
 
 
-async def handle_handler_exception(_: Request, exc: BaseHandlerException):
+async def handle_handler_exception(_: Request, exc: HandlerException):
     logger.debug(f"{exc.status_code} - {exc.message}")
 
     return ServerResponse({"code": exc.status_code, "error": exc.message}, status_code=exc.status_code)

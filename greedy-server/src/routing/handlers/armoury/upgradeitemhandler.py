@@ -11,18 +11,14 @@ from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
 from src.resources.armoury import StaticArmouryItem, static_armoury
-from src.routing.handlers.abc import (BaseHandler, BaseHandlerException,
-                                      BaseResponse)
+from src.routing.handlers.abc import (BaseHandler, BaseResponse,
+                                      HandlerException)
 
 
 @dataclasses.dataclass()
 class UpgradeItemResponse(BaseResponse):
     item: ArmouryItemModel
     currencies: CurrenciesModel
-
-
-class UpgradeItemException(BaseHandlerException):
-    ...
 
 
 class UpgradeItemHandler(BaseHandler):
@@ -43,7 +39,7 @@ class UpgradeItemHandler(BaseHandler):
 
         # Item is either invalid or locked
         if s_item is None or u_item is None:
-            raise UpgradeItemException(400, "Failed to upgrade locked/invalid item")
+            raise HandlerException(400, "Failed to upgrade locked/invalid item")
 
         # Calculate the upgrade cost for the item
         upgrade_cost = self.upgrade_cost(s_item, u_item)
@@ -53,7 +49,7 @@ class UpgradeItemHandler(BaseHandler):
 
         # User cannot afford the upgrade cost
         if upgrade_cost > u_currencies.armoury_points:
-            raise UpgradeItemException(400, "Cannot afford upgrade cost")
+            raise HandlerException(400, "Cannot afford upgrade cost")
 
         # Deduct the upgrade cost and return all user items AFTER the update
         u_currencies = await self.currency_repo.inc_value(

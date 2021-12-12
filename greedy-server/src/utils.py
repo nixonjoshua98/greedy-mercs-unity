@@ -2,6 +2,7 @@ import datetime as dt
 import json
 import os
 from typing import Any, Iterable, Optional, TypeVar, Union
+
 import bson
 from fastapi.encoders import jsonable_encoder as _jsonable_encoder
 

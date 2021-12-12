@@ -3,11 +3,11 @@ from __future__ import annotations
 from pydantic import Field
 
 from src.pymodels import BaseModel
-from src.utils import load_static_data_file
+from src.routing import ServerRequest
 
 
-def static_artefacts() -> list[StaticArtefact]:
-    d: list[dict] = load_static_data_file("artefacts.json")
+def static_artefacts(request: ServerRequest) -> list[StaticArtefact]:
+    d: list[dict] = request.app.get_static_file("artefacts.json")
 
     return [StaticArtefact.parse_obj(art) for art in d]
 

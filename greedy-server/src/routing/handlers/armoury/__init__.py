@@ -1,4 +1,2 @@
-from .mergeitemhandler import (MergeItemException, MergeItemHandler,
-                               MergeItemResponse)
-from .upgradeitemhandler import (UpgradeItemException, UpgradeItemHandler,
-                                 UpgradeItemResponse)
+from .mergeitemhandler import MergeItemHandler, MergeItemResponse
+from .upgradeitemhandler import UpgradeItemHandler, UpgradeItemResponse

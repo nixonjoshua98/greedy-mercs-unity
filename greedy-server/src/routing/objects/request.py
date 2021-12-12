@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import json
-# noinspection PyPackageRequirements
-import humps
 import urllib.parse
 from typing import TYPE_CHECKING
 
+# noinspection PyPackageRequirements
+import humps
 from fastapi import Request as _Request
 
 if TYPE_CHECKING:

@@ -12,8 +12,8 @@ from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
 from src.resources.artefacts import StaticArtefact, static_artefacts
-from src.routing.handlers.abc import (BaseHandler, BaseHandlerException,
-                                      BaseResponse)
+from src.routing.handlers.abc import (BaseHandler, BaseResponse,
+                                      HandlerException)
 
 
 @dataclasses.dataclass()
@@ -21,10 +21,6 @@ class UpgradeArtefactResponse(BaseResponse):
     artefact: ArtefactModel
     currencies: CurrenciesModel
     upgrade_cost: int
-
-
-class UpgradeArtefactException(BaseHandlerException):
-    ...
 
 
 class UpgradeArtefactHandler(BaseHandler):
@@ -43,10 +39,10 @@ class UpgradeArtefactHandler(BaseHandler):
         u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(user.id, artefact_id)
 
         if s_artefact is None or u_artefact is None:
-            raise UpgradeArtefactException(400, "Artefact is invalid or locked")
+            raise HandlerException(400, "Artefact is invalid or locked")
 
         elif (u_artefact.level + levels) > s_artefact.max_level:
-            raise UpgradeArtefactException(400, "Level will exceed max level")
+            raise HandlerException(400, "Level will exceed max level")
 
         # Calculate the upgrade cost for the artefact
         upgrade_cost = self.upgrade_cost(s_artefact, u_artefact, levels)
@@ -55,7 +51,7 @@ class UpgradeArtefactHandler(BaseHandler):
         currencies: CurrenciesModel = await self.currency_repo.get_user(user.id)
 
         if upgrade_cost > currencies.prestige_points:
-            raise UpgradeArtefactException(400, "Cannot afford to upgrade artefact")
+            raise HandlerException(400, "Cannot afford to upgrade artefact")
 
         # Reduce the users' currency
         currencies = await self.currency_repo.inc_value(user.id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost)

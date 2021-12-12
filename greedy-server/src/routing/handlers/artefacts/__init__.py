@@ -1,7 +1,5 @@
 
-from .unlockartefacthandler import (UnlockArtefactException,
-                                    UnlockArtefactHandler,
+from .unlockartefacthandler import (UnlockArtefactHandler,
                                     UnlockArtefactResponse)
-from .upgradeartefacthandler import (UpgradeArtefactException,
-                                     UpgradeArtefactHandler,
+from .upgradeartefacthandler import (UpgradeArtefactHandler,
                                      UpgradeArtefactResponse)

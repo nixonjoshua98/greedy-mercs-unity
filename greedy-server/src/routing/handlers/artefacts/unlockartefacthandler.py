@@ -12,8 +12,8 @@ from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
 from src.resources.artefacts import StaticArtefact, static_artefacts
-from src.routing.handlers.abc import (BaseHandler, BaseHandlerException,
-                                      BaseResponse)
+from src.routing.handlers.abc import (BaseHandler, BaseResponse,
+                                      HandlerException)
 
 
 @dataclasses.dataclass()
@@ -21,10 +21,6 @@ class UnlockArtefactResponse(BaseResponse):
     artefact: ArtefactModel
     currencies: CurrenciesModel
     unlock_cost: int
-
-
-class UnlockArtefactException(BaseHandlerException):
-    ...
 
 
 class UnlockArtefactHandler(BaseHandler):
@@ -42,14 +38,14 @@ class UnlockArtefactHandler(BaseHandler):
         u_artefacts: list[ArtefactModel] = await self.artefacts_repo.get_all_artefacts(user.id)
 
         if self.unlocked_all_artefacts(u_artefacts):
-            raise UnlockArtefactException(400, "All artefacts unlocked")
+            raise HandlerException(400, "All artefacts unlocked")
 
         unlock_cost = self.unlock_cost(u_artefacts)
 
         currencies: CurrenciesModel = await self.currency_repo.get_user(user.id)
 
         if unlock_cost > currencies.prestige_points:
-            raise UnlockArtefactException(400, "Cannot afford unlock cost")
+            raise HandlerException(400, "Cannot afford unlock cost")
 
         new_art_id = self.get_new_artefact(u_artefacts)
 

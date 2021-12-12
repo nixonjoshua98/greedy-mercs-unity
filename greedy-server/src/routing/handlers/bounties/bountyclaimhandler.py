@@ -13,7 +13,8 @@ from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.routing.handlers.abc import BaseHandler, BaseResponse
+from src.routing.handlers.abc import (BaseHandler, BaseResponse,
+                                      HandlerException)
 
 
 @dataclasses.dataclass()
@@ -43,6 +44,9 @@ class BountyClaimHandler(BaseHandler):
 
         # Calculate the total unclaimed points
         points = self.unclaimed_points(claim_time, user_bounties)
+
+        if points <= 0:
+            raise HandlerException(400, "Claim points cannot be zero")
 
         # Update the users' claim time
         await self.bounties_repo.set_claim_time(user.id, claim_time)

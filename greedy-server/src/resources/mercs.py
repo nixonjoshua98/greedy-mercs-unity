@@ -1,6 +1,7 @@
 from __future__ import annotations
+
+from src.pymodels import BaseModel, Field
 from src.routing import ServerRequest
-from src.pymodels import Field, BaseModel
 
 
 def inject_merc_data(request: ServerRequest) -> list[StaticMerc]:

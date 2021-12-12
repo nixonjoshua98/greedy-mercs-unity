@@ -1,8 +1,10 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
-class MotorClient(AsyncIOMotorClient):
+class MotorClient:
+    def __init__(self, con_str: str):
+        self._client = AsyncIOMotorClient(con_str)
 
     @property
-    def db(self):
-        return self["g0"]
+    def database(self):
+        return self._client["g0"]

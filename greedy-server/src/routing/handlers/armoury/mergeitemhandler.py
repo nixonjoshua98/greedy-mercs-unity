@@ -10,17 +10,13 @@ from src.mongo.repositories.armoury import armoury_repository
 from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
 from src.resources.armoury import StaticArmouryItem, static_armoury
-from src.routing.handlers.abc import (BaseHandler, BaseHandlerException,
-                                      BaseResponse)
+from src.routing.handlers.abc import (BaseHandler, BaseResponse,
+                                      HandlerException)
 
 
 @dataclasses.dataclass()
 class MergeItemResponse(BaseResponse):
     item: ArmouryItemModel
-
-
-class MergeItemException(BaseHandlerException):
-    ...
 
 
 class MergeItemHandler(BaseHandler):
@@ -41,18 +37,18 @@ class MergeItemHandler(BaseHandler):
 
         # Item is either invalid or locked
         if s_item is None or u_item is None:
-            raise MergeItemException(400, "Failed to upgrade locked/invalid item")
+            raise HandlerException(400, "Failed to upgrade locked/invalid item")
 
         # At or will exceed the max merge level
         elif (u_item.merge_lvl + 1) > s_item.max_merge_lvl:
-            raise MergeItemException(400, "Item is at or will exceed max level")
+            raise HandlerException(400, "Item is at or will exceed max level")
 
         # Calculate the upgrade cost for the item
         merge_cost = self.merge_cost(s_item, u_item)
 
         # User cannot afford the upgrade cost
         if merge_cost > u_item.owned:
-            raise MergeItemException(400, "Cannot afford merge cost")
+            raise HandlerException(400, "Cannot afford merge cost")
 
         u_item = await self.perform_merge(user.id, item_id, 1, merge_cost)
 

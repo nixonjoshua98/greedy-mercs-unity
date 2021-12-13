@@ -1,12 +1,9 @@
 from fastapi import Depends
 
-from src.authentication.authentication import (AuthenticatedUser,
-                                               authenticated_user)
+from src.authentication.authentication import AuthenticatedUser, authenticated_user
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
-from src.routing.handlers.armoury import (
-                                          UpgradeItemHandler,
-                                          UpgradeItemResponse)
+from src.routing.handlers.armoury import UpgradeItemHandler, UpgradeItemResponse
 
 
 class ArmouryItemActionModel(BaseModel):

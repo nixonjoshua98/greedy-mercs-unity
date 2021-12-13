@@ -53,9 +53,7 @@ class UpgradeItemHandler(BaseHandler):
             raise HandlerException(400, "Cannot afford upgrade cost")
 
         # Deduct the upgrade cost and return all user items AFTER the update
-        u_currencies = await self.currency_repo.inc_value(
-            user.id, CurrencyFields.ARMOURY_POINTS, -upgrade_cost
-        )
+        u_currencies = await self.currency_repo.inc_value(user.id, CurrencyFields.ARMOURY_POINTS, -upgrade_cost)
 
         # Update the requested item here
         u_item = await self.armoury_repo.inc_item_level(user.id, item_id, 1)

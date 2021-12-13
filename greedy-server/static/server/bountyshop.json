@@ -1,18 +1,7 @@
 {
   "level-0": {
-    "armouryItems": [
-      {
-        "tier": 0,
-        "weight": 40
-      },
-      {
-        "tier": 1,
-        "weight": 35
-      },
-      {
-        "tier": 2,
-        "weight": 25
-      }
-    ]
+    "armouryItems": {
+      "weight": 40
+    }
   }
 }

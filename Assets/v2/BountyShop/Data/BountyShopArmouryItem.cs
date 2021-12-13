@@ -11,9 +11,6 @@ namespace GM.BountyShop.Data
         public Sprite Icon => Item.Icon;
 
         [JsonIgnore]
-        public int ItemTier => Item.Tier;
-
-        [JsonIgnore]
         public string ItemName => Item.Name;
 
         [JsonIgnore]

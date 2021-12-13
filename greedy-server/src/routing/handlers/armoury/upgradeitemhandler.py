@@ -19,6 +19,7 @@ from src.routing.handlers.abc import (BaseHandler, BaseResponse,
 class UpgradeItemResponse(BaseResponse):
     item: ArmouryItemModel
     currencies: CurrenciesModel
+    upgrade_cost: int
 
 
 class UpgradeItemHandler(BaseHandler):
@@ -59,8 +60,8 @@ class UpgradeItemHandler(BaseHandler):
         # Update the requested item here
         u_item = await self.armoury_repo.inc_item_level(user.id, item_id, 1)
 
-        return UpgradeItemResponse(item=u_item, currencies=u_currencies)
+        return UpgradeItemResponse(item=u_item, currencies=u_currencies, upgrade_cost=upgrade_cost)
 
     @staticmethod
     def upgrade_cost(s_item: StaticArmouryItem, item: ArmouryItemModel) -> int:
-        return 5 + (s_item.tier + 1) + item.level
+        return 5 + item.level

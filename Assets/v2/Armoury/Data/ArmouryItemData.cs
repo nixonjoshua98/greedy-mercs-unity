@@ -1,8 +1,9 @@
 using UnityEngine;
+using GM.Common.Enums;
 
 namespace GM.Armoury.Data
 {
-    public struct ArmouryItemData
+    public class ArmouryItemData : Core.GMClass
     {
         Models.ArmouryItemGameDataModel Game;
         Models.ArmouryItemUserDataModel User;
@@ -13,39 +14,18 @@ namespace GM.Armoury.Data
             User = user;
         }
 
-        public ItemTierDisplayConfig Config => ArmouryUtils.GetDisplayConfig(Tier);
+        public int Id => Game.Id;
 
         public Sprite Icon => Game.Icon;
         public string ItemName => Game.Name;
-        public int MergeCost => Game.BaseMergeCost;
-        public int CurrentMergeLevel => User.MergeLevel;
+        public BonusType BonusType => Game.BonusType;
+        public float BaseEffect => Game.BaseEffect;
+        public float LevelEffect => Game.LevelEffect;
 
-        /// <summary>
-        /// </summary>
         public int NumOwned => User.NumOwned;
-
-        /// <summary>
-        /// </summary>
         public int CurrentLevel => User.Level;
 
-        /// <summary>
-        /// Forward the value
-        /// </summary>
-        public int Tier => Game.Tier;
-
-        /// <summary>
-        /// Check if the user can evolve the item (A more detailed check is on the server)
-        /// </summary>
-        public bool CanMerge => User.NumOwned >= Game.BaseMergeCost && User.MergeLevel < Game.MaxMergeLevel;
-
-        /// <summary>
-        /// Current weapon damage based on the level and evolve level
-        /// </summary>
-        public double WeaponDamage => WeaponDamageFor(User.Level, User.MergeLevel);
-
-        /// <summary>
-        /// Weapon damage for the supplied values
-        /// </summary>
-        public double WeaponDamageFor(int level, int starLevel) => GM.Common.GameFormulas.ArmouryItemDamage(level, starLevel, Game.BaseDamage);
+        public double BonusValue => App.Cache.ArmouryItemBonusValue(this);
+        public int UpgradeCost() => App.Cache.ArmouryItemUpgradeCost(this);
     }
 }

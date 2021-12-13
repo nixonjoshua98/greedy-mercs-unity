@@ -15,5 +15,7 @@
     {
         public Inventory.Models.UserCurrenciesModel CurrencyItems;
         public Armoury.Models.ArmouryItemUserDataModel Item;
+
+        public int UpgradeCost;
     }
 }

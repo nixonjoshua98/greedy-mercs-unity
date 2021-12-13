@@ -3,6 +3,7 @@ using GM.Common.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using GM.Armoury.Data;
 
 namespace GM.Core
 {
@@ -38,6 +39,7 @@ namespace GM.Core
             }
         }
         IEnumerable<KeyValuePair<BonusType, BigDouble>> ArtefactBonuses => App.Data.Artefacts.UserOwnedArtefacts.Select(s => new KeyValuePair<BonusType, BigDouble>(s.Bonus, s.Effect));
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArmouryBonuses => App.Data.Armoury.UserItems.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue));
 
         Dictionary<BonusType, BigDouble> CombinedBonuses
         {
@@ -45,7 +47,8 @@ namespace GM.Core
             {
                 var ls = MercPassiveBonuses
                     .Concat(ArtefactBonuses)
-                    .Concat(UpgradeBonuses);
+                    .Concat(UpgradeBonuses)
+                    .Concat(ArmouryBonuses);
 
                 return CreateBonusDictionary(ls);
             }
@@ -109,7 +112,7 @@ namespace GM.Core
         #region Artefacts
         public BigDouble ArtefactBaseEffect(Artefacts.Data.ArtefactData art)
         {
-            return cache.Get<BigDouble>($"ArtefactBaseEffect/{art.CurrentLevel}/{art.BaseEffect}/{art.LevelEffect}", 60, () => GameFormulas.ArtefactBaseEffect(art.CurrentLevel, art.BaseEffect, art.LevelEffect));
+            return cache.Get<BigDouble>($"ArtefactBaseEffect/{art.CurrentLevel}/{art.BaseEffect}/{art.LevelEffect}", 60, () => GameFormulas.ArtefactBonusValue(art.CurrentLevel, art.BaseEffect, art.LevelEffect));
         }
 
         public BigDouble ArtefactEffect(Artefacts.Data.ArtefactData art)
@@ -125,30 +128,28 @@ namespace GM.Core
         }
         #endregion
 
-        public BigDouble TotalTapDamage
+        #region Armoury
+        public double ArmouryItemBonusValue(ArmouryItemData item)
         {
-            get
-            {
-                return CombinedBonuses.Get(BonusType.FLAT_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1);
-            }
+            return cache.Get<double>($"ArmouryItemBonusValue/{item.CurrentLevel}/{item.BaseEffect}/{item.LevelEffect}", lifetime: 60,
+                () => GameFormulas.ArmouryItemBonusValue(item.CurrentLevel, item.NumOwned, item.BaseEffect, item.LevelEffect));
         }
 
-        /// <summary>
-        /// Merc damage multiplier from armoury
-        /// </summary>
-        public double ArmouryMercDamageMultiplier => App.Data.Armoury.ArmouryMercDamageMultiplier;
+        public int ArmouryItemUpgradeCost(ArmouryItemData item)
+        {
+            return cache.Get<int>($"ArmouryItemUpgradeCost/{item.CurrentLevel}", lifetime: 60,
+                () => GameFormulas.ArmouryItemUpgradeCost(item.CurrentLevel));
+        }
+        #endregion
 
-        /// <summary>
-        /// Upgrade cost for merc. CurrentLevel -> (CurrentLevel + levels)
-        /// </summary>
+        #region Mercs
+        /// <summary>Upgrade cost for merc. CurrentLevel -> (CurrentLevel + levels)</summary>
         public BigDouble MercUpgradeCost(GM.Mercs.Data.MercData merc, int levels)
         {
             return GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels, merc.UnlockCost);
         }
 
-        /// <summary>
-        /// Base merc damage for current level. Does not apply any bonuses
-        /// </summary>
+        /// <summary>Base merc damage for current level. Does not apply any bonuses</summary>
         public BigDouble MercBaseDamage(GM.Mercs.Data.MercData merc)
         {
             return cache.Get<BigDouble>($"MercBaseDamage/{merc.Id}/{merc.CurrentLevel}", lifetime: 60, () => GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel));
@@ -156,7 +157,16 @@ namespace GM.Core
 
         public BigDouble MercDamage(GM.Mercs.Data.MercData merc)
         {
-           return MercBaseDamage(merc) * CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1) * ArmouryMercDamageMultiplier;
+            return MercBaseDamage(merc) * CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
+        }
+        #endregion
+
+        public BigDouble TotalTapDamage
+        {
+            get
+            {
+                return CombinedBonuses.Get(BonusType.FLAT_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1);
+            }
         }
 
         private Dictionary<BonusType, BigDouble> CreateBonusDictionary(IEnumerable<KeyValuePair<BonusType, BigDouble>> ls)

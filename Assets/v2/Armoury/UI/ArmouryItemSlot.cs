@@ -10,16 +10,11 @@ namespace GM.Armoury.UI
         public GameObject PopupObject;
 
         [Header("References")]
-        public TMP_Text TierText;
+        public TMP_Text LevelText;
         public TMP_Text NameText;
-        public TMP_Text OwnedText;
+        public TMP_Text BonusText;
         [Space]
-        public Slider EvolveProgressSlider;
-        [Space]
-        public Image EvolveProgressSliderFill;
         public Image IconImage;
-        [Space]
-        public GM.UI.StarsController Stars;
 
         public override void AssignItem(int itemId)
         {
@@ -30,27 +25,19 @@ namespace GM.Armoury.UI
 
         void SetStaticElements()
         {
-            TierText.color = AssignedItem.Config.Colour;
-            TierText.text = AssignedItem.Config.DisplayText;
-
             IconImage.sprite = AssignedItem.Icon;
             NameText.text = AssignedItem.ItemName;
-
         }
 
         void FixedUpdate()
         {
-            Stars.Show(AssignedItem.CurrentMergeLevel);
-
-            OwnedText.text = $"{AssignedItem.NumOwned} / {AssignedItem.MergeCost}";
-
-            EvolveProgressSlider.value = AssignedItem.NumOwned / (float)AssignedItem.MergeCost;
-            EvolveProgressSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, EvolveProgressSlider.value);
+            LevelText.text = FormatLevel(AssignedItem.CurrentLevel);
+            BonusText.text = GetBonusText();
         }
 
         public void OnPopupButton()
         {
-            InstantiateUI<ArmouryItemPopup>(PopupObject).AssignItem(AssignedItemId);
+            InstantiateUI<ArmouryItemPopup>(PopupObject).AssignItem(AssignedItem.Id);
         }
     }
 }

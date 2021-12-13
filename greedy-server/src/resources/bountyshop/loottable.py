@@ -24,20 +24,9 @@ def _add_ai_tables(
     :param config: Bounty shop config
     """
 
-    # Iterate over all armoury item tiers available for this shop
-    for s_item in config.armoury_items:
+    t = LootTable()
 
-        # Fetch all static armoury items for a single tier
-        s_items = [it for it in s_armoury if it.tier == s_item.tier]
+    for it in s_armoury:
+        t.add_item(it)
 
-        # Rare occasion that no item exists in the tier provided (perhaps input error)
-        if not s_items:
-            continue
-
-        t = LootTable()
-
-        # Add all items to the table (with th same weight)
-        for it in s_items:
-            t.add_item(it)
-
-        root.add_item(t, weight=s_item.weight)
+    root.add_item(t, weight=config.armoury_items.weight)

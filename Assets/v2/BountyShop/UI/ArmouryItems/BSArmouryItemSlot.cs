@@ -12,16 +12,12 @@ namespace GM.BountyShop.UI
         [Header("References")]
         public GameObject OutStockObject;
         [Space]
-        public TMP_Text TierText;
         public TMP_Text PurchaseCostText;
         [Space]
         public Image IconImage;
 
         protected override void OnAssignedItem()
         {
-            TierText.color = AssignedItem.Item.Config.Colour;
-            TierText.text = AssignedItem.Item.Config.DisplayText;
-
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
 
             IconImage.sprite = AssignedItem.Icon;

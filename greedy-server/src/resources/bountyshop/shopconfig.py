@@ -9,12 +9,11 @@ def bounty_shop_config(request: ServerRequest):
 
 
 class ArmouryItemConfig(BaseModel):
-    tier: int
     weight: int
 
 
 class LevelBountyShopConfig(BaseModel):
-    armoury_items: list[ArmouryItemConfig] = Field(..., alias="armouryItems")
+    armoury_items: ArmouryItemConfig = Field(..., alias="armouryItems")
 
 
 class BountyShopConfig(BaseModel):

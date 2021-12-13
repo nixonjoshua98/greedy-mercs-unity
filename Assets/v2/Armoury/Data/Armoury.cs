@@ -1,10 +1,10 @@
+using GM.Armoury.Models;
 using GM.Armoury.ScriptableObjects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using GM.Armoury.Models;
+using UpgradeArmouryItemResponse = GM.HTTP.Requests.UpgradeArmouryItemResponse;
 
 namespace GM.Armoury.Data
 {
@@ -20,7 +20,7 @@ namespace GM.Armoury.Data
             Update(gameData);
         }
 
-        public List<ArmouryItemUserDataModel> UserItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).ToList();
+        public List<ArmouryItemData> UserItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).Select(x => GetItem(x.Id)).ToList();
         public List<ArmouryItemGameDataModel> GameItems => GameItemsDict.Values.OrderBy(ele => ele.Id).ToList();
 
         /// <summary>Update the cached user data for a single item</summary>
@@ -60,46 +60,15 @@ namespace GM.Armoury.Data
         }
 
         /// <summary>Check if the user owns the item</summary>
-        public bool DoesUserOwnItem(int key)
-        {
-            if (UserItemsDict.TryGetValue(key, out var result))
-            {
-                return result.NumOwned > 0 || result.Level > 0;
-            }
-
-            return false;
-        }
+        public bool DoesUserOwnItem(int itemId) => UserItemsDict.TryGetValue(itemId, out var result) && result.NumOwned > 0;
 
         /// <summary>Load local scriptable objects and return them as a dictionary</summary>
         Dictionary<int, LocalArmouryItemData> LoadLocalData() => Resources.LoadAll<LocalArmouryItemData>("Armoury/Items").ToDictionary(ele => ele.Id, ele => ele);
 
         /// <summary>Get a combined class of user data and game data for a single item</summary>
-        public ArmouryItemData GetItem(int key) => new ArmouryItemData(GetGameItem(key), UserItemsDict[key]);
+        public ArmouryItemData GetItem(int itemId) => new ArmouryItemData(GameItemsDict[itemId], UserItemsDict[itemId]);
 
-        /// <summary>
-        /// </summary>
-        public double DamageBonus()
-        {
-            double val = 0;
-
-            foreach (ArmouryItemUserDataModel item in UserItems)
-            {
-                ArmouryItemData itemData = GetItem(item.Id);
-
-                if (itemData.CurrentLevel > 0)
-                {
-                    val += itemData.WeaponDamage;
-                }
-            }
-
-            return val;
-        }
-
-        /// <summary>
-        /// </summary>
-        public double ArmouryMercDamageMultiplier => Math.Max(1, DamageBonus());
-
-        public void UpgradeItem(int itemId, UnityAction<bool> call)
+        public void UpgradeItem(int itemId, UnityAction<bool, UpgradeArmouryItemResponse> call)
         {
             App.HTTP.UpgradeArmouryItem(itemId, (resp) =>
             {
@@ -110,20 +79,7 @@ namespace GM.Armoury.Data
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
-                call(resp.StatusCode == HTTP.HTTPCodes.Success);
-            });
-        }
-
-        public void MergeItem(int item, UnityAction<bool> call)
-        {
-            App.HTTP.MergeArmouryItem(item, (resp) =>
-            {
-                if (resp.StatusCode == HTTP.HTTPCodes.Success)
-                {
-                    Update(resp.Item);
-                }
-
-                call(resp.StatusCode == HTTP.HTTPCodes.Success);
+                call(resp.StatusCode == HTTP.HTTPCodes.Success, resp);
             });
         }
     }

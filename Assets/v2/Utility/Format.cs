@@ -33,6 +33,7 @@ namespace GM
                 BonusType.MULTIPLY_CRIT_DMG => "Critical Hit Damage",
                 BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
                 BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                BonusType.MULTIPLY_ALL_DMG => "All Damage",
                 BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
                 BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
                 BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",

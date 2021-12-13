@@ -4,7 +4,7 @@ from src.authentication.authentication import (AuthenticatedUser,
                                                authenticated_user)
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
-from src.routing.handlers.armoury import (MergeItemHandler, MergeItemResponse,
+from src.routing.handlers.armoury import (
                                           UpgradeItemHandler,
                                           UpgradeItemResponse)
 
@@ -27,17 +27,4 @@ async def upgrade(
     return ServerResponse({
         "item": resp.item.to_client_dict(),
         "currencyItems": resp.currencies.to_client_dict(),
-    })
-
-
-@router.post("/merge")
-async def merge(
-    data: ArmouryItemActionModel,
-    user: AuthenticatedUser = Depends(authenticated_user),
-    handler: MergeItemHandler = Depends(),
-):
-    resp: MergeItemResponse = await handler.handle(user, data.item_id)
-
-    return ServerResponse({
-        "item": resp.item.to_client_dict()
     })

@@ -78,5 +78,5 @@ class DynamicBountyShop:
         key = f"AI-{epoch_days}-{item.id}-{rnd.randint(0, 1_000)}"
 
         return BountyShopArmouryItem.parse_obj(
-            {"itemId": key, "armouryItem": item.id, "purchaseCost": (item.tier + 1) * 3}
+            {"itemId": key, "armouryItem": item.id, "purchaseCost": 100}
         )

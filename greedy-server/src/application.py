@@ -12,6 +12,11 @@ from src import utils
 
 class Application(FastAPI):
 
+    def __init__(self, *args, **kwargs):
+        super(Application, self).__init__(*args, **kwargs)
+
+        self.debug = os.environ.get("DEBUG", "0") == "1"
+
     @ft.cached_property
     def config(self) -> dict:
         f: str = os.path.join(os.getcwd(), "config.yaml")

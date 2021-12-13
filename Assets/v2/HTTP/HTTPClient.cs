@@ -43,14 +43,6 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void MergeArmouryItem(int item, Action<MergeArmouryItemResponse> callback)
-        {
-            var req = new MergeArmouryItemRequest(item);
-            var www = UnityWebRequest.Post(ResolveURL("armoury/merge"), SerializeRequest(req));
-
-            SendAuthenticatedRequest(www, callback);
-        }
-
         public void ClaimBounties(Action<BountyClaimResponse> callback)
         {
             var www = UnityWebRequest.Get(ResolveURL("bounty/claim"));
@@ -156,7 +148,10 @@ namespace GM.HTTP
             }
             finally
             {
-
+                if (resp.StatusCode != HTTPCodes.Success)
+                {
+                    Debug.LogError(resp.ErrorMessage);
+                }
             }
         }
 

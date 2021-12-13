@@ -1,8 +1,10 @@
+using GM.Armoury.Data;
+
 namespace GM.Armoury.UI
 {
-    public abstract class ArmouryItemUIObject : Core.GMMonoBehaviour
+    public abstract class ArmouryItemUIObject : GM.UI.SlotObject
     {
-        protected int AssignedItemId = -1;
+        int AssignedItemId = -1;
 
         public virtual void AssignItem(int itemId)
         {
@@ -13,6 +15,8 @@ namespace GM.Armoury.UI
 
         protected virtual void OnAssigned() { }
 
-        protected Data.ArmouryItemData AssignedItem => App.Data.Armoury.GetItem(AssignedItemId);
+        protected ArmouryItemData AssignedItem => App.Data.Armoury.GetItem(AssignedItemId);
+
+        protected string GetBonusText() => Format.Bonus(AssignedItem.BonusType, AssignedItem.BonusValue, "orange");
     }
 }

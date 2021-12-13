@@ -8,7 +8,6 @@ namespace GM.Armoury.UI
     {
         [Header("References")]
         public ArmouryItemsGridController ItemGrid;
-        public TMP_Text DamageBonusText;
         public TMP_Text CollectionText;
 
         void Awake()
@@ -23,7 +22,6 @@ namespace GM.Armoury.UI
 
         void FixedUpdate()
         {
-            DamageBonusText.text = $"<color=orange>{Format.Percentage(App.Cache.ArmouryMercDamageMultiplier)}</color> Merc Damage";
             CollectionText.text = $"<color=white>{App.Data.Armoury.UserItems.Count} of {App.Data.Armoury.GameItems.Count}</color> Items collected";
         }
     }

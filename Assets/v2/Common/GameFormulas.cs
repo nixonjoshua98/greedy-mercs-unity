@@ -36,7 +36,7 @@ namespace GM.Common
             return (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).CeilToBigInteger();
         }
 
-        public static BigDouble ArtefactBaseEffect(int currentLevel, double baseEffect, double levelEffect)
+        public static BigDouble ArtefactBonusValue(int currentLevel, double baseEffect, double levelEffect)
         {
             return baseEffect + (levelEffect * (currentLevel - 1));
         }
@@ -47,23 +47,29 @@ namespace GM.Common
         }
         #endregion
 
+        #region Armoury
+        public static double ArmouryItemBonusValue(int level, int owned, float baseEffect, float levelEffect)
+        {
+            return (baseEffect + (levelEffect * (level - 1))) * (1 + (owned / 10.0f));
+        }
+
+        public static int ArmouryItemUpgradeCost(int level)
+        {
+            return 5 + level;
+        }
+        #endregion
+
+        #region Mercs
         public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying, double unlockCost)
         {
             return BigMath.SumGeometricSeries(levelsBuying, unlockCost, 1.077f, currentLevel);
-        }
-
-
-        public static double ArmouryItemDamage(int level, int evolveLevel, float baseDamage)
-        {
-            double val = ((evolveLevel + 1) * (baseDamage - 1) * level) + 1;
-
-            return val > 1 ? val : 0; // Return 0 if the multiplier is 1 (Fixes issue when adding damage values 1 + 1 = 2x which is wrong)
         }
 
         public static BigDouble MercBaseDamageAtLevel(BigDouble baseDamage, int level)
         {
             return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f) * (1 - 0.035f);
         }
+        #endregion
 
         // = = = Enemies = = = //
         public static BigDouble EnemyHealth(int stage)

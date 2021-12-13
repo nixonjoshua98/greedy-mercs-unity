@@ -9,7 +9,6 @@ namespace GM.BountyShop.UI
     {
         [Header("References")]
         public TMP_Text NameText;
-        public TMP_Text TierText;
         public TMP_Text LevelText;
         public TMP_Text OwnedText;
         public TMP_Text PurchaseCostText;
@@ -32,8 +31,6 @@ namespace GM.BountyShop.UI
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
             NameText.text = AssignedItem.ItemName;
             IconImage.sprite = AssignedItem.Icon;           
-            TierText.color = AssignedItem.Item.Config.Colour;
-            TierText.text = AssignedItem.Item.Config.DisplayText;
         }
 
         void UpdateUI()

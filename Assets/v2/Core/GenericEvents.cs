@@ -8,5 +8,6 @@ namespace GM.Core
         public UnityEvent<long> BountyPointsChanged { get; private set; } = new UnityEvent<long>();
         public UnityEvent<BigDouble> GoldChanged { get; private set; } = new UnityEvent<BigDouble>();
         public UnityEvent<BigInteger> PrestigePointsChanged { get; private set; } = new UnityEvent<BigInteger>();
+        public UnityEvent<long> ArmouryPointsChanged { get; private set; } = new UnityEvent<long>();
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using GM.Armoury.Data;
 
 namespace GM.Armoury.UI
 {
@@ -18,7 +19,7 @@ namespace GM.Armoury.UI
 
         Dictionary<int, ArmouryItemSlot> ItemSlots = new Dictionary<int, ArmouryItemSlot>();
 
-        public void Populate(List<Models.ArmouryItemUserDataModel> items)
+        public void Populate(List<ArmouryItemData> items)
         {
             ItemSlots.Values.ToList().ForEach(obj => obj.gameObject.SetActive(false));
 

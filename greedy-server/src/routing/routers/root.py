@@ -1,7 +1,6 @@
 from fastapi import Depends
 
-from src.authentication.authentication import (AuthenticatedUser,
-                                               authenticated_user)
+from src.authentication import RequestContext, request_context
 from src.authentication.session import Session
 from src.cache import MemoryCache, memory_cache
 from src.mongo.repositories.accounts import (AccountsRepository,
@@ -38,30 +37,28 @@ def game_data(
     s_mercs: list[StaticMerc] = Depends(inject_merc_data),
     svr_state: ServerState = Depends(ServerState),
 ):
-    return ServerResponse(
-        {
-            "nextDailyReset": svr_state.next_daily_reset,
-            "artefacts": [art.dict() for art in s_artefacts],
-            "bounties": s_bounties.dict(),
-            "armoury": [it.dict() for it in s_armoury],
-            "mercs": [m.dict() for m in s_mercs],
-        }
-    )
+    return ServerResponse({
+        "nextDailyReset": svr_state.next_daily_reset,
+        "artefacts": [art.dict() for art in s_artefacts],
+        "bounties": s_bounties.dict(),
+        "armoury": [it.dict() for it in s_armoury],
+        "mercs": [m.dict() for m in s_mercs],
+    })
 
 
 @router.get("/userdata")
 async def user_data(
-    user: AuthenticatedUser = Depends(authenticated_user),
+    user: RequestContext = Depends(request_context),
     s_bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),
     currency_repo: CurrencyRepository = Depends(currency_repository),
     armoury_repo: ArmouryRepository = Depends(armoury_repository),
     bounties_repo: BountiesRepository = Depends(bounties_repository),
     artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
 ):
-    currencies = await currency_repo.get_user(user.id)
-    bounties = await bounties_repo.get_user_bounties(user.id)
-    armoury = await armoury_repo.get_user_items(user.id)
-    artefacts = await artefacts_repo.get_all_artefacts(user.id)
+    currencies = await currency_repo.get_user(user.user_id)
+    bounties = await bounties_repo.get_user_bounties(user.user_id)
+    armoury = await armoury_repo.get_user_items(user.user_id)
+    artefacts = await artefacts_repo.get_all_artefacts(user.user_id)
 
     data = {
         "currencyItems": currencies.to_client_dict(),

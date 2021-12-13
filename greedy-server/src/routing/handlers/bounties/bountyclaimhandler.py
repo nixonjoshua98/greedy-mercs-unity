@@ -5,7 +5,7 @@ import math
 from fastapi import Depends
 
 from src import utils
-from src.authentication.authentication import AuthenticatedUser
+from src.authentication import RequestContext
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesModel,
                                              bounties_repository)
@@ -35,12 +35,12 @@ class BountyClaimHandler(BaseHandler):
         self.bounties_repo = bounties_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: AuthenticatedUser) -> BountyClaimResponse:
+    async def handle(self, user: RequestContext) -> BountyClaimResponse:
         # We use the current server time for the claim
         claim_time = dt.datetime.utcnow()
 
         # Fetch bounties data for the user
-        user_bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(user.id)
+        user_bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(user.user_id)
 
         # Calculate the total unclaimed points
         points = self.unclaimed_points(claim_time, user_bounties)
@@ -49,10 +49,10 @@ class BountyClaimHandler(BaseHandler):
             raise HandlerException(400, "Claim points cannot be zero")
 
         # Update the users' claim time
-        await self.bounties_repo.set_claim_time(user.id, claim_time)
+        await self.bounties_repo.set_claim_time(user.user_id, claim_time)
 
         # Increment the currency and fetch the updated document
-        currencies = await self.currency_repo.inc_value(user.id, CurrencyFields.BOUNTY_POINTS, points)
+        currencies = await self.currency_repo.inc_value(user.user_id, CurrencyFields.BOUNTY_POINTS, points)
 
         return BountyClaimResponse(claim_time=claim_time, claim_amount=points, currencies=currencies)
 

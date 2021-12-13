@@ -2,7 +2,7 @@ import dataclasses
 
 from fastapi import Depends
 
-from src.authentication.authentication import AuthenticatedUser
+from src.authentication import RequestContext
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesModel,
                                              bounties_repository)
@@ -28,21 +28,21 @@ class UpdateBountiesHandler(BaseHandler):
         self.bounties_repo = bounties_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: AuthenticatedUser, bounty_ids: list[int]) -> UpdateBountiesResponse:
+    async def handle(self, user: RequestContext, bounty_ids: list[int]) -> UpdateBountiesResponse:
 
         if len(bounty_ids) > self.bounties_data.max_active_bounties:
             raise HandlerException(400, "Exceeded maximum active bounties")
 
         # Load data from the mongo database
-        user_bounty_data: UserBountiesModel = await self.bounties_repo.get_user_bounties(user.id)
+        user_bounty_data: UserBountiesModel = await self.bounties_repo.get_user_bounties(user.user_id)
 
         if not self.is_bounties_valid(bounty_ids, user_bounty_data):
             raise HandlerException(400, "Attempting to use locked or invalid bounty")
 
         # Enable (or disable) the relevant bounties
-        await self.bounties_repo.update_active_bounties(user.id, bounty_ids)
+        await self.bounties_repo.update_active_bounties(user.user_id, bounty_ids)
 
-        bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(user.id)
+        bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(user.user_id)
 
         return UpdateBountiesResponse(bounties=bounties)
 

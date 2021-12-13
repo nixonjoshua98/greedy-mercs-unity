@@ -1,2 +1,1 @@
-from .authentication import AuthenticatedUser
-from .session import Session
+from .context import RequestContext, request_context

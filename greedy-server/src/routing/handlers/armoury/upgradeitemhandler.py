@@ -3,7 +3,7 @@ import dataclasses
 from fastapi import Depends
 
 from src import utils
-from src.authentication.authentication import AuthenticatedUser
+from src.authentication import RequestContext
 from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,
                                             armoury_repository)
@@ -33,10 +33,10 @@ class UpgradeItemHandler(BaseHandler):
         self.armoury_repo = armoury_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: AuthenticatedUser, item_id: int) -> UpgradeItemResponse:
+    async def handle(self, user: RequestContext, item_id: int) -> UpgradeItemResponse:
 
         s_item: StaticArmouryItem = utils.get(self.armoury_data, id=item_id)
-        u_item: ArmouryItemModel = await self.armoury_repo.get_user_item(user.id, item_id)
+        u_item: ArmouryItemModel = await self.armoury_repo.get_user_item(user.user_id, item_id)
 
         # Item is either invalid or locked
         if s_item is None or u_item is None:
@@ -46,17 +46,17 @@ class UpgradeItemHandler(BaseHandler):
         upgrade_cost = self.upgrade_cost(s_item, u_item)
 
         # Fetch the currency we need
-        u_currencies = await self.currency_repo.get_user(user.id)
+        u_currencies = await self.currency_repo.get_user(user.user_id)
 
         # User cannot afford the upgrade cost
         if upgrade_cost > u_currencies.armoury_points:
             raise HandlerException(400, "Cannot afford upgrade cost")
 
         # Deduct the upgrade cost and return all user items AFTER the update
-        u_currencies = await self.currency_repo.inc_value(user.id, CurrencyFields.ARMOURY_POINTS, -upgrade_cost)
+        u_currencies = await self.currency_repo.inc_value(user.user_id, CurrencyFields.ARMOURY_POINTS, -upgrade_cost)
 
         # Update the requested item here
-        u_item = await self.armoury_repo.inc_item_level(user.id, item_id, 1)
+        u_item = await self.armoury_repo.inc_item_level(user.user_id, item_id, 1)
 
         return UpgradeItemResponse(item=u_item, currencies=u_currencies, upgrade_cost=upgrade_cost)
 

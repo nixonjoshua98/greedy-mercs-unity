@@ -3,7 +3,7 @@ import dataclasses
 from fastapi import Depends
 
 from src import utils
-from src.authentication.authentication import AuthenticatedUser
+from src.authentication import RequestContext
 from src.common import formulas
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
@@ -34,9 +34,9 @@ class UpgradeArtefactHandler(BaseHandler):
         self.artefacts_repo = artefacts_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: AuthenticatedUser, artefact_id: int, levels: int) -> UpgradeArtefactResponse:
+    async def handle(self, user: RequestContext, artefact_id: int, levels: int) -> UpgradeArtefactResponse:
         s_artefact: StaticArtefact = utils.get(self.artefacts_data, id=artefact_id)
-        u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(user.id, artefact_id)
+        u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(user.user_id, artefact_id)
 
         if s_artefact is None or u_artefact is None:
             raise HandlerException(400, "Artefact is invalid or locked")
@@ -48,16 +48,16 @@ class UpgradeArtefactHandler(BaseHandler):
         upgrade_cost = self.upgrade_cost(s_artefact, u_artefact, levels)
 
         # Fetch the currency to upgrade the item
-        currencies: CurrenciesModel = await self.currency_repo.get_user(user.id)
+        currencies: CurrenciesModel = await self.currency_repo.get_user(user.user_id)
 
         if upgrade_cost > currencies.prestige_points:
             raise HandlerException(400, "Cannot afford to upgrade artefact")
 
         # Reduce the users' currency
-        currencies = await self.currency_repo.inc_value(user.id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost)
+        currencies = await self.currency_repo.inc_value(user.user_id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost)
 
         # Increment the artefact level
-        u_artefact: ArtefactModel = await self.artefacts_repo.inc_level(user.id, artefact_id, levels)
+        u_artefact: ArtefactModel = await self.artefacts_repo.inc_level(user.user_id, artefact_id, levels)
 
         return UpgradeArtefactResponse(artefact=u_artefact, currencies=currencies, upgrade_cost=upgrade_cost)
 

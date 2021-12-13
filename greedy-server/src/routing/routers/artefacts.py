@@ -1,7 +1,6 @@
 from fastapi import Depends
 
-from src.authentication.authentication import (AuthenticatedUser,
-                                               authenticated_user)
+from src.authentication import RequestContext, request_context
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
 
@@ -21,7 +20,7 @@ class ArtefactUpgradeModel(BaseModel):
 @router.post("/upgrade")
 async def upgrade(
     data: ArtefactUpgradeModel,
-    user: AuthenticatedUser = Depends(authenticated_user),
+    user: RequestContext = Depends(request_context),
     handler: UpgradeArtefactHandler = Depends(UpgradeArtefactHandler)
 ):
     resp: UpgradeArtefactResponse = await handler.handle(user, data.artefact_id, data.upgrade_levels)
@@ -35,7 +34,7 @@ async def upgrade(
 
 @router.get("/unlock")
 async def unlock(
-    user: AuthenticatedUser = Depends(authenticated_user),
+    user: RequestContext = Depends(request_context),
     handler: UnlockArtefactHandler = Depends(),
 ):
     resp: UnlockArtefactResponse = await handler.handle(user)

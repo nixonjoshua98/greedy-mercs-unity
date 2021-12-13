@@ -1,7 +1,6 @@
 from fastapi import Depends
 
-from src.authentication.authentication import (AuthenticatedUser,
-                                               authenticated_user)
+from src.authentication import RequestContext, request_context
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
 from src.routing.handlers.bounties import (BountyClaimHandler,
@@ -18,7 +17,7 @@ class SetActiveModel(BaseModel):
 
 @router.get("/claim")
 async def claim_points(
-    user: AuthenticatedUser = Depends(authenticated_user),
+    user: RequestContext = Depends(request_context),
     handler: BountyClaimHandler = Depends()
 ):
     resp: BountyClaimResponse = await handler.handle(user)
@@ -33,7 +32,7 @@ async def claim_points(
 @router.post("/setactive")
 async def set_active_bounties(
     model: SetActiveModel,
-    user: AuthenticatedUser = Depends(authenticated_user),
+    user: RequestContext = Depends(request_context),
     handler: UpdateBountiesHandler = Depends(),
 ):
     resp: UpdateBountiesResponse = await handler.handle(user, model.bounty_ids)

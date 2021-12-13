@@ -2,8 +2,7 @@ from typing import Any
 
 from fastapi import Depends
 
-from src.authentication.authentication import (AuthenticatedUser,
-                                               authenticated_user)
+from src.authentication import RequestContext, request_context
 from src.mongo.repositories.armoury import ArmouryRepository
 from src.mongo.repositories.armoury import Fields as ArmouryRepoFields
 from src.mongo.repositories.armoury import armoury_repository
@@ -24,11 +23,9 @@ class ItemData(BaseModel):
 @router.post("/purchase/armouryitem")
 async def purchase_armoury_item(
     data: ItemData,
-    user: AuthenticatedUser = Depends(authenticated_user),
-    # = Database Repositories = #
+    user: RequestContext = Depends(request_context),
     currency_repo: CurrencyRepository = Depends(currency_repository),
     armoury_repo: ArmouryRepository = Depends(armoury_repository),
-    # = Static/Game Data = #
     bounty_shop=Depends(dynamic_bounty_shop),
 ):
     item: BountyShopArmouryItem = bounty_shop.get_item(data.shop_item)
@@ -44,7 +41,7 @@ async def purchase_armoury_item(
         raise
 
     # Fetch the user currencies
-    currencies = await currency_repo.get_user(user.id)
+    currencies = await currency_repo.get_user(user.user_id)
 
     # Verify that the user can afford to purchase the item
     if item.purchase_cost > currencies.bounty_points:
@@ -52,11 +49,11 @@ async def purchase_armoury_item(
 
     # Deduct the purchase cost from the user
     currencies = await currency_repo.update_one(
-        user.id, {"$inc": {CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost}}
+        user.user_id, {"$inc": {CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost}}
     )
 
     # Perform the actual item purchase
-    purchase_dict = await _purchase_armoury_item(user.id, item, repo=armoury_repo)
+    purchase_dict = await _purchase_armoury_item(user.user_id, item, repo=armoury_repo)
 
     # Return the response. We unpack the reponse_dict here
     return ServerResponse(

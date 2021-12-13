@@ -22,14 +22,13 @@ namespace GM.Artefacts.Data
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
         public int NumUnlockedArtefacts => ArtefactStates.Count;
         public int MaxArtefacts => StaticArtefactData.Count;
-        ArtefactUserDataModel GetUserArtefact(int key) => ArtefactStates[key];
         void Update(ArtefactUserDataModel art) => ArtefactStates[art.Id] = art;
 
         /// <summary>Update all artefacts user states</summary>
         void Update(List<ArtefactUserDataModel> arts) => ArtefactStates = arts.ToDictionary(x => x.Id, x => x);
 
         /// <summary>Fetch only the static artefact game data</summary>
-        public ArtefactGameDataModel GetGameArtefact(int key) => StaticArtefactData[key];
+        public ArtefactGameDataModel GetGameArtefact(int itemId) => StaticArtefactData[itemId];
 
         /// <summary>Update all artefacts static data</summary>
         void Update(List<ArtefactGameDataModel> artefacts)
@@ -51,8 +50,7 @@ namespace GM.Artefacts.Data
         Dictionary<int, ArtefactScriptableObject> LoadScriptableObjects() => Resources.LoadAll<ArtefactScriptableObject>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
         public List<ArtefactData> UserOwnedArtefacts => ArtefactStates.Values.OrderBy(ele => ele.Id).Select(ele => GetArtefact(ele.Id)).ToList();
         public List<ArtefactGameDataModel> GameArtefactsList => StaticArtefactData.Values.ToList();
-        public ArtefactData GetArtefact(int key) => new ArtefactData(GetGameArtefact(key), GetUserArtefact(key));
-
+        public ArtefactData GetArtefact(int itemId) => new ArtefactData(StaticArtefactData[itemId], ArtefactStates[itemId]);
 
         public void UpgradeArtefact(int artefact, int levels, UnityAction<bool> call)
         {
@@ -86,7 +84,7 @@ namespace GM.Artefacts.Data
                     App.Events.PrestigePointsChanged.Invoke(resp.UnlockCost * -1);
                 }
 
-                call.Invoke(resp.StatusCode == HTTPCodes.Success, resp.StatusCode == HTTPCodes.Success ? null : GetArtefact(resp.Artefact.Id));
+                call.Invoke(resp.StatusCode == HTTPCodes.Success, resp.StatusCode == HTTPCodes.Success ? GetArtefact(resp.Artefact.Id) : null);
             });
         }
     }

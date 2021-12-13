@@ -3,54 +3,54 @@
     "itemId": 0,
     "bonusType": 400,
     "baseEffect": 1.25,
-    "levelEffect": 0.25
+    "levelEffect": 0.05
   },
   {
     "itemId": 1,
     "bonusType": 600,
     "baseEffect": 1.2,
-    "levelEffect": 0.3
+    "levelEffect": 0.05
   },
   {
     "itemId": 2,
     "bonusType": 601,
     "baseEffect": 1.25,
-    "levelEffect": 0.4
+    "levelEffect": 0.05
   },
   {
     "itemId": 3,
     "bonusType": 602,
     "baseEffect": 1.4,
-    "levelEffect": 0.4
+    "levelEffect": 0.05
   },
   {
     "itemId": 4,
     "bonusType": 603,
     "baseEffect": 1.4,
-    "levelEffect": 0.4
+    "levelEffect": 0.05
   },
   {
     "itemId": 5,
     "bonusType": 700,
     "baseEffect": 1.6,
-    "levelEffect": 0.6
+    "levelEffect": 0.05
   },
   {
     "itemId": 6,
     "bonusType": 800,
     "baseEffect": 1.2,
-    "levelEffect": 0.3
+    "levelEffect": 0.05
   },
   {
     "itemId": 7,
     "bonusType": 801,
     "baseEffect": 1.3,
-    "levelEffect": 0.4
+    "levelEffect": 0.05
   },
   {
     "itemId": 8,
     "bonusType": 802,
     "baseEffect": 1.3,
-    "levelEffect": 0.4
+    "levelEffect": 0.05
   }
 ]

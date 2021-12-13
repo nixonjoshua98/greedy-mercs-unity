@@ -50,7 +50,7 @@ namespace GM.Common
         #region Armoury
         public static double ArmouryItemBonusValue(int level, int owned, float baseEffect, float levelEffect)
         {
-            return (baseEffect + (levelEffect * (level - 1))) * (1 + (owned / 10.0f));
+            return (baseEffect + (levelEffect * ((level + owned) - 1)));
         }
 
         public static int ArmouryItemUpgradeCost(int level)

@@ -45,12 +45,15 @@ namespace GM.Core
         {
             get
             {
-                var ls = MercPassiveBonuses
-                    .Concat(ArtefactBonuses)
-                    .Concat(UpgradeBonuses)
-                    .Concat(ArmouryBonuses);
+                return cache.Get<Dictionary<BonusType, BigDouble>>("CombinedBonuses", 1, () =>
+                {
+                    var ls = MercPassiveBonuses
+                        .Concat(ArtefactBonuses)
+                        .Concat(UpgradeBonuses)
+                        .Concat(ArmouryBonuses);
 
-                return CreateBonusDictionary(ls);
+                    return CreateBonusDictionary(ls);
+                });
             }
         }
 

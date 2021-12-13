@@ -26,7 +26,7 @@ namespace GM.Artefacts.UI
             OnArtefactUnlocked = action;
         }
 
-        IEnumerator ArtefactRotationAnimation(ArtefactGameDataModel unlockedArtefact, Action finishedAction)
+        IEnumerator ArtefactRotationAnimation(ArtefactData unlockedArtefact, Action finishedAction)
         {
             // Fetch a random animation duration
             float animationTimer = UnityEngine.Random.Range(2.5f, 4.0f);
@@ -91,9 +91,7 @@ namespace GM.Artefacts.UI
             {
                 if (success)
                 {
-                    ArtefactGameDataModel artefactGameData = App.Data.Artefacts.GetGameArtefact(artefact.Id);
-
-                    var coro = ArtefactRotationAnimation(artefactGameData, () =>
+                    var coro = ArtefactRotationAnimation(artefact, () =>
                     {
                         UpdateUnlockButtonText();
 

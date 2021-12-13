@@ -1,8 +1,6 @@
-import functools as ft
 import os
 from typing import Union
 
-import yaml
 from cachetools import TTLCache
 from cachetools import cached as cached_decorator
 from fastapi import FastAPI
@@ -16,12 +14,7 @@ class Application(FastAPI):
         super(Application, self).__init__(*args, **kwargs)
 
         self.debug = os.environ.get("DEBUG", "0") == "1"
-
-    @ft.cached_property
-    def config(self) -> dict:
-        f: str = os.path.join(os.getcwd(), "config.yaml")
-        with open(f) as fh:
-            return yaml.safe_load(fh)
+        self.config = utils.yaml_load(os.path.join(os.getcwd(), "config.yaml"))
 
     @cached_decorator(TTLCache(maxsize=1024, ttl=0))
     def get_static_file(self, f: str) -> Union[dict, list]:

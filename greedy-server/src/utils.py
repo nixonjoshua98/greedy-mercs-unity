@@ -1,9 +1,9 @@
 import datetime as dt
 import json
 import os
-from typing import Any, Iterable, Optional, TypeVar, Union
-
+import yaml
 import bson
+from typing import Any, Iterable, Optional, TypeVar, Union
 from fastapi.encoders import jsonable_encoder as _jsonable_encoder
 
 T = TypeVar("T")
@@ -22,6 +22,11 @@ def get(ls: Iterable[T], **attrs: Any) -> Optional[T]:
             return val
 
     return None
+
+
+def yaml_load(fp: str) -> dict:
+    with open(fp) as fh:
+        return yaml.safe_load(fh)
 
 
 def json_dump(d: Union[dict, list]) -> str:

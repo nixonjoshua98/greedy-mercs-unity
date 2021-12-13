@@ -47,13 +47,13 @@ namespace GM.Armoury.Data
 
         public ArmouryItemGameDataModel GetGameItem(int key) => GameItemsDict[key];
 
-        public bool TryGetOwnedItem(int key, out ArmouryItemData result)
+        public bool TryGetOwnedItem(int itemId, out ArmouryItemData result)
         {
             result = default;
 
-            if (DoesUserOwnItem(key))
+            if (DoesUserOwnItem(itemId))
             {
-                result = GetItem(key);
+                result = GetItem(itemId);
                 return true;
             }
             return false;

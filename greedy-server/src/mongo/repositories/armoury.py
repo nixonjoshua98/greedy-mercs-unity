@@ -48,7 +48,9 @@ class ArmouryRepository:
 
         return [ArmouryItemModel.parse_obj(ele) for ele in ls]
 
-    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool) -> Optional[ArmouryItemModel]:
+    async def update_item(
+        self, uid, iid: int, update: dict, *, upsert: bool
+    ) -> Optional[ArmouryItemModel]:
         r = await self._col.find_one_and_update(
             {Fields.USER_ID: uid, Fields.ITEM_ID: iid},
             update,
@@ -58,11 +60,23 @@ class ArmouryRepository:
 
         return ArmouryItemModel.parse_obj(r) if r is not None else None
 
-    async def inc_item_owned(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
-        return await self.update_item(uid, iid, {"$inc": {Fields.NUM_OWNED: val}}, upsert=True)
+    async def inc_item_owned(
+        self, uid: ObjectId, iid: int, val: int
+    ) -> Optional[ArmouryItemModel]:
+        return await self.update_item(
+            uid, iid, {"$inc": {Fields.NUM_OWNED: val}}, upsert=True
+        )
 
-    async def inc_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
-        return await self.update_item(uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False)
+    async def inc_item_level(
+        self, uid: ObjectId, iid: int, val: int
+    ) -> Optional[ArmouryItemModel]:
+        return await self.update_item(
+            uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False
+        )
 
-    async def inc_merge_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
-        return await self.update_item(uid, iid, {"$inc": {Fields.MERGE_LEVEL: val}}, upsert=False)
+    async def inc_merge_item_level(
+        self, uid: ObjectId, iid: int, val: int
+    ) -> Optional[ArmouryItemModel]:
+        return await self.update_item(
+            uid, iid, {"$inc": {Fields.MERGE_LEVEL: val}}, upsert=False
+        )

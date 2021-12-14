@@ -38,7 +38,9 @@ def _create_console_handler(level: int):
 def _create_file_handler(level: int):
     os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
 
-    handler = RotatingFileHandler(filename=LOG_FILE_PATH, backupCount=5, maxBytes=100_000, delay=True)
+    handler = RotatingFileHandler(
+        filename=LOG_FILE_PATH, backupCount=5, maxBytes=100_000, delay=True
+    )
 
     handler.setLevel(level)
 

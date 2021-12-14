@@ -23,7 +23,9 @@ class RequestContext:
         return RequestContext(session.user_id)
 
 
-async def request_context(request: ServerRequest, cache: MemoryCache = Depends(memory_cache)) -> RequestContext:
+async def request_context(
+    request: ServerRequest, cache: MemoryCache = Depends(memory_cache)
+) -> RequestContext:
     if (auth_key := _get_auth_from_request(request)) is None:
         raise HTTPException(401, detail="Unauthorized")
 
@@ -45,4 +47,3 @@ def _prev_daily_reset_datetime(now: dt.datetime) -> dt.datetime:
     reset_time = now.replace(hour=20, minute=0, second=0, microsecond=0)
 
     return reset_time - dt.timedelta(days=1) if now <= reset_time else reset_time
-

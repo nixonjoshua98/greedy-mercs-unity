@@ -3,8 +3,7 @@ from fastapi import Depends
 from src.authentication import RequestContext, request_context
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
-from src.routing.handlers.armoury import (UpgradeItemHandler,
-                                          UpgradeItemResponse)
+from src.routing.handlers.armoury import UpgradeItemHandler, UpgradeItemResponse
 
 
 class ArmouryItemActionModel(BaseModel):
@@ -22,7 +21,9 @@ async def upgrade(
 ):
     resp: UpgradeItemResponse = await handler.handle(user, data.item_id)
 
-    return ServerResponse({
-        "item": resp.item.to_client_dict(),
-        "currencyItems": resp.currencies.to_client_dict(),
-    })
+    return ServerResponse(
+        {
+            "item": resp.item.to_client_dict(),
+            "currencyItems": resp.currencies.to_client_dict(),
+        }
+    )

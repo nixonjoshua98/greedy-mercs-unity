@@ -4,8 +4,10 @@ from src.authentication import RequestContext, request_context
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
 
-from ..handlers.bountyshop import (PurchaseArmouryItemHandler,
-                                   PurchaseArmouryItemResponse)
+from ..handlers.bountyshop import (
+    PurchaseArmouryItemHandler,
+    PurchaseArmouryItemResponse,
+)
 
 router = APIRouter()
 
@@ -18,12 +20,14 @@ class ItemData(BaseModel):
 async def purchase_armoury_item(
     data: ItemData,
     ctx: RequestContext = Depends(request_context),
-    handler: PurchaseArmouryItemHandler = Depends(PurchaseArmouryItemHandler)
+    handler: PurchaseArmouryItemHandler = Depends(PurchaseArmouryItemHandler),
 ):
     resp: PurchaseArmouryItemResponse = await handler.handle(ctx.user_id, data.item_id)
 
-    return ServerResponse({
-        "currencyItems": resp.currencies.to_client_dict(),
-        "purchaseCost": resp.purchase_cost,
-        "armouryItem": resp.item.to_client_dict(),
-    })
+    return ServerResponse(
+        {
+            "currencyItems": resp.currencies.to_client_dict(),
+            "purchaseCost": resp.purchase_cost,
+            "armouryItem": resp.item.to_client_dict(),
+        }
+    )

@@ -3,18 +3,15 @@ from fastapi import Depends
 from src.authentication import RequestContext, request_context
 from src.authentication.session import Session
 from src.cache import MemoryCache, memory_cache
-from src.mongo.repositories.accounts import (AccountsRepository,
-                                             accounts_repository)
-from src.mongo.repositories.armoury import (ArmouryRepository,
-                                            armoury_repository)
-from src.mongo.repositories.artefacts import (ArtefactsRepository,
-                                              artefacts_repository)
-from src.mongo.repositories.bounties import (BountiesRepository,
-                                             bounties_repository)
-from src.mongo.repositories.bountyshop import (BountyShopRepository,
-                                               inject_bountyshop_repo)
-from src.mongo.repositories.currency import (CurrencyRepository,
-                                             currency_repository)
+from src.mongo.repositories.accounts import AccountsRepository, accounts_repository
+from src.mongo.repositories.armoury import ArmouryRepository, armoury_repository
+from src.mongo.repositories.artefacts import ArtefactsRepository, artefacts_repository
+from src.mongo.repositories.bounties import BountiesRepository, bounties_repository
+from src.mongo.repositories.bountyshop import (
+    BountyShopRepository,
+    inject_bountyshop_repo,
+)
+from src.mongo.repositories.currency import CurrencyRepository, currency_repository
 from src.pymodels import BaseModel
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
@@ -39,13 +36,15 @@ def game_data(
     s_mercs: list[StaticMerc] = Depends(inject_merc_data),
     svr_state: ServerState = Depends(ServerState),
 ):
-    return ServerResponse({
-        "nextDailyReset": svr_state.next_daily_reset,
-        "artefacts": [art.dict() for art in s_artefacts],
-        "bounties": s_bounties.dict(),
-        "armoury": [it.dict() for it in s_armoury],
-        "mercs": [m.dict() for m in s_mercs],
-    })
+    return ServerResponse(
+        {
+            "nextDailyReset": svr_state.next_daily_reset,
+            "artefacts": [art.dict() for art in s_artefacts],
+            "bounties": s_bounties.dict(),
+            "armoury": [it.dict() for it in s_armoury],
+            "mercs": [m.dict() for m in s_mercs],
+        }
+    )
 
 
 @router.get("/userdata")
@@ -56,14 +55,16 @@ async def user_data(
     armoury_repo: ArmouryRepository = Depends(armoury_repository),
     bounties_repo: BountiesRepository = Depends(bounties_repository),
     artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
-    bountyshop_repo: BountyShopRepository = Depends(inject_bountyshop_repo)
+    bountyshop_repo: BountyShopRepository = Depends(inject_bountyshop_repo),
 ):
     currencies = await currency_repo.get_user(user.user_id)
     bounties = await bounties_repo.get_user_bounties(user.user_id)
     armoury = await armoury_repo.get_user_items(user.user_id)
     artefacts = await artefacts_repo.get_all_artefacts(user.user_id)
 
-    bshop_purchases = await bountyshop_repo.get_daily_purchases(user.user_id, user.prev_daily_reset)
+    bshop_purchases = await bountyshop_repo.get_daily_purchases(
+        user.user_id, user.prev_daily_reset
+    )
 
     data = {
         "currencyItems": currencies.to_client_dict(),

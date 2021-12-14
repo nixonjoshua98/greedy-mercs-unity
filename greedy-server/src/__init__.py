@@ -25,8 +25,12 @@ def create_app():
     )
 
     app.add_exception_handler(HTTPException, exception_handlers.handle_http_exception)
-    app.add_exception_handler(RequestValidationError, exception_handlers.handle_request_validation_exception)
-    app.add_exception_handler(HandlerException, exception_handlers.handle_handler_exception)
+    app.add_exception_handler(
+        RequestValidationError, exception_handlers.handle_request_validation_exception
+    )
+    app.add_exception_handler(
+        HandlerException, exception_handlers.handle_handler_exception
+    )
 
     app.add_event_handler("startup", ft.partial(_on_app_start, app))
 

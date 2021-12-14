@@ -11,8 +11,7 @@ from src.routing.dependencies.serverstate import ServerState
 
 from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import generate_from_config as generate_loot_table
-from .shopconfig import (BountyShopConfig, LevelBountyShopConfig,
-                         bounty_shop_config)
+from .shopconfig import BountyShopConfig, LevelBountyShopConfig, bounty_shop_config
 
 
 async def dynamic_bounty_shop(

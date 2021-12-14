@@ -9,7 +9,6 @@ from src import utils
 
 
 class Application(FastAPI):
-
     def __init__(self, *args, **kwargs):
         super(Application, self).__init__(*args, **kwargs)
 

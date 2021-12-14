@@ -2,11 +2,11 @@
 {
     public class PurchaseBountyShopItem : IServerRequest
     {
-        public string ShopItem { get; set; }
+        public string ItemId { get; set; }
 
         public PurchaseBountyShopItem(string item)
         {
-            ShopItem = item;
+            ItemId = item;
         }
     }
 

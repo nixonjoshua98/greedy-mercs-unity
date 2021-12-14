@@ -58,6 +58,9 @@ class ArmouryRepository:
 
         return ArmouryItemModel.parse_obj(r) if r is not None else None
 
+    async def inc_item_owned(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
+        return await self.update_item(uid, iid, {"$inc": {Fields.NUM_OWNED: val}}, upsert=True)
+
     async def inc_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
         return await self.update_item(uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False)
 

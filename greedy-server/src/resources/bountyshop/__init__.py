@@ -45,13 +45,13 @@ class DynamicBountyShop:
         self.config = config
         self.s_armoury: list[StaticArmouryItem] = s_armoury
 
-        self.armoury_item = self._generate()
+        self.armoury_items = self._generate()
 
     def get_item(self, item: str) -> BountyShopArmouryItem:
-        return utils.get(self.armoury_item, id=item)
+        return utils.get(self.armoury_items, id=item)
 
     def response_dict(self) -> dict[str, list]:
-        return {"armouryItems": [ai.to_client_dict() for ai in self.armoury_item]}
+        return {"armouryItems": [ai.to_client_dict() for ai in self.armoury_items]}
 
     # = Shop Generation Methods = #
 

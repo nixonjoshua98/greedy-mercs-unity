@@ -10,7 +10,7 @@ namespace GM.Controllers
         static ClickAnimationController Instance = null;
 
         [Header("References")]
-        public Animator ClickAnimatorObject;
+        public GameObject ClickPS;
 
         private void Awake()
         {
@@ -28,7 +28,9 @@ namespace GM.Controllers
 
         protected override void OnClick(Vector3 pos)
         {
-            
+            pos = Camera.main.ScreenToWorldPoint(pos);
+
+            Instantiate<ParticleSystem>(ClickPS, new Vector3(pos.x, pos.y));
         }
     }
 }

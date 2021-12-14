@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GM.Controllers
 {
-    public abstract class AbstractClickController : MonoBehaviour
+    public abstract class AbstractClickController : Core.GMMonoBehaviour
     {
         private void Update()
         {
@@ -20,7 +18,7 @@ namespace GM.Controllers
         {
             if (Input.GetMouseButtonDown(0))
             {
-                OnClick(Input.mousePosition);
+                OnClick(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
             }
         }
 
@@ -32,7 +30,7 @@ namespace GM.Controllers
 
                 if (t.phase == TouchPhase.Began)
                 {
-                    OnClick(t.position);
+                    OnClick(new Vector3(t.position.x, t.position.y));
                 }
             }
         }

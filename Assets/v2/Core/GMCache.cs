@@ -24,7 +24,7 @@ namespace GM.Core
             return false;
         }
 
-        GM.Common.TTLCache cache = new GM.Common.TTLCache();
+        TTLCache cache = new TTLCache();
 
         IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => App.Data.Upgrades.Upgrades.Values.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.Value));
         List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
@@ -45,15 +45,12 @@ namespace GM.Core
         {
             get
             {
-                return cache.Get<Dictionary<BonusType, BigDouble>>("CombinedBonuses", 1, () =>
-                {
-                    var ls = MercPassiveBonuses
-                        .Concat(ArtefactBonuses)
-                        .Concat(UpgradeBonuses)
-                        .Concat(ArmouryBonuses);
+                var ls = MercPassiveBonuses
+                    .Concat(ArtefactBonuses)
+                    .Concat(UpgradeBonuses)
+                    .Concat(ArmouryBonuses);
 
-                    return CreateBonusDictionary(ls);
-                });
+                return CreateBonusDictionary(ls);
             }
         }
 

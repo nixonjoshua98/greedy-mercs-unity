@@ -20,7 +20,7 @@ async def purchase_armoury_item(
     ctx: RequestContext = Depends(request_context),
     handler: PurchaseArmouryItemHandler = Depends(PurchaseArmouryItemHandler)
 ):
-    resp: PurchaseArmouryItemResponse = await handler.handle(ctx.user_id, data.item_id, ctx.prev_daily_reset)
+    resp: PurchaseArmouryItemResponse = await handler.handle(ctx.user_id, data.item_id)
 
     return ServerResponse({
         "currencyItems": resp.currencies.to_client_dict(),

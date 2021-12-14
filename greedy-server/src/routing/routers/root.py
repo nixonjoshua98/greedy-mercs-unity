@@ -3,7 +3,6 @@ from fastapi import Depends
 from src.authentication import RequestContext, request_context
 from src.authentication.session import Session
 from src.cache import MemoryCache, memory_cache
-from src.mongo.repositories.bountyshop import BountyShopRepository, inject_bountyshop_repo
 from src.mongo.repositories.accounts import (AccountsRepository,
                                              accounts_repository)
 from src.mongo.repositories.armoury import (ArmouryRepository,
@@ -12,6 +11,8 @@ from src.mongo.repositories.artefacts import (ArtefactsRepository,
                                               artefacts_repository)
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              bounties_repository)
+from src.mongo.repositories.bountyshop import (BountyShopRepository,
+                                               inject_bountyshop_repo)
 from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
 from src.pymodels import BaseModel

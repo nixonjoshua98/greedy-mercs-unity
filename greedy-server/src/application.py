@@ -17,5 +17,4 @@ class Application(FastAPI):
 
     @cached_decorator(TTLCache(maxsize=1024, ttl=0))
     def get_static_file(self, f: str) -> Union[dict, list]:
-        """Load a static data file and cache it"""
         return utils.load_static_data_file(f)

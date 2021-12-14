@@ -21,16 +21,21 @@ namespace GM.BountyShop.UI
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
 
             IconImage.sprite = AssignedItem.Icon;
+
+            CheckAvailability();
         }
 
-        // == Callbacks == //
-
-        void OnItemPurchased()
+        void CheckAvailability()
         {
             if (!AssignedItem.InStock)
             {
                 OutStockObject.SetActive(true);
             }
+        }
+
+        void OnItemPurchased()
+        {
+            CheckAvailability();
         }
 
         public void OnClick()

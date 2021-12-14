@@ -1,32 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
+using GM.BountyShop.Models;
+using UnityEngine;
 
 namespace GM.BountyShop.Data
 {
     public class BountyShopData : Core.GMClass
     {
-        Dictionary<string, BountyShopPurchaseData> Purchases;
+        Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
+
         Dictionary<string, BountyShopArmouryItem> ArmouryItemsDict;
 
-        public BountyShopData(Models.CompleteBountyShopDataModel data)
+        public BountyShopData(CompleteBountyShopDataModel data)
         {
-            Purchases = new Dictionary<string, BountyShopPurchaseData>();
-
             Update(data.ShopItems.ArmouryItems);
+            GetNumItemPurchases(data.Purchases);
         }
 
-        public BountyShopPurchaseData GetItemPurchaseData(string id)
+        public int GetItemPurchaseData(string id)
         {
-            if (!Purchases.ContainsKey(id))
-            {
-                return new BountyShopPurchaseData
-                {
-                    TotalDailyPurchases = 0
-                };
-            }
+            return itemPurchases.Get(id, 0);
+        }
 
-            return Purchases[id];
+        void GetNumItemPurchases(List<BountyShopPurchaseModel> purchaseList)
+        {
+            itemPurchases.Clear();
+
+            foreach (var group in purchaseList.GroupBy(x => x.ItemId))
+            {
+                itemPurchases[group.Key] = group.Count();
+            }
         }
 
         /// <summary>Public accessor for only armoury items</summary>
@@ -42,6 +46,8 @@ namespace GM.BountyShop.Data
             {
                 if (resp.StatusCode == 200)
                 {
+                    itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1; // Increment purchase count
+
                     App.Data.Armoury.Update(resp.ArmouryItem);
 
                     App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);

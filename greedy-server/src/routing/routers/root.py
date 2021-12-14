@@ -3,6 +3,7 @@ from fastapi import Depends
 from src.authentication import RequestContext, request_context
 from src.authentication.session import Session
 from src.cache import MemoryCache, memory_cache
+from src.mongo.repositories.bountyshop import BountyShopRepository, inject_bountyshop_repo
 from src.mongo.repositories.accounts import (AccountsRepository,
                                              accounts_repository)
 from src.mongo.repositories.armoury import (ArmouryRepository,
@@ -54,11 +55,14 @@ async def user_data(
     armoury_repo: ArmouryRepository = Depends(armoury_repository),
     bounties_repo: BountiesRepository = Depends(bounties_repository),
     artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
+    bountyshop_repo: BountyShopRepository = Depends(inject_bountyshop_repo)
 ):
     currencies = await currency_repo.get_user(user.user_id)
     bounties = await bounties_repo.get_user_bounties(user.user_id)
     armoury = await armoury_repo.get_user_items(user.user_id)
     artefacts = await artefacts_repo.get_all_artefacts(user.user_id)
+
+    bshop_purchases = await bountyshop_repo.get_daily_purchases(user.user_id, user.prev_daily_reset)
 
     data = {
         "currencyItems": currencies.to_client_dict(),
@@ -66,7 +70,7 @@ async def user_data(
         "armouryItems": [ai.to_client_dict() for ai in armoury],
         "artefacts": [art.to_client_dict() for art in artefacts],
         "bountyShop": {
-            "dailyPurchases": {},
+            "purchases": [x.to_client_dict() for x in bshop_purchases],
             "shopItems": s_bounty_shop.response_dict(),
         },
     }

@@ -106,7 +106,7 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        string ResolveURL(string endpoint) => $"{ServerConfig.Url_}/{endpoint}";
+        string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
 
         void SendPublicRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {

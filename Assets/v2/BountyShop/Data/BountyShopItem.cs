@@ -24,14 +24,6 @@ namespace GM.BountyShop.Data
         public int PurchaseCost { get; set; }
 
         [JsonIgnore]
-        public bool InStock
-        {
-            get
-            {
-                var purchase = App.Data.BountyShop.GetItemPurchaseData(Id);
-
-                return purchaseLimit > purchase.TotalDailyPurchases;
-            }
-        }
+        public bool InStock => purchaseLimit > App.Data.BountyShop.GetItemPurchaseData(Id);
     }
 }

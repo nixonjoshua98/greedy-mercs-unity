@@ -44,27 +44,20 @@ class ArtefactsRepository:
     async def inc_level(self, uid: ObjectId, art_id: int, levels: int) -> Optional[ArtefactModel]:
         return await self.update_artefact(uid, art_id, {"$inc": {Fields.LEVEL: levels}})
 
-    async def get_artefact(self, uid, artid) -> Union[ArtefactModel, None]:
+    async def get_artefact(self, uid, artid) -> Optional[ArtefactModel]:
         r = await self._col.find_one({Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid})
 
         return ArtefactModel.parse_obj(r) if r else None
 
-    async def add_new_artefact(self, uid, artid) -> ArtefactModel:
-        r = await self._col.find_one_and_update(
-            {
-                Fields.USER_ID: uid, Fields.ARTEFACT_ID: artid
-            },
-            {
-                "$set": {
-                    Fields.LEVEL: 1,
-                    Fields.UNLOCK_TIME: dt.datetime.utcnow()
-                }
-            },
-            upsert=True,
-            return_document=ReturnDocument.AFTER
-        )
+    async def add_new_artefact(self, uid, artid) -> Optional[ArtefactModel]:
+        await self._col.insert_one({
+            Fields.USER_ID: uid,
+            Fields.ARTEFACT_ID: artid,
+            Fields.LEVEL: 1,
+            Fields.UNLOCK_TIME: dt.datetime.utcnow()
+        })
 
-        return ArtefactModel.parse_obj(r) if r else None
+        return await self.get_artefact(uid, artid)
 
     async def update_artefact(self, uid, artid, update: dict, *, upsert: bool = False) -> Optional[ArtefactModel]:
         r = await self._col.find_one_and_update(

@@ -16,7 +16,7 @@ class RequestContext:
     def __init__(self, uid: ObjectId):
         self.user_id: ObjectId = uid
         self.datetime: dt.datetime = dt.datetime.utcnow()
-        self.prev_daily_reset: dt.datetime = _prev_reset_datetime(self.datetime)
+        self.prev_daily_reset: dt.datetime = _prev_daily_reset_datetime(self.datetime)
 
     @classmethod
     def from_session(cls, session: Session) -> RequestContext:
@@ -41,7 +41,7 @@ def _get_session_from_cache(cache: MemoryCache, key: str) -> Optional[Session]:
     return cache.get_session(key)
 
 
-def _prev_reset_datetime(now: dt.datetime) -> dt.datetime:
+def _prev_daily_reset_datetime(now: dt.datetime) -> dt.datetime:
     reset_time = now.replace(hour=20, minute=0, second=0, microsecond=0)
 
     return reset_time - dt.timedelta(days=1) if now <= reset_time else reset_time

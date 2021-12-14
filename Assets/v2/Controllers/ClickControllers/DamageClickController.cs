@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace GM.Controllers
 {
     [RequireComponent(typeof(RectTransform))]
-    public class DamageClickController : MonoBehaviour
+    public class DamageClickController : AbstractClickController
     {
         public UnityEvent<Vector2> E_OnClick { get; private set; } = new UnityEvent<Vector2>();
 
@@ -17,35 +17,14 @@ namespace GM.Controllers
             GetComponent<RectTransform>().GetWorldCorners(RectTransformCorners);
         }
 
-        void Update()
+        protected override void OnClick(Vector3 pos)
         {
-#if UNITY_EDITOR
-            if (Input.GetMouseButtonDown(0))
+            pos = PositionRelativeToScreenWorldPosition(pos);
+
+            if (CollisionCheck(pos))
             {
-                Vector3 pos = PositionRelativeToScreenWorldPosition(Input.mousePosition);
-
-                if (CollisionCheck(pos))
-                {
-                    E_OnClick.Invoke(pos);
-                }
+                E_OnClick.Invoke(pos);
             }
-#else
-            // Untested
-            for (int i = 0; i < Input.touchCount; ++i)
-            {
-                Touch t = Input.GetTouch(i);
-
-                if (t.phase == TouchPhase.Began)
-                {
-                    Vector3 pos = PositionRelativeToScreenWorldPosition(t.position);
-
-                    if (CollisionCheck(pos))
-                    {
-                        E_OnClick.Invoke(pos);
-                    }
-                }
-            }
-#endif
         }
 
         Vector3 PositionRelativeToScreenWorldPosition(Vector3 pos)

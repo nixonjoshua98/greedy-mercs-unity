@@ -10,12 +10,6 @@ namespace GM.Core
 
         public T Instantiate<T>(GameObject obj, Transform parent) where T : Component => Instantiate(obj, parent).GetComponent<T>();
         public T Instantiate<T>(GameObject obj, Transform parent, Vector3 position) where T : Component => Instantiate(obj, position, Quaternion.identity, parent).GetComponent<T>();
-        public T Instantiate<T>(GameObject obj, Vector3 pos) where T : Component
-        {
-            GameObject o = Instantiate(obj);
-            o.transform.position = pos;
-            return o.GetComponent<T>();
-        }
 
         public T InstantiateUI<T>(GameObject obj) where T : Component => Instantiate(obj, MainCanvas.transform).GetComponent<T>();
     }

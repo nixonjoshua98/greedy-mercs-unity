@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -11,6 +9,9 @@ namespace GM.Controllers
 
         [Header("References")]
         public GameObject ClickPS;
+
+        [Space]
+        public GM.Common.ObjectPool ParticlePool;
 
         private void Awake()
         {
@@ -30,7 +31,9 @@ namespace GM.Controllers
         {
             pos = Camera.main.ScreenToWorldPoint(pos);
 
-            Instantiate<ParticleSystem>(ClickPS, new Vector3(pos.x, pos.y));
+            ParticleSystem inst = ParticlePool.Spawn<ParticleSystem>(new Vector3(pos.x, pos.y, 0));
+
+            inst.Play();
         }
     }
 }

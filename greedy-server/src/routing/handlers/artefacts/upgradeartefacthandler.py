@@ -3,7 +3,7 @@ import dataclasses
 from fastapi import Depends
 
 from src import utils
-from src.authentication import RequestContext
+from src.request_context import AuthenticatedRequestContext
 from src.common import formulas
 from src.mongo.repositories.artefacts import (
     ArtefactModel,
@@ -36,7 +36,7 @@ class UpgradeArtefactHandler(BaseHandler):
         self.currency_repo = currency_repo
 
     async def handle(
-        self, user: RequestContext, artefact_id: int, levels: int
+        self, user: AuthenticatedRequestContext, artefact_id: int, levels: int
     ) -> UpgradeArtefactResponse:
         s_artefact: StaticArtefact = utils.get(self.artefacts_data, id=artefact_id)
         u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(

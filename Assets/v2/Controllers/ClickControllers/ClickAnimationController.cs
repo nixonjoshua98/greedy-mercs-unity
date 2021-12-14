@@ -29,11 +29,11 @@ namespace GM.Controllers
 
         protected override void OnClick(Vector3 pos)
         {
-            pos = Camera.main.ScreenToWorldPoint(pos);
+            ClickObject inst = ParticlePool.Spawn<ClickObject>();
 
-            ParticleSystem inst = ParticlePool.Spawn<ParticleSystem>(new Vector3(pos.x, pos.y, 0));
+            inst.SetScreenPosition(new Vector3(pos.x, pos.y, 0));
 
-            inst.Play();
+            inst.PS.Play();
         }
     }
 }

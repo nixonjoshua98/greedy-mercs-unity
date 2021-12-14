@@ -2,7 +2,7 @@ import dataclasses
 
 from fastapi import Depends
 
-from src.authentication import RequestContext
+from src.request_context import AuthenticatedRequestContext
 from src.mongo.repositories.bounties import (
     BountiesRepository,
     UserBountiesModel,
@@ -30,7 +30,7 @@ class UpdateBountiesHandler(BaseHandler):
         self.currency_repo = currency_repo
 
     async def handle(
-        self, user: RequestContext, bounty_ids: list[int]
+        self, user: AuthenticatedRequestContext, bounty_ids: list[int]
     ) -> UpdateBountiesResponse:
 
         if len(bounty_ids) > self.bounties_data.max_active_bounties:

@@ -1,6 +1,6 @@
 from fastapi import Depends
 
-from src.authentication import RequestContext, request_context
+from src.request_context import AuthenticatedRequestContext, authenticated_context
 from src.pymodels import BaseModel
 from src.routing import APIRouter, ServerResponse
 
@@ -19,7 +19,7 @@ class ItemData(BaseModel):
 @router.post("/purchase/armouryitem")
 async def purchase_armoury_item(
     data: ItemData,
-    ctx: RequestContext = Depends(request_context),
+    ctx: AuthenticatedRequestContext = Depends(authenticated_context),
     handler: PurchaseArmouryItemHandler = Depends(PurchaseArmouryItemHandler),
 ):
     resp: PurchaseArmouryItemResponse = await handler.handle(ctx.user_id, data.item_id)

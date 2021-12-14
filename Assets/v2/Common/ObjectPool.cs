@@ -12,8 +12,6 @@ namespace GM.Common
 
         public GameObject Spawn()
         {
-            RemoveObjectsFromPool();
-
             if (!TryGetAvailablePooledObject(out GameObject obj))
             {
                 obj = Instantiate(PooledObject);
@@ -26,14 +24,7 @@ namespace GM.Common
             return obj;
         }
 
-        public T Spawn<T>(Vector3 pos) where T: Object
-        {
-            GameObject o = Spawn();
-
-            o.transform.position = pos;
-
-            return o.GetComponent<T>();
-        }
+        public T Spawn<T>() where T: Object => Spawn().GetComponent<T>();
 
         bool TryGetAvailablePooledObject(out GameObject obj)
         {
@@ -49,11 +40,6 @@ namespace GM.Common
             }
 
             return false;
-        }
-
-        void RemoveObjectsFromPool()
-        {
-            Objects.RemoveAll(x => x == null);
         }
     }
 }

@@ -3,7 +3,7 @@ import dataclasses
 from fastapi import Depends
 
 from src import utils
-from src.authentication import RequestContext
+from src.request_context import AuthenticatedRequestContext
 from src.mongo.repositories.armoury import (
     ArmouryItemModel,
     ArmouryRepository,
@@ -34,7 +34,9 @@ class UpgradeItemHandler(BaseHandler):
         self.armoury_repo = armoury_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: RequestContext, item_id: int) -> UpgradeItemResponse:
+    async def handle(
+        self, user: AuthenticatedRequestContext, item_id: int
+    ) -> UpgradeItemResponse:
 
         s_item: StaticArmouryItem = utils.get(self.armoury_data, id=item_id)
         u_item: ArmouryItemModel = await self.armoury_repo.get_user_item(

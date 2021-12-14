@@ -48,7 +48,7 @@ namespace GM.Core
 
         void FetchGameDataFromServer(InitializationPipeline resps)
         {
-            HTTPClient.Instance.FetchGameData((gameDataResp) =>
+            HTTPClient.Instance.FetchStaticData((gameDataResp) =>
             {
                 resps.GameData = gameDataResp;
 

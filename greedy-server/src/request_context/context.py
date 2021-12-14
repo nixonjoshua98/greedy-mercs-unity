@@ -13,26 +13,32 @@ from .session import Session
 
 
 class RequestContext:
-    def __init__(self, uid: ObjectId):
-        self.user_id: ObjectId = uid
+    def __init__(self):
         self.datetime: dt.datetime = dt.datetime.utcnow()
         self.prev_daily_reset: dt.datetime = _prev_daily_reset_datetime(self.datetime)
+        self.next_daily_reset: dt.datetime = self.prev_daily_reset + dt.timedelta(
+            days=1
+        )
 
-    @classmethod
-    def from_session(cls, session: Session) -> RequestContext:
-        return RequestContext(session.user_id)
+
+class AuthenticatedRequestContext(RequestContext):
+    def __init__(self, uid: Optional[ObjectId]):
+        super(AuthenticatedRequestContext, self).__init__()
+
+        self.user_id: Optional[ObjectId] = uid
 
 
-async def request_context(
+async def authenticated_context(
     request: ServerRequest, cache: MemoryCache = Depends(memory_cache)
-) -> RequestContext:
+) -> AuthenticatedRequestContext:
+
     if (auth_key := _get_auth_from_request(request)) is None:
         raise HTTPException(401, detail="Unauthorized")
 
     elif (session := _get_session_from_cache(cache, auth_key)) is None:
         raise HTTPException(401, detail="Unauthorized")
 
-    return RequestContext.from_session(session)
+    return AuthenticatedRequestContext(uid=session.user_id)
 
 
 def _get_auth_from_request(request: ServerRequest) -> Optional[str]:

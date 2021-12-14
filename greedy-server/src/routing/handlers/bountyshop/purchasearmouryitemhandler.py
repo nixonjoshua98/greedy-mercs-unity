@@ -2,7 +2,7 @@ import dataclasses
 import datetime as dt
 from bson import ObjectId
 from fastapi import Depends
-from src.authentication import RequestContext, request_context
+from src.request_context import AuthenticatedRequestContext, authenticated_context
 
 from src.mongo.repositories.armoury import (
     ArmouryItemModel,
@@ -34,7 +34,7 @@ class PurchaseArmouryItemResponse:
 class PurchaseArmouryItemHandler(BaseHandler):
     def __init__(
         self,
-        ctx: RequestContext = Depends(request_context),
+        ctx: AuthenticatedRequestContext = Depends(authenticated_context),
         currency_repo: CurrencyRepository = Depends(currency_repository),
         armoury_repo: ArmouryRepository = Depends(armoury_repository),
         bountyshop_repo: BountyShopRepository = Depends(inject_bountyshop_repo),
@@ -72,6 +72,7 @@ class PurchaseArmouryItemHandler(BaseHandler):
             currencies = await self.currency_repo.inc_value(
                 uid, CurrencyRepoFields.BOUNTY_POINTS, -purchase_cost
             )
+
             armoury_item: ArmouryItemModel = await self.armoury_repo.inc_item_owned(
                 uid, item.armoury_item, 1
             )

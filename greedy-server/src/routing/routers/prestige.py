@@ -1,6 +1,6 @@
 from fastapi import Depends
 
-from src.authentication import RequestContext, request_context
+from src.request_context import AuthenticatedRequestContext, authenticated_context
 from src.common import formulas
 from src.common.enums import BonusType
 from src.mongo.repositories.artefacts import (
@@ -27,24 +27,24 @@ class PrestigeData(BaseModel):
 @router.post("/")
 async def prestige(
     data: PrestigeData,
-    user: RequestContext = Depends(request_context),
+    ctx: AuthenticatedRequestContext = Depends(authenticated_context),
     s_bounties: StaticBounties = Depends(inject_static_bounties),
     s_artefacts: list[StaticArtefact] = Depends(static_artefacts),
     bounties_repo: BountiesRepository = Depends(bounties_repository),
     currency_repo: CurrencyRepository = Depends(currency_repository),
     artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
 ):
-    user_arts = await artefacts_repo.get_all_artefacts(user.user_id)
+    user_arts = await artefacts_repo.get_all_artefacts(ctx.user_id)
 
     await process_prestige_points(
-        user.user_id,
+        ctx.user_id,
         data,
         artefacts=user_arts,
         currency_repo=currency_repo,
         s_artefacts=s_artefacts,
     )
     await process_new_bounties(
-        user.user_id, data, bounties_repo=bounties_repo, s_bounties=s_bounties
+        ctx.user_id, data, bounties_repo=bounties_repo, s_bounties=s_bounties
     )
 
     return ServerResponse({})

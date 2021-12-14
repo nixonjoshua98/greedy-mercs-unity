@@ -4,7 +4,7 @@ import random
 
 from fastapi import Depends
 
-from src.authentication import RequestContext
+from src.request_context import AuthenticatedRequestContext
 from src.mongo.repositories.artefacts import (
     ArtefactModel,
     ArtefactsRepository,
@@ -35,7 +35,7 @@ class UnlockArtefactHandler(BaseHandler):
         self.artefacts_repo = artefacts_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: RequestContext) -> UnlockArtefactResponse:
+    async def handle(self, user: AuthenticatedRequestContext) -> UnlockArtefactResponse:
         u_artefacts: list[ArtefactModel] = await self.artefacts_repo.get_all_artefacts(
             user.user_id
         )

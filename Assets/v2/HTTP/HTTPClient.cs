@@ -58,9 +58,9 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void FetchGameData(Action<FetchGameDataResponse> callback)
+        public void FetchStaticData(Action<FetchGameDataResponse> callback)
         {
-            var www = UnityWebRequest.Get(ResolveURL("gamedata"));
+            var www = UnityWebRequest.Get(ResolveURL("static"));
 
             SendPublicRequest(www, callback);
         }

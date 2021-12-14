@@ -5,7 +5,7 @@ import math
 from fastapi import Depends
 
 from src import utils
-from src.authentication import RequestContext
+from src.request_context import AuthenticatedRequestContext
 from src.mongo.repositories.bounties import (
     BountiesRepository,
     UserBountiesModel,
@@ -36,7 +36,7 @@ class BountyClaimHandler(BaseHandler):
         self.bounties_repo = bounties_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: RequestContext) -> BountyClaimResponse:
+    async def handle(self, user: AuthenticatedRequestContext) -> BountyClaimResponse:
         # We use the current server time for the claim
         claim_time = dt.datetime.utcnow()
 

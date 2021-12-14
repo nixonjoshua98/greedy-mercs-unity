@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Optional
 from fastapi import Request
 
 if TYPE_CHECKING:
-    from src.authentication.session import Session
+    from src.request_context.session import Session
 
 
 def memory_cache(request: Request):

@@ -6,6 +6,7 @@
     "currencyItems": {
       "weight": 1,
       "items": [
+        {"itemId": 200}
       ]
     }
   }

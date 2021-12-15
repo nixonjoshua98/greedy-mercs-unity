@@ -1,37 +1,30 @@
 using System.Collections.Generic;
+using System.Linq;
 using GM.Common.Enums;
+using GM.CurrencyItems.ScriptableObjects;
+using UnityEngine;
 
 namespace GM.CurrencyItems.Data
 {
     public class CurrencyItems
     {
-        Dictionary<CurrencyType, CurrencyItemData> Items;
+        Dictionary<CurrencyType, CurrencyItemScriptableObject> Items = new Dictionary<CurrencyType, CurrencyItemScriptableObject>();
 
         public CurrencyItems()
         {
             Update();
         }
 
-        public CurrencyItemData GetItem(CurrencyType item)
+        public CurrencyItemScriptableObject GetItem(CurrencyType item)
         {
             return Items[item];
         }
 
         void Update()
         {
-            Items = new Dictionary<CurrencyType, CurrencyItemData>();
-
-            foreach (var item in LoadLocalData())
-            {
-                Items[item.Item] = new CurrencyItemData
-                {
-                    Icon = item.Icon,
-                    DisplayName = item.DisplayName,
-                    Item = item.Item
-                };
-            }
+            Items = LoadLocalData();
         }
 
-        static ScriptableObjects.CurrencyItemLocalData[] LoadLocalData() => UnityEngine.Resources.LoadAll<ScriptableObjects.CurrencyItemLocalData>("Items");
+        static Dictionary<CurrencyType, CurrencyItemScriptableObject> LoadLocalData() => Resources.LoadAll<CurrencyItemScriptableObject>("Scriptables/CurrencyItems").ToDictionary(x => x.Item, x => x);
     }
 }

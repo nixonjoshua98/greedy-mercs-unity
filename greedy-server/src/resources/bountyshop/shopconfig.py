@@ -17,7 +17,7 @@ class ArmouryItemsConfig(BaseModel):
 # = Currency Items = #
 
 class CurrencyItemConfig(BaseModel):
-    ...
+    item_id: int = Field(..., alias="ItemId")
 
 
 class CurrencyItemsConfig(BaseModel):

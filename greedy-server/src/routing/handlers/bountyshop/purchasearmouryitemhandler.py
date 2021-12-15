@@ -1,26 +1,21 @@
 import dataclasses
 import datetime as dt
+
 from bson import ObjectId
 from fastapi import Depends
-from src.request_context import AuthenticatedRequestContext, authenticated_context
 
-from src.mongo.repositories.armoury import (
-    ArmouryItemModel,
-    ArmouryRepository,
-    armoury_repository,
-)
-from src.mongo.repositories.bountyshop import (
-    BountyShopRepository,
-    inject_bountyshop_repo,
-)
+from src.mongo.repositories.armoury import (ArmouryItemModel,
+                                            ArmouryRepository,
+                                            armoury_repository)
+from src.mongo.repositories.bountyshop import (BountyShopRepository,
+                                               inject_bountyshop_repo)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.bountyshop import (
-    BountyShopArmouryItem,
-    dynamic_bounty_shop,
-    DynamicBountyShop,
-)
+from src.request_context import (AuthenticatedRequestContext,
+                                 authenticated_context)
+from src.resources.bountyshop import (BountyShopArmouryItem, DynamicBountyShop,
+                                      dynamic_bounty_shop)
 from src.routing.handlers.abc import BaseHandler, HandlerException
 
 
@@ -73,9 +68,7 @@ class PurchaseArmouryItemHandler(BaseHandler):
                 uid, CurrencyRepoFields.BOUNTY_POINTS, -purchase_cost
             )
 
-            armoury_item: ArmouryItemModel = await self.armoury_repo.inc_item_owned(
-                uid, item.armoury_item, 1
-            )
+            armoury_item: ArmouryItemModel = await self.armoury_repo.inc_item_owned(uid, item.armoury_item, 1)
 
         finally:  # Always log the purchase since we do not know what the error was here
             await self.log_purchase(uid, item, purchase_cost)
@@ -89,7 +82,7 @@ class PurchaseArmouryItemHandler(BaseHandler):
 
     async def get_item_purchase_count(
         self, uid: ObjectId, item_id: str, prev_reset: dt.datetime
-    ):
+    ) -> int:
         purchases = await self.shop_repo.get_daily_item_purchases(
             uid, item_id, prev_reset
         )

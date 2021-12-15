@@ -17,7 +17,6 @@ class LevelBountyShopConfig(BaseModel):
 
 
 class BountyShopConfig(BaseModel):
-    # Is there a better way of storing the config for each level in a single file?
     level0: LevelBountyShopConfig = Field(..., alias="level-0")
 
     def get_level_config(self, lvl: int) -> LevelBountyShopConfig:

@@ -1,15 +1,14 @@
 from fastapi import Depends
 
-from src.request_context import AuthenticatedRequestContext, authenticated_context
 from src.pymodels import BaseModel
+from src.request_context import (AuthenticatedRequestContext,
+                                 authenticated_context)
 from src.routing import APIRouter, ServerResponse
 
-from ..handlers.artefacts import (
-    UnlockArtefactHandler,
-    UnlockArtefactResponse,
-    UpgradeArtefactHandler,
-    UpgradeArtefactResponse,
-)
+from ..handlers.artefacts import (UnlockArtefactHandler,
+                                  UnlockArtefactResponse,
+                                  UpgradeArtefactHandler,
+                                  UpgradeArtefactResponse)
 
 router = APIRouter()
 

@@ -1,1 +1,2 @@
-from .context import RequestContext, AuthenticatedRequestContext, authenticated_context
+from .context import (AuthenticatedRequestContext, RequestContext,
+                      authenticated_context)

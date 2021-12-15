@@ -16,9 +16,7 @@ class RequestContext:
     def __init__(self):
         self.datetime: dt.datetime = dt.datetime.utcnow()
         self.prev_daily_reset: dt.datetime = _prev_daily_reset_datetime(self.datetime)
-        self.next_daily_reset: dt.datetime = self.prev_daily_reset + dt.timedelta(
-            days=1
-        )
+        self.next_daily_reset: dt.datetime = self.prev_daily_reset + dt.timedelta(days=1)
 
 
 class AuthenticatedRequestContext(RequestContext):
@@ -32,17 +30,13 @@ async def authenticated_context(
     request: ServerRequest, cache: MemoryCache = Depends(memory_cache)
 ) -> AuthenticatedRequestContext:
 
-    if (auth_key := _get_auth_from_request(request)) is None:
+    if (auth_key := request.headers.get("authentication")) is None:
         raise HTTPException(401, detail="Unauthorized")
 
     elif (session := _get_session_from_cache(cache, auth_key)) is None:
         raise HTTPException(401, detail="Unauthorized")
 
     return AuthenticatedRequestContext(uid=session.user_id)
-
-
-def _get_auth_from_request(request: ServerRequest) -> Optional[str]:
-    return request.headers.get("authentication")
 
 
 def _get_session_from_cache(cache: MemoryCache, key: str) -> Optional[Session]:

@@ -1,14 +1,13 @@
 from fastapi import Depends
 
-from src.request_context import AuthenticatedRequestContext, authenticated_context
 from src.pymodels import BaseModel
+from src.request_context import (AuthenticatedRequestContext,
+                                 authenticated_context)
 from src.routing import APIRouter, ServerResponse
-from src.routing.handlers.bounties import (
-    BountyClaimHandler,
-    BountyClaimResponse,
-    UpdateBountiesHandler,
-    UpdateBountiesResponse,
-)
+from src.routing.handlers.bounties import (BountyClaimHandler,
+                                           BountyClaimResponse,
+                                           UpdateBountiesHandler,
+                                           UpdateBountiesResponse)
 
 router = APIRouter()
 

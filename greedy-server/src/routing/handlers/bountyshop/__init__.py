@@ -1,4 +1,2 @@
-from .purchasearmouryitemhandler import (
-    PurchaseArmouryItemHandler,
-    PurchaseArmouryItemResponse,
-)
+from .purchasearmouryitemhandler import (PurchaseArmouryItemHandler,
+                                         PurchaseArmouryItemResponse)

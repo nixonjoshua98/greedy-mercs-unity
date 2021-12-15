@@ -1,22 +1,22 @@
 from fastapi import Depends
 
-from src.request_context import (
-    AuthenticatedRequestContext,
-    authenticated_context,
-    RequestContext,
-)
-from src.request_context.session import Session
 from src.cache import MemoryCache, memory_cache
-from src.mongo.repositories.accounts import AccountsRepository, accounts_repository
-from src.mongo.repositories.armoury import ArmouryRepository, armoury_repository
-from src.mongo.repositories.artefacts import ArtefactsRepository, artefacts_repository
-from src.mongo.repositories.bounties import BountiesRepository, bounties_repository
-from src.mongo.repositories.bountyshop import (
-    BountyShopRepository,
-    inject_bountyshop_repo,
-)
-from src.mongo.repositories.currency import CurrencyRepository, currency_repository
+from src.mongo.repositories.accounts import (AccountsRepository,
+                                             accounts_repository)
+from src.mongo.repositories.armoury import (ArmouryRepository,
+                                            armoury_repository)
+from src.mongo.repositories.artefacts import (ArtefactsRepository,
+                                              artefacts_repository)
+from src.mongo.repositories.bounties import (BountiesRepository,
+                                             bounties_repository)
+from src.mongo.repositories.bountyshop import (BountyShopRepository,
+                                               inject_bountyshop_repo)
+from src.mongo.repositories.currency import (CurrencyRepository,
+                                             currency_repository)
 from src.pymodels import BaseModel
+from src.request_context import (AuthenticatedRequestContext, RequestContext,
+                                 authenticated_context)
+from src.request_context.session import Session
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
@@ -76,7 +76,7 @@ async def user_data(
         "artefacts": [art.to_client_dict() for art in artefacts],
         "bountyShop": {
             "purchases": [x.to_client_dict() for x in bshop_purchases],
-            "shopItems": bountyshop.response_dict(),
+            "shopItems": bountyshop.dict(),
         },
     }
 

@@ -4,17 +4,16 @@ import random
 
 from fastapi import Depends
 
-from src.request_context import AuthenticatedRequestContext
-from src.mongo.repositories.artefacts import (
-    ArtefactModel,
-    ArtefactsRepository,
-    artefacts_repository,
-)
+from src.mongo.repositories.artefacts import (ArtefactModel,
+                                              ArtefactsRepository,
+                                              artefacts_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
+from src.request_context import AuthenticatedRequestContext
 from src.resources.artefacts import StaticArtefact, static_artefacts
-from src.routing.handlers.abc import BaseHandler, BaseResponse, HandlerException
+from src.routing.handlers.abc import (BaseHandler, BaseResponse,
+                                      HandlerException)
 
 
 @dataclasses.dataclass()

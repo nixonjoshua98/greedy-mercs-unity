@@ -1,13 +1,12 @@
 from fastapi import Depends
 
-from src.request_context import AuthenticatedRequestContext, authenticated_context
 from src.pymodels import BaseModel
+from src.request_context import (AuthenticatedRequestContext,
+                                 authenticated_context)
 from src.routing import APIRouter, ServerResponse
 
-from ..handlers.bountyshop import (
-    PurchaseArmouryItemHandler,
-    PurchaseArmouryItemResponse,
-)
+from ..handlers.bountyshop import (PurchaseArmouryItemHandler,
+                                   PurchaseArmouryItemResponse)
 
 router = APIRouter()
 

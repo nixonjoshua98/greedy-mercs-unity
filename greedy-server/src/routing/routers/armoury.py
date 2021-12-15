@@ -1,9 +1,11 @@
 from fastapi import Depends
 
-from src.request_context import AuthenticatedRequestContext, authenticated_context
 from src.pymodels import BaseModel
+from src.request_context import (AuthenticatedRequestContext,
+                                 authenticated_context)
 from src.routing import APIRouter, ServerResponse
-from src.routing.handlers.armoury import UpgradeItemHandler, UpgradeItemResponse
+from src.routing.handlers.armoury import (UpgradeItemHandler,
+                                          UpgradeItemResponse)
 
 
 class ArmouryItemActionModel(BaseModel):

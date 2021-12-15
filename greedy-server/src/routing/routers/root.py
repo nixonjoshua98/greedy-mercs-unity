@@ -70,12 +70,12 @@ async def user_data(
     )
 
     data = {
-        "currencyItems": currencies.to_client_dict(),
-        "bountyData": bounties.to_client_dict(),
-        "armouryItems": [ai.to_client_dict() for ai in armoury],
-        "artefacts": [art.to_client_dict() for art in artefacts],
+        "currencyItems": currencies.client_dict(),
+        "bountyData": bounties.client_dict(),
+        "armouryItems": [ai.client_dict() for ai in armoury],
+        "artefacts": [art.client_dict() for art in artefacts],
         "bountyShop": {
-            "purchases": [x.to_client_dict() for x in bshop_purchases],
+            "purchases": [x.client_dict() for x in bshop_purchases],
             "shopItems": bountyshop.dict(),
         },
     }

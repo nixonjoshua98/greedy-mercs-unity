@@ -1,7 +1,12 @@
 {
   "level-0": {
     "armouryItems": {
-      "weight": 1
+      "weight": 2
+    },
+    "currencyItems": {
+      "weight": 1,
+      "items": [
+      ]
     }
   }
 }

@@ -25,7 +25,7 @@ class CurrenciesModel(BaseDocument):
     bounty_points: int = Field(0, alias=Fields.BOUNTY_POINTS)
     armoury_points: int = Field(0, alias=Fields.ARMOURY_POINTS)
 
-    def to_client_dict(self):
+    def client_dict(self):
         return self.dict(exclude={"id"})
 
 

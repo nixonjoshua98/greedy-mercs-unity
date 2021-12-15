@@ -30,7 +30,7 @@ class LootTable(LootObject):
         for item in values:
             self.add_item(item, weight, unique, always)
 
-    def get_result(self, count: int, rnd: Random) -> list[LootItem]:
+    def get_items(self, count: int, rnd: Random) -> list[LootItem]:
         self._random = rnd
 
         self._unique_drops.clear()
@@ -70,7 +70,7 @@ class LootTable(LootObject):
             self._unique_drops.append(drop)
 
         if isinstance(drop, LootTable):
-            result_list.extend(drop.get_result(1, self._random))
+            result_list.extend(drop.get_items(1, self._random))
 
         elif isinstance(drop, LootItem):
             result_list.append(drop.value)

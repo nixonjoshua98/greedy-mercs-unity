@@ -8,25 +8,23 @@ from fastapi import Depends
 from pydantic import Field
 
 from src import utils
-from src.loot_table import LootTable
 from src.pymodels import BaseModel
-from src.request_context import (AuthenticatedRequestContext,
-                                 authenticated_context)
+from src.request_context import RequestContext
+
+from .loottable import BountyShopLootTable
 
 from ..armoury import StaticArmouryItem, static_armoury
-from .shopconfig import (BountyShopConfig, LevelBountyShopConfig,
-                         bounty_shop_config)
+from .shopconfig import (FullBountyShopConfig, BountyShopLevelConfig,
+                         bounty_shop_config, ArmouryItemsConfig)
 
 
 async def dynamic_bounty_shop(
-        ctx: AuthenticatedRequestContext = Depends(authenticated_context),
+        ctx: RequestContext = Depends(),
         s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
-        shop_config: BountyShopConfig = Depends(bounty_shop_config),
+        shop_config: FullBountyShopConfig = Depends(bounty_shop_config),
 ) -> DynamicBountyShop:
 
-    config = shop_config.get_level_config(0)
-
-    return DynamicBountyShop(s_armoury, ctx.prev_daily_reset, config)
+    return DynamicBountyShop(s_armoury, ctx.prev_daily_reset, shop_config)
 
 
 class BountyShopArmouryItem(BaseModel):
@@ -39,14 +37,14 @@ class BountyShopArmouryItem(BaseModel):
 
 class DynamicBountyShop:
     def __init__(
-        self,
-        s_armoury: list[StaticArmouryItem],
-        prev_reset: dt.datetime,
-        config: LevelBountyShopConfig,
+            self,
+            s_armoury: list[StaticArmouryItem],
+            prev_reset: dt.datetime,
+            config: FullBountyShopConfig,
     ):
         self.prev_reset: dt.datetime = prev_reset
-        self.config: LevelBountyShopConfig = config
-        self.s_armoury: list[StaticArmouryItem] = s_armoury
+        self.config: BountyShopLevelConfig = self._get_shop_config(config)
+        self.loot_Table = BountyShopLootTable(s_armoury, prev_reset, self.config)
 
         self.all_items = self._generate_shop()
 
@@ -54,35 +52,29 @@ class DynamicBountyShop:
         return utils.get(self.all_items, id=item)
 
     def dict(self) -> dict[str, list]:
-        return {"armouryItems": [ai.to_client_dict() for ai in self.all_items]}
+        return {
+            "armouryItems": [x.client_dict() for x in self.all_items if isinstance(x, BountyShopArmouryItem)]
+        }
+
+    @staticmethod
+    def _get_shop_config(config: FullBountyShopConfig):
+        return config.get_level_config(0)
 
     def _generate_shop(self):
-        loot_table: LootTable = self._create_loot_table()
-
         rnd = Random(x=f"{(self.prev_reset - dt.datetime.fromtimestamp(0)).days}")
 
-        items = []
+        shop_items = []
+
+        items = self.loot_Table.get_items(self.config.num_items, rnd)
 
         # Fetch the items and iterate over them to create a bounty shop item variant of them
-        for i, item in enumerate(loot_table.get_result(5, rnd=rnd)):
+        for i, item in enumerate(items):
 
-            # Create the 'Armoury Item' shop item
             if isinstance(item, StaticArmouryItem):
-                items.append(self._create_armoury_item(i, item))
+                shop_items.append(self._create_armoury_item(i, item))
 
-        return items
+        return shop_items
 
-    def _create_loot_table(self) -> LootTable:
-        root = LootTable()
-
-        # Armoury items loot table
-        root.add_item(LootTable(self.s_armoury), weight=self.config.armoury_items.weight)
-
-        return root
-
-    def _create_armoury_item(self, idx: int, item: StaticArmouryItem):
-        epoch_days = (self.prev_reset - dt.datetime.fromtimestamp(0)).days
-
-        item_id = f"AI-{epoch_days}-{item.id}-{idx}"
-
-        return BountyShopArmouryItem(id=item_id, armoury_item=item.id, purchase_cost=100)
+    @staticmethod
+    def _create_armoury_item(idx: int, item: StaticArmouryItem):
+        return BountyShopArmouryItem(id=f"AI-{item.id}-{idx}", armoury_item=item.id, purchase_cost=100)

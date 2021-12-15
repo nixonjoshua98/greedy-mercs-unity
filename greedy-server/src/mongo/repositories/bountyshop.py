@@ -28,7 +28,7 @@ class BountyShopPurchaseModel(BaseDocument):
     reset_time: dt.datetime = Field(..., alias=Fields.RESET_TIME)
     purchase_cost: int = Field(..., alias=Fields.PURCHASE_COST)
 
-    def to_client_dict(self):
+    def client_dict(self):
         return self.dict(exclude={"id", "user_id", "reset_time", "purchase_time"})
 
 

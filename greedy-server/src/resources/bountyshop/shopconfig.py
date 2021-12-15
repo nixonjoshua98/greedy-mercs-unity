@@ -1,23 +1,40 @@
+from __future__ import annotations
+
 from src.pymodels import BaseModel, Field
 from src.routing import ServerRequest
 
 
 def bounty_shop_config(request: ServerRequest):
-    data: dict = request.app.get_static_file("server/bountyshop.json")
-
-    return BountyShopConfig.parse_obj(data)
+    return FullBountyShopConfig.parse_obj(request.app.get_static_file("server/bountyshop.json"))
 
 
-class ArmouryItemConfig(BaseModel):
+# = Armoury Items = #
+
+class ArmouryItemsConfig(BaseModel):
     weight: int
 
 
-class LevelBountyShopConfig(BaseModel):
-    armoury_items: ArmouryItemConfig = Field(..., alias="armouryItems")
+# = Currency Items = #
+
+class CurrencyItemConfig(BaseModel):
+    ...
 
 
-class BountyShopConfig(BaseModel):
-    level0: LevelBountyShopConfig = Field(..., alias="level-0")
+class CurrencyItemsConfig(BaseModel):
+    weight: int
+    items: list[CurrencyItemConfig]
 
-    def get_level_config(self, lvl: int) -> LevelBountyShopConfig:
+
+# = Default = #
+
+class BountyShopLevelConfig(BaseModel):
+    num_items: int = 5
+
+    armoury_items: ArmouryItemsConfig = Field(..., alias="armouryItems")
+
+
+class FullBountyShopConfig(BaseModel):
+    level0: BountyShopLevelConfig = Field(..., alias="level-0")
+
+    def get_level_config(self, lvl: int) -> BountyShopLevelConfig:
         return getattr(self, f"level{lvl}")

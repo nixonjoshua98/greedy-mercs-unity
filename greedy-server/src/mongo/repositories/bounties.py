@@ -35,7 +35,7 @@ class UserBountiesModel(BaseDocument):
     def active_bounties(self) -> list[UserBountyModel]:
         return [b for b in self.bounties if b.is_active]
 
-    def to_client_dict(self):
+    def client_dict(self):
         return self.dict(exclude={"id"})
 
 

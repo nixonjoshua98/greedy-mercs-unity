@@ -25,8 +25,8 @@ async def purchase_armoury_item(
 
     return ServerResponse(
         {
-            "currencyItems": resp.currencies.to_client_dict(),
+            "currencyItems": resp.currencies.client_dict(),
             "purchaseCost": resp.purchase_cost,
-            "armouryItem": resp.item.to_client_dict(),
+            "armouryItem": resp.item.client_dict(),
         }
     )

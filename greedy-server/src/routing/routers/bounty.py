@@ -26,7 +26,7 @@ async def claim_points(
     return ServerResponse(
         {
             "claimTime": resp.claim_time,
-            "currencyItems": resp.currencies.to_client_dict(),
+            "currencyItems": resp.currencies.client_dict(),
             "pointsClaimed": resp.claim_amount,
         }
     )
@@ -40,4 +40,4 @@ async def set_active_bounties(
 ):
     resp: UpdateBountiesResponse = await handler.handle(user, model.bounty_ids)
 
-    return ServerResponse(resp.bounties.to_client_dict())
+    return ServerResponse(resp.bounties.client_dict())

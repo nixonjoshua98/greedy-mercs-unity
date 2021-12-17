@@ -7,8 +7,8 @@ from src.routing import APIRouter, ServerResponse
 
 from ..handlers.bountyshop import (PurchaseArmouryItemHandler,
                                    PurchaseArmouryItemResponse,
-                                   PurchaseCurrencyTypeHandler,
-                                   PurchaseCurrencyTypeResponse)
+                                   PurchaseCurrencyHandler,
+                                   PurchaseCurrencyResponse)
 
 router = APIRouter()
 
@@ -34,17 +34,18 @@ async def purchase_armoury_item(
     )
 
 
-@router.post("/purchase/currencyType")
+@router.post("/purchase/currency")
 async def purchase_armoury_item(
     data: ItemData,
     ctx: AuthenticatedRequestContext = Depends(authenticated_context),
-    handler: PurchaseCurrencyTypeHandler = Depends(),
+    handler: PurchaseCurrencyHandler = Depends(),
 ):
-    resp: PurchaseCurrencyTypeResponse = await handler.handle(ctx.user_id, data.item_id)
+    resp: PurchaseCurrencyResponse = await handler.handle(ctx.user_id, data.item_id)
 
     return ServerResponse(
         {
             "currencyItems": resp.currencies.client_dict(),
             "purchaseCost": resp.purchase_cost,
+            "currencyGained": resp.currency_gained
         }
     )

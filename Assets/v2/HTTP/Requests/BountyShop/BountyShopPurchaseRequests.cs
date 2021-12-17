@@ -1,4 +1,4 @@
-﻿namespace GM.HTTP.Requests
+﻿namespace GM.HTTP.Requests.BountyShop
 {
     // = Requests = //
 
@@ -25,8 +25,8 @@
         public Armoury.Models.ArmouryItemUserDataModel ArmouryItem { get; set; }
     }
 
-    public class PurchaseCurrencyTypeResponse : BountyShopPurchaseResponse
+    public class PurchaseCurrencyResponse : BountyShopPurchaseResponse
     {
-
+        public int CurrencyGained;
     }
 }

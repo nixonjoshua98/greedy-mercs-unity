@@ -21,12 +21,13 @@ from .basepurchasehandler import BaseBountyShopPurchaseHandler
 
 
 @dataclasses.dataclass()
-class PurchaseCurrencyTypeResponse:
+class PurchaseCurrencyResponse:
     currencies: CurrenciesModel
     purchase_cost: int
+    currency_gained: int
 
 
-class PurchaseCurrencyTypeHandler(BaseBountyShopPurchaseHandler):
+class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
     def __init__(
         self,
         ctx: AuthenticatedRequestContext = Depends(authenticated_context),
@@ -41,7 +42,7 @@ class PurchaseCurrencyTypeHandler(BaseBountyShopPurchaseHandler):
         self.shop_repo = bountyshop_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, uid: ObjectId, item_id: str) -> PurchaseCurrencyTypeResponse:
+    async def handle(self, uid: ObjectId, item_id: str) -> PurchaseCurrencyResponse:
         item: BountyShopCurrencyItem = self.shop.get_item(item_id)
 
         if not isinstance(item, BountyShopCurrencyItem):
@@ -70,7 +71,11 @@ class PurchaseCurrencyTypeHandler(BaseBountyShopPurchaseHandler):
         finally:
             await self.log_purchase(uid, item)
 
-        return PurchaseCurrencyTypeResponse(currencies=currencies, purchase_cost=item.purchase_cost)
+        return PurchaseCurrencyResponse(
+            currencies=currencies,
+            purchase_cost=item.purchase_cost,
+            currency_gained=item.purchase_quantity
+        )
 
     @staticmethod
     def _id_to_field(currency: int) -> Optional[str]:

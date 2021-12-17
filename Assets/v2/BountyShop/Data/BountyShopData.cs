@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
+using GM.Common.Enums;
 using GM.HTTP.Requests;
 
 namespace GM.BountyShop.Data
@@ -64,13 +65,20 @@ namespace GM.BountyShop.Data
                 if (resp.StatusCode == 200)
                 {
                     OnAnySuccessfullPurchase(itemId, resp);
+
+                    switch (currencyItems[itemId].Item.Item)
+                    {
+                        case CurrencyType.ARMOURY_POINTS:
+                            App.Events.ArmouryPointsChanged.Invoke(resp.CurrencyGained);
+                            break;
+                    };
                 }
 
                 action.Invoke(resp.StatusCode == 200);
             });
         }
 
-        void OnAnySuccessfullPurchase(string itemId, BountyShopPurchaseResponse resp)
+        void OnAnySuccessfullPurchase(string itemId, GM.HTTP.Requests.BountyShop.BountyShopPurchaseResponse resp)
         {
             itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
 

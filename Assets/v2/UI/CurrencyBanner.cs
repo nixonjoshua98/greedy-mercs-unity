@@ -29,6 +29,7 @@ namespace GM.UI
             App.Events.BountyPointsChanged.AddListener((change) => { InstantiateQuantityPopup(BountyPointsText.transform.parent.position).Set(change); });
             App.Events.PrestigePointsChanged.AddListener((change) => { InstantiateQuantityPopup(PrestigePointsText.transform.parent.position).Set(change); });
             App.Events.GoldChanged.AddListener((change) => { InstantiateQuantityPopup(GoldText.transform.parent.position).Set(change); });
+            App.Events.ArmouryPointsChanged.AddListener((change) => { InstantiateQuantityPopup(ArmouryPointsText.transform.parent.position).Set(change); });
         }
 
         TextPopup InstantiateQuantityPopup(Vector3 pos)

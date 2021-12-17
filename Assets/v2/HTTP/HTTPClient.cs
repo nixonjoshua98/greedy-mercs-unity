@@ -98,18 +98,18 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void BuyBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)
+        public void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback)
         {
-            var req = new PurchaseBountyShopItem(item);
+            var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
             var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/armouryitem"), SerializeRequest(req));
 
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void PurchaseBountyShopCurrencyType(string item, Action<PurchaseCurrencyTypeResponse> callback)
+        public void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback)
         {
-            var req = new PurchaseBountyShopItem(item);
-            var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/currencyType"), SerializeRequest(req));
+            var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
+            var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/currency"), SerializeRequest(req));
 
             SendAuthenticatedRequest(www, callback);
         }

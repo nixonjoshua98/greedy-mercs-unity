@@ -11,7 +11,7 @@ from src.routing.handlers.abc import HandlerException
 from .cache import MemoryCache
 
 
-def _on_app_start(app: Application):
+async def _on_app_start(app: Application):
     app.state.mongo = MotorClient(app.config["MONGO_CON_STR"])
     app.state.memory_cache = MemoryCache()
 
@@ -25,12 +25,8 @@ def create_app():
     )
 
     app.add_exception_handler(HTTPException, exception_handlers.handle_http_exception)
-    app.add_exception_handler(
-        RequestValidationError, exception_handlers.handle_request_validation_exception
-    )
-    app.add_exception_handler(
-        HandlerException, exception_handlers.handle_handler_exception
-    )
+    app.add_exception_handler(RequestValidationError, exception_handlers.handle_validation_exception)
+    app.add_exception_handler(HandlerException, exception_handlers.handle_handler_exception)
 
     app.add_event_handler("startup", ft.partial(_on_app_start, app))
 

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using GM.BountyShop.Models;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
-using GM.BountyShop.Models;
-using UnityEngine;
+using GM.HTTP.Requests;
 
 namespace GM.BountyShop.Data
 {
@@ -10,18 +10,16 @@ namespace GM.BountyShop.Data
     {
         Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
 
-        Dictionary<string, BountyShopArmouryItem> ArmouryItemsDict;
+        Dictionary<string, BountyShopArmouryItem> armouryItems = new Dictionary<string, BountyShopArmouryItem>();
+        Dictionary<string, BountyShopCurrencyItemModel> currencyItems = new Dictionary<string, BountyShopCurrencyItemModel>();
 
         public BountyShopData(CompleteBountyShopDataModel data)
         {
-            Update(data.ShopItems.ArmouryItems);
+            Update(data.ShopItems);
             GetNumItemPurchases(data.Purchases);
         }
 
-        public int GetItemPurchaseData(string id)
-        {
-            return itemPurchases.Get(id, 0);
-        }
+        public int GetItemPurchaseData(string id) => itemPurchases.Get(id, 0);
 
         void GetNumItemPurchases(List<BountyShopPurchaseModel> purchaseList)
         {
@@ -33,11 +31,15 @@ namespace GM.BountyShop.Data
             }
         }
 
-        /// <summary>Public accessor for only armoury items</summary>
-        public List<BountyShopArmouryItem> ArmouryItems => ArmouryItemsDict.Values.ToList();
+        public List<BountyShopArmouryItem> ArmouryItems => armouryItems.Values.ToList();
+        public List<BountyShopCurrencyItemModel> CurrencyItems => currencyItems.Values.ToList();
 
         /// <summary>Update all items</summary>
-        void Update(List<BountyShopArmouryItem> items) => ArmouryItemsDict = items.ToDictionary(ele => ele.Id, ele => ele);
+        void Update(BountyShopItemsModel items)
+        {
+            armouryItems = items.ArmouryItems.ToDictionary(ele => ele.Id, ele => ele);
+            currencyItems = items.CurrencyItems.ToDictionary(ele => ele.Id, ele => ele);
+        }
 
         /// <summary>Send the server request for purchasing an armoury item</summary>
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
@@ -46,17 +48,35 @@ namespace GM.BountyShop.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1; // Increment purchase count
-
                     App.Data.Armoury.Update(resp.ArmouryItem);
 
-                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
-
-                    App.Events.BountyPointsChanged.Invoke(resp.PurchaseCost * -1);
+                    OnAnySuccessfullPurchase(itemId, resp);
                 }
 
                 action.Invoke(resp.StatusCode == 200);
             });
+        }
+
+        public void PurchaseCurrencyItem(string itemId, UnityAction<bool> action)
+        {
+            App.HTTP.PurchaseBountyShopCurrencyType(itemId, (resp) =>
+            {
+                if (resp.StatusCode == 200)
+                {
+                    OnAnySuccessfullPurchase(itemId, resp);
+                }
+
+                action.Invoke(resp.StatusCode == 200);
+            });
+        }
+
+        void OnAnySuccessfullPurchase(string itemId, BountyShopPurchaseResponse resp)
+        {
+            itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
+
+            App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+
+            App.Events.BountyPointsChanged.Invoke(resp.PurchaseCost * -1);
         }
     }
 }

@@ -6,7 +6,7 @@
     "currencyItems": {
       "weight": 1,
       "items": [
-        {"itemId": 200}
+        {"currencyType": 200, "quantityPerPurchase": 5, "always": true} // Armoury Points
       ]
     }
   }

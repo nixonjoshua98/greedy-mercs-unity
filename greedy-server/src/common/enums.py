@@ -18,3 +18,7 @@ class BonusType:
     MULTIPLY_ALL_GOLD = 800
     MULTIPLY_BOSS_GOLD = 801
     MULTIPLY_ENEMY_GOLD = 802
+
+
+class CurrencyType:
+    ARMOURY_POINTS = 200

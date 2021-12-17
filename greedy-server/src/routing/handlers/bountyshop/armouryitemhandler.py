@@ -16,7 +16,9 @@ from src.request_context import (AuthenticatedRequestContext,
                                  authenticated_context)
 from src.resources.bountyshop import (BountyShopArmouryItem, DynamicBountyShop,
                                       dynamic_bounty_shop)
-from src.routing.handlers.abc import BaseHandler, HandlerException
+from src.routing.handlers.abc import HandlerException
+
+from .basepurchasehandler import BaseBountyShopPurchaseHandler
 
 
 @dataclasses.dataclass()
@@ -26,7 +28,7 @@ class PurchaseArmouryItemResponse:
     item: ArmouryItemModel
 
 
-class PurchaseArmouryItemHandler(BaseHandler):
+class PurchaseArmouryItemHandler(BaseBountyShopPurchaseHandler):
     def __init__(
         self,
         ctx: AuthenticatedRequestContext = Depends(authenticated_context),
@@ -50,9 +52,8 @@ class PurchaseArmouryItemHandler(BaseHandler):
         if not isinstance(item, BountyShopArmouryItem):
             raise HandlerException(400, "Invalid item")
 
-        num_purchases: int = await self.get_item_purchase_count(
-            uid, item_id, self.prev_reset
-        )
+        num_purchases: int = await self.get_item_purchase_count(uid, item_id, self.prev_reset)
+
         currencies: CurrenciesModel = await self.currency_repo.get_user(uid)
 
         # User has reached the purchase limit
@@ -60,35 +61,15 @@ class PurchaseArmouryItemHandler(BaseHandler):
             raise HandlerException(400, "Item unavailable")
 
         # Verify that the user can afford to purchase the item
-        if (purchase_cost := self.purchase_cost(item)) > currencies.bounty_points:
+        elif item.purchase_cost > currencies.bounty_points:
             raise HandlerException(400, "Cannot afford item")
 
         try:
-            currencies = await self.currency_repo.inc_value(
-                uid, CurrencyRepoFields.BOUNTY_POINTS, -purchase_cost
-            )
+            currencies = await self.currency_repo.inc_value(uid, CurrencyRepoFields.BOUNTY_POINTS, -item.purchase_cost)
 
-            armoury_item: ArmouryItemModel = await self.armoury_repo.inc_item_owned(uid, item.armoury_item, 1)
+            armoury_item: ArmouryItemModel = await self.armoury_repo.inc_item_owned(uid, item.armoury_item_id, 1)
 
-        finally:  # Always log the purchase since we do not know what the error was here
-            await self.log_purchase(uid, item, purchase_cost)
+        finally:
+            await self.log_purchase(uid, item)
 
-        return PurchaseArmouryItemResponse(
-            currencies=currencies, purchase_cost=purchase_cost, item=armoury_item
-        )
-
-    async def log_purchase(self, uid: ObjectId, item: BountyShopArmouryItem, cost: int):
-        await self.shop_repo.add_purchase(uid, item.id, self.prev_reset, cost)
-
-    async def get_item_purchase_count(
-        self, uid: ObjectId, item_id: str, prev_reset: dt.datetime
-    ) -> int:
-        purchases = await self.shop_repo.get_daily_item_purchases(
-            uid, item_id, prev_reset
-        )
-
-        return len(purchases)
-
-    @staticmethod
-    def purchase_cost(item: BountyShopArmouryItem) -> int:
-        return item.purchase_cost
+        return PurchaseArmouryItemResponse(currencies=currencies, purchase_cost=item.purchase_cost, item=armoury_item)

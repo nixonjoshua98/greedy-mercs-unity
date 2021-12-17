@@ -38,10 +38,11 @@ class CurrencyRepository:
 
         return CurrenciesModel.parse_obj(r or {"_id": uid})
 
-    async def inc_value(
-        self, uid: ObjectId, field: str, value: Union[int, float]
-    ) -> CurrenciesModel:
+    async def inc_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": {field: value}})
+
+    async def inc_values(self, uid: ObjectId, fields: dict[str, Union[int, float]]) -> CurrenciesModel:
+        return await self.update_one(uid, {"$inc": fields})
 
     async def update_one(self, uid, update: dict) -> CurrenciesModel:
         r = await self.collection.find_one_and_update(

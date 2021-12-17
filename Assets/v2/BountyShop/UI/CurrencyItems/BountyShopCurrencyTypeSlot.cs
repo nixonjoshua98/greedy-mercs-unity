@@ -1,10 +1,12 @@
-using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace GM.BountyShop.UI
 {
-    public class BSArmouryItemSlot : BSArmouryItemObject
+    public class BountyShopCurrencyTypeSlot : BountyShopCurrencyTypeUIObject
     {
         [Header("Prefabs")]
         public GameObject PopupObject;
@@ -12,13 +14,15 @@ namespace GM.BountyShop.UI
         [Header("References")]
         public GameObject OutStockObject;
         public TMP_Text PurchaseCostText;
+        public TMP_Text QuantityText;
         public Image IconImage;
 
         protected override void OnAssignedItem()
         {
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
+            QuantityText.text = $"x{AssignedItem.QuantityPerPurchase}";
 
-            IconImage.sprite = AssignedItem.Icon;
+            IconImage.sprite = AssignedItem.Item.Icon;
 
             CheckAvailability();
         }
@@ -30,7 +34,7 @@ namespace GM.BountyShop.UI
 
         public void OnClick()
         {
-            InstantiateUI<BsArmouryItemPopup>(PopupObject).Assign(AssignedItem, () =>
+            InstantiateUI<BountyShopCurrencyPopup>(PopupObject).Assign(AssignedItem, () =>
             {
                 CheckAvailability();
             });

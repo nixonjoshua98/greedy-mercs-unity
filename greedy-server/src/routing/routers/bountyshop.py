@@ -6,7 +6,9 @@ from src.request_context import (AuthenticatedRequestContext,
 from src.routing import APIRouter, ServerResponse
 
 from ..handlers.bountyshop import (PurchaseArmouryItemHandler,
-                                   PurchaseArmouryItemResponse)
+                                   PurchaseArmouryItemResponse,
+                                   PurchaseCurrencyTypeHandler,
+                                   PurchaseCurrencyTypeResponse)
 
 router = APIRouter()
 
@@ -19,7 +21,7 @@ class ItemData(BaseModel):
 async def purchase_armoury_item(
     data: ItemData,
     ctx: AuthenticatedRequestContext = Depends(authenticated_context),
-    handler: PurchaseArmouryItemHandler = Depends(PurchaseArmouryItemHandler),
+    handler: PurchaseArmouryItemHandler = Depends(),
 ):
     resp: PurchaseArmouryItemResponse = await handler.handle(ctx.user_id, data.item_id)
 
@@ -28,5 +30,21 @@ async def purchase_armoury_item(
             "currencyItems": resp.currencies.client_dict(),
             "purchaseCost": resp.purchase_cost,
             "armouryItem": resp.item.client_dict(),
+        }
+    )
+
+
+@router.post("/purchase/currencyType")
+async def purchase_armoury_item(
+    data: ItemData,
+    ctx: AuthenticatedRequestContext = Depends(authenticated_context),
+    handler: PurchaseCurrencyTypeHandler = Depends(),
+):
+    resp: PurchaseCurrencyTypeResponse = await handler.handle(ctx.user_id, data.item_id)
+
+    return ServerResponse(
+        {
+            "currencyItems": resp.currencies.client_dict(),
+            "purchaseCost": resp.purchase_cost,
         }
     )

@@ -106,6 +106,14 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
+        public void PurchaseBountyShopCurrencyType(string item, Action<PurchaseCurrencyTypeResponse> callback)
+        {
+            var req = new PurchaseBountyShopItem(item);
+            var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/currencyType"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
         string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
 
         void SendPublicRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()

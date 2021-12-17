@@ -13,6 +13,7 @@ namespace GM.BountyShop.UI
             OnAssignedItem();
         }
 
+
         protected virtual void OnAssignedItem() { }
     }
 }

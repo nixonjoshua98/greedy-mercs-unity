@@ -6,7 +6,7 @@ from random import Random
 from src.loot_table import LootTable
 
 from ..armoury import StaticArmouryItem
-from .shopconfig import BountyShopLevelConfig
+from .shopconfig import BountyShopLevelConfig, CurrencyItemsConfig, ArmouryItemsConfig
 
 
 class BountyShopLootTable:
@@ -20,7 +20,7 @@ class BountyShopLootTable:
         self.config: BountyShopLevelConfig = config
         self.s_armoury: list[StaticArmouryItem] = s_armoury
 
-        self._table = self._create_loot_table()
+        self._table: LootTable = self._create_loot_table()
 
     def get_items(self, count: int, rnd: Random):
         return self._table.get_items(count, rnd)
@@ -29,14 +29,16 @@ class BountyShopLootTable:
 
         root = LootTable()
 
-        self._add_armoury_items_table(root)
+        self._add_armoury_items_table(root, self.config.armoury_items)
+        self._add_currency_items_table(root, self.config.currency_items)
 
         return root
 
-    def _add_armoury_items_table(self, root: LootTable):
-        tbl = LootTable()
-
+    def _add_armoury_items_table(self, root: LootTable, config: ArmouryItemsConfig):
         for item in self.s_armoury:
-            tbl.add_item(item)
+            root.add_item(item, weight=config.weight)
 
-        root.add_item(tbl, weight=self.config.armoury_items.weight)
+    @staticmethod
+    def _add_currency_items_table(root: LootTable, config: CurrencyItemsConfig):
+        for item in config.items:
+            root.add_item(item, weight=config.weight, always=item.always)

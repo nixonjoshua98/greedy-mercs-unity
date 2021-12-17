@@ -1,12 +1,12 @@
 {
   "level-0": {
     "armouryItems": {
-      "weight": 2
+      "weight": 1
     },
     "currencyItems": {
       "weight": 1,
       "items": [
-        {"currencyType": 200, "quantityPerPurchase": 5, "always": true} // Armoury Points
+        {"currencyType": 200, "quantityPerPurchase": 5, "unique": true}, // Armoury Points
       ]
     }
   }

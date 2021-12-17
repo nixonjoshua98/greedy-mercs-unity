@@ -17,21 +17,20 @@ class ArmouryItemsConfig(BaseModel):
 # = Currency Items = #
 
 class CurrencyItemConfig(BaseModel):
-    always: bool = Field(False)
-
+    unique: bool = Field(False)
     currency_type: int = Field(..., alias="currencyType")
     purchase_quantity: int = Field(..., alias="quantityPerPurchase")
 
 
 class CurrencyItemsConfig(BaseModel):
-    weight: int
+    unique: bool = Field(False)
+    weight: int = Field(1)
     items: list[CurrencyItemConfig]
 
 
 # = Default = #
 
 class BountyShopLevelConfig(BaseModel):
-    num_items: int = 5
     currency_items: CurrencyItemsConfig = Field(..., alias="currencyItems")
     armoury_items: ArmouryItemsConfig = Field(..., alias="armouryItems")
 

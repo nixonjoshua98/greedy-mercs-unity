@@ -29,6 +29,8 @@ namespace GM.Common
         {
             obj = null;
 
+            Objects.RemoveAll(x => x == null);
+
             foreach (GameObject o in Objects)
             {
                 if (!o.activeInHierarchy)

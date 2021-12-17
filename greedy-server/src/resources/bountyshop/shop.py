@@ -59,7 +59,7 @@ class DynamicBountyShop:
 
         shop_items = []
 
-        items = self.loot_Table.get_items(self.config.num_items, rnd)
+        items = self.loot_Table.get_items(5, rnd)
 
         # Fetch the items and iterate over them to create a bounty shop item variant of them
         for i, item in enumerate(items):

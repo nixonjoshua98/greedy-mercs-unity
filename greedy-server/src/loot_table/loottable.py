@@ -4,21 +4,23 @@ from random import Random
 from typing import Any, Optional
 
 from .lootitem import LootItem
+from .lootobject import LootObject
 
 
-class LootTable:
+class LootTable(LootObject):
 
-    def __init__(self, items: list[Any] = None):
+    def __init__(self):
         self._random: Optional[Random] = None
 
-        self._all_drops: list[LootItem] = []
-        self._unique_drops: list[LootItem] = []
-
-        if isinstance(items, list):
-            self.add_items(items)
+        self._all_drops: list[LootObject] = []
+        self._avail_drops: Optional[list[LootObject]] = None
 
     def add_item(self, value: Any, weight: int = 1, unique: bool = False, always: bool = False):
-        self._all_drops.append(LootItem(value, weight, unique, always))
+        if isinstance(value, LootTable):
+            value.update(weight, unique, always)
+            self._all_drops.append(value)
+        else:
+            self._all_drops.append(LootItem(value, weight, unique, always))
 
     def add_items(self, values: list[Any], weight: int = 1, unique: bool = False, always: bool = False):
         for item in values:
@@ -27,27 +29,27 @@ class LootTable:
     def get_items(self, count: int, rnd: Random) -> list[LootItem]:
         self._random = rnd
 
+        if self._avail_drops is None:
+            self._avail_drops = self._all_drops.copy()
+
         result_list: list[Any] = []
 
         # Add 'always' drops to the result
-        for result in filter(lambda x: x.always, self._all_drops):
+        for result in filter(lambda x: x.always, self._avail_drops):
             self._add_to_result(result, result_list)
 
-        remaining_count = count - len(result_list)
+        while count > len(result_list):
+            if len(self._avail_drops) == 0:
+                break
 
-        for _ in range(remaining_count):
-            # Remove already dropped unique items
-            droppables = list(filter(lambda x: not x.unique or x not in self._unique_drops, self._all_drops))
-
-            if len(droppables) > 0:
-                self._add_new_item_to_result(droppables, result_list)
+            self._add_new_item_to_result(self._avail_drops, result_list)
 
         return result_list
 
-    def _add_new_item_to_result(self, droppables: list[LootItem], result_list: list[LootItem]):
+    def _add_new_item_to_result(self, droppables: list[LootObject], result_list: list[LootObject]):
         total_probability = sum(map(lambda x: x.weight, droppables))
 
-        hit_value = self._random.uniform(1, total_probability)
+        hit_value = self._random.uniform(0, total_probability)
 
         for i, drop in enumerate(droppables):
             hit_value -= drop.weight
@@ -56,9 +58,19 @@ class LootTable:
                 self._add_to_result(drop, result_list)
                 break
 
-    def _add_to_result(self, drop: LootItem, result_list: list[LootItem]):
+    def _add_to_result(self, drop: LootObject, result_list: list[LootObject]):
 
         if drop.unique:
-            self._unique_drops.append(drop)
+            self._avail_drops.remove(drop)
 
-        result_list.append(drop.value)
+            print("Removed", drop)
+
+        if isinstance(drop, LootItem):
+            result_list.append(drop.value)
+
+        elif isinstance(drop, LootTable):
+            result_list.extend(vals := drop.get_items(1, self._random))
+
+            if len(vals) == 0 and drop in self._avail_drops:
+                self._avail_drops.remove(drop)
+                print("Removed", drop)

@@ -8,6 +8,7 @@ namespace GM.Units
     public class UnitAvatar : MonoBehaviour
     {
         public Animator Animator;
+        public Rect AvatarRect;
         public Animation_Strings AnimationStrings;
 
         [HideInInspector] public UnityEvent OnDefeatAnimationEvent = new UnityEvent();
@@ -16,5 +17,9 @@ namespace GM.Units
         public void OnDefeatAnimation() => OnDefeatAnimationEvent.Invoke();
         public void OnHurtAnimation() => OnHurtAnimationEvent.Invoke();
 
+        void OnDrawGizmos()
+        {
+            AvatarRect.DrawGizmos(transform.position, transform.localScale);
+        }
     }
 }

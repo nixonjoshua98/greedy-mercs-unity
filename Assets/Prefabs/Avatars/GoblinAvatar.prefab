@@ -864,6 +864,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 95300950981661372}
+  AvatarRect:
+    Center: {x: 0, y: 2.76}
+    Width: 4.25
+    Height: 5.5
   AnimationStrings:
     Idle: 
     Walk: 

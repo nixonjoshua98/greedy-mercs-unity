@@ -14,9 +14,6 @@ namespace GM.Enemies.Controllers
         [Space]
         [SerializeField] HealthController healthController;
 
-        [Header("References")]
-        [SerializeField] GameObject DamageTakenPS;
-
         void Start()
         {
             SubscribeToEvents();

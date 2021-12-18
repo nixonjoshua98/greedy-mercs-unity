@@ -677,7 +677,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4660922222131651561}
-  - component: {fileID: -1124149203543241743}
+  - component: {fileID: 6907583816128923827}
   - component: {fileID: 5593621142731929140}
   - component: {fileID: 8239912669520912629}
   m_Layer: 0
@@ -696,14 +696,14 @@ Transform:
   m_GameObject: {fileID: 5539103568891418368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 6986649623142958278}
   - {fileID: 3082121213466472596}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1124149203543241743
+--- !u!114 &6907583816128923827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -712,12 +712,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 5539103568891418368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walk
-  Attack: Attacking
+  Animator: {fileID: 5593621142731929140}
+  AvatarRect:
+    serializedVersion: 2
+    x: -0.1
+    y: 1.35
+    width: 2
+    height: 2.9
+  AnimationStrings:
+    Idle: Idle Blinking
+    Walk: Walk
+    Attack: Attack
+    Defeat: 
+    Hurt: 
+  OnDefeatAnimationEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHurtAnimationEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackAnimationEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &5593621142731929140
 Animator:
   serializedVersion: 3
@@ -12800,7 +12819,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.2
-    functionName: InvokeAttackEvent
+    functionName: OnAttackAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

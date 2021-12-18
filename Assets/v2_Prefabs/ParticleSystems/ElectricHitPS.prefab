@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 199839585836663636}
   - component: {fileID: 114657699975798574}
   m_Layer: 0
-  m_Name: CFX3_Hit_Electric_C_Air
+  m_Name: ElectricHitPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

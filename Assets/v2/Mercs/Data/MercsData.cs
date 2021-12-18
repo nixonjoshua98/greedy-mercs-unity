@@ -21,10 +21,8 @@ namespace GM.Mercs.Data
             UserMercs = new Dictionary<MercID, MercUserData>();
         }
 
-        /// <summary>
-        /// Load local scriptable merc data
-        /// </summary>
-        Dictionary<MercID, LocalMercData> LoadLocalData() => Resources.LoadAll<LocalMercData>("Mercs").ToDictionary(ele => ele.ID, ele => ele);
+        /// <summary>Load local scriptable merc data</summary>
+        Dictionary<MercID, LocalMercData> LoadLocalData() => Resources.LoadAll<LocalMercData>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
         /// <summary>
         /// Update the game data
@@ -73,10 +71,21 @@ namespace GM.Mercs.Data
         /// </summary>
         public bool IsMercUnlocked(MercID chara) => UserMercs.ContainsKey(chara);
 
-
         public bool GetNextHero(out MercID result)
         {
             result = (MercID)(-1);
+
+            if (!IsMercUnlocked(MercID.STONE_GOLEM))
+            {
+                result = MercID.STONE_GOLEM;
+                return true;
+            }
+            else if (!IsMercUnlocked(MercID.WRAITH))
+            {
+                result = MercID.WRAITH;
+                return true;
+            }
+
 
             foreach (MercID chara in System.Enum.GetValues(typeof(MercID)))
             {

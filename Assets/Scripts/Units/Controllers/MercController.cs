@@ -6,10 +6,10 @@ using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Units
 {
-    public class MercController : UnitController
+    public class MercController : Core.GMMonoBehaviour
     {
         public Target CurrentTarget;
-        protected override TargetList<Target> CurrentTargetList => GameManager.Instance.Enemies;
+        protected TargetList<Target> CurrentTargetList => GameManager.Instance.Enemies;
 
         public MercID ID { get; private set; } = MercID.NONE;
 
@@ -19,7 +19,7 @@ namespace GM.Units
         [Header("Components")]
         public Animator anim;
       
-        public UnitMovement Movement { get; private set; }
+        public Temp_IUnitMovement Movement { get; private set; }
         public UnitAttack Attack { get; private set; }
 
         void Start()
@@ -27,6 +27,11 @@ namespace GM.Units
             GetComponents();
             SubscribeToEvents();
             GetInitialTarget();
+        }
+
+        public void Setup(MercID _mercId)
+        {
+            ID = _mercId;
         }
 
 
@@ -49,13 +54,11 @@ namespace GM.Units
             });
         }
 
-
         void GetComponents()
         {
-            Movement = GetComponent<UnitMovement>();
+            Movement = GetComponent<Temp_IUnitMovement>();
             Attack = GetComponent<UnitAttack>();
         }
-
 
         void FixedUpdate()
         {
@@ -83,13 +86,6 @@ namespace GM.Units
             }
         }
 
-        // = = = Public = = = //
-
-        public void Setup(MercID _mercId)
-        {
-            ID = _mercId;
-        }
-
         public void Move(Vector3 position, Action action)
         {
             Attack.Disable();
@@ -99,7 +95,6 @@ namespace GM.Units
                 action.Invoke();
             });
         }
-
 
         void OnAttackImpact(GameObject target)
         {
@@ -111,11 +106,26 @@ namespace GM.Units
 
                 hp.TakeDamage(dmg);
 
-                InstantiateAttackImpactPS(target);
+                PostAttackImpact(target);
             }
         }
 
-        protected override Target GetTargetFromTargetList()
+        protected virtual void PostAttackImpact(GameObject target)
+        {
+            InstantiateAttackImpactPS(target);
+        }
+
+
+        
+        void InstantiateAttackImpactPS(GameObject target)
+        {
+            if (AttackImpactPS != null && target.TryGetComponentInChildren(out UnitAvatar avatar))
+            {
+                Instantiate(AttackImpactPS, avatar.AvatarCenter, Quaternion.identity, null);
+            }
+        }
+
+        protected Target GetTargetFromTargetList()
         {
             if (CurrentTargetList.Count > 0)
             {
@@ -125,12 +135,23 @@ namespace GM.Units
             return null;
         }
 
-        void InstantiateAttackImpactPS(GameObject target)
+        protected bool IsTargetValid(Target target)
         {
-            if (target != null && AttackImpactPS != null && target.TryGetComponentInChildren(out UnitAvatar avatar))
+            if (target == null || target.GameObject == null)
             {
-                Instantiate(AttackImpactPS, avatar.AvatarCenter, Quaternion.identity, null);
+                return false;
             }
+            else if (target.Health.IsDead)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        protected bool TryGetBossFromTargetList(ref Target boss)
+        {
+            return CurrentTargetList.TryGetWithType(TargetType.Boss, ref boss);
         }
     }
 }

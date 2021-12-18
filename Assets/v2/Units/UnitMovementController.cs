@@ -1,40 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
-using UnityEngine.Events;
 using System;
-public interface Temp_IUnitMovement
-{
-    public void MoveTowards(Vector3 target);
-    public void MoveTowards(Vector3 target, Action action);
-    public void MoveDirection(Vector3 dir);
-}
+using UnityEngine.Events;
 
 namespace GM.Units
 {
-    public class UnitMovement : MonoBehaviour, Temp_IUnitMovement
+    public class UnitMovementController : MonoBehaviour, Temp_IUnitMovement
     {
         [Header("Properties")]
         [SerializeField] float moveSpeed = 1.5f;
 
-        [Header("Components")]
-        [SerializeField] GameObject avatar;
-
-        Animator anim;
-        AnimationStrings avatarAnims;
-
-        void Awake()
-        {
-            anim = avatar.GetComponentInChildren<Animator>();
-            avatarAnims = GetComponentInChildren<AnimationStrings>();
-        }
+        public UnitAvatar Avatar;
 
         public void MoveTowards(Vector3 target)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
 
-            anim.Play(avatarAnims.Walk);
+            Avatar.Animator.Play(Avatar.AnimationStrings.Walk);
 
             FaceTowardsTarget(target);
         }
@@ -73,15 +56,15 @@ namespace GM.Units
             // Flip the avatar x scale to face the target position
 
             bool isTargetRight = pos.x > transform.position.x;
-            bool isFacingRight = avatar.transform.localScale.x >= 0.0f;
+            bool isFacingRight = Avatar.transform.localScale.x >= 0.0f;
 
             if (isFacingRight != isTargetRight)
             {
-                Vector3 scale = avatar.transform.localScale;
+                Vector3 scale = Avatar.transform.localScale;
 
                 scale.x *= -1.0f;
 
-                avatar.transform.localScale = scale;
+                Avatar.transform.localScale = scale;
             }
         }
     }

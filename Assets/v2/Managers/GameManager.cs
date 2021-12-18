@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using GM.Mercs.Controllers;
 using DamageClickController = GM.Controllers.DamageClickController;
 using MercID = GM.Common.Enums.MercID;
 
@@ -12,12 +13,12 @@ namespace GM
 {
     public class SquadMerc: AbstractTarget
     {
-        public MercController Controller { get; private set; }
+        public IMercController Controller { get; private set; }
 
-        public SquadMerc (GameObject obj, MercController controller)
+        public SquadMerc (GameObject obj)
         {
             GameObject = obj;
-            Controller = controller;
+            Controller = obj.GetComponent<IMercController>();
         }
     }
 
@@ -38,7 +39,6 @@ namespace GM
         [SerializeField] SpawnController spawner;
         [SerializeField] DamageClickController ClickController;
 
-        // = Events = //
         [HideInInspector] public UnityEvent<Target> E_BossSpawn { get; private set; } = new UnityEvent<Target>();
         [HideInInspector] public UnityEvent E_OnWaveCleared { get; private set; } = new UnityEvent();
         [HideInInspector] public UnityEvent<TargetList<Target>> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList<Target>>();
@@ -116,11 +116,7 @@ namespace GM
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
-            MercController controller = o.GetComponent<MercController>();
-
-            controller.Setup(merc);
-
-            Mercs.Add(new SquadMerc(o, controller));
+            Mercs.Add(new SquadMerc(o));
         }
 
 
@@ -146,7 +142,7 @@ namespace GM
 
                     if (mercsMoved == Mercs.Count)
                     {
-                        Mercs.ForEach(m => m.Controller.Attack.Enable());
+                        //Mercs.ForEach(m => m.Controller.Attack.Enable());
                     }
                 });
             }

@@ -19,7 +19,7 @@ namespace GM.Units
         [Header("Components")]
         public Animator anim;
       
-        public Temp_IUnitMovement Movement { get; private set; }
+        public IMovementController Movement { get; private set; }
         public UnitAttack Attack { get; private set; }
 
         void Start()
@@ -56,7 +56,7 @@ namespace GM.Units
 
         void GetComponents()
         {
-            Movement = GetComponent<Temp_IUnitMovement>();
+            Movement = GetComponent<IMovementController>();
             Attack = GetComponent<UnitAttack>();
         }
 

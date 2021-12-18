@@ -8,6 +8,7 @@ namespace GM.Targets
         GameObject GameObject { get; set; }
         TargetType Type { get; set; }
         HealthController Health { get; }
+        Vector3 Position { get; }
     }
 
     public abstract class AbstractTarget : ITarget
@@ -26,6 +27,8 @@ namespace GM.Targets
                 return _Health;
             }
         }
+
+        public Vector3 Position => GameObject.transform.position;
     }
 
 

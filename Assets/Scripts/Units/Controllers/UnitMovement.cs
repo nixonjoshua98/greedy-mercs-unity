@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
-public interface Temp_IUnitMovement
+public interface IMovementController
 {
     public void MoveTowards(Vector3 target);
     public void MoveTowards(Vector3 target, Action action);
@@ -13,7 +13,7 @@ public interface Temp_IUnitMovement
 
 namespace GM.Units
 {
-    public class UnitMovement : MonoBehaviour, Temp_IUnitMovement
+    public class UnitMovement : MonoBehaviour, IMovementController
     {
         [Header("Properties")]
         [SerializeField] float moveSpeed = 1.5f;

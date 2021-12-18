@@ -1,23 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.Events;
+using GM.Units;
+using System;
 
-namespace GM.Units
+namespace GM.Mercs.Controllers
 {
-    public class UnitMovementController : MonoBehaviour, Temp_IUnitMovement
+    public class MovementController : MonoBehaviour, IMovementController
     {
-        [Header("Properties")]
-        [SerializeField] float moveSpeed = 1.5f;
-
         public UnitAvatar Avatar;
+
+        [Header("Properties")]
+        public float MoveSpeed = 2.5f;
 
         public void MoveTowards(Vector3 target)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * MoveSpeed);
 
-            Avatar.Animator.Play(Avatar.AnimationStrings.Walk);
+            Avatar.PlayerAnimation(Avatar.AnimationStrings.Walk);
 
             FaceTowardsTarget(target);
         }
@@ -44,17 +45,15 @@ namespace GM.Units
 
         public void MoveDirection(Vector3 dir)
         {
-            MoveTowards(transform.position + (dir * moveSpeed));
+            MoveTowards(transform.position + (dir * MoveSpeed));
         }
 
         public void FaceDirection(Vector3 dir) => FaceTowardsTarget(transform.position + dir);
 
-
         public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }
+
         public void FaceTowardsTarget(Vector3 pos)
         {
-            // Flip the avatar x scale to face the target position
-
             bool isTargetRight = pos.x > transform.position.x;
             bool isFacingRight = Avatar.transform.localScale.x >= 0.0f;
 

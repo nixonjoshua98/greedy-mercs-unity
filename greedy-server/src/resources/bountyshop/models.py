@@ -7,7 +7,7 @@ class PurchasableBountyShopItem(BaseModel):
     id: str = Field(..., alias="itemId")
 
     purchase_cost: int = Field(..., alias="purchaseCost")
-    purchase_limit: int = Field(1, alias="purchaseLimit")
+    purchase_limit: int = Field(1000, alias="purchaseLimit")
 
 
 class BountyShopArmouryItem(PurchasableBountyShopItem):

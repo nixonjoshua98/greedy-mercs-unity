@@ -14,7 +14,7 @@
 
     // = Responses = //
 
-    public class BountyShopPurchaseResponse: ServerResponse
+    public abstract class BountyShopPurchaseResponse: ServerResponse
     {
         public long PurchaseCost { get; set; }
         public Inventory.Models.UserCurrenciesModel CurrencyItems { set; get; }

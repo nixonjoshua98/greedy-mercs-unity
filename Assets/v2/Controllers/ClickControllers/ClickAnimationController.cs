@@ -11,7 +11,7 @@ namespace GM.Controllers
         public GameObject ClickPS;
 
         [Space]
-        public GM.Common.ObjectPool ParticlePool;
+        public GM.UI.ObjectPool ParticlePool;
 
         private void Awake()
         {

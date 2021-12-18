@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Common
+namespace GM.UI
 {
     public class ObjectPool : Core.GMMonoBehaviour
     {
         [SerializeField] GameObject PooledObject;
+        [SerializeField] Transform ObjectParent = null;
 
         List<GameObject> Objects = new List<GameObject>();
 
@@ -13,7 +14,7 @@ namespace GM.Common
         {
             if (!TryGetAvailablePooledObject(out GameObject obj))
             {
-                obj = Instantiate(PooledObject);
+                obj = InstantiatePooledObject();
 
                 Objects.Add(obj);
             }
@@ -24,6 +25,15 @@ namespace GM.Common
         }
 
         public T Spawn<T>() where T: Object => Spawn().GetComponent<T>();
+
+        GameObject InstantiatePooledObject()
+        {
+            if (ObjectParent == null)
+            {
+                return Instantiate(PooledObject);
+            }
+            return Instantiate(PooledObject, ObjectParent);
+        }
 
         bool TryGetAvailablePooledObject(out GameObject obj)
         {

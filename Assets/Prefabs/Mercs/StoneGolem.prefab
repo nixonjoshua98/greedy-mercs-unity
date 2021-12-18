@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackImpactPS: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
   anim: {fileID: 1791531129569585673}
 --- !u!114 &4808322265676788142
 MonoBehaviour:
@@ -60,9 +61,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1791531129569585673}
-  E_OnAttackImpact:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7127857024422436009
 MonoBehaviour:
   m_ObjectHideFlags: 0

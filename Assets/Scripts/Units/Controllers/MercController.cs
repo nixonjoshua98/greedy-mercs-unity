@@ -13,6 +13,9 @@ namespace GM.Units
 
         public MercID ID { get; private set; } = MercID.NONE;
 
+        [Header("References")]
+        [SerializeField] GameObject AttackImpactPS;
+
         [Header("Components")]
         public Animator anim;
       
@@ -102,6 +105,8 @@ namespace GM.Units
         {
             if (target != null && target.TryGetComponent(out HealthController hp))
             {
+                InstantiateAttackImpactPS();
+
                 BigDouble dmg = App.Cache.MercDamage(App.Data.Mercs.GetMerc(ID));
 
                 App.Cache.ApplyCritHit(ref dmg);
@@ -118,6 +123,15 @@ namespace GM.Units
             }
 
             return null;
+        }
+
+        void InstantiateAttackImpactPS()
+        {
+            if (AttackImpactPS != null)
+            {
+                Instantiate(AttackImpactPS, transform.position, Quaternion.identity, null);
+
+            }
         }
     }
 }

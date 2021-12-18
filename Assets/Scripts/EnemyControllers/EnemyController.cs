@@ -1,11 +1,11 @@
 
+using GM.Targets;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using DamageTextPopup = GM.UI.DamageTextPopup;
 using HealthController = GM.Controllers.HealthController;
-using GM.Targets;
 
 namespace GM.Units
 {

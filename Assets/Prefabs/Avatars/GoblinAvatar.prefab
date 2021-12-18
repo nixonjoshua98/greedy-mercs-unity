@@ -822,10 +822,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4950480674301596}
-  - component: {fileID: -5221557799101975162}
+  - component: {fileID: 2716748281763595501}
   - component: {fileID: 95300950981661372}
   - component: {fileID: 6308860688182506512}
-  - component: {fileID: 2722234715259516547}
   m_Layer: 0
   m_Name: GoblinAvatar
   m_TagString: Untagged
@@ -852,7 +851,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5221557799101975162
+--- !u!114 &2716748281763595501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -861,12 +860,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1571328342031654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3a67d1d22ff754ab4f0f248fbae886, type: 3}
+  m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Idle: Idle
-  Walk: Walk
-  Attack: Attacking
+  Animator: {fileID: 95300950981661372}
+  AnimationStrings:
+    Idle: 
+    Walk: 
+    Attack: 
+    Defeat: Dying
+    Hurt: Hurt
+  OnDefeatAnimationEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHurtAnimationEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &95300950981661372
 Animator:
   serializedVersion: 3
@@ -897,24 +906,6 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2722234715259516547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571328342031654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  E_OnAttackAnimation:
-    m_PersistentCalls:
-      m_Calls: []
-  E_OnDeathAnimation:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1631404634319562
 GameObject:
   m_ObjectHideFlags: 0
@@ -6333,7 +6324,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.38333333
-    functionName: InvokeDeathEvent
+    functionName: OnDefeatAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -18944,7 +18935,14 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.4
+    functionName: Defeat_AnimationEvent
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
 --- !u!74 &74602227096571576
 AnimationClip:
   m_ObjectHideFlags: 0

@@ -2344,7 +2344,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!222 &448262734
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3954,7 +3954,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690453049}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -4943,12 +4943,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossObjects:
-  - {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
   - {fileID: 5799380237597311610, guid: 7727b43d97be31a498925e4ac622404e, type: 3}
   EnemyObjects:
-  - {fileID: 4921165014578054583, guid: 3d6b020e0ed38b547a644b7e6d96ac2a, type: 3}
   - {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4, type: 3}
-  - {fileID: 8012721505089177118, guid: 0b3bb586c31f11b4492359a26c37cbaf, type: 3}
   formations:
   - {fileID: 11400000, guid: b8af45da273c28241aeb6b1761c1ab2b, type: 2}
   - {fileID: 11400000, guid: 16421436dfece6f429c507bf8a8b5439, type: 2}
@@ -6832,7 +6829,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1153042147}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -6842,7 +6839,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 31
+  m_AdditionalShaderChannelsFlag: 7
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -13054,7 +13051,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!222 &1984202886
 CanvasRenderer:
   m_ObjectHideFlags: 0

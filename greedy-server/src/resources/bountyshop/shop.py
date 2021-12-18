@@ -75,7 +75,7 @@ class DynamicBountyShop:
     @staticmethod
     def _armoury_item(idx: int, item: StaticArmouryItem) -> BountyShopArmouryItem:
         return BountyShopArmouryItem(
-            id=f"AI-{item.id}-{idx}",
+            id=f"AI-{idx}",
             armoury_item_id=item.id,
             purchase_cost=100
         )
@@ -83,7 +83,7 @@ class DynamicBountyShop:
     @staticmethod
     def _currency_item(idx: int, item: CurrencyItemConfig) -> BountyShopCurrencyItem:
         return BountyShopCurrencyItem(
-            id=f"CI-{item.currency_type}-{idx}",
+            id=f"CI-{idx}",
             purchase_quantity=item.purchase_quantity,
             currency_type=item.currency_type,
             purchase_cost=50

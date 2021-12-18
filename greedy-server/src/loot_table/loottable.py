@@ -63,8 +63,6 @@ class LootTable(LootObject):
         if drop.unique:
             self._avail_drops.remove(drop)
 
-            print("Removed", drop)
-
         if isinstance(drop, LootItem):
             result_list.append(drop.value)
 
@@ -73,4 +71,3 @@ class LootTable(LootObject):
 
             if len(vals) == 0 and drop in self._avail_drops:
                 self._avail_drops.remove(drop)
-                print("Removed", drop)

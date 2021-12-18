@@ -681,6 +681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PooledObject: {fileID: 4753086767240118771, guid: c320183d952ef6e46afac2c00753d600,
     type: 3}
+  ObjectParent: {fileID: 0}
 --- !u!1 &2092377065
 GameObject:
   m_ObjectHideFlags: 0

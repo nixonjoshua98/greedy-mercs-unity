@@ -7,8 +7,11 @@ using UnityEngine;
 
 namespace GM.Enemies.Controllers
 {
-    public class Enemy_Controller : MonoBehaviour
+    public class EnemyController : MonoBehaviour
     {
+        [Header("Prefabs")]
+        public GameObject DefeatPS;
+
         [Header("Components")]
         public UnitAvatar UnitAvatar;
         [Space]
@@ -42,8 +45,9 @@ namespace GM.Enemies.Controllers
             UnitAvatar.Animator.enabled = false;
 
             ProcessLoot();
+            InstantiateDefeatPS();
 
-            FadeOut(0.5f, () => { Destroy(gameObject); });
+            FadeOut(0.5f, () => Destroy(gameObject));
         }
 
         void ProcessLoot()
@@ -57,12 +61,6 @@ namespace GM.Enemies.Controllers
         protected void FadeOut(float duration, Action action)
         {
             StartCoroutine(Fade(duration, action, fadeIn: false));
-        }
-
-
-        protected void FadeIn(float duration, Action action)
-        {
-            StartCoroutine(Fade(duration, action, fadeIn: true));
         }
 
 
@@ -89,6 +87,15 @@ namespace GM.Enemies.Controllers
             }
 
             action.Invoke();
+        }
+
+
+        void InstantiateDefeatPS()
+        {
+            if (DefeatPS != null)
+            {
+                Instantiate(DefeatPS, transform.position, Quaternion.identity, null);
+            }
         }
     }
 }

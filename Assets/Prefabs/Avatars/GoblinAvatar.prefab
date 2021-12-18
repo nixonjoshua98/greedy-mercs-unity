@@ -865,9 +865,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Animator: {fileID: 95300950981661372}
   AvatarRect:
-    Center: {x: 0, y: 2.76}
-    Width: 4.25
-    Height: 5.5
+    serializedVersion: 2
+    x: 0
+    y: 2.75
+    width: 4.25
+    height: 5.5
   AnimationStrings:
     Idle: 
     Walk: 
@@ -18940,7 +18942,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.4
+  - time: 0.25
     functionName: Defeat_AnimationEvent
     data: 
     objectReferenceParameter: {fileID: 0}

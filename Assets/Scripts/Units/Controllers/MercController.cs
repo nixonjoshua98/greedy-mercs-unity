@@ -105,13 +105,13 @@ namespace GM.Units
         {
             if (target != null && target.TryGetComponent(out HealthController hp))
             {
-                InstantiateAttackImpactPS();
-
                 BigDouble dmg = App.Cache.MercDamage(App.Data.Mercs.GetMerc(ID));
 
                 App.Cache.ApplyCritHit(ref dmg);
 
                 hp.TakeDamage(dmg);
+
+                InstantiateAttackImpactPS(target);
             }
         }
 
@@ -125,12 +125,11 @@ namespace GM.Units
             return null;
         }
 
-        void InstantiateAttackImpactPS()
+        void InstantiateAttackImpactPS(GameObject target)
         {
-            if (AttackImpactPS != null)
+            if (target != null && AttackImpactPS != null && target.TryGetComponentInChildren(out UnitAvatar avatar))
             {
-                Instantiate(AttackImpactPS, transform.position, Quaternion.identity, null);
-
+                Instantiate(AttackImpactPS, avatar.AvatarCenter, Quaternion.identity, null);
             }
         }
     }

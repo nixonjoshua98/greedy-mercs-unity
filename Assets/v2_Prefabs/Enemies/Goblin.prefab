@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38b4859831d7234096f395ca86ac6dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefeatPS: {fileID: 1280141305896002, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
   UnitAvatar: {fileID: 8923890760361403210}
   healthController: {fileID: 2574731096765986578}
 --- !u!114 &-1448263663660212233
@@ -86,6 +87,14 @@ PrefabInstance:
     - target: {fileID: 4950480674301596, guid: 1578dbbf01f3e2242923e22c1af2c7b6, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4950480674301596, guid: 1578dbbf01f3e2242923e22c1af2c7b6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4950480674301596, guid: 1578dbbf01f3e2242923e22c1af2c7b6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4950480674301596, guid: 1578dbbf01f3e2242923e22c1af2c7b6, type: 3}
       propertyPath: m_LocalPosition.x

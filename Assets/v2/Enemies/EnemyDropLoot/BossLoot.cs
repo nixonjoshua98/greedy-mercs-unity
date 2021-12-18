@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM
+namespace GM.Enemies
 {    
     public class BossLoot : EnemyLoot
     {
         public override void Process()
         {
-            App.Data.Inv.Gold += App.Cache.GoldPerStageBossAtStage(spawnStageState.Stage);
+            BigDouble gold = App.Cache.GoldPerStageBossAtStage(spawnedStage);
+
+            App.Data.Inv.Gold += gold;
+
+            App.Events.GoldChanged.Invoke(gold);
         }
     }
 }

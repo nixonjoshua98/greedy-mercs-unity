@@ -7,11 +7,9 @@ namespace GM.Units
 {
     public class UnitMeleeAttack : UnitAttack
     {
-        float attackRange = 0.5f;
-
         protected override Vector3 GetTargetPosition(GameObject target)
         {
-            return target.transform.position + (Vector3.right * attackRange);
+            return target.transform.position;
         }
 
 

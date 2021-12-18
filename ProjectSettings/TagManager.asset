@@ -10,11 +10,12 @@ TagManager:
   - Boss
   - EnemyHealthbar
   - PopupNumbersCanvas
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Particle System
   - Water
   - UI
   - 
@@ -46,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Particle System
+    uniqueID: 1953722343
     locked: 0

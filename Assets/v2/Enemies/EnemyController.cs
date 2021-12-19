@@ -24,7 +24,9 @@ namespace GM.Enemies.Controllers
 
         void SubscribeToEvents()
         {
-            UnitAvatar.OnDefeatAnimationEvent.AddListener(OnDefeatAnimation);
+            var events = GetComponentInChildren<UnitAvatarAnimationEvents>();
+
+            events.Defeat.AddListener(OnDefeatAnimation);
 
             healthController.E_OnZeroHealth.AddListener(OnZeroHealth);
             healthController.E_OnDamageTaken.AddListener(OnDamageTaken);

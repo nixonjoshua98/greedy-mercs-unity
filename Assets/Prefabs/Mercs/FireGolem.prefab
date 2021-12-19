@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 527510453790322701}
-  - component: {fileID: 783787924}
-  - component: {fileID: 783787923}
-  - component: {fileID: 1485978854306912863}
   m_Layer: 0
   m_Name: FireGolem
   m_TagString: Untagged
@@ -34,46 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &783787924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527510453790322700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 433373275325761648}
---- !u!114 &783787923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527510453790322700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fda14d60ebca58448878508f3b2e400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 433373275325761648}
---- !u!114 &1485978854306912863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527510453790322700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  avatar: {fileID: 529133020641648494}
 --- !u!1001 &527510451738759756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,7 +125,7 @@ PrefabInstance:
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 783787923}
+      objectReference: {fileID: 0}
     - target: {fileID: 9138276407072606021, guid: fd96c89408de2c944865a800062ab087,
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -191,21 +148,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd96c89408de2c944865a800062ab087, type: 3}
---- !u!1 &529133020641648494 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1632069410589986, guid: fd96c89408de2c944865a800062ab087,
-    type: 3}
-  m_PrefabInstance: {fileID: 527510451738759756}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &523455695664428036 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4969623049627208, guid: fd96c89408de2c944865a800062ab087,
-    type: 3}
-  m_PrefabInstance: {fileID: 527510451738759756}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &433373275325761648 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95051975481186876, guid: fd96c89408de2c944865a800062ab087,
     type: 3}
   m_PrefabInstance: {fileID: 527510451738759756}
   m_PrefabAsset: {fileID: 0}

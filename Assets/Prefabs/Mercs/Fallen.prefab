@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4044917154262169177}
-  - component: {fileID: 665145043619480486}
-  - component: {fileID: 5615505561678184033}
-  - component: {fileID: 1147134181234594333}
   m_Layer: 0
   m_Name: Fallen
   m_TagString: Untagged
@@ -34,46 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &665145043619480486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4044917154262169182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 4140710708500218812}
---- !u!114 &5615505561678184033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4044917154262169182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fda14d60ebca58448878508f3b2e400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 4140710708500218812}
---- !u!114 &1147134181234594333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4044917154262169182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  avatar: {fileID: 4044917154262169182}
 --- !u!114 &8766213165860244686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +46,7 @@ MonoBehaviour:
   E_OnAttackAnimation:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5615505561678184033}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GM.Units.UnitAttack, Assembly-CSharp
         m_MethodName: OnAttackAnimationEvent
         m_Mode: 1
@@ -163,8 +120,7 @@ PrefabInstance:
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4368565593353218899, guid: 3f92fb98b45d54a498005a527d7f0852,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3138634982400284850, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e0bd3015af80d894da39ba968ceb587e, type: 3}
@@ -177,12 +133,6 @@ GameObject:
 --- !u!4 &4047934244842792548 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4301320719418220, guid: e0bd3015af80d894da39ba968ceb587e,
-    type: 3}
-  m_PrefabInstance: {fileID: 4044917155986515208}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &4140710708500218812 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95891482203547316, guid: e0bd3015af80d894da39ba968ceb587e,
     type: 3}
   m_PrefabInstance: {fileID: 4044917155986515208}
   m_PrefabAsset: {fileID: 0}

@@ -39,9 +39,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4212931060154188391}
-  - component: {fileID: 240715500}
-  - component: {fileID: 240715499}
-  - component: {fileID: 240715498}
   m_Layer: 0
   m_Name: FireSatyr
   m_TagString: Untagged
@@ -65,49 +62,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &240715500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 2828557145166165476}
---- !u!114 &240715499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4299f5431452b2a4b86bdd9da8b8f8d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 2828557145166165476}
-  projectile: {fileID: 892358329798779585, guid: cb280996a128c434a9838ee89aee0817,
-    type: 3}
-  projectileSpawn: {fileID: 7637163329336135085}
---- !u!114 &240715498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212931060154188390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  avatar: {fileID: 1957469043437415277}
 --- !u!1001 &4212931058609886445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -174,7 +128,7 @@ PrefabInstance:
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 240715499}
+      objectReference: {fileID: 0}
     - target: {fileID: 2404084112694329216, guid: 7c23600df3afacc45a70aca48c01c25a,
         type: 3}
       propertyPath: m_Name
@@ -187,21 +141,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c23600df3afacc45a70aca48c01c25a, type: 3}
---- !u!1 &1957469043437415277 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2404084112694329216, guid: 7c23600df3afacc45a70aca48c01c25a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4212931058609886445}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4152767962883369001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 276634994001984708, guid: 7c23600df3afacc45a70aca48c01c25a,
-    type: 3}
-  m_PrefabInstance: {fileID: 4212931058609886445}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2828557145166165476 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2104970784809328905, guid: 7c23600df3afacc45a70aca48c01c25a,
     type: 3}
   m_PrefabInstance: {fileID: 4212931058609886445}
   m_PrefabAsset: {fileID: 0}

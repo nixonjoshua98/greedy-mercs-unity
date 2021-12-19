@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using GM.Targets;
 using GM.Units;
 using System;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
@@ -13,8 +11,29 @@ namespace GM.Mercs.Controllers
         [Space]
         public GameObject ParticleSystemObject;
 
+        [Header("Properties")]
+        public float AttackRange = 2;
+
+
         // = Controllers = //
         IMovementController MoveController;
+
+        public override bool InAttackPosition(Target target)
+        {
+            return Mathf.Abs(target.Position.x - transform.position.x) < AttackRange;
+        }
+
+        public override void MoveTowardsAttackPosition(Target target)
+        {
+            MoveController.MoveTowards(target.Position);
+        }
+
+        public override void StartAttack(Target target, Action<Target> callback)
+        {
+            base.StartAttack(target, callback);
+
+            Avatar.PlayAnimation(Avatar.AnimationStrings.Attack);
+        }
 
         void Awake()
         {
@@ -38,41 +57,20 @@ namespace GM.Mercs.Controllers
 
         void OnAttackAnimation()
         {
-            InstantiateSummoningObject();
+            InstantiateParticles();
+
+            Invoke("OnAttackImpact", 0.25f);
         }
 
-        void InstantiateSummoningObject()
+        protected virtual void InstantiateParticles()
         {
-            Avatar.Animator.speed = 0.0f;
-
             Instantiate(ParticleSystemObject, CurrentTarget.Avatar.AvatarCenter);
-
-            Invoke("OnSummonedObject", 0.25f);
         }
 
-        void OnSummonedObject()
+        void OnAttackImpact()
         {
-            Avatar.Animator.speed = 1.0f;
-
             DealDamageToTarget();
             Cooldown();
-        }
-
-        public override bool InAttackPosition(Target target)
-        {
-            return Mathf.Abs(target.Position.x - transform.position.x) < 5;
-        }
-
-        public override void MoveTowardsAttackPosition(Target target)
-        {
-            MoveController.MoveTowards(target.Position);
-        }
-
-        public override void StartAttack(Target target, Action callback)
-        {
-            base.StartAttack(target, callback);
-
-            Avatar.PlayAnimation(Avatar.AnimationStrings.Attack);
         }
     }
 }

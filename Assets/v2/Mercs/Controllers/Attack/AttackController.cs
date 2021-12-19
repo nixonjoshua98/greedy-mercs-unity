@@ -10,7 +10,7 @@ namespace GM.Mercs.Controllers
     {
         public bool IsAvailable { get; }
 
-        public void StartAttack(Target target, Action callback);
+        public void StartAttack(Target target, Action<Target> callback);
         public bool InAttackPosition(Target target);
         public void MoveTowardsAttackPosition(Target target);
     }
@@ -18,7 +18,7 @@ namespace GM.Mercs.Controllers
     public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
     {
         protected Target CurrentTarget;
-        Action DealDamageToTargetAction;
+        Action<Target> DealDamageToTargetAction;
 
         protected bool isAttacking;
         protected bool isOnCooldown;
@@ -27,7 +27,7 @@ namespace GM.Mercs.Controllers
         public abstract bool InAttackPosition(Target target);
         public abstract void MoveTowardsAttackPosition(Target target);
 
-        public virtual void StartAttack(Target target, Action callback)
+        public virtual void StartAttack(Target target, Action<Target> callback)
         {
             isAttacking = true;
             CurrentTarget = target;
@@ -42,7 +42,7 @@ namespace GM.Mercs.Controllers
             }
             else
             {
-                DealDamageToTargetAction();
+                DealDamageToTargetAction(CurrentTarget);
             }
         }
 

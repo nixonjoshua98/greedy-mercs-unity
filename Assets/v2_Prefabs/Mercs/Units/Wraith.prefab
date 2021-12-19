@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6033011914855570432}
   - component: {fileID: 8870681959130523597}
-  - component: {fileID: 8168635124667596507}
   - component: {fileID: 7360375990621380233}
+  - component: {fileID: 2878239132680581907}
   m_Layer: 0
   m_Name: Wraith
   m_TagString: Untagged
@@ -48,21 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 2
   Avatar: {fileID: 893184686303319035}
---- !u!114 &8168635124667596507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6033011914855570445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d1f139b3d9f9fd419bf0e070c294a23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Avatar: {fileID: 893184686303319035}
-  ParticleSystemObject: {fileID: 1628744458893394, guid: e243632bb3aff9549abdcfcc2ef0c4f0,
-    type: 3}
 --- !u!114 &7360375990621380233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +62,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Avatar: {fileID: 893184686303319035}
   MoveSpeed: 2.5
+--- !u!114 &2878239132680581907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6033011914855570445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1f139b3d9f9fd419bf0e070c294a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Avatar: {fileID: 893184686303319035}
+  ParticleSystemObject: {fileID: 100008, guid: 1ca16f2a31fb6a548ad8954bed1d321f, type: 3}
+  AttackRange: 2
 --- !u!1001 &6033011915305229128
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -886,7 +886,7 @@ GameObject:
   - component: {fileID: 7030734113173919260}
   - component: {fileID: 7630195462933887062}
   m_Layer: 5
-  m_Name: BsArmouryItemPopup
+  m_Name: BSArmouryItemPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

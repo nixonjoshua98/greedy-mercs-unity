@@ -1,5 +1,6 @@
 using GM.Targets;
 using GM.Units;
+using UnityEngine;
 using System;
 
 namespace GM.Mercs.Controllers
@@ -7,6 +8,10 @@ namespace GM.Mercs.Controllers
     public class MeleeAttackController : AttackController
     {
         public UnitAvatar Avatar;
+
+        [Header("Prefabs")]
+        [Tooltip("Optional prefab to instantiate upon attack impact")]
+        public GameObject AttackImpactObject;
 
         // = Controllers = //
         IMovementController MoveController;
@@ -31,7 +36,7 @@ namespace GM.Mercs.Controllers
             GMLogger.WhenNull(MoveController, "IMovementController is Null");
         }
 
-        public override void StartAttack(Target target, Action callback)
+        public override void StartAttack(Target target, Action<Target> callback)
         {
             base.StartAttack(target, callback);
 
@@ -52,6 +57,15 @@ namespace GM.Mercs.Controllers
         {
             Cooldown();
             DealDamageToTarget();
+            InstantiateAttackImpactObject();
+        }
+
+        void InstantiateAttackImpactObject()
+        {
+            if (AttackImpactObject != null)
+            {
+                Instantiate(AttackImpactObject, CurrentTarget.Avatar.AvatarCenter);
+            }
         }
     }
 }

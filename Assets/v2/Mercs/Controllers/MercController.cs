@@ -93,9 +93,9 @@ namespace GM.Mercs.Controllers
         }
 
 
-        protected void DealDamageToTarget()
+        protected void DealDamageToTarget(Target attackTarget)
         {
-            if (CurrentTarget.GameObject.TryGetComponent(out HealthController health))
+            if (attackTarget.GameObject.TryGetComponent(out HealthController health))
             {
                 BigDouble dmg = App.Cache.MercDamage(App.Data.Mercs.GetMerc(Id));
 

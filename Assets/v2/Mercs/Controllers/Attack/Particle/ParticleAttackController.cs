@@ -11,7 +11,7 @@ namespace GM.Mercs.Controllers
     {
         public UnitAvatar Avatar;
         [Space]
-        public GameObject SummonObject;
+        public GameObject ParticleSystemObject;
 
         // = Controllers = //
         IMovementController MoveController;
@@ -45,7 +45,7 @@ namespace GM.Mercs.Controllers
         {
             Avatar.Animator.speed = 0.0f;
 
-            Instantiate(SummonObject, CurrentTarget.Avatar.AvatarCenter);
+            Instantiate(ParticleSystemObject, CurrentTarget.Avatar.AvatarCenter);
 
             Invoke("OnSummonedObject", 0.25f);
         }

@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+
 public interface IMovementController
 {
     public void MoveTowards(Vector3 target);
     public void MoveTowards(Vector3 target, Action action);
     public void MoveDirection(Vector3 dir);
+    public void FaceTowards(GameObject obj);
 }
 
 namespace GM.Units

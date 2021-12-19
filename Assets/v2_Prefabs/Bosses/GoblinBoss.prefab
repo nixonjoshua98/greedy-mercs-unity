@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3789d6111a386a48bea792241503612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefeatPS: {fileID: 0}
+  DefeatPS: {fileID: 1280141305896002, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
   UnitAvatar: {fileID: 7750440333548865036}
   healthController: {fileID: -5744191802478289333}
 --- !u!114 &-5744191802478289333

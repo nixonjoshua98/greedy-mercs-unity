@@ -4943,7 +4943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossObjects:
-  - {fileID: 5799380237597311610, guid: 7727b43d97be31a498925e4ac622404e, type: 3}
+  - {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
   EnemyObjects:
   - {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4, type: 3}
   formations:

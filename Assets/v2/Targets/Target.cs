@@ -7,7 +7,7 @@ namespace GM.Targets
     {
         GameObject GameObject { get; set; }
         TargetType Type { get; set; }
-        HealthController Health { get; }
+        HealthController Health { get; set; }
         Vector3 Position { get; }
     }
 
@@ -15,18 +15,7 @@ namespace GM.Targets
     {
         public GameObject GameObject { get; set; }
         public TargetType Type { get; set; } = TargetType.Unset;
-
-        HealthController _Health;
-        public HealthController Health
-        {
-            get
-            {
-                if (_Health == null && GameObject.TryGetComponent(out HealthController health))
-                    _Health = health;
-
-                return _Health;
-            }
-        }
+        public HealthController Health { get; set; }
 
         public Vector3 Position => GameObject.transform.position;
     }
@@ -38,6 +27,8 @@ namespace GM.Targets
         {
             GameObject = obj;
             Type = type;
+
+            Health = obj.GetComponent<HealthController>();
         }
     }
 }

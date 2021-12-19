@@ -1,11 +1,11 @@
-﻿using GM.Targets;
-using GM.Units;
+﻿using GM.Mercs.Controllers;
+using GM.Targets;
 using GM.Units.Formations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using GM.Mercs.Controllers;
 using DamageClickController = GM.Controllers.DamageClickController;
 using MercID = GM.Common.Enums.MercID;
 
@@ -40,7 +40,6 @@ namespace GM
         [SerializeField] DamageClickController ClickController;
 
         [HideInInspector] public UnityEvent<Target> E_BossSpawn { get; private set; } = new UnityEvent<Target>();
-        [HideInInspector] public UnityEvent E_OnWaveCleared { get; private set; } = new UnityEvent();
         [HideInInspector] public UnityEvent<TargetList<Target>> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList<Target>>();
 
         public CurrentStageState State { get; private set; } = new CurrentStageState();
@@ -62,7 +61,10 @@ namespace GM
             {
                 Vector2 pos = new Vector2(Camera.main.MinBounds().x, Common.Constants.CENTER_BATTLE_Y);
 
-                AddMercToSquad(merc, pos);
+                if (Mercs.Count < 2)
+                {
+                    AddMercToSquad(merc, pos);
+                }
             });
         }
 
@@ -97,7 +99,7 @@ namespace GM
             E_OnWaveSpawn.Invoke(Enemies);
         }
 
-        void SpawnBoss()
+        Target SpawnBoss()
         {
             Target boss = new Target(spawner.SpawnBoss(State), TargetType.Boss);
 
@@ -108,6 +110,8 @@ namespace GM
             Enemies.Add(boss);
 
             E_BossSpawn.Invoke(boss);
+
+            return boss;
         }
 
         void AddMercToSquad(MercID merc, Vector2 pos)
@@ -119,8 +123,8 @@ namespace GM
             Mercs.Add(new SquadMerc(o));
         }
 
-
-        void MoveMercsToBossPosition()
+        /// <summary> Take control of each merc and move them into formation </summary>
+        void MoveMercsToFormation(Action callback)
         {
             Vector3 cameraPosition = Camera.main.MinBounds();
 
@@ -128,21 +132,21 @@ namespace GM
 
             int mercsMoved = 0;
 
-            for (int i = 0; i < Mercs.Count; ++i)
+            foreach ((SquadMerc merc, int idx) in Mercs.Select((merc, idx) => (merc, idx)))
             {
-                SquadMerc unit = Mercs[i];
+                merc.Controller.Pause(); // Pause the regular merc update loop
 
-                Vector2 relPos = formation.GetPosition(Mathf.Min(formation.NumPositions - 1, i));
+                Vector2 relPos = formation.GetPosition(Mathf.Min(formation.NumPositions - 1, idx));
 
                 Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Common.Constants.CENTER_BATTLE_Y);
 
-                unit.Controller.Move(targetPosition, () =>
+                merc.Controller.Move(targetPosition, () =>
                 {
                     mercsMoved++;
 
                     if (mercsMoved == Mercs.Count)
                     {
-                        //Mercs.ForEach(m => m.Controller.Attack.Enable());
+                        callback();
                     }
                 });
             }
@@ -170,13 +174,18 @@ namespace GM
 
         void OnWaveCleared()
         {
-            E_OnWaveCleared.Invoke();
-
             if (State.Wave == State.WavesPerStage)
             {
-                SpawnBoss();
+                Target boss = SpawnBoss();
 
-                MoveMercsToBossPosition();
+                // Move mercs into formation and set the boss as a priority target
+                MoveMercsToFormation(() => {
+                    Mercs.ForEach(m => {
+                        m.Controller.SetPriorityTarget(boss);
+
+                        m.Controller.Resume();
+                    });
+                });
             }
 
             else

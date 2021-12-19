@@ -22,6 +22,10 @@ namespace GM.Mercs.Controllers
 
         private Target CurrentTarget;
 
+        // = States = //
+        bool IsPaused { get; set; } = false;
+        bool IsTargetPriority { get; set; } = false;
+
 
         protected TargetList<Target> CurrentTargetList => GameManager.Instance.Enemies;
 
@@ -41,6 +45,29 @@ namespace GM.Mercs.Controllers
 
         void FixedUpdate()
         {
+            // Pausing the controller generally means the merc is being controlled from outside
+            if (IsPaused)
+            {
+
+            }
+
+            // Target is marked as a priority ( should find a better name ) which means in this context
+            // that the merc will start attacking the target and ignore all position checks
+            else if (IsTargetPriority && CanAttackPriorityTarget())
+            {
+                MoveController.FaceTowards(CurrentTarget.GameObject);
+
+                StartAttack();
+            }
+
+            else
+            {
+                AttackLoop();
+            }
+        }
+
+        void AttackLoop()
+        {
             if (!IsCurrentTargetValid())
             {
                 CurrentTarget = GetTargetFromTargetList();
@@ -59,11 +86,9 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        public void Move(Vector3 position, Action callback)
+        bool CanAttackPriorityTarget()
         {
-            transform.position = position;
-
-            callback.Invoke();
+            return !AttackController.IsAttacking() && IsCurrentTargetValid();
         }
 
         void MoveTowardsAttackPosition()
@@ -94,7 +119,30 @@ namespace GM.Mercs.Controllers
             }
         }
 
+        public void Pause()
+        {
+            IsPaused = true;
+        }
 
+        public void Resume()
+        {
+            IsPaused = false;
+        }
+
+        public void Move(Vector3 position, Action callback)
+        {
+            MoveController.MoveTowards(position, callback);
+        }
+
+        public void SetPriorityTarget(Target target)
+        {
+            CurrentTarget = target;
+            IsTargetPriority = true;
+
+            GMLogger.WhenNull(target.Health, "Priority merc target health is Null");
+
+            target.Health.E_OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
+        }
 
         protected bool IsCurrentTargetValid()
         {

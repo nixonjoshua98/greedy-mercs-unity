@@ -16,6 +16,8 @@ namespace GM.Mercs.Controllers
 
     public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
     {
+        protected bool isAttacking;
+
         public abstract bool IsAttacking();
         public abstract bool InAttackPosition(Target target);
         public abstract void StartAttack(Target target, Action callback);

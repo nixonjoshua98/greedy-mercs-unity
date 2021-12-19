@@ -12,13 +12,11 @@ namespace GM.Mercs.Controllers
     {
         public UnitAvatar Avatar;
 
-        // Controller Interfaces
+
         public IMovementController MoveController;
 
 
-        bool isAttacking;
         Target CurrentTarget;
-
         Action DealDamageToTarget;
 
         public override bool IsAttacking() => isAttacking;

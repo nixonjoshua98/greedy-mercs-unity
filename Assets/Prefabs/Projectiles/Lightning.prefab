@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4140406644459286}
   - component: {fileID: 198677932445220266}
   - component: {fileID: 199780847256873614}
-  - component: {fileID: 135181885}
   m_Layer: 0
   m_Name: Lightning
   m_TagString: Untagged
@@ -4818,33 +4817,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &135181885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1985655064596568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b953b30ed311f940bd7ae05afb4c9da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnParticleSystemStoppedCallback:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnParticleDone
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &3523363851537228589
 GameObject:
   m_ObjectHideFlags: 0

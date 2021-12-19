@@ -9,7 +9,7 @@ namespace GM.Units
     {
         public Animator Animator;
         public Rect AvatarRect;
-        public Animation_Strings AnimationStrings;
+        public AnimationStrings AnimationStrings;
 
         public Vector3 AvatarCenter => transform.position + (AvatarRect.position * transform.localScale).ToVector3();
 

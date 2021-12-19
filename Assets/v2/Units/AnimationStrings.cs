@@ -1,9 +1,7 @@
-using UnityEngine;
-
 namespace GM
 {
     [System.Serializable]
-    public struct Animation_Strings
+    public struct AnimationStrings
     {
         public string Idle;
         public string Walk;

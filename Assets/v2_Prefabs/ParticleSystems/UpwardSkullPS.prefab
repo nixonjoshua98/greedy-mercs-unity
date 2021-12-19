@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1696550943034986185}
   - component: {fileID: 9127295896135632790}
   m_Layer: 0
-  m_Name: SkullExplosionPS
+  m_Name: UpwardSkullPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GM.Targets
 {
-    public class TargetList<T> : List<T> where T: ITarget
+    public class TargetList<T> : List<T> where T: AbstractTarget
     {
         public bool TryGetWithType(TargetType type, ref T target)
         {

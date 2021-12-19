@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5064120841244210573}
   - component: {fileID: 2356322643805370910}
-  - component: {fileID: 6292995018686137383}
+  - component: {fileID: 647000144735152506}
   - component: {fileID: 6800511658964374014}
   - component: {fileID: 4484796574378713095}
   m_Layer: 0
@@ -454,7 +454,7 @@ MonoBehaviour:
     Attack: Attacking
     Defeat: 
     Hurt: 
---- !u!114 &6292995018686137383
+--- !u!114 &647000144735152506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -463,10 +463,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3032672657413112226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2324d50db2e0cc44eb35b262298f0e78, type: 3}
+  m_Script: {fileID: 11500000, guid: 98ecdcdfd93742640a3261f6994ffa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackImpact:
+  Attack:
     m_PersistentCalls:
       m_Calls: []
 --- !u!95 &6800511658964374014
@@ -6193,7 +6193,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.3
-    functionName: InvokeAttackImpact
+    functionName: InvokeAttackEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

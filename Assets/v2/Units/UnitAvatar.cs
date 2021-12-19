@@ -20,7 +20,10 @@ namespace GM.Units
         public void OnHurtAnimation() => OnHurtAnimationEvent.Invoke();
 
 
-        public void PlayerAnimation(string anim) => Animator.Play(anim);
+        public void PlayAnimation(string anim)
+        {
+            Animator.Play(anim);
+        }
 
         void OnDrawGizmos()
         {

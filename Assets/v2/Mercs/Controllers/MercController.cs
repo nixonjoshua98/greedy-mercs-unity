@@ -70,7 +70,7 @@ namespace GM.Mercs.Controllers
             }
             else
             {
-                if (!AttackController.IsAttacking)
+                if (AttackController.IsAvailable)
                 {
                     AttackController.MoveTowardsAttackPosition(CurrentTarget);
 
@@ -84,7 +84,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        bool CanAttackPriorityTarget() => !AttackController.IsAttacking && IsCurrentTargetValid();
+        bool CanAttackPriorityTarget() => AttackController.IsAvailable && IsCurrentTargetValid();
         bool IsCurrentTargetValid() => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
 
         void StartAttack()

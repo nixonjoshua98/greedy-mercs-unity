@@ -8,8 +8,12 @@ namespace GM.Core
 
         private GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
 
+        public GameObject Instantiate(GameObject obj, Vector3 position) => Instantiate(obj, position, Quaternion.identity, null);
+
+
         public T Instantiate<T>(GameObject obj, Transform parent) where T : Component => Instantiate(obj, parent).GetComponent<T>();
         public T Instantiate<T>(GameObject obj, Transform parent, Vector3 position) where T : Component => Instantiate(obj, position, Quaternion.identity, parent).GetComponent<T>();
+        public T Instantiate<T>(GameObject obj, Vector3 position) where T : Component => Instantiate(obj, position, Quaternion.identity, null).GetComponent<T>();
 
         public T InstantiateUI<T>(GameObject obj) where T : Component => Instantiate(obj, MainCanvas.transform).GetComponent<T>();
     }

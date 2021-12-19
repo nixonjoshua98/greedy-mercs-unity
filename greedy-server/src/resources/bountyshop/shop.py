@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime as dt
 from random import Random
-from typing import TYPE_CHECKING
 
 from fastapi import Depends
 
@@ -11,12 +10,9 @@ from src.request_context import RequestContext
 
 from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import BountyShopLootTable
-from .models import BountyShopArmouryItem, BountyShopCurrencyItem
+from .models import BountyShopArmouryItem, BountyShopCurrencyItem, PurchasableBountyShopItem
 from .shopconfig import (BountyShopLevelConfig, CurrencyItemConfig,
                          FullBountyShopConfig, bounty_shop_config)
-
-if TYPE_CHECKING:
-    from src.resources.bountyshop import PurchasableBountyShopItemType
 
 
 async def dynamic_bounty_shop(
@@ -39,9 +35,9 @@ class DynamicBountyShop:
         self.config: BountyShopLevelConfig = self._get_shop_config(config)
         self.loot_Table = BountyShopLootTable(s_armoury, prev_reset, self.config)
 
-        self.all_items: list[PurchasableBountyShopItemType] = self._generate_shop()
+        self.all_items: list[PurchasableBountyShopItem] = self._generate_shop()
 
-    def get_item(self, item: str) -> PurchasableBountyShopItemType:
+    def get_item(self, item: str) -> PurchasableBountyShopItem:
         return utils.get(self.all_items, id=item)
 
     def dict(self) -> dict[str, list]:
@@ -54,7 +50,7 @@ class DynamicBountyShop:
     def _get_shop_config(config: FullBountyShopConfig):
         return config.get_level_config(0)
 
-    def _generate_shop(self) -> list[PurchasableBountyShopItemType]:
+    def _generate_shop(self) -> list[PurchasableBountyShopItem]:
         rnd = Random(x=f"{(self.prev_reset - dt.datetime.fromtimestamp(0)).days}")
 
         shop_items = []

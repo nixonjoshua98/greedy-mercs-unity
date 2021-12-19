@@ -18,7 +18,7 @@ namespace GM.Mercs.Controllers
         {
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * MoveSpeed);
 
-            Avatar.PlayerAnimation(Avatar.AnimationStrings.Walk);
+            Avatar.PlayAnimation(Avatar.AnimationStrings.Walk);
 
             FaceTowardsTarget(target);
         }
@@ -35,7 +35,7 @@ namespace GM.Mercs.Controllers
                     yield return new WaitForFixedUpdate();
                 }
 
-                Avatar.PlayerAnimation(Avatar.AnimationStrings.Idle);
+                Avatar.PlayAnimation(Avatar.AnimationStrings.Idle);
 
                 action.Invoke();
             }

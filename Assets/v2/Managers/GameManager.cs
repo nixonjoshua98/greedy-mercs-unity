@@ -11,15 +11,13 @@ using MercID = GM.Common.Enums.MercID;
 
 namespace GM
 {
-    public class SquadMerc: AbstractTarget
+    public class SquadMerc: Target
     {
         public IMercController Controller { get; private set; }
         public IMovementController Movement { get; private set; }
 
-        public SquadMerc (GameObject obj)
+        public SquadMerc (GameObject obj) : base(obj, TargetType.Unset)
         {
-            GameObject = obj;
-
             Controller = obj.GetComponent<IMercController>();
             Movement = obj.GetComponent<IMovementController>();
         }

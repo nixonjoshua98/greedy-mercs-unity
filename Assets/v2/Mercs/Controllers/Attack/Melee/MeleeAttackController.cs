@@ -11,10 +11,6 @@ namespace GM.Mercs.Controllers
         // = Controllers = //
         IMovementController MoveController;
 
-
-        Target CurrentTarget;
-        Action DealDamageToTarget;
-
         void Awake()
         {
             SetupEvents();
@@ -23,9 +19,9 @@ namespace GM.Mercs.Controllers
 
         void SetupEvents()
         {
-            var events = GetComponentInChildren<MeleeUnitAnimationEvents>();
+            var events = GetComponentInChildren<UnitAvatarAnimationEvents>();
 
-            events.AttackImpact.AddListener(OnMeleeAttackImpact);
+            events.Attack.AddListener(OnMeleeAttackImpact);
         }
 
         void GetComponents()
@@ -35,13 +31,11 @@ namespace GM.Mercs.Controllers
             GMLogger.WhenNull(MoveController, "IMovementController is Null");
         }
 
-        public override void StartAttack(Target target, Action impactCallback)
+        public override void StartAttack(Target target, Action callback)
         {
-            isAttacking = true;
-            CurrentTarget = target;
-            DealDamageToTarget = impactCallback;
+            base.StartAttack(target, callback);
 
-            Avatar.PlayerAnimation(Avatar.AnimationStrings.Attack);
+            Avatar.PlayAnimation(Avatar.AnimationStrings.Attack);
         }
 
         public override bool InAttackPosition(Target target)
@@ -56,16 +50,8 @@ namespace GM.Mercs.Controllers
 
         public void OnMeleeAttackImpact()
         {
-            isAttacking = false;
-
-            if (CurrentTarget.GameObject == null)
-            {
-                GMLogger.Editor("Attempted to deal damage to destroyed target");
-            }
-            else
-            {
-                DealDamageToTarget();
-            }
+            Cooldown();
+            DealDamageToTarget();
         }
     }
 }

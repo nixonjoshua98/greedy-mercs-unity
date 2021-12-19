@@ -1,21 +1,16 @@
 using UnityEngine;
 using HealthController = GM.Controllers.HealthController;
+using GM.Units;
+
 
 namespace GM.Targets
 {
-    public interface ITarget
-    {
-        GameObject GameObject { get; set; }
-        TargetType Type { get; set; }
-        HealthController Health { get; set; }
-        Vector3 Position { get; }
-    }
-
-    public abstract class AbstractTarget : ITarget
+    public abstract class AbstractTarget
     {
         public GameObject GameObject { get; set; }
         public TargetType Type { get; set; } = TargetType.Unset;
-        public HealthController Health { get; set; }
+        public HealthController Health { get; protected set; }
+        public UnitAvatar Avatar { get; protected set; }
 
         public Vector3 Position => GameObject.transform.position;
     }
@@ -29,6 +24,7 @@ namespace GM.Targets
             Type = type;
 
             Health = obj.GetComponent<HealthController>();
+            Avatar = obj.GetComponentInChildren<UnitAvatar>();
         }
     }
 }

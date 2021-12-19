@@ -14,11 +14,14 @@ namespace GM
     public class SquadMerc: AbstractTarget
     {
         public IMercController Controller { get; private set; }
+        public IMovementController Movement { get; private set; }
 
         public SquadMerc (GameObject obj)
         {
             GameObject = obj;
+
             Controller = obj.GetComponent<IMercController>();
+            Movement = obj.GetComponent<IMovementController>();
         }
     }
 
@@ -49,7 +52,7 @@ namespace GM
         public TargetList<Target> Enemies { get; private set; } = new TargetList<Target>();
         public TargetList<SquadMerc> Mercs { get; private set; } = new TargetList<SquadMerc>();
 
-        public List<Vector3> UnitPositions => Mercs.Where(obj => obj.GameObject != null).Select(obj => obj.GameObject.transform.position).ToList();
+        public List<Vector3> UnitPositions => Mercs.Where(obj => obj.GameObject != null).Select(obj => obj.Position).ToList();
 
         void Awake()
         {
@@ -124,7 +127,7 @@ namespace GM
         }
 
         /// <summary> Take control of each merc and move them into formation </summary>
-        void MoveMercsToFormation(Action callback)
+        void MoveMercsToFormation(Action<SquadMerc> mercCallback, Action finalCallback)
         {
             Vector3 cameraPosition = Camera.main.MinBounds();
 
@@ -140,16 +143,34 @@ namespace GM
 
                 Vector2 targetPosition = new Vector2(offsetX + cameraPosition.x + relPos.x, relPos.y + Common.Constants.CENTER_BATTLE_Y);
 
-                merc.Controller.Move(targetPosition, () =>
+                merc.Controller.MoveTowards(targetPosition, () =>
                 {
                     mercsMoved++;
 
+                    mercCallback.Invoke(merc);
+
                     if (mercsMoved == Mercs.Count)
                     {
-                        callback();
+                        finalCallback();
                     }
                 });
             }
+        }
+
+        void SetupStageBossFight(Target boss)
+        {
+            MoveMercsToFormation(
+
+                // Once the merc reaches their spot, then face towards the boss
+                (merc) => merc.Movement.FaceTowards(boss.GameObject),
+
+                // Set the boss target and resume normal control
+                () => {
+                    Mercs.ForEach(m => {
+                        m.Controller.SetPriorityTarget(boss);                        
+                        m.Controller.Resume();
+                    });
+                });
         }
 
         void OnEnemyZeroHealth(Target trgt)
@@ -178,14 +199,7 @@ namespace GM
             {
                 Target boss = SpawnBoss();
 
-                // Move mercs into formation and set the boss as a priority target
-                MoveMercsToFormation(() => {
-                    Mercs.ForEach(m => {
-                        m.Controller.SetPriorityTarget(boss);
-
-                        m.Controller.Resume();
-                    });
-                });
+                SetupStageBossFight(boss);
             }
 
             else

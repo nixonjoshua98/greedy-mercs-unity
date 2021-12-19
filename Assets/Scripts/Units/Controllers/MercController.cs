@@ -19,7 +19,7 @@ namespace GM.Units
         [Header("Components")]
         public Animator anim;
       
-        public IMovementController Movement { get; private set; }
+        public GM.Mercs.Controllers.IMovementController Movement { get; private set; }
         public UnitAttack Attack { get; private set; }
 
         void Start()
@@ -56,7 +56,7 @@ namespace GM.Units
 
         void GetComponents()
         {
-            Movement = GetComponent<IMovementController>();
+            Movement = GetComponent<GM.Mercs.Controllers.IMovementController>();
             Attack = GetComponent<UnitAttack>();
         }
 

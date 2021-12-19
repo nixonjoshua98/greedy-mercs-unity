@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using GM.Targets;
 using GM.Units;
-using GM.Controllers;
 using System;
 
 namespace GM.Mercs.Controllers
@@ -12,14 +8,12 @@ namespace GM.Mercs.Controllers
     {
         public UnitAvatar Avatar;
 
-
-        public IMovementController MoveController;
+        // = Controllers = //
+        IMovementController MoveController;
 
 
         Target CurrentTarget;
         Action DealDamageToTarget;
-
-        public override bool IsAttacking() => isAttacking;
 
         void Awake()
         {

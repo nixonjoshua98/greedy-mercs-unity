@@ -14,7 +14,7 @@ namespace GM.Mercs.Controllers
         void Pause();
         void Resume();
 
-        void Move(Vector3 position, Action action);
+        void MoveTowards(Vector3 position, Action action);
         void SetPriorityTarget(Target target);
     }
 }

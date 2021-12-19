@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GM.Units;
-using GM.Controllers;
 using GM.Common.Enums;
-using System;
-using System.Linq;
+using GM.Controllers;
 using GM.Targets;
+using GM.Units;
+using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GM.Mercs.Controllers
 {
@@ -15,17 +13,15 @@ namespace GM.Mercs.Controllers
         public MercID Id;
         public UnitAvatar Avatar;
 
+        // = Controllers = //
+        IAttackController AttackController;
+        IMovementController MoveController;
 
-        public IAttackController AttackController;
-        public IMovementController MoveController;
-
-
-        private Target CurrentTarget;
+        Target CurrentTarget;
 
         // = States = //
         bool IsPaused { get; set; } = false;
         bool IsTargetPriority { get; set; } = false;
-
 
         protected TargetList<Target> CurrentTargetList => GameManager.Instance.Enemies;
 
@@ -74,11 +70,13 @@ namespace GM.Mercs.Controllers
             }
             else
             {
-                if (!AttackController.IsAttacking())
+                if (!AttackController.IsAttacking)
                 {
-                    MoveTowardsAttackPosition();
+                    AttackController.MoveTowardsAttackPosition(CurrentTarget);
 
-                    if (CanAttackTarget())
+                    bool inPosition = AttackController.InAttackPosition(CurrentTarget);
+
+                    if (inPosition)
                     {
                         StartAttack();
                     }
@@ -86,20 +84,8 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        bool CanAttackPriorityTarget()
-        {
-            return !AttackController.IsAttacking() && IsCurrentTargetValid();
-        }
-
-        void MoveTowardsAttackPosition()
-        {
-            AttackController.MoveTowardsAttackPosition(CurrentTarget);
-        }
-
-        bool CanAttackTarget()
-        {
-            return AttackController.InAttackPosition(CurrentTarget);
-        }
+        bool CanAttackPriorityTarget() => !AttackController.IsAttacking && IsCurrentTargetValid();
+        bool IsCurrentTargetValid() => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
 
         void StartAttack()
         {
@@ -129,30 +115,23 @@ namespace GM.Mercs.Controllers
             IsPaused = false;
         }
 
-        public void Move(Vector3 position, Action callback)
-        {
-            MoveController.MoveTowards(position, callback);
-        }
+        public void MoveTowards(Vector3 position, Action callback) => MoveController.MoveTowards(position, callback);
 
         public void SetPriorityTarget(Target target)
         {
             CurrentTarget = target;
             IsTargetPriority = true;
 
-            GMLogger.WhenNull(target.Health, "Priority merc target health is Null");
+            GMLogger.WhenNull(target.Health, "Fatal Error: Priority target health is Null");
 
+            // Reset the flag once the target has been defeated
             target.Health.E_OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
         }
 
-        protected bool IsCurrentTargetValid()
-        {
-            return !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
-        }
-
-        protected Target GetTargetFromTargetList()
+        Target GetTargetFromTargetList()
         {
             if (CurrentTargetList.Count > 0)
-                return CurrentTargetList.MinBy(x => x.Position.x);
+                return CurrentTargetList.MinBy(x => Random.Range(0, 1));
 
             return null;
         }

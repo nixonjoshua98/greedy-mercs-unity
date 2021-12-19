@@ -8,7 +8,8 @@ namespace GM.Mercs.Controllers
 {
     public interface IAttackController
     {
-        public bool IsAttacking();
+        public bool IsAttacking { get; }
+
         public void StartAttack(Target target, Action callback);
         public bool InAttackPosition(Target target);
         public void MoveTowardsAttackPosition(Target target);
@@ -17,8 +18,8 @@ namespace GM.Mercs.Controllers
     public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
     {
         protected bool isAttacking;
+        public bool IsAttacking => isAttacking;
 
-        public abstract bool IsAttacking();
         public abstract bool InAttackPosition(Target target);
         public abstract void StartAttack(Target target, Action callback);
         public abstract void MoveTowardsAttackPosition(Target target);

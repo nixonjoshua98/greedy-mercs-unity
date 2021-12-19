@@ -35,6 +35,8 @@ namespace GM.Mercs.Controllers
                     yield return new WaitForFixedUpdate();
                 }
 
+                Avatar.PlayerAnimation(Avatar.AnimationStrings.Idle);
+
                 action.Invoke();
             }
 

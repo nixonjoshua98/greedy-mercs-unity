@@ -4947,7 +4947,7 @@ MonoBehaviour:
   EnemyObjects:
   - {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4, type: 3}
   formations:
-  - {fileID: 11400000, guid: 6f77607b2f4351e4598867a882f2eaed, type: 2}
+  - {fileID: 11400000, guid: b8af45da273c28241aeb6b1761c1ab2b, type: 2}
   bossTitleText: {fileID: 751416876}
   bossEntryAnimationObject: {fileID: 751416878}
 --- !u!1 &877172769

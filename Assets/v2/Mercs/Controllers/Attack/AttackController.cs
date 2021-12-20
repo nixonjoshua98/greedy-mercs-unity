@@ -10,6 +10,8 @@ namespace GM.Mercs.Controllers
     {
         public bool IsAvailable { get; }
 
+        public void Reset();
+
         public void StartAttack(Target target, Action<Target> callback);
         public bool InAttackPosition(Target target);
         public void MoveTowardsAttackPosition(Target target);
@@ -32,6 +34,12 @@ namespace GM.Mercs.Controllers
             isAttacking = true;
             CurrentTarget = target;
             DealDamageToTargetAction = callback;
+        }
+
+        public void Reset()
+        {
+            isAttacking = false;
+            CurrentTarget = null;
         }
 
         protected void DealDamageToTarget()

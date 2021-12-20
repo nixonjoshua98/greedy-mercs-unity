@@ -108,6 +108,7 @@ namespace GM.Mercs.Controllers
         public void Pause()
         {
             IsPaused = true;
+            AttackController.Reset();
         }
 
         public void Resume()

@@ -1,9 +1,11 @@
 from fastapi import HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 
-from src import logger
+import logging
 from src.routing import ServerRequest, ServerResponse
 from src.routing.handlers.abc import HandlerException
+
+logger = logging.getLogger("greedy-mercs")
 
 
 async def handle_http_exception(request: ServerRequest, exc: HTTPException):
@@ -27,7 +29,7 @@ async def handle_validation_exception(_: Request, exc: RequestValidationError):
 
 
 async def handle_handler_exception(_: Request, exc: HandlerException):
-    logger.debug(f"{exc.status_code} - {exc.message}")
+    logger.debug(exc.message)
 
     return ServerResponse(
         {"code": exc.status_code, "error": exc.message}, status_code=exc.status_code

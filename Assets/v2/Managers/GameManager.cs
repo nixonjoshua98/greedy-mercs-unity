@@ -2,7 +2,6 @@
 using GM.Targets;
 using GM.Units.Formations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -49,8 +48,6 @@ namespace GM
         // Enemies.TryGetWithType(TargetType.Boss) can be used to fetch the boss
         public TargetList<Target> Enemies { get; private set; } = new TargetList<Target>();
         public TargetList<SquadMerc> Mercs { get; private set; } = new TargetList<SquadMerc>();
-
-        public List<Vector3> UnitPositions => Mercs.Where(obj => obj.GameObject != null).Select(obj => obj.Position).ToList();
 
         void Awake()
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM._Debug
+namespace GM._Old
 {
     public class Stage1000 : Core.GMMonoBehaviour
     {

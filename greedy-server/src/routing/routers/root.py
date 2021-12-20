@@ -82,14 +82,13 @@ async def user_data(
 
     return ServerResponse(data)
 
-from src.routing.handlers.abc import HandlerException
+
 @router.post("/login")
 async def player_login(
     data: LoginModel,
     mem_cache: MemoryCache = Depends(memory_cache),
     acc_repo: AccountsRepository = Depends(accounts_repository),
 ):
-    raise HandlerException()
     user = await acc_repo.get_user_by_did(data.device_id)
 
     if user is None:

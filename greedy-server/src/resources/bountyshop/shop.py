@@ -37,7 +37,7 @@ class DynamicBountyShop:
 
         self.all_items: list[PurchasableBountyShopItem] = self._generate_shop()
 
-    def get_item(self, item: str) -> PurchasableBountyShopItem:
+    def get_item(self, item: str):
         return utils.get(self.all_items, id=item)
 
     def dict(self) -> dict[str, list]:

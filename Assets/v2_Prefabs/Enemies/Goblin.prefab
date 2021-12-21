@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4016123090825203615}
   - component: {fileID: -1448263663660212233}
   - component: {fileID: 2574731096765986578}
+  - component: {fileID: 3745387110661731267}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Enemy
@@ -43,10 +44,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6803764169120994599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c38b4859831d7234096f395ca86ac6dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 138632ca3ccd1c240ae80cdffdca8be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DefeatPS: {fileID: 1280141305896002, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
+  GoldDropPS: {fileID: 3524959264247997177, guid: 3759123ac9ba16a44a3c92a9dabcd65c,
+    type: 3}
   UnitAvatar: {fileID: 8923890760361403210}
   healthController: {fileID: 2574731096765986578}
 --- !u!114 &-1448263663660212233
@@ -73,6 +76,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd53a83ed0e8bd46b58ebc95e8e1670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3745387110661731267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6803764169120994599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 929d4136a99b7b74dbe1b571dd062959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Avatar: {fileID: 8923890760361403210}
+  MoveSpeed: 2.5
 --- !u!1001 &6803764168904632231
 PrefabInstance:
   m_ObjectHideFlags: 0

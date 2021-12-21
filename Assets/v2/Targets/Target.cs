@@ -1,40 +1,52 @@
 using UnityEngine;
 using HealthController = GM.Controllers.HealthController;
+using GM.Units;
+using GM.Mercs.Controllers;
 
 namespace GM.Targets
 {
-    public interface ITarget
-    {
-        GameObject GameObject { get; set; }
-        TargetType Type { get; set; }
-        HealthController Health { get; }
-    }
-
-    public abstract class AbstractTarget : ITarget
+    public abstract class Target
     {
         public GameObject GameObject { get; set; }
+
         public TargetType Type { get; set; } = TargetType.Unset;
 
-        HealthController _Health;
-        public HealthController Health
-        {
-            get
-            {
-                if (_Health == null && GameObject.TryGetComponent(out HealthController health))
-                    _Health = health;
+        public HealthController Health { get; protected set; }
+        public UnitAvatar Avatar { get; protected set; }
 
-                return _Health;
-            }
+        public Vector3 Position => GameObject.transform.position;
+    }
+
+    public abstract class GenericUnitTarget<T> : Target where T : IUnitController
+    {
+        public T Controller { get; private set; }
+
+        public GenericUnitTarget(GameObject obj, TargetType type)
+        {
+            GameObject = obj;
+            Type = type;
+
+            Health = obj.GetComponent<HealthController>();
+            Avatar = obj.GetComponentInChildren<UnitAvatar>();
+
+            Controller = obj.GetComponent<T>();
         }
     }
 
 
-    public class Target: AbstractTarget
+    public class UnitTarget: GenericUnitTarget<IUnitController>
     {
-        public Target(GameObject obj, TargetType type)
+        public UnitTarget(GameObject obj, TargetType type) : base(obj, type)
         {
-            GameObject = obj;
-            Type = type;
+
+        }
+    }
+
+    public class MercUnitTarget: GenericUnitTarget<IMercController>
+    {
+        public MercUnitTarget(GameObject obj) : base(obj, TargetType.Unset)
+        {
+
         }
     }
 }

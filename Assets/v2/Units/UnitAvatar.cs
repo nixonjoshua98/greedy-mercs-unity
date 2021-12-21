@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GM.Units
 {
@@ -9,17 +6,15 @@ namespace GM.Units
     {
         public Animator Animator;
         public Rect AvatarRect;
-        public Animation_Strings AnimationStrings;
-
-        [HideInInspector] public UnityEvent OnDefeatAnimationEvent = new UnityEvent();
-        [HideInInspector] public UnityEvent OnHurtAnimationEvent = new UnityEvent();
-        [HideInInspector] public UnityEvent OnAttackAnimationEvent = new UnityEvent();
+        public AnimationStrings AnimationStrings;
 
         public Vector3 AvatarCenter => transform.position + (AvatarRect.position * transform.localScale).ToVector3();
 
-        public void OnDefeatAnimation() => OnDefeatAnimationEvent.Invoke();
-        public void OnHurtAnimation() => OnHurtAnimationEvent.Invoke();
-        public void OnAttackAnimation() => OnAttackAnimationEvent.Invoke();
+
+        public void PlayAnimation(string anim)
+        {
+            Animator.Play(anim);
+        }
 
         void OnDrawGizmos()
         {

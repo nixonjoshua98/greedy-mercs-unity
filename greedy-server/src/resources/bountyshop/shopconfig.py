@@ -24,6 +24,7 @@ class CurrencyItemConfig(BaseModel):
 
 class CurrencyItemsConfig(BaseModel):
     unique: bool = Field(False)
+    always: bool = Field(False)
     weight: int = Field(1)
     items: list[CurrencyItemConfig]
 

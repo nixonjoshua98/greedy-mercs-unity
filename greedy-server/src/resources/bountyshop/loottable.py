@@ -50,4 +50,4 @@ class BountyShopLootTable:
         for item in config.items:
             tbl.add_item(item, unique=item.unique)
 
-        root.add_item(tbl, weight=config.weight, unique=config.unique)
+        root.add_item(tbl, weight=config.weight, unique=config.unique, always=config.always)

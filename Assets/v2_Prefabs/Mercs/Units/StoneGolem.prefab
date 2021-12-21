@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5097099789489235669}
-  - component: {fileID: 9120910436495260565}
-  - component: {fileID: 4808322265676788142}
-  - component: {fileID: 7127857024422436009}
+  - component: {fileID: -2170527128435002686}
+  - component: {fileID: -6697651762150541026}
+  - component: {fileID: 3476196780248353833}
   m_Layer: 0
   m_Name: StoneGolem
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9120910436495260565
+--- !u!114 &-2170527128435002686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,12 +43,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
+  m_Script: {fileID: 11500000, guid: afd2cbf7afad7554296ac8521ed6fdc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackImpactPS: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-  anim: {fileID: 1791531129569585673}
---- !u!114 &4808322265676788142
+  Id: 0
+  Avatar: {fileID: 7354342686835311081}
+--- !u!114 &-6697651762150541026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,11 +57,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fda14d60ebca58448878508f3b2e400, type: 3}
+  m_Script: {fileID: 11500000, guid: 331aac1a6cc4c864d9840291ceb316f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 1791531129569585673}
---- !u!114 &7127857024422436009
+  Avatar: {fileID: 7354342686835311081}
+  AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
+--- !u!114 &3476196780248353833
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,11 +71,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5097099789489235668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
+  m_Script: {fileID: 11500000, guid: 929d4136a99b7b74dbe1b571dd062959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  avatar: {fileID: 5097099789489235668}
+  Avatar: {fileID: 7354342686835311081}
+  MoveSpeed: 2.5
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,11 +143,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5217797652623836851, guid: ce9de6eff68268441bd3dbe5c5b088c9,
-        type: 3}
-      propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 4808322265676788142}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce9de6eff68268441bd3dbe5c5b088c9, type: 3}
 --- !u!4 &70885874337222266 stripped
@@ -155,9 +151,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5097099789426097143}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1791531129569585673 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6800511658964374014, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+--- !u!114 &7354342686835311081 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2356322643805370910, guid: ce9de6eff68268441bd3dbe5c5b088c9,
     type: 3}
   m_PrefabInstance: {fileID: 5097099789426097143}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

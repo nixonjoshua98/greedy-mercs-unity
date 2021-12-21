@@ -8,8 +8,8 @@ namespace GM.Controllers
         public BigDouble MaxHealth { get; private set; }
         public BigDouble Current { get; private set; }
 
-        public UnityEvent E_OnZeroHealth { get; set; } = new UnityEvent();
-        public UnityEvent<BigDouble> E_OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
+        public UnityEvent OnZeroHealth { get; set; } = new UnityEvent();
+        public UnityEvent<BigDouble> OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
 
         public bool IsDead { get; private set; } = false;
         public float Percent => (float)(Current / MaxHealth).ToDouble();
@@ -27,13 +27,13 @@ namespace GM.Controllers
             {
                 Current -= amount;
 
-                E_OnDamageTaken.Invoke(damageTaken);
+                OnDamageTaken.Invoke(damageTaken);
 
                 if (Current <= 0.0f)
                 {
                     IsDead = true;
 
-                    E_OnZeroHealth.Invoke();
+                    OnZeroHealth.Invoke();
                 }
             }
         }

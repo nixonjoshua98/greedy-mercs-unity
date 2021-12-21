@@ -16,12 +16,12 @@ namespace GM.BountyShop.Data
         public BountyShopData(CompleteBountyShopDataModel data)
         {
             Update(data.ShopItems);
-            GetNumItemPurchases(data.Purchases);
+            UpdateItemPurchases(data.Purchases);
         }
 
         public int GetItemPurchaseData(string id) => itemPurchases.Get(id, 0);
 
-        void GetNumItemPurchases(List<BountyShopPurchaseModel> purchaseList)
+        void UpdateItemPurchases(List<BountyShopPurchaseModel> purchaseList)
         {
             itemPurchases.Clear();
 

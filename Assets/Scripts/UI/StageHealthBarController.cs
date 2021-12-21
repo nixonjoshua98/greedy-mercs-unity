@@ -1,8 +1,7 @@
+using GM.Targets;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
-using HealthController = GM.Controllers.HealthController;
-using GM.Targets;
 
 namespace GM.UI
 {
@@ -21,10 +20,10 @@ namespace GM.UI
             SetupBossEvents();
         }
 
-        void Update()
+        void FixedUpdate()
         {
-            primarySlider.value     = MathUtils.MoveTo(primarySlider.value, targetSliderValue, 1.25f * Time.unscaledDeltaTime);
-            secondarySlider.value   = Mathf.Max(primarySlider.value, MathUtils.MoveTo(secondarySlider.value, targetSliderValue, 0.5f * Time.unscaledDeltaTime));
+            primarySlider.value     = MathUtils.MoveTo(primarySlider.value, targetSliderValue, 1.25f * Time.fixedUnscaledDeltaTime);
+            secondarySlider.value   = Mathf.Max(primarySlider.value, MathUtils.MoveTo(secondarySlider.value, targetSliderValue, 0.5f * Time.fixedUnscaledDeltaTime));
         }
 
 
@@ -38,16 +37,10 @@ namespace GM.UI
                 healthValue.text = Format.Number(boss.Health.Current);
 
                 // Update the display upon the boss takign damage
-                boss.Health.E_OnDamageTaken.AddListener(damageTaken =>
+                boss.Health.OnDamageTaken.AddListener(damageTaken =>
                 {
                     healthValue.text = Format.Number(boss.Health.Current);
                     targetSliderValue = boss.Health.Percent;
-                });
-
-                // Display the boss has been defeated
-                boss.Health.E_OnZeroHealth.AddListener(() =>
-                {
-                    healthValue.text = "CLEAR";
                 });
             });
         }
@@ -65,9 +58,9 @@ namespace GM.UI
 
                 targetSliderValue = 1.0f;
 
-                foreach (Target trgt in waveEnemies)
+                foreach (UnitTarget trgt in waveEnemies)
                 {
-                    trgt.Health.E_OnDamageTaken.AddListener(damageTaken =>
+                    trgt.Health.OnDamageTaken.AddListener(damageTaken =>
                     {
                         current -= damageTaken;
 
@@ -75,12 +68,6 @@ namespace GM.UI
                         targetSliderValue = (float)(current / maxHealth).ToDouble();
                     });
                 }
-            });
-
-            // Display a wave clear message
-            GameManager.Instance.E_OnWaveCleared.AddListener(() =>
-            {
-                healthValue.text = "CLEAR";
             });
         }
     }

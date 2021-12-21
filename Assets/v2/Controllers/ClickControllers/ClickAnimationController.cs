@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using GM.Common;
 
 namespace GM.Controllers
 {
@@ -11,7 +12,7 @@ namespace GM.Controllers
         public GameObject ClickPS;
 
         [Space]
-        public GM.UI.ObjectPool ParticlePool;
+        public ObjectPool ParticlePool;
 
         private void Awake()
         {

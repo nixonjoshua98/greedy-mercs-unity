@@ -7,8 +7,8 @@ from src import exception_handlers
 from src.application import Application
 from src.mongo.motorclient import MotorClient
 from src.routing.handlers.abc import HandlerException
-
 from .cache import MemoryCache
+from src import utils
 
 
 async def _on_app_start(app: Application):

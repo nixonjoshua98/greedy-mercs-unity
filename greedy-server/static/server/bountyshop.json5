@@ -5,6 +5,7 @@
     },
     "currencyItems": {
       "weight": 1,
+      "always": true, // Always drop ANY currency item
       "items": [
         {"currencyType": 200, "quantityPerPurchase": 500, "unique": true}, // Armoury Points
       ]

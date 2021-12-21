@@ -75,14 +75,15 @@ namespace GM.Mercs.Data
         {
             result = (MercID)(-1);
 
+            if (!IsMercUnlocked(MercID.WRAITH))
+            {
+                result = MercID.WRAITH;
+                return true;
+            }
+
             if (!IsMercUnlocked(MercID.STONE_GOLEM))
             {
                 result = MercID.STONE_GOLEM;
-                return true;
-            }
-            else if (!IsMercUnlocked(MercID.WRAITH))
-            {
-                result = MercID.WRAITH;
                 return true;
             }
 

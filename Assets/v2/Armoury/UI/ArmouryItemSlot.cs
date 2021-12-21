@@ -32,7 +32,7 @@ namespace GM.Armoury.UI
         void FixedUpdate()
         {
             LevelText.text = FormatLevel(AssignedItem.CurrentLevel);
-            BonusText.text = GetBonusText();
+            BonusText.text = Format.Bonus(AssignedItem.BonusType, AssignedItem.BonusValue);
         }
 
         public void OnPopupButton()

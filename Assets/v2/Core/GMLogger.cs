@@ -11,12 +11,19 @@ namespace GM
 #endif
         }
 
-        public static void WhenNull(object obj, object msg)
+        public static void WhenNull(object obj, object msg, bool editor = false)
         {
-            if (obj == null)
+            if (ReferenceEquals(obj, null))
             {
-                Debug.Log(msg);
-            }
+                if (editor)
+                {
+                    GMLogger.Editor(msg);
+                }
+                else
+                {
+                    Debug.Log(msg);
+                }
+            }           
         }
     }
 }

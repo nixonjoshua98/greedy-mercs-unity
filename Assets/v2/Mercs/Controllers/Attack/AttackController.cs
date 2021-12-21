@@ -44,7 +44,7 @@ namespace GM.Mercs.Controllers
 
         protected void DealDamageToTarget()
         {
-            if (CurrentTarget.GameObject == null)
+            if (CurrentTarget == null || CurrentTarget.GameObject == null)
             {
                 GMLogger.Editor("Attempted to deal damage to destroyed target");
             }

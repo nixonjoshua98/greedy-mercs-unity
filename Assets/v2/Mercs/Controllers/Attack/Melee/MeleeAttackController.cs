@@ -1,7 +1,7 @@
 using GM.Targets;
 using GM.Units;
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
@@ -62,7 +62,7 @@ namespace GM.Mercs.Controllers
 
         void InstantiateAttackImpactObject()
         {
-            if (AttackImpactObject != null)
+            if (AttackImpactObject != null && CurrentTarget != null && CurrentTarget.GameObject != null)
             {
                 Instantiate(AttackImpactObject, CurrentTarget.Avatar.AvatarCenter);
             }

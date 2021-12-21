@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GM.Enemies.Controllers
 {
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : UnitController
     {
         [Header("Prefabs")]
         public GameObject DefeatPS;
@@ -17,8 +17,9 @@ namespace GM.Enemies.Controllers
         [Space]
         [SerializeField] HealthController healthController;
 
-        void Start()
+        private void Awake()
         {
+            GetComponents();
             SubscribeToEvents();
         }
 
@@ -45,7 +46,7 @@ namespace GM.Enemies.Controllers
         public void OnDefeatAnimation()
         {
             UnitAvatar.Animator.enabled = false;
-
+            
             ProcessLoot();
             InstantiateDefeatPS();
 

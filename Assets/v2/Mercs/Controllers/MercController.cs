@@ -8,14 +8,20 @@ using Random = UnityEngine.Random;
 
 namespace GM.Mercs.Controllers
 {
-    public class MercController : GM.Core.GMMonoBehaviour, IMercController
+    public interface IMercController : IUnitController
+    {
+        void Pause();
+        void Resume();
+        void SetPriorityTarget(Target target);
+    }
+
+    public class MercController : UnitController, IMercController
     {
         public MercID Id;
         public UnitAvatar Avatar;
 
         // = Controllers = //
         IAttackController AttackController;
-        IMovementController MoveController;
 
         Target CurrentTarget;
 
@@ -23,19 +29,20 @@ namespace GM.Mercs.Controllers
         bool IsPaused { get; set; } = false;
         bool IsTargetPriority { get; set; } = false;
 
-        protected TargetList<Target> CurrentTargetList => GameManager.Instance.Enemies;
+        protected TargetList<UnitTarget> CurrentTargetList => GameManager.Instance.Enemies;
 
         void Awake()
         {
             GetComponents();
         }
 
-        void GetComponents()
+        protected override void GetComponents()
         {
-            AttackController = GetComponent<IAttackController>();
-            MoveController = GetComponent<IMovementController>();
+            base.GetComponents();
 
-            GMLogger.WhenNull(MoveController, "IMovementController is Null");
+            AttackController = GetComponent<IAttackController>();
+
+            GMLogger.WhenNull(Movement, "IMovementController is Null");
             GMLogger.WhenNull(AttackController, "IAttackController is Null");
         }
 
@@ -51,7 +58,7 @@ namespace GM.Mercs.Controllers
             // that the merc will start attacking the target and ignore all position checks
             else if (IsTargetPriority && CanAttackPriorityTarget())
             {
-                MoveController.FaceTowards(CurrentTarget.GameObject);
+                Movement.LookAt(CurrentTarget.GameObject);
 
                 StartAttack();
             }
@@ -116,8 +123,6 @@ namespace GM.Mercs.Controllers
             IsPaused = false;
         }
 
-        public void MoveTowards(Vector3 position, Action callback) => MoveController.MoveTowards(position, callback);
-
         public void SetPriorityTarget(Target target)
         {
             CurrentTarget = target;
@@ -129,7 +134,7 @@ namespace GM.Mercs.Controllers
             target.Health.E_OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
         }
 
-        Target GetTargetFromTargetList()
+        UnitTarget GetTargetFromTargetList()
         {
             if (CurrentTargetList.Count > 0)
                 return CurrentTargetList.MinBy(x => Random.Range(0, 1));

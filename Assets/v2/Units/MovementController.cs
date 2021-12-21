@@ -5,8 +5,16 @@ using UnityEngine.Events;
 using GM.Units;
 using System;
 
-namespace GM.Mercs.Controllers
+namespace GM.Units
 {
+    public interface IMovementController
+    {
+        public void MoveTowards(Vector3 target);
+        public void MoveTowards(Vector3 target, Action action);
+        public void LookAt(GameObject obj);
+        public void LookAt(Vector3 position);
+    }
+
     public class MovementController : MonoBehaviour, IMovementController
     {
         public UnitAvatar Avatar;
@@ -20,7 +28,7 @@ namespace GM.Mercs.Controllers
 
             Avatar.PlayAnimation(Avatar.AnimationStrings.Walk);
 
-            FaceTowardsTarget(target);
+            LookAt(target);
         }
 
 
@@ -30,9 +38,9 @@ namespace GM.Mercs.Controllers
             {
                 while (transform.position != target)
                 {
-                    MoveTowards(target);
-
                     yield return new WaitForFixedUpdate();
+
+                    MoveTowards(target);
                 }
 
                 Avatar.PlayAnimation(Avatar.AnimationStrings.Idle);
@@ -43,18 +51,9 @@ namespace GM.Mercs.Controllers
             StartCoroutine(_MoveTowards());
         }
 
+        public void LookAt(GameObject o) { LookAt(o.transform.position); }
 
-
-        public void MoveDirection(Vector3 dir)
-        {
-            MoveTowards(transform.position + (dir * MoveSpeed));
-        }
-
-        public void FaceDirection(Vector3 dir) => FaceTowardsTarget(transform.position + dir);
-
-        public void FaceTowards(GameObject o) { FaceTowardsTarget(o.transform.position); }
-
-        public void FaceTowardsTarget(Vector3 pos)
+        public void LookAt(Vector3 pos)
         {
             bool isTargetRight = pos.x > transform.position.x;
             bool isFacingRight = Avatar.transform.localScale.x >= 0.0f;

@@ -7,7 +7,6 @@ from src import exception_handlers
 from src.application import Application
 from src.mongo.motorclient import MotorClient
 from src.routing.handlers.abc import HandlerException
-import logging.config
 from .cache import MemoryCache
 from src import utils
 
@@ -24,8 +23,6 @@ def create_app():
         openapi_url=None,
         swagger_ui_oauth2_redirect_url=None,
     )
-
-    logging.config.dictConfig(utils.yaml_load("logging.json"))
 
     app.add_exception_handler(HTTPException, exception_handlers.handle_http_exception)
     app.add_exception_handler(RequestValidationError, exception_handlers.handle_validation_exception)

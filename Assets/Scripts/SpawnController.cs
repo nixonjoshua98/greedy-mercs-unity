@@ -31,22 +31,28 @@ namespace GM
         {
             bool isBountyBoss = App.Data.Bounties.GetStageBounty(state.Stage, out var result);
 
+            GameObject boss;
+
             if (isBountyBoss)
-                return SpawnBountyBoss(result);
+            {
+                boss = SpawnBountyBoss(result);
+            }
 
             else
-                return SpawnRegularBoss();
+            {
+                boss = SpawnRegularBoss();
+            }
+
+            boss.GetComponent<HealthController>().E_OnZeroHealth.AddListener(() => { OnBossDeath(boss); });
+
+            return boss;
         }
 
 
         GameObject SpawnRegularBoss()
         {
             GameObject bossToSpawn = BossObjects[Random.Range(0, BossObjects.Length)];
-            GameObject spawnedBoss = Instantiate(bossToSpawn, GetBossSpawnPosition(), Quaternion.identity);
-
-            spawnedBoss.GetComponent<HealthController>().E_OnZeroHealth.AddListener(() => {
-                OnBossDeath(spawnedBoss);
-            });
+            GameObject spawnedBoss = Instantiate(bossToSpawn);
 
             OnBossSpawn(spawnedBoss);
 
@@ -56,11 +62,7 @@ namespace GM
 
         GameObject SpawnBountyBoss(Bounties.Models.BountyGameData bounty)
         {
-            GameObject spawnedBoss = Instantiate(bounty.Prefab, GetBossSpawnPosition(), Quaternion.identity);
-
-            spawnedBoss.GetComponent<HealthController>().E_OnZeroHealth.AddListener(() => {
-                OnBossDeath(spawnedBoss);
-            });
+            GameObject spawnedBoss = Instantiate(bounty.Prefab);
 
             OnBossSpawn(spawnedBoss, bounty);
 
@@ -86,14 +88,6 @@ namespace GM
             }
 
             return spawnedObjects;
-        }
-
-
-        Vector3 GetBossSpawnPosition()
-        {
-            Vector3 pos = Camera.main.MaxBounds();
-
-            return new Vector3(pos.x - 2.0f, Common.Constants.CENTER_BATTLE_Y);
         }
 
 

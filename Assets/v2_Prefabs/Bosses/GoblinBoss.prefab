@@ -48,8 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefeatPS: {fileID: 1280141305896002, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
-  GoldDropPS: {fileID: 3524959264247997177, guid: 3759123ac9ba16a44a3c92a9dabcd65c,
-    type: 3}
   UnitAvatar: {fileID: 7750440333548865036}
   healthController: {fileID: -5744191802478289333}
 --- !u!114 &-5744191802478289333

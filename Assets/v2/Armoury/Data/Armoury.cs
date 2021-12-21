@@ -63,7 +63,7 @@ namespace GM.Armoury.Data
         public bool DoesUserOwnItem(int itemId) => UserItemsDict.TryGetValue(itemId, out var result) && result.NumOwned > 0;
 
         /// <summary>Load local scriptable objects and return them as a dictionary</summary>
-        Dictionary<int, ArmouryItemScriptableObject> LoadLocalData() => Resources.LoadAll<ArmouryItemScriptableObject>("Armoury/Items").ToDictionary(ele => ele.Id, ele => ele);
+        Dictionary<int, ArmouryItemScriptableObject> LoadLocalData() => Resources.LoadAll<ArmouryItemScriptableObject>("Scriptables/Armoury").ToDictionary(ele => ele.Id, ele => ele);
 
         /// <summary>Get a combined class of user data and game data for a single item</summary>
         public ArmouryItemData GetItem(int itemId) => new ArmouryItemData(GameItemsDict[itemId], UserItemsDict[itemId]);

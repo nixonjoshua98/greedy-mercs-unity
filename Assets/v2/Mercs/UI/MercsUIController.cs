@@ -15,7 +15,7 @@ namespace GM.Mercs.UI
 
         void Awake()
         {
-            App.Data.Mercs.E_MercUnlocked.AddListener(OnMercUnlocked);
+            App.Events.MercUnlocked.AddListener(OnMercUnlocked);
         }
 
         void FixedUpdate()

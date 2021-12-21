@@ -37,7 +37,7 @@ namespace GM
 
         void RequestPrestige()
         {
-            App.Data.Prestige( (success) =>
+            App.Data.Prestige((success) =>
             {
                 prestigeButton.interactable = !success;
 

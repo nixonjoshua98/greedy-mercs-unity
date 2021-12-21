@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace GM.Mercs.ScriptableObjects
 {
-    [CreateAssetMenu(menuName = "Scriptables/LocalMercData")]
-    public class LocalMercData : ScriptableObject
+    [CreateAssetMenu(menuName = "Scriptables/MercScriptableObject")]
+    public class MercScriptableObject : ScriptableObject
     {
         public MercID ID;
         public AttackType AttackType = AttackType.MELEE;
 
-        public string Name = "<Missing Name>";
+        public string Name = "???";
 
         public GameObject Prefab;
         public Sprite Icon;

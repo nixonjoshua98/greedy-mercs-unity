@@ -7,12 +7,10 @@ using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.Data
 {
-    public class MercsData
+    public class MercsData : Core.GMClass
     {
         List<Models.MercGameDataModel> GameMercs;
         Dictionary<MercID, MercUserData> UserMercs;
-
-        public UnityEvent<MercID> E_MercUnlocked = new UnityEvent<MercID>();
 
         public MercsData(List<Models.MercGameDataModel> mercs)
         {
@@ -22,7 +20,7 @@ namespace GM.Mercs.Data
         }
 
         /// <summary>Load local scriptable merc data</summary>
-        Dictionary<MercID, LocalMercData> LoadLocalData() => Resources.LoadAll<LocalMercData>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
+        Dictionary<MercID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
         /// <summary>
         /// Update the game data
@@ -35,7 +33,7 @@ namespace GM.Mercs.Data
 
             foreach (var merc in GameMercs)
             {
-                LocalMercData local = allLocalMercData[merc.Id];
+                MercScriptableObject local = allLocalMercData[merc.Id];
 
                 merc.Name = local.Name;
                 merc.Icon = local.Icon;
@@ -57,11 +55,11 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Update the user merc dictionary with the default values
         /// </summary>
-        public void UnlockUserMerc(MercID key)
+        public void UnlockUserMerc(MercID mercId)
         {
-            UserMercs[key] = new MercUserData { Level = 1 };
+            UserMercs[mercId] = new MercUserData { Level = 1 };
 
-            E_MercUnlocked.Invoke(key);
+            App.Events.MercUnlocked.Invoke(mercId);
         }
 
         public MercData GetMerc(MercID key) => new MercData(GetGameMerc(key), GetUserMerc(key));

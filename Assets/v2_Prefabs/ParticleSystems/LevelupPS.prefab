@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2128694305123583554}
   - component: {fileID: 2128694305123583555}
   m_Layer: 0
-  m_Name: Levelup PS
+  m_Name: LevelupPS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

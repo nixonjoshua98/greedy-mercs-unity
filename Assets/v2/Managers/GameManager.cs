@@ -150,9 +150,6 @@ namespace GM
                 GMLogger.Editor("TODO");
             }
 
-            // Grab the left most merc in the formation which we will use to calculate the boss position
-            Vector2 leftMostPosition = formationPositions.OrderBy(pos => pos.x).Last();
-
             // Set the boss position off-screen
             boss.GameObject.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, formationPositions.Min(pos => pos.y));
 

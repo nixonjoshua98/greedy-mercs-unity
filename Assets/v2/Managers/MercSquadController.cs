@@ -18,7 +18,7 @@ namespace GM
 
         void Start()
         {
-            App.Data.Mercs.E_MercUnlocked.AddListener((merc) =>
+            App.Events.MercUnlocked.AddListener((merc) =>
             {
                 Vector2 pos = new Vector2(Camera.main.MinBounds().x, Common.Constants.CENTER_BATTLE_Y);
 

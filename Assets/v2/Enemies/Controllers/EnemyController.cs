@@ -29,8 +29,8 @@ namespace GM.Enemies.Controllers
 
             events.Defeat.AddListener(OnDefeatAnimation);
 
-            healthController.E_OnZeroHealth.AddListener(OnZeroHealth);
-            healthController.E_OnDamageTaken.AddListener(OnDamageTaken);
+            healthController.OnZeroHealth.AddListener(OnZeroHealth);
+            healthController.OnDamageTaken.AddListener(OnDamageTaken);
         }
 
         public void OnZeroHealth()
@@ -63,11 +63,11 @@ namespace GM.Enemies.Controllers
 
         protected void FadeOut(float duration, Action action)
         {
-            StartCoroutine(Fade(duration, action, fadeIn: false));
+            StartCoroutine(FadeEnumerator(duration, action));
         }
 
 
-        IEnumerator Fade(float duration, Action action, bool fadeIn)
+        IEnumerator FadeEnumerator(float duration, Action action)
         {
             SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
 
@@ -81,7 +81,7 @@ namespace GM.Enemies.Controllers
                 {
                     SpriteRenderer sr = renderers[i];
 
-                    sr.color = new Color(colors[i].r, colors[i].g, colors[i].b, colors[i].a * (fadeIn ? progress : 1 - progress));
+                    sr.color = new Color(colors[i].r, colors[i].g, colors[i].b, colors[i].a * (1 - progress));
                 }
 
                 progress += Time.fixedDeltaTime / duration;

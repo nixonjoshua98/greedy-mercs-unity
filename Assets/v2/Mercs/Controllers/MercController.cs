@@ -131,7 +131,7 @@ namespace GM.Mercs.Controllers
             GMLogger.WhenNull(target.Health, "Fatal Error: Priority target health is Null");
 
             // Reset the flag once the target has been defeated
-            target.Health.E_OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
+            target.Health.OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
         }
 
         UnitTarget GetTargetFromTargetList()

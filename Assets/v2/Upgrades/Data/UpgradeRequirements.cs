@@ -6,7 +6,6 @@ namespace GM.Upgrades
 {
     public interface IUpgradeRequirement
     {
-        public bool IsDefault { get; }
         bool IsUnlocked { get; }
     }
 
@@ -14,16 +13,14 @@ namespace GM.Upgrades
     {
         public static DefaultUpgradeRequirement Value = new DefaultUpgradeRequirement();
 
-        public bool IsDefault => true;
         public bool IsUnlocked => true;
     }
 
 
     public class UpgradeGoldRequirement : Core.GMClass, IUpgradeRequirement
     {
-        public bool IsDefault => false;
-
         BigDouble GoldRequired;
+
         bool HasHitGoldTarget = false;
 
         public UpgradeGoldRequirement(BigDouble gold)

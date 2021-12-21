@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.UI
+namespace GM.Common
 {
     public class ObjectPool : Core.GMMonoBehaviour
     {

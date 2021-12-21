@@ -14,7 +14,7 @@ namespace GM.BountyShop.Data
     /// <summary>Base implementation of the interface</summary>
     public class BountyShopItem : Core.GMClass, IBountyShopItem
     {
-        [JsonProperty(PropertyName = "itemId")]
+        [JsonProperty(PropertyName = "itemId", Required = Required.Always)]
         public string Id { get; set; }
         public int purchaseLimit { get; set; }
         public int PurchaseCost { get; set; }

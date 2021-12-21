@@ -37,7 +37,7 @@ namespace GM.UI
                 healthValue.text = Format.Number(boss.Health.Current);
 
                 // Update the display upon the boss takign damage
-                boss.Health.E_OnDamageTaken.AddListener(damageTaken =>
+                boss.Health.OnDamageTaken.AddListener(damageTaken =>
                 {
                     healthValue.text = Format.Number(boss.Health.Current);
                     targetSliderValue = boss.Health.Percent;
@@ -60,7 +60,7 @@ namespace GM.UI
 
                 foreach (UnitTarget trgt in waveEnemies)
                 {
-                    trgt.Health.E_OnDamageTaken.AddListener(damageTaken =>
+                    trgt.Health.OnDamageTaken.AddListener(damageTaken =>
                     {
                         current -= damageTaken;
 

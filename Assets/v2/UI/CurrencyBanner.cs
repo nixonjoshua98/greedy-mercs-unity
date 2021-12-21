@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using GM.Common;
 using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.UI

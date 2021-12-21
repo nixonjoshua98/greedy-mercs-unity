@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace GM.Units
 {
@@ -21,8 +19,6 @@ namespace GM.Units
         }
 
         public void MoveTowards(Vector3 position, Action callback) => Movement.MoveTowards(position, callback);
-
         public void LookAt(Vector3 position) => Movement.LookAt(position);
-
     }
 }

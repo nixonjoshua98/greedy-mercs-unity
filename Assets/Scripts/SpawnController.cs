@@ -43,7 +43,7 @@ namespace GM
                 boss = SpawnRegularBoss();
             }
 
-            boss.GetComponent<HealthController>().E_OnZeroHealth.AddListener(() => { OnBossDeath(boss); });
+            boss.GetComponent<HealthController>().OnZeroHealth.AddListener(() => { OnBossDeath(boss); });
 
             return boss;
         }

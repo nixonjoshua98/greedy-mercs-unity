@@ -1,31 +1,20 @@
-using GM.Mercs.Controllers;
 using GM.Targets;
 using GM.Units.Formations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GM.Units;
 using UnityEngine;
-using UnityEngine.Events;
-using DamageClickController = GM.Controllers.DamageClickController;
 using MercID = GM.Common.Enums.MercID;
 
 
 namespace GM
 {
-    public class MercManager : Core.GMMonoBehaviour
+    public class MercSquadController : Core.GMMonoBehaviour
     {
-        public static MercManager Instance = null;
-
         [SerializeField]
         UnitFormation MercFormation;
 
         public TargetList<MercUnitTarget> Mercs { get; private set; } = new TargetList<MercUnitTarget>();
-
-        void Awake()
-        {
-            Instance = this;
-        }
 
         void Start()
         {
@@ -37,19 +26,12 @@ namespace GM
             });
         }
 
-        public void ResumeAndSetPriorityTarget(Target target)
-        {
-            Mercs.ForEach(merc =>
-            {
-                merc.Controller.Resume();
-                merc.Controller.SetPriorityTarget(target);
-            });
-        }
 
         public List<Vector2> MoveMercsToStageBossFormation(UnitTarget boss, Action onMercsInFormation)
         {
             return MoveMercsToFormation((merc) => { merc.Controller.LookAt(boss.Position); }, onMercsInFormation);
         }
+
 
         void AddMercToSquad(MercID merc, Vector2 pos)
         {

@@ -15,13 +15,17 @@ if TYPE_CHECKING:
 class ServerRequest(_Request):
     app: Application
 
-    async def json(self):
+    # noinspection PyAttributeOutsideInit
+    async def json(self) -> dict:
         if not hasattr(self, "_json"):
             body = await self.body()
 
-            if self.method == "POST":
-                body = urllib.parse.unquote(body.decode("UTF-8"))
-
-            self._json = humps.decamelize(json.loads(body))
+            self._json: dict = self._decrpt_body(body)
 
         return self._json
+
+    @staticmethod
+    def _decrpt_body(body: bytes) -> dict:
+        decoded = urllib.parse.unquote(body.decode("UTF-8"))
+
+        return humps.decamelize(json.loads(decoded))

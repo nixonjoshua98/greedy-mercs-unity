@@ -61,8 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 7354342686835311081}
-  AttackImpactObject: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3,
-    type: 3}
+  AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
 --- !u!114 &3476196780248353833
 MonoBehaviour:
   m_ObjectHideFlags: 0

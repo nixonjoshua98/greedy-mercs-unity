@@ -17,11 +17,11 @@ namespace GM.Targets
         public Vector3 Position => GameObject.transform.position;
     }
 
-    public abstract class GenericUnitTarget<T> : Target where T : IUnitController
+    public abstract class GenericTarget<T> : Target where T : IUnitController
     {
         public T Controller { get; private set; }
 
-        public GenericUnitTarget(GameObject obj, TargetType type)
+        public GenericTarget(GameObject obj, TargetType type)
         {
             GameObject = obj;
             Type = type;
@@ -34,7 +34,7 @@ namespace GM.Targets
     }
 
 
-    public class UnitTarget: GenericUnitTarget<IUnitController>
+    public class UnitTarget: GenericTarget<IUnitController>
     {
         public UnitTarget(GameObject obj, TargetType type) : base(obj, type)
         {
@@ -42,7 +42,7 @@ namespace GM.Targets
         }
     }
 
-    public class MercUnitTarget: GenericUnitTarget<IMercController>
+    public class MercUnitTarget: GenericTarget<IMercController>
     {
         public MercUnitTarget(GameObject obj) : base(obj, TargetType.Unset)
         {

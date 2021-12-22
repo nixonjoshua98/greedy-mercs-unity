@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace GM.Mercs.UI
 {
@@ -12,10 +11,13 @@ namespace GM.Mercs.UI
 
         [Header("References")]
         public TMP_Text NameText;
+        public Image IconImage;
         public Transform PassivesParent;
 
         protected override void OnAssigned()
         {
+            IconImage.sprite = AssignedMerc.Icon;
+
             foreach (GM.Mercs.Models.MercPassiveDataModel p in AssignedMerc.Passives)
             {
                 Instantiate<MercPassiveSlot>(PassiveSlotObject, PassivesParent).Assign(p, AssignedMerc.IsPassiveUnlocked(p));

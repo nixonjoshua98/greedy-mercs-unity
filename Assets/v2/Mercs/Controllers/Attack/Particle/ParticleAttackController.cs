@@ -14,7 +14,6 @@ namespace GM.Mercs.Controllers
         [Header("Properties")]
         public float AttackRange = 2;
 
-
         // = Controllers = //
         IMovementController MoveController;
 

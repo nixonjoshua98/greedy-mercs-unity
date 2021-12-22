@@ -340,6 +340,7 @@ MonoBehaviour:
   PassiveSlotObject: {fileID: 8301246228890769111, guid: ed758ba82866a5b4e8bcebf838890039,
     type: 3}
   NameText: {fileID: 6977260095427931233}
+  IconImage: {fileID: 5980419368135137507}
   PassivesParent: {fileID: 4472987823792345084}
 --- !u!114 &7332485876874009935
 MonoBehaviour:

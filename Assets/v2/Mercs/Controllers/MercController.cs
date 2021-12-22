@@ -58,7 +58,7 @@ namespace GM.Mercs.Controllers
             // that the merc will start attacking the target and ignore all position checks
             else if (IsTargetPriority && CanAttackPriorityTarget())
             {
-                Movement.LookAt(CurrentTarget.GameObject);
+                Movement.LookAt(CurrentTarget.Position);
 
                 StartAttack();
             }
@@ -79,11 +79,11 @@ namespace GM.Mercs.Controllers
             {
                 if (AttackController.IsAvailable)
                 {
-                    AttackController.MoveTowardsAttackPosition(CurrentTarget);
-
-                    bool inPosition = AttackController.InAttackPosition(CurrentTarget);
-
-                    if (inPosition)
+                    if (!AttackController.InAttackPosition(CurrentTarget))
+                    {
+                        AttackController.MoveTowardsAttackPosition(CurrentTarget);
+                    }
+                    else
                     {
                         StartAttack();
                     }

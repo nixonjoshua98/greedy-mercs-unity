@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wraith
   m_EditorClassIdentifier: 
   ID: 2
-  AttackType: 0
+  AttackType: 1
   Name: Lightning Wraith
   Prefab: {fileID: 6033011914855570445, guid: d0ac9b5e6b4a3d24cae8ea8bcf464ea1, type: 3}
   Icon: {fileID: 21300000, guid: eacde3e5c02ce4a48929fd6a440b3092, type: 3}

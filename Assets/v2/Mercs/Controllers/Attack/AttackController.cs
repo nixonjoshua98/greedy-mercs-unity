@@ -19,6 +19,8 @@ namespace GM.Mercs.Controllers
 
     public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
     {
+        public float CooldownTimer = 1.0f;
+
         protected Target CurrentTarget;
         Action<Target> DealDamageToTargetAction;
 
@@ -63,7 +65,7 @@ namespace GM.Mercs.Controllers
 
         IEnumerator CooldownTask()
         {
-            yield return new WaitForSecondsRealtime(0.25f);
+            yield return new WaitForSecondsRealtime(CooldownTimer);
             isOnCooldown = false;
         }
     }

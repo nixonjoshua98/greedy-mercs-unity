@@ -7,7 +7,7 @@ from src.loggers import logger
 
 
 async def handle_http_exception(request: ServerRequest, exc: HTTPException):
-    logger.warning(exc.detail)
+    logger.error(exc.detail)
 
     return ServerResponse(
         {
@@ -19,7 +19,7 @@ async def handle_http_exception(request: ServerRequest, exc: HTTPException):
 
 
 async def handle_validation_exception(_: Request, exc: RequestValidationError):
-    logger.debug(f"Validation error - {exc.raw_errors}")
+    logger.warn(f"Validation error - {exc.raw_errors}")
 
     return ServerResponse(
         {"code": 400, "error": "Client request error"}, status_code=400

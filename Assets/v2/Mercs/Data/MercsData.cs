@@ -22,9 +22,7 @@ namespace GM.Mercs.Data
         /// <summary>Load local scriptable merc data</summary>
         Dictionary<MercID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
-        /// <summary>
-        /// Update the game data
-        /// </summary>
+        /// <summary>Update the game data</summary>
         void Update(List<Models.MercGameDataModel> data)
         {
             GameMercs = data;
@@ -42,9 +40,7 @@ namespace GM.Mercs.Data
             }
         }
 
-        /// <summary>
-        /// Fetch the data about a merc
-        /// </summary>
+        /// <summary>Fetch the data about a merc</summary>
         public Models.MercGameDataModel GetGameMerc(MercID key) => GameMercs.Where(ele => ele.Id == key).FirstOrDefault();
 
         /// <summary>
@@ -71,27 +67,19 @@ namespace GM.Mercs.Data
 
         public bool GetNextHero(out MercID result)
         {
-            result = (MercID)(-1);
+            result = default;
 
-            if (!IsMercUnlocked(MercID.WRAITH))
+            var ls = new List<MercID>() {
+                MercID.SKELETON_ARCHER,
+                MercID.STONE_GOLEM, 
+                MercID.WRAITH
+            };
+
+            foreach (MercID merc in ls)
             {
-                result = MercID.WRAITH;
-                return true;
-            }
-
-            if (!IsMercUnlocked(MercID.STONE_GOLEM))
-            {
-                result = MercID.STONE_GOLEM;
-                return true;
-            }
-
-
-            foreach (MercID chara in System.Enum.GetValues(typeof(MercID)))
-            {
-                if ((int)chara >= 0 && !IsMercUnlocked(chara))
+                if (!IsMercUnlocked(merc))
                 {
-                    result = chara;
-
+                    result = merc;
                     return true;
                 }
             }

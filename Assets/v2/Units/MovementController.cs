@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using GM.Units;
 using System;
+using System.Collections;
+using UnityEngine;
 
 namespace GM.Units
 {
@@ -11,9 +8,9 @@ namespace GM.Units
     {
         public void MoveTowards(Vector3 target);
         public void MoveTowards(Vector3 target, Action action);
-        public void LookAt(GameObject obj);
         public void LookAt(Vector3 position);
     }
+
 
     public class MovementController : MonoBehaviour, IMovementController
     {
@@ -50,8 +47,6 @@ namespace GM.Units
 
             StartCoroutine(_MoveTowards());
         }
-
-        public void LookAt(GameObject o) { LookAt(o.transform.position); }
 
         public void LookAt(Vector3 pos)
         {

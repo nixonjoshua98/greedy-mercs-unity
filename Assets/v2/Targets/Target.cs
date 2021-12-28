@@ -2,6 +2,8 @@ using UnityEngine;
 using HealthController = GM.Controllers.HealthController;
 using GM.Units;
 using GM.Mercs.Controllers;
+using GM.Mercs;
+using GM.Common.Enums;
 
 namespace GM.Targets
 {

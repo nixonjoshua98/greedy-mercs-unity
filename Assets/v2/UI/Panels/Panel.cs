@@ -1,10 +1,19 @@
-﻿namespace GM.UI.Panels
+﻿using UnityEngine;
+
+namespace GM.UI.Panels
 {
     public abstract class Panel : Core.GMMonoBehaviour
     {
-        protected bool PanelIsShown;
+        public bool IsShown { get; protected set; }
 
-        public virtual void OnShown() { }
-        public virtual void OnHidden() { }
+        public virtual void OnShown()
+        {
+
+        }
+
+        public virtual void OnHidden()
+        {
+
+        }
     }
 }

@@ -1,30 +1,33 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using GM.Targets;
-using System.Collections.Generic;
 
 namespace GM.CameraControllers
 {
     public class CameraController : MonoBehaviour
     {
+        public float Speed = 2.5f;
+
         void LateUpdate()
         {
-            List<Vector3> positions = new List<Vector3>();
+            List<float> xPositions = new List<float>();
 
-            if (GameManager.Instance.Mercs.Count > 0)
-                positions = GameManager.Instance.Mercs.Select(merc => merc.Position).ToList();
+            var mercPositions = MercSquadController.Instance.MercPositions;
 
-            else if (GameManager.Instance.Enemies.Count > 0)
-                positions = GameManager.Instance.Enemies.Select(x => x.Position).ToList();
-
-            if (positions.Count > 0)
+            if (mercPositions.Count > 0)
             {
-                float xAvg = positions.Average(x => x.x);
+                xPositions.Add(mercPositions.Average(pos => pos.x));
+            }
 
-                if (GameManager.Instance.TryGetStageBoss(out UnitTarget boss))
-                {
-                    xAvg = (boss.Position.x + xAvg) / 2;
-                }
+            if (GameManager.Instance.Enemies.Count > 0)
+            {
+                float xEnemiesPos = GameManager.Instance.Enemies.Select(x => x.Position).Average(pos => pos.x);
+                xPositions.Add(xEnemiesPos);
+            }
+
+            if (xPositions.Count > 0)
+            {
+                float xAvg = xPositions.Average();
 
                 UpdateCamera(Mathf.Max(0, xAvg));
             }
@@ -33,7 +36,7 @@ namespace GM.CameraControllers
 
         void UpdateCamera(float xPos)
         {
-            xPos = MathUtils.MoveTo(transform.position.x, xPos, 2.0f * Time.unscaledDeltaTime);
+            xPos = MathUtils.MoveTo(transform.position.x, xPos, Speed * Time.unscaledDeltaTime);
 
             transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
         }

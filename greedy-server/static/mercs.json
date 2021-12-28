@@ -3,6 +3,7 @@
     "mercId": 0,
     "unlockCost": 50,
     "baseDamage": 10,
+    "isDefault": true,
     "passives": [
       {
         "bonusType": 802,
@@ -150,8 +151,10 @@
   },
   {
     "mercId": 2,
+    "isDefault": true,
     "unlockCost": 50,
     "baseDamage": 10,
+
     "passives": [
       {
         "bonusType": 603,
@@ -296,6 +299,7 @@
     "mercId": 4,
     "unlockCost": 50,
     "baseDamage": 10,
+    "isDefault": true,
     "passives": [
       {
         "bonusType": 700,

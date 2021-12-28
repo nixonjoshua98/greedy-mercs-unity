@@ -8,14 +8,11 @@ namespace GM.UI.Panels
     {
         public TogglablePanel targetPanel;
 
-        void Awake()
+        void Start()
         {
             Toggle t = GetComponent<Toggle>();
 
-            if (t.isOn)
-            {
-                targetPanel.Toggle(true);
-            }
+            targetPanel.Setup(t.isOn);
 
             t.onValueChanged.AddListener(OnValueChanged);
         }

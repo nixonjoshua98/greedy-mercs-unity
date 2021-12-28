@@ -14,6 +14,8 @@ namespace GM.Core
         public BountyShop.Data.BountyShopData BountyShop;
         public Upgrades.Data.PlayerUpgrades Upgrades;
 
+        public GM.GameState.GameState GameState;
+
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
 
@@ -21,6 +23,8 @@ namespace GM.Core
         {
             Items = new CurrencyItems.Data.CurrencyItems();
             Upgrades = new Upgrades.Data.PlayerUpgrades();
+
+            GameState = new GameState.GameState();
 
             NextDailyReset = gameData.NextDailyReset;
 

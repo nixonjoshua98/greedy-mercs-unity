@@ -3,10 +3,9 @@ from __future__ import annotations
 from typing import Optional, Union
 
 from bson import ObjectId
-from pydantic import Field
 from pymongo import ReturnDocument
 
-from src.pymodels import BaseDocument
+from src.pymodels import BaseDocument, Field
 from src.routing import ServerRequest
 
 

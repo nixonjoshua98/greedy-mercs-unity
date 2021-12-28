@@ -24,8 +24,6 @@ namespace GM.Core
             return false;
         }
 
-        TTLCache cache = new TTLCache();
-
         IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => App.Data.Upgrades.Upgrades.Values.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.Value));
         List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
         {
@@ -112,7 +110,7 @@ namespace GM.Core
         #region Artefacts
         public BigDouble ArtefactBaseEffect(Artefacts.Data.ArtefactData art)
         {
-            return cache.Get<BigDouble>($"ArtefactBaseEffect/{art.CurrentLevel}/{art.BaseEffect}/{art.LevelEffect}", 60, () => GameFormulas.ArtefactBonusValue(art.CurrentLevel, art.BaseEffect, art.LevelEffect));
+            return GameFormulas.ArtefactBonusValue(art.CurrentLevel, art.BaseEffect, art.LevelEffect);
         }
 
         public BigDouble ArtefactEffect(Artefacts.Data.ArtefactData art)
@@ -131,14 +129,12 @@ namespace GM.Core
         #region Armoury
         public double ArmouryItemBonusValue(ArmouryItemData item)
         {
-            return cache.Get<double>($"ArmouryItemBonusValue/{item.CurrentLevel}/{item.BaseEffect}/{item.LevelEffect}", lifetime: 60,
-                () => GameFormulas.ArmouryItemBonusValue(item.CurrentLevel, item.NumOwned, item.BaseEffect, item.LevelEffect));
+            return GameFormulas.ArmouryItemBonusValue(item.CurrentLevel, item.NumOwned, item.BaseEffect, item.LevelEffect);
         }
 
         public int ArmouryItemUpgradeCost(ArmouryItemData item)
         {
-            return cache.Get<int>($"ArmouryItemUpgradeCost/{item.CurrentLevel}", lifetime: 60,
-                () => GameFormulas.ArmouryItemUpgradeCost(item.CurrentLevel));
+            return GameFormulas.ArmouryItemUpgradeCost(item.CurrentLevel);
         }
         #endregion
 
@@ -152,10 +148,10 @@ namespace GM.Core
         /// <summary>Base merc damage for current level. Does not apply any bonuses</summary>
         public BigDouble MercBaseDamage(GM.Mercs.Data.MercData merc)
         {
-            return cache.Get<BigDouble>($"MercBaseDamage/{merc.Id}/{merc.CurrentLevel}", lifetime: 60, () => GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel));
+            return GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel);
         }
 
-        public BigDouble MercDamage(GM.Mercs.Data.MercData merc)
+        public BigDouble MercDamagePerAttack(GM.Mercs.Data.MercData merc)
         {
             return MercBaseDamage(merc) * CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
         }

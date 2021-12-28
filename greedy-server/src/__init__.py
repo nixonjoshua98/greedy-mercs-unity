@@ -12,7 +12,7 @@ from src import utils
 
 
 async def _on_app_start(app: Application):
-    app.state.mongo = MotorClient(app.config["MONGO_CON_STR"])
+    app.state.mongo = MotorClient(app.config.mongo_con_str)
     app.state.memory_cache = MemoryCache()
 
 

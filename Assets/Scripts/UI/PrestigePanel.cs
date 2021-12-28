@@ -16,17 +16,13 @@ namespace GM
 
         void FixedUpdate()
         {
-            CurrentStageState state = GameManager.Instance.State;
-
-            prestigePointText.text = Format.Number(App.Cache.PrestigePointsAtStage(state.Stage));
+            prestigePointText.text = Format.Number(App.Cache.PrestigePointsAtStage(App.Data.GameState.Stage));
         }
 
 
         public void Prestige()
         {
-            CurrentStageState state = GameManager.Instance.State;
-
-            if (state.Stage >= Common.Constants.MIN_PRESTIGE_STAGE)
+            if (App.Data.GameState.Stage >= Common.Constants.MIN_PRESTIGE_STAGE)
             {
                 prestigeButton.interactable = false;
 

@@ -10,7 +10,7 @@ namespace GM.Common
 
         List<GameObject> Objects = new List<GameObject>();
 
-        public GameObject Spawn()
+        GameObject Spawn()
         {
             if (!TryGetAvailablePooledObject(out GameObject obj))
             {
@@ -25,6 +25,12 @@ namespace GM.Common
         }
 
         public T Spawn<T>() where T: Object => Spawn().GetComponent<T>();
+        public T Spawn<T>(Vector3 position) where T : Object
+        {
+            GameObject o = Spawn();
+            o.transform.position = position;
+            return o.GetComponent<T>();
+        }
 
         GameObject InstantiatePooledObject()
         {

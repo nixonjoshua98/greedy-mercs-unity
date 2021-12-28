@@ -8,9 +8,7 @@ namespace GM
 
         public void OnClick()
         {
-            CurrentStageState state = GameManager.Instance.State;
-
-            if (state.Stage >= Common.Constants.MIN_PRESTIGE_STAGE)
+            if (App.Data.GameState.Stage >= Common.Constants.MIN_PRESTIGE_STAGE)
                 InstantiateUI<RectTransform>(PanelObject);
         }
     }

@@ -27,9 +27,9 @@ namespace GM
         }
 
 
-        public GameObject SpawnBoss(CurrentStageState state)
+        public GameObject SpawnBoss()
         {
-            bool isBountyBoss = App.Data.Bounties.GetStageBounty(state.Stage, out var result);
+            bool isBountyBoss = App.Data.Bounties.GetStageBounty(App.Data.GameState.Stage, out var result);
 
             GameObject boss;
 

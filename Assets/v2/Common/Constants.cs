@@ -3,6 +3,8 @@ namespace GM.Common
 {
     public static class Constants
     {
+        public const int MAX_SQUAD_SIZE = 2;
+
         public const int MIN_PRESTIGE_STAGE = 60;
 
         public const float CENTER_BATTLE_Y = 5.75f;

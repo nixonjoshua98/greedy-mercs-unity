@@ -56,7 +56,7 @@ namespace GM.Mercs.Controllers
 
             // Target is marked as a priority ( should find a better name ) which means in this context
             // that the merc will start attacking the target and ignore all position checks
-            else if (IsTargetPriority && CanAttackPriorityTarget())
+            else if (IsTargetPriority && CanAttackPriorityTarget)
             {
                 Movement.LookAt(CurrentTarget.Position);
 
@@ -71,7 +71,7 @@ namespace GM.Mercs.Controllers
 
         void AttackLoop()
         {
-            if (!IsCurrentTargetValid())
+            if (!IsCurrentTargetValid)
             {
                 CurrentTarget = GetTargetFromTargetList();
             }
@@ -91,8 +91,8 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        bool CanAttackPriorityTarget() => AttackController.IsAvailable && IsCurrentTargetValid();
-        bool IsCurrentTargetValid() => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
+        bool CanAttackPriorityTarget => AttackController.IsAvailable && IsCurrentTargetValid;
+        bool IsCurrentTargetValid => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
 
         void StartAttack()
         {
@@ -104,7 +104,7 @@ namespace GM.Mercs.Controllers
         {
             if (attackTarget.GameObject.TryGetComponent(out HealthController health))
             {
-                BigDouble dmg = App.Cache.MercDamage(App.Data.Mercs.GetMerc(Id));
+                BigDouble dmg = App.Data.Mercs.GetMerc(Id).DamagePerAttack;
 
                 App.Cache.ApplyCritHit(ref dmg);
 

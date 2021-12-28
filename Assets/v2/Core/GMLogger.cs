@@ -25,5 +25,10 @@ namespace GM
                 }
             }           
         }
+
+        public static void Log(object obj)
+        {
+            Debug.Log(obj);
+        }
     }
 }

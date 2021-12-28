@@ -1,12 +1,14 @@
+using GM.Common;
+using GM.Targets;
+using GM.UI;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GM.Controllers
 {
     [RequireComponent(typeof(RectTransform))]
     public class DamageClickController : AbstractClickController
     {
-        public UnityEvent<Vector2> E_OnClick { get; private set; } = new UnityEvent<Vector2>();
+        [SerializeField] ObjectPool DamageTextPool;
 
         Vector3[] RectTransformCorners;
 
@@ -17,13 +19,27 @@ namespace GM.Controllers
             GetComponent<RectTransform>().GetWorldCorners(RectTransformCorners);
         }
 
-        protected override void OnClick(Vector3 pos)
+        protected override void OnClick(Vector3 screenPos)
         {
-            pos = PositionRelativeToScreenWorldPosition(pos);
+            Vector3 worldPos = PositionRelativeToScreenWorldPosition(screenPos);
 
-            if (CollisionCheck(pos))
+            if (CollisionCheck(worldPos))
             {
-                E_OnClick.Invoke(pos);
+                bool hasTarget = GameManager.Instance.TryGetEnemy(out UnitTarget trgt);
+
+                if (hasTarget)
+                {
+                    BigDouble dmg = App.Cache.TotalTapDamage;
+
+                    BigDouble dmgDealt = trgt.Health.TakeDamage(dmg);
+
+                    if (dmgDealt > 0)
+                    {
+                        TextPopup popup = DamageTextPool.Spawn<TextPopup>();
+
+                        popup.Set(dmg, GM.Common.Colors.Red, screenPos);
+                    }                 
+                }
             }
         }
 

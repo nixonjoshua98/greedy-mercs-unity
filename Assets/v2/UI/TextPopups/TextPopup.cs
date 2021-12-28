@@ -23,16 +23,26 @@ namespace GM.UI
         {
             Reset();
 
-            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
             Text.text = Format.Number(val);
+            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
         }
 
         public void Set(BigDouble val)
         {
             Reset();
 
-            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
             Text.text = Format.Number(val);
+            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
+        }
+
+        public void Set(BigDouble val, Color color, Vector3 position)
+        {
+            Reset();
+
+            Text.text = Format.Number(val);
+            Text.color = color;
+
+            transform.position = position;
         }
 
         void Reset()

@@ -1,49 +1,124 @@
+using GM.Mercs.Data;
+using System.Collections.Generic;
 using UnityEngine;
 using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.UI
 {
-    public class MercsUIController : GM.UI.Panels.TogglablePanel
+    public class MercsUIController : GM.UI.Panels.PanelController
     {
-        [Header("References")]
-        public Transform SlotsParent;
-        public GM.UI.AmountSelector UpgradeAmountSelector;
-        public GM.UI.VStackedButton MercUnlockButton;
-
         [Header("Prefabs")]
-        public GameObject SlotObject;
+        public GameObject SquadMercSlotObject;
+        public GameObject AvailMercSlotObject;
 
-        void Awake()
+        [Header("References")]
+        public GM.UI.AmountSelector UpgradeAmountSelector;
+        [Space]
+        public Transform AvailMercSlotsParent;
+        public Transform SquadMercSlotsParent;
+
+        // ...
+        Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
+
+        void Start()
         {
-            App.Events.MercUnlocked.AddListener(OnMercUnlocked);
+            InstantiateMercSlots();
         }
 
-        void FixedUpdate()
+        void InstantiateMercSlots()
         {
-            UpdateUnlockButton();
+            App.Data.Mercs.UnlockedMercs.ForEach(merc => InstantiateSlot(merc.Id));
         }
 
-        void UpdateUnlockButton()
+        void InstantiateSlot(MercID mercId)
         {
-            MercUnlockButton.SetText("UNLOCKED", "");
-            MercUnlockButton.interactable = false;
+            bool isMercUnlocked = App.Data.Mercs.IsMercUnlocked(mercId);
 
-            if (App.Data.Mercs.GetNextHero(out MercID chara))
+            if (isMercUnlocked)
             {
-                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.GetGameMerc(chara);
+                DestroySlot(mercId); // Destroy if exists
 
-                MercUnlockButton.SetText("UNLOCK", Format.Number(mercData.UnlockCost));
+                MercData merc = App.Data.Mercs.GetMerc(mercId);
 
-                MercUnlockButton.interactable = App.Data.Inv.Gold >= mercData.UnlockCost;
+                if (merc.InSquad)
+                {
+                    InstantiateSquadMercSlot(merc.Id);
+                }
+
+                else
+                {
+                    InstantiateIdleMercSlot(merc.Id);
+                }
+            }
+
+        }
+
+        void InstantiateSquadMercSlot(MercID mercId)
+        {
+            SquadMercSlot slot = Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
+
+            slot.Assign(mercId, UpgradeAmountSelector, RemoveMercFromSquad);
+
+            MercSlots.Add(mercId, slot);
+        }
+
+        void InstantiateIdleMercSlot(MercID mercId)
+        {
+            IdleMercSlot slot = Instantiate<IdleMercSlot>(AvailMercSlotObject, AvailMercSlotsParent);
+
+            slot.Assign(mercId, UpgradeAmountSelector, AddSquadToMerc);
+
+            MercSlots.Add(mercId, slot);
+        }
+
+        void AddSquadToMerc(MercID mercId)
+        {
+            MercData data = App.Data.Mercs.GetMerc(mercId);
+
+            bool isSquadFull = App.Data.Mercs.SquadMercs.Count >= Common.Constants.MAX_SQUAD_SIZE;
+
+            if (isSquadFull)
+            {
+                GMLogger.Editor("Squad max size reached");
+            }
+
+            else if (data.InSquad)
+            {
+                GMLogger.Editor("Merc is already in squad");
+            }
+
+            else
+            {
+                App.Data.Mercs.AddMercToSquad(mercId);
+
+                InstantiateSlot(mercId);
+            } 
+        }
+
+        void RemoveMercFromSquad(MercID mercId)
+        {
+            MercData data = App.Data.Mercs.GetMerc(mercId);
+
+            if (!data.InSquad)
+            {
+                GMLogger.Editor("Merc is not in squad");
+            }
+
+            else
+            {
+                App.Data.Mercs.RemoveMercFromSquad(mercId);
+
+                InstantiateSlot(mercId);
             }
         }
 
-        // == Callbacks == //
-        void OnMercUnlocked(MercID merc)
+        void DestroySlot(MercID mercId)
         {
-            var slot = Instantiate<MercSlot>(SlotObject, SlotsParent);
-
-            slot.Assign(merc, UpgradeAmountSelector);
+            if (MercSlots.TryGetValue(mercId, out MercUIObject slot))
+            {
+                Destroy(slot.gameObject);
+                MercSlots.Remove(mercId);
+            }
         }
 
         public void OnUnlockButton()

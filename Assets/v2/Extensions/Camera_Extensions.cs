@@ -4,6 +4,12 @@ namespace GM
 {
     public static class Camera_Extensions
     {
+        public static bool IsVisible(this Camera cam, Vector2 pos)
+        {
+            return pos.x >= cam.MinBounds().x && cam.MaxBounds().x >= pos.x;
+        }
+
+
         public static Vector2 MinBounds(this Camera camera)
         {
             Vector2 v2 = camera.Extents();

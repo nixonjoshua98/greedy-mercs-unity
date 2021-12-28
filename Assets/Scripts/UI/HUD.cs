@@ -11,10 +11,8 @@ namespace GM
 
         void FixedUpdate()
         {
-            CurrentStageState state = GameManager.Instance.State;
-
-            stageText.text = $"Stage {state.Stage}";
-            waveText.text = $"{state.Wave} / {state.WavesPerStage}";
+            stageText.text = $"Stage {App.Data.GameState.Stage}";
+            waveText.text = $"{App.Data.GameState.Wave} / {App.Data.GameState.WavesPerStage}";
         }
     }
 }

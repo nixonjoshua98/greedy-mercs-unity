@@ -11,7 +11,7 @@
 
         void Awake()
         {
-            spawnedStage = GameManager.Instance.State.Stage;
+            spawnedStage = App.Data.GameState.Stage;
         }
 
 

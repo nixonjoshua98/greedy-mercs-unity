@@ -11,9 +11,5 @@ namespace GM.Core
         public UnityEvent<BigDouble> GoldChanged { get; private set; } = new UnityEvent<BigDouble>();
         public UnityEvent<BigInteger> PrestigePointsChanged { get; private set; } = new UnityEvent<BigInteger>();
         public UnityEvent<BigInteger> ArmouryPointsChanged { get; private set; } = new UnityEvent<BigInteger>();
-
-        // = Mercs = / /
-        public UnityEvent<MercID> OnMercAddedToSquad { get; set; } = new UnityEvent<MercID>();
-        public UnityEvent<MercID> OnMercRemovedFromSquad { get; set; } = new UnityEvent<MercID>();
     }
 }

@@ -16,6 +16,8 @@ namespace GM.Mercs.UI
         [Space]
         public Transform AvailMercSlotsParent;
         public Transform SquadMercSlotsParent;
+        [Space]
+        [SerializeField] MercSquadController MercSquad;
 
         // ...
         Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
@@ -73,42 +75,29 @@ namespace GM.Mercs.UI
 
         void AddSquadToMerc(MercID mercId)
         {
-            MercData data = App.Data.Mercs.GetMerc(mercId);
-
-            bool isSquadFull = App.Data.Mercs.SquadMercs.Count >= Common.Constants.MAX_SQUAD_SIZE;
-
-            if (isSquadFull)
-            {
-                GMLogger.Editor("Squad max size reached");
-            }
-
-            else if (data.InSquad)
-            {
-                GMLogger.Editor("Merc is already in squad");
-            }
-
-            else
+            if (MercSquad.AddMercToSquad(mercId))
             {
                 App.Data.Mercs.AddMercToSquad(mercId);
 
                 InstantiateSlot(mercId);
-            } 
+            }
+            else
+            {
+                GMLogger.Editor("Failed to add unit to squad");
+            }
         }
 
         void RemoveMercFromSquad(MercID mercId)
         {
-            MercData data = App.Data.Mercs.GetMerc(mercId);
-
-            if (!data.InSquad)
-            {
-                GMLogger.Editor("Merc is not in squad");
-            }
-
-            else
+            if (MercSquad.RemoveMercFromSquad(mercId))
             {
                 App.Data.Mercs.RemoveMercFromSquad(mercId);
 
                 InstantiateSlot(mercId);
+            }
+            else
+            {
+                GMLogger.Editor("Failed to remove unit from squad");
             }
         }
 

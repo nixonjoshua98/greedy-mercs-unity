@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using GM.Mercs;
 
 namespace GM.CameraControllers
 {
     public class CameraController : MonoBehaviour
     {
+        [SerializeField] MercSquadController MercSquad;
+        [Space]
         public float Speed = 2.5f;
 
         void LateUpdate()
         {
             List<float> xPositions = new List<float>();
 
-            var mercPositions = MercSquadController.Instance.MercPositions;
+            var mercPositions = MercSquad.MercPositions;
 
             if (mercPositions.Count > 0)
             {
@@ -27,12 +30,9 @@ namespace GM.CameraControllers
 
             if (xPositions.Count > 0)
             {
-                float xAvg = xPositions.Average();
-
-                UpdateCamera(Mathf.Max(0, xAvg));
+                UpdateCamera(Mathf.Max(0, xPositions.Average()));
             }
         }
-
 
         void UpdateCamera(float xPos)
         {

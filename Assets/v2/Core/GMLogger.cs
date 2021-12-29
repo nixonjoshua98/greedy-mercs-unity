@@ -7,7 +7,7 @@ namespace GM
         public static void Editor(object obj)
         {
 #if UNITY_EDITOR
-            Debug.Log(obj);
+            Debug.Log($"[Editor] {obj}");
 #endif
         }
 
@@ -24,11 +24,6 @@ namespace GM
                     Debug.Log(msg);
                 }
             }           
-        }
-
-        public static void Log(object obj)
-        {
-            Debug.Log(obj);
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using GM.Targets;
+﻿using GM.Mercs;
+using GM.Targets;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using Random = UnityEngine.Random;
 
 namespace GM
 {
@@ -14,6 +13,7 @@ namespace GM
 
         [Header("Controllers")]
         [SerializeField] SpawnController spawner;
+        [SerializeField] MercSquadController MercSquad;
 
         [HideInInspector] public UnityEvent<UnitTarget> E_BossSpawn { get; private set; } = new UnityEvent<UnitTarget>();
         [HideInInspector] public UnityEvent<TargetList<UnitTarget>> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList<UnitTarget>>();
@@ -27,6 +27,8 @@ namespace GM
 
         void Start()
         {
+            MercSquad.OnUnitAddedToSquad.AddListener(OnUnitAddedToSquad);
+
             SetupWave();
         }
 
@@ -42,6 +44,12 @@ namespace GM
             return false;
         }
 
+        bool TryGetBoss(out UnitTarget trgt)
+        {
+            trgt = default;
+            return Enemies.TryGetWithType(TargetType.Boss, ref trgt);
+        }
+
         UnitTarget SpawnBoss()
         {
             UnitTarget boss = new UnitTarget(spawner.SpawnBoss(), TargetType.Boss);
@@ -52,29 +60,9 @@ namespace GM
 
             Enemies.Add(boss);
 
-            E_BossSpawn.Invoke(boss);
+            InvokeBossSpawnEvent(boss);
 
             return boss;
-        }
-
-        void OnEnemyZeroHealth(UnitTarget trgt)
-        {
-            Enemies.Remove(trgt);
-
-            if (Enemies.Count == 0)
-            {
-                OnWaveCleared();
-            }
-        }
-
-        void OnBossZeroHealth()
-        {
-            Enemies.Clear();
-
-            App.Data.GameState.Stage++;
-            App.Data.GameState.Wave = 1;
-
-            SetupWave();
         }
 
         void OnWaveCleared()
@@ -109,7 +97,7 @@ namespace GM
                 StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.Position), () => trgt.Health.Invulnerable = false));
             }
 
-            E_OnWaveSpawn.Invoke(Enemies);
+            InvokeWaveSpawnEvent();
         }
 
         IEnumerator SetupBossFight()
@@ -123,22 +111,17 @@ namespace GM
 
             float yBossPosition;
 
-            List<SquadMerc> squad = MercSquadController.Instance.Squad;
-
-            if (squad.Count > 0)
+            if (MercSquad.Mercs.Count > 0)
             {
-                // Start to move mercs to the formation positions
-                List<Vector2> formationPositions = MercSquadController.Instance.MoveMercsToStageBossFormation(boss, () => isMercsReady = true);
-
-                yBossPosition = formationPositions.Min(pos => pos.y);
+                MercSquad.MoveMercsToFormation((merc) => { merc.Controller.LookAt(boss.Position); }, () => { isMercsReady = true; GMLogger.Editor("Mercs in formation"); });
             }
             else
             {
                 // Set 'isMercsReady' after the boss is finished setting up
                 StartCoroutine(Enumerators.InvokeAfter(() => isBossReady, () => isMercsReady = true));
-
-                yBossPosition = GM.Common.Constants.CENTER_BATTLE_Y;
             }
+
+            yBossPosition = GM.Common.Constants.CENTER_BATTLE_Y;
 
             // Set the boss position off-screen
             boss.GameObject.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, yBossPosition);
@@ -156,12 +139,56 @@ namespace GM
             yield return new WaitUntil(() => isBossReady && isMercsReady);
 
             // Pre-set the priority target to avoid target issues with the delay below
-            squad.ForEach(merc => merc.Controller.SetPriorityTarget(boss));
+            MercSquad.Mercs.ForEach(merc => merc.Controller.SetPriorityTarget(boss));
 
             boss.Health.Invulnerable = false; // Allow damage
 
             // Give back control to the controller
-            squad.ForEach(merc => StartCoroutine(Enumerators.InvokeAfter(Random.Range(0, 1.0f), () => merc.Controller.Resume())));
+            MercSquad.Mercs.ForEach(merc => merc.Controller.Resume());
+        }
+
+        // = Event Invocations = //
+
+        void InvokeBossSpawnEvent(UnitTarget boss)
+        {
+            E_BossSpawn.Invoke(boss);
+        }
+
+        void InvokeWaveSpawnEvent()
+        {
+            E_OnWaveSpawn.Invoke(Enemies);
+        }
+
+        // = Event Callbacks = //
+
+        void OnUnitAddedToSquad(SquadMerc merc)
+        {
+            if (TryGetBoss(out UnitTarget boss) && !MercSquad.IsMovingToFormation)
+            {
+                MercSquad.MoveMercToFormationPosition(merc.MercId);
+
+                merc.Controller.SetPriorityTarget(boss);
+            }
+        }
+
+        void OnEnemyZeroHealth(UnitTarget trgt)
+        {
+            Enemies.Remove(trgt);
+
+            if (Enemies.Count == 0)
+            {
+                OnWaveCleared();
+            }
+        }
+
+        void OnBossZeroHealth()
+        {
+            Enemies.Clear();
+
+            App.Data.GameState.Stage++;
+            App.Data.GameState.Wave = 1;
+
+            SetupWave();
         }
     }
 }

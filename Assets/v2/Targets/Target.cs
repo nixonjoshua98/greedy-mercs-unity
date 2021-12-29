@@ -1,9 +1,6 @@
+using GM.Units;
 using UnityEngine;
 using HealthController = GM.Controllers.HealthController;
-using GM.Units;
-using GM.Mercs.Controllers;
-using GM.Mercs;
-using GM.Common.Enums;
 
 namespace GM.Targets
 {
@@ -39,14 +36,6 @@ namespace GM.Targets
     public class UnitTarget: GenericTarget<IUnitController>
     {
         public UnitTarget(GameObject obj, TargetType type) : base(obj, type)
-        {
-
-        }
-    }
-
-    public class MercUnitTarget: GenericTarget<IMercController>
-    {
-        public MercUnitTarget(GameObject obj) : base(obj, TargetType.Unset)
         {
 
         }

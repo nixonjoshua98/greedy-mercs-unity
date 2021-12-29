@@ -19,5 +19,12 @@ namespace GM
 
             callback.Invoke();
         }
+
+        public static IEnumerator InvokeAfter(IEnumerator coroutine, Action action)
+        {
+            yield return coroutine;
+
+            action.Invoke();
+        }
     }
 }

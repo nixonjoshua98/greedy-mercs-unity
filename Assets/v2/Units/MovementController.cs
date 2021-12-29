@@ -21,13 +21,12 @@ namespace GM.Units
 
         public void MoveTowards(Vector3 target)
         {
+            LookAtDirection(target - transform.position);
+
             transform.position = Vector3.MoveTowards(transform.position, target, Time.fixedDeltaTime * MoveSpeed);
 
             Avatar.PlayAnimation(Avatar.AnimationStrings.Walk);
-
-            LookAt(target);
         }
-
 
         public void MoveTowards(Vector3 target, Action action)
         {
@@ -46,6 +45,11 @@ namespace GM.Units
             }
 
             StartCoroutine(_MoveTowards());
+        }
+
+        void LookAtDirection(Vector3 dir)
+        {
+            LookAt(transform.position + (dir * MoveSpeed));
         }
 
         public void LookAt(Vector3 pos)

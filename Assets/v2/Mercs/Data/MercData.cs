@@ -25,7 +25,7 @@ namespace GM.Mercs.Data
             set
             {
                 if (value > MaxLevel)
-                    GMLogger.Log($"Fatal: Merc '{Id}' level exceed max level");
+                    Debug.Log($"Fatal: Merc '{Id}' level exceeded max level");
 
                 User.Level = Mathf.Min(MaxLevel, value);
             }

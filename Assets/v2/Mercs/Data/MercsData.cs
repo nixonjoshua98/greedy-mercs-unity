@@ -54,19 +54,15 @@ namespace GM.Mercs.Data
         public void AddMercToSquad(MercID mercId)
         {
             UserMercDataLookup[mercId].InSquad = true;
-
-            App.Events.OnMercAddedToSquad.Invoke(mercId);
         }
 
         public void RemoveMercFromSquad(MercID mercId)
         {
             UserMercDataLookup[mercId].InSquad = false;
-
-            App.Events.OnMercRemovedFromSquad.Invoke(mercId);
         }
 
         /// <summary>Fetch the data about a merc</summary>
-        public Models.MercGameDataModel GetGameMerc(MercID key) => StaticMercDataLookup[key];
+        public MercGameDataModel GetGameMerc(MercID key) => StaticMercDataLookup[key];
 
         /// <summary> Fetch user merc data </summary>
         MercUserData GetUserMerc(MercID key)

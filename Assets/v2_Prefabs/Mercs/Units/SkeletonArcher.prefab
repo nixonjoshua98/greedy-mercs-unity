@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 3776976888244063478}
-  MoveSpeed: 2.5
+  MoveSpeed: 0
 --- !u!1001 &4094388373761363263
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -123,6 +123,11 @@ namespace GM.Mercs.Controllers
             IsPaused = false;
         }
 
+        public void Idle()
+        {
+            Avatar.PlayAnimation(Avatar.AnimationStrings.Idle);
+        }
+
         public void SetPriorityTarget(Target target)
         {
             CurrentTarget = target;

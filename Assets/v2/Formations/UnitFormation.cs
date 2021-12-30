@@ -9,9 +9,9 @@ namespace GM.Units.Formations
     {
         [SerializeField] List<Vector2> positions;
 
-        public int NumPositions { get { return positions.Count; } }
+        public int Count { get { return positions.Count; } }
 
-        public List<Vector2> Positions(Vector2 centerPosition)
+        public List<Vector2> Positions(Vector2 center)
         {
             float xOffsetFromZero = positions.Average(pos => pos.x);
 
@@ -19,7 +19,7 @@ namespace GM.Units.Formations
                 // Shift position so the formation is based around (0,0) being the center
                 Vector2 actualPos = pos - new Vector2(xOffsetFromZero, 0);
 
-                return actualPos + centerPosition;
+                return actualPos + center;
             }).ToList();
         }
 

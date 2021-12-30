@@ -10,7 +10,7 @@ namespace GM.Mercs
         public GameObject GameObject { get; private set; }
 
         // Properties
-        public MercID MercId => Controller.Id;
+        public MercID Id => Controller.Id;
         public Vector3 Position { get => GameObject.transform.position; set => GameObject.transform.position = value; }
 
         public SquadMerc(GameObject obj)

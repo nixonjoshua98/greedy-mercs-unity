@@ -1,6 +1,8 @@
 using GM.Common.Enums;
 using System.Collections.Generic;
 using System.Numerics;
+using System;
+using UnityEngine;
 
 namespace GM
 {
@@ -10,7 +12,7 @@ namespace GM
 
         Common.TTLCache cache = new Common.TTLCache();
 
-        public static string Percentage(BigDouble val) => Number(val * 100) + "%";
+        public static string Percentage(BigDouble val, int dp = 2) => Number(val * Mathf.Pow(10, dp)) + "%";
 
         public static string Number(BigDouble val, BonusType bonus)
         {

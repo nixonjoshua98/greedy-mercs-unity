@@ -78,7 +78,7 @@ namespace GM
 
             Vector3 centerPos = GetWaveReferencePosition(formation);
 
-            for (int i = 0; i < formation.NumPositions; ++i)
+            for (int i = 0; i < formation.Count; ++i)
             {
                 Vector3 spawnPos = centerPos + formation.GetPosition(i).ToVector3();
 

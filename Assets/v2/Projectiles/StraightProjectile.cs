@@ -18,6 +18,11 @@ namespace GM.Units.Projectiles
         [Header("Properties")]
         public float Speed = 1.0f;
 
+        // = Properties = //
+        bool IsTargetValid => CurrentTarget != null && CurrentTarget.GameObject != null;
+        bool IsInContactWithTarget => Mathf.Abs(transform.position.x - CurrentTarget.Position.x) < (Speed * Time.fixedDeltaTime);
+
+
         public void Init(Target target, Action action)
         {
             Callback = action;
@@ -32,26 +37,26 @@ namespace GM.Units.Projectiles
 
             if (!hasConcluded)
             {
-                if (CurrentTarget == null)
+                if (!IsTargetValid)
                 {
-                    InvokeCallback(1.0f);
+                    hasConcluded = true;
+
+                    Callback.Invoke();
+
+                    this.Fade(1, () => Destroy(gameObject));
                 }
 
-                else if (Mathf.Abs(transform.position.x - CurrentTarget.Position.x) < 0.1f)
+                else if (IsInContactWithTarget)
                 {
+                    hasConcluded = true;
+
                     InstantiateImpactPS();
-                    InvokeCallback(0.0f);
+
+                    Callback.Invoke();
+
+                    Destroy(gameObject);
                 }
             }
-        }
-
-        void InvokeCallback(float fadeDur)
-        {
-            hasConcluded = true;
-
-            this.Fade(fadeDur, () => Destroy(gameObject));
-
-            Callback.Invoke();
         }
 
         void InstantiateImpactPS()

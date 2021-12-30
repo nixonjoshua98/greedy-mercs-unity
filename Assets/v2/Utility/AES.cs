@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using UnityEngine;
 
 namespace GM
 {
@@ -12,28 +11,28 @@ namespace GM
 
         public static string Encrypt(string plainText)
         {
-            using (Rijndael algorithm = Rijndael.Create())
+            using (Rijndael algo = Rijndael.Create())
             {
-                algorithm.Key = key;
+                algo.Key = key;
 
                 // Create a decrytor to perform the stream transform.
-                var encryptor = algorithm.CreateEncryptor(algorithm.Key, algorithm.IV);
+                var encryptor = algo.CreateEncryptor(algo.Key, algo.IV);
 
                 // Create the streams used for encryption.
-                using (var msEncrypt = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
-                    using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    using (var csEncrypt = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
                     {
                         using (var swEncrypt = new StreamWriter(csEncrypt))
                         {
                             // Write IV first
-                            msEncrypt.Write(algorithm.IV, 0, algorithm.IV.Length);
+                            ms.Write(algo.IV, 0, algo.IV.Length);
 
                             // Write all data to the stream.
                             swEncrypt.Write(plainText);
                         }
 
-                        return Convert.ToBase64String(msEncrypt.ToArray());
+                        return Convert.ToBase64String(ms.ToArray());
                     }
                 }
             }
@@ -41,27 +40,27 @@ namespace GM
 
         public static string Decrypt(string cipherText)
         {
-            using (Rijndael algorithm = Rijndael.Create())
+            using (Rijndael algo = Rijndael.Create())
             {
-                algorithm.Key = key;
+                algo.Key = key;
 
                 // Get bytes from input string
                 byte[] cipherBytes = Convert.FromBase64String(cipherText);
 
                 // Create the streams used for decryption.
-                using (MemoryStream msDecrypt = new MemoryStream(cipherBytes))
+                using (MemoryStream ms = new MemoryStream(cipherBytes))
                 {
                     // Read IV first
                     byte[] IV = new byte[16];
-                    msDecrypt.Read(IV, 0, IV.Length);
+                    ms.Read(IV, 0, IV.Length);
 
                     // Assign IV to an algorithm
-                    algorithm.IV = IV;
+                    algo.IV = IV;
 
                     // Create a decrytor to perform the stream transform.
-                    var decryptor = algorithm.CreateDecryptor(algorithm.Key, algorithm.IV);
+                    var decryptor = algo.CreateDecryptor(algo.Key, algo.IV);
 
-                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    using (var csDecrypt = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                     {
                         using (var srDecrypt = new StreamReader(csDecrypt))
                         {

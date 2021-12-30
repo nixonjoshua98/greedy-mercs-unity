@@ -31,15 +31,15 @@ namespace GM.Mercs.Models
         public MercPassiveDataModel[] Passives;
 
         [JsonIgnore]
-        public AttackType AttackType;
+        public AttackType AttackType; // Local Data Value
 
         [JsonIgnore]
-        public string Name;
+        public string Name; // Local Data Value
 
         [JsonIgnore]
-        public Sprite Icon;
+        public Sprite Icon; // Local Data Value
 
         [JsonIgnore]
-        public GameObject Prefab;
+        public GameObject Prefab; // Local Data Value
     }
 }

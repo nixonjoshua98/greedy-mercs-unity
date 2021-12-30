@@ -4710,6 +4710,7 @@ GameObject:
   m_Component:
   - component: {fileID: 690453050}
   - component: {fileID: 690453054}
+  - component: {fileID: 690453055}
   - component: {fileID: 690453053}
   - component: {fileID: 690453052}
   - component: {fileID: 690453051}
@@ -4813,6 +4814,21 @@ MonoBehaviour:
   AvailMercSlotsParent: {fileID: 631665225}
   SquadMercSlotsParent: {fileID: 1985841872}
   MercSquad: {fileID: 857823501}
+--- !u!114 &690453055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690453049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c053b6bc0801b004d851ced0f3fb9a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MercSquad: {fileID: 857823501}
+  PopupObject: {fileID: 4147204850783114589, guid: 3d6a16264f10aa94884464f41eaadf5f,
+    type: 3}
 --- !u!1001 &706735230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5511,7 +5527,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 837249192}
-  - component: {fileID: 837249196}
   - component: {fileID: 837249194}
   - component: {fileID: 837249193}
   - component: {fileID: 837249195}
@@ -5625,9 +5640,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 837249196}
-        m_TargetAssemblyTypeName: GM.UI.Popups.MercSummaryPopupButton, Assembly-CSharp
-        m_MethodName: OnClick
+      - m_Target: {fileID: 690453055}
+        m_TargetAssemblyTypeName: GM.UI.Popups.MercBattleSummaryController, Assembly-CSharp
+        m_MethodName: ShowSummary
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5637,20 +5652,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &837249196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 837249191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c053b6bc0801b004d851ced0f3fb9a07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PopupObject: {fileID: 4147204850783114589, guid: 3d6a16264f10aa94884464f41eaadf5f,
-    type: 3}
 --- !u!1 &838924086
 GameObject:
   m_ObjectHideFlags: 0

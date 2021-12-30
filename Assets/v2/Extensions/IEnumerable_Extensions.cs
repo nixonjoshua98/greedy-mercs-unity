@@ -23,6 +23,20 @@ namespace GM
             return total;
         }
 
+        public static BigDouble Average(this IEnumerable<BigDouble> source)
+        {
+            BigDouble total = 0;
+            int count = 1;
+
+            foreach (BigDouble val in source)
+            {
+                count++;
+                total += val;
+            }
+
+            return total / count;
+        }
+
         public static int FindIndexWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
             int index = 0;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 using GM.Targets;
 
 namespace GM.Mercs.Controllers
@@ -10,11 +11,11 @@ namespace GM.Mercs.Controllers
     {
         public bool IsAvailable { get; }
 
-        public void Reset();
+        void Reset();
 
-        public void StartAttack(Target target, Action<Target> callback);
-        public bool InAttackPosition(Target target);
-        public void MoveTowardsAttackPosition(Target target);
+        void StartAttack(Target target, Action<Target> callback);
+        bool InAttackPosition(Target target);
+        void MoveTowardsAttackPosition(Target target);
     }
 
     public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
@@ -24,8 +25,11 @@ namespace GM.Mercs.Controllers
         protected Target CurrentTarget;
         Action<Target> DealDamageToTargetAction;
 
+        // = State Variables = //
         protected bool isAttacking;
         protected bool isOnCooldown;
+
+        // = Properties = //
         public bool IsAvailable => !isOnCooldown && !isAttacking;
 
         public abstract bool InAttackPosition(Target target);

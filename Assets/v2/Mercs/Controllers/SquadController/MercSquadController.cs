@@ -156,6 +156,7 @@ namespace GM.Mercs
             if (index >= 0)
             {
                 Destroy(FormationSpots[index].GameObject);
+
                 FormationSpots[index] = null;
 
                 return true;

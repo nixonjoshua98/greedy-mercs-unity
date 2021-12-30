@@ -1,6 +1,7 @@
 using GM.Common.Enums;
 using GM.Controllers;
 using GM.Targets;
+using UnityEngine.Events;
 using GM.Units;
 using Random = UnityEngine.Random;
 
@@ -8,6 +9,8 @@ namespace GM.Mercs.Controllers
 {
     public interface IMercController : IUnitController
     {
+        UnityEvent<BigDouble> OnDamageDealt { get; set; }
+
         void Pause();
         void Resume();
         void SetPriorityTarget(Target target);
@@ -26,6 +29,9 @@ namespace GM.Mercs.Controllers
         // = States = //
         bool IsPaused { get; set; } = false;
         bool IsTargetPriority { get; set; } = false;
+
+        // = Events = //
+        public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
 
         protected TargetList<UnitTarget> CurrentTargetList => GameManager.Instance.Enemies;
 
@@ -107,6 +113,8 @@ namespace GM.Mercs.Controllers
                 App.Cache.ApplyCritHit(ref dmg);
 
                 health.TakeDamage(dmg);
+
+                OnDamageDealt.Invoke(dmg);
             }
         }
 

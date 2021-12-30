@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 698e5925835f7b7479d6ba04bc10810a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownTimer: 1
+  CooldownTimer: 0.5
   Avatar: {fileID: 3776976888244063478}
   ProjectileObject: {fileID: 4830728179678374973, guid: 3f0fae22f36327d4e9f763b2b555943d,
     type: 3}

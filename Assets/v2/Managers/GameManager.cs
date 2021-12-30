@@ -165,7 +165,7 @@ namespace GM
         {
             if (TryGetBoss(out UnitTarget boss) && !MercSquad.IsMovingToFormation)
             {
-                MercSquad.MoveMercToFormationPosition(merc.MercId);
+                MercSquad.MoveMercToFormationPosition(merc.Id);
 
                 merc.Controller.SetPriorityTarget(boss);
             }

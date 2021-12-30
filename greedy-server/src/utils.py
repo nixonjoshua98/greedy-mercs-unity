@@ -1,8 +1,8 @@
 import datetime as dt
 import json
 import os
-from typing import Any, Iterable, Optional, TypeVar, Union
-
+from typing import Any, Iterable, Optional, TypeVar, Union, Sequence
+from pydantic import BaseModel
 import bson
 import pyjson5
 import yaml
@@ -48,17 +48,21 @@ def json_load(fp: str) -> Union[dict, list]:
         return pyjson5.load(fh)
 
 
-def json_dump(d: Union[dict, list]) -> str:
+def json_dumps(d: Union[dict, list], *, default = None) -> str:
     """
     Dump a data structure into a string JSON
 
     :param d: Dict or List to dump to a JSON string
+    :param default: Default encoder
+
     :return: String representation of the data structure
     """
-    return json.dumps(d, ensure_ascii=False, allow_nan=False, default=json_dump_encoder)
+    encoder = default_json_encoder if default is None else default
+
+    return json.dumps(d, ensure_ascii=False, allow_nan=False, default=encoder)
 
 
-def json_dump_encoder(value: Any) -> Any:
+def default_json_encoder(value: Any) -> Any:
     """
     Default json.dumps 'default' encoder
 
@@ -70,6 +74,12 @@ def json_dump_encoder(value: Any) -> Any:
 
     elif isinstance(value, (dt.datetime, dt.datetime)):
         return int(value.timestamp())
+
+    elif isinstance(value, BaseModel):
+        return value.dict()
+
+    elif isinstance(value, Sequence):
+        return [default_json_encoder(ele) for ele in value]
 
     return _jsonable_encoder(value)
 

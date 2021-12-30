@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace GM.HTTP.Requests
 {
-    public class FetchGameDataResponse : ServerResponse, Common.Data.IServerGameData
+    public class FetchGameDataResponse : ServerResponse, Common.Data.IStaticGameData
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime NextDailyReset { get; set; }

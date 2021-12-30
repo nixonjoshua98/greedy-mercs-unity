@@ -28,7 +28,7 @@ class AccountsRepository:
 
         return AccountModel.parse_obj(r) if r else None
 
-    async def insert_new_user(self, device_id: str) -> Optional[AccountModel]:
+    async def insert_new_user(self, device_id: str) -> AccountModel:
         r = await self._col.insert_one({"deviceId": device_id})
 
         return await self.get_user(r.inserted_id)

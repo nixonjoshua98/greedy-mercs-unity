@@ -12,10 +12,12 @@ namespace GM
         {
             result = new JSONObject();
 
+            path = ResolvePath(path);
+
             if (!File.Exists(path))
                 return false;
 
-            string contents = AES.Decrypt(path);
+            string contents = AES.Decrypt(File.ReadAllText(path));
 
             result = JSON.Parse(contents);
 
@@ -25,12 +27,14 @@ namespace GM
 
         public static void WriteJSON(string path, JSONNode node)
         {
+            path = ResolvePath(path);
+
             if (File.Exists(path))
                 File.Delete(path);
 
             new FileInfo(path).Directory.Create();
 
-            AES.Encrypt(path, node.ToString());
+            File.WriteAllText(path, AES.Encrypt(node.ToString()));
         }
     }
 }

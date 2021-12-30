@@ -84,7 +84,7 @@ namespace GM.Core
         }
 
 
-        void Initialize(Common.Data.IServerUserData userDataResp, Common.Data.IServerGameData gameDataResp)
+        void Initialize(Common.Data.IServerUserData userDataResp, Common.Data.IStaticGameData gameDataResp)
         {
             GMApplication.Create(userDataResp, gameDataResp);
 

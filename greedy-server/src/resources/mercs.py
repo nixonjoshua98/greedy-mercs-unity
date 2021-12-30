@@ -17,7 +17,7 @@ class MercPassive(BaseModel):
 class StaticMerc(BaseModel):
     id: int = Field(..., alias="mercId")
     is_default: bool = Field(False, alias="isDefault")
-    unlock_cost: float = Field(..., alias="unlockCost")
+    base_cost: float = Field(..., alias="baseUpgradeCost")
     base_damage: float = Field(..., alias="baseDamage")
 
     passives: list[MercPassive]

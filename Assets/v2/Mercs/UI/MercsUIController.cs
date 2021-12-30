@@ -109,20 +109,5 @@ namespace GM.Mercs.UI
                 MercSlots.Remove(mercId);
             }
         }
-
-        public void OnUnlockButton()
-        {
-            if (App.Data.Mercs.GetNextHero(out MercID chara))
-            {
-                GM.Mercs.Models.MercGameDataModel mercData = App.Data.Mercs.GetGameMerc(chara);
-
-                if (App.Data.Inv.Gold >= mercData.UnlockCost)
-                {
-                    App.Data.Inv.Gold -= mercData.UnlockCost;
-
-                    App.Data.Mercs.UnlockUserMerc(chara);
-                }
-            }
-        }
     }
 }

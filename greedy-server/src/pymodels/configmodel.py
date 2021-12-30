@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .basemodels import Field, BaseModel
+from .basemodels import BaseModel, Field
 
 
 class ApplicationConfig(BaseModel):

@@ -9,7 +9,7 @@ from src.pymodels import BaseDocument
 from src.routing import ServerRequest
 
 
-def inject_bountyshop_repo(request: ServerRequest) -> BountyShopRepository:
+def bountyshop_repository(request: ServerRequest) -> BountyShopRepository:
     return BountyShopRepository(request.app.state.mongo)
 
 

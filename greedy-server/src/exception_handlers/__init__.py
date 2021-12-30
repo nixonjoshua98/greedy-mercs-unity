@@ -1,9 +1,9 @@
 from fastapi import HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 
+from src.loggers import logger
 from src.routing import ServerRequest, ServerResponse
 from src.routing.handlers.abc import HandlerException
-from src.loggers import logger
 
 
 async def handle_http_exception(request: ServerRequest, exc: HTTPException):

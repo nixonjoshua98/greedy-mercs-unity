@@ -19,7 +19,7 @@ namespace GM.Core
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
 
-        public GMData(Common.Data.IServerUserData userData, Common.Data.IServerGameData gameData)
+        public GMData(Common.Data.IServerUserData userData, Common.Data.IStaticGameData gameData)
         {
             Items = new CurrencyItems.Data.CurrencyItems();
             Upgrades = new Upgrades.Data.PlayerUpgrades();
@@ -29,7 +29,7 @@ namespace GM.Core
             NextDailyReset = gameData.NextDailyReset;
 
             Inv = new Inventory.Data.Inventory(userData.CurrencyItems);
-            Mercs = new Mercs.Data.MercsData(gameData.Mercs);
+            Mercs = new Mercs.Data.MercsData(userData, gameData);
             Artefacts = new Artefacts.Data.Artefacts(userData.Artefacts, gameData.Artefacts);
             Armoury = new Armoury.Data.Armoury(userData.ArmouryItems, gameData.Armoury);
             Bounties = new Bounties.Data.BountiesData(userData.BountyData, gameData.Bounties);

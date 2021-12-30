@@ -34,7 +34,7 @@ namespace GM.Mercs.Data
         public Sprite Icon => Game.Icon;
         public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
         public bool InSquad => User.InSquad;
-        public double UnlockCost => Game.UnlockCost;
+        public double BaseUpgradeCost => Game.BaseUpgradeCost;
         public bool IsDefault => Game.IsDefault;
         public AttackType AttackType => Game.AttackType;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;

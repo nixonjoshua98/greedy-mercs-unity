@@ -8,7 +8,7 @@ from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,
                                             armoury_repository)
 from src.mongo.repositories.bountyshop import (BountyShopRepository,
-                                               inject_bountyshop_repo)
+                                               bountyshop_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
@@ -34,7 +34,7 @@ class PurchaseArmouryItemHandler(BaseBountyShopPurchaseHandler):
         ctx: AuthenticatedRequestContext = Depends(authenticated_context),
         currency_repo: CurrencyRepository = Depends(currency_repository),
         armoury_repo: ArmouryRepository = Depends(armoury_repository),
-        bountyshop_repo: BountyShopRepository = Depends(inject_bountyshop_repo),
+        bountyshop_repo: BountyShopRepository = Depends(bountyshop_repository),
         bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),
     ):
         self.datetime: dt.datetime = ctx.datetime

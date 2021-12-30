@@ -3,7 +3,7 @@ using System;
 
 namespace GM.Common.Data
 {
-    public interface IServerGameData
+    public interface IStaticGameData
     {
         DateTime NextDailyReset { get; set; }
 

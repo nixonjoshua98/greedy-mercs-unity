@@ -10,7 +10,8 @@ from src.request_context import RequestContext
 
 from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import BountyShopLootTable
-from .models import BountyShopArmouryItem, BountyShopCurrencyItem, PurchasableBountyShopItem
+from .models import (BountyShopArmouryItem, BountyShopCurrencyItem,
+                     PurchasableBountyShopItem)
 from .shopconfig import (BountyShopLevelConfig, CurrencyItemConfig,
                          FullBountyShopConfig, bounty_shop_config)
 

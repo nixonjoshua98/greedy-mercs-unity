@@ -2,8 +2,6 @@ using GM.Common.Enums;
 using GM.Controllers;
 using GM.Targets;
 using GM.Units;
-using System;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace GM.Mercs.Controllers

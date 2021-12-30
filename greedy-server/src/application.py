@@ -5,7 +5,6 @@ from cachetools import TTLCache
 from fastapi import FastAPI
 
 from src import utils
-
 from src.pymodels import ApplicationConfig
 
 

@@ -20,9 +20,6 @@ namespace GM
 
         public TargetList<UnitTarget> Enemies { get; private set; } = new TargetList<UnitTarget>();
 
-        // State
-        public bool IsBossFight { get; private set; }
-
         void Awake()
         {
             Instance = this;

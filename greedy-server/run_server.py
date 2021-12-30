@@ -1,11 +1,13 @@
 import uvicorn
 
 import src
-from src.routing.routers import (armoury, artefacts, bounty, bountyshop, prestige, root)
+from src.routing.routers import (armoury, artefacts, bounty, bountyshop, login,
+                                 prestige, root)
 
 app = src.create_app()
 
 app.include_router(root.router, prefix="/api")
+app.include_router(login.router, prefix="/api/login")
 app.include_router(bounty.router, prefix="/api/bounty")
 app.include_router(armoury.router, prefix="/api/armoury")
 app.include_router(prestige.router, prefix="/api/prestige")

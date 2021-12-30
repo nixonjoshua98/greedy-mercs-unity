@@ -18,5 +18,7 @@ namespace GM.HTTP.Requests
         [JsonRequired]
         [JsonProperty(PropertyName = "sessionId")]
         public string Session { get; set; }
+
+        public string test;
     }
 }

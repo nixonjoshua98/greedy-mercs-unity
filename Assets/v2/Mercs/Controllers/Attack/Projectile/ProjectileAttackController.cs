@@ -96,7 +96,11 @@ namespace GM.Mercs.Controllers
 
         void OnAttackAnimation()
         {
-            InstantiateProjectile();
+            if (IsCurrentTargetValid)
+            {
+                InstantiateProjectile();
+            }
+
             Cooldown();
         }
     }

@@ -30,6 +30,7 @@ namespace GM.Mercs.Controllers
         protected bool isOnCooldown;
 
         // = Properties = //
+        protected bool IsCurrentTargetValid => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
         public bool IsAvailable => !isOnCooldown && !isAttacking;
 
         public abstract bool InAttackPosition(Target target);

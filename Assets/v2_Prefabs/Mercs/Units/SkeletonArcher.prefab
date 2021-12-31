@@ -97,7 +97,7 @@ MonoBehaviour:
     type: 3}
   ProctileSpawnPosition: {fileID: 4094388373413155881}
   AttackRangeY: 0.1
-  AttackRangeX: 3
+  AttackRangeX: 2.5
 --- !u!114 &-9194916521373015981
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -64,12 +64,13 @@ namespace GM.Mercs.Controllers
         protected void Cooldown()
         {
             isAttacking = false;
-            isOnCooldown = true;
+
             StartCoroutine(CooldownTask());
         }
 
         IEnumerator CooldownTask()
         {
+            isOnCooldown = true;
             yield return new WaitForSecondsRealtime(CooldownTimer);
             isOnCooldown = false;
         }

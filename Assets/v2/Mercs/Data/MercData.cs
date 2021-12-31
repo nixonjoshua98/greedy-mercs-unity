@@ -30,12 +30,12 @@ namespace GM.Mercs.Data
                 User.Level = Mathf.Min(MaxLevel, value);
             }
         }
+
         public bool IsMaxLevel => User.Level >= MaxLevel;
         public Sprite Icon => Game.Icon;
         public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
-        public bool InSquad => User.InSquad;
+        public bool InDefaultSquad => User.InDefaultSquad;
         public double BaseUpgradeCost => Game.BaseUpgradeCost;
-        public bool IsDefault => Game.IsDefault;
         public AttackType AttackType => Game.AttackType;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;

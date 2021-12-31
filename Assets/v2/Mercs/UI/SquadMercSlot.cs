@@ -26,10 +26,10 @@ namespace GM.Mercs.UI
 
         public void Assign(MercID merc, GM.UI.AmountSelector selector, Action<MercID> removeMerc)
         {
-            Assign(merc); 
-
             _buyAmount = selector.Current;
             RemoveMercFromSquad = removeMerc;
+
+            Assign(merc); 
 
             selector.E_OnChange.AddListener((val) => _buyAmount = val);
         }
@@ -49,8 +49,6 @@ namespace GM.Mercs.UI
 
         void UpdateUI()
         {
-            BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, BuyAmount);
-
             LevelText.text = FormatLevel(AssignedMerc.CurrentLevel);
             DamageText.text = GetBonusText();
 
@@ -58,10 +56,10 @@ namespace GM.Mercs.UI
 
             if (!AssignedMerc.IsMaxLevel)
             {
-                UpgradeButton.SetText($"x{BuyAmount}", Format.Number(upgradeCost));
+                UpgradeButton.SetText($"x{BuyAmount}", Format.Number(AssignedMerc.UpgradeCost(BuyAmount)));
             }
 
-            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Data.Inv.Gold >= upgradeCost;
+            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Data.Inv.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
         }
 
         string GetBonusText() => $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";

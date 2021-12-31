@@ -1267,7 +1267,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 8828558405600494850}
+      objectReference: {fileID: 3017776096414610600}
     - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -1276,17 +1276,17 @@ PrefabInstance:
     - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: OnUpgradeButton
       objectReference: {fileID: 0}
     - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: 
+      value: GM.Mercs.UI.IdleMercSlot, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6119584585972390642, guid: 7354b49bc7b5fc448886453e7b76daa3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: 
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6623186125532401607, guid: 7354b49bc7b5fc448886453e7b76daa3,
         type: 3}

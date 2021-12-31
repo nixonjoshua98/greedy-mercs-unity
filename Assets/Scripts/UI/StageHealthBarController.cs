@@ -58,7 +58,7 @@ namespace GM.UI
 
                 targetSliderValue = 1.0f;
 
-                foreach (UnitTarget trgt in waveEnemies)
+                foreach (Target trgt in waveEnemies)
                 {
                     trgt.Health.OnDamageTaken.AddListener(damageTaken =>
                     {

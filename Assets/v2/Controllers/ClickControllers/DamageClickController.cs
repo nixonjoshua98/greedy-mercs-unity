@@ -25,7 +25,7 @@ namespace GM.Controllers
 
             if (CollisionCheck(worldPos))
             {
-                bool hasTarget = GameManager.Instance.TryGetEnemy(out UnitTarget trgt);
+                bool hasTarget = GameManager.Instance.TryGetEnemy(out Target trgt);
 
                 if (hasTarget)
                 {

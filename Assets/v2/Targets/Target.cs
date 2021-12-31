@@ -4,23 +4,27 @@ using HealthController = GM.Controllers.HealthController;
 
 namespace GM.Targets
 {
-    public abstract class Target
+    public interface ITarget
     {
+        GameObject GameObject { get; set; }
+        TargetType Type { get; set; }
+        HealthController Health { get; set; }
+        UnitAvatar Avatar { get; set; }
+        Vector3 Position { get; }
+    }
+
+    public class Target : ITarget
+    {
+        public IUnitController Controller { get; set; }
+        public HealthController Health { get; set; }
         public GameObject GameObject { get; set; }
+        public UnitAvatar Avatar { get; set; }
 
         public TargetType Type { get; set; } = TargetType.Unset;
 
-        public HealthController Health { get; protected set; }
-        public UnitAvatar Avatar { get; protected set; }
-
         public Vector3 Position => GameObject.transform.position;
-    }
 
-    public abstract class GenericTarget<T> : Target where T : IUnitController
-    {
-        public T Controller { get; private set; }
-
-        public GenericTarget(GameObject obj, TargetType type)
+        public Target(GameObject obj, TargetType type)
         {
             GameObject = obj;
             Type = type;
@@ -28,16 +32,7 @@ namespace GM.Targets
             Health = obj.GetComponent<HealthController>();
             Avatar = obj.GetComponentInChildren<UnitAvatar>();
 
-            Controller = obj.GetComponent<T>();
-        }
-    }
-
-
-    public class UnitTarget: GenericTarget<IUnitController>
-    {
-        public UnitTarget(GameObject obj, TargetType type) : base(obj, type)
-        {
-
+            Controller = obj.GetComponent<IUnitController>();
         }
     }
 }

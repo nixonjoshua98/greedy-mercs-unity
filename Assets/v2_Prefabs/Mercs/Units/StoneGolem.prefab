@@ -63,6 +63,7 @@ MonoBehaviour:
   CooldownTimer: 0.5
   Avatar: {fileID: 7354342686835311081}
   AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
+  AttackRange: 1
 --- !u!114 &3476196780248353833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 7354342686835311081}
-  MoveSpeed: 2
+  MoveSpeed: 2.5
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0

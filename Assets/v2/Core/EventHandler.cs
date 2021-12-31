@@ -1,6 +1,5 @@
 using UnityEngine.Events;
 using BigInteger = System.Numerics.BigInteger;
-using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Core
 {

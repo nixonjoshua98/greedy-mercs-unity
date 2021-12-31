@@ -30,21 +30,18 @@ namespace GM.Mercs.UI
 
         public void Assign(MercID mercId, AmountSelector selector, Action<MercID> addToSquad)
         {
+            _buyAmount = selector.Current;
+            AddToSquad = addToSquad;
+
             Assign(mercId);
 
-            _buyAmount = selector.Current;
-
-            selector.E_OnChange.AddListener((val) => _buyAmount = val);
-
-            AddToSquad = addToSquad;
+            selector.E_OnChange.AddListener((val) => { _buyAmount = val; });
         }
 
         protected override void OnAssigned()
         {
             IconImage.sprite = AssignedMerc.Icon;
             NameText.text = AssignedMerc.Name;
-
-            App.Events.GoldChanged.AddListener((change) => UpdateGoldRelatedUI());
 
             UpdateUI();
         }
@@ -58,10 +55,7 @@ namespace GM.Mercs.UI
         {
             LevelText.text = FormatLevel(AssignedMerc.CurrentLevel);
             DamageText.text = GetBonusText();
-        }
 
-        void UpdateGoldRelatedUI()
-        {
             UpgradeButton.SetText("MAX LEVEL", "");
 
             if (!AssignedMerc.IsMaxLevel)

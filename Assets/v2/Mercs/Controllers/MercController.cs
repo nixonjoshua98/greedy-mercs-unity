@@ -2,6 +2,7 @@ using GM.Common.Enums;
 using GM.Controllers;
 using GM.Targets;
 using UnityEngine.Events;
+using UnityEngine;
 using GM.Units;
 using Random = UnityEngine.Random;
 
@@ -33,7 +34,7 @@ namespace GM.Mercs.Controllers
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
 
-        protected TargetList<UnitTarget> CurrentTargetList => GameManager.Instance.Enemies;
+        ITargetManager TargetManager;
 
         void Awake()
         {
@@ -45,7 +46,9 @@ namespace GM.Mercs.Controllers
             base.GetComponents();
 
             AttackController = GetComponent<IAttackController>();
+            TargetManager = this.GetComponentInScene<ITargetManager>();         
 
+            GMLogger.WhenNull(TargetManager, "Fatal: TargetManager is Null");
             GMLogger.WhenNull(Movement, "IMovementController is Null");
             GMLogger.WhenNull(AttackController, "IAttackController is Null");
         }
@@ -77,7 +80,7 @@ namespace GM.Mercs.Controllers
         {
             if (!IsCurrentTargetValid)
             {
-                CurrentTarget = GetTargetFromTargetList();
+                TargetManager.TryGetMercTarget(ref CurrentTarget);
             }
             else
             {
@@ -143,14 +146,6 @@ namespace GM.Mercs.Controllers
 
             // Reset the flag once the target has been defeated
             target.Health.OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
-        }
-
-        UnitTarget GetTargetFromTargetList()
-        {
-            if (CurrentTargetList.Count > 0)
-                return CurrentTargetList.MinBy(x => Random.Range(0, 1));
-
-            return null;
         }
     }
 }

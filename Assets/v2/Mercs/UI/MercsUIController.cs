@@ -42,7 +42,7 @@ namespace GM.Mercs.UI
 
                 MercData merc = App.Data.Mercs.GetMerc(mercId);
 
-                if (merc.InSquad)
+                if (merc.InDefaultSquad)
                 {
                     InstantiateSquadMercSlot(merc.Id);
                 }

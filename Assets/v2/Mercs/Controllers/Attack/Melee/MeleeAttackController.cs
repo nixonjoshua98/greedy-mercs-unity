@@ -10,8 +10,10 @@ namespace GM.Mercs.Controllers
         public UnitAvatar Avatar;
 
         [Header("Prefabs")]
-        [Tooltip("Optional prefab to instantiate upon attack impact")]
         public GameObject AttackImpactObject;
+
+        [Header("Properties")]
+        [SerializeField] float AttackRange = 0.5f;
 
         // = Controllers = //
         IMovementController MoveController;
@@ -45,7 +47,7 @@ namespace GM.Mercs.Controllers
 
         public override bool InAttackPosition(Target target)
         {
-            return target.Position == transform.position;
+            return Vector2.Distance(transform.position, target.Position) <= AttackRange;
         }
 
         public override void MoveTowardsAttackPosition(Target target)
@@ -57,15 +59,16 @@ namespace GM.Mercs.Controllers
         {
             Cooldown();
             DealDamageToTarget();
-            InstantiateAttackImpactObject();
+
+            if (IsCurrentTargetValid)
+            {
+                InstantiateAttackImpactObject();
+            }
         }
 
         void InstantiateAttackImpactObject()
         {
-            if (AttackImpactObject != null && CurrentTarget != null && CurrentTarget.GameObject != null)
-            {
-                Instantiate(AttackImpactObject, CurrentTarget.Avatar.AvatarCenter);
-            }
+            Instantiate(AttackImpactObject, CurrentTarget.Avatar.AvatarCenter);
         }
     }
 }

@@ -7,18 +7,18 @@ using UnityEngine.Events;
 
 namespace GM
 {
-    public class GameManager : Core.GMMonoBehaviour
+    public class GameManager : Core.GMMonoBehaviour, ITargetManager
     {
-        public static GameManager Instance = null;
+        public static GameManager Instance { get; set; } = null;
 
         [Header("Controllers")]
         [SerializeField] SpawnController spawner;
         [SerializeField] MercSquadController MercSquad;
 
-        [HideInInspector] public UnityEvent<UnitTarget> E_BossSpawn { get; private set; } = new UnityEvent<UnitTarget>();
-        [HideInInspector] public UnityEvent<TargetList<UnitTarget>> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList<UnitTarget>>();
+        [HideInInspector] public UnityEvent<Target> E_BossSpawn { get; private set; } = new UnityEvent<Target>();
+        [HideInInspector] public UnityEvent<TargetList<Target>> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList<Target>>();
 
-        public TargetList<UnitTarget> Enemies { get; private set; } = new TargetList<UnitTarget>();
+        public TargetList<Target> Enemies { get; private set; } = new TargetList<Target>();
 
         void Awake()
         {
@@ -32,27 +32,20 @@ namespace GM
             SetupWave();
         }
 
-        public bool TryGetEnemy(out UnitTarget target)
+        public bool TryGetEnemy(out Target target)
         {
-            target = default;
-
-            if (Enemies.Count > 0)
-            {
-                target = Enemies[0];
-                return true;
-            }
-            return false;
+            return Enemies.TryGet(out target);
         }
 
-        bool TryGetBoss(out UnitTarget trgt)
+        bool TryGetBoss(out Target trgt)
         {
             trgt = default;
             return Enemies.TryGetWithType(TargetType.Boss, ref trgt);
         }
 
-        UnitTarget SpawnBoss()
+        Target SpawnBoss()
         {
-            UnitTarget boss = new UnitTarget(spawner.SpawnBoss(), TargetType.Boss);
+            Target boss = new Target(spawner.SpawnBoss(), TargetType.Boss);
 
             boss.Health.Init(val: App.Cache.StageBossHealthAtStage(App.Data.GameState.Stage));
 
@@ -82,11 +75,11 @@ namespace GM
 
         void SetupWave()
         {
-            Enemies.AddRange(spawner.SpawnWave().Select(x => new UnitTarget(x, TargetType.WaveEnemy)));
+            Enemies.AddRange(spawner.SpawnWave().Select(x => new Target(x, TargetType.WaveEnemy)));
 
             BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(App.Data.GameState.Stage);
 
-            foreach (UnitTarget trgt in Enemies)
+            foreach (Target trgt in Enemies)
             {
                 trgt.Health.Invulnerable = true;
 
@@ -105,7 +98,7 @@ namespace GM
             bool isBossReady = false;
             bool isMercsReady = false;
 
-            UnitTarget boss = SpawnBoss();
+            Target boss = SpawnBoss();
 
             boss.Health.Invulnerable = true;
 
@@ -147,9 +140,17 @@ namespace GM
             MercSquad.Mercs.ForEach(merc => merc.Controller.Resume());
         }
 
+
+        // = ITargetManager = //
+
+        public bool TryGetMercTarget(ref Target target)
+        {
+            return TryGetEnemy(out target);
+        }
+
         // = Event Invocations = //
 
-        void InvokeBossSpawnEvent(UnitTarget boss)
+        void InvokeBossSpawnEvent(Target boss)
         {
             E_BossSpawn.Invoke(boss);
         }
@@ -163,7 +164,7 @@ namespace GM
 
         void OnUnitAddedToSquad(SquadMerc merc)
         {
-            if (TryGetBoss(out UnitTarget boss) && !MercSquad.IsMovingToFormation)
+            if (TryGetBoss(out Target boss) && !MercSquad.IsMovingToFormation)
             {
                 MercSquad.MoveMercToFormationPosition(merc.Id);
 
@@ -171,7 +172,7 @@ namespace GM
             }
         }
 
-        void OnEnemyZeroHealth(UnitTarget trgt)
+        void OnEnemyZeroHealth(Target trgt)
         {
             Enemies.Remove(trgt);
 

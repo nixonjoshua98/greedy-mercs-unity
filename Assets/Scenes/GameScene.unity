@@ -1200,11 +1200,11 @@ RectTransform:
   m_Father: {fileID: 797656982}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1098, y: -957}
-  m_SizeDelta: {x: 348.9589, y: 100}
-  m_Pivot: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -10, y: 523}
+  m_SizeDelta: {x: 348.95886, y: 100}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &212860236
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3589,7 +3589,7 @@ Transform:
   m_Children:
   - {fileID: 384392359}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &581473467
 PrefabInstance:
@@ -5275,7 +5275,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &797656981
 GameObject:
@@ -8715,7 +8715,7 @@ RectTransform:
   - {fileID: 133646476}
   - {fileID: 564854156}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -12446,7 +12446,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1781018548}
-  - component: {fileID: 1781018552}
   - component: {fileID: 1781018551}
   - component: {fileID: 1781018549}
   - component: {fileID: 1781018553}
@@ -12521,9 +12520,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1781018552}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnClick
+      - m_Target: {fileID: 2035833430}
+        m_TargetAssemblyTypeName: GM.Managers.PrestigeManager, Assembly-CSharp
+        m_MethodName: OnPrestigeButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12541,20 +12540,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781018547}
   m_CullTransparentMesh: 0
---- !u!114 &1781018552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781018547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93cc4357a0c243e40a511c388f28daad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanelObject: {fileID: 8987427645710186461, guid: 90aef07760039ac468d23ff51a1c3db9,
-    type: 3}
 --- !u!114 &1781018553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14785,6 +14770,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015739290}
   m_CullTransparentMesh: 1
+--- !u!1 &2035833429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2035833431}
+  - component: {fileID: 2035833430}
+  m_Layer: 0
+  m_Name: '[Prestige Manager]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2035833430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035833429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 368a5b430ce01774a96c2c3c544bbd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2035833431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035833429}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2040548530
 GameObject:
   m_ObjectHideFlags: 0
@@ -15479,7 +15507,7 @@ RectTransform:
   m_Children:
   - {fileID: 7223885432061251457}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

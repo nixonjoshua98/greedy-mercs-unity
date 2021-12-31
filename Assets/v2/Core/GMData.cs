@@ -1,47 +1,68 @@
+using GM.Armoury.Data;
+using GM.Artefacts.Data;
+using GM.Bounties.Data;
+using GM.BountyShop.Data;
+using GM.Common.Interfaces;
+using GM.CurrencyItems.Data;
+using GM.Inventory.Data;
+using GM.LocalSave;
+using GM.Mercs.Data;
+using GM.States;
+using GM.Upgrades.Data;
 using System;
-using UnityEngine.Events;
 
 namespace GM.Core
 {
     public class GMData : GMClass
     {
-        public Mercs.Data.MercsData Mercs;
-        public Armoury.Data.Armoury Armoury;
-        public Inventory.Data.Inventory Inv;
-        public Artefacts.Data.Artefacts Artefacts;
-        public CurrencyItems.Data.CurrencyItems Items;
-        public Bounties.Data.BountiesData Bounties;
-        public BountyShop.Data.BountyShopData BountyShop;
-        public Upgrades.Data.PlayerUpgrades Upgrades;
+        public MercsData Mercs;
+        public ArmouryData Armoury;
+        public UserInventory Inv;
+        public ArtefactsData Artefacts;
+        public ItemsData Items;
+        public BountiesData Bounties;
+        public BountyShopData BountyShop;
+        public PlayerUpgrades Upgrades;
 
-        public GM.GameState.GameState GameState;
+        public GameState GameState;
 
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
 
-        public GMData(Common.Data.IServerUserData userData, Common.Data.IStaticGameData gameData)
+        public GMData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel localSaveFile)
         {
-            Items = new CurrencyItems.Data.CurrencyItems();
-            Upgrades = new Upgrades.Data.PlayerUpgrades();
+            NextDailyReset = staticData.NextDailyReset;
 
-            GameState = new GameState.GameState();
+            // = Scriptable Object Models = //
+            Items = new ItemsData();
 
-            NextDailyReset = gameData.NextDailyReset;
+            // = Local Models = //
+            GameState = GameState.Deserialize(localSaveFile);
 
-            Inv = new Inventory.Data.Inventory(userData.CurrencyItems);
-            Mercs = new Mercs.Data.MercsData(userData, gameData);
-            Artefacts = new Artefacts.Data.Artefacts(userData.Artefacts, gameData.Artefacts);
-            Armoury = new Armoury.Data.Armoury(userData.ArmouryItems, gameData.Armoury);
-            Bounties = new Bounties.Data.BountiesData(userData.BountyData, gameData.Bounties);
-            BountyShop = new BountyShop.Data.BountyShopData(userData.BountyShop);
+            Upgrades    = new PlayerUpgrades();
+            Inv         = new UserInventory(userData.CurrencyItems);
+            Mercs       = new MercsData(userData, staticData);
+            Artefacts   = new ArtefactsData(userData.Artefacts, staticData.Artefacts);
+            Armoury     = new ArmouryData(userData.ArmouryItems, staticData.Armoury);
+            Bounties    = new BountiesData(userData.BountyData, staticData.Bounties);
+            BountyShop  = new BountyShopData(userData.BountyShop);
         }
 
-        public void Prestige(UnityAction<bool> callback)
+        public void ResetPrestigeData()
         {
-            App.HTTP.Prestige((resp) =>
-            {
-                callback.Invoke(resp.StatusCode == 200);
-            });
+            Mercs.ResetLevels();
+            Upgrades.ResetLevels();
+            Inv.ResetLocalResources();
+        }
+
+        public void Update(IServerUserData userData, IStaticGameData staticData)
+        {
+            Inv.UpdateCurrencies(userData.CurrencyItems);
+            Mercs.UpdateAllData(userData.UnlockedMercs, staticData.Mercs);
+            Artefacts.UpdateAllData(userData.Artefacts, staticData.Artefacts);
+            Armoury.UpdateAllData(userData.ArmouryItems, staticData.Armoury);
+            Bounties.UpdateAllData(userData.BountyData, staticData.Bounties);
+            BountyShop.UpdateShop(userData.BountyShop);
         }
     }
 }

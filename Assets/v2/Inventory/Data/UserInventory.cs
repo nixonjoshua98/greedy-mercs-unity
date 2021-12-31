@@ -2,7 +2,7 @@
 
 namespace GM.Inventory.Data
 {
-    public class Inventory
+    public class UserInventory
     {
         public BigInteger PrestigePoints;
 
@@ -11,7 +11,7 @@ namespace GM.Inventory.Data
 
         public BigDouble Gold;
 
-        public Inventory(Models.UserCurrenciesModel currencies)
+        public UserInventory(Models.UserCurrenciesModel currencies)
         {
             Gold = BigDouble.Billion;
 
@@ -23,6 +23,11 @@ namespace GM.Inventory.Data
             BountyPoints = model.BountyPoints;
             ArmouryPoints = model.ArmouryPoints;
             PrestigePoints = model.PrestigePoints;
+        }
+
+        public void ResetLocalResources()
+        {
+            Gold = 0;
         }
     }
 }

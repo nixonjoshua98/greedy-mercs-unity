@@ -65,13 +65,6 @@ namespace GM.HTTP
             SendPublicRequest(www, callback);
         }
 
-        public void FetchUserData(Action<FetchUserDataResponse> callback)
-        {
-            var www = UnityWebRequest.Get(ResolveURL("userdata"));
-
-            SendAuthenticatedRequest(www, callback);
-        }
-
         public void Login(Action<UserLoginReponse> callback)
         {
             var req = new UserLoginRequest(SystemInfo.deviceUniqueIdentifier);
@@ -183,7 +176,7 @@ namespace GM.HTTP
                     model = new T()
                     {
                         ErrorMessage = "Failed to deserialize server response",
-                        StatusCode = HTTPCodes.FailedToDeserialize
+                        StatusCode = www.responseCode
                     };
                 }
                 else

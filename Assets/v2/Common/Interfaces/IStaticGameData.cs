@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace GM.Common.Data
+namespace GM.Common.Interfaces
 {
     public interface IStaticGameData
     {

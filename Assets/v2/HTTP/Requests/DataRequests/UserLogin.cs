@@ -1,4 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using GM.Armoury.Models;
+using GM.Artefacts.Models;
+using GM.Bounties.Models;
+using GM.BountyShop.Models;
+using GM.Common.Interfaces;
+using GM.Inventory.Models;
+using GM.Mercs.Models;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using GM.Common.Models;
 
 namespace GM.HTTP.Requests
 {
@@ -15,10 +24,9 @@ namespace GM.HTTP.Requests
 
     public class UserLoginReponse : ServerResponse, IServerAuthentication
     {
-        [JsonRequired]
-        [JsonProperty(PropertyName = "sessionId")]
+        [JsonProperty(PropertyName = "sessionId", Required = Required.Always)]
         public string Session { get; set; }
 
-        public string test;
+        public ServerUserDataModel UserData { get; set; }
     }
 }

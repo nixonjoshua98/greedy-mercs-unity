@@ -1,4 +1,5 @@
 import base64
+
 # noinspection PyPackageRequirements
 from Crypto.Cipher import AES
 

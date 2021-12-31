@@ -1,40 +1,81 @@
-using SimpleJSON;
+using Newtonsoft.Json;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace GM
 {
+    public enum FileStatus
+    {
+        OK,
+        CORRUPTED,
+        NOT_EXISTS
+    }
+
     public static class FileUtils
     {
         public static string ResolvePath(string name) => $"{Application.persistentDataPath}/{name}";
 
-        public static bool LoadJSON(string path, out JSONNode result)
+        public static void DeleteFile(string path) => File.Delete(ResolvePath(path));
+
+        public static FileStatus LoadModel<T>(string path, out T result)
         {
-            result = new JSONObject();
+            result = default;
 
             path = ResolvePath(path);
 
             if (!File.Exists(path))
-                return false;
+            {
+                return FileStatus.NOT_EXISTS;
+            }
 
-            string contents = AES.Decrypt(File.ReadAllText(path));
+            try
+            {
+                string contents = AES.Decrypt(ReadFromFile(path));
 
-            result = JSON.Parse(contents);
+                result = JsonConvert.DeserializeObject<T>(contents);
+            }
+            catch (System.Exception)
+            {
+                return FileStatus.CORRUPTED;
+            }
 
-            return true;
+            return FileStatus.OK;
         }
 
 
-        public static void WriteJSON(string path, JSONNode node)
+        public static void WriteModel<T>(string path, T model)
         {
             path = ResolvePath(path);
 
-            if (File.Exists(path))
-                File.Delete(path);
+            string json = JsonConvert.SerializeObject(model);
+            string encrypted = AES.Encrypt(json);
+
+            WriteToFile(path, encrypted);
+        }
+
+        static void WriteToFile(string path, string text)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
 
             new FileInfo(path).Directory.Create();
 
-            File.WriteAllText(path, AES.Encrypt(node.ToString()));
+            using (FileStream file = File.Open(path, FileMode.OpenOrCreate))
+            {
+                bf.Serialize(file, text);
+            }
+
+            GMLogger.Editor($"Writen to {path}");
+        }
+
+        static string ReadFromFile(string path)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+
+            using (FileStream file = File.Open(path, FileMode.Open))
+            {
+                return (string)bf.Deserialize(file);
+            }
         }
     }
 }

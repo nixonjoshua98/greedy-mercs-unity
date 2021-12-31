@@ -34,11 +34,22 @@ namespace GM.BountyShop.Data
         public List<BountyShopArmouryItem> ArmouryItems => armouryItems.Values.ToList();
         public List<BountyShopCurrencyItemModel> CurrencyItems => currencyItems.Values.ToList();
 
-        /// <summary>Update all items</summary>
+        /// <summary>
+        /// Update all items
+        /// </summary>
         void Update(BountyShopItemsModel items)
         {
             armouryItems = items.ArmouryItems.ToDictionary(ele => ele.Id, ele => ele);
             currencyItems = items.CurrencyItems.ToDictionary(ele => ele.Id, ele => ele);
+        }
+
+        /// <summary>
+        /// Update all bounty shop related data
+        /// </summary>
+        public void UpdateShop(CompleteBountyShopDataModel model)
+        {
+            UpdateItemPurchases(model.Purchases);
+            Update(model.ShopItems);
         }
 
         /// <summary>Send the server request for purchasing an armoury item</summary>

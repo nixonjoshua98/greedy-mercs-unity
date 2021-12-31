@@ -17,6 +17,9 @@ from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse
 
+from ..handlers.data import (GetStaticData, GetUserDataHandler,
+                             StaticDataResponse, UserDataResponse)
+
 router = APIRouter()
 
 
@@ -33,6 +36,8 @@ async def prestige(
     bounties_repo: BountiesRepository = Depends(bounties_repository),
     currency_repo: CurrencyRepository = Depends(currency_repository),
     artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
+    user_data_handler: GetUserDataHandler = Depends(),
+    static_data_handler: GetStaticData = Depends(),
 ):
     user_arts = await artefacts_repo.get_all_artefacts(ctx.user_id)
 
@@ -47,7 +52,13 @@ async def prestige(
         ctx.user_id, data, bounties_repo=bounties_repo, s_bounties=s_bounties
     )
 
-    return ServerResponse({})
+    u_data_resp: UserDataResponse = await user_data_handler.handle(ctx)
+    s_data_resp: StaticDataResponse = await static_data_handler.handle()
+
+    return ServerResponse({
+        "userData": u_data_resp.data,
+        "staticData": s_data_resp.data
+    })
 
 
 async def process_prestige_points(

@@ -12,5 +12,7 @@ namespace GM.Common
 
         public const float BASE_CRIT_CHANCE = 0.01f;
         public const float BASE_CRIT_MULTIPLIER = 3.0f;
+
+        public const int WAVES_PER_STAGE = 3;
     }
 }

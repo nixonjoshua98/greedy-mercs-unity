@@ -12,7 +12,7 @@ namespace GM
         void FixedUpdate()
         {
             stageText.text = $"Stage {App.Data.GameState.Stage}";
-            waveText.text = $"{App.Data.GameState.Wave} / {App.Data.GameState.WavesPerStage}";
+            waveText.text = $"{App.Data.GameState.Wave} / {Common.Constants.WAVES_PER_STAGE}";
         }
     }
 }

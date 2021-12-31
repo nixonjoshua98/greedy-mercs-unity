@@ -1,6 +1,8 @@
 ﻿using GM.Mercs;
 using GM.Targets;
+using GM.States;
 using System.Collections;
+using GM.Common;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,17 +22,46 @@ namespace GM
 
         public TargetList<Target> Enemies { get; private set; } = new TargetList<Target>();
 
+        // = Quick Reference Properties = //
+        GameState State => App.Data.GameState;
+
         void Awake()
         {
             Instance = this;
+
+            InitialSetup();
         }
 
         void Start()
         {
             MercSquad.OnUnitAddedToSquad.AddListener(OnUnitAddedToSquad);
 
-            SetupWave();
+            StartWaveSystem();
         }
+
+        void InitialSetup()
+        {
+            if (State.PreviouslyPrestiged)
+            {
+                State.PreviouslyPrestiged = false;
+
+                App.SaveManager.Paused = false;
+            }
+        }
+
+        void StartWaveSystem()
+        {
+            // Spawn the boss if the user has previously beaten the stage and reached the boss
+            if (State.Wave == Constants.WAVES_PER_STAGE && State.IsBossSpawned)
+            {
+                StartBossFight();
+            }
+            else
+            {
+                SetupWave();
+            }
+        }
+
 
         public bool TryGetEnemy(out Target target)
         {
@@ -43,41 +74,29 @@ namespace GM
             return Enemies.TryGetWithType(TargetType.Boss, ref trgt);
         }
 
-        Target SpawnBoss()
+        Target InstantiateBoss()
         {
             Target boss = new Target(spawner.SpawnBoss(), TargetType.Boss);
 
-            boss.Health.Init(val: App.Cache.StageBossHealthAtStage(App.Data.GameState.Stage));
+            // Setup the boss health
+            boss.Health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
 
+            // Add event callbacks
             boss.Health.OnZeroHealth.AddListener(OnBossZeroHealth);
 
             Enemies.Add(boss);
 
-            InvokeBossSpawnEvent(boss);
+            // Invoke an event
+            E_BossSpawn.Invoke(boss);
 
             return boss;
-        }
-
-        void OnWaveCleared()
-        {
-            if (App.Data.GameState.Wave == App.Data.GameState.WavesPerStage)
-            {
-                StartCoroutine(SetupBossFight());
-            }
-
-            else
-            {
-                SetupWave();
-
-                App.Data.GameState.Wave++;
-            }
         }
 
         void SetupWave()
         {
             Enemies.AddRange(spawner.SpawnWave().Select(x => new Target(x, TargetType.WaveEnemy)));
 
-            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(App.Data.GameState.Stage);
+            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(State.Stage);
 
             foreach (Target trgt in Enemies)
             {
@@ -87,26 +106,35 @@ namespace GM
 
                 trgt.Health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
 
+                // Only allow the unit to be attacked once it is visible on screen
                 StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.Position), () => trgt.Health.Invulnerable = false));
             }
 
-            InvokeWaveSpawnEvent();
+            E_OnWaveSpawn.Invoke(Enemies);
         }
 
-        IEnumerator SetupBossFight()
+        // Quick reference to avoid StartCorountines everywhere
+        void StartBossFight() => StartCoroutine(BossFightEnumerator());
+
+        IEnumerator BossFightEnumerator()
         {
             bool isBossReady = false;
             bool isMercsReady = false;
 
-            Target boss = SpawnBoss();
+            Target boss = InstantiateBoss();
 
+            // Set the boss to be invulnerable whole it is being setup
             boss.Health.Invulnerable = true;
+
+            // Update the state
+            State.IsBossSpawned = true;
 
             float yBossPosition;
 
             if (MercSquad.Mercs.Count > 0)
             {
-                MercSquad.MoveMercsToFormation((merc) => { merc.Controller.LookAt(boss.Position); }, () => { isMercsReady = true; GMLogger.Editor("Mercs in formation"); });
+                // Move the mercs to formation
+                MercSquad.MoveMercsToFormation((merc) => merc.Controller.LookAt(boss.Position), () => isMercsReady = true);
             }
             else
             {
@@ -114,12 +142,12 @@ namespace GM
                 StartCoroutine(Enumerators.InvokeAfter(() => isBossReady, () => isMercsReady = true));
             }
 
-            yBossPosition = GM.Common.Constants.CENTER_BATTLE_Y;
+            yBossPosition = Constants.CENTER_BATTLE_Y;
 
             // Set the boss position off-screen
             boss.GameObject.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, yBossPosition);
 
-            // Move the boss towards it's postion
+            // Move the boss towards its postion
             boss.Controller.MoveTowards(boss.GameObject.transform.position - new Vector3(2.5f, 0), () =>
             {
                 isBossReady = true; // Set the flag
@@ -148,25 +176,13 @@ namespace GM
             return TryGetEnemy(out target);
         }
 
-        // = Event Invocations = //
-
-        void InvokeBossSpawnEvent(Target boss)
-        {
-            E_BossSpawn.Invoke(boss);
-        }
-
-        void InvokeWaveSpawnEvent()
-        {
-            E_OnWaveSpawn.Invoke(Enemies);
-        }
-
         // = Event Callbacks = //
 
         void OnUnitAddedToSquad(SquadMerc merc)
         {
             if (TryGetBoss(out Target boss) && !MercSquad.IsMovingToFormation)
             {
-                MercSquad.MoveMercToFormationPosition(merc.Id);
+                MercSquad.MoveMercToFormation(merc.Id);
 
                 merc.Controller.SetPriorityTarget(boss);
             }
@@ -176,19 +192,36 @@ namespace GM
         {
             Enemies.Remove(trgt);
 
+            // All wave enemies have been defeated
             if (Enemies.Count == 0)
             {
-                OnWaveCleared();
+                // Time to setup the boss fight
+                if (App.Data.GameState.Wave == Constants.WAVES_PER_STAGE)
+                {
+                    StartBossFight();
+                }
+
+                else
+                {
+                    SetupWave();
+
+                    App.Data.GameState.Wave++;
+                }
             }
         }
 
         void OnBossZeroHealth()
         {
-            Enemies.Clear();
+            Enemies.Clear(); // Clear all enemies (should only be 1)
 
-            App.Data.GameState.Stage++;
-            App.Data.GameState.Wave = 1;
+            // Update the state, mainly used for saving and loading state
+            State.IsBossSpawned = false;
 
+            // Advance the stage and reset the wave
+            State.Stage++;
+            State.Wave = 1;
+
+            // Setup the next wave
             SetupWave();
         }
     }

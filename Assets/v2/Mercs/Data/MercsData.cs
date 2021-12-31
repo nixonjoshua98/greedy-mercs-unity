@@ -14,10 +14,18 @@ namespace GM.Mercs.Data
         Dictionary<MercID, MercGameDataModel> StaticMercDataLookup;
         Dictionary<MercID, MercUserData> UserMercDataLookup = new Dictionary<MercID, MercUserData>();
 
-        public MercsData(Common.Data.IServerUserData userData, Common.Data.IStaticGameData staticData)
+        public MercsData(Common.Interfaces.IServerUserData userData, Common.Interfaces.IStaticGameData staticData)
         {
             SetStaticGameData(staticData.Mercs);
             UpdateUserData(userData.UnlockedMercs);
+        }
+
+        public void ResetLevels()
+        {
+            foreach (MercUserData merc in UserMercDataLookup.Values)
+            {
+                merc.Level = 0;
+            }
         }
 
         /// <summary> Load local scriptable merc data </summary>
@@ -48,6 +56,13 @@ namespace GM.Mercs.Data
                 model.Prefab = local.Prefab;
                 model.AttackType = local.AttackType;
             }
+        }
+
+        /// <summary> Update all merc data </summary>
+        public void UpdateAllData(List<UserMercDataModel> userMercs, List<MercGameDataModel> staticData)
+        {
+            SetStaticGameData(staticData);
+            UpdateUserData(userMercs);
         }
 
         void UpdateUserData(List<UserMercDataModel> ls)

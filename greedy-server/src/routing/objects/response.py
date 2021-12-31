@@ -1,8 +1,9 @@
 from typing import Any
-from src.pymodels import BaseModel
+
 from fastapi.responses import JSONResponse as _JSONResponse
 
 from src import utils
+from src.pymodels import BaseModel
 
 
 class ServerResponse(_JSONResponse):

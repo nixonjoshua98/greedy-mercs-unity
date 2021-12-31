@@ -131,7 +131,7 @@ namespace GM.Mercs
             }
         }
 
-        public void MoveMercToFormationPosition(MercID mercId)
+        public void MoveMercToFormation(MercID mercId)
         {
             int index = GetFormationIndex(mercId);
 

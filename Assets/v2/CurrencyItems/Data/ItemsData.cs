@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace GM.CurrencyItems.Data
 {
-    public class CurrencyItems
+    public class ItemsData
     {
         Dictionary<CurrencyType, CurrencyItemScriptableObject> Items = new Dictionary<CurrencyType, CurrencyItemScriptableObject>();
 
-        public CurrencyItems()
+        public ItemsData()
         {
             Update();
         }

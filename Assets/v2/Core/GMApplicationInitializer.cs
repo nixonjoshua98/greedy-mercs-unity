@@ -1,42 +1,36 @@
+using GM.Common.Interfaces;
 using GM.HTTP;
-using GM.HTTP.Requests;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GM.Core
 {
+    struct InitialisationData
+    {
+        public IServerUserData UserData;
+        public IStaticGameData StaticData;
+    }
+
     public class GMApplicationInitializer : MonoBehaviour
     {
-        class InitializationPipeline
-        {
-            public UserLoginReponse Login;
-            public FetchUserDataResponse UserData;
-            public FetchGameDataResponse GameData;
-        }
+        InitialisationData Data = new InitialisationData();
 
         void Start()
         {
-            StartInitialize();
-        }
-
-        void StartInitialize()
-        {
-            var responses = new InitializationPipeline();
-
-            LoginRequest(responses); // Start request pipeline
+            LoginRequest();
         }
 
 
-        void LoginRequest(InitializationPipeline resps)
+        void LoginRequest()
         {
-            HTTPClient.Instance.Login((loginResp) =>
+            HTTPClient.Instance.Login((resp) =>
             {
-                resps.Login = loginResp;
+                Data.UserData = resp.UserData;
 
-                switch (loginResp.StatusCode)
+                switch (resp.StatusCode)
                 {
                     case HTTPCodes.Success:
-                        FetchGameDataFromServer(resps);
+                        FetchGameDataFromServer();
                         break;
 
                     case HTTPCodes.NoServerResponse:
@@ -46,16 +40,16 @@ namespace GM.Core
         }
 
 
-        void FetchGameDataFromServer(InitializationPipeline resps)
+        void FetchGameDataFromServer()
         {
-            HTTPClient.Instance.FetchStaticData((gameDataResp) =>
+            HTTPClient.Instance.FetchStaticData((resp) =>
             {
-                resps.GameData = gameDataResp;
+                Data.StaticData = resp.StaticData;
 
-                switch (gameDataResp.StatusCode)
+                switch (resp.StatusCode)
                 {
                     case HTTPCodes.Success:
-                        FetchUserDataFromServer(resps);
+                        Initialize(); 
                         break;
 
                     default:
@@ -65,28 +59,11 @@ namespace GM.Core
         }
 
 
-        void FetchUserDataFromServer(InitializationPipeline resps)
+        void Initialize()
         {
-            HTTPClient.Instance.FetchUserData((userDataResp) =>
-            {
-                resps.UserData = userDataResp;
+            GMApplication app = GMApplication.Create(Data.UserData, Data.StaticData);
 
-                switch (userDataResp.StatusCode)
-                {
-                    case HTTPCodes.Success:
-                        Initialize(resps.UserData, resps.GameData);
-                        break;
-
-                    default:
-                        break;
-                }
-            });
-        }
-
-
-        void Initialize(Common.Data.IServerUserData userDataResp, Common.Data.IStaticGameData gameDataResp)
-        {
-            GMApplication.Create(userDataResp, gameDataResp);
+            app.SaveManager.WriteStaticData(Data.StaticData);
 
             SceneManager.LoadScene("GameScene");
         }

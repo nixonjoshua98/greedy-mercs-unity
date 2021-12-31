@@ -1,6 +1,7 @@
 using GM.Bounties.ScripableObjects;
 using GM.HTTP.Requests;
 using System;
+using GM.Bounties.Models;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,8 +16,8 @@ namespace GM.Bounties.Data
 
         public BountiesData(Models.CompleteBountyDataModel userData, Models.CompleteBountyGameDataModel gameData)
         {
-            Update(userData);
-            Update(gameData);
+            UpdateUserData(userData);
+            UpdateStaticData(gameData);
         }
 
         /// <summary>
@@ -69,12 +70,18 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Update the complete user bounty data
         /// </summary>
-        void Update(Models.CompleteBountyDataModel data) => UserData = data;
+        void UpdateUserData(CompleteBountyDataModel data) => UserData = data;
 
         /// <summary>
         /// Update only the user bounties
         /// </summary>
-        void Update(List<Models.BountyUserDataModel> bounties) => UserData.Bounties = bounties;
+        void Update(List<BountyUserDataModel> bounties) => UserData.Bounties = bounties;
+
+        public void UpdateAllData(CompleteBountyDataModel userData, CompleteBountyGameDataModel staticData)
+        {
+            UpdateUserData(userData);
+            UpdateStaticData(staticData);
+        }
 
         /// <summary>
         /// Load local data stored as scriptable objects
@@ -84,7 +91,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Fetch the bounty user data
         /// </summary>
-        Models.BountyUserDataModel GetUserBountyData(int key) => UserData.Bounties.Where(ele => ele.BountyId == key).FirstOrDefault();
+        BountyUserDataModel GetUserBountyData(int key) => UserData.Bounties.Where(ele => ele.BountyId == key).FirstOrDefault();
 
         /// <summary>
         /// Calculate the total hourly income from all active bounties
@@ -114,7 +121,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Update the complete bounty data model
         /// </summary>
-        void Update(Models.CompleteBountyGameDataModel data)
+        void UpdateStaticData(CompleteBountyGameDataModel data)
         {
             GameData = data;
 

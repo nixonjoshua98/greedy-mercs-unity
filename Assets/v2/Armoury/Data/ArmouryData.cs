@@ -8,26 +8,32 @@ using UpgradeArmouryItemResponse = GM.HTTP.Requests.UpgradeArmouryItemResponse;
 
 namespace GM.Armoury.Data
 {
-    public class Armoury : Core.GMClass
+    public class ArmouryData : Core.GMClass
     {
 
         Dictionary<int, ArmouryItemUserDataModel> UserItemsDict;
         Dictionary<int, ArmouryItemGameDataModel> GameItemsDict;
 
-        public Armoury(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> gameData)
+        public ArmouryData(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> gameData)
         {
-            Update(userItems);
-            Update(gameData);
+            SetUserData(userItems);
+            SetStaticData(gameData);
         }
 
         public List<ArmouryItemData> UserItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).Select(x => GetItem(x.Id)).ToList();
         public List<ArmouryItemGameDataModel> GameItems => GameItemsDict.Values.OrderBy(ele => ele.Id).ToList();
 
+        public void UpdateAllData(List<ArmouryItemUserDataModel>  userItems, List<ArmouryItemGameDataModel> staticItems)
+        {
+            SetUserData(userItems);
+            SetStaticData(staticItems);
+        }
+
         /// <summary>Update the cached user data for a single item</summary>
         public void Update(ArmouryItemUserDataModel item) => UserItemsDict[item.Id] = item;
 
         /// <summary>Update all cached game data</summary>
-        void Update(List<ArmouryItemGameDataModel> data)
+        void SetStaticData(List<ArmouryItemGameDataModel> data)
         {
             var localItemsDict = LoadLocalData();
 
@@ -43,7 +49,7 @@ namespace GM.Armoury.Data
         }
 
         /// <summary>Update user items data</summary>
-        void Update(List<ArmouryItemUserDataModel> userItems) => UserItemsDict = userItems.ToDictionary(ele => ele.Id, ele => ele);
+        void SetUserData(List<ArmouryItemUserDataModel> userItems) => UserItemsDict = userItems.ToDictionary(ele => ele.Id, ele => ele);
 
         public ArmouryItemGameDataModel GetGameItem(int key) => GameItemsDict[key];
 

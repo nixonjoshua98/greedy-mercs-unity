@@ -34,13 +34,10 @@ class UpgradeArtefactHandler(BaseHandler):
         self.artefacts_repo = artefacts_repo
         self.currency_repo = currency_repo
 
-    async def handle(
-        self, user: AuthenticatedRequestContext, artefact_id: int, levels: int
-    ) -> UpgradeArtefactResponse:
+    async def handle(self, ctx: AuthenticatedRequestContext, artefact_id: int, levels: int) -> UpgradeArtefactResponse:
+
         s_artefact: StaticArtefact = utils.get(self.artefacts_data, id=artefact_id)
-        u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(
-            user.user_id, artefact_id
-        )
+        u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(ctx.user_id, artefact_id)
 
         if s_artefact is None or u_artefact is None:
             raise HandlerException(400, "Artefact is invalid or locked")
@@ -52,27 +49,19 @@ class UpgradeArtefactHandler(BaseHandler):
         upgrade_cost = self.upgrade_cost(s_artefact, u_artefact, levels)
 
         # Fetch the currency to upgrade the item
-        currencies: CurrenciesModel = await self.currency_repo.get_user(user.user_id)
+        currencies: CurrenciesModel = await self.currency_repo.get_user(ctx.user_id)
 
         if upgrade_cost > currencies.prestige_points:
             raise HandlerException(400, "Cannot afford to upgrade artefact")
 
         # Reduce the users' currency
-        currencies = await self.currency_repo.inc_value(
-            user.user_id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost
-        )
+        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost)
 
         # Increment the artefact level
-        u_artefact: ArtefactModel = await self.artefacts_repo.inc_level(
-            user.user_id, artefact_id, levels
-        )
+        u_artefact: ArtefactModel = await self.artefacts_repo.inc_level(ctx.user_id, artefact_id, levels)
 
-        return UpgradeArtefactResponse(
-            artefact=u_artefact, currencies=currencies, upgrade_cost=upgrade_cost
-        )
+        return UpgradeArtefactResponse(artefact=u_artefact, currencies=currencies, upgrade_cost=upgrade_cost)
 
     @staticmethod
-    def upgrade_cost(
-        s_artefact: StaticArtefact, u_artefact: ArtefactModel, levels: int
-    ) -> int:
+    def upgrade_cost(s_artefact: StaticArtefact, u_artefact: ArtefactModel, levels: int) -> int:
         return formulas.artefact_upgrade_cost(s_artefact, u_artefact.level, levels)

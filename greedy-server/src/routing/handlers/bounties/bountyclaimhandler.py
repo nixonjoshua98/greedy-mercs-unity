@@ -35,36 +35,26 @@ class BountyClaimHandler(BaseHandler):
         self.bounties_repo = bounties_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: AuthenticatedRequestContext) -> BountyClaimResponse:
-        # We use the current server time for the claim
-        claim_time = dt.datetime.utcnow()
+    async def handle(self, ctx: AuthenticatedRequestContext) -> BountyClaimResponse:
 
         # Fetch bounties data for the user
-        user_bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(
-            user.user_id
-        )
+        user_bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(ctx.user_id)
 
         # Calculate the total unclaimed points
-        points = self.unclaimed_points(claim_time, user_bounties)
+        points = self.unclaimed_points(ctx.datetime, user_bounties)
 
         if points <= 0:
             raise HandlerException(400, "Claim points cannot be zero")
 
         # Update the users' claim time
-        await self.bounties_repo.set_claim_time(user.user_id, claim_time)
+        await self.bounties_repo.set_claim_time(ctx.user_id, ctx.datetime)
 
         # Increment the currency and fetch the updated document
-        currencies = await self.currency_repo.inc_value(
-            user.user_id, CurrencyFields.BOUNTY_POINTS, points
-        )
+        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrencyFields.BOUNTY_POINTS, points)
 
-        return BountyClaimResponse(
-            claim_time=claim_time, claim_amount=points, currencies=currencies
-        )
+        return BountyClaimResponse(claim_time=ctx.datetime, claim_amount=points, currencies=currencies)
 
-    def unclaimed_points(
-        self, now: dt.datetime, user_bounties: UserBountiesModel
-    ) -> int:
+    def unclaimed_points(self, now: dt.datetime, user_bounties: UserBountiesModel) -> int:
         points = 0  # Total unclaimed points (ready to be claimed)
 
         # Interate over each active bounty available

@@ -34,32 +34,27 @@ class UnlockArtefactHandler(BaseHandler):
         self.artefacts_repo = artefacts_repo
         self.currency_repo = currency_repo
 
-    async def handle(self, user: AuthenticatedRequestContext) -> UnlockArtefactResponse:
-        u_artefacts: list[ArtefactModel] = await self.artefacts_repo.get_all_artefacts(
-            user.user_id
-        )
+    async def handle(self, ctx: AuthenticatedRequestContext) -> UnlockArtefactResponse:
+
+        u_artefacts: list[ArtefactModel] = await self.artefacts_repo.get_all_artefacts(ctx.user_id)
 
         if self.unlocked_all_artefacts(u_artefacts):
             raise HandlerException(400, "All artefacts unlocked")
 
         unlock_cost = self.unlock_cost(u_artefacts)
 
-        currencies: CurrenciesModel = await self.currency_repo.get_user(user.user_id)
+        currencies: CurrenciesModel = await self.currency_repo.get_user(ctx.user_id)
 
         if unlock_cost > currencies.prestige_points:
             raise HandlerException(400, "Cannot afford unlock cost")
 
         new_art_id = self.get_new_artefact(u_artefacts)
 
-        currencies: CurrenciesModel = await self.currency_repo.inc_value(
-            user.user_id, CurrencyFields.PRESTIGE_POINTS, -unlock_cost
-        )
+        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrencyFields.PRESTIGE_POINTS, -unlock_cost)
 
-        u_new_artefact: ArtefactModel = await self.artefacts_repo.add_new_artefact(
-            user.user_id, new_art_id
-        )
+        u_artefacts: ArtefactModel = await self.artefacts_repo.add_new_artefact(ctx.user_id, new_art_id)
 
-        return UnlockArtefactResponse(u_new_artefact, currencies, unlock_cost)
+        return UnlockArtefactResponse(u_artefacts, currencies, unlock_cost)
 
     def unlocked_all_artefacts(self, u_artefacts: list[ArtefactModel]) -> bool:
         return len(u_artefacts) >= len(self.artefacts_data)

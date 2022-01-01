@@ -7,8 +7,7 @@ from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.resources.mercs import StaticMerc, inject_merc_data
-
-from ..abc import BaseHandler, BaseResponse
+from src.routing.handlers.abc import BaseHandler, BaseResponse
 
 
 @dataclasses.dataclass()

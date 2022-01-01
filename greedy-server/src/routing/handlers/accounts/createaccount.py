@@ -14,10 +14,7 @@ class AccountCreationResponse(BaseResponse):
 
 
 class CreateAccountHandler(BaseHandler):
-    def __init__(
-        self,
-        acc_repo=Depends(accounts_repository),
-    ):
+    def __init__(self, acc_repo=Depends(accounts_repository)):
         self.accounts_repo: AccountsRepository = acc_repo
 
     async def handle(self, device: str) -> AccountCreationResponse:

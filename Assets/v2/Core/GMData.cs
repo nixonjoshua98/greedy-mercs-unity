@@ -50,6 +50,8 @@ namespace GM.Core
 
         public void ResetPrestigeData()
         {
+            GameState.Reset(1, 1);
+
             Mercs.ResetLevels();
             Upgrades.ResetLevels();
             Inv.ResetLocalResources();

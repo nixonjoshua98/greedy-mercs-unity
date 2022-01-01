@@ -18,6 +18,12 @@ namespace GM.States
 
         }
 
+        public void Reset(int stage, int wave)
+        {
+            Stage = stage;
+            Wave = wave;
+        }
+
         public static GameState Deserialize(LocalSaveFileModel model)
         {
             return model.GameState;

@@ -40,7 +40,7 @@ def yaml_load(fp: str) -> dict:
 
 def json_load(fp: str) -> Union[dict, list]:
     """
-    Load and return the JSON (or JSON5) file
+    Load and return the JSON or JSON5 file
 
     :param fp: Path to the json file
     :return: Loaded json file

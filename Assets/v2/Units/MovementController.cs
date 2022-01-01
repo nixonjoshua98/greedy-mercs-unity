@@ -6,9 +6,10 @@ namespace GM.Units
 {
     public interface IMovementController
     {
-        public void MoveTowards(Vector3 target);
-        public void MoveTowards(Vector3 target, Action action);
-        public void LookAt(Vector3 position);
+        void MoveSideways();
+        void MoveTowards(Vector3 target);
+        void MoveTowards(Vector3 target, Action action);
+        void LookAt(Vector3 position);
     }
 
 
@@ -45,6 +46,11 @@ namespace GM.Units
             }
 
             StartCoroutine(_MoveTowards());
+        }
+
+        public void MoveSideways()
+        {
+            MoveTowards(transform.position + new Vector3(MoveSpeed, 0));
         }
 
         void LookAtDirection(Vector3 dir)

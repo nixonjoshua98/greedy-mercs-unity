@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FireSatyr
   m_EditorClassIdentifier: 
   ID: 9
-  AttackType: 0
+  AttackType: 1
   Name: Satyr
-  Prefab: {fileID: 5097099789489235668, guid: 53919c009bfaf934da524f433d75d1df, type: 3}
-  Icon: {fileID: 21300000, guid: 3cef8393e91def54095ed2d7f3086223, type: 3}
+  Prefab: {fileID: 4212931060154188390, guid: df452a08b65b01d40877b57dd8926bc3, type: 3}
+  Icon: {fileID: 21300000, guid: 37a60f98c5f525f40ac9ddacf9388f47, type: 3}

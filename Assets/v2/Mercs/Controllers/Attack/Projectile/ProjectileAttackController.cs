@@ -15,7 +15,7 @@ namespace GM.Mercs.Controllers
 
         [Space]
 
-        public Transform ProctileSpawnPosition;
+        public Transform ProjectileSpawnPosition;
 
         [Header("Properties")]
         public float AttackRangeY = 0.5f;
@@ -84,9 +84,7 @@ namespace GM.Mercs.Controllers
 
         void InstantiateProjectile()
         {
-            IProjectile projectile = Instantiate<IProjectile>(ProjectileObject, ProctileSpawnPosition.position);
-
-            projectile.Init(CurrentTarget, OnProjectileImpact);
+            Instantiate<IProjectile>(ProjectileObject, ProjectileSpawnPosition.position).Init(CurrentTarget, OnProjectileImpact);
         }
 
         void OnProjectileImpact()

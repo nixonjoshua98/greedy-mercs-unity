@@ -111,12 +111,12 @@ namespace GM.Mercs
 
             MercGameDataModel data = App.Data.Mercs.GetGameMerc(mercId);
 
-            GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
-
             int squadIndex = GetAvailableFormationSpot();
 
             if (squadIndex >= 0)
             {
+                GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
+
                 var merc = new SquadMerc(o);
 
                 FormationSpots[squadIndex] = merc;
@@ -127,6 +127,8 @@ namespace GM.Mercs
             }
             else
             {
+                FormationSpots.ToList().ForEach(x => Debug.Log(x));
+
                 return false;
             }
         }

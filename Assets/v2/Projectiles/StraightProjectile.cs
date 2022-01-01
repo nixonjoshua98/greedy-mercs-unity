@@ -61,7 +61,10 @@ namespace GM.Units.Projectiles
 
         void InstantiateImpactPS()
         {
-            Instantiate(ImpactPS, transform.position);
+            if (ImpactPS != null)
+            {
+                Instantiate(ImpactPS, transform.position);
+            }
         }
 
         void MoveDirection()

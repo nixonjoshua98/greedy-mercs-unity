@@ -82,18 +82,16 @@ namespace GM.Mercs.Controllers
             {
                 TargetManager.TryGetMercTarget(ref CurrentTarget);
             }
-            else
+
+            else if (AttackController.IsAvailable)
             {
-                if (AttackController.IsAvailable)
+                if (!AttackController.InAttackPosition(CurrentTarget))
                 {
-                    if (!AttackController.InAttackPosition(CurrentTarget))
-                    {
-                        AttackController.MoveTowardsAttackPosition(CurrentTarget);
-                    }
-                    else
-                    {
-                        StartAttack();
-                    }
+                    AttackController.MoveTowardsAttackPosition(CurrentTarget);
+                }
+                else
+                {
+                    StartAttack();
                 }
             }
         }

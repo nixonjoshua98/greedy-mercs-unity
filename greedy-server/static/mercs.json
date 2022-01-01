@@ -656,8 +656,8 @@
   },
   {
     "mercId": 9,
-    "baseDamage": 1.5e+20,
-    "baseUpgradeCost": 5e+22,
+    "baseUpgradeCost": 50,
+    "baseDamage": 10,
     "passives": [
       {
         "bonusType": 603,

@@ -34,7 +34,7 @@ async def player_login(
     if user is None:
         user = await create_account.handle(data.device_id)
 
-    await units_repository(request).insert_units(user.id, [0, 2])
+    await units_repository(request).insert_units(user.id, [0, 2, 9])
 
     data_resp: UserDataResponse = await user_data_handler.handle(user.id, ctx.prev_daily_reset)
 

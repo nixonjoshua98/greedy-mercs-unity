@@ -401,6 +401,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 276634994001984708}
+  - component: {fileID: 3894525265592045673}
+  - component: {fileID: 891348596081058485}
   - component: {fileID: 2104970784809328905}
   - component: {fileID: 6188166496563365817}
   m_Layer: 0
@@ -419,7 +421,7 @@ Transform:
   m_GameObject: {fileID: 2404084112694329216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3515625, y: 0.3515625, z: 1}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 1}
   m_Children:
   - {fileID: 972358657494149786}
   - {fileID: 9193302498569570638}
@@ -428,6 +430,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3894525265592045673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2404084112694329216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 2104970784809328905}
+  AvatarRect:
+    serializedVersion: 2
+    x: 0
+    y: 1.35
+    width: 2
+    height: 2.65
+  AnimationStrings:
+    Idle: Idle
+    Walk: Walking
+    Attack: Attacking
+    Defeat: 
+    Hurt: 
+--- !u!114 &891348596081058485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2404084112694329216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ecdcdfd93742640a3261f6994ffa97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Attack:
+    m_PersistentCalls:
+      m_Calls: []
+  Defeat:
+    m_PersistentCalls:
+      m_Calls: []
+  Hurt:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &2104970784809328905
 Animator:
   serializedVersion: 3

@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1f139b3d9f9fd419bf0e070c294a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownTimer: 0.75
+  CooldownTimer: 0.5
   Avatar: {fileID: 893184686303319035}
   ParticleSystemObject: {fileID: 100008, guid: 1ca16f2a31fb6a548ad8954bed1d321f, type: 3}
   AttackRange: 2
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 893184686303319035}
-  MoveSpeed: 2
+  MoveSpeed: 2.5
 --- !u!1001 &6033011915305229128
 PrefabInstance:
   m_ObjectHideFlags: 0

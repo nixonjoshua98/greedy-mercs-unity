@@ -57,13 +57,14 @@ namespace GM.Mercs.Controllers
 
         public void OnMeleeAttackImpact()
         {
-            Cooldown();
             DealDamageToTarget();
 
             if (IsCurrentTargetValid)
             {
                 InstantiateAttackImpactObject();
             }
+
+            Cooldown();
         }
 
         void InstantiateAttackImpactObject()

@@ -9,22 +9,20 @@ namespace GM.Mercs.Data
 {
     public class MercsData : Core.GMClass
     {
-        public List<MercGameDataModel> StaticMercsDataList => StaticMercDataLookup.Values.ToList();
-
         Dictionary<MercID, MercGameDataModel> StaticMercDataLookup;
         Dictionary<MercID, MercUserData> UserMercDataLookup = new Dictionary<MercID, MercUserData>();
 
-        public MercsData(Common.Interfaces.IServerUserData userData, Common.Interfaces.IStaticGameData staticData)
+        public MercsData(Common.Interfaces.IServerUserData userData, List<MercGameDataModel> staticData)
         {
-            SetStaticGameData(staticData.Mercs);
+            SetStaticGameData(staticData);
             UpdateUserData(userData.UnlockedMercs);
         }
 
-        public void ResetLevels()
+        public void ResetLevels(int level = 1)
         {
             foreach (MercUserData merc in UserMercDataLookup.Values)
             {
-                merc.Level = 0;
+                merc.Level = level;
             }
         }
 
@@ -56,13 +54,6 @@ namespace GM.Mercs.Data
                 model.Prefab = local.Prefab;
                 model.AttackType = local.AttackType;
             }
-        }
-
-        /// <summary> Update all merc data </summary>
-        public void UpdateAllData(List<UserMercDataModel> userMercs, List<MercGameDataModel> staticData)
-        {
-            SetStaticGameData(staticData);
-            UpdateUserData(userMercs);
         }
 
         void UpdateUserData(List<UserMercDataModel> ls)
@@ -108,8 +99,6 @@ namespace GM.Mercs.Data
 
         /// <summary> Check if the user has unlocked a merc </summary>
         public bool IsMercUnlocked(MercID chara) => UserMercDataLookup.ContainsKey(chara);
-
-        public List<MercData> SquadMercs => UserMercDataLookup.Where(pair => pair.Value.InDefaultSquad).Select(pair => GetMerc(pair.Key)).ToList();
 
         /// <summary> Fetch the full data for all user unlocked mercs </summary>
         public List<MercData> UnlockedMercs => UserMercDataLookup.Select(pair => GetMerc(pair.Key)).ToList();

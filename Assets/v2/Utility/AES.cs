@@ -71,26 +71,5 @@ namespace GM
                 }
             }
         }
-
-        public static void Encrypt(string path, string text)
-        {
-            using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
-            {
-                using (Aes aes = Aes.Create())
-                {
-                    aes.Key = key;
-
-                    fileStream.Write(aes.IV, 0, aes.IV.Length);
-
-                    using (CryptoStream cryptoStream = new CryptoStream(fileStream, aes.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter encryptWriter = new StreamWriter(cryptoStream))
-                        {
-                            encryptWriter.WriteLine(text);
-                        }
-                    }
-                }
-            }
-        }
     }
 }

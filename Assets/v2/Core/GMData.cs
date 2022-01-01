@@ -41,7 +41,7 @@ namespace GM.Core
 
             Upgrades    = new PlayerUpgrades();
             Inv         = new UserInventory(userData.CurrencyItems);
-            Mercs       = new MercsData(userData, staticData);
+            Mercs       = new MercsData(userData, staticData.Mercs);
             Artefacts   = new ArtefactsData(userData.Artefacts, staticData.Artefacts);
             Armoury     = new ArmouryData(userData.ArmouryItems, staticData.Armoury);
             Bounties    = new BountiesData(userData.BountyData, staticData.Bounties);
@@ -57,12 +57,14 @@ namespace GM.Core
 
         public void Update(IServerUserData userData, IStaticGameData staticData)
         {
+            // = Object Recreation = //
+            Mercs       = new MercsData(userData, staticData.Mercs);
+            BountyShop  = new BountyShopData(userData.BountyShop);
+
             Inv.UpdateCurrencies(userData.CurrencyItems);
-            Mercs.UpdateAllData(userData.UnlockedMercs, staticData.Mercs);
             Artefacts.UpdateAllData(userData.Artefacts, staticData.Artefacts);
             Armoury.UpdateAllData(userData.ArmouryItems, staticData.Armoury);
             Bounties.UpdateAllData(userData.BountyData, staticData.Bounties);
-            BountyShop.UpdateShop(userData.BountyShop);
         }
     }
 }

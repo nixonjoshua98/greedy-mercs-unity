@@ -4,6 +4,10 @@ namespace GM
 {
     public static class TimeSpan_Extensions
     {
-        public static string Format(this TimeSpan ts) => $"{Math.Max(0, ts.Hours)}h {Math.Max(0, ts.Minutes)}m {Math.Max(0, ts.Seconds)}s";
+        // = Private = //
+        static string Pad(int val) => $"{Math.Max(val, 0)}".PadLeft(2, '0');
+
+        // = Extensions = //
+        public static string Format(this TimeSpan ts) => $"{Pad(ts.Hours)}h {Pad(ts.Minutes)}m {Pad(ts.Seconds)}s";
     }
 }

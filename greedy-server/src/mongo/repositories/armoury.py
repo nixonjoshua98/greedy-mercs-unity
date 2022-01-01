@@ -3,10 +3,9 @@ from __future__ import annotations
 from typing import Optional, Union
 
 from bson import ObjectId
-from pydantic import Field
 from pymongo import ReturnDocument
 
-from src.pymodels import BaseDocument
+from src.pymodels import BaseDocument, Field
 from src.routing import ServerRequest
 
 
@@ -30,7 +29,7 @@ class ArmouryItemModel(BaseDocument):
     owned: int = Field(..., alias=Fields.NUM_OWNED)
     merge_lvl: int = Field(0, alias=Fields.MERGE_LEVEL)
 
-    def to_client_dict(self):
+    def client_dict(self):
         return self.dict(exclude={"id", "user_id"})
 
 
@@ -48,7 +47,9 @@ class ArmouryRepository:
 
         return [ArmouryItemModel.parse_obj(ele) for ele in ls]
 
-    async def update_item(self, uid, iid: int, update: dict, *, upsert: bool) -> Optional[ArmouryItemModel]:
+    async def update_item(
+        self, uid, iid: int, update: dict, *, upsert: bool
+    ) -> Optional[ArmouryItemModel]:
         r = await self._col.find_one_and_update(
             {Fields.USER_ID: uid, Fields.ITEM_ID: iid},
             update,
@@ -58,8 +59,23 @@ class ArmouryRepository:
 
         return ArmouryItemModel.parse_obj(r) if r is not None else None
 
-    async def inc_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
-        return await self.update_item(uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False)
+    async def inc_item_owned(
+        self, uid: ObjectId, iid: int, val: int
+    ) -> Optional[ArmouryItemModel]:
+        return await self.update_item(
+            uid, iid, {"$inc": {Fields.NUM_OWNED: val}}, upsert=True
+        )
 
-    async def inc_merge_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
-        return await self.update_item(uid, iid, {"$inc": {Fields.MERGE_LEVEL: val}}, upsert=False)
+    async def inc_item_level(
+        self, uid: ObjectId, iid: int, val: int
+    ) -> Optional[ArmouryItemModel]:
+        return await self.update_item(
+            uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False
+        )
+
+    async def inc_merge_item_level(
+        self, uid: ObjectId, iid: int, val: int
+    ) -> Optional[ArmouryItemModel]:
+        return await self.update_item(
+            uid, iid, {"$inc": {Fields.MERGE_LEVEL: val}}, upsert=False
+        )

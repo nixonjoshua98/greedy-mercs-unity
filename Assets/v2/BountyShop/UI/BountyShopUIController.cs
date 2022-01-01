@@ -3,10 +3,11 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop.UI
 {
-    public class BountyShopUIController : Core.GMMonoBehaviour
+    public class BountyShopUIController : GM.UI.Panels.Panel
     {
         [Header("Prefabs")]
         public GameObject ItemSlotObject;
+        public GameObject CurrencyItemSlotObject;
 
         [Header("References")]
         public Text RefreshText;
@@ -14,15 +15,13 @@ namespace GM.BountyShop.UI
 
         void Awake()
         {
-            InstantiateArmouryItems();
+            InstantiateItemSlots();
         }
 
-        void InstantiateArmouryItems()
+        void InstantiateItemSlots()
         {
-            foreach (var item in App.Data.BountyShop.ArmouryItems)
-            {
-                Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item);
-            }
+            App.Data.BountyShop.CurrencyItems.ForEach(item => Instantiate<BountyShopCurrencyTypeSlot>(CurrencyItemSlotObject, ItemsParent).Assign(item));
+            App.Data.BountyShop.ArmouryItems.ForEach(item => Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item));
         }
 
         void FixedUpdate()

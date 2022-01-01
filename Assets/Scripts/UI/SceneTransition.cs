@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-namespace GM.Scene
+namespace GM.Scenes
 {
     public enum SceneTransitionType
     {

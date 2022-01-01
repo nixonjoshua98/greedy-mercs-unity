@@ -14,7 +14,6 @@ def static_armoury(request: ServerRequest) -> list[StaticArmouryItem]:
 
 class StaticArmouryItem(BaseModel):
     id: int = Field(..., alias="itemId")
-    tier: int = Field(..., alias="itemTier")
-    max_merge_lvl: int = Field(..., alias="maxMergeLevel")
-    base_merge_cost: int = Field(..., alias="baseMergeCost")
-    base_damage_multiplier: float = Field(..., alias="baseDamageMultiplier")
+    bonus_type: int = Field(..., alias="bonusType")
+    level_effect: float = Field(..., alias="levelEffect")
+    base_effect: float = Field(..., alias="baseEffect")

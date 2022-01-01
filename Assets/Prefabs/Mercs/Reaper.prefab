@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3769961914306909962}
-  - component: {fileID: 7224107884827358875}
-  - component: {fileID: 1048549118869590507}
-  - component: {fileID: 5915344127601638803}
   m_Layer: 0
   m_Name: Reaper
   m_TagString: Untagged
@@ -34,76 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7224107884827358875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769961914306909961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 3820480451276261416}
---- !u!114 &1048549118869590507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769961914306909961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fda14d60ebca58448878508f3b2e400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 3820480451276261416}
---- !u!114 &5915344127601638803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769961914306909961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  avatar: {fileID: 3769961914306909961}
---- !u!114 &5622650334218870930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3771751498256575464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9da276e575edeb345a5bf0e8db82cb78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  E_OnAttackAnimation:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1048549118869590507}
-        m_TargetAssemblyTypeName: GM.Units.UnitAttack, Assembly-CSharp
-        m_MethodName: OnAttackAnimationEvent
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  E_OnDeathAnimation:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &3769961914370844628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,26 +103,13 @@ PrefabInstance:
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7754988033169310219, guid: c6c55113bd9d76c48b1cf83d2f5d5c30,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1232124671873585509, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30, type: 3}
---- !u!1 &3771751498256575464 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1808018432986172, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30,
-    type: 3}
-  m_PrefabInstance: {fileID: 3769961914370844628}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3765211726056894846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4820803247068842, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30,
-    type: 3}
-  m_PrefabInstance: {fileID: 3769961914370844628}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &3820480451276261416 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95854159302373372, guid: 2d936ca8cfcf8d64ba06f3d8bd183c30,
     type: 3}
   m_PrefabInstance: {fileID: 3769961914370844628}
   m_PrefabAsset: {fileID: 0}

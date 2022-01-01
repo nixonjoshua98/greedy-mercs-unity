@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8552994621044990535}
-  - component: {fileID: 119037146}
-  - component: {fileID: 119037145}
-  - component: {fileID: 6866313923960825707}
   m_Layer: 0
   m_Name: Minotaur
   m_TagString: Untagged
@@ -34,46 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &119037146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8552994621044990532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac7120ebc741094dac564d2dd38bd8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 4196962537881791945}
---- !u!114 &119037145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8552994621044990532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fda14d60ebca58448878508f3b2e400, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 4196962537881791945}
---- !u!114 &6866313923960825707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8552994621044990532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 501ba091f638ef647a0b3ebb5dac2c92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  avatar: {fileID: 6798069837887539908}
 --- !u!1001 &8552994619959746910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,24 +102,12 @@ PrefabInstance:
         type: 3}
       propertyPath: E_OnAttackAnimation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 119037145}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f599d76226aa16e4b87e507fa32dd4b8, type: 3}
---- !u!1 &6798069837887539908 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2946989359822449562, guid: f599d76226aa16e4b87e507fa32dd4b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552994619959746910}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7947168807643490579 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1799281124101359693, guid: f599d76226aa16e4b87e507fa32dd4b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8552994619959746910}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &4196962537881791945 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5516008474935807127, guid: f599d76226aa16e4b87e507fa32dd4b8,
     type: 3}
   m_PrefabInstance: {fileID: 8552994619959746910}
   m_PrefabAsset: {fileID: 0}

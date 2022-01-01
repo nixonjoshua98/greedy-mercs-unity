@@ -1,7 +1,7 @@
 [
   {
     "mercId": 0,
-    "unlockCost": 50,
+    "baseUpgradeCost": 50,
     "baseDamage": 10,
     "passives": [
       {
@@ -78,7 +78,7 @@
   },
   {
     "mercId": 1,
-    "unlockCost": 50,
+    "baseUpgradeCost": 50,
     "baseDamage": 10,
     "passives": [
       {
@@ -150,8 +150,9 @@
   },
   {
     "mercId": 2,
-    "unlockCost": 50,
+    "baseUpgradeCost": 50,
     "baseDamage": 10,
+
     "passives": [
       {
         "bonusType": 603,
@@ -222,7 +223,7 @@
   },
   {
     "mercId": 3,
-    "unlockCost": 50,
+    "baseUpgradeCost": 50,
     "baseDamage": 10,
     "passives": [
       {
@@ -294,8 +295,9 @@
   },
   {
     "mercId": 4,
-    "unlockCost": 50,
+    "baseUpgradeCost": 50,
     "baseDamage": 10,
+    "isDefault": true,
     "passives": [
       {
         "bonusType": 700,
@@ -366,7 +368,7 @@
   },
   {
     "mercId": 5,
-    "unlockCost": 50,
+    "baseUpgradeCost": 50,
     "baseDamage": 10,
     "passives": [
       {
@@ -438,7 +440,7 @@
   },
   {
     "mercId": 6,
-    "unlockCost": 50,
+    "baseUpgradeCost": 50,
     "baseDamage": 10,
     "passives": [
       {
@@ -510,8 +512,8 @@
   },
   {
     "mercId": 7,
-    "baseDamage": 2500000000000.0,
-    "unlockCost": 250000000000000.0,
+    "baseDamage": 2500000000000,
+    "baseUpgradeCost": 250000000000000,
     "passives": [
       {
         "bonusType": 700,
@@ -583,7 +585,7 @@
   {
     "mercId": 8,
     "baseDamage": 1e+16,
-    "unlockCost": 1e+18,
+    "baseUpgradeCost": 1e+18,
     "passives": [
       {
         "bonusType": 603,
@@ -655,7 +657,7 @@
   {
     "mercId": 9,
     "baseDamage": 1.5e+20,
-    "unlockCost": 5e+22,
+    "baseUpgradeCost": 5e+22,
     "passives": [
       {
         "bonusType": 603,

@@ -6,3 +6,6 @@ pymongo~=3.12.0
 cachetools~=4.2.4
 pyhumps~=3.0.2
 PyYAML~=6.0
+pyjson5~=1.6.0.post1
+pycryptodome
+multipledispatch~=0.6.0

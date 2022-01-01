@@ -44,7 +44,7 @@ namespace GM.Artefacts.UI
 
                 if (!ArtefactSlots.TryGetValue(art.Id, out ArtefactSlot slot))
                 {
-                    slot = Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
+                    slot = ArtefactSlots [art.Id] = Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
 
                     slot.AssignArtefact(art.Id, UpgradeAmountSelector);
                 }

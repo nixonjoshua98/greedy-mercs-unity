@@ -1,82 +1,75 @@
+using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace GM
 {
     public static class AES
     {
-        static byte[] key = {
-            0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-            0x09, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16
-        };
+        private static byte[] key = Encoding.UTF8.GetBytes("1234567895645451");
 
-        public static void Encrypt(string path, string text)
+        public static string Encrypt(string plainText)
         {
-            using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+            using (Rijndael algo = Rijndael.Create())
             {
-                using (Aes aes = Aes.Create())
+                algo.Key = key;
+
+                // Create a decrytor to perform the stream transform.
+                var encryptor = algo.CreateEncryptor(algo.Key, algo.IV);
+
+                // Create the streams used for encryption.
+                using (var ms = new MemoryStream())
                 {
-                    aes.Key = key;
-
-                    fileStream.Write(aes.IV, 0, aes.IV.Length);
-
-                    using (CryptoStream cryptoStream = new CryptoStream(fileStream, aes.CreateEncryptor(), CryptoStreamMode.Write))
+                    using (var csEncrypt = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
                     {
-                        using (StreamWriter encryptWriter = new StreamWriter(cryptoStream))
+                        using (var swEncrypt = new StreamWriter(csEncrypt))
                         {
-                            encryptWriter.WriteLine(text);
+                            // Write IV first
+                            ms.Write(algo.IV, 0, algo.IV.Length);
+
+                            // Write all data to the stream.
+                            swEncrypt.Write(plainText);
                         }
+
+                        return Convert.ToBase64String(ms.ToArray());
                     }
                 }
             }
         }
 
-        public static string Encrypt(string text)
+        public static string Decrypt(string cipherText)
         {
-            using (MemoryStream stream = new MemoryStream())
+            using (Rijndael algo = Rijndael.Create())
             {
-                using (Aes aes = Aes.Create())
+                algo.Key = key;
+
+                // Get bytes from input string
+                byte[] cipherBytes = Convert.FromBase64String(cipherText);
+
+                // Create the streams used for decryption.
+                using (MemoryStream ms = new MemoryStream(cipherBytes))
                 {
-                    aes.Key = key;
+                    // Read IV first
+                    byte[] IV = new byte[16];
+                    ms.Read(IV, 0, IV.Length);
 
-                    stream.Write(aes.IV, 0, aes.IV.Length);
+                    // Assign IV to an algorithm
+                    algo.IV = IV;
 
-                    using (CryptoStream cryptoStream = new CryptoStream(stream, aes.CreateEncryptor(), CryptoStreamMode.Write))
+                    // Create a decrytor to perform the stream transform.
+                    var decryptor = algo.CreateDecryptor(algo.Key, algo.IV);
+
+                    using (var csDecrypt = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                     {
-                        using (StreamWriter encryptWriter = new StreamWriter(cryptoStream))
+                        using (var srDecrypt = new StreamReader(csDecrypt))
                         {
-                            encryptWriter.WriteLine(text);
-
-                            return stream.ReadToEnd();
+                            // Read the decrypted bytes from the decrypting stream and place them in a string.
+                            return srDecrypt.ReadToEnd();
                         }
                     }
                 }
             }
-        }
-
-        public static string Decrypt(string path)
-        {
-            string output = string.Empty;
-
-            using (FileStream fileStream = new FileStream(path, FileMode.Open))
-            {
-                using (Aes aes = Aes.Create())
-                {
-                    byte[] iv = new byte[aes.IV.Length];
-
-                    fileStream.Read(iv, 0, aes.IV.Length);
-
-                    using (CryptoStream cryptoStream = new CryptoStream(fileStream, aes.CreateDecryptor(key, iv), CryptoStreamMode.Read))
-                    {
-                        using (StreamReader decryptReader = new StreamReader(cryptoStream))
-                        {
-                            output = decryptReader.ReadToEnd();
-                        }
-                    }
-                }
-            }
-
-            return output;
         }
     }
 }

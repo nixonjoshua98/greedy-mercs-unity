@@ -21,5 +21,13 @@ namespace GM.Upgrades.Data
 
             Upgrades.Keys.ToList().ForEach(key => { Upgrades[key].Id = key; });
         }
+
+        public void ResetLevels()
+        {
+            foreach (UpgradeState state in Upgrades.Values)
+            {
+                state.Level = 0;
+            }
+        }
     }
 }

@@ -1,25 +1,43 @@
+from __future__ import annotations
+
 from src.pymodels import BaseModel, Field
 from src.routing import ServerRequest
 
 
 def bounty_shop_config(request: ServerRequest):
-    data: dict = request.app.get_static_file("server/bountyshop.json")
-
-    return BountyShopConfig.parse_obj(data)
+    return FullBountyShopConfig.parse_obj(request.app.get_static_file("server/bountyshop.json5"))
 
 
-class ArmouryItemConfig(BaseModel):
-    tier: int
+# = Armoury Items = #
+
+class ArmouryItemsConfig(BaseModel):
     weight: int
 
 
-class LevelBountyShopConfig(BaseModel):
-    armoury_items: list[ArmouryItemConfig] = Field(..., alias="armouryItems")
+# = Currency Items = #
+
+class CurrencyItemConfig(BaseModel):
+    unique: bool = Field(False)
+    currency_type: int = Field(..., alias="currencyType")
+    purchase_quantity: int = Field(..., alias="quantityPerPurchase")
 
 
-class BountyShopConfig(BaseModel):
-    # Is there a better way of storing the config for each level in a single file?
-    level0: LevelBountyShopConfig = Field(..., alias="level-0")
+class CurrencyItemsConfig(BaseModel):
+    unique: bool = Field(False)
+    always: bool = Field(False)
+    weight: int = Field(1)
+    items: list[CurrencyItemConfig]
 
-    def get_level_config(self, lvl: int) -> LevelBountyShopConfig:
+
+# = Default = #
+
+class BountyShopLevelConfig(BaseModel):
+    currency_items: CurrencyItemsConfig = Field(..., alias="currencyItems")
+    armoury_items: ArmouryItemsConfig = Field(..., alias="armouryItems")
+
+
+class FullBountyShopConfig(BaseModel):
+    level0: BountyShopLevelConfig = Field(..., alias="level-0")
+
+    def get_level_config(self, lvl: int) -> BountyShopLevelConfig:
         return getattr(self, f"level{lvl}")

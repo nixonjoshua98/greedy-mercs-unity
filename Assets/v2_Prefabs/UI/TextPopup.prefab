@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9cbc0c1163885e41aee5cf49874bfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuantityText: {fileID: 6148013379385424742}
-  lifetime: 0.25
-  fadeDuration: 0.25
-  moveVector: {x: 0, y: 100}
+  Text: {fileID: 6148013379385424742}
+  Lifetime: 0.25
+  FadeDuration: 0.25
+  MoveVector: {x: 0, y: 125}
 --- !u!1 &6148013379385424760
 GameObject:
   m_ObjectHideFlags: 0

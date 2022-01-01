@@ -9,11 +9,15 @@ namespace GM.UI
         public TMP_Text TopText;
         public TMP_Text BtmText;
 
-        Button Button;
-
-        void Awake()
+        Button _Button;
+        Button Button
         {
-            this.Button = GetComponent<Button>();
+            get
+            {
+                if (_Button == null)
+                    _Button = GetComponent<Button>();
+                return _Button;
+            }
         }
 
         public void SetText(string top, string btm)

@@ -1,43 +1,53 @@
-from src.loottable import LootTable
+from __future__ import annotations
+
+import datetime as dt
+from random import Random
+
+from src.loot_table import LootTable
 
 from ..armoury import StaticArmouryItem
-from .shopconfig import LevelBountyShopConfig
+from .shopconfig import (ArmouryItemsConfig, BountyShopLevelConfig,
+                         CurrencyItemsConfig)
 
 
-def generate_from_config(
-    s_armoury: list[StaticArmouryItem], config: LevelBountyShopConfig
-):
-    root = LootTable()
+class BountyShopLootTable:
+    def __init__(
+            self,
+            s_armoury: list[StaticArmouryItem],
+            prev_reset: dt.datetime,
+            config: BountyShopLevelConfig
+    ):
+        self.prev_reset: dt.datetime = prev_reset
+        self.config: BountyShopLevelConfig = config
+        self.s_armoury: list[StaticArmouryItem] = s_armoury
 
-    _add_ai_tables(root, s_armoury, config)
+        self._table: LootTable = self._create_loot_table()
 
-    return root
+    def get_items(self, count: int, rnd: Random):
+        return self._table.get_items(count, rnd)
 
+    def _create_loot_table(self) -> LootTable:
 
-def _add_ai_tables(
-    root: LootTable, s_armoury: list[StaticArmouryItem], config: LevelBountyShopConfig
-):
-    """
-    [Private] Add static armoury item loot tables to the root table
-    :param root: Root loot table
-    :param s_armoury: Static armoury data
-    :param config: Bounty shop config
-    """
+        root = LootTable()
 
-    # Iterate over all armoury item tiers available for this shop
-    for s_item in config.armoury_items:
+        self._add_armoury_items_table(root, self.config.armoury_items)
+        self._add_currency_items_table(root, self.config.currency_items)
 
-        # Fetch all static armoury items for a single tier
-        s_items = [it for it in s_armoury if it.tier == s_item.tier]
+        return root
 
-        # Rare occasion that no item exists in the tier provided (perhaps input error)
-        if not s_items:
-            continue
+    def _add_armoury_items_table(self, root: LootTable, config: ArmouryItemsConfig):
+        tbl = LootTable()
 
-        t = LootTable()
+        for item in self.s_armoury:
+            tbl.add_item(item)
 
-        # Add all items to the table (with th same weight)
-        for it in s_items:
-            t.add_item(it)
+        root.add_item(tbl, weight=config.weight)
 
-        root.add_item(t, weight=s_item.weight)
+    @staticmethod
+    def _add_currency_items_table(root: LootTable, config: CurrencyItemsConfig):
+        tbl = LootTable()
+
+        for item in config.items:
+            tbl.add_item(item, unique=item.unique)
+
+        root.add_item(tbl, weight=config.weight, unique=config.unique, always=config.always)

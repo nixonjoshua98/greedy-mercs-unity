@@ -11,35 +11,29 @@ namespace GM.BountyShop.UI
 
         [Header("References")]
         public GameObject OutStockObject;
-        [Space]
-        public TMP_Text TierText;
         public TMP_Text PurchaseCostText;
-        [Space]
         public Image IconImage;
 
         protected override void OnAssignedItem()
         {
-            TierText.color = AssignedItem.Item.Config.Colour;
-            TierText.text = AssignedItem.Item.Config.DisplayText;
-
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
 
             IconImage.sprite = AssignedItem.Icon;
+
+            CheckAvailability();
         }
 
-        // == Callbacks == //
-
-        void OnItemPurchased()
+        void CheckAvailability()
         {
-            if (!AssignedItem.InStock)
-            {
-                OutStockObject.SetActive(true);
-            }
+            OutStockObject.SetActive(!AssignedItem.InStock);
         }
 
         public void OnClick()
         {
-            InstantiateUI<BsArmouryItemPopup>(PopupObject).Assign(AssignedItem, OnItemPurchased);
+            InstantiateUI<BsArmouryItemPopup>(PopupObject).Assign(AssignedItem, () =>
+            {
+                CheckAvailability();
+            });
         }
     }
 }

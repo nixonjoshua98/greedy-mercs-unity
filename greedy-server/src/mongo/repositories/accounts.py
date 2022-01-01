@@ -18,7 +18,7 @@ class AccountsRepository:
     def __init__(self, client):
         self._col = client.database["userAccounts"]
 
-    async def get_user_by_id(self, uid) -> Optional[AccountModel]:
+    async def get_user(self, uid) -> Optional[AccountModel]:
         r = await self._col.find_one({"_id": uid})
 
         return AccountModel.parse_obj(r) if r else None
@@ -28,7 +28,7 @@ class AccountsRepository:
 
         return AccountModel.parse_obj(r) if r else None
 
-    async def insert_new_user(self, device_id: str) -> Optional[AccountModel]:
+    async def insert_new_user(self, device_id: str) -> AccountModel:
         r = await self._col.insert_one({"deviceId": device_id})
 
-        return await self.get_user_by_id(r.inserted_id)
+        return await self.get_user(r.inserted_id)

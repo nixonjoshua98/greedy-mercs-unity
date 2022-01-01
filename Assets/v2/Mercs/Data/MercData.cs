@@ -17,21 +17,30 @@ namespace GM.Mercs.Data
             User = userData;
         }
 
-        public void IncrementLevel(int level)
-        {
-            User.Level += level;
-        }
-
         public MercID Id => Game.Id;
         public string Name => Game.Name;
-        public int CurrentLevel => User.Level;
-        public bool IsMaxLevel => User.Level >= Common.Constants.MAX_MERC_LEVEL;
+        public int CurrentLevel
+        {
+            get => User.Level; 
+            set
+            {
+                if (value > MaxLevel)
+                    Debug.Log($"Fatal: Merc '{Id}' level exceeded max level");
+
+                User.Level = Mathf.Min(MaxLevel, value);
+            }
+        }
+
+        public bool IsMaxLevel => User.Level >= MaxLevel;
         public Sprite Icon => Game.Icon;
-        public double UnlockCost => Game.UnlockCost;
+        public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
+        public bool InDefaultSquad => User.InDefaultSquad;
+        public double BaseUpgradeCost => Game.BaseUpgradeCost;
         public AttackType AttackType => Game.AttackType;
         public Models.MercPassiveDataModel[] Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
-        public BigDouble DamagePerAttack => App.Cache.MercDamage(this);
+        public BigDouble DamagePerAttack => App.Cache.MercDamagePerAttack(this);
+        public BigDouble UpgradeCost(int numLevels) => App.Cache.MercUpgradeCost(this, numLevels);
         public List<Models.MercPassiveDataModel> UnlockedPassives
         {
             get

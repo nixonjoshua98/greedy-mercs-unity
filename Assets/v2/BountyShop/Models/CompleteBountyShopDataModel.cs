@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using GM.BountyShop.Data;
 
 namespace GM.BountyShop.Models
 {
-    public class CompleteBountyShopDataModel
+    public class BountyShopItemsModel
     {
-        public Dictionary<string, int> Purchases;
-        public BountyShopItemsDataModel ShopItems;
+        public List<BountyShopArmouryItem> ArmouryItems;
+        public List<BountyShopCurrencyItemModel> CurrencyItems;
     }
 
-    public class BountyShopItemsDataModel
+    public class CompleteBountyShopDataModel
     {
-        public List<Data.BountyShopArmouryItem> ArmouryItems;
+        public List<BountyShopPurchaseModel> Purchases;
+        public BountyShopItemsModel ShopItems;
     }
 }

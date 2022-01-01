@@ -43,14 +43,6 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void MergeArmouryItem(int item, Action<MergeArmouryItemResponse> callback)
-        {
-            var req = new MergeArmouryItemRequest(item);
-            var www = UnityWebRequest.Post(ResolveURL("armoury/merge"), SerializeRequest(req));
-
-            SendAuthenticatedRequest(www, callback);
-        }
-
         public void ClaimBounties(Action<BountyClaimResponse> callback)
         {
             var www = UnityWebRequest.Get(ResolveURL("bounty/claim"));
@@ -66,18 +58,11 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void FetchGameData(Action<FetchGameDataResponse> callback)
+        public void FetchStaticData(Action<FetchGameDataResponse> callback)
         {
-            var www = UnityWebRequest.Get(ResolveURL("gamedata"));
+            var www = UnityWebRequest.Get(ResolveURL("static"));
 
             SendPublicRequest(www, callback);
-        }
-
-        public void FetchUserData(Action<FetchUserDataResponse> callback)
-        {
-            var www = UnityWebRequest.Get(ResolveURL("userdata"));
-
-            SendAuthenticatedRequest(www, callback);
         }
 
         public void Login(Action<UserLoginReponse> callback)
@@ -106,15 +91,23 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void BuyBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)
+        public void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback)
         {
-            var req = new PurchaseBountyShopItem(item);
+            var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
             var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/armouryitem"), SerializeRequest(req));
 
             SendAuthenticatedRequest(www, callback);
         }
 
-        string ResolveURL(string endpoint) => $"{ServerConfig.Url_}/{endpoint}";
+        public void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback)
+        {
+            var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
+            var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/currency"), SerializeRequest(req));
+
+            SendAuthenticatedRequest(www, callback);
+        }
+
+        string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
 
         void SendPublicRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
@@ -156,7 +149,10 @@ namespace GM.HTTP
             }
             finally
             {
-
+                if (resp.StatusCode != HTTPCodes.Success)
+                {
+                    Debug.LogError(resp.ErrorMessage);
+                }
             }
         }
 
@@ -180,7 +176,7 @@ namespace GM.HTTP
                     model = new T()
                     {
                         ErrorMessage = "Failed to deserialize server response",
-                        StatusCode = HTTPCodes.FailedToDeserialize
+                        StatusCode = www.responseCode
                     };
                 }
                 else

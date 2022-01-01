@@ -1,6 +1,8 @@
 using GM.Common.Enums;
 using System.Collections.Generic;
 using System.Numerics;
+using System;
+using UnityEngine;
 
 namespace GM
 {
@@ -10,7 +12,7 @@ namespace GM
 
         Common.TTLCache cache = new Common.TTLCache();
 
-        public static string Percentage(BigDouble val) => Number(val * 100) + "%";
+        public static string Percentage(BigDouble val, int dp = 2) => Number(val * Mathf.Pow(10, dp)) + "%";
 
         public static string Number(BigDouble val, BonusType bonus)
         {
@@ -33,6 +35,7 @@ namespace GM
                 BonusType.MULTIPLY_CRIT_DMG => "Critical Hit Damage",
                 BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
                 BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                BonusType.MULTIPLY_ALL_DMG => "All Damage",
                 BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
                 BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
                 BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",

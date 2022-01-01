@@ -6,7 +6,9 @@ from src.mongo.repositories.artefacts import ArtefactModel
 from src.resources.artefacts import StaticArtefact
 
 
-def artefacts_bonus_product(bonus_type: BonusType, u_arts: list[ArtefactModel], s_arts: list[StaticArtefact]):
+def artefacts_bonus_product(
+    bonus_type: BonusType, u_arts: list[ArtefactModel], s_arts: list[StaticArtefact]
+):
     value = 1
 
     for art in u_arts:
@@ -22,7 +24,9 @@ def artefact_base_effect(u_art: ArtefactModel, s_art: StaticArtefact) -> float:
 
 
 def artefact_upgrade_cost(s_art: StaticArtefact, current: int, buying: int) -> int:
-    return math.ceil(s_art.cost_coeff * sum_non_int_power_seq(current, buying, s_art.cost_expo))
+    return math.ceil(
+        s_art.cost_coeff * sum_non_int_power_seq(current, buying, s_art.cost_expo)
+    )
 
 
 def base_points_at_stage(stage: int):

@@ -1,8 +1,8 @@
 from fastapi import Depends
 
-from src.authentication.authentication import (AuthenticatedUser,
-                                               authenticated_user)
 from src.pymodels import BaseModel
+from src.request_context import (AuthenticatedRequestContext,
+                                 authenticated_context)
 from src.routing import APIRouter, ServerResponse
 from src.routing.handlers.bounties import (BountyClaimHandler,
                                            BountyClaimResponse,
@@ -18,24 +18,26 @@ class SetActiveModel(BaseModel):
 
 @router.get("/claim")
 async def claim_points(
-    user: AuthenticatedUser = Depends(authenticated_user),
-    handler: BountyClaimHandler = Depends()
+    user: AuthenticatedRequestContext = Depends(authenticated_context),
+    handler: BountyClaimHandler = Depends(),
 ):
     resp: BountyClaimResponse = await handler.handle(user)
 
-    return ServerResponse({
-        "claimTime": resp.claim_time,
-        "currencyItems": resp.currencies.to_client_dict(),
-        "pointsClaimed": resp.claim_amount,
-    })
+    return ServerResponse(
+        {
+            "claimTime": resp.claim_time,
+            "currencyItems": resp.currencies.client_dict(),
+            "pointsClaimed": resp.claim_amount,
+        }
+    )
 
 
 @router.post("/setactive")
 async def set_active_bounties(
     model: SetActiveModel,
-    user: AuthenticatedUser = Depends(authenticated_user),
+    user: AuthenticatedRequestContext = Depends(authenticated_context),
     handler: UpdateBountiesHandler = Depends(),
 ):
     resp: UpdateBountiesResponse = await handler.handle(user, model.bounty_ids)
 
-    return ServerResponse(resp.bounties.to_client_dict())
+    return ServerResponse(resp.bounties.client_dict())

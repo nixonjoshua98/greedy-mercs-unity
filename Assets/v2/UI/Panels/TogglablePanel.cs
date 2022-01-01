@@ -1,14 +1,33 @@
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace GM.UI.Panels
 {
+    public enum PanelToggleMode
+    {
+        Canvas,
+        GameObject
+    }
+
     public class TogglablePanel : Panel
     {
+        [Header("Toggleable Objects")]
+        [SerializeField] PanelToggleMode ToggleMode = PanelToggleMode.Canvas;
+
+        [ShowIf("ToggleMode", PanelToggleMode.Canvas)]
         [SerializeField] Canvas canvasToToggle;
+
+        [ShowIf("ToggleMode", PanelToggleMode.GameObject)]
+        [SerializeField] GameObject ObjectToToggle;
+
+        public void Setup(bool val)
+        {
+            Toggle(val);
+        }
 
         public void Toggle(bool val)
         {
-            if (!(PanelIsShown && val))
+            if (!(IsShown && val))
             {
                 ToggleObject(val);
 
@@ -28,7 +47,15 @@ namespace GM.UI.Panels
         {
             gameObject.SetActive(true);
 
-            canvasToToggle.enabled = val;
+            switch (ToggleMode)
+            {
+                case PanelToggleMode.Canvas:
+                    canvasToToggle.enabled = val;
+                    break;
+                case PanelToggleMode.GameObject:
+                    ObjectToToggle.SetActive(val);
+                    break;
+            }
         }
     }
 }

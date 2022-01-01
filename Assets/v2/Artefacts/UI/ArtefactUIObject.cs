@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace GM.Artefacts.UI
 {
     public abstract class ArtefactUIObject : GM.UI.SlotObject

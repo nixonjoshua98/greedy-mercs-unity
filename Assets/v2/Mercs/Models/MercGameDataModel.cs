@@ -1,30 +1,45 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
-using BonusType = GM.Common.Enums.BonusType;
-using MercID = GM.Common.Enums.MercID;
-using AttackType = GM.Common.Enums.AttackType;
+using GM.Common.Enums;
+
 namespace GM.Mercs.Models
 {
+    public struct MercPassiveDataModel
+    {
+        [JsonProperty(PropertyName = "bonusType")]
+        public BonusType Type;
+
+        [JsonProperty(PropertyName = "bonusValue")]
+        public float Value;
+
+        public int UnlockLevel;
+    }
+
     public class MercGameDataModel
     {
-        [JsonProperty(PropertyName = "mercId")]
+        [JsonProperty(PropertyName = "mercId", Required = Required.Always)]
         public MercID Id;
 
-        public double UnlockCost;
+        [JsonProperty(PropertyName = "isDefault", Required = Required.Always)]
+        public bool IsDefault;
+
+        [JsonProperty(Required = Required.Always)]
+        public double BaseUpgradeCost;
+
         public double BaseDamage = -1;
 
         public MercPassiveDataModel[] Passives;
 
         [JsonIgnore]
-        public AttackType AttackType;
+        public AttackType AttackType; // Local Data Value
 
         [JsonIgnore]
-        public string Name;
+        public string Name; // Local Data Value
 
         [JsonIgnore]
-        public Sprite Icon;
+        public Sprite Icon; // Local Data Value
 
         [JsonIgnore]
-        public GameObject Prefab;
+        public GameObject Prefab; // Local Data Value
     }
 }

@@ -6,65 +6,87 @@ namespace GM.UI
 {
     public class TextPopup : MonoBehaviour
     {
-        [Header("References")]
-        public TMP_Text QuantityText;
+        public TMP_Text Text;
 
         [Header("Properties")]
-        public float lifetime = 0.5f;
-        public float fadeDuration = 0.5f;
+        public float Lifetime = 0.5f;
+        public float FadeDuration = 0.5f;
         [Space]
-        public Vector2 moveVector = new Vector2(0, 125);
+        public Vector2 MoveVector = new Vector2(0, 125);
 
         float fadeTimer;
-        Color originalColour;
+        float lifetimeTimer;
 
-        public void Set(long val) => Set((BigInteger)val);
+        bool isSet = false;
+
         public void Set(BigInteger val)
         {
-            QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
-            QuantityText.text = Format.Number(val);
+            Reset();
+
+            Text.text = Format.Number(val);
+            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
         }
+
         public void Set(BigDouble val)
         {
-            QuantityText.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
-            QuantityText.text = Format.Number(val);
+            Reset();
+
+            Text.text = Format.Number(val);
+            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
         }
 
-        void Awake()
+        public void Set(BigDouble val, Color color, Vector3 position)
         {
-            fadeTimer = fadeDuration;
+            Reset();
 
-            originalColour = QuantityText.color;
+            Text.text = Format.Number(val);
+            Text.color = color;
+
+            transform.position = position;
         }
 
+        void Reset()
+        {
+            isSet = true;
+            lifetimeTimer = Lifetime;
+            fadeTimer = FadeDuration;
+        }
 
         void Update()
         {
-            lifetime -= Time.deltaTime;
-
-            UpdatePosition();
-
-            if (lifetime <= 0.0f)
+            if (isSet)
             {
-                float percentFaded = ProcessFade();
+                lifetimeTimer -= Time.deltaTime;
 
-                if (percentFaded <= 0.0f)
+                transform.position += MoveVector.ToVector3() * Time.deltaTime;
+
+                if (lifetimeTimer <= 0.0f)
                 {
-                    Destroy(gameObject);
+                    float percentFaded = ProcessFade();
+
+                    if (percentFaded <= 0.0f)
+                    {
+                        OnFinished();
+                    }
                 }
             }
         }
-        void UpdatePosition()
+
+        protected virtual void OnFinished()
         {
-            transform.position += moveVector.ToVector3() * Time.deltaTime;
+            isSet = false;
+
+            gameObject.SetActive(false);
         }
+
+
         protected float ProcessFade()
         {
             fadeTimer -= Time.deltaTime;
 
-            float percentFaded = fadeTimer / fadeDuration;
+            float percentFaded = fadeTimer / FadeDuration;
 
-            QuantityText.color = new Color(QuantityText.color.r, QuantityText.color.g, QuantityText.color.b, originalColour.a * percentFaded);
+            Text.color = new Color(Text.color.r, Text.color.g, Text.color.b, percentFaded);
 
             return percentFaded;
         }

@@ -10,7 +10,6 @@ from src.mongo.repositories.armoury import (ArmouryItemModel,
 from src.mongo.repositories.bountyshop import (BountyShopRepository,
                                                bountyshop_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.request_context import (AuthenticatedRequestContext,
                                  authenticated_context)
@@ -65,7 +64,9 @@ class PurchaseArmouryItemHandler(BaseBountyShopPurchaseHandler):
             raise HandlerException(400, "Cannot afford item")
 
         try:
-            currencies = await self.currency_repo.inc_value(uid, CurrencyRepoFields.BOUNTY_POINTS, -item.purchase_cost)
+            currencies = await self.currency_repo.inc_value(
+                uid, CurrenciesModel.Aliases.BOUNTY_POINTS, -item.purchase_cost
+            )
 
             armoury_item: ArmouryItemModel = await self.armoury_repo.inc_item_owned(uid, item.armoury_item_id, 1)
 

@@ -11,7 +11,10 @@ def accounts_repository(request: ServerRequest) -> AccountsRepository:
 
 
 class AccountModel(BaseDocument):
-    ...
+
+    class Alias:
+        USER_ID = "_id"
+        DEVICE_ID = "deviceId"
 
 
 class AccountsRepository:
@@ -19,16 +22,22 @@ class AccountsRepository:
         self._col = client.database["userAccounts"]
 
     async def get_user(self, uid) -> Optional[AccountModel]:
-        r = await self._col.find_one({"_id": uid})
+        r = await self._col.find_one({
+            AccountModel.Alias.USER_ID: uid
+        })
 
         return AccountModel.parse_obj(r) if r else None
 
     async def get_user_by_did(self, uid) -> Optional[AccountModel]:
-        r = await self._col.find_one({"deviceId": uid})
+        r = await self._col.find_one({
+            AccountModel.Alias.DEVICE_ID: uid
+        })
 
         return AccountModel.parse_obj(r) if r else None
 
     async def insert_new_user(self, device_id: str) -> AccountModel:
-        r = await self._col.insert_one({"deviceId": device_id})
+        r = await self._col.insert_one({
+            AccountModel.Alias.DEVICE_ID: device_id
+        })
 
         return await self.get_user(r.inserted_id)

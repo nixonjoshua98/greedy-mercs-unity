@@ -8,7 +8,6 @@ from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
                                               artefacts_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
 from src.request_context import AuthenticatedRequestContext
 from src.resources.artefacts import StaticArtefact, static_artefacts
@@ -55,7 +54,9 @@ class UpgradeArtefactHandler(BaseHandler):
             raise HandlerException(400, "Cannot afford to upgrade artefact")
 
         # Reduce the users' currency
-        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrencyFields.PRESTIGE_POINTS, -upgrade_cost)
+        currencies = await self.currency_repo.inc_value(
+            ctx.user_id, CurrenciesModel.Aliases.PRESTIGE_POINTS, -upgrade_cost
+        )
 
         # Increment the artefact level
         u_artefact: ArtefactModel = await self.artefacts_repo.inc_level(ctx.user_id, artefact_id, levels)

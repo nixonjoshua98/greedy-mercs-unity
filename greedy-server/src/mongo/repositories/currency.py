@@ -14,16 +14,16 @@ def currency_repository(request: ServerRequest) -> CurrencyRepository:
     return CurrencyRepository(request.app.state.mongo)
 
 
-class Fields:
-    BOUNTY_POINTS = "bountyPoints"
-    ARMOURY_POINTS = "armouryPoints"
-    PRESTIGE_POINTS = "prestigePoints"
-
-
 class CurrenciesModel(BaseDocument):
-    prestige_points: int = Field(0, alias=Fields.PRESTIGE_POINTS)
-    bounty_points: int = Field(0, alias=Fields.BOUNTY_POINTS)
-    armoury_points: int = Field(0, alias=Fields.ARMOURY_POINTS)
+    class Aliases:
+        USER_ID = "_id"
+        BOUNTY_POINTS = "bountyPoints"
+        ARMOURY_POINTS = "armouryPoints"
+        PRESTIGE_POINTS = "prestigePoints"
+
+    prestige_points: int = Field(0, alias=Aliases.PRESTIGE_POINTS)
+    bounty_points: int = Field(0, alias=Aliases.BOUNTY_POINTS)
+    armoury_points: int = Field(0, alias=Aliases.ARMOURY_POINTS)
 
     def client_dict(self):
         return self.dict(exclude={"id"})
@@ -34,9 +34,11 @@ class CurrencyRepository:
         self.collection = client.database["currencyItems"]
 
     async def get_user(self, uid) -> CurrenciesModel:
-        r = await self.collection.find_one({"_id": uid})
+        r = await self.collection.find_one({
+            CurrenciesModel.Aliases.USER_ID: uid
+        })
 
-        return CurrenciesModel.parse_obj(r or {"_id": uid})
+        return CurrenciesModel.parse_obj(r or {CurrenciesModel.Aliases.USER_ID: uid})
 
     async def inc_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": {field: value}})
@@ -45,8 +47,11 @@ class CurrencyRepository:
         return await self.update_one(uid, {"$inc": fields})
 
     async def update_one(self, uid, update: dict) -> CurrenciesModel:
-        r = await self.collection.find_one_and_update(
-            {"_id": uid}, update, upsert=True, return_document=ReturnDocument.AFTER
+        r = await self.collection.find_one_and_update({
+            CurrenciesModel.Aliases.USER_ID: uid},
+            update,
+            upsert=True,
+            return_document=ReturnDocument.AFTER
         )
 
         return CurrenciesModel.parse_obj(r)

@@ -9,7 +9,6 @@ from src.common.enums import CurrencyType
 from src.mongo.repositories.bountyshop import (BountyShopRepository,
                                                bountyshop_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.request_context import (AuthenticatedRequestContext,
                                  authenticated_context)
@@ -64,7 +63,7 @@ class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
 
         try:
             currencies = await self.currency_repo.inc_values(uid, {
-                CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost,
+                CurrenciesModel.Aliases.BOUNTY_POINTS: -item.purchase_cost,
                 item_field: item.purchase_quantity
             })
 
@@ -80,5 +79,5 @@ class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
     @staticmethod
     def _id_to_field(currency: int) -> Optional[str]:
         return {
-            CurrencyType.ARMOURY_POINTS: CurrencyRepoFields.ARMOURY_POINTS
+            CurrencyType.ARMOURY_POINTS: CurrenciesModel.Aliases.ARMOURY_POINTS
         }.get(currency)

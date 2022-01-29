@@ -9,7 +9,6 @@ from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesModel,
                                              bounties_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
 from src.request_context import AuthenticatedRequestContext
 from src.resources.bounties import StaticBounties, inject_static_bounties
@@ -50,7 +49,7 @@ class BountyClaimHandler(BaseHandler):
         await self.bounties_repo.set_claim_time(ctx.user_id, ctx.datetime)
 
         # Increment the currency and fetch the updated document
-        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrencyFields.BOUNTY_POINTS, points)
+        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrenciesModel.Aliases.BOUNTY_POINTS, points)
 
         return BountyClaimResponse(claim_time=ctx.datetime, claim_amount=points, currencies=currencies)
 

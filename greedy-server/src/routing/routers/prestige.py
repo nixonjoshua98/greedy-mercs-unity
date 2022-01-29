@@ -7,8 +7,7 @@ from src.mongo.repositories.artefacts import (ArtefactModel,
                                               artefacts_repository)
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              bounties_repository)
-from src.mongo.repositories.currency import CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyRepoFields
+from src.mongo.repositories.currency import CurrencyRepository, CurrenciesModel
 from src.mongo.repositories.currency import currency_repository
 from src.pymodels import BaseModel
 from src.request_context import (AuthenticatedRequestContext,
@@ -74,9 +73,7 @@ async def process_prestige_points(
         req_data.prestige_stage, artefacts, s_artefacts=s_artefacts
     )
 
-    await currency_repo.update_one(
-        uid, {"$inc": {CurrencyRepoFields.PRESTIGE_POINTS: points}}
-    )
+    await currency_repo.update_one(uid, {"$inc": {CurrenciesModel.Aliases.PRESTIGE_POINTS: points}})
 
 
 async def process_new_bounties(

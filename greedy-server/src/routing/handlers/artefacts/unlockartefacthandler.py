@@ -8,7 +8,6 @@ from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
                                               artefacts_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
 from src.request_context import AuthenticatedRequestContext
 from src.resources.artefacts import StaticArtefact, static_artefacts
@@ -50,7 +49,9 @@ class UnlockArtefactHandler(BaseHandler):
 
         new_art_id = self.get_new_artefact(u_artefacts)
 
-        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrencyFields.PRESTIGE_POINTS, -unlock_cost)
+        currencies = await self.currency_repo.inc_value(
+            ctx.user_id, CurrenciesModel.Aliases.PRESTIGE_POINTS, -unlock_cost
+        )
 
         u_artefacts: ArtefactModel = await self.artefacts_repo.add_new_artefact(ctx.user_id, new_art_id)
 

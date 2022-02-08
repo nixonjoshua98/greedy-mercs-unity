@@ -13,7 +13,6 @@ def units_repository(request: ServerRequest) -> CharacterUnitsRepository:
 
 
 class CharacterUnitModel(BaseDocument):
-
     class Aliases:
         USER_ID = "userId"
         UNIT_ID = "unitId"
@@ -35,8 +34,7 @@ class CharacterUnitsRepository:
         unlocked_ids: list[int] = [u.unit_id for u in await self.get_units(uid)]
 
         for unit_id in (id_ for id_ in unit_ids if id_ not in unlocked_ids):
-            await self._col.update_one(
-                {
+            await self._col.update_one({
                     CharacterUnitModel.Aliases.USER_ID: uid,
                     CharacterUnitModel.Aliases.UNIT_ID: unit_id
                 },

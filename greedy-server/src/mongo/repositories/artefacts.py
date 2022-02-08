@@ -16,6 +16,7 @@ def artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
 
 
 class ArtefactModel(BaseDocument):
+
     class Aliases:
         ARTEFACT_ID = "artefactId"
         USER_ID = "userId"

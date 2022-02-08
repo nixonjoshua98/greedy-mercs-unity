@@ -75,14 +75,12 @@ class BountiesRepository:
         user = await self.get_user_bounties(uid)  # Load the user bounties
 
         for b in user.bounties:
-            is_active = (
-                b.bounty_id in ids
-            )  # We also need to 'disable' the inactive bounties
+            is_active = b.bounty_id in ids
 
+            # We also need to 'disable' the inactive bounties
             await self._bounties.update_one({
                 UserBountiesModel.Aliases.USER_ID: user.id,
-                f"{UserBountiesModel.Aliases.BOUNTIES}.{UserBountyModel.Aliases.BOUNTY_ID}": b.bounty_id
-                },
+                f"{UserBountiesModel.Aliases.BOUNTIES}.{UserBountyModel.Aliases.BOUNTY_ID}": b.bounty_id},
                 {"$set": {f"{UserBountiesModel.Aliases.BOUNTIES}.$.{UserBountyModel.Aliases.IS_ACTIVE}": is_active}},
             )
 

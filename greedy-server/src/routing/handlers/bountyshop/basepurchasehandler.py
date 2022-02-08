@@ -15,6 +15,6 @@ class BaseBountyShopPurchaseHandler(BaseHandler):
         await self.shop_repo.add_purchase(uid, item.id, self.prev_reset, item.purchase_cost)
 
     async def get_item_purchase_count(self, uid: ObjectId, item_id: str, prev_reset: dt.datetime) -> int:
-        purchases = await self.shop_repo.get_daily_item_purchases(uid, item_id, prev_reset)
+        purchases = await self.shop_repo.daily_purchases(uid, item_id, prev_reset)
 
         return len(purchases)

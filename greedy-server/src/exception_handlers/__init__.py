@@ -9,12 +9,9 @@ from src.routing.handlers.abc import HandlerException
 async def handle_http_exception(request: ServerRequest, exc: HTTPException):
     logger.error(exc.detail)
 
-    return ServerResponse(
-        {
-            "code": exc.status_code,
-            "error": exc.detail if request.app.debug else "Server error",
-        },
-        status_code=exc.status_code,
+    return ServerResponse({
+        "code": exc.status_code, "error": exc.detail if request.app.debug else "Server error",
+        }, status_code=exc.status_code,
     )
 
 

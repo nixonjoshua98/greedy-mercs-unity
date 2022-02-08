@@ -53,7 +53,7 @@ class GetUserDataHandler(BaseHandler):
     @md.dispatch(ObjectId, dt.datetime)
     async def handle(self, uid: ObjectId, prev_reset: dt.datetime) -> UserDataResponse:
 
-        bshop_purchases = await self.bountyshop_repo.get_daily_purchases(uid, prev_reset)
+        bshop_purchases = await self.bountyshop_repo.daily_purchases(uid, prev_reset)
 
         data = {
             "currencyItems": await self.currency_repo.get_user(uid),

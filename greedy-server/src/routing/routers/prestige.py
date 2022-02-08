@@ -69,11 +69,9 @@ async def process_prestige_points(
     s_artefacts: list[StaticArtefact]
 ):
 
-    points = calc_prestige_points_at_stage(
-        req_data.prestige_stage, artefacts, s_artefacts=s_artefacts
-    )
+    points = calc_prestige_points_at_stage(req_data.prestige_stage, artefacts, s_artefacts=s_artefacts)
 
-    await currency_repo.update_one(uid, {"$inc": {CurrenciesModel.Aliases.PRESTIGE_POINTS: points}})
+    await currency_repo.inc_value(uid, CurrenciesModel.Aliases.PRESTIGE_POINTS, points)
 
 
 async def process_new_bounties(

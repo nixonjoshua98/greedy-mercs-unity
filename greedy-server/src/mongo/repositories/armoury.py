@@ -5,7 +5,7 @@ from typing import Optional, Union
 from bson import ObjectId
 from pymongo import ReturnDocument
 
-from src.pymodels import BaseDocument, Field
+from src.pymodels import Field, BaseModel
 from src.routing import ServerRequest
 
 
@@ -13,7 +13,7 @@ def armoury_repository(request: ServerRequest) -> ArmouryRepository:
     return ArmouryRepository(request.app.state.mongo)
 
 
-class ArmouryItemModel(BaseDocument):
+class ArmouryItemModel(BaseModel):
 
     class Aliases:
         USER_ID = "userId"
@@ -30,7 +30,7 @@ class ArmouryItemModel(BaseDocument):
     merge_lvl: int = Field(0, alias=Aliases.MERGE_LEVEL)
 
     def client_dict(self):
-        return self.dict(exclude={"id", "user_id"})
+        return self.dict(exclude={"user_id"})
 
 
 class ArmouryRepository:

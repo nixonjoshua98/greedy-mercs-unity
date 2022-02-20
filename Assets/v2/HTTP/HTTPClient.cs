@@ -13,7 +13,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "109.151.1.5"
+            Address = "86.180.62.169"
         };
 
         IServerAuthentication Authentication;

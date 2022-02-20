@@ -13,7 +13,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "86.191.239.53"
+            Address = "86.180.62.169"
         };
 
         IServerAuthentication Authentication;
@@ -172,18 +172,13 @@ namespace GM.HTTP
 
                 if (model == null)
                 {
-                    // Create a model, and populate the error message (and status code) to show an error happened
                     model = new T()
                     {
-                        ErrorMessage = "Failed to deserialize server response",
-                        StatusCode = www.responseCode
+                        ErrorMessage = "Failed to deserialize server response"
                     };
                 }
-                else
-                {
-                    // If we deserialize then we should use the status code from the server
-                    model.StatusCode = www.responseCode;
-                }
+
+                model.StatusCode = www.responseCode;
             }
             catch (Exception e)
             {

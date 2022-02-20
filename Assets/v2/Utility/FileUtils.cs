@@ -64,8 +64,6 @@ namespace GM
             {
                 bf.Serialize(file, text);
             }
-
-            GMLogger.Editor($"Writen to {path}");
         }
 
         static string ReadFromFile(string path)

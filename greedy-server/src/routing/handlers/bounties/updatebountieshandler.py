@@ -48,7 +48,9 @@ class UpdateBountiesHandler(BaseHandler):
 
         return UpdateBountiesResponse(bounties=bounties)
 
-    def is_bounties_valid(self, bounty_ids: list[int], user_data: UserBountiesModel) -> bool:
+    def is_bounties_valid(
+        self, bounty_ids: list[int], user_data: UserBountiesModel
+    ) -> bool:
         u_bounty_ids: list[int] = [b.bounty_id for b in user_data.bounties]
         s_bounty_ids: list[int] = [b.id for b in self.bounties_data.bounties]
 

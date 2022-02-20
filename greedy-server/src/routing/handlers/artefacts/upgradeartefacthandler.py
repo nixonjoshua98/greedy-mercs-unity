@@ -61,8 +61,12 @@ class UpgradeArtefactHandler(BaseHandler):
         # Increment the artefact level
         u_artefact: ArtefactModel = await self.artefacts_repo.inc_level(ctx.user_id, artefact_id, levels)
 
-        return UpgradeArtefactResponse(artefact=u_artefact, currencies=currencies, upgrade_cost=upgrade_cost)
+        return UpgradeArtefactResponse(
+            artefact=u_artefact, currencies=currencies, upgrade_cost=upgrade_cost
+        )
 
     @staticmethod
-    def upgrade_cost(s_artefact: StaticArtefact, u_artefact: ArtefactModel, levels: int) -> int:
+    def upgrade_cost(
+        s_artefact: StaticArtefact, u_artefact: ArtefactModel, levels: int
+    ) -> int:
         return formulas.artefact_upgrade_cost(s_artefact, u_artefact.level, levels)

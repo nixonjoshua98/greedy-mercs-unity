@@ -13,7 +13,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "109.151.1.5"
+            Address = "86.180.62.169"
         };
 
         IServerAuthentication Authentication;
@@ -130,8 +130,6 @@ namespace GM.HTTP
 
         IEnumerator SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
-            www.timeout = 5;
-
             www.SetRequestHeader("Content-Type", "application/json");
 
             yield return www.SendWebRequest();
@@ -172,26 +170,20 @@ namespace GM.HTTP
 
                 if (model == null)
                 {
-                    // Create a model, and populate the error message (and status code) to show an error happened
                     model = new T()
                     {
-                        ErrorMessage = "Failed to deserialize server response",
-                        StatusCode = www.responseCode
+                        ErrorMessage = "Failed to deserialize server response"
                     };
                 }
-                else
-                {
-                    // If we deserialize then we should use the status code from the server
-                    model.StatusCode = www.responseCode;
-                }
+
+                model.StatusCode = www.responseCode;
             }
             catch (Exception e)
             {
-                // We failed to deserialize for an unknown reason so we set the error message and status code
                 model = new T()
                 {
                     ErrorMessage = e.Message,
-                    StatusCode = HTTPCodes.FailedToDeserialize
+                    StatusCode = www.responseCode
                 };
             }
 

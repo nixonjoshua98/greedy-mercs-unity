@@ -53,7 +53,9 @@ class BountyClaimHandler(BaseHandler):
 
         return BountyClaimResponse(claim_time=ctx.datetime, claim_amount=points, currencies=currencies)
 
-    def unclaimed_points(self, now: dt.datetime, user_bounties: UserBountiesModel) -> int:
+    def unclaimed_points(
+        self, now: dt.datetime, user_bounties: UserBountiesModel
+    ) -> int:
         points = 0  # Total unclaimed points (ready to be claimed)
 
         # Interate over each active bounty available

@@ -31,16 +31,19 @@ namespace GM.UI
         {
             GameManager.Instance.E_BossSpawn.AddListener(boss =>
             {
+                GM.Controllers.HealthController health = boss.GameObject.GetComponent<GM.Controllers.HealthController>();
+
                 targetSliderValue = 1.0f; // Fill up the slider to 100%
 
                 // Set the current health
-                healthValue.text = Format.Number(boss.Health.Current);
+                healthValue.text = Format.Number(health.Current);
 
                 // Update the display upon the boss takign damage
-                boss.Health.OnDamageTaken.AddListener(damageTaken =>
+                health.OnDamageTaken.AddListener(damageTaken =>
                 {
-                    healthValue.text = Format.Number(boss.Health.Current);
-                    targetSliderValue = boss.Health.Percent;
+                    healthValue.text = Format.Number(health.Current);
+
+                    targetSliderValue = health.Percent;
                 });
             });
         }
@@ -50,22 +53,24 @@ namespace GM.UI
         {
             GameManager.Instance.E_OnWaveSpawn.AddListener(waveEnemies =>
             {
-                BigDouble maxHealth = waveEnemies.Select(w => w.Health.MaxHealth).Sum();
+                //BigDouble maxHealth = waveEnemies.Select(w => w.Health.MaxHealth).Sum();
 
-                BigDouble current = maxHealth;
+                //BigDouble current = maxHealth;
 
-                healthValue.text = Format.Number(maxHealth);
+                //healthValue.text = "N/A";// Format.Number(maxHealth);
 
                 targetSliderValue = 1.0f;
 
-                foreach (Target trgt in waveEnemies)
+                foreach (Target target in waveEnemies)
                 {
-                    trgt.Health.OnDamageTaken.AddListener(damageTaken =>
-                    {
-                        current -= damageTaken;
+                    GM.Controllers.HealthController health = target.GameObject.GetComponent<GM.Controllers.HealthController>();
 
-                        healthValue.text = Format.Number(current);
-                        targetSliderValue = (float)(current / maxHealth).ToDouble();
+                    health.OnDamageTaken.AddListener(damageTaken =>
+                    {
+                        //current -= damageTaken;
+
+                        //healthValue.text = Format.Number(current);
+                        //targetSliderValue = (float)(current / maxHealth).ToDouble();
                     });
                 }
             });

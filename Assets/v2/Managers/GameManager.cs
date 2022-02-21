@@ -60,21 +60,20 @@ namespace GM
             }
         }
 
-
-        public bool TryGetEnemy(out Target target)
-        {
-            return Enemies.TryGet(out target);
-        }
-
         Target InstantiateBoss()
         {
-            Target boss = new Target(spawner.SpawnBoss(), TargetType.Boss);
+            GameObject enemy = spawner.SpawnBoss();
 
-            // Setup the boss health
-            boss.Health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
+            Target boss = new Target(enemy);
+
+            // Components
+            GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
+
+            // Setup
+            health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
 
             // Add event callbacks
-            boss.Health.OnZeroHealth.AddListener(OnBossZeroHealth);
+            health.OnZeroHealth.AddListener(OnBossZeroHealth);
 
             Enemies.Add(boss);
 
@@ -86,26 +85,29 @@ namespace GM
 
         void SetupWave()
         {
-            Enemies.Add(new Target(spawner.InstantiateEnemyUnit(), TargetType.WaveEnemy));
+            GameObject enemy = UnitManager.InstantiateEnemyUnit();
+
+            Enemies.Add(new Target(enemy));
 
             BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(State.Stage);
 
             foreach (Target trgt in Enemies)
             {
-                trgt.Health.Invulnerable = true;
+                GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
 
-                trgt.Health.Init(val: combinedHealth / Enemies.Count);
+                health.Invulnerable = true;
 
-                trgt.Health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
+                health.Init(val: combinedHealth / Enemies.Count);
+
+                health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
 
                 // Only allow the unit to be attacked once it is visible on screen
-                StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.Position), () => trgt.Health.Invulnerable = false));
+                StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.Position), () => health.Invulnerable = false));
             }
 
             E_OnWaveSpawn.Invoke(Enemies);
         }
 
-        // Quick reference to avoid StartCorountines everywhere
         void StartBossFight()
         {
             Target boss = InstantiateBoss();
@@ -122,7 +124,7 @@ namespace GM
 
         public bool TryGetMercTarget(ref Target target)
         {
-            return TryGetEnemy(out target);
+            return Enemies.TryGet(out target);
         }
 
         // = Event Callbacks = //

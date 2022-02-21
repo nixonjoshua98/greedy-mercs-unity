@@ -60,7 +60,7 @@ namespace GM.Mercs.Controllers
             Cooldown();
             DealDamageToTarget();
 
-            if (IsCurrentTargetValid)
+            if (IsTargetValid())
             {
                 InstantiateAttackImpactObject();
             }

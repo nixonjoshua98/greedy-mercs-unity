@@ -2,16 +2,13 @@ using GM.Common.Enums;
 using GM.Controllers;
 using GM.Targets;
 using UnityEngine.Events;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
     public interface IMercController
     {
         UnityEvent<BigDouble> OnDamageDealt { get; set; }
-
-        void Pause();
-        void Resume();
-        void SetPriorityTarget(Target target);
     }
 
     public class MercController : Units.UnitBaseClass, IMercController
@@ -22,10 +19,6 @@ namespace GM.Mercs.Controllers
         IAttackController AttackController;
 
         Target CurrentTarget;
-
-        // = States = //
-        bool IsPaused { get; set; } = false;
-        bool IsTargetPriority { get; set; } = false;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
@@ -51,30 +44,7 @@ namespace GM.Mercs.Controllers
 
         void FixedUpdate()
         {
-            // Pausing the controller generally means the merc is being controlled from outside
-            if (IsPaused)
-            {
-
-            }
-
-            // Target is marked as a priority ( should find a better name ) which means in this context
-            // that the merc will start attacking the target and ignore all position checks
-            else if (IsTargetPriority && CanAttackPriorityTarget)
-            {
-                Movement.LookAt(CurrentTarget.Position);
-
-                StartAttack();
-            }
-
-            else
-            {
-                AttackLoop();
-            }
-        }
-
-        void AttackLoop()
-        {
-            if (!IsCurrentTargetValid)
+            if (CurrentTarget == null || !AttackController.IsTargetValid(CurrentTarget.GameObject))
             {
                 TargetManager.TryGetMercTarget(ref CurrentTarget);
             }
@@ -94,14 +64,10 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        bool CanAttackPriorityTarget => AttackController.IsAvailable && IsCurrentTargetValid;
-        bool IsCurrentTargetValid => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
-
         void StartAttack()
         {
             AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
         }
-
 
         protected void DealDamageToTarget(Target attackTarget)
         {
@@ -115,33 +81,6 @@ namespace GM.Mercs.Controllers
 
                 OnDamageDealt.Invoke(dmg);
             }
-        }
-
-        public void Pause()
-        {
-            IsPaused = true;
-            AttackController.Reset();
-        }
-
-        public void Resume()
-        {
-            IsPaused = false;
-        }
-
-        public void Idle()
-        {
-            Avatar.PlayAnimation(Avatar.AnimationStrings.Idle);
-        }
-
-        public void SetPriorityTarget(Target target)
-        {
-            CurrentTarget = target;
-            IsTargetPriority = true;
-
-            GMLogger.WhenNull(target.Health, "Fatal Error: Priority target health is Null");
-
-            // Reset the flag once the target has been defeated
-            target.Health.OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
         }
     }
 }

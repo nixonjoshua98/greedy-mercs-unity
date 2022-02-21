@@ -1,10 +1,6 @@
-﻿using System;
+﻿using GM.Units;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using System.Threading.Tasks;
-using GM.Units;
 
 namespace GM
 {
@@ -28,17 +24,18 @@ namespace GM
                 pos = new Vector3(unit.Avatar.MaxBounds.x + (unit.Avatar.Size.x / 2) + 0.25f, unit.transform.position.y);
             }
 
-            GameObject newUnitObject = Instantiate(EnemyUnitObject, pos, Quaternion.identity);
-            UnitBaseClass newEnemyUnit = newUnitObject.GetComponent<UnitBaseClass>();
+            GameObject instObject = Instantiate(EnemyUnitObject, pos, Quaternion.identity);
 
-            if (newUnitObject.TryGetComponent(out GM.Controllers.HealthController health))
+            UnitBaseClass newEnemyUnit = instObject.GetComponent<UnitBaseClass>();
+
+            if (instObject.TryGetComponent(out GM.Controllers.HealthController health))
             {
                 health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(newEnemyUnit));
             }
 
             EnemyUnits.Add(newEnemyUnit);
 
-            return newUnitObject;
+            return instObject;
         }
 
         // = Event Callbacks = //
@@ -46,8 +43,6 @@ namespace GM
         void OnEnemyZeroHealth(UnitBaseClass unit)
         {
             EnemyUnits.Remove(unit);
-
-            //OnEnemyUnitDefeated.Invoke();
         }
 
         UnitBaseClass GetLastPlacedEnemyUnit() => EnemyUnits[EnemyUnits.Count - 1];

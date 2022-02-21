@@ -12,8 +12,12 @@ namespace GM.Controllers
 
         Vector3[] RectTransformCorners;
 
+        GM.Targets.ITargetManager TargetManager;
+
         void Start()
         {
+            TargetManager = this.GetComponentInScene<GM.Targets.ITargetManager>();
+
             RectTransformCorners = new Vector3[4];
 
             GetComponent<RectTransform>().GetWorldCorners(RectTransformCorners);
@@ -25,20 +29,19 @@ namespace GM.Controllers
 
             if (CollisionCheck(worldPos))
             {
-                bool hasTarget = GameManager.Instance.TryGetEnemy(out Target trgt);
+                Target target = default;
+
+                bool hasTarget = TargetManager.TryGetMercTarget(ref target);
 
                 if (hasTarget)
                 {
+                    GM.Controllers.HealthController health = target.GameObject.GetComponent<GM.Controllers.HealthController>();
+
                     BigDouble dmg = App.Cache.TotalTapDamage;
 
-                    BigDouble dmgDealt = trgt.Health.TakeDamage(dmg);
+                    health.TakeDamage(dmg);
 
-                    if (dmgDealt > 0)
-                    {
-                        TextPopup popup = DamageTextPool.Spawn<TextPopup>();
-
-                        popup.Set(dmg, GM.Common.Colors.Red, screenPos);
-                    }                 
+                    DamageTextPool.Spawn<TextPopup>().Set(dmg, GM.Common.Colors.Red, screenPos);
                 }
             }
         }

@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using UnityEngine.Events;
 using GM.Targets;
+using System;
+using System.Collections;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
     public interface IAttackController
     {
+        public bool IsTargetValid(GameObject obj);
         public bool IsAvailable { get; }
-
-        void Reset();
 
         void StartAttack(Target target, Action<Target> callback);
         bool InAttackPosition(Target target);
@@ -30,7 +27,20 @@ namespace GM.Mercs.Controllers
         protected bool isOnCooldown;
 
         // = Properties = //
-        protected bool IsCurrentTargetValid => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
+        public bool IsTargetValid(GameObject obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            GM.Controllers.HealthController health = obj.GetComponent<GM.Controllers.HealthController>();
+
+            return !health.IsDead;
+        }
+
+        public bool IsTargetValid() => IsTargetValid(CurrentTarget.GameObject ?? null);
+
         public bool IsAvailable => !isOnCooldown && !isAttacking;
 
         public abstract bool InAttackPosition(Target target);
@@ -41,12 +51,6 @@ namespace GM.Mercs.Controllers
             isAttacking = true;
             CurrentTarget = target;
             DealDamageToTargetAction = callback;
-        }
-
-        public void Reset()
-        {
-            isAttacking = false;
-            CurrentTarget = null;
         }
 
         protected void DealDamageToTarget()

@@ -8,7 +8,6 @@ namespace GM
     public class SpawnController : Core.GMMonoBehaviour
     {
         [SerializeField] GameObject[] BossObjects;
-        [SerializeField] GameObject[] EnemyObjects;
 
 
         [Header("Components - UI")]
@@ -62,11 +61,6 @@ namespace GM
             OnBossSpawn(spawnedBoss, bounty);
 
             return spawnedBoss;
-        }
-
-        public GameObject InstantiateEnemyUnit()
-        {
-            return Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], new Vector3(Camera.main.MaxBounds().x, Common.Constants.CENTER_BATTLE_Y), Quaternion.identity);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using GM.Common;
 using GM.States;
+using System.Collections.Generic;
 using GM.Targets;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,10 +16,10 @@ namespace GM
 
         GM.Common.Interfaces.IUnitManager UnitManager;
 
-        [HideInInspector] public UnityEvent<Target> E_BossSpawn { get; private set; } = new UnityEvent<Target>();
-        [HideInInspector] public UnityEvent<TargetList<Target>> E_OnWaveSpawn { get; private set; } = new UnityEvent<TargetList<Target>>();
+        [HideInInspector] public UnityEvent<GM.Units.UnitBaseClass> E_BossSpawn { get; private set; } = new UnityEvent<GM.Units.UnitBaseClass>();
+        [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveSpawn { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
 
-        public TargetList<Target> Enemies { get; private set; } = new TargetList<Target>();
+        public List<GM.Units.UnitBaseClass> Enemies { get; private set; } = new List<Units.UnitBaseClass>();
 
         // = Quick Reference Properties = //
         GameState State => App.Data.GameState;
@@ -60,14 +61,13 @@ namespace GM
             }
         }
 
-        Target InstantiateBoss()
+        GameObject InstantiateBoss()
         {
             GameObject enemy = spawner.SpawnBoss();
 
-            Target boss = new Target(enemy);
-
             // Components
             GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
+            GM.Units.UnitBaseClass unitClass = enemy.GetComponent<GM.Units.UnitBaseClass>();
 
             // Setup
             health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
@@ -75,23 +75,26 @@ namespace GM
             // Add event callbacks
             health.OnZeroHealth.AddListener(OnBossZeroHealth);
 
-            Enemies.Add(boss);
+            Enemies.Add(unitClass);
 
             // Invoke an event
-            E_BossSpawn.Invoke(boss);
+            E_BossSpawn.Invoke(unitClass);
 
-            return boss;
+            return enemy;
         }
 
         void SetupWave()
         {
             GameObject enemy = UnitManager.InstantiateEnemyUnit();
 
-            Enemies.Add(new Target(enemy));
+            // Components
+            GM.Units.UnitBaseClass unitClass = enemy.GetComponent<GM.Units.UnitBaseClass>();
+
+            Enemies.Add(unitClass);
 
             BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(State.Stage);
 
-            foreach (Target trgt in Enemies)
+            foreach (GM.Units.UnitBaseClass trgt in Enemies)
             {
                 GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
 
@@ -102,7 +105,7 @@ namespace GM
                 health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
 
                 // Only allow the unit to be attacked once it is visible on screen
-                StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.GameObject.transform.position), () => health.Invulnerable = false));
+                StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.transform.position), () => health.Invulnerable = false));
             }
 
             E_OnWaveSpawn.Invoke(Enemies);
@@ -110,26 +113,31 @@ namespace GM
 
         void StartBossFight()
         {
-            Target boss = InstantiateBoss();
+            GameObject enemy = InstantiateBoss();
 
             // Update the state
             State.IsBossSpawned = true;
 
             // Set the boss position off-screen
-            boss.GameObject.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
+            enemy.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
         }
 
 
         // = ITargetManager = //
 
-        public bool TryGetMercTarget(ref Target target)
+        public bool TryGetMercTarget(ref GM.Units.UnitBaseClass target)
         {
-            return Enemies.TryGet(out target);
+            target = default;
+
+            if (Enemies.Count > 0)
+                target = Enemies[0];
+
+            return target == default;
         }
 
         // = Event Callbacks = //
 
-        void OnEnemyZeroHealth(Target trgt)
+        void OnEnemyZeroHealth(GM.Units.UnitBaseClass trgt)
         {
             Enemies.Remove(trgt);
 

@@ -31,7 +31,7 @@ namespace GM.UI
         {
             GameManager.Instance.E_BossSpawn.AddListener(boss =>
             {
-                GM.Controllers.HealthController health = boss.GameObject.GetComponent<GM.Controllers.HealthController>();
+                GM.Controllers.HealthController health = boss.GetComponent<GM.Controllers.HealthController>();
 
                 targetSliderValue = 1.0f; // Fill up the slider to 100%
 
@@ -61,9 +61,9 @@ namespace GM.UI
 
                 targetSliderValue = 1.0f;
 
-                foreach (Target target in waveEnemies)
+                foreach (GM.Units.UnitBaseClass target in waveEnemies)
                 {
-                    GM.Controllers.HealthController health = target.GameObject.GetComponent<GM.Controllers.HealthController>();
+                    GM.Controllers.HealthController health = target.GetComponent<GM.Controllers.HealthController>();
 
                     health.OnDamageTaken.AddListener(damageTaken =>
                     {

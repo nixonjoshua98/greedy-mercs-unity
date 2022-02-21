@@ -265,7 +265,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 60f917c6c00f40b49bfe2d6193945b7a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -421,7 +421,7 @@ Transform:
   - {fileID: 9184178696973259924}
   m_Father: {fileID: 6986649623142958278}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 164.76846}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 146.40874}
 --- !u!1 &4344226942279094730
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,8 +677,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4660922222131651561}
-  - component: {fileID: 6907583816128923827}
-  - component: {fileID: 596754202098343868}
   - component: {fileID: 5593621142731929140}
   - component: {fileID: 8239912669520912629}
   m_Layer: 0
@@ -704,52 +702,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6907583816128923827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5539103568891418368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 5593621142731929140}
-  AvatarRect:
-    serializedVersion: 2
-    x: -0.1
-    y: 1.35
-    width: 2
-    height: 2.9
-  AnimationStrings:
-    Idle: Idle Blinking
-    Walk: Moving Forward
-    Attack: Attack
-    Defeat: 
-    Hurt: 
---- !u!114 &596754202098343868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5539103568891418368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98ecdcdfd93742640a3261f6994ffa97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Attack:
-    m_PersistentCalls:
-      m_Calls: []
-  Defeat:
-    m_PersistentCalls:
-      m_Calls: []
-  Hurt:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!95 &5593621142731929140
 Animator:
   serializedVersion: 3
@@ -811,7 +763,7 @@ Transform:
   - {fileID: 4926825610040337906}
   m_Father: {fileID: 6986649623142958278}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -156.34064}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -160.40607}
 --- !u!1 &5952372218786605708
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,7 +834,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 83d442bf5144c3d46b3864c42b1eae62, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -925,7 +877,7 @@ Transform:
   - {fileID: 2149446619563140025}
   m_Father: {fileID: 6986649623142958278}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -152.00635}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -178.63469}
 --- !u!1 &8404619188274281257
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,7 +911,7 @@ Transform:
   - {fileID: 4816309474361663574}
   m_Father: {fileID: 4660922222131651561}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -107.11413}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -106.22525}
 --- !u!74 &-7740268169495644381
 AnimationClip:
   m_ObjectHideFlags: 0

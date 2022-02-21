@@ -38,21 +38,21 @@ namespace GM.Mercs.Controllers
             GMLogger.WhenNull(MoveController, "IMovementController is Null");
         }
 
-        public override void StartAttack(Target target, Action<Target> callback)
+        public override void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
         {
             base.StartAttack(target, callback);
 
             Avatar.PlayAnimation(Avatar.AnimationStrings.Attack);
         }
 
-        public override bool InAttackPosition(Target target)
+        public override bool InAttackPosition(GM.Units.UnitBaseClass target)
         {
-            return Vector2.Distance(transform.position, target.GameObject.transform.position) <= AttackRange;
+            return Vector2.Distance(transform.position, target.transform.position) <= AttackRange;
         }
 
-        public override void MoveTowardsAttackPosition(Target target)
+        public override void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target)
         {
-            MoveController.MoveTowards(target.GameObject.transform.position);
+            MoveController.MoveTowards(target.transform.position);
         }
 
         public void OnMeleeAttackImpact()
@@ -68,7 +68,7 @@ namespace GM.Mercs.Controllers
 
         void InstantiateAttackImpactObject()
         {
-            Instantiate(AttackImpactObject, CurrentTarget.GameObject.transform);
+            Instantiate(AttackImpactObject, CurrentTarget.transform);
         }
     }
 }

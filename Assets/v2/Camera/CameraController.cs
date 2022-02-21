@@ -24,7 +24,7 @@ namespace GM.CameraControllers
 
             if (GameManager.Instance.Enemies.Count > 0)
             {
-                float xEnemiesPos = GameManager.Instance.Enemies.Select(x => x.GameObject.transform.position).Average(pos => pos.x);
+                float xEnemiesPos = GameManager.Instance.Enemies.Select(x => x.transform.position).Average(pos => pos.x);
                 xPositions.Add(xEnemiesPos);
             }
 

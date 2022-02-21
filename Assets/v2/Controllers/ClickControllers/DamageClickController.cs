@@ -29,13 +29,11 @@ namespace GM.Controllers
 
             if (CollisionCheck(worldPos))
             {
-                Target target = default;
+                GM.Units.UnitBaseClass target = default;
 
-                bool hasTarget = TargetManager.TryGetMercTarget(ref target);
-
-                if (hasTarget)
+                if (TargetManager.TryGetMercTarget(ref target))
                 {
-                    GM.Controllers.HealthController health = target.GameObject.GetComponent<GM.Controllers.HealthController>();
+                    GM.Controllers.HealthController health = target.GetComponent<GM.Controllers.HealthController>();
 
                     BigDouble dmg = App.Cache.TotalTapDamage;
 

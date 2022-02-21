@@ -12,7 +12,7 @@ namespace GM.Mercs.Controllers
         // = Controllers = //
         IAttackController AttackController;
 
-        Target CurrentTarget;
+        GM.Units.UnitBaseClass CurrentTarget;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
@@ -38,7 +38,7 @@ namespace GM.Mercs.Controllers
 
         void FixedUpdate()
         {
-            if (CurrentTarget == null || !AttackController.IsTargetValid(CurrentTarget.GameObject))
+            if (CurrentTarget == null || !AttackController.IsTargetValid(CurrentTarget))
             {
                 TargetManager.TryGetMercTarget(ref CurrentTarget);
             }
@@ -63,9 +63,9 @@ namespace GM.Mercs.Controllers
             AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
         }
 
-        protected void DealDamageToTarget(Target attackTarget)
+        protected void DealDamageToTarget(GM.Units.UnitBaseClass attackTarget)
         {
-            if (attackTarget.GameObject.TryGetComponent(out HealthController health))
+            if (attackTarget.TryGetComponent(out HealthController health))
             {
                 BigDouble dmg = App.Data.Mercs.GetMerc(Id).DamagePerAttack;
 

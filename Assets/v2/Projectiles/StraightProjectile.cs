@@ -11,7 +11,7 @@ namespace GM.Units.Projectiles
         bool hasConcluded = false;
 
         Action Callback;
-        Target CurrentTarget;
+        GM.Units.UnitBaseClass CurrentTarget;
 
         Vector3 Direction;
 
@@ -19,17 +19,17 @@ namespace GM.Units.Projectiles
         public float Speed = 1.0f;
 
         // = Properties = //
-        bool IsTargetValid => CurrentTarget != null && CurrentTarget.GameObject != null;
-        bool IsInContactWithTarget => Mathf.Abs(transform.position.x - CurrentTarget.GameObject.transform.position.x) < (Speed * Time.fixedDeltaTime);
+        bool IsTargetValid => CurrentTarget != null && CurrentTarget != null;
+        bool IsInContactWithTarget => Mathf.Abs(transform.position.x - CurrentTarget.transform.position.x) < (Speed * Time.fixedDeltaTime);
 
 
-        public void Init(Target target, Action action)
-        {
-            Callback = action;
-            CurrentTarget = target;
+        //public void Init(Target target, Action action)
+        //{
+        //    Callback = action;
+        //    CurrentTarget = target;
 
-            Direction = target.GameObject.transform.position - transform.position;
-        }
+        //    Direction = target.GameObject.transform.position - transform.position;
+        //}
 
         void FixedUpdate()
         {

@@ -8,6 +8,6 @@ namespace GM.Units.Projectiles
 {
     public interface IProjectile
     {
-        void Init(Target target, Action callback);
+        //void Init(Target target, Action callback);
     }
 }

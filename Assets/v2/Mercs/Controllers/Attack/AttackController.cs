@@ -11,7 +11,7 @@ namespace GM.Mercs.Controllers
         public bool IsAvailable { get; }
 
         void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback);
-        bool InAttackPosition(GM.Units.UnitBaseClass target);
+        bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
         void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
     }
 
@@ -43,7 +43,7 @@ namespace GM.Mercs.Controllers
 
         public bool IsAvailable => !isOnCooldown && !isAttacking;
 
-        public abstract bool InAttackPosition(GM.Units.UnitBaseClass target);
+        public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
         public abstract void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
 
         public virtual void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)

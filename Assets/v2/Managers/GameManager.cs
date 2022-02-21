@@ -47,7 +47,7 @@ namespace GM
         void StartWaveSystem()
         {
             // Spawn the boss if the user has previously beaten the stage and reached the boss
-            if (State.Wave == Constants.WAVES_PER_STAGE && State.IsBossSpawned)
+            if (State.EnemiesDefeated == Constants.WAVES_PER_STAGE && State.IsBossSpawned)
             {
                 StartBossFight();
             }
@@ -118,21 +118,12 @@ namespace GM
 
         void OnEnemyZeroHealth()
         {
+            State.EnemiesDefeated++;
+
             // All wave enemies have been defeated
             if (UnitManager.NumEnemyUnits == 0)
             {
-                // Time to setup the boss fight
-                if (App.Data.GameState.Wave == Constants.WAVES_PER_STAGE)
-                {
-                   StartBossFight();
-                }
-
-                else
-                {
-                    SetupWave();
-
-                    App.Data.GameState.Wave++;
-                }
+                StartBossFight();
             }
         }
 
@@ -141,9 +132,8 @@ namespace GM
             // Update the state, mainly used for saving and loading state
             State.IsBossSpawned = false;
 
-            // Advance the stage and reset the wave
             State.Stage++;
-            State.Wave = 1;
+            State.EnemiesDefeated = 0;
 
             // Setup the next wave
             SetupWave();

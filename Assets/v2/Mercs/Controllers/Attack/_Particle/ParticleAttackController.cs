@@ -17,7 +17,7 @@ namespace GM.Mercs.Controllers
         // = Controllers = //
         IMovementController MoveController;
 
-        public override bool InAttackPosition(GM.Units.UnitBaseClass target)
+        public override bool IsWithinAttackDistance(GM.Units.UnitBaseClass target)
         {
             return Mathf.Abs(target.transform.position.x - transform.position.x) < AttackRange;
         }

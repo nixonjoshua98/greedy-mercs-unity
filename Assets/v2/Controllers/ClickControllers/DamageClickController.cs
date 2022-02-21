@@ -39,8 +39,6 @@ namespace GM.Controllers
 
                     DamageTextPool.Spawn<TextPopup>().Set(dmg, GM.Common.Colors.Red, screenPos);
                 }
-
-                Debug.Log(unit);
             }
         }
 

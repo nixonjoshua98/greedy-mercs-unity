@@ -5,18 +5,16 @@ namespace GM.States
 {
     public class GameState
     {
+        // Constants
+        public readonly int EnemiesPerStage = 3;
+
         public int Stage = 1;
-        public int Wave = 1;
+        public int EnemiesDefeated = 0;
 
         public bool IsBossSpawned { get; set; } = false;
 
         [JsonIgnore]
         public bool PreviouslyPrestiged;
-
-        public GameState()
-        {
-
-        }
 
         public static GameState Deserialize(LocalSaveFileModel model)
         {

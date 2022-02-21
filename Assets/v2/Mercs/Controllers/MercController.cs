@@ -1,6 +1,7 @@
 using GM.Common.Enums;
 using GM.Controllers;
 using UnityEngine.Events;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
@@ -38,23 +39,20 @@ namespace GM.Mercs.Controllers
             }
             else
             {
+                (AttackController as MeleeAttackController).GetTargetPositionFromTarget(CurrentTarget);
+
                 if (AttackController.IsAvailable)
                 {
-                    if (!AttackController.InAttackPosition(CurrentTarget))
+                    if (!AttackController.IsWithinAttackDistance(CurrentTarget))
                     {
                         AttackController.MoveTowardsAttackPosition(CurrentTarget);
                     }
                     else
                     {
-                        StartAttack();
+                        AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
                     }
                 }
             }
-        }
-
-        void StartAttack()
-        {
-            AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
         }
 
         protected void DealDamageToTarget(GM.Units.UnitBaseClass attackTarget)

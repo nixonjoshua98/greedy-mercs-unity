@@ -1,4 +1,3 @@
-
 using GM.Units;
 using System;
 using UnityEngine;
@@ -34,8 +33,6 @@ namespace GM.Mercs.Controllers
         void GetComponents()
         {
             MoveController = GetComponent<IMovementController>();
-
-            GMLogger.WhenNull(MoveController, "IMovementController is Null");
         }
 
         public override void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
@@ -45,14 +42,30 @@ namespace GM.Mercs.Controllers
             Avatar.PlayAnimation(Avatar.AnimationStrings.Attack);
         }
 
-        public override bool InAttackPosition(GM.Units.UnitBaseClass target)
+        public override bool IsWithinAttackDistance(GM.Units.UnitBaseClass unit)
         {
-            return Vector2.Distance(transform.position, target.transform.position) <= AttackRange;
+            Vector3 position = GetTargetPositionFromTarget(unit);
+
+            return Mathf.Abs(Avatar.Center.x - position.x) <= AttackRange;
         }
 
-        public override void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target)
+        public override void MoveTowardsAttackPosition(GM.Units.UnitBaseClass unit)
         {
-            MoveController.MoveTowards(target.transform.position);
+            MoveController.MoveTowards(GetTargetPositionFromTarget(unit));
+        }
+
+        public Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
+        {
+            // Target is LEFT
+            if (Avatar.MinBounds.x > unit.Avatar.MaxBounds.x)
+            {
+                return new Vector3(unit.Avatar.MaxBounds.x + AttackRange, transform.position.y);
+            }
+            // Target is RIGHT
+            else
+            {
+                return new Vector3(unit.Avatar.MinBounds.x - AttackRange, transform.position.y);
+            }
         }
 
         public void OnMeleeAttackImpact()

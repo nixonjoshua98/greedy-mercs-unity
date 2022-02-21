@@ -11,6 +11,7 @@ namespace GM.States
         public int Stage = 1;
         public int EnemiesDefeated = 0;
 
+        public int EnemiesRemaining => EnemiesPerStage - EnemiesDefeated;
         public bool HasBossSpawned { get; set; } = false;
 
         [JsonIgnore]

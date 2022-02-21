@@ -12,7 +12,7 @@ from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.request_context import (AuthenticatedRequestContext,
-                                 authenticated_context)
+                                 inject_authenticated_context)
 from src.resources.bountyshop import (BountyShopCurrencyItem,
                                       DynamicBountyShop, dynamic_bounty_shop)
 from src.routing.handlers.abc import HandlerException
@@ -30,7 +30,7 @@ class PurchaseCurrencyResponse:
 class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
     def __init__(
         self,
-        ctx: AuthenticatedRequestContext = Depends(authenticated_context),
+        ctx: AuthenticatedRequestContext = Depends(inject_authenticated_context),
         currency_repo: CurrencyRepository = Depends(currency_repository),
         bountyshop_repo: BountyShopRepository = Depends(bountyshop_repository),
         bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),

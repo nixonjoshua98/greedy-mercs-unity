@@ -6,19 +6,15 @@ from src.routing import ServerRequest, ServerResponse
 from src.routing.handlers.abc import HandlerException
 
 
-async def handle_http_exception(request: ServerRequest, exc: HTTPException):
+async def handle_http_exception(_request: ServerRequest, exc: HTTPException):
     logger.error(exc.detail)
 
     return ServerResponse(
-        {
-            "code": exc.status_code,
-            "error": exc.detail if request.app.debug else "Server error",
-        },
-        status_code=exc.status_code,
+        {"code": exc.status_code, "error": exc.detail}, status_code=exc.status_code,
     )
 
 
-async def handle_validation_exception(_: Request, exc: RequestValidationError):
+async def handle_validation_exception(_request: Request, exc: RequestValidationError):
     logger.warn(f"Validation error - {exc.raw_errors}")
 
     return ServerResponse(
@@ -26,7 +22,7 @@ async def handle_validation_exception(_: Request, exc: RequestValidationError):
     )
 
 
-async def handle_handler_exception(_: Request, exc: HandlerException):
+async def handle_handler_exception(_request: Request, exc: HandlerException):
     logger.debug(exc.message)
 
     return ServerResponse(

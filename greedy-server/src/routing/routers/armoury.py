@@ -2,7 +2,7 @@ from fastapi import Depends
 
 from src.pymodels import BaseModel
 from src.request_context import (AuthenticatedRequestContext,
-                                 authenticated_context)
+                                 inject_authenticated_context)
 from src.routing import APIRouter, ServerResponse
 from src.routing.handlers.armoury import (UpgradeItemHandler,
                                           UpgradeItemResponse)
@@ -18,7 +18,7 @@ router = APIRouter()
 @router.post("/upgrade")
 async def upgrade(
     data: ArmouryItemActionModel,
-    user: AuthenticatedRequestContext = Depends(authenticated_context),
+    user: AuthenticatedRequestContext = Depends(inject_authenticated_context),
     handler: UpgradeItemHandler = Depends(),
 ):
     resp: UpgradeItemResponse = await handler.handle(user, data.item_id)

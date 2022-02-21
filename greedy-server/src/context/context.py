@@ -9,8 +9,6 @@ from fastapi import Depends, HTTPException
 from src.cache import MemoryCache, memory_cache
 from src.routing import ServerRequest
 
-from .session import Session
-
 
 class RequestContext:
     def __init__(self):
@@ -26,21 +24,18 @@ class AuthenticatedRequestContext(RequestContext):
         self.user_id: Optional[ObjectId] = uid
 
 
-async def authenticated_context(
-    request: ServerRequest, cache: MemoryCache = Depends(memory_cache)
+async def inject_authenticated_context(
+    request: ServerRequest,
+    cache: MemoryCache = Depends(memory_cache)
 ) -> AuthenticatedRequestContext:
 
     if (auth_key := request.headers.get("authentication")) is None:
         raise HTTPException(401, detail="Unauthorized")
 
-    elif (session := _get_session_from_cache(cache, auth_key)) is None:
+    elif (session := cache.get_session(auth_key)) is None:
         raise HTTPException(401, detail="Unauthorized")
 
     return AuthenticatedRequestContext(uid=session.user_id)
-
-
-def _get_session_from_cache(cache: MemoryCache, key: str) -> Optional[Session]:
-    return cache.get_session(key)
 
 
 def _prev_daily_reset_datetime(now: dt.datetime) -> dt.datetime:

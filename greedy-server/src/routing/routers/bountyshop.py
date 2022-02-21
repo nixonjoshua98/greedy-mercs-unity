@@ -2,7 +2,7 @@ from fastapi import Depends
 
 from src.pymodels import BaseModel
 from src.request_context import (AuthenticatedRequestContext,
-                                 authenticated_context)
+                                 inject_authenticated_context)
 from src.routing import APIRouter, ServerResponse
 
 from ..handlers.bountyshop import (PurchaseArmouryItemHandler,
@@ -20,7 +20,7 @@ class ItemData(BaseModel):
 @router.post("/purchase/armouryitem")
 async def purchase_armoury_item(
     data: ItemData,
-    ctx: AuthenticatedRequestContext = Depends(authenticated_context),
+    ctx: AuthenticatedRequestContext = Depends(inject_authenticated_context),
     handler: PurchaseArmouryItemHandler = Depends(),
 ):
     resp: PurchaseArmouryItemResponse = await handler.handle(ctx.user_id, data.item_id)
@@ -37,7 +37,7 @@ async def purchase_armoury_item(
 @router.post("/purchase/currency")
 async def purchase_armoury_item(
     data: ItemData,
-    ctx: AuthenticatedRequestContext = Depends(authenticated_context),
+    ctx: AuthenticatedRequestContext = Depends(inject_authenticated_context),
     handler: PurchaseCurrencyHandler = Depends(),
 ):
     resp: PurchaseCurrencyResponse = await handler.handle(ctx.user_id, data.item_id)

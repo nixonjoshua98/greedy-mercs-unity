@@ -12,4 +12,4 @@ class Session:
 
     @staticmethod
     def _generate_id(user_id: ObjectId, device_id: str):
-        return f"{user_id}{secrets.token_urlsafe(8)}{device_id}".upper()
+        return f"{user_id}{secrets.token_urlsafe(128)}{device_id}".upper()

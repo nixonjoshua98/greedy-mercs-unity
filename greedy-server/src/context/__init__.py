@@ -1,2 +1,2 @@
 from .context import (AuthenticatedRequestContext, RequestContext,
-                      authenticated_context)
+                      inject_authenticated_context)

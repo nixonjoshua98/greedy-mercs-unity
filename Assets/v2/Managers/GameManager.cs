@@ -10,8 +10,6 @@ namespace GM
     {
         public static GameManager Instance { get; set; } = null;
 
-        [Header("Controllers")]
-
         GM.Common.Interfaces.IUnitManager UnitManager;
 
         [HideInInspector] public UnityEvent<GM.Units.UnitBaseClass> E_BossSpawn { get; private set; } = new UnityEvent<GM.Units.UnitBaseClass>();
@@ -56,7 +54,7 @@ namespace GM
         {
             List<GM.Units.UnitBaseClass> enemies = new List<Units.UnitBaseClass>();
 
-            for (int i = 0; i < State.EnemiesPerStage; i++)
+            for (int i = 0; i < State.EnemiesRemaining; i++)
             {
                 enemies.Add(UnitManager.InstantiateEnemyUnit().GetComponent<Units.UnitBaseClass>());
             }

@@ -7,7 +7,7 @@ namespace GM.Common
 
         public const int MIN_PRESTIGE_STAGE = 60;
 
-        public const float CENTER_BATTLE_Y = 12.7f;
+        public const float CENTER_BATTLE_Y = 14.5f;
         public const int MAX_MERC_LEVEL = 1_000;
 
         public const float BASE_CRIT_CHANCE = 0.01f;

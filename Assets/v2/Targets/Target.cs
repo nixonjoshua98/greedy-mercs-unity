@@ -15,7 +15,6 @@ namespace GM.Targets
 
     public class Target : ITarget
     {
-        public IUnitController Controller { get; set; }
         public HealthController Health { get; set; }
         public GameObject GameObject { get; set; }
         public UnitAvatar Avatar { get; set; }
@@ -31,8 +30,6 @@ namespace GM.Targets
 
             Health = obj.GetComponent<HealthController>();
             Avatar = obj.GetComponentInChildren<UnitAvatar>();
-
-            Controller = obj.GetComponent<IUnitController>();
         }
     }
 }

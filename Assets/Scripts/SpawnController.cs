@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,14 +5,10 @@ using HealthController = GM.Controllers.HealthController;
 
 namespace GM
 {
-    using GM.Units.Formations;
-
     public class SpawnController : Core.GMMonoBehaviour
     {
         [SerializeField] GameObject[] BossObjects;
         [SerializeField] GameObject[] EnemyObjects;
-        [Space]
-        [SerializeField] UnitFormation[] formations;
 
 
         [Header("Components - UI")]
@@ -69,33 +64,9 @@ namespace GM
             return spawnedBoss;
         }
 
-
-        public List<GameObject> SpawnWave()
+        public GameObject InstantiateEnemyUnit()
         {
-            List<GameObject> spawnedObjects = new List<GameObject>();
-
-            UnitFormation formation = formations[Random.Range(0, formations.Length)];
-
-            Vector3 centerPos = GetWaveReferencePosition(formation);
-
-            for (int i = 0; i < formation.Count; ++i)
-            {
-                Vector3 spawnPos = centerPos + formation.GetPosition(i).ToVector3();
-
-                GameObject spawnedEnemy = Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], spawnPos, Quaternion.identity);
-
-                spawnedObjects.Add(spawnedEnemy);
-            }
-
-            return spawnedObjects;
-        }
-
-
-        Vector3 GetWaveReferencePosition(UnitFormation chosenFormation)
-        {
-            Vector3 pos = Camera.main.MaxBounds();
-
-            return new Vector3(pos.x + Mathf.Abs(chosenFormation.MinBounds().x) + 1.0f, Common.Constants.CENTER_BATTLE_Y);
+            return Instantiate(EnemyObjects[Random.Range(0, EnemyObjects.Length)], new Vector3(Camera.main.MaxBounds().x, Common.Constants.CENTER_BATTLE_Y), Quaternion.identity);
         }
 
 

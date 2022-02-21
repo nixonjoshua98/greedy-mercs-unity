@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
-  Avatar: {fileID: 7354342686835311081}
+  Avatar: {fileID: 4929902558634325923}
 --- !u!114 &-6697651762150541026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,8 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331aac1a6cc4c864d9840291ceb316f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownTimer: 0.5
-  Avatar: {fileID: 7354342686835311081}
+  CooldownTimer: 0
+  Avatar: {fileID: 4929902558634325923}
   AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
   AttackRange: 1
 --- !u!114 &3476196780248353833
@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929d4136a99b7b74dbe1b571dd062959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Avatar: {fileID: 7354342686835311081}
-  MoveSpeed: 2.5
+  Avatar: {fileID: 4929902558634325923}
+  MoveSpeed: 5
 --- !u!1001 &5097099789426097143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153,9 +153,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5097099789426097143}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7354342686835311081 stripped
+--- !u!114 &4929902558634325923 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2356322643805370910, guid: ce9de6eff68268441bd3dbe5c5b088c9,
+  m_CorrespondingSourceObject: {fileID: 204351938471775316, guid: ce9de6eff68268441bd3dbe5c5b088c9,
     type: 3}
   m_PrefabInstance: {fileID: 5097099789426097143}
   m_PrefabAsset: {fileID: 0}

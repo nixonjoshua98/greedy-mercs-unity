@@ -4,21 +4,19 @@ namespace GM.Units
 {
     public class UnitAvatar : MonoBehaviour
     {
+        public BoxCollider2D Collider;
+
         public Animator Animator;
-        public Rect AvatarRect;
         public AnimationStrings AnimationStrings;
 
-        public Vector3 AvatarCenter => transform.position + (AvatarRect.position * transform.localScale).ToVector3();
-
+        public Vector3 MinBounds => Collider.bounds.min;
+        public Vector3 MaxBounds => Collider.bounds.max;
+        public Vector3 Size => Collider.bounds.size;
+        public Vector3 Center => Collider.bounds.center;
 
         public void PlayAnimation(string anim)
         {
             Animator.Play(anim);
-        }
-
-        void OnDrawGizmos()
-        {
-            AvatarRect.DrawGizmos(transform.position, transform.localScale);
         }
     }
 }

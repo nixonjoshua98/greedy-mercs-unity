@@ -64,7 +64,7 @@ namespace GM.Mercs.Controllers
         protected virtual void InstantiateParticles()
         {
             if (ParticleSystemObject != null && CurrentTarget != null && CurrentTarget.GameObject != null)
-                Instantiate(ParticleSystemObject, CurrentTarget.Avatar.AvatarCenter);
+                Instantiate(ParticleSystemObject, CurrentTarget.Avatar.Center);
         }
 
         void OnAttackImpact()

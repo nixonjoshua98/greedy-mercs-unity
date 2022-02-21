@@ -400,10 +400,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5064120841244210573}
-  - component: {fileID: 2356322643805370910}
+  - component: {fileID: 204351938471775316}
   - component: {fileID: 647000144735152506}
   - component: {fileID: 6800511658964374014}
   - component: {fileID: 4484796574378713095}
+  - component: {fileID: 1876670771663251476}
   m_Layer: 0
   m_Name: StoneGolemAvatar
   m_TagString: Untagged
@@ -420,7 +421,7 @@ Transform:
   m_GameObject: {fileID: 3032672657413112226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7546644964956209377}
   - {fileID: 5409195532402839870}
@@ -429,7 +430,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2356322643805370910
+--- !u!114 &204351938471775316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -441,13 +442,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Collider: {fileID: 1876670771663251476}
   Animator: {fileID: 6800511658964374014}
   AvatarRect:
     serializedVersion: 2
-    x: 0
-    y: 1.9
-    width: 2.5
-    height: 3.75
+    x: -0.02103043
+    y: 1.724486
+    width: 2.696445
+    height: 3.607759
   AnimationStrings:
     Idle: Idle
     Walk: Walking
@@ -505,6 +507,32 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!61 &1876670771663251476
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3032672657413112226}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.021030426, y: 1.7244861}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.6964455, y: 3.607759}
+  m_EdgeRadius: 0
 --- !u!1 &3669126198331610458
 GameObject:
   m_ObjectHideFlags: 0

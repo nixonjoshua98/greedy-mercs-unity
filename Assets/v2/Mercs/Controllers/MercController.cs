@@ -2,13 +2,10 @@ using GM.Common.Enums;
 using GM.Controllers;
 using GM.Targets;
 using UnityEngine.Events;
-using UnityEngine;
-using GM.Units;
-using Random = UnityEngine.Random;
 
 namespace GM.Mercs.Controllers
 {
-    public interface IMercController : IUnitController
+    public interface IMercController
     {
         UnityEvent<BigDouble> OnDamageDealt { get; set; }
 
@@ -17,10 +14,9 @@ namespace GM.Mercs.Controllers
         void SetPriorityTarget(Target target);
     }
 
-    public class MercController : UnitController, IMercController
+    public class MercController : Units.UnitBaseClass, IMercController
     {
         public MercID Id;
-        public UnitAvatar Avatar;
 
         // = Controllers = //
         IAttackController AttackController;

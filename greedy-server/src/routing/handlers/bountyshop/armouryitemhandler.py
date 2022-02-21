@@ -4,6 +4,8 @@ import datetime as dt
 from bson import ObjectId
 from fastapi import Depends
 
+from src.context import (AuthenticatedRequestContext,
+                         inject_authenticated_context)
 from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,
                                             armoury_repository)
@@ -12,8 +14,6 @@ from src.mongo.repositories.bountyshop import (BountyShopRepository,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
-from src.request_context import (AuthenticatedRequestContext,
-                                 inject_authenticated_context)
 from src.resources.bountyshop import (BountyShopArmouryItem, DynamicBountyShop,
                                       dynamic_bounty_shop)
 from src.routing.handlers.abc import HandlerException

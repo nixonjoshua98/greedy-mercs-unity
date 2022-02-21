@@ -2,6 +2,8 @@ from fastapi import Depends
 
 from src.common import formulas
 from src.common.enums import BonusType
+from src.context import (AuthenticatedRequestContext,
+                         inject_authenticated_context)
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
                                               artefacts_repository)
@@ -11,8 +13,6 @@ from src.mongo.repositories.currency import CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.pymodels import BaseModel
-from src.request_context import (AuthenticatedRequestContext,
-                                 inject_authenticated_context)
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing import APIRouter, ServerResponse

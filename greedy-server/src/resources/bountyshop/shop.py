@@ -6,7 +6,7 @@ from random import Random
 from fastapi import Depends
 
 from src import utils
-from src.request_context import RequestContext
+from src.context import RequestContext
 
 from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import BountyShopLootTable

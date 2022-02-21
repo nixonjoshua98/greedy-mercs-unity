@@ -3,13 +3,13 @@ import dataclasses
 from fastapi import Depends
 
 from src import utils
+from src.context import AuthenticatedRequestContext
 from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,
                                             armoury_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.request_context import AuthenticatedRequestContext
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.routing.handlers.abc import (BaseHandler, BaseResponse,
                                       HandlerException)

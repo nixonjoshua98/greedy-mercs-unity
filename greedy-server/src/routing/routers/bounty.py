@@ -1,8 +1,8 @@
 from fastapi import Depends
 
+from src.context import (AuthenticatedRequestContext,
+                         inject_authenticated_context)
 from src.pymodels import BaseModel
-from src.request_context import (AuthenticatedRequestContext,
-                                 inject_authenticated_context)
 from src.routing import APIRouter, ServerResponse
 from src.routing.handlers.bounties import (BountyClaimHandler,
                                            BountyClaimResponse,

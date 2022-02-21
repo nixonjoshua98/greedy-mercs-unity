@@ -2,7 +2,7 @@ import dataclasses
 
 from fastapi import Depends
 
-from src.request_context import RequestContext
+from src.context import RequestContext
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties

@@ -1,11 +1,10 @@
 from fastapi import Depends
 
 from src.cache import MemoryCache, memory_cache
+from src.context import RequestContext, Session
 from src.mongo.repositories.accounts import (AccountsRepository,
                                              accounts_repository)
 from src.pymodels import BaseModel
-from src.request_context import RequestContext
-from src.request_context.session import Session
 from src.routing import APIRouter, ServerResponse
 from src.routing.handlers.accounts import CreateAccountHandler
 

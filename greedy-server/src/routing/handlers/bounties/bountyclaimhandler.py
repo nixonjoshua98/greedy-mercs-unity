@@ -5,13 +5,13 @@ import math
 from fastapi import Depends
 
 from src import utils
+from src.context import AuthenticatedRequestContext
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesModel,
                                              bounties_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.request_context import AuthenticatedRequestContext
 from src.resources.bounties import StaticBounties, inject_static_bounties
 from src.routing.handlers.abc import (BaseHandler, BaseResponse,
                                       HandlerException)

@@ -5,6 +5,7 @@ import multipledispatch as md
 from bson import ObjectId
 from fastapi import Depends
 
+from src.context import AuthenticatedRequestContext
 from src.mongo.repositories.armoury import (ArmouryRepository,
                                             armoury_repository)
 from src.mongo.repositories.artefacts import (ArtefactsRepository,
@@ -17,7 +18,6 @@ from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
 from src.mongo.repositories.units import (CharacterUnitsRepository,
                                           units_repository)
-from src.request_context import AuthenticatedRequestContext
 from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 from src.routing.handlers.abc import BaseHandler, BaseResponse
 

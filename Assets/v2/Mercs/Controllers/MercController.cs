@@ -38,8 +38,6 @@ namespace GM.Mercs.Controllers
             }
             else
             {
-                (AttackController as MeleeAttackController).GetTargetPositionFromTarget(CurrentTarget);
-
                 if (AttackController.IsAvailable)
                 {
                     if (!AttackController.IsWithinAttackDistance(CurrentTarget))

@@ -57,7 +57,7 @@ namespace GM.Mercs.Controllers
         /// <summary>
         /// Fetch the target position from the unit provided. We use the Avatar to determine which side (Left or Right) to move towards
         /// </summary>
-        public Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
+        Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
         {
             // Target is LEFT
             if (Avatar.MinBounds.x > unit.Avatar.MaxBounds.x)
@@ -75,11 +75,7 @@ namespace GM.Mercs.Controllers
         {
             Cooldown();
             DealDamageToTarget();
-
-            if (IsTargetValid())
-            {
-                InstantiateAttackImpactObject();
-            }
+            InstantiateAttackImpactObject();
         }
 
         void InstantiateAttackImpactObject()

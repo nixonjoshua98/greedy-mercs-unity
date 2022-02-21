@@ -95,7 +95,7 @@ namespace GM
         {
             Vector3 pos = Camera.main.MaxBounds();
 
-            return new Vector3(pos.x + Mathf.Abs(chosenFormation.MinBounds().x) + 1.0f, 5.5f);
+            return new Vector3(pos.x + Mathf.Abs(chosenFormation.MinBounds().x) + 1.0f, Common.Constants.CENTER_BATTLE_Y);
         }
 
 

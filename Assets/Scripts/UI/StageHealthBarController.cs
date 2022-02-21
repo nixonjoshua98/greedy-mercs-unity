@@ -57,7 +57,7 @@ namespace GM.UI
 
                 //BigDouble current = maxHealth;
 
-                //healthValue.text = "N/A";// Format.Number(maxHealth);
+                healthValue.text = "N/A";// Format.Number(maxHealth);
 
                 targetSliderValue = 1.0f;
 

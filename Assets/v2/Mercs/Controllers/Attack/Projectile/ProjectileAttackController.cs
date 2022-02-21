@@ -65,7 +65,7 @@ namespace GM.Mercs.Controllers
             }
 
             MoveController.MoveTowards(position);
-            MoveController.LookAt(target.Position);
+            MoveController.LookAt(target.GameObject.transform.position);
         }
 
         public override void StartAttack(Target target, Action<Target> callback)
@@ -78,7 +78,7 @@ namespace GM.Mercs.Controllers
 
         Vector3 GetTargetPositionFromTarget(Target target)
         {
-            return target.Position;
+            return target.GameObject.transform.position;
         }
 
 

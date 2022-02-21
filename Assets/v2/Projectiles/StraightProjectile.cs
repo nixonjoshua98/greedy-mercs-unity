@@ -20,7 +20,7 @@ namespace GM.Units.Projectiles
 
         // = Properties = //
         bool IsTargetValid => CurrentTarget != null && CurrentTarget.GameObject != null;
-        bool IsInContactWithTarget => Mathf.Abs(transform.position.x - CurrentTarget.Position.x) < (Speed * Time.fixedDeltaTime);
+        bool IsInContactWithTarget => Mathf.Abs(transform.position.x - CurrentTarget.GameObject.transform.position.x) < (Speed * Time.fixedDeltaTime);
 
 
         public void Init(Target target, Action action)
@@ -28,7 +28,7 @@ namespace GM.Units.Projectiles
             Callback = action;
             CurrentTarget = target;
 
-            Direction = target.Position - transform.position;
+            Direction = target.GameObject.transform.position - transform.position;
         }
 
         void FixedUpdate()

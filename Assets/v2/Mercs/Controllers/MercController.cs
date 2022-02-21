@@ -2,16 +2,10 @@ using GM.Common.Enums;
 using GM.Controllers;
 using GM.Targets;
 using UnityEngine.Events;
-using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
-    public interface IMercController
-    {
-        UnityEvent<BigDouble> OnDamageDealt { get; set; }
-    }
-
-    public class MercController : Units.UnitBaseClass, IMercController
+    public class MercController : Units.UnitBaseClass
     {
         public MercID Id;
 

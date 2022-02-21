@@ -47,12 +47,12 @@ namespace GM.Mercs.Controllers
 
         public override bool InAttackPosition(Target target)
         {
-            return Vector2.Distance(transform.position, target.Position) <= AttackRange;
+            return Vector2.Distance(transform.position, target.GameObject.transform.position) <= AttackRange;
         }
 
         public override void MoveTowardsAttackPosition(Target target)
         {
-            MoveController.MoveTowards(target.Position);
+            MoveController.MoveTowards(target.GameObject.transform.position);
         }
 
         public void OnMeleeAttackImpact()
@@ -68,7 +68,7 @@ namespace GM.Mercs.Controllers
 
         void InstantiateAttackImpactObject()
         {
-            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Center);
+            Instantiate(AttackImpactObject, CurrentTarget.GameObject.transform);
         }
     }
 }

@@ -102,7 +102,7 @@ namespace GM
                 health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
 
                 // Only allow the unit to be attacked once it is visible on screen
-                StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.Position), () => health.Invulnerable = false));
+                StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.GameObject.transform.position), () => health.Invulnerable = false));
             }
 
             E_OnWaveSpawn.Invoke(Enemies);

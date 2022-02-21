@@ -19,12 +19,12 @@ namespace GM.Mercs.Controllers
 
         public override bool InAttackPosition(Target target)
         {
-            return Mathf.Abs(target.Position.x - transform.position.x) < AttackRange;
+            return Mathf.Abs(target.GameObject.transform.position.x - transform.position.x) < AttackRange;
         }
 
         public override void MoveTowardsAttackPosition(Target target)
         {
-            MoveController.MoveTowards(target.Position);
+            MoveController.MoveTowards(target.GameObject.transform.position);
         }
 
         public override void StartAttack(Target target, Action<Target> callback)
@@ -64,7 +64,7 @@ namespace GM.Mercs.Controllers
         protected virtual void InstantiateParticles()
         {
             if (ParticleSystemObject != null && CurrentTarget != null && CurrentTarget.GameObject != null)
-                Instantiate(ParticleSystemObject, CurrentTarget.Avatar.Center);
+                Instantiate(ParticleSystemObject, CurrentTarget.GameObject.transform.position);
         }
 
         void OnAttackImpact()

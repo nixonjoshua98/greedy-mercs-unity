@@ -1,7 +1,6 @@
 using GM.Common.Enums;
 using GM.Controllers;
 using UnityEngine.Events;
-using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
@@ -33,7 +32,7 @@ namespace GM.Mercs.Controllers
 
         void FixedUpdate()
         {
-            if (CurrentTarget == null || !AttackController.IsTargetValid(CurrentTarget))
+            if (!AttackController.IsTargetValid(CurrentTarget))
             {
                 UnitManager.TryGetEnemyUnit(out CurrentTarget);
             }

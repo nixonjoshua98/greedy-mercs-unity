@@ -31,7 +31,15 @@ namespace GM
 
         void Start()
         {
-            StartWaveSystem();
+            // Spawn the boss if the user has previously beaten the stage and reached the boss
+            if (State.EnemiesDefeated == State.EnemiesPerStage)
+            {
+                StartStageBoss();
+            }
+            else
+            {
+                SetupWave();
+            }
         }
 
         void InitialSetup()
@@ -44,44 +52,11 @@ namespace GM
             }
         }
 
-        void StartWaveSystem()
-        {
-            // Spawn the boss if the user has previously beaten the stage and reached the boss
-            if (State.EnemiesDefeated == Constants.WAVES_PER_STAGE && State.IsBossSpawned)
-            {
-                StartBossFight();
-            }
-            else
-            {
-                SetupWave();
-            }
-        }
-
-        GameObject InstantiateBoss()
-        {
-            GameObject enemy = UnitManager.InstantiateEnemyUnit();
-
-            // Components
-            GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
-            GM.Units.UnitBaseClass unitClass = enemy.GetComponent<GM.Units.UnitBaseClass>();
-
-            // Setup
-            health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
-
-            // Add event callbacks
-            health.OnZeroHealth.AddListener(OnBossZeroHealth);
-
-            // Invoke an event
-            E_BossSpawn.Invoke(unitClass);
-
-            return enemy;
-        }
-
         void SetupWave()
         {
             List<GM.Units.UnitBaseClass> enemies = new List<Units.UnitBaseClass>();
 
-            for (int i = 0; i < GM.Common.Constants.WAVES_PER_STAGE; i++)
+            for (int i = 0; i < State.EnemiesPerStage; i++)
             {
                 enemies.Add(UnitManager.InstantiateEnemyUnit().GetComponent<Units.UnitBaseClass>());
             }
@@ -102,15 +77,28 @@ namespace GM
             E_OnWaveSpawn.Invoke(enemies);
         }
 
-        void StartBossFight()
+        void StartStageBoss()
         {
-            GameObject enemy = InstantiateBoss();
+            GameObject enemy = UnitManager.InstantiateEnemyUnit();
+
+            // Components
+            GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
+            GM.Units.UnitBaseClass unitClass = enemy.GetComponent<GM.Units.UnitBaseClass>();
+
+            // Setup
+            health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
+
+            // Add event callbacks
+            health.OnZeroHealth.AddListener(OnBossZeroHealth);
 
             // Update the state
-            State.IsBossSpawned = true;
+            State.HasBossSpawned = true;
 
             // Set the boss position off-screen
             enemy.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
+
+            // Invoke an event
+            E_BossSpawn.Invoke(unitClass);
         }
 
 
@@ -123,14 +111,14 @@ namespace GM
             // All wave enemies have been defeated
             if (UnitManager.NumEnemyUnits == 0)
             {
-                StartBossFight();
+                StartStageBoss();
             }
         }
 
         void OnBossZeroHealth()
         {
             // Update the state, mainly used for saving and loading state
-            State.IsBossSpawned = false;
+            State.HasBossSpawned = false;
 
             State.Stage++;
             State.EnemiesDefeated = 0;

@@ -54,6 +54,9 @@ namespace GM.Mercs.Controllers
             MoveController.MoveTowards(GetTargetPositionFromTarget(unit));
         }
 
+        /// <summary>
+        /// Fetch the target position from the unit provided. We use the Avatar to determine which side (Left or Right) to move towards
+        /// </summary>
         public Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
         {
             // Target is LEFT

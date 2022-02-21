@@ -11,7 +11,7 @@ namespace GM.States
         public int Stage = 1;
         public int EnemiesDefeated = 0;
 
-        public bool IsBossSpawned { get; set; } = false;
+        public bool HasBossSpawned { get; set; } = false;
 
         [JsonIgnore]
         public bool PreviouslyPrestiged;

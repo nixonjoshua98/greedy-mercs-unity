@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd2cbf7afad7554296ac8521ed6fdc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 0
   Avatar: {fileID: 4929902558634325923}
+  Id: 0
 --- !u!114 &-6697651762150541026
 MonoBehaviour:
   m_ObjectHideFlags: 0

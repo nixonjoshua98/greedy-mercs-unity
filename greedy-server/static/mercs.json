@@ -297,7 +297,6 @@
     "mercId": 4,
     "baseUpgradeCost": 50,
     "baseDamage": 10,
-    "isDefault": true,
     "passives": [
       {
         "bonusType": 700,

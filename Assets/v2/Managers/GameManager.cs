@@ -1,25 +1,21 @@
 ﻿using GM.Common;
 using GM.States;
 using System.Collections.Generic;
-using GM.Targets;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM
 {
-    public class GameManager : Core.GMMonoBehaviour, ITargetManager
+    public class GameManager : Core.GMMonoBehaviour
     {
         public static GameManager Instance { get; set; } = null;
 
         [Header("Controllers")]
-        [SerializeField] SpawnController spawner;
 
         GM.Common.Interfaces.IUnitManager UnitManager;
 
         [HideInInspector] public UnityEvent<GM.Units.UnitBaseClass> E_BossSpawn { get; private set; } = new UnityEvent<GM.Units.UnitBaseClass>();
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveSpawn { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
-
-        public List<GM.Units.UnitBaseClass> Enemies { get; private set; } = new List<Units.UnitBaseClass>();
 
         // = Quick Reference Properties = //
         GameState State => App.Data.GameState;
@@ -63,7 +59,7 @@ namespace GM
 
         GameObject InstantiateBoss()
         {
-            GameObject enemy = spawner.SpawnBoss();
+            GameObject enemy = UnitManager.InstantiateEnemyUnit();
 
             // Components
             GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
@@ -75,8 +71,6 @@ namespace GM
             // Add event callbacks
             health.OnZeroHealth.AddListener(OnBossZeroHealth);
 
-            Enemies.Add(unitClass);
-
             // Invoke an event
             E_BossSpawn.Invoke(unitClass);
 
@@ -85,30 +79,27 @@ namespace GM
 
         void SetupWave()
         {
-            GameObject enemy = UnitManager.InstantiateEnemyUnit();
+            List<GM.Units.UnitBaseClass> enemies = new List<Units.UnitBaseClass>();
 
-            // Components
-            GM.Units.UnitBaseClass unitClass = enemy.GetComponent<GM.Units.UnitBaseClass>();
-
-            Enemies.Add(unitClass);
+            for (int i = 0; i < GM.Common.Constants.WAVES_PER_STAGE; i++)
+            {
+                enemies.Add(UnitManager.InstantiateEnemyUnit().GetComponent<Units.UnitBaseClass>());
+            }
 
             BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(State.Stage);
 
-            foreach (GM.Units.UnitBaseClass trgt in Enemies)
+            foreach (GM.Units.UnitBaseClass unit in enemies)
             {
-                GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
+                GM.Units.UnitBaseClass unitClass = unit.GetComponent<GM.Units.UnitBaseClass>();
 
-                health.Invulnerable = true;
+                GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
 
-                health.Init(val: combinedHealth / Enemies.Count);
+                health.Init(combinedHealth);
 
-                health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(trgt));
-
-                // Only allow the unit to be attacked once it is visible on screen
-                StartCoroutine(Enumerators.InvokeAfter(() => Camera.main.IsVisible(trgt.transform.position), () => health.Invulnerable = false));
+                health.OnZeroHealth.AddListener(OnEnemyZeroHealth);
             }
 
-            E_OnWaveSpawn.Invoke(Enemies);
+            E_OnWaveSpawn.Invoke(enemies);
         }
 
         void StartBossFight()
@@ -123,31 +114,17 @@ namespace GM
         }
 
 
-        // = ITargetManager = //
-
-        public bool TryGetMercTarget(ref GM.Units.UnitBaseClass target)
-        {
-            target = default;
-
-            if (Enemies.Count > 0)
-                target = Enemies[0];
-
-            return target == default;
-        }
-
         // = Event Callbacks = //
 
-        void OnEnemyZeroHealth(GM.Units.UnitBaseClass trgt)
+        void OnEnemyZeroHealth()
         {
-            Enemies.Remove(trgt);
-
             // All wave enemies have been defeated
-            if (Enemies.Count == 0)
+            if (UnitManager.NumEnemyUnits == 0)
             {
                 // Time to setup the boss fight
                 if (App.Data.GameState.Wave == Constants.WAVES_PER_STAGE)
                 {
-                    StartBossFight();
+                   StartBossFight();
                 }
 
                 else
@@ -161,8 +138,6 @@ namespace GM
 
         void OnBossZeroHealth()
         {
-            Enemies.Clear(); // Clear all enemies (should only be 1)
-
             // Update the state, mainly used for saving and loading state
             State.IsBossSpawned = false;
 

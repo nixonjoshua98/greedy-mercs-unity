@@ -1,6 +1,7 @@
 ﻿using GM.Units;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM
 {
@@ -11,11 +12,27 @@ namespace GM
         [Header("Prefabs/Objects")]
         public GameObject EnemyUnitObject;
 
-        List<UnitBaseClass> EnemyUnits = new List<UnitBaseClass>();
+        public List<UnitBaseClass> EnemyUnits { get; set; } = new List<UnitBaseClass>();
+
+        // Public properties
+        public int NumEnemyUnits { get => EnemyUnits.Count; }
+
+        public bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit)
+        {
+            unit = default;
+
+            if (EnemyUnits.Count > 0)
+            {
+                unit = EnemyUnits[0];
+                return true;
+            }
+
+            return false;
+        }
 
         public GameObject InstantiateEnemyUnit()
         {
-            Vector3 pos = LeftMostEnemyUnitStartPosition + new Vector3(Camera.main.transform.position.x, 0);
+            Vector3 pos = LeftMostEnemyUnitStartPosition + new Vector3(Camera.main.MaxBounds().x, 0);
 
             if (EnemyUnits.Count > 0)
             {
@@ -28,6 +45,7 @@ namespace GM
 
             UnitBaseClass newEnemyUnit = instObject.GetComponent<UnitBaseClass>();
 
+            // Set internal event listeners
             if (instObject.TryGetComponent(out GM.Controllers.HealthController health))
             {
                 health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(newEnemyUnit));

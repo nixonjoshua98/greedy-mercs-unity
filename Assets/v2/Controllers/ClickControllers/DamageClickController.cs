@@ -1,5 +1,5 @@
 using GM.Common;
-using GM.Targets;
+
 using GM.UI;
 using UnityEngine;
 
@@ -12,11 +12,11 @@ namespace GM.Controllers
 
         Vector3[] RectTransformCorners;
 
-        GM.Targets.ITargetManager TargetManager;
+        GM.Common.Interfaces.IUnitManager UnitManager;
 
         void Start()
         {
-            TargetManager = this.GetComponentInScene<GM.Targets.ITargetManager>();
+            UnitManager = this.GetComponentInScene<GM.Common.Interfaces.IUnitManager>();
 
             RectTransformCorners = new Vector3[4];
 
@@ -29,11 +29,9 @@ namespace GM.Controllers
 
             if (CollisionCheck(worldPos))
             {
-                GM.Units.UnitBaseClass target = default;
-
-                if (TargetManager.TryGetMercTarget(ref target))
+                if (UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
                 {
-                    GM.Controllers.HealthController health = target.GetComponent<GM.Controllers.HealthController>();
+                    GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
 
                     BigDouble dmg = App.Cache.TotalTapDamage;
 
@@ -41,6 +39,8 @@ namespace GM.Controllers
 
                     DamageTextPool.Spawn<TextPopup>().Set(dmg, GM.Common.Colors.Red, screenPos);
                 }
+
+                Debug.Log(unit);
             }
         }
 

@@ -3,11 +3,10 @@ from fastapi import Depends
 from src.cache import MemoryCache, memory_cache
 from src.mongo.repositories.accounts import (AccountsRepository,
                                              accounts_repository)
-from src.mongo.repositories.units import units_repository
 from src.pymodels import BaseModel
 from src.request_context import RequestContext
 from src.request_context.session import Session
-from src.routing import APIRouter, ServerRequest, ServerResponse
+from src.routing import APIRouter, ServerResponse
 from src.routing.handlers.accounts import CreateAccountHandler
 
 from ..handlers.data.userdata import GetUserDataHandler, UserDataResponse
@@ -21,7 +20,6 @@ class LoginModel(BaseModel):
 
 @router.post("/")
 async def player_login(
-    request: ServerRequest,
     data: LoginModel,
     ctx: RequestContext = Depends(),
     user_data_handler: GetUserDataHandler = Depends(),
@@ -33,8 +31,6 @@ async def player_login(
 
     if user is None:
         user = await create_account.handle(data.device_id)
-
-    await units_repository(request).insert_units(user.id, [0, 2])
 
     data_resp: UserDataResponse = await user_data_handler.handle(user.id, ctx.prev_daily_reset)
 

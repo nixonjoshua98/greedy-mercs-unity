@@ -19,7 +19,6 @@ namespace GM.Enemies.Controllers
 
         private void Awake()
         {
-            GetComponents();
             SubscribeToEvents();
         }
 

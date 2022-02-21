@@ -1,6 +1,5 @@
 using GM.Common.Enums;
 using GM.Controllers;
-using GM.Targets;
 using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
@@ -10,37 +9,32 @@ namespace GM.Mercs.Controllers
         public MercID Id;
 
         // = Controllers = //
-        IAttackController AttackController;
-
         GM.Units.UnitBaseClass CurrentTarget;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
 
-        ITargetManager TargetManager;
+        // Interfaces
+        GM.Mercs.Controllers.IAttackController AttackController;
+        GM.Common.Interfaces.IUnitManager UnitManager;
 
         void Awake()
         {
             GetComponents();
         }
 
-        protected override void GetComponents()
+        protected void GetComponents()
         {
-            base.GetComponents();
+            UnitManager = this.GetComponentInScene<GM.Common.Interfaces.IUnitManager>();
 
             AttackController = GetComponent<IAttackController>();
-            TargetManager = this.GetComponentInScene<ITargetManager>();         
-
-            GMLogger.WhenNull(TargetManager, "Fatal: TargetManager is Null");
-            GMLogger.WhenNull(Movement, "IMovementController is Null");
-            GMLogger.WhenNull(AttackController, "IAttackController is Null");
         }
 
         void FixedUpdate()
         {
             if (CurrentTarget == null || !AttackController.IsTargetValid(CurrentTarget))
             {
-                TargetManager.TryGetMercTarget(ref CurrentTarget);
+                UnitManager.TryGetEnemyUnit(out CurrentTarget);
             }
             else
             {

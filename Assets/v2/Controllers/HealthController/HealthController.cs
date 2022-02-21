@@ -12,7 +12,6 @@ namespace GM.Controllers
         public UnityEvent<BigDouble> OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
 
         public bool IsDead { get; private set; } = false;
-        public bool Invulnerable { get; set; } = false;
         public float Percent => (float)(Current / MaxHealth).ToDouble();
 
         public void Init(BigDouble val)
@@ -20,30 +19,23 @@ namespace GM.Controllers
             MaxHealth = Current = val;
         }
 
-        public virtual BigDouble TakeDamage(BigDouble amount)
+        public virtual void TakeDamage(BigDouble amount)
         {
-            if (!Invulnerable)
+            if (!IsDead)
             {
-                if (!IsDead)
+                BigDouble dmgDealt = BigDouble.Min(amount, Current);
+
+                Current -= amount;
+
+                OnDamageTaken.Invoke(dmgDealt);
+
+                if (Current <= 0.0f)
                 {
-                    BigDouble dmgDealt = BigDouble.Min(amount, Current);
+                    IsDead = true;
 
-                    Current -= amount;
-
-                    OnDamageTaken.Invoke(dmgDealt);
-
-                    if (Current <= 0.0f)
-                    {
-                        IsDead = true;
-
-                        OnZeroHealth.Invoke();
-                    }
-
-                    return dmgDealt;
+                    OnZeroHealth.Invoke();
                 }
             }
-
-            return 0;
         }
     }
 }

@@ -16,7 +16,11 @@ namespace GM.Mercs.Controllers
 
         // Interfaces
         GM.Mercs.Controllers.IAttackController AttackController;
+
+        // Scene Interfaces
         GM.Common.Interfaces.IUnitManager UnitManager;
+        GM.UI.IDamageNumberManager DamageNumberManager;
+
 
         void Awake()
         {
@@ -25,6 +29,7 @@ namespace GM.Mercs.Controllers
 
         protected void GetComponents()
         {
+            DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
             UnitManager = this.GetComponentInScene<GM.Common.Interfaces.IUnitManager>();
 
             AttackController = GetComponent<IAttackController>();
@@ -63,6 +68,8 @@ namespace GM.Mercs.Controllers
                 health.TakeDamage(dmg);
 
                 OnDamageDealt.Invoke(dmg);
+
+                DamageNumberManager.InstantiateNumber(attackTarget.Avatar, dmg);
             }
         }
     }

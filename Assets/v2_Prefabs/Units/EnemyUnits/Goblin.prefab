@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 532862071708076376}
   m_Layer: 0
-  m_Name: HealthBarTargetTransform
+  m_Name: HealthTransform
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

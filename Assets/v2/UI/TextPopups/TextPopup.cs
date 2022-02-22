@@ -2,22 +2,42 @@ using TMPro;
 using UnityEngine;
 using BigInteger = System.Numerics.BigInteger;
 
+
 namespace GM.UI
 {
     public class TextPopup : MonoBehaviour
     {
+        [Header("Components")]
         public TMP_Text Text;
 
         [Header("Properties")]
+        [SerializeField] Vector2 MinMoveVector = new Vector2(0, 125);
+        [SerializeField] Vector2 MaxMoveVector = new Vector2(0, 125);
+        [Space]
         public float Lifetime = 0.5f;
         public float FadeDuration = 0.5f;
-        [Space]
-        public Vector2 MoveVector = new Vector2(0, 125);
+
+        // ...
+        Vector2 MoveVector;
+        Color OriginalColour;
 
         float fadeTimer;
         float lifetimeTimer;
 
         bool isSet = false;
+
+        void Awake()
+        {
+            OriginalColour = Text.color;
+        }
+
+        public void SetValue(string value)
+        {
+            Reset();
+
+            Text.text = value;
+            Text.color = OriginalColour;
+        }
 
         public void Set(BigInteger val)
         {
@@ -50,6 +70,9 @@ namespace GM.UI
             isSet = true;
             lifetimeTimer = Lifetime;
             fadeTimer = FadeDuration;
+            Text.color = OriginalColour;
+
+            MoveVector = new Vector2(Random.Range(MinMoveVector.x, MaxMoveVector.x), Random.Range(MinMoveVector.y, MaxMoveVector.y));
         }
 
         void Update()
@@ -72,7 +95,7 @@ namespace GM.UI
             }
         }
 
-        protected virtual void OnFinished()
+        protected void OnFinished()
         {
             isSet = false;
 

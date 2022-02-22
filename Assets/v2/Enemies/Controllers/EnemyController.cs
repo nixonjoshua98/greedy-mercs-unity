@@ -81,7 +81,6 @@ namespace GM.Enemies.Controllers
             StartCoroutine(FadeEnumerator(duration, action));
         }
 
-
         IEnumerator FadeEnumerator(float duration, Action action)
         {
             SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
@@ -106,7 +105,6 @@ namespace GM.Enemies.Controllers
 
             action.Invoke();
         }
-
 
         void InstantiateDefeatPS()
         {

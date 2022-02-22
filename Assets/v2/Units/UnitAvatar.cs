@@ -4,10 +4,12 @@ namespace GM.Units
 {
     public class UnitAvatar : MonoBehaviour
     {
-        public BoxCollider2D Collider;
+        [SerializeField] BoxCollider2D Collider;
 
         public Animator Animator;
         public AnimationStrings AnimationStrings;
+
+        public Bounds Bounds {  get { return Collider.bounds; } }
 
         public Vector3 MinBounds => Collider.bounds.min;
         public Vector3 MaxBounds => Collider.bounds.max;

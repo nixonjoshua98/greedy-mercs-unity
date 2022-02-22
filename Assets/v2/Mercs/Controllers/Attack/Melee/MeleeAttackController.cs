@@ -80,7 +80,7 @@ namespace GM.Mercs.Controllers
 
         void InstantiateAttackImpactObject()
         {
-            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Center);
+            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition());
         }
     }
 }

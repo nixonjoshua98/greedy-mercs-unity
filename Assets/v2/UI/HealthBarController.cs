@@ -40,7 +40,7 @@ namespace GM.UI
 
         // = Event Callbacks = // 
 
-        void OnHealthChange(BigDouble _)
+        void OnHealthChange(BigDouble damage)
         {
             UpdateHealthUI();
         }

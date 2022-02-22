@@ -6,6 +6,15 @@ namespace GM.Core
     {
         protected static GMApplication App => GMApplication.Instance;
 
+
+
+
+
+
+
+
+
+
         private GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
 
         public GameObject Instantiate(GameObject obj, Vector3 position) => Instantiate(obj, position, Quaternion.identity, null);

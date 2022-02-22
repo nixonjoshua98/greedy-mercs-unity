@@ -401,7 +401,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5350332987696591106}
-  - component: {fileID: 7850242024314757688}
   m_Layer: 5
   m_Name: StageHealthBar
   m_TagString: EnemyHealthbar
@@ -432,21 +431,6 @@ RectTransform:
   m_AnchoredPosition: {x: 292, y: -250}
   m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7850242024314757688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5350332987696591105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 929022f51fe005c4880ec5a93846712c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  primarySlider: {fileID: 2706610987064590969}
-  secondarySlider: {fileID: 3162494173140471177}
-  healthValue: {fileID: 1044370854579833142}
 --- !u!1 &7608550340358158990
 GameObject:
   m_ObjectHideFlags: 0

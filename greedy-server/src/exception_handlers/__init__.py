@@ -15,7 +15,7 @@ async def handle_http_exception(_request: ServerRequest, exc: HTTPException):
 
 
 async def handle_validation_exception(_request: Request, exc: RequestValidationError):
-    logger.warn(f"Validation error - {exc.raw_errors}")
+    logger.warn(f"Validation error {exc.raw_errors}")
 
     return ServerResponse(
         {"code": 400, "error": "Client request error"}, status_code=400

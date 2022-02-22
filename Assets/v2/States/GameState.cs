@@ -1,4 +1,5 @@
 ﻿using GM.LocalSave;
+using System;
 using Newtonsoft.Json;
 
 namespace GM.States
@@ -11,7 +12,7 @@ namespace GM.States
         public int Stage = 1;
         public int EnemiesDefeated = 0;
 
-        public int EnemiesRemaining => EnemiesPerStage - EnemiesDefeated;
+        public int EnemiesRemaining => Math.Max(0, EnemiesPerStage - EnemiesDefeated);
         public bool HasBossSpawned { get; set; } = false;
 
         [JsonIgnore]

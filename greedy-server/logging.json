@@ -9,11 +9,9 @@
     },
     "file": {
       "level": "DEBUG",
-      "class": "logging.handlers.RotatingFileHandler",
+      "class": "logging.FileHandler",
       "formatter": "standard",
-      "filename": "./logs/logfile.log",
-      "maxBytes": 10000,
-      "backupCount": 5,
+      "filename": "./logs/logfile.txt",
       "delay": true
     }
   },

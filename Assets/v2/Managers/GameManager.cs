@@ -16,7 +16,7 @@ namespace GM
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveSpawn { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
 
         // = Quick Reference Properties = //
-        GameState State => App.Data.GameState;
+        GameState CurrentGameState => App.Data.GameState;
 
         void Awake()
         {
@@ -30,7 +30,7 @@ namespace GM
         void Start()
         {
             // Spawn the boss if the user has previously beaten the stage and reached the boss
-            if (State.EnemiesDefeated == State.EnemiesPerStage)
+            if (CurrentGameState.EnemiesRemaining == 0)
             {
                 StartStageBoss();
             }
@@ -42,9 +42,9 @@ namespace GM
 
         void InitialSetup()
         {
-            if (State.PreviouslyPrestiged)
+            if (CurrentGameState.PreviouslyPrestiged)
             {
-                State.PreviouslyPrestiged = false;
+                CurrentGameState.PreviouslyPrestiged = false;
 
                 App.SaveManager.Paused = false;
             }
@@ -54,12 +54,12 @@ namespace GM
         {
             List<GM.Units.UnitBaseClass> enemies = new List<Units.UnitBaseClass>();
 
-            for (int i = 0; i < State.EnemiesRemaining; i++)
+            for (int i = 0; i < CurrentGameState.EnemiesRemaining; i++)
             {
                 enemies.Add(UnitManager.InstantiateEnemyUnit().GetComponent<Units.UnitBaseClass>());
             }
 
-            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(State.Stage);
+            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(CurrentGameState.Stage);
 
             foreach (GM.Units.UnitBaseClass unit in enemies)
             {
@@ -84,13 +84,13 @@ namespace GM
             GM.Units.UnitBaseClass unitClass = enemy.GetComponent<GM.Units.UnitBaseClass>();
 
             // Setup
-            health.Init(val: App.Cache.StageBossHealthAtStage(State.Stage));
+            health.Init(val: App.Cache.StageBossHealthAtStage(CurrentGameState.Stage));
 
             // Add event callbacks
             health.OnZeroHealth.AddListener(OnBossZeroHealth);
 
             // Update the state
-            State.HasBossSpawned = true;
+            CurrentGameState.HasBossSpawned = true;
 
             // Set the boss position off-screen
             enemy.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
@@ -104,7 +104,7 @@ namespace GM
 
         void OnEnemyZeroHealth()
         {
-            State.EnemiesDefeated++;
+            CurrentGameState.EnemiesDefeated++;
 
             // All wave enemies have been defeated
             if (UnitManager.NumEnemyUnits == 0)
@@ -116,10 +116,10 @@ namespace GM
         void OnBossZeroHealth()
         {
             // Update the state, mainly used for saving and loading state
-            State.HasBossSpawned = false;
+            CurrentGameState.HasBossSpawned = false;
 
-            State.Stage++;
-            State.EnemiesDefeated = 0;
+            CurrentGameState.Stage++;
+            CurrentGameState.EnemiesDefeated = 0;
 
             // Setup the next wave
             SetupWave();

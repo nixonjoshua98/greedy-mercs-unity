@@ -11,15 +11,31 @@ namespace GM.Enemies.Controllers
     {
         [Header("Prefabs")]
         public GameObject DefeatPS;
+        public GameObject HealthBarObject;
+
+        [Header("References")]
+        public Transform HealthBarTargetTransform;
 
         [Header("Components")]
         public UnitAvatar UnitAvatar;
         [Space]
         [SerializeField] HealthController healthController;
 
-        private void Awake()
+        void Awake()
         {
             SubscribeToEvents();
+        }
+
+        void Start()
+        {
+            InstantiateHealthBar();
+        }
+
+        void InstantiateHealthBar()
+        {
+            GM.UI.HealthBarController controller = InstantiateUI<GM.UI.HealthBarController>(HealthBarObject);
+
+            controller.AssignHealthController(healthController, HealthBarTargetTransform);
         }
 
         void SubscribeToEvents()

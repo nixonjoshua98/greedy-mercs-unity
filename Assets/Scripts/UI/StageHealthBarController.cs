@@ -14,8 +14,12 @@ namespace GM.UI
 
         float targetSliderValue = 1.0f;
 
+        WaveManager WaveManager;
+
         void Awake()
         {
+            WaveManager = this.GetComponentInScene<WaveManager>();
+
             SetupWaveSpawnEvent();
             SetupBossEvents();
         }
@@ -29,7 +33,7 @@ namespace GM.UI
 
         void SetupBossEvents()
         {
-            GameManager.Instance.E_BossSpawn.AddListener(boss =>
+            WaveManager.E_BossSpawn.AddListener(boss =>
             {
                 GM.Controllers.HealthController health = boss.GetComponent<GM.Controllers.HealthController>();
 
@@ -51,7 +55,7 @@ namespace GM.UI
 
         void SetupWaveSpawnEvent()
         {
-            GameManager.Instance.E_OnWaveSpawn.AddListener(waveEnemies =>
+            WaveManager.E_OnWaveSpawn.AddListener(waveEnemies =>
             {
                 //BigDouble maxHealth = waveEnemies.Select(w => w.Health.MaxHealth).Sum();
 

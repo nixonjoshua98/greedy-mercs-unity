@@ -1,5 +1,4 @@
 using GM.Common.Enums;
-using GM.Controllers;
 using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
@@ -17,9 +16,12 @@ namespace GM.Mercs.Controllers
         // Interfaces
         GM.Mercs.Controllers.IAttackController AttackController;
 
-        // Scene Interfaces
+        // Managers
         IUnitManager UnitManager;
-        GM.UI.IDamageNumberManager DamageNumberManager;
+        GameManager GameManager;
+
+        // ...
+        GM.Mercs.Data.MercData MercDataValues => App.Data.Mercs.GetMerc(Id);
 
 
         void Awake()
@@ -29,8 +31,8 @@ namespace GM.Mercs.Controllers
 
         protected void GetComponents()
         {
-            DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
             UnitManager = this.GetComponentInScene<IUnitManager>();
+            GameManager = this.GetComponentInScene<GameManager>();
 
             AttackController = GetComponent<IAttackController>();
         }
@@ -59,17 +61,11 @@ namespace GM.Mercs.Controllers
 
         protected void DealDamageToTarget(GM.Units.UnitBaseClass attackTarget)
         {
-            if (attackTarget.TryGetComponent(out HealthController health))
+            BigDouble dmg = MercDataValues.DamagePerAttack;
+
+            if (GameManager.DealDamageToTarget(dmg))
             {
-                BigDouble dmg = App.Data.Mercs.GetMerc(Id).DamagePerAttack;
-
-                App.Cache.ApplyCritHit(ref dmg);
-
-                health.TakeDamage(dmg);
-
                 OnDamageDealt.Invoke(dmg);
-
-                DamageNumberManager.Spawn(attackTarget.Avatar, Format.Number(dmg));
             }
         }
     }

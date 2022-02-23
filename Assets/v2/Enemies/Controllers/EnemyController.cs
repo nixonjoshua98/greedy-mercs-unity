@@ -11,6 +11,8 @@ namespace GM.Enemies.Controllers
     {
         [Header("Prefabs")]
         public GameObject DefeatPS;
+        public GameObject CoinDropPS;
+        [Space]
         public GameObject HealthBarObject;
 
         [Header("References")]
@@ -51,6 +53,7 @@ namespace GM.Enemies.Controllers
         public void OnZeroHealth()
         {
             UnitAvatar.Animator.Play(UnitAvatar.AnimationStrings.Defeat);
+            InstantiateCoinDropPS();
         }
 
         public void OnDamageTaken(BigDouble damageTaken)
@@ -106,12 +109,7 @@ namespace GM.Enemies.Controllers
             action.Invoke();
         }
 
-        void InstantiateDefeatPS()
-        {
-            if (DefeatPS != null)
-            {
-                Instantiate(DefeatPS, transform.position, Quaternion.identity, null);
-            }
-        }
+        void InstantiateDefeatPS() => Instantiate(DefeatPS, transform.position, Quaternion.identity, null);
+        void InstantiateCoinDropPS() => Instantiate(CoinDropPS, Avatar.Bounds.center, Quaternion.identity, null);
     }
 }

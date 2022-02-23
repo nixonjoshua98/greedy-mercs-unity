@@ -46,7 +46,7 @@ namespace GM.Mercs.Controllers
         {
             Vector3 position = GetTargetPositionFromTarget(unit);
 
-            return Mathf.Abs(Avatar.Center.x - position.x) <= AttackRange;
+            return Mathf.Abs(Avatar.Bounds.center.x - position.x) <= AttackRange;
         }
 
         public override void MoveTowardsAttackPosition(GM.Units.UnitBaseClass unit)
@@ -60,14 +60,14 @@ namespace GM.Mercs.Controllers
         Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
         {
             // Target is LEFT
-            if (Avatar.MinBounds.x > unit.Avatar.MaxBounds.x)
+            if (Avatar.Bounds.min.x > unit.Avatar.Bounds.max.x)
             {
-                return new Vector3(unit.Avatar.MaxBounds.x + AttackRange, transform.position.y);
+                return new Vector3(unit.Avatar.Bounds.max.x + AttackRange, transform.position.y);
             }
             // Target is RIGHT
             else
             {
-                return new Vector3(unit.Avatar.MinBounds.x - AttackRange, transform.position.y);
+                return new Vector3(unit.Avatar.Bounds.min.x - AttackRange, transform.position.y);
             }
         }
 

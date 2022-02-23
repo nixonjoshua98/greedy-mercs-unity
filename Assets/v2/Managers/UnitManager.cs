@@ -37,7 +37,7 @@ namespace GM
             {
                 UnitBaseClass unit = GetLastPlacedEnemyUnit();
 
-                pos = new Vector3(unit.Avatar.MaxBounds.x + (unit.Avatar.Size.x / 2) + 0.25f, unit.transform.position.y);
+                pos = new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 0.25f, unit.transform.position.y);
             }
 
             GameObject instObject = Instantiate(EnemyUnitObject, pos, Quaternion.identity);

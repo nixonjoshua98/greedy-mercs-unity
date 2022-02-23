@@ -18,24 +18,35 @@ namespace GM.UI
             Health = health;
             FollowTransformTarget = followTransform;
 
+            // Events
             Health.OnDamageTaken.AddListener(OnHealthChange);
             Health.OnZeroHealth.AddListener(OnHealthZero);
 
+            // Initial update
             UpdateHealthUI();
+            UpdatePosition();
+
+            // Disabled by default to prevent it being displayed when not ready
+            gameObject.SetActive(true);
         }
 
         void FixedUpdate()
         {
-            if (FollowTransformTarget != null)
-            {
-                transform.position = Camera.main.WorldToScreenPoint(FollowTransformTarget.position);
-            }
+            UpdatePosition();
         }
 
         void UpdateHealthUI()
         {
             HealthValueText.text = Format.Number(Health.Current);
             Slider.value = Health.Percent;
+        }
+
+        void UpdatePosition()
+        {
+            if (FollowTransformTarget != null)
+            {
+                transform.position = Camera.main.WorldToScreenPoint(FollowTransformTarget.position);
+            }
         }
 
         // = Event Callbacks = // 

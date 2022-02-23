@@ -6,6 +6,7 @@ using Random = System.Random;
 
 public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEquatable<BigDouble>
 {
+    public static BigDouble HighValue = Parse("1e50000");
     public static BigDouble Billion = Parse("1000000000");
 
 

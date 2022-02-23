@@ -80,6 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Avatar: {fileID: 8923890760361403210}
   DefeatPS: {fileID: 1280141305896002, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
+  CoinDropPS: {fileID: 2850238126176891575, guid: 3aef6a16b3efff442babe1bbe9eee4cc,
+    type: 3}
   HealthBarObject: {fileID: 1059234545781893088, guid: de52fd3fd939e204dbb87f54f9d22c3e,
     type: 3}
   HealthBarTargetTransform: {fileID: 532862071708076376}

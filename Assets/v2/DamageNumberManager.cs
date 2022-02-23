@@ -13,7 +13,7 @@ namespace GM.UI
 
         public void InstantiateNumber(GM.Units.UnitAvatar avatar, BigDouble value)
         {
-            GM.UI.TextPopup popup = Pool.Spawn<GM.UI.TextPopup>();
+            GM.UI.DamageNumberTextPopup popup = Pool.Spawn<GM.UI.DamageNumberTextPopup>();
 
             popup.transform.position = Camera.main.WorldToScreenPoint(avatar.Bounds.RandomCenterPosition());
 

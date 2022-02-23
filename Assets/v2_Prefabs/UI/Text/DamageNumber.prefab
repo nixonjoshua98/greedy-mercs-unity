@@ -144,7 +144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6441769394789485538}
-  - component: {fileID: 6441769394789485536}
+  - component: {fileID: 2348129862786878235}
   m_Layer: 5
   m_Name: DamageNumber
   m_TagString: Untagged
@@ -172,7 +172,7 @@ RectTransform:
   m_AnchoredPosition: {x: -740, y: -1604.5667}
   m_SizeDelta: {x: 175, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6441769394789485536
+--- !u!114 &2348129862786878235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6441769394789485537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9cbc0c1163885e41aee5cf49874bfd6, type: 3}
+  m_Script: {fileID: 11500000, guid: a68ede3b0d041f44ea50293df9958cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Text: {fileID: 568925483411262239}

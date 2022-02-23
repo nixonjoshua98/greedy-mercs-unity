@@ -62,6 +62,8 @@ namespace GM
             EnemyUnits.Remove(unit);
         }
 
+        // ...
+
         UnitBaseClass GetLastPlacedEnemyUnit() => EnemyUnits[EnemyUnits.Count - 1];
     }
 }

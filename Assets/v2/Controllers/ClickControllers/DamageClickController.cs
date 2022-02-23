@@ -1,6 +1,3 @@
-using GM.Common;
-
-using GM.UI;
 using UnityEngine;
 
 namespace GM.Controllers
@@ -8,53 +5,44 @@ namespace GM.Controllers
     [RequireComponent(typeof(RectTransform))]
     public class DamageClickController : AbstractClickController
     {
-        [SerializeField] ObjectPool DamageTextPool;
+        IUnitManager UnitManager;
+        GM.UI.IDamageNumberManager DamageNumberManager;
 
-        Vector3[] RectTransformCorners;
-
-        GM.Common.Interfaces.IUnitManager UnitManager;
+        // Bounds
+        Vector2 topLeftViewportPosition;
+        Vector2 btmRightViewportPosition;
 
         void Start()
         {
-            UnitManager = this.GetComponentInScene<GM.Common.Interfaces.IUnitManager>();
+            DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
+            UnitManager = this.GetComponentInScene<IUnitManager>();
 
-            RectTransformCorners = new Vector3[4];
+            Vector3[] corners = new Vector3[4];
+            GetComponent<RectTransform>().GetWorldCorners(corners);
 
-            GetComponent<RectTransform>().GetWorldCorners(RectTransformCorners);
+            topLeftViewportPosition = Camera.main.ScreenToViewportPoint(corners[1]);
+            btmRightViewportPosition = Camera.main.ScreenToViewportPoint(corners[3]);
         }
 
         protected override void OnClick(Vector3 screenPos)
         {
-            Vector3 worldPos = PositionRelativeToScreenWorldPosition(screenPos);
+            Vector3 viewportClickPosition = Camera.main.ScreenToViewportPoint(screenPos);
 
-            if (CollisionCheck(worldPos))
+            if (CollisionCheck(viewportClickPosition) && UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
             {
-                if (UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
-                {
-                    GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
+                GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
 
-                    BigDouble dmg = App.Cache.TotalTapDamage;
+                BigDouble dmg = App.Cache.TotalTapDamage;
 
-                    health.TakeDamage(dmg);
+                health.TakeDamage(dmg);
 
-                    DamageTextPool.Spawn<TextPopup>().Set(dmg, GM.Common.Colors.Red, screenPos);
-                }
+                DamageNumberManager.Spawn(Camera.main.ViewportToWorldPoint(viewportClickPosition), Format.Number(dmg));
             }
-        }
-
-        Vector3 PositionRelativeToScreenWorldPosition(Vector3 pos)
-        {
-            // Camera moves in the screen space, so we need to 'reset' the click position so we can use the
-            // original rect corners we fetch at the beginning
-            return Camera.main.ScreenToWorldPoint(pos) - Camera.main.transform.position;
         }
 
         bool CollisionCheck(Vector3 pos)
         {
-            Vector3 topLeft  = RectTransformCorners[1];
-            Vector3 btmRight = RectTransformCorners[3];
-
-            return (pos.x > topLeft.x && pos.x < btmRight.x) && (pos.y < topLeft.y && pos.y > btmRight.y);
+            return (pos.x > topLeftViewportPosition.x && pos.x < btmRightViewportPosition.x) && (pos.y < topLeftViewportPosition.y && pos.y > btmRightViewportPosition.y);
         }
     }
 }

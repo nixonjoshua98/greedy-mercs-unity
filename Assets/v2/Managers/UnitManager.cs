@@ -4,17 +4,29 @@ using UnityEngine;
 
 namespace GM
 {
-    public class UnitManager : MonoBehaviour, GM.Common.Interfaces.IUnitManager
+    public interface IUnitManager
+    {
+        int NumEnemyUnits { get; }
+
+        GM.Units.UnitBaseClass GetNextEnemyUnit();
+
+        bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit);
+        GameObject InstantiateEnemyUnit();
+    }
+
+    public class UnitManager : MonoBehaviour, IUnitManager
     {
         readonly Vector3 LeftMostEnemyUnitStartPosition = new Vector3(8, GM.Common.Constants.CENTER_BATTLE_Y);
 
         [Header("Prefabs/Objects")]
         public GameObject EnemyUnitObject;
 
-        public List<UnitBaseClass> EnemyUnits { get; set; } = new List<UnitBaseClass>();
+        List<UnitBaseClass> EnemyUnits = new List<UnitBaseClass>();
 
         // Public properties
         public int NumEnemyUnits { get => EnemyUnits.Count; }
+
+        public GM.Units.UnitBaseClass GetNextEnemyUnit() => EnemyUnits[0];
 
         public bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit)
         {

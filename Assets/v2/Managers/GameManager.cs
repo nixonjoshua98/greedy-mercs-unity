@@ -10,7 +10,7 @@ namespace GM
     {
         public static GameManager Instance { get; set; } = null;
 
-        GM.Common.Interfaces.IUnitManager UnitManager;
+        IUnitManager UnitManager;
 
         [HideInInspector] public UnityEvent<GM.Units.UnitBaseClass> E_BossSpawn { get; private set; } = new UnityEvent<GM.Units.UnitBaseClass>();
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveSpawn { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
@@ -22,7 +22,7 @@ namespace GM
         {
             Instance = this;
 
-            UnitManager = this.GetComponentInScene<GM.Common.Interfaces.IUnitManager>();
+            UnitManager = this.GetComponentInScene<IUnitManager>();
 
             InitialSetup();
         }
@@ -39,6 +39,20 @@ namespace GM
                 SetupWave();
             }
         }
+
+
+        public void DealDamageToTarget(BigDouble damageValue)
+        {
+            if (UnitManager.NumEnemyUnits == 0)
+                return;
+
+            GM.Units.UnitBaseClass unit = UnitManager.GetNextEnemyUnit();
+
+            GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
+
+            health.TakeDamage(damageValue);
+        }
+
 
         void InitialSetup()
         {

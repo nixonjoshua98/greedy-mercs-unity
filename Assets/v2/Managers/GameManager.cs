@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-
-namespace GM
+﻿namespace GM
 {
     public class GameManager : Core.GMMonoBehaviour
     {

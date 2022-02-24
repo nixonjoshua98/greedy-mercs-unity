@@ -4,12 +4,11 @@ namespace GM.Artefacts.Models
 {
     public class ArtefactUserDataModel
     {
-        [JsonProperty(PropertyName = "artefactId")]
+        [JsonProperty(PropertyName = "artefactId", Required = Required.Always)]
         [JsonRequired]
         public int Id;
 
-        [JsonProperty]
-        [JsonRequired]
+        [JsonProperty(Required = Required.Always)]
         public int Level;
     }
 }

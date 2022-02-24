@@ -11,6 +11,8 @@ namespace GM.Controllers
         public UnityEvent OnZeroHealth { get; set; } = new UnityEvent();
         public UnityEvent<BigDouble> OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
 
+        public bool Invincible { get; set; } = false;
+        public bool CanTakeDamage => !IsDead && !Invincible;
         public bool IsDead { get; private set; } = false;
         public float Percent => (float)(Current / MaxHealth).ToDouble();
 
@@ -21,7 +23,7 @@ namespace GM.Controllers
 
         public virtual void TakeDamage(BigDouble amount)
         {
-            if (!IsDead)
+            if (CanTakeDamage)
             {
                 BigDouble dmgDealt = BigDouble.Min(amount, Current);
 

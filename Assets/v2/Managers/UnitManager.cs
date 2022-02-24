@@ -43,6 +43,27 @@ namespace GM
 
         public GameObject InstantiateEnemyUnit()
         {
+            GameObject obj = Instantiate(EnemyUnitObject, EnemyUnitSpawnPosition(), Quaternion.identity);
+
+            // Components
+            UnitBaseClass unit = obj.GetComponent<UnitBaseClass>();
+            GM.Controllers.HealthController health = obj.GetComponent<GM.Controllers.HealthController>();
+
+            health.Invincible = true;
+
+            // Events
+            health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(unit));
+
+            EnemyUnits.Add(unit);
+
+            // Unit cannot be attacked until they are visible on screen
+            Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(unit.Avatar.Bounds.min), () => health.Invincible = false);
+
+            return obj;
+        }
+
+        Vector3 EnemyUnitSpawnPosition()
+        {
             Vector3 pos = LeftMostEnemyUnitStartPosition + new Vector3(Camera.main.MaxBounds().x, 0);
 
             if (EnemyUnits.Count > 0)
@@ -52,19 +73,7 @@ namespace GM
                 pos = new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 0.25f, unit.transform.position.y);
             }
 
-            GameObject instObject = Instantiate(EnemyUnitObject, pos, Quaternion.identity);
-
-            UnitBaseClass newEnemyUnit = instObject.GetComponent<UnitBaseClass>();
-
-            // Set internal event listeners
-            if (instObject.TryGetComponent(out GM.Controllers.HealthController health))
-            {
-                health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(newEnemyUnit));
-            }
-
-            EnemyUnits.Add(newEnemyUnit);
-
-            return instObject;
+            return pos;
         }
 
         // = Event Callbacks = //

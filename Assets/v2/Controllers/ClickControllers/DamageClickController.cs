@@ -6,6 +6,7 @@ namespace GM.Controllers
     public class DamageClickController : AbstractClickController
     {
         IUnitManager UnitManager;
+        GameManager GameManager;
         GM.UI.IDamageNumberManager DamageNumberManager;
 
         // Bounds
@@ -14,6 +15,7 @@ namespace GM.Controllers
 
         void Start()
         {
+            GameManager = this.GetComponentInScene<GameManager>();
             DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
             UnitManager = this.GetComponentInScene<IUnitManager>();
 
@@ -28,15 +30,11 @@ namespace GM.Controllers
         {
             Vector3 viewportClickPosition = Camera.main.ScreenToViewportPoint(screenPos);
 
-            if (CollisionCheck(viewportClickPosition) && UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
+            BigDouble damage = App.Cache.TotalTapDamage;
+
+            if (CollisionCheck(viewportClickPosition) && GameManager.DealDamageToTarget(damage, showDamageNumber: false))
             {
-                GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
-
-                BigDouble dmg = App.Cache.TotalTapDamage;
-
-                health.TakeDamage(dmg);
-
-                DamageNumberManager.Spawn(Camera.main.ViewportToWorldPoint(viewportClickPosition), Format.Number(dmg));
+                DamageNumberManager.Spawn(Camera.main.ViewportToWorldPoint(viewportClickPosition), Format.Number(damage));
             }
         }
 

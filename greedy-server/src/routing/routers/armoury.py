@@ -23,10 +23,8 @@ async def upgrade(
 ):
     resp: UpgradeItemResponse = await handler.handle(user, data.item_id)
 
-    return ServerResponse(
-        {
-            "item": resp.item.client_dict(),
-            "upgradeCost": resp.upgrade_cost,
-            "currencyItems": resp.currencies.client_dict(),
-        }
-    )
+    return ServerResponse({
+        "item": resp.item,
+        "upgradeCost": resp.upgrade_cost,
+        "currencyItems": resp.currencies,
+    })

@@ -23,8 +23,8 @@ class AccountsRepository:
 
         return AccountModel.parse_obj(r) if r else None
 
-    async def get_user_by_did(self, uid) -> Optional[AccountModel]:
-        r = await self._col.find_one({"deviceId": uid})
+    async def get_user_by_device_id(self, device_id: str) -> Optional[AccountModel]:
+        r = await self._col.find_one({"deviceId": device_id})
 
         return AccountModel.parse_obj(r) if r else None
 

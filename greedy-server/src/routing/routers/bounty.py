@@ -23,13 +23,11 @@ async def claim_points(
 ):
     resp: BountyClaimResponse = await handler.handle(user)
 
-    return ServerResponse(
-        {
-            "claimTime": resp.claim_time,
-            "currencyItems": resp.currencies.client_dict(),
-            "pointsClaimed": resp.claim_amount,
-        }
-    )
+    return ServerResponse({
+        "claimTime": resp.claim_time,
+        "currencyItems": resp.currencies.client_dict(),
+        "pointsClaimed": resp.claim_amount,
+        })
 
 
 @router.post("/setactive")

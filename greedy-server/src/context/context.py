@@ -28,11 +28,13 @@ async def inject_authenticated_context(
     request: ServerRequest,
     cache: MemoryCache = Depends(memory_cache)
 ) -> AuthenticatedRequestContext:
+    """
+    Inject an 'AuthenticatedRequestContext' context (Forced endpoint to be authenticated) or throw an exception
+    """
+    key: Optional[str] = request.headers.get("authentication")
 
-    if (auth_key := request.headers.get("authentication")) is None:
-        raise HTTPException(401, detail="Unauthorized")
-
-    elif (session := cache.get_session(auth_key)) is None:
+    # Header was not provided or session was not found
+    if key is None or (session := cache.get_session(key) is None):
         raise HTTPException(401, detail="Unauthorized")
 
     return AuthenticatedRequestContext(uid=session.user_id)

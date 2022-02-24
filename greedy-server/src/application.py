@@ -13,12 +13,12 @@ class Application(FastAPI):
 
         self._static_files: dict[str, Union[dict, list]] = dict()
 
-        self.debug: bool = os.environ.get("DEBUG", "0") == "1"
+        self.debug: bool = os.environ.get("DEBUG") is None
         self.config: ApplicationConfig = self._load_config()
 
     @staticmethod
     def _load_config() -> ApplicationConfig:
-        d: dict = utils.yaml_load(os.path.join(os.getcwd(), "config.yaml"))
+        d: dict = utils.yaml_load(os.path.join(os.getcwd(), "config.yml"))
 
         return ApplicationConfig.parse_obj(d)
 

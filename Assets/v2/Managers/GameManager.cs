@@ -18,18 +18,29 @@
             WaveManager.Run();
         }
 
-        public bool DealDamageToTarget(BigDouble damageValue)
+        public bool DealDamageToTarget(BigDouble damageValue, bool showDamageNumber = true)
         {
-            if (UnitManager.NumEnemyUnits == 0)
+            if (!UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
                 return false;
 
-            GM.Units.UnitBaseClass unit = UnitManager.GetNextEnemyUnit();
+            bool dealt = _DealDamageToTarget(unit, damageValue);
 
+            if (dealt && showDamageNumber)
+            {
+                DamageNumberManager.Spawn(unit.Avatar, Format.Number(damageValue));
+            }
+
+            return dealt;
+        }
+
+        bool _DealDamageToTarget(GM.Units.UnitBaseClass unit, BigDouble value)
+        {
             GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
 
-            health.TakeDamage(damageValue);
+            if (!health.CanTakeDamage)
+                return false;
 
-            DamageNumberManager.Spawn(unit.Avatar, Format.Number(damageValue));
+            health.TakeDamage(value);
 
             return true;
         }

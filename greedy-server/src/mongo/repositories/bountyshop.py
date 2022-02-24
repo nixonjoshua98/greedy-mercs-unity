@@ -50,9 +50,14 @@ class BountyShopRepository:
         )
 
     async def get_daily_item_purchases(
-        self, uid: ObjectId, item_id: str, reset_time: dt.datetime
+        self,
+        uid: ObjectId,
+        item_id: str,
+        reset_time: dt.datetime
     ) -> list[BountyShopPurchaseModel]:
-        """Fetch all daily purchases for a single item"""
+        """
+        Fetch all daily purchases for a single item
+        """
         results = await self._purchases_col.find(
             {
                 Fields.USER_ID: uid,
@@ -63,9 +68,7 @@ class BountyShopRepository:
 
         return [BountyShopPurchaseModel.parse_obj(r) for r in results]
 
-    async def get_daily_purchases(
-        self, uid: ObjectId, reset_time: dt.datetime
-    ) -> list[BountyShopPurchaseModel]:
+    async def get_daily_purchases(self, uid: ObjectId, reset_time: dt.datetime) -> list[BountyShopPurchaseModel]:
         results = await self._purchases_col.find(
             {Fields.USER_ID: uid, Fields.RESET_TIME: reset_time}
         ).to_list(length=None)

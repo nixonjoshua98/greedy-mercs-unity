@@ -26,14 +26,14 @@ async def player_login(
     mem_cache: MemoryCache = Depends(memory_cache),
     acc_repo: AccountsRepository = Depends(accounts_repository),
 ):
-    user = await acc_repo.get_user_by_did(data.device_id)
+    user = await acc_repo.get_user_by_device_id(data.device_id)
 
     if user is None:
         user = await create_account.handle(data.device_id)
 
     data_resp: UserDataResponse = await user_data_handler.handle(user.id, ctx.prev_daily_reset)
 
-    mem_cache.set_session(session := Session(user.id, data.device_id))
+    mem_cache.set_session(session := Session(user.id))
 
     return ServerResponse({
         "userId": user.id,

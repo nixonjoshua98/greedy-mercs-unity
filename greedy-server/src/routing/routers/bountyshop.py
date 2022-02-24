@@ -25,13 +25,11 @@ async def purchase_armoury_item(
 ):
     resp: PurchaseArmouryItemResponse = await handler.handle(ctx.user_id, data.item_id)
 
-    return ServerResponse(
-        {
-            "currencyItems": resp.currencies.client_dict(),
-            "purchaseCost": resp.purchase_cost,
-            "armouryItem": resp.item.client_dict(),
-        }
-    )
+    return ServerResponse({
+        "currencyItems": resp.currencies,
+        "purchaseCost": resp.purchase_cost,
+        "armouryItem": resp.item,
+    })
 
 
 @router.post("/purchase/currency")
@@ -42,10 +40,8 @@ async def purchase_armoury_item(
 ):
     resp: PurchaseCurrencyResponse = await handler.handle(ctx.user_id, data.item_id)
 
-    return ServerResponse(
-        {
-            "currencyItems": resp.currencies.client_dict(),
-            "purchaseCost": resp.purchase_cost,
-            "currencyGained": resp.currency_gained
-        }
-    )
+    return ServerResponse({
+        "currencyItems": resp.currencies,
+        "purchaseCost": resp.purchase_cost,
+        "currencyGained": resp.currency_gained
+    })

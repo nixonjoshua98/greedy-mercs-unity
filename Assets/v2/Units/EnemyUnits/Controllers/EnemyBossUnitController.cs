@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Enemies.Controllers
+namespace GM.Units.Controllers
 {
-    public class BossController : EnemyController
+    public class EnemyBossUnitController : EnemyUnitController
     {
 
     }

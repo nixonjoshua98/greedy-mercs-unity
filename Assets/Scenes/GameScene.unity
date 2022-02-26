@@ -7877,6 +7877,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyUnitObject: {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4,
     type: 3}
+  EnemyBossUnitObjects:
+  - {fileID: 7382601704044843036, guid: d4b787f7979ae0342aa4ce265cd9845e, type: 3}
 --- !u!114 &1137185882
 MonoBehaviour:
   m_ObjectHideFlags: 0

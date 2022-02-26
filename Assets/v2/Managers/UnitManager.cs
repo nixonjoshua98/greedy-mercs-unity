@@ -11,8 +11,11 @@ namespace GM
         GM.Units.UnitBaseClass GetNextEnemyUnit();
 
         bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit);
+
         GameObject InstantiateEnemyUnit();
+        GameObject InstantiateEnemyBossUnit();
     }
+
 
     public class UnitManager : MonoBehaviour, IUnitManager
     {
@@ -20,6 +23,7 @@ namespace GM
 
         [Header("Prefabs/Objects")]
         public GameObject EnemyUnitObject;
+        public List<GameObject> EnemyBossUnitObjects;
 
         List<UnitBaseClass> EnemyUnits = new List<UnitBaseClass>();
 
@@ -44,6 +48,29 @@ namespace GM
         public GameObject InstantiateEnemyUnit()
         {
             GameObject obj = Instantiate(EnemyUnitObject, EnemyUnitSpawnPosition(), Quaternion.identity);
+
+            // Components
+            UnitBaseClass unit = obj.GetComponent<UnitBaseClass>();
+            GM.Controllers.HealthController health = obj.GetComponent<GM.Controllers.HealthController>();
+
+            health.Invincible = true;
+
+            // Events
+            health.OnZeroHealth.AddListener(() => OnEnemyZeroHealth(unit));
+
+            EnemyUnits.Add(unit);
+
+            // Unit cannot be attacked until they are visible on screen
+            Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(unit.Avatar.Bounds.min), () => health.Invincible = false);
+
+            return obj;
+        }
+
+        public GameObject InstantiateEnemyBossUnit()
+        {
+            GameObject unitToSpawn = EnemyBossUnitObjects[Random.Range(0, EnemyBossUnitObjects.Count - 1)];
+
+            GameObject obj = Instantiate(unitToSpawn, EnemyUnitSpawnPosition(), Quaternion.identity);
 
             // Components
             UnitBaseClass unit = obj.GetComponent<UnitBaseClass>();

@@ -1,13 +1,12 @@
 using GM.Controllers;
-using GM.Units;
 using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-namespace GM.Enemies.Controllers
+namespace GM.Units.Controllers
 {
-    public class EnemyController : Units.UnitBaseClass
+    public class EnemyUnitController : Units.UnitBaseClass
     {
         [Header("Prefabs")]
         public GameObject DefeatPS;
@@ -68,12 +67,12 @@ namespace GM.Enemies.Controllers
             ProcessLoot();
             InstantiateDefeatPS();
 
-            FadeOut(0.5f, () => Destroy(gameObject));
+            FadeOut(1.0f, () => Destroy(gameObject));
         }
 
         void ProcessLoot()
         {
-            if (TryGetComponent(out ILootDrop loot))
+            if (TryGetComponent(out GM.Enemies.ILootDrop loot))
             {
                 loot.Process();
             }

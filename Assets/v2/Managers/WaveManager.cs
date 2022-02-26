@@ -60,7 +60,7 @@ namespace GM
 
         void StartStageBoss()
         {
-            GameObject enemy = UnitManager.InstantiateEnemyUnit();
+            GameObject enemy = UnitManager.InstantiateEnemyBossUnit();
 
             // Components
             GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();

@@ -12,5 +12,10 @@ namespace GM.Common
 
         public const float BASE_CRIT_CHANCE = 0.01f;
         public const float BASE_CRIT_MULTIPLIER = 3.0f;
+
+        public static class Tags
+        {
+            public static string EnemyBossUnitHealthBar = "EnemyBossUnitHealthBar";
+        }
     }
 }

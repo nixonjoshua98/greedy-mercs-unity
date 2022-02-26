@@ -10,13 +10,19 @@ namespace GM.UI
         [SerializeField] TMP_Text HealthValueText;
         [SerializeField] Slider Slider;
 
-        GM.Controllers.HealthController Health;
-        Transform FollowTransformTarget;
+        protected GM.Controllers.HealthController Health;
+        protected Transform FollowTransformTarget;
 
         public void AssignHealthController(GM.Controllers.HealthController health, Transform followTransform)
         {
-            Health = health;
             FollowTransformTarget = followTransform;
+
+            Setup(health);
+        }
+
+        protected void Setup(GM.Controllers.HealthController health)
+        {
+            Health = health;
 
             // Events
             Health.E_OnDamageTaken.AddListener(OnHealthChange);
@@ -56,7 +62,7 @@ namespace GM.UI
             UpdateHealthUI();
         }
 
-        void OnHealthZero()
+        protected virtual void OnHealthZero()
         {
             Destroy(gameObject);
         }

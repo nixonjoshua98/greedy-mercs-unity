@@ -20,7 +20,7 @@ namespace GM.Units.Controllers
         [Header("Components")]
         public UnitAvatar UnitAvatar;
         [Space]
-        [SerializeField] HealthController healthController;
+        [SerializeField] protected HealthController HealthController;
 
         void Awake()
         {
@@ -29,14 +29,14 @@ namespace GM.Units.Controllers
 
         void Start()
         {
-            InstantiateHealthBar();
+            LinkHealthBar();
         }
 
-        void InstantiateHealthBar()
+        protected virtual void LinkHealthBar()
         {
             GM.UI.HealthBarController controller = InstantiateUI<GM.UI.HealthBarController>(HealthBarObject);
 
-            controller.AssignHealthController(healthController, HealthBarTargetTransform);
+            controller.AssignHealthController(HealthController, HealthBarTargetTransform);
         }
 
         void SubscribeToEvents()
@@ -45,8 +45,8 @@ namespace GM.Units.Controllers
 
             events.Defeat.AddListener(OnDefeatAnimation);
 
-            healthController.E_OnZeroHealth.AddListener(OnZeroHealth);
-            healthController.E_OnDamageTaken.AddListener(OnDamageTaken);
+            HealthController.E_OnZeroHealth.AddListener(OnZeroHealth);
+            HealthController.E_OnDamageTaken.AddListener(OnDamageTaken);
         }
 
         public void OnZeroHealth()

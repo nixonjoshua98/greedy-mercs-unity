@@ -86,7 +86,7 @@ MonoBehaviour:
     type: 3}
   HealthBarTargetTransform: {fileID: 532862071708076376}
   UnitAvatar: {fileID: 8923890760361403210}
-  healthController: {fileID: 2574731096765986578}
+  HealthController: {fileID: 2574731096765986578}
 --- !u!114 &-1448263663660212233
 MonoBehaviour:
   m_ObjectHideFlags: 0

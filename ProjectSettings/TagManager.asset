@@ -12,6 +12,7 @@ TagManager:
   - PopupNumbersCanvas
   - FxTemporaire
   - DamageNumbersParent
+  - EnemyBossUnitHealthBar
   layers:
   - Default
   - TransparentFX

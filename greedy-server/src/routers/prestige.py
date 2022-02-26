@@ -15,7 +15,8 @@ from src.mongo.repositories.currency import currency_repository
 from src.pymodels import BaseModel
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.routing import APIRouter, ServerResponse
+from src.response import ServerResponse
+from src.router import APIRouter
 
 from ..handlers.data import (GetStaticData, GetUserDataHandler,
                              StaticDataResponse, UserDataResponse)

@@ -6,7 +6,7 @@ from bson import ObjectId
 from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument, Field
-from src.routing import ServerRequest
+from src.request import ServerRequest
 
 
 def armoury_repository(request: ServerRequest) -> ArmouryRepository:

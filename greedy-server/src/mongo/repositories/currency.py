@@ -7,7 +7,8 @@ from pydantic import Field
 from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument
-from src.routing import ServerRequest
+from src.request import ServerRequest
+from src.response import ServerResponse
 
 
 def currency_repository(request: ServerRequest) -> CurrencyRepository:

@@ -6,6 +6,7 @@ from fastapi import Depends
 
 from src.context import (AuthenticatedRequestContext,
                          inject_authenticated_context)
+from src.handlers.abc import HandlerException
 from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,
                                             armoury_repository)
@@ -16,7 +17,6 @@ from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.resources.bountyshop import (BountyShopArmouryItem, DynamicBountyShop,
                                       dynamic_bounty_shop)
-from src.routing.handlers.abc import HandlerException
 
 from .basepurchasehandler import BaseBountyShopPurchaseHandler
 

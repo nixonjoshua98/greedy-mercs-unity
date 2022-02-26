@@ -3,13 +3,13 @@ import dataclasses
 from fastapi import Depends
 
 from src.context import AuthenticatedRequestContext
+from src.handlers.abc import BaseHandler, HandlerException
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesModel,
                                              bounties_repository)
 from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.routing.handlers.abc import BaseHandler, HandlerException
 
 
 @dataclasses.dataclass()

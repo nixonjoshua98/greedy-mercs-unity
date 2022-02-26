@@ -1,8 +1,8 @@
 from fastapi import Depends
 
-from src.routing import APIRouter, ServerResponse
-
-from ..handlers.data.staticdata import GetStaticData, StaticDataResponse
+from src.handlers.data.staticdata import GetStaticData, StaticDataResponse
+from src.response import ServerResponse
+from src.router import APIRouter
 
 router = APIRouter()
 

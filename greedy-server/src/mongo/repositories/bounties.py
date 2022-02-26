@@ -8,7 +8,8 @@ from pydantic import Field
 from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument, BaseModel
-from src.routing import ServerRequest
+from src.request import ServerRequest
+from src.response import ServerResponse
 
 
 def bounties_repository(request: ServerRequest) -> BountiesRepository:

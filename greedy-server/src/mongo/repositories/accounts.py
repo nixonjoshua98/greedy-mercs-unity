@@ -3,7 +3,8 @@ from __future__ import annotations
 from typing import Optional
 
 from src.pymodels import BaseDocument
-from src.routing import ServerRequest
+from src.request import ServerRequest
+from src.response import ServerResponse
 
 
 def accounts_repository(request: ServerRequest) -> AccountsRepository:

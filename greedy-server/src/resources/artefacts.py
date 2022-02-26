@@ -3,7 +3,7 @@ from __future__ import annotations
 from pydantic import Field
 
 from src.pymodels import BaseModel
-from src.routing import ServerRequest
+from src.request import ServerRequest
 
 
 def static_artefacts(request: ServerRequest) -> list[StaticArtefact]:

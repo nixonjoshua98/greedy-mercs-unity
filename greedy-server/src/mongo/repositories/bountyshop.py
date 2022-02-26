@@ -6,7 +6,7 @@ from bson import ObjectId
 from pydantic import Field
 
 from src.pymodels import BaseDocument
-from src.routing import ServerRequest
+from src.request import ServerRequest
 
 
 def bountyshop_repository(request: ServerRequest) -> BountyShopRepository:

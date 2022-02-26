@@ -6,8 +6,8 @@ from fastapi.exceptions import RequestValidationError
 from src import exception_handlers, utils
 from src.application import Application
 from src.cache import MemoryCache
+from src.handlers.abc import HandlerException
 from src.mongo.motorclient import MotorClient
-from src.routing.handlers.abc import HandlerException
 
 
 async def _on_app_start(app: Application):

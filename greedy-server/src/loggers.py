@@ -1,5 +1,5 @@
-import os
 import logging.config
+import os
 
 from src import utils as _utils
 

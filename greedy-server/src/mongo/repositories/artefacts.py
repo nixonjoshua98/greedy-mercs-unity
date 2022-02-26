@@ -8,7 +8,7 @@ from pydantic import Field
 from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument
-from src.routing import ServerRequest
+from src.request import ServerRequest
 
 
 def artefacts_repository(request: ServerRequest) -> ArtefactsRepository:

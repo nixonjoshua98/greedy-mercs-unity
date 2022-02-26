@@ -8,6 +8,7 @@ from fastapi import Depends
 from src.common.enums import CurrencyType
 from src.context import (AuthenticatedRequestContext,
                          inject_authenticated_context)
+from src.handlers.abc import HandlerException
 from src.mongo.repositories.bountyshop import (BountyShopRepository,
                                                bountyshop_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
@@ -15,7 +16,6 @@ from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
 from src.resources.bountyshop import (BountyShopCurrencyItem,
                                       DynamicBountyShop, dynamic_bounty_shop)
-from src.routing.handlers.abc import HandlerException
 
 from .basepurchasehandler import BaseBountyShopPurchaseHandler
 

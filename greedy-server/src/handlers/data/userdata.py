@@ -6,6 +6,7 @@ from bson import ObjectId
 from fastapi import Depends
 
 from src.context import AuthenticatedRequestContext
+from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.repositories.armoury import (ArmouryRepository,
                                             armoury_repository)
 from src.mongo.repositories.artefacts import (ArtefactsRepository,
@@ -19,7 +20,6 @@ from src.mongo.repositories.currency import (CurrencyRepository,
 from src.mongo.repositories.units import (CharacterUnitsRepository,
                                           units_repository)
 from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
-from src.routing.handlers.abc import BaseHandler, BaseResponse
 
 
 @dataclasses.dataclass()

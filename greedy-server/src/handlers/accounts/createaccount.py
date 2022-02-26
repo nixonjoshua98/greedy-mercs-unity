@@ -3,9 +3,9 @@ import dataclasses
 from bson import ObjectId
 from fastapi import Depends
 
+from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.repositories.accounts import (AccountModel, AccountsRepository,
                                              accounts_repository)
-from src.routing.handlers.abc import BaseHandler, BaseResponse
 
 
 @dataclasses.dataclass()

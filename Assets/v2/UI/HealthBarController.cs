@@ -19,8 +19,8 @@ namespace GM.UI
             FollowTransformTarget = followTransform;
 
             // Events
-            Health.OnDamageTaken.AddListener(OnHealthChange);
-            Health.OnZeroHealth.AddListener(OnHealthZero);
+            Health.E_OnDamageTaken.AddListener(OnHealthChange);
+            Health.E_OnZeroHealth.AddListener(OnHealthZero);
 
             // Initial update
             UpdateHealthUI();
@@ -37,7 +37,7 @@ namespace GM.UI
 
         void UpdateHealthUI()
         {
-            HealthValueText.text = Format.Number(Health.Current);
+            HealthValueText.text = Format.Number(Health.CurrentHealth);
             Slider.value = Health.Percent;
         }
 

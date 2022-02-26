@@ -8,7 +8,7 @@ namespace GM
 {
     public class WaveManager : GM.Core.GMMonoBehaviour
     {
-        IUnitManager UnitManager;
+        IEnemyUnitFactory UnitManager;
 
         [HideInInspector] public UnityEvent<GM.Units.UnitBaseClass> E_BossSpawn { get; private set; } = new UnityEvent<GM.Units.UnitBaseClass>();
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveSpawn { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
@@ -18,7 +18,7 @@ namespace GM
         void Awake()
         {
             // Fetch required components
-            UnitManager = this.GetComponentInScene<IUnitManager>();
+            UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
         }
 
         public void Run()
@@ -52,7 +52,7 @@ namespace GM
 
                 health.Init(combinedHealth);
 
-                health.OnZeroHealth.AddListener(OnEnemyZeroHealth);
+                health.E_OnZeroHealth.AddListener(OnEnemyZeroHealth);
             }
 
             E_OnWaveSpawn.Invoke(enemies);
@@ -70,7 +70,7 @@ namespace GM
             health.Init(val: App.Cache.StageBossHealthAtStage(CurrentGameState.Stage));
 
             // Add event callbacks
-            health.OnZeroHealth.AddListener(OnBossZeroHealth);
+            health.E_OnZeroHealth.AddListener(OnBossZeroHealth);
 
             // Update the state
             CurrentGameState.HasBossSpawned = true;

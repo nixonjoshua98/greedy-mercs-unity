@@ -2,13 +2,13 @@
 {
     public class GameManager : Core.GMMonoBehaviour
     {
-        IUnitManager UnitManager;
+        IEnemyUnitFactory UnitManager;
         WaveManager WaveManager;
         GM.UI.IDamageNumberManager DamageNumberManager;
 
         void Awake()
         {
-            UnitManager = this.GetComponentInScene<IUnitManager>();
+            UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             WaveManager = this.GetComponentInScene<WaveManager>();
             DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
         }
@@ -35,7 +35,7 @@
 
         bool _DealDamageToTarget(GM.Units.UnitBaseClass unit, BigDouble value)
         {
-            GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
+            GM.Controllers.AbstractHealthController health = unit.GetComponent<GM.Controllers.AbstractHealthController>();
 
             if (!health.CanTakeDamage)
                 return false;

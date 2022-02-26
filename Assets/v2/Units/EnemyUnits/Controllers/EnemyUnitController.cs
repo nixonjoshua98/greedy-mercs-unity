@@ -45,8 +45,8 @@ namespace GM.Units.Controllers
 
             events.Defeat.AddListener(OnDefeatAnimation);
 
-            healthController.OnZeroHealth.AddListener(OnZeroHealth);
-            healthController.OnDamageTaken.AddListener(OnDamageTaken);
+            healthController.E_OnZeroHealth.AddListener(OnZeroHealth);
+            healthController.E_OnDamageTaken.AddListener(OnDamageTaken);
         }
 
         public void OnZeroHealth()

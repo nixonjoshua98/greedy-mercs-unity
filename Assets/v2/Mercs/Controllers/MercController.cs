@@ -17,7 +17,7 @@ namespace GM.Mercs.Controllers
         GM.Mercs.Controllers.IAttackController AttackController;
 
         // Managers
-        IUnitManager UnitManager;
+        IEnemyUnitFactory UnitManager;
         GameManager GameManager;
 
         // ...
@@ -31,7 +31,7 @@ namespace GM.Mercs.Controllers
 
         protected void GetComponents()
         {
-            UnitManager = this.GetComponentInScene<IUnitManager>();
+            UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             GameManager = this.GetComponentInScene<GameManager>();
 
             AttackController = GetComponent<IAttackController>();

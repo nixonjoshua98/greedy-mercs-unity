@@ -5,7 +5,6 @@ namespace GM.Controllers
     [RequireComponent(typeof(RectTransform))]
     public class DamageClickController : AbstractClickController
     {
-        IUnitManager UnitManager;
         GameManager GameManager;
         GM.UI.IDamageNumberManager DamageNumberManager;
 
@@ -17,7 +16,6 @@ namespace GM.Controllers
         {
             GameManager = this.GetComponentInScene<GameManager>();
             DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
-            UnitManager = this.GetComponentInScene<IUnitManager>();
 
             Vector3[] corners = new Vector3[4];
             GetComponent<RectTransform>().GetWorldCorners(corners);

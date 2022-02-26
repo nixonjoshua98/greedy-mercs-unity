@@ -3,41 +3,50 @@ using UnityEngine.Events;
 
 namespace GM.Controllers
 {
-    public class HealthController : MonoBehaviour
+    public abstract class AbstractHealthController: MonoBehaviour
     {
-        public BigDouble MaxHealth { get; private set; }
-        public BigDouble Current { get; private set; }
+        // Events
+        public UnityEvent E_OnZeroHealth { get; private set; } = new UnityEvent();
+        public UnityEvent<BigDouble> E_OnDamageTaken { get; private set; } = new UnityEvent<BigDouble>();
 
-        public UnityEvent OnZeroHealth { get; set; } = new UnityEvent();
-        public UnityEvent<BigDouble> OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
-
+        // Status
         public bool Invincible { get; set; } = false;
         public bool CanTakeDamage => !IsDead && !Invincible;
         public bool IsDead { get; private set; } = false;
-        public float Percent => (float)(Current / MaxHealth).ToDouble();
 
-        public void Init(BigDouble val)
-        {
-            MaxHealth = Current = val;
-        }
+        // Health
+        public BigDouble MaxHealth { get; protected set; }
+        public BigDouble CurrentHealth { get; protected set; }
 
-        public virtual void TakeDamage(BigDouble amount)
+        // ...
+        public float Percent => (float)(CurrentHealth / MaxHealth).ToDouble();
+
+        public virtual void TakeDamage(BigDouble value)
         {
             if (CanTakeDamage)
             {
-                BigDouble dmgDealt = BigDouble.Min(amount, Current);
+                BigDouble dmgDealt = BigDouble.Min(value, CurrentHealth);
 
-                Current -= amount;
+                CurrentHealth -= value;
 
-                OnDamageTaken.Invoke(dmgDealt);
+                E_OnDamageTaken.Invoke(dmgDealt);
 
-                if (Current <= 0.0f)
+                if (CurrentHealth <= 0.0f)
                 {
                     IsDead = true;
 
-                    OnZeroHealth.Invoke();
+                    E_OnZeroHealth.Invoke();
                 }
             }
+        }
+    }
+
+
+    public class HealthController : AbstractHealthController
+    {
+        public void Init(BigDouble val)
+        {
+            MaxHealth = CurrentHealth = val;
         }
     }
 }

@@ -4664,7 +4664,7 @@ MonoBehaviour:
   ObjectToToggle: {fileID: 0}
   childPanels:
   - {fileID: 534842238}
-  SquadMercSlotObject: {fileID: 8807199818165093131, guid: 422866efef1b7564abb399d6637f9dd1,
+  SquadMercSlotObject: {fileID: 1956468972685746162, guid: 32649f1d403442e44a5f4e07c04cc7c7,
     type: 3}
   AvailMercSlotObject: {fileID: 8828558405600494850, guid: a7011bf03267d1446a8478758222ab90,
     type: 3}

@@ -14,7 +14,7 @@ namespace GM.Mercs.Controllers
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
 
         // Interfaces
-        GM.Mercs.Controllers.IAttackController AttackController;
+        IAttackController AttackController;
 
         // Managers
         IEnemyUnitFactory UnitManager;
@@ -51,6 +51,7 @@ namespace GM.Mercs.Controllers
                     {
                         AttackController.MoveTowardsAttackPosition(CurrentTarget);
                     }
+
                     else if (AttackController.IsAvailable)
                     {
                         AttackController.StartAttack(CurrentTarget, DealDamageToTarget);

@@ -123,16 +123,14 @@ namespace GM
         /// </summary>
         Vector3 EnemyUnitSpawnPosition()
         {
-            Vector3 pos = LeftMostEnemyUnitStartPosition + new Vector3(Camera.main.MaxBounds().x, 0);
-
             if (EnemyUnits.Count > 0)
             {
                 UnitBaseClass unit = EnemyUnits[EnemyUnits.Count - 1];
 
-                pos = new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 1.0f, unit.transform.position.y);
+                return new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 1.0f, unit.transform.position.y);
             }
 
-            return pos;
+            return LeftMostEnemyUnitStartPosition + new Vector3(Camera.main.MaxBounds().x, 0);
         }
 
         GameObject RandomBossUnitObject() => EnemyBossUnitObjects[Random.Range(0, EnemyBossUnitObjects.Count - 1)];

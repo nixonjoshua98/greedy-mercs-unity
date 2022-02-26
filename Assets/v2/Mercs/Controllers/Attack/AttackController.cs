@@ -17,19 +17,7 @@ namespace GM.Mercs.Controllers
     }
 
 
-    public abstract class AbstractUnitAttackController : GM.Core.GMMonoBehaviour
-    {
-        protected bool _IsAttacking;
-        public bool IsAttacking { get => _IsAttacking; }
-
-
-        protected bool IsOnCooldown;
-
-        public bool IsAvailable => !IsOnCooldown && !_IsAttacking;
-    }
-
-
-    public abstract class AttackController : AbstractUnitAttackController, IAttackController
+    public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
     {
         [SerializeField]
         float CooldownTimer = 1.0f;
@@ -37,20 +25,27 @@ namespace GM.Mercs.Controllers
         protected GM.Units.UnitBaseClass CurrentTarget;
         Action<GM.Units.UnitBaseClass> DealDamageToTargetAction;
 
+        // State
+        protected bool _IsAttacking;
+        public bool IsAttacking { get => _IsAttacking; }
+
+        protected bool IsOnCooldown;
+        public bool IsAvailable => !IsOnCooldown && !_IsAttacking;
+        // ...
+
+
+        public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
+        public abstract void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
+
         public bool IsTargetValid(GM.Units.UnitBaseClass obj)
         {
             if (obj == null)
-            {
                 return false;
-            }
 
             GM.Controllers.HealthController health = obj.GetComponent<GM.Controllers.HealthController>();
 
             return !health.IsDead;
         }
-
-        public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
-        public abstract void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
 
         public virtual void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
         {

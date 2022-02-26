@@ -9,24 +9,34 @@ namespace GM.Mercs.Controllers
     {
         public bool IsTargetValid(GM.Units.UnitBaseClass obj);
         public bool IsAvailable { get; }
+        public bool IsAttacking { get; }
 
         void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback);
         bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
         void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
     }
 
-    public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
+
+    public abstract class AbstractUnitAttackController : GM.Core.GMMonoBehaviour
     {
-        public float CooldownTimer = 1.0f;
+        protected bool _IsAttacking;
+        public bool IsAttacking { get => _IsAttacking; }
+
+
+        protected bool IsOnCooldown;
+
+        public bool IsAvailable => !IsOnCooldown && !_IsAttacking;
+    }
+
+
+    public abstract class AttackController : AbstractUnitAttackController, IAttackController
+    {
+        [SerializeField]
+        float CooldownTimer = 1.0f;
 
         protected GM.Units.UnitBaseClass CurrentTarget;
         Action<GM.Units.UnitBaseClass> DealDamageToTargetAction;
 
-        // = State Variables = //
-        protected bool isAttacking;
-        protected bool isOnCooldown;
-
-        // = Properties = //
         public bool IsTargetValid(GM.Units.UnitBaseClass obj)
         {
             if (obj == null)
@@ -39,16 +49,12 @@ namespace GM.Mercs.Controllers
             return !health.IsDead;
         }
 
-        public bool IsTargetValid() => IsTargetValid(CurrentTarget);
-
-        public bool IsAvailable => !isOnCooldown && !isAttacking;
-
         public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
         public abstract void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
 
         public virtual void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
         {
-            isAttacking = true;
+            _IsAttacking = true;
             CurrentTarget = target;
             DealDamageToTargetAction = callback;
         }
@@ -67,16 +73,16 @@ namespace GM.Mercs.Controllers
 
         protected void Cooldown()
         {
-            isAttacking = false;
+            _IsAttacking = false;
 
             StartCoroutine(CooldownTask());
         }
 
         IEnumerator CooldownTask()
         {
-            isOnCooldown = true;
+            IsOnCooldown = true;
             yield return new WaitForSecondsRealtime(CooldownTimer);
-            isOnCooldown = false;
+            IsOnCooldown = false;
         }
     }
 }

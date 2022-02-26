@@ -1,6 +1,7 @@
 ﻿using GM.Units;
 using System.Collections.Generic;
 using UnityEngine;
+using GM.Bounties.Models;
 
 namespace GM
 {
@@ -10,12 +11,12 @@ namespace GM
 
         bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit);
 
-        GameObject InstantiateEnemyUnit();
-        GameObject InstantiateEnemyBossUnit();
+        UnitBaseClass InstantiateEnemyUnit();
+        UnitFactoryInstantiatedBossUnit InstantiateEnemyBossUnit();
     }
 
 
-    public class EnemyUnitFactory : MonoBehaviour, IEnemyUnitFactory
+    public class EnemyUnitFactory : Core.GMMonoBehaviour, IEnemyUnitFactory
     {
         // Constants
         readonly Vector3 LeftMostEnemyUnitStartPosition = new Vector3(8, GM.Common.Constants.CENTER_BATTLE_Y);
@@ -51,7 +52,7 @@ namespace GM
         /// Instantiate a regular enemy unit with minimal setup
         /// </summary>
         /// <returns></returns>
-        public GameObject InstantiateEnemyUnit()
+        public UnitBaseClass InstantiateEnemyUnit()
         {
             GameObject obj = Instantiate(EnemyUnitObject, EnemyUnitSpawnPosition(), Quaternion.identity);
 
@@ -69,22 +70,41 @@ namespace GM
             // Unit cannot be attacked until they are visible on screen
             Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(unit.Avatar.Bounds.min), () => health.Invincible = false);
 
-            return obj;
+            return unit;
         }
 
         /// <summary>
         /// Instantiate a enemy unit boss variant
         /// </summary>
-        public GameObject InstantiateEnemyBossUnit()
+        public UnitFactoryInstantiatedBossUnit InstantiateEnemyBossUnit()
         {
-            GameObject unitToSpawn = EnemyBossUnitObjects[Random.Range(0, EnemyBossUnitObjects.Count - 1)];
+            UnitFactoryInstantiatedBossUnit result = new UnitFactoryInstantiatedBossUnit();
 
-            GameObject obj = Instantiate(unitToSpawn, EnemyUnitSpawnPosition(), Quaternion.identity);
+            GameObject unitToSpawn;
+
+            if (App.Data.Bounties.TryGetStageBounty(App.Data.GameState.Stage, out BountyGameData bountyData))
+            {
+                unitToSpawn = bountyData.Prefab;
+
+                result.BountyData = bountyData;
+                result.Name = bountyData.Name;
+                result.IsBounty = true;
+            }
+            else
+            {
+                unitToSpawn = RandomBossUnitObject();
+
+                result.Name = "Boss";
+            }
+
+            // Instantiate the boss object
+            result.GameObject = Instantiate(unitToSpawn, EnemyUnitSpawnPosition(), Quaternion.identity); ;
 
             // Components
-            UnitBaseClass unit = obj.GetComponent<UnitBaseClass>();
-            GM.Controllers.AbstractHealthController health = obj.GetComponent<GM.Controllers.AbstractHealthController>();
+            UnitBaseClass unit = result.GameObject.GetComponent<UnitBaseClass>();
+            GM.Controllers.AbstractHealthController health = result.GameObject.GetComponent<GM.Controllers.AbstractHealthController>();
 
+            // Set the enemy to be invinsible while it is not visible on screen
             health.Invincible = true;
 
             // Events
@@ -93,9 +113,9 @@ namespace GM
             EnemyUnits.Add(unit);
 
             // Unit cannot be attacked until they are visible on screen
-            Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(unit.Avatar.Bounds.min), () => health.Invincible = false);
+            Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(result.GameObject.transform.position), () => health.Invincible = false);
 
-            return obj;
+            return result;
         }
 
         /// <summary>
@@ -109,11 +129,13 @@ namespace GM
             {
                 UnitBaseClass unit = EnemyUnits[EnemyUnits.Count - 1];
 
-                pos = new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 0.25f, unit.transform.position.y);
+                pos = new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 1.0f, unit.transform.position.y);
             }
 
             return pos;
         }
+
+        GameObject RandomBossUnitObject() => EnemyBossUnitObjects[Random.Range(0, EnemyBossUnitObjects.Count - 1)];
 
         /// <summary>
         /// 'HealthController' callback for when the unit is defeated (health hits zero)

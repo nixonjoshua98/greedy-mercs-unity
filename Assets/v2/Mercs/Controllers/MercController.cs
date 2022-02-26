@@ -45,13 +45,13 @@ namespace GM.Mercs.Controllers
             }
             else
             {
-                if (AttackController.IsAvailable)
+                if (!AttackController.IsAttacking)
                 {
                     if (!AttackController.IsWithinAttackDistance(CurrentTarget))
                     {
                         AttackController.MoveTowardsAttackPosition(CurrentTarget);
                     }
-                    else
+                    else if (AttackController.IsAvailable)
                     {
                         AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
                     }

@@ -6,7 +6,7 @@ from src.routers import (armoury, artefacts, bounty, bountyshop, login,
 
 app = src.create_app()
 
-app.include_router(login.router, prefix="/api/login")
+app.include_router(login.router)
 app.include_router(static.router, prefix="/api/static")
 app.include_router(bounty.router, prefix="/api/bounty")
 app.include_router(armoury.router, prefix="/api/armoury")

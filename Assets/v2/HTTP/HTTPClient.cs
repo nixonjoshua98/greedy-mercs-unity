@@ -149,10 +149,7 @@ namespace GM.HTTP
             }
             finally
             {
-                if (resp.StatusCode != HTTPCodes.Success)
-                {
-                    Debug.LogError(resp.ErrorMessage);
-                }
+
             }
         }
 

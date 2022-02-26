@@ -5,7 +5,7 @@ from fastapi.routing import APIRouter as _APIRouter
 from .request import ServerRequest as _ServerRequest
 
 
-class ServerRoute(_APIRoute):
+class _ServerRoute(_APIRoute):
     def get_route_handler(self):
         original_route_handler = super().get_route_handler()
 
@@ -18,5 +18,8 @@ class ServerRoute(_APIRoute):
 
 
 class APIRouter(_APIRouter):
-    def __init__(self, *, route_class=ServerRoute, **kwargs):
-        super(APIRouter, self).__init__(route_class=route_class, **kwargs)
+    def __init__(self, *, route_class=_ServerRoute, **kwargs):
+        super(APIRouter, self).__init__(
+            route_class=route_class,
+            **kwargs
+        )

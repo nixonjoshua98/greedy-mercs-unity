@@ -5,6 +5,7 @@ from src.context import (AuthenticatedRequestContext,
 from src.handlers.armoury import UpgradeItemHandler, UpgradeItemResponse
 from src.pymodels import BaseModel
 from src.router import APIRouter
+from src.response import ServerResponse
 
 
 class ArmouryItemActionModel(BaseModel):

@@ -10,14 +10,14 @@ namespace GM
     {
         IEnemyUnitFactory UnitManager;
 
-        [HideInInspector] public UnityEvent<GM.Units.UnitBaseClass> E_BossSpawn { get; private set; } = new UnityEvent<GM.Units.UnitBaseClass>();
-        [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveSpawn { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
+        [HideInInspector] public UnityEvent<UnitFactoryInstantiatedBossUnit> E_BossSpawn { get; private set; } = new UnityEvent<UnitFactoryInstantiatedBossUnit>();
+        [HideInInspector] public UnityEvent E_BossDefeated { get; private set; } = new UnityEvent();
+        [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveStart { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
 
         GameState CurrentGameState => App.Data.GameState;
 
         void Awake()
         {
-            // Fetch required components
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
         }
 
@@ -39,7 +39,7 @@ namespace GM
 
             for (int i = 0; i < CurrentGameState.EnemiesRemaining; i++)
             {
-                enemies.Add(UnitManager.InstantiateEnemyUnit().GetComponent<Units.UnitBaseClass>());
+                enemies.Add(UnitManager.InstantiateEnemyUnit());
             }
 
             BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(CurrentGameState.Stage);
@@ -55,16 +55,16 @@ namespace GM
                 health.E_OnZeroHealth.AddListener(OnEnemyZeroHealth);
             }
 
-            E_OnWaveSpawn.Invoke(enemies);
+            E_OnWaveStart.Invoke(enemies);
         }
 
         void StartStageBoss()
         {
-            GameObject enemy = UnitManager.InstantiateEnemyBossUnit();
+            UnitFactoryInstantiatedBossUnit enemy = UnitManager.InstantiateEnemyBossUnit();
 
             // Components
-            GM.Controllers.HealthController health = enemy.GetComponent<GM.Controllers.HealthController>();
-            GM.Units.UnitBaseClass unitClass = enemy.GetComponent<GM.Units.UnitBaseClass>();
+            GM.Controllers.HealthController health = enemy.GameObject.GetComponent<GM.Controllers.HealthController>();
+            GM.Units.UnitBaseClass unitClass = enemy.GameObject.GetComponent<GM.Units.UnitBaseClass>();
 
             // Setup
             health.Init(val: App.Cache.StageBossHealthAtStage(CurrentGameState.Stage));
@@ -76,10 +76,9 @@ namespace GM
             CurrentGameState.HasBossSpawned = true;
 
             // Set the boss position off-screen
-            enemy.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
+            enemy.GameObject.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
 
-            // Invoke an event
-            E_BossSpawn.Invoke(unitClass);
+            E_BossSpawn.Invoke(enemy);
         }
 
 
@@ -103,6 +102,8 @@ namespace GM
 
             CurrentGameState.Stage++;
             CurrentGameState.EnemiesDefeated = 0;
+
+            E_BossDefeated.Invoke();
 
             // Setup the next wave
             SetupWave();

@@ -11,7 +11,7 @@ from src.router import APIRouter
 
 from ..handlers.data.userdata import GetUserDataHandler, UserDataResponse
 
-router = APIRouter()
+router = APIRouter(prefix="/api/login")
 
 
 class LoginModel(BaseModel):
@@ -19,7 +19,7 @@ class LoginModel(BaseModel):
 
 
 @router.post("/")
-async def player_login(
+async def index(
     data: LoginModel,
     ctx: RequestContext = Depends(),
     user_data_handler: GetUserDataHandler = Depends(),

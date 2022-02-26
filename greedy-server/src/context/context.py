@@ -8,7 +8,6 @@ from fastapi import Depends, HTTPException
 
 from src.cache import MemoryCache, memory_cache
 from src.request import ServerRequest
-from src.response import ServerResponse
 
 
 class RequestContext:
@@ -35,7 +34,7 @@ async def inject_authenticated_context(
     key: Optional[str] = request.headers.get("authentication")
 
     # Header was not provided or session was not found
-    if key is None or (session := cache.get_session(key) is None):
+    if key is None or (session := cache.get_session(key)) is None:
         raise HTTPException(401, detail="Unauthorized")
 
     return AuthenticatedRequestContext(uid=session.user_id)

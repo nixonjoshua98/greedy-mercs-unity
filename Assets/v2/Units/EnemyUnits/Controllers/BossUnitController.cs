@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GM.Units.Controllers
 {
-    public class EnemyBossUnitController : EnemyUnitController
+    public class BossUnitController : EnemyUnitController
     {
         protected override void LinkHealthBar()
         {

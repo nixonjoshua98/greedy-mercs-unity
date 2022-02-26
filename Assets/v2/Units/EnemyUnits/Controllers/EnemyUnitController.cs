@@ -19,6 +19,7 @@ namespace GM.Units.Controllers
 
         [Header("Components")]
         public UnitAvatar UnitAvatar;
+
         [Space]
         [SerializeField] protected HealthController HealthController;
 

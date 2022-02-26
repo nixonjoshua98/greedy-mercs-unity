@@ -444,13 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 1876670771663251476}
   Animator: {fileID: 6800511658964374014}
-  AvatarRect:
-    serializedVersion: 2
-    x: -0.02103043
-    y: 1.724486
-    width: 2.696445
-    height: 3.607759
-  AnimationStrings:
+  Animations:
     Idle: Idle
     Walk: Walking
     Attack: Attacking

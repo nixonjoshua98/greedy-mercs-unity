@@ -6,9 +6,15 @@ namespace GM.CameraControllers
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] MercSquadController MercSquad;
-        [Space]
         public float Speed = 20000000000.5f;
+
+        MercSquadController MercSquad;
+
+
+        void Awake()
+        {
+            MercSquad = this.GetComponentInScene<MercSquadController>();
+        }
 
 
         void LateUpdate()

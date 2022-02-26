@@ -25,7 +25,7 @@ namespace GM.Units
 
             transform.position = Vector3.MoveTowards(transform.position, target, Time.fixedDeltaTime * MoveSpeed);
 
-            Avatar.PlayAnimation(Avatar.AnimationStrings.Walk);
+            Avatar.PlayAnimation(Avatar.Animations.Walk);
         }
 
         public void MoveTowards(Vector3 target, Action action)
@@ -39,7 +39,7 @@ namespace GM.Units
                     MoveTowards(target);
                 }
 
-                Avatar.PlayAnimation(Avatar.AnimationStrings.Idle);
+                Avatar.PlayAnimation(Avatar.Animations.Idle);
 
                 action.Invoke();
             }

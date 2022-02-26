@@ -17,10 +17,17 @@ namespace GM.Mercs.UI
         public Transform AvailMercSlotsParent;
         public Transform SquadMercSlotsParent;
         [Space]
-        [SerializeField] MercSquadController MercSquad;
+        
+        // Scene
+        MercSquadController MercSquad;
 
         // ...
         Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
+
+        void Awake()
+        {
+            MercSquad = this.GetComponentInScene<MercSquadController>();
+        }
 
         void Start()
         {

@@ -24,7 +24,7 @@ namespace GM.Controllers
             btmRightViewportPosition = Camera.main.ScreenToViewportPoint(corners[3]);
         }
 
-        protected override void OnClick(Vector3 screenPos)
+        protected override void OnClick(Vector2 screenPos)
         {
             Vector3 viewportClickPosition = Camera.main.ScreenToViewportPoint(screenPos);
 

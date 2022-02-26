@@ -7,7 +7,7 @@ namespace GM.Units
         [SerializeField] BoxCollider2D Collider;
 
         public Animator Animator;
-        public AnimationStrings AnimationStrings;
+        public AnimationStrings Animations;
 
         public Bounds Bounds {  get { return Collider.bounds; } }
 

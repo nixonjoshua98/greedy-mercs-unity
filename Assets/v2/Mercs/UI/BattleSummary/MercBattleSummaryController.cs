@@ -22,8 +22,6 @@ namespace GM.Mercs.UI
 
     public class MercBattleSummaryController : Core.GMMonoBehaviour
     {
-        [SerializeField] MercSquadController MercSquad;
-
         [Header("Prefabs")]
         public GameObject PopupObject;
 
@@ -33,7 +31,9 @@ namespace GM.Mercs.UI
 
         void Awake()
         {
-            MercSquad.OnUnitAddedToSquad.AddListener(merc =>
+            MercSquadController squad = this.GetComponentInScene<MercSquadController>();
+
+            squad.OnUnitAddedToSquad.AddListener(merc =>
             {
                 merc.Controller.OnDamageDealt.AddListener(dmg =>
                 {

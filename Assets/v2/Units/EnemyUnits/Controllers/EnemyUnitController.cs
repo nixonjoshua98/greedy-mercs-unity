@@ -51,13 +51,13 @@ namespace GM.Units.Controllers
 
         public void OnZeroHealth()
         {
-            UnitAvatar.Animator.Play(UnitAvatar.AnimationStrings.Defeat);
+            UnitAvatar.Animator.Play(UnitAvatar.Animations.Defeat);
             InstantiateCoinDropPS();
         }
 
         public void OnDamageTaken(BigDouble damageTaken)
         {
-            UnitAvatar.Animator.Play(UnitAvatar.AnimationStrings.Hurt);
+            UnitAvatar.Animator.Play(UnitAvatar.Animations.Hurt);
         }
 
         public void OnDefeatAnimation()
@@ -67,7 +67,7 @@ namespace GM.Units.Controllers
             ProcessLoot();
             InstantiateDefeatPS();
 
-            FadeOut(1.0f, () => Destroy(gameObject));
+            FadeOut(0.75f, () => Destroy(gameObject));
         }
 
         void ProcessLoot()

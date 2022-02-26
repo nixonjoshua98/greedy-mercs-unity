@@ -867,7 +867,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 7554022141221484536}
   Animator: {fileID: 95300950981661372}
-  AnimationStrings:
+  Animations:
     Idle: Idle
     Walk: Running
     Attack: 

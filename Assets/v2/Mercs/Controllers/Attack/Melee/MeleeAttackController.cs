@@ -39,7 +39,7 @@ namespace GM.Mercs.Controllers
         {
             base.StartAttack(target, callback);
 
-            Avatar.PlayAnimation(Avatar.AnimationStrings.Attack);
+            Avatar.PlayAnimation(Avatar.Animations.Attack);
         }
 
         public override bool IsWithinAttackDistance(GM.Units.UnitBaseClass unit)

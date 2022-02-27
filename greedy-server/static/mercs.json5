@@ -15,74 +15,8 @@
       "baseDamage": 10,
       "passives": [
         {
-          "bonusType": 802,
-          "bonusValue": 1.1,
+          "passiveId": 0,
           "unlockLevel": 10
-        },
-        {
-          "bonusType": 802,
-          "bonusValue": 1.1,
-          "unlockLevel": 25
-        },
-        {
-          "bonusType": 601,
-          "bonusValue": 1.25,
-          "unlockLevel": 50
-        },
-        {
-          "bonusType": 801,
-          "bonusValue": 1.1,
-          "unlockLevel": 75
-        },
-        {
-          "bonusType": 802,
-          "bonusValue": 1.1,
-          "unlockLevel": 100
-        },
-        {
-          "bonusType": 601,
-          "bonusValue": 1.15,
-          "unlockLevel": 125
-        },
-        {
-          "bonusType": 300,
-          "bonusValue": 0.01,
-          "unlockLevel": 150
-        },
-        {
-          "bonusType": 700,
-          "bonusValue": 2,
-          "unlockLevel": 200
-        },
-        {
-          "bonusType": 601,
-          "bonusValue": 1.25,
-          "unlockLevel": 250
-        },
-        {
-          "bonusType": 802,
-          "bonusValue": 1.1,
-          "unlockLevel": 300
-        },
-        {
-          "bonusType": 601,
-          "bonusValue": 1.15,
-          "unlockLevel": 350
-        },
-        {
-          "bonusType": 802,
-          "bonusValue": 1.1,
-          "unlockLevel": 400
-        },
-        {
-          "bonusType": 400,
-          "bonusValue": 1.5,
-          "unlockLevel": 450
-        },
-        {
-          "bonusType": 801,
-          "bonusValue": 1.15,
-          "unlockLevel": 500
         }
       ]
     }

@@ -1,6 +1,6 @@
 namespace GM.Mercs.Data
 {
-    public class MercUserData
+    public class UserMercState
     {
         public int Level = 1;
 

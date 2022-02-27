@@ -9,9 +9,9 @@ namespace GM.Mercs.Data
     public class MercData : Core.GMClass
     {
         StaticMercData Game;
-        MercUserData User;
+        UserMercState User;
 
-        public MercData(StaticMercData gameData, MercUserData userData)
+        public MercData(StaticMercData gameData, UserMercState userData)
         {
             Game = gameData;
             User = userData;

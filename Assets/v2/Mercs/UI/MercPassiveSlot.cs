@@ -22,9 +22,9 @@ namespace GM.Mercs.UI
         public Image IconBackgroundImage;
         public TMP_Text BonusText;
 
-        GM.Mercs.Models.MercPassiveDataModel AssignedPassive;
+        MercPassiveReference AssignedPassive;
 
-        public void Assign(GM.Mercs.Models.MercPassiveDataModel passive, bool isUnlocked)
+        public void Assign(MercPassiveReference passive, bool isUnlocked)
         {
             AssignedPassive = passive;
 
@@ -35,7 +35,7 @@ namespace GM.Mercs.UI
         {
             UnlockLevelText.text = AssignedPassive.UnlockLevel.ToString();
             IconBackgroundImage.sprite = isUnlocked ? BackgroundSprites.UnlockedSprite : BackgroundSprites.LockedSprite;
-            BonusText.text = Format.Bonus(AssignedPassive.Type, AssignedPassive.Value);
+            BonusText.text = Format.Bonus(AssignedPassive.Values.Type, AssignedPassive.Values.Value);
         }
     }
 }

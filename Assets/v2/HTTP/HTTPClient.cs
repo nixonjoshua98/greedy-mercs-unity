@@ -149,7 +149,7 @@ namespace GM.HTTP
             }
             finally
             {
-
+                GMLogger.Editor($"{www.url} {resp.StatusCode} {resp.ErrorMessage}");
             }
         }
 

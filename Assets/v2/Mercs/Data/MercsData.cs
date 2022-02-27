@@ -1,4 +1,3 @@
-using GM.Mercs.Models;
 using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +8,44 @@ namespace GM.Mercs.Data
 {
     public class MercsData : Core.GMClass
     {
-        Dictionary<UnitID, MercGameDataModel> StaticMercDataLookup;
         Dictionary<UnitID, MercUserData> UserMercDataLookup = new Dictionary<UnitID, MercUserData>();
 
-        public MercsData(Common.Interfaces.IServerUserData userData, List<MercGameDataModel> staticData)
+        Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
+
+        public MercsData(Common.Interfaces.IServerUserData userData, StaticMercsDataResponse staticData)
         {
-            SetStaticGameData(staticData);
+            SetStaticData(staticData);
             UpdateUserData(userData.UnlockedMercs);
+        }
+
+        void SetStaticData(StaticMercsDataResponse data)
+        {
+            Dictionary<int, MercPassive> passives = data.Passives.ToDictionary(x => x.ID, x => x);
+
+            var allLocalMercData = LoadLocalData();
+
+            foreach (StaticMercData merc in data.Mercs)
+            {
+                if (!allLocalMercData.TryGetValue(merc.ID, out MercScriptableObject localData))
+                    continue;
+
+                merc.Icon = localData.Icon;
+                merc.Prefab = localData.Prefab;
+
+                foreach (MercPassiveReference reference in merc.Passives)
+                {
+                    if (passives.TryGetValue(reference.PassiveID, out MercPassive passive))
+                    {
+                        reference.Values = passive;
+                    }
+                }
+
+                merc.Passives.RemoveAll((p) => p.Values == null);
+
+                StaticMercs[merc.ID] = merc;
+            }
+
+            AddDefaultUnits();
         }
 
         public void ResetLevels(int level = 1)
@@ -29,39 +59,12 @@ namespace GM.Mercs.Data
         /// <summary> Load local scriptable merc data </summary>
         Dictionary<UnitID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
-        /// <summary> Update the game data </summary>
-        void SetStaticGameData(List<MercGameDataModel> data)
-        {
-            StaticMercDataLookup = data.ToDictionary(x => x.Id, x => x);
-
-            UpdateStaticGameDataWithLocalData();
-
-            AddDefaultUnits();
-        }
-
-        void UpdateStaticGameDataWithLocalData()
-        {
-            var allLocalMercData = LoadLocalData();
-
-            foreach (var pair in StaticMercDataLookup)
-            {
-                MercGameDataModel model = pair.Value;
-
-                MercScriptableObject local = allLocalMercData[pair.Key];
-
-                model.Name = local.Name;
-                model.Icon = local.Icon;
-                model.Prefab = local.Prefab;
-                model.AttackType = local.AttackType;
-            }
-        }
-
         void UpdateUserData(List<UserMercDataModel> ls)
         {
             foreach (var merc in ls)
             {
-                if (!UserMercDataLookup.ContainsKey(merc.Id))
-                    UserMercDataLookup[merc.Id] = new MercUserData();
+                if (!UserMercDataLookup.ContainsKey(merc.ID))
+                    UserMercDataLookup[merc.ID] = new MercUserData();
             }
 
             AddDefaultUnits();
@@ -69,10 +72,10 @@ namespace GM.Mercs.Data
 
         void AddDefaultUnits()
         {
-            foreach (var pair in StaticMercDataLookup)
+            foreach (var pair in StaticMercs)
             {
                 UnitID mercId = pair.Key;
-                MercGameDataModel model = pair.Value;
+                StaticMercData model = pair.Value;
 
                 if (!UserMercDataLookup.ContainsKey(mercId) && model.IsDefault)
                     UserMercDataLookup[mercId] = new MercUserData();
@@ -90,7 +93,7 @@ namespace GM.Mercs.Data
         }
 
         /// <summary> Fetch the data about a merc </summary>
-        public MercGameDataModel GetGameMerc(UnitID key) => StaticMercDataLookup[key];
+        public StaticMercData GetGameMerc(UnitID key) => StaticMercs[key];
 
         /// <summary> Fetch user merc data </summary>
         MercUserData GetUserMerc(UnitID key) => UserMercDataLookup[key];

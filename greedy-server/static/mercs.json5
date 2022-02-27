@@ -1,7 +1,7 @@
 {
-  // TODO
-  "mercPassives": [
+  "passives": [
     {
+      "passiveId": 0,
       "bonusType": 802,
       "bonusValue": 1.1
     }
@@ -9,6 +9,7 @@
 
   "mercs": [
     {
+      "name": "Stone Golem",
       "mercId": 0,
       "baseUpgradeCost": 50,
       "baseDamage": 10,

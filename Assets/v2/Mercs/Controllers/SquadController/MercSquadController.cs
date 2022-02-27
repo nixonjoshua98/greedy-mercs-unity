@@ -27,7 +27,7 @@ namespace GM.Mercs
         {
             Vector2 pos = new Vector2(Camera.main.MinBounds().x - 1.0f, Common.Constants.CENTER_BATTLE_Y);
 
-            MercGameDataModel data = App.Data.Mercs.GetGameMerc(mercId);
+            StaticMercData data = App.Data.Mercs.GetGameMerc(mercId);
 
             int squadIndex = GetAvailableFormationSpot();
 

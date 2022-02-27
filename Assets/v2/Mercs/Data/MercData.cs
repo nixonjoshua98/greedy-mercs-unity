@@ -8,16 +8,16 @@ namespace GM.Mercs.Data
 {
     public class MercData : Core.GMClass
     {
-        Models.MercGameDataModel Game;
+        StaticMercData Game;
         MercUserData User;
 
-        public MercData(Models.MercGameDataModel gameData, MercUserData userData)
+        public MercData(StaticMercData gameData, MercUserData userData)
         {
             Game = gameData;
             User = userData;
         }
 
-        public UnitID Id => Game.Id;
+        public UnitID Id => Game.ID;
         public string Name => Game.Name;
         public int CurrentLevel
         {
@@ -37,11 +37,11 @@ namespace GM.Mercs.Data
         public bool InDefaultSquad => User.InDefaultSquad;
         public double BaseUpgradeCost => Game.BaseUpgradeCost;
         public AttackType AttackType => Game.AttackType;
-        public Models.MercPassiveDataModel[] Passives => Game.Passives;
+        public List<MercPassiveReference> Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
         public BigDouble DamagePerAttack => App.Cache.MercDamagePerAttack(this);
         public BigDouble UpgradeCost(int numLevels) => App.Cache.MercUpgradeCost(this, numLevels);
-        public List<Models.MercPassiveDataModel> UnlockedPassives
+        public List<MercPassiveReference> UnlockedPassives
         {
             get
             {
@@ -50,6 +50,6 @@ namespace GM.Mercs.Data
                 return Game.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToList();
             }
         }
-        public bool IsPassiveUnlocked(Models.MercPassiveDataModel passive) => User.Level >= passive.UnlockLevel;
+        public bool IsPassiveUnlocked(MercPassiveReference passive) => User.Level >= passive.UnlockLevel;
     }
 }

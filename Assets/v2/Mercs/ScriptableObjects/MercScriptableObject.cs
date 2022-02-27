@@ -9,9 +9,6 @@ namespace GM.Mercs.ScriptableObjects
     public class MercScriptableObject : ScriptableObject
     {
         public UnitID ID;
-        public AttackType AttackType = AttackType.MELEE;
-
-        public string Name = "???";
 
         public GameObject Prefab;
         public Sprite Icon;

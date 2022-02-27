@@ -31,7 +31,7 @@ namespace GM.Core
             {
                 List<KeyValuePair<BonusType, BigDouble>> ls = new List<KeyValuePair<BonusType, BigDouble>>();
 
-                App.Data.Mercs.UnlockedMercs.ForEach(m => ls.AddRange(m.UnlockedPassives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.Type, x.Value))));
+                App.Data.Mercs.UnlockedMercs.ForEach(m => ls.AddRange(m.UnlockedPassives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.Values.Type, x.Values.Value))));
 
                 return ls;
             }

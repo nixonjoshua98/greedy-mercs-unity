@@ -4,7 +4,7 @@ using GM.Bounties.Models;
 using GM.BountyShop.Models;
 using GM.Common.Interfaces;
 using GM.Inventory.Models;
-using GM.Mercs.Models;
+using GM.Mercs;
 using System.Collections.Generic;
 
 namespace GM.LocalSave

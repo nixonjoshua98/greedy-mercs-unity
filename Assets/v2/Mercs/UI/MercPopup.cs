@@ -18,7 +18,7 @@ namespace GM.Mercs.UI
         {
             IconImage.sprite = AssignedMerc.Icon;
 
-            foreach (GM.Mercs.Models.MercPassiveDataModel p in AssignedMerc.Passives)
+            foreach (MercPassiveReference p in AssignedMerc.Passives)
             {
                 Instantiate<MercPassiveSlot>(PassiveSlotObject, PassivesParent).Assign(p, AssignedMerc.IsPassiveUnlocked(p));
             }

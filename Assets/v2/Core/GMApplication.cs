@@ -7,8 +7,6 @@ namespace GM.Core
     {
         public static GMApplication Instance { get; private set; }
 
-        public AssetBundlesManager AssetBundles;
-
         public GMData Data;
         public GMCache Cache;
         public LocalSaveManager SaveManager;
@@ -21,9 +19,6 @@ namespace GM.Core
             if (Instance == null)
             {
                 Instance = new GMApplication();
-
-                Instance.AssetBundles = new AssetBundlesManager();
-                Instance.AssetBundles.Load();
 
                 Instance.Cache = new GMCache();
                 Instance.SaveManager = LocalSaveManager.Create();

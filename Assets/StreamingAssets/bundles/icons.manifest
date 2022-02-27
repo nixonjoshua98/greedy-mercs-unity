@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 2792170099
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 59b5177bb88770336f6ba1c9d5737523
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4df8c69f2c8a6ad9e3cbf82bb83e4dc3
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/#Icons/ChiliPepperBombTypeB.png
+- Assets/#Icons/ChiliPepperBomb.png
+Dependencies: []

@@ -10,6 +10,8 @@ using GM.Mercs.Data;
 using GM.States;
 using GM.Upgrades.Data;
 using System;
+using UnityEngine;
+using System.IO;
 
 namespace GM.Core
 {
@@ -31,6 +33,12 @@ namespace GM.Core
 
         public GMData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel localSaveFile)
         {
+            Debug.Log(Path.Combine(Application.streamingAssetsPath, "bundles", GM.Common.Constants.AssetBundles.Icons));
+            AssetBundle icons = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "bundles", GM.Common.Constants.AssetBundles.Icons));
+
+            Debug.Log(icons);
+            Debug.Log(string.Join(", ", icons.GetAllAssetNames()));
+
             NextDailyReset = staticData.NextDailyReset;
 
             // = Scriptable Object Models = //

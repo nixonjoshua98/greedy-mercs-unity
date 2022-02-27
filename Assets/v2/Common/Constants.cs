@@ -17,5 +17,10 @@ namespace GM.Common
         {
             public static string EnemyBossUnitHealthBar = "EnemyBossUnitHealthBar";
         }
+
+        public static class AssetBundles
+        {
+            public const string Icons = "icons";
+        }
     }
 }

@@ -49,7 +49,7 @@ def json_load(fp: str) -> Union[dict, list]:
         return pyjson5.load(fh)
 
 
-def json_dumps(d: Union[dict, list], *, default = None) -> str:
+def json_dumps(d: Union[dict, list], *, default: Any = None) -> str:
     """
     Dump a data structure into a string JSON
 

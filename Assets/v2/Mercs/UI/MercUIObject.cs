@@ -1,13 +1,13 @@
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 using GM.UI;
 
 namespace GM.Mercs.UI
 {
     public abstract class MercUIObject : SlotObject
     {
-        MercID AssignedId;
+        UnitID AssignedId;
 
-        public void Assign(MercID id)
+        public void Assign(UnitID id)
         {
             AssignedId = id;
 

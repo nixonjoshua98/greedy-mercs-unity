@@ -23,7 +23,7 @@ namespace GM.Mercs.UI
             DamageSlider.value = 0;
         }
 
-        public void UpdateValues(MercID mercId, BigDouble val, float percent)
+        public void UpdateValues(UnitID mercId, BigDouble val, float percent)
         {
             MercIconImage.sprite = App.Data.Mercs.GetGameMerc(mercId).Icon;
 

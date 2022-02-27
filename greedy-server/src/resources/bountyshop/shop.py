@@ -7,22 +7,21 @@ from fastapi import Depends
 
 from src import utils
 from src.context import RequestContext
-
-from ..armoury import StaticArmouryItem, static_armoury
 from .loottable import BountyShopLootTable
 from .models import (BountyShopArmouryItem, BountyShopCurrencyItem,
                      PurchasableBountyShopItem)
 from .shopconfig import (BountyShopLevelConfig, CurrencyItemConfig,
                          FullBountyShopConfig, bounty_shop_config)
+from src.resources.armoury import static_armoury, StaticArmouryItem
 
 
 async def dynamic_bounty_shop(
-        ctx: RequestContext = Depends(),
-        s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
-        shop_config: FullBountyShopConfig = Depends(bounty_shop_config),
+    ctx: RequestContext = Depends(),
+    static_data: list[StaticArmouryItem] = Depends(static_armoury),
+    shop_config: FullBountyShopConfig = Depends(bounty_shop_config),
 ) -> DynamicBountyShop:
 
-    return DynamicBountyShop(s_armoury, ctx.prev_daily_reset, shop_config)
+    return DynamicBountyShop(static_data, ctx.prev_daily_reset, shop_config)
 
 
 class DynamicBountyShop:

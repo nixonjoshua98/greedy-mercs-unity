@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.UI
 {
@@ -19,12 +19,12 @@ namespace GM.Mercs.UI
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
 
-        Action<MercID> RemoveMercFromSquad;
+        Action<UnitID> RemoveMercFromSquad;
 
         int _buyAmount;
         protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, Common.Constants.MAX_MERC_LEVEL);
 
-        public void Assign(MercID merc, GM.UI.AmountSelector selector, Action<MercID> removeMerc)
+        public void Assign(UnitID merc, GM.UI.AmountSelector selector, Action<UnitID> removeMerc)
         {
             _buyAmount = selector.Current;
             RemoveMercFromSquad = removeMerc;

@@ -18,7 +18,7 @@ namespace GM.Mercs.Models
     public class MercGameDataModel
     {
         [JsonProperty(PropertyName = "mercId", Required = Required.Always)]
-        public MercID Id;
+        public UnitID Id;
 
         [JsonProperty(PropertyName = "isDefault", Required = Required.Always)]
         public bool IsDefault;

@@ -5,7 +5,7 @@ namespace GM.Mercs.Controllers
 {
     public class MercController : Units.UnitBaseClass
     {
-        public MercID Id;
+        public UnitID Id;
 
         // = Controllers = //
         GM.Units.UnitBaseClass CurrentTarget;

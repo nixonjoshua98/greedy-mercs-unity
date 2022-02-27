@@ -5,7 +5,7 @@ from src.request import ServerRequest
 
 
 def inject_merc_data(request: ServerRequest) -> list[StaticMerc]:
-    return [StaticMerc.parse_obj(m) for m in request.app.get_static_file("mercs.json")]
+    return [StaticMerc.parse_obj(m) for m in request.app.get_static_file("mercs.json5")["mercs"]]
 
 
 class MercPassive(BaseModel):

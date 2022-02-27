@@ -1,7 +1,7 @@
 using GM.Mercs.Data;
 using System.Collections.Generic;
 using UnityEngine;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.UI
 {
@@ -22,7 +22,7 @@ namespace GM.Mercs.UI
         MercSquadController MercSquad;
 
         // ...
-        Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
+        Dictionary<UnitID, MercUIObject> MercSlots = new Dictionary<UnitID, MercUIObject>();
 
         void Awake()
         {
@@ -39,7 +39,7 @@ namespace GM.Mercs.UI
             App.Data.Mercs.UnlockedMercs.ForEach(merc => InstantiateSlot(merc.Id));
         }
 
-        void InstantiateSlot(MercID mercId)
+        void InstantiateSlot(UnitID mercId)
         {
             bool isMercUnlocked = App.Data.Mercs.IsMercUnlocked(mercId);
 
@@ -62,7 +62,7 @@ namespace GM.Mercs.UI
 
         }
 
-        void InstantiateSquadMercSlot(MercID mercId)
+        void InstantiateSquadMercSlot(UnitID mercId)
         {
             SquadMercSlot slot = Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
 
@@ -71,7 +71,7 @@ namespace GM.Mercs.UI
             MercSlots.Add(mercId, slot);
         }
 
-        void InstantiateIdleMercSlot(MercID mercId)
+        void InstantiateIdleMercSlot(UnitID mercId)
         {
             IdleMercSlot slot = Instantiate<IdleMercSlot>(AvailMercSlotObject, AvailMercSlotsParent);
 
@@ -80,7 +80,7 @@ namespace GM.Mercs.UI
             MercSlots.Add(mercId, slot);
         }
 
-        void AddSquadToMerc(MercID mercId)
+        void AddSquadToMerc(UnitID mercId)
         {
             if (MercSquad.AddMercToSquad(mercId))
             {
@@ -94,7 +94,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        void RemoveMercFromSquad(MercID mercId)
+        void RemoveMercFromSquad(UnitID mercId)
         {
             if (MercSquad.RemoveMercFromSquad(mercId))
             {
@@ -108,7 +108,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        void DestroySlot(MercID mercId)
+        void DestroySlot(UnitID mercId)
         {
             if (MercSlots.TryGetValue(mercId, out MercUIObject slot))
             {

@@ -1,8 +1,14 @@
 import uvicorn
 
 import src
-from src.routers import (armoury, artefacts, bounty, bountyshop, login,
-                         prestige, static)
+
+from src.routers import armoury
+from src.routers import artefacts
+from src.routers import bounty
+from src.routers import bountyshop
+from src.routers import login
+from src.routers import prestige
+from src.routers import static
 
 app = src.create_app()
 

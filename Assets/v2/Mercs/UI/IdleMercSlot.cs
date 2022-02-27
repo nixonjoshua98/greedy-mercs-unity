@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 using System;
 using AmountSelector = GM.UI.AmountSelector;
 using VStackedButton = GM.UI.VStackedButton;
@@ -22,13 +22,13 @@ namespace GM.Mercs.UI
         public VStackedButton UpgradeButton;
 
         // Callbacks
-        Action<MercID> AddToSquad;
+        Action<UnitID> AddToSquad;
 
         // Buy amount calculations
         int _buyAmount;
         protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, Common.Constants.MAX_MERC_LEVEL);
 
-        public void Assign(MercID mercId, AmountSelector selector, Action<MercID> addToSquad)
+        public void Assign(UnitID mercId, AmountSelector selector, Action<UnitID> addToSquad)
         {
             _buyAmount = selector.Current;
             AddToSquad = addToSquad;

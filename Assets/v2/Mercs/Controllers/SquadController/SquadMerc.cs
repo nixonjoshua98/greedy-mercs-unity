@@ -1,6 +1,6 @@
 using GM.Mercs.Controllers;
 using UnityEngine;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs
 {
@@ -10,7 +10,7 @@ namespace GM.Mercs
         public GameObject GameObject { get; private set; }
 
         // Properties
-        public MercID Id => Controller.Id;
+        public UnitID Id => Controller.Id;
         public Vector3 Position { get => GameObject.transform.position; set => GameObject.transform.position = value; }
 
         public SquadMerc(GameObject obj)

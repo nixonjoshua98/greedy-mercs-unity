@@ -8,11 +8,11 @@ namespace GM.Mercs.UI
 {
     struct MercDamageValue
     {
-        public MercID MercId;
+        public UnitID MercId;
         public DateTime Time;
         public BigDouble Damage;
 
-        public MercDamageValue(MercID mercId, BigDouble dmg)
+        public MercDamageValue(UnitID mercId, BigDouble dmg)
         {
             Time = DateTime.UtcNow;
             MercId = mercId;
@@ -51,7 +51,7 @@ namespace GM.Mercs.UI
             if (SummaryPopup != null)
             {
                 // Group up the damage dealt per merc
-                var dmg = damageValues.GroupBy(m => m.MercId).Select(x => new KeyValuePair<MercID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum())).OrderByDescending(x => x.Value);
+                var dmg = damageValues.GroupBy(m => m.MercId).Select(x => new KeyValuePair<UnitID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum())).OrderByDescending(x => x.Value);
 
                 SummaryPopup.UpdateDamageNumbers(dmg.ToList());
             }

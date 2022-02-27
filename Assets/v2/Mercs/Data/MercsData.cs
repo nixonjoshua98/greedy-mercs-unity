@@ -3,14 +3,14 @@ using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.Data
 {
     public class MercsData : Core.GMClass
     {
-        Dictionary<MercID, MercGameDataModel> StaticMercDataLookup;
-        Dictionary<MercID, MercUserData> UserMercDataLookup = new Dictionary<MercID, MercUserData>();
+        Dictionary<UnitID, MercGameDataModel> StaticMercDataLookup;
+        Dictionary<UnitID, MercUserData> UserMercDataLookup = new Dictionary<UnitID, MercUserData>();
 
         public MercsData(Common.Interfaces.IServerUserData userData, List<MercGameDataModel> staticData)
         {
@@ -27,7 +27,7 @@ namespace GM.Mercs.Data
         }
 
         /// <summary> Load local scriptable merc data </summary>
-        Dictionary<MercID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
+        Dictionary<UnitID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
         /// <summary> Update the game data </summary>
         void SetStaticGameData(List<MercGameDataModel> data)
@@ -71,7 +71,7 @@ namespace GM.Mercs.Data
         {
             foreach (var pair in StaticMercDataLookup)
             {
-                MercID mercId = pair.Key;
+                UnitID mercId = pair.Key;
                 MercGameDataModel model = pair.Value;
 
                 if (!UserMercDataLookup.ContainsKey(mercId) && model.IsDefault)
@@ -79,26 +79,26 @@ namespace GM.Mercs.Data
             }
         }
 
-        public void AddMercToSquad(MercID mercId)
+        public void AddMercToSquad(UnitID mercId)
         {
             UserMercDataLookup[mercId].InDefaultSquad = true;
         }
 
-        public void RemoveMercFromSquad(MercID mercId)
+        public void RemoveMercFromSquad(UnitID mercId)
         {
             UserMercDataLookup[mercId].InDefaultSquad = false;
         }
 
         /// <summary> Fetch the data about a merc </summary>
-        public MercGameDataModel GetGameMerc(MercID key) => StaticMercDataLookup[key];
+        public MercGameDataModel GetGameMerc(UnitID key) => StaticMercDataLookup[key];
 
         /// <summary> Fetch user merc data </summary>
-        MercUserData GetUserMerc(MercID key) => UserMercDataLookup[key];
+        MercUserData GetUserMerc(UnitID key) => UserMercDataLookup[key];
 
-        public MercData GetMerc(MercID key) => new MercData(GetGameMerc(key), GetUserMerc(key));
+        public MercData GetMerc(UnitID key) => new MercData(GetGameMerc(key), GetUserMerc(key));
 
         /// <summary> Check if the user has unlocked a merc </summary>
-        public bool IsMercUnlocked(MercID chara) => UserMercDataLookup.ContainsKey(chara);
+        public bool IsMercUnlocked(UnitID chara) => UserMercDataLookup.ContainsKey(chara);
 
         /// <summary> Fetch the full data for all user unlocked mercs </summary>
         public List<MercData> UnlockedMercs => UserMercDataLookup.Select(pair => GetMerc(pair.Key)).ToList();

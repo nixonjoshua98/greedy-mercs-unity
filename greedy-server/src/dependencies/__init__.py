@@ -13,5 +13,4 @@ def get_static_artefacts_dict(request: ServerRequest) -> dict[int, StaticArtefac
 
 def get_static_bounties(request: ServerRequest) -> StaticBounties:
     d: dict = request.app.get_static_file("bounties.json")
-
     return StaticBounties.parse_obj(d)

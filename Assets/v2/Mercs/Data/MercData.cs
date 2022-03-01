@@ -17,7 +17,7 @@ namespace GM.Mercs.Data
             User = userData;
         }
 
-        public UnitID Id => Game.ID;
+        public UnitID ID => Game.ID;
         public string Name => Game.Name;
         public int CurrentLevel
         {
@@ -25,7 +25,7 @@ namespace GM.Mercs.Data
             set
             {
                 if (value > MaxLevel)
-                    Debug.Log($"Fatal: Merc '{Id}' level exceeded max level");
+                    Debug.Log($"Fatal: Merc '{ID}' level exceeded max level");
 
                 User.Level = Mathf.Min(MaxLevel, value);
             }

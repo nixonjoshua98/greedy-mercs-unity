@@ -19,15 +19,12 @@ namespace GM.Mercs.UI
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
 
-        Action<UnitID> RemoveMercFromSquad;
-
         int _buyAmount;
         protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, Common.Constants.MAX_MERC_LEVEL);
 
-        public void Assign(UnitID merc, GM.UI.AmountSelector selector, Action<UnitID> removeMerc)
+        public void Assign(UnitID merc, GM.UI.AmountSelector selector)
         {
             _buyAmount = selector.Current;
-            RemoveMercFromSquad = removeMerc;
 
             Assign(merc); 
 
@@ -82,15 +79,10 @@ namespace GM.Mercs.UI
             }
         }
 
-        public void OnRemoveSquadMercButton()
-        {
-            RemoveMercFromSquad.Invoke(AssignedMerc.Id);
-        }
-
         /// <summary> Callback from UI to open the merc popup </summary>
         public void OnInfoButton()
         {
-            InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.Id);
+            InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.ID);
         }
     }
 }

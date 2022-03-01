@@ -98,10 +98,9 @@ namespace GM.Mercs.Data
 
         public MercData GetMerc(UnitID key) => new MercData(GetGameMerc(key), GetUserMerc(key));
 
-        /// <summary> Check if the user has unlocked a merc </summary>
-        public bool IsMercUnlocked(UnitID chara) => UserMercs.ContainsKey(chara);
-
         /// <summary> Fetch the full data for all user unlocked mercs </summary>
         public List<MercData> UnlockedMercs => UserMercs.Select(pair => GetMerc(pair.Key)).ToList();
+
+        public List<UnitID> MercsInSquad => UserMercs.Where(x => x.Value.InDefaultSquad).Select(x => x.Key).ToList();
     }
 }

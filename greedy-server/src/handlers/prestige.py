@@ -60,6 +60,7 @@ class PrestigeHandler(BaseHandler):
     async def handle(self, data: PrestigeData) -> PrestigeResponse:
         await self.fetch_user_data()
 
+        # Prestige rewards
         points: int = self.calculate_prestige_points(data.prestige_stage)
         new_bounties: list[int] = self.calculate_unlocked_bounties(data.prestige_stage)
 

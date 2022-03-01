@@ -1,4 +1,3 @@
-using GM.Mercs.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnitID = GM.Common.Enums.UnitID;
@@ -10,6 +9,7 @@ namespace GM.Mercs.UI
         [Header("Prefabs")]
         public GameObject SquadMercSlotObject;
         public GameObject AvailMercSlotObject;
+        public GameObject ManageMercsObject;
 
         [Header("References")]
         public GM.UI.AmountSelector UpgradeAmountSelector;
@@ -17,95 +17,41 @@ namespace GM.Mercs.UI
         public Transform AvailMercSlotsParent;
         public Transform SquadMercSlotsParent;
         [Space]
-        
-        // Scene
-        MercSquadController MercSquad;
 
         // ...
         Dictionary<UnitID, MercUIObject> MercSlots = new Dictionary<UnitID, MercUIObject>();
 
-        void Awake()
-        {
-            MercSquad = this.GetComponentInScene<MercSquadController>();
-        }
-
         void Start()
         {
-            InstantiateMercSlots();
+            UpdateSlotsUI();
         }
 
-        void InstantiateMercSlots()
+        void UpdateSlotsUI()
         {
-            App.Data.Mercs.UnlockedMercs.ForEach(merc => InstantiateSlot(merc.Id));
-        }
-
-        void InstantiateSlot(UnitID mercId)
-        {
-            bool isMercUnlocked = App.Data.Mercs.IsMercUnlocked(mercId);
-
-            if (isMercUnlocked)
+            foreach (var merc in App.Data.Mercs.UnlockedMercs)
             {
-                DestroySlot(mercId); // Destroy if exists
-
-                MercData merc = App.Data.Mercs.GetMerc(mercId);
-
-                if (merc.InDefaultSquad)
+                // Merc has been removed from squad
+                if (MercSlots.ContainsKey(merc.ID) && !merc.InDefaultSquad)
                 {
-                    InstantiateSquadMercSlot(merc.Id);
+                    DestroySlot(merc.ID);
                 }
 
-                else
+                // Merc has been added to the squad
+                else if (!MercSlots.ContainsKey(merc.ID) && merc.InDefaultSquad)
                 {
-                    InstantiateIdleMercSlot(merc.Id);
+                    InstantiateSlot(merc.ID);
                 }
             }
-
         }
 
-        void InstantiateSquadMercSlot(UnitID mercId)
+        void InstantiateSlot(UnitID merc)
         {
             SquadMercSlot slot = Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
 
-            slot.Assign(mercId, UpgradeAmountSelector, RemoveMercFromSquad);
+            slot.Assign(merc, UpgradeAmountSelector);
 
-            MercSlots.Add(mercId, slot);
-        }
-
-        void InstantiateIdleMercSlot(UnitID mercId)
-        {
-            IdleMercSlot slot = Instantiate<IdleMercSlot>(AvailMercSlotObject, AvailMercSlotsParent);
-
-            slot.Assign(mercId, UpgradeAmountSelector, AddSquadToMerc);
-
-            MercSlots.Add(mercId, slot);
-        }
-
-        void AddSquadToMerc(UnitID mercId)
-        {
-            if (MercSquad.AddMercToSquad(mercId))
-            {
-                App.Data.Mercs.AddMercToSquad(mercId);
-
-                InstantiateSlot(mercId);
-            }
-            else
-            {
-                GMLogger.Editor("Failed to add unit to squad");
-            }
-        }
-
-        void RemoveMercFromSquad(UnitID mercId)
-        {
-            if (MercSquad.RemoveMercFromSquad(mercId))
-            {
-                App.Data.Mercs.RemoveMercFromSquad(mercId);
-
-                InstantiateSlot(mercId);
-            }
-            else
-            {
-                GMLogger.Editor("Failed to remove unit from squad");
-            }
+            MercSlots.Add(merc, slot);
+            
         }
 
         void DestroySlot(UnitID mercId)
@@ -115,6 +61,15 @@ namespace GM.Mercs.UI
                 Destroy(slot.gameObject);
                 MercSlots.Remove(mercId);
             }
+        }
+
+        // = UI Callbacks = //
+
+        public void ShowAvailableMercs()
+        {
+            InstantiateUI<MercManagePopup>(ManageMercsObject).AssignCallback(() => {
+                UpdateSlotsUI();
+            });
         }
     }
 }

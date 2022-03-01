@@ -4,7 +4,6 @@ from typing import Optional
 
 from src.pymodels import BaseDocument
 from src.request import ServerRequest
-from src.response import ServerResponse
 
 
 def accounts_repository(request: ServerRequest) -> AccountsRepository:

@@ -31,8 +31,8 @@ namespace GM
         {
             return type switch
             {
-                BonusType.FLAT_CRIT_CHANCE => "Critical Hit Chance",
-                BonusType.MULTIPLY_CRIT_DMG => "Critical Hit Damage",
+                BonusType.FLAT_CRIT_CHANCE => "Critical Chance",
+                BonusType.MULTIPLY_CRIT_DMG => "Critical Damage",
                 BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
                 BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
                 BonusType.MULTIPLY_ALL_DMG => "All Damage",

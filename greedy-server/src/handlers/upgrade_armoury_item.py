@@ -21,7 +21,7 @@ class UpgradeItemResponse(BaseResponse):
     upgrade_cost: int
 
 
-class UpgradeItemHandler(BaseHandler):
+class UpgradeArmouryItemHandler(BaseHandler):
     def __init__(
         self,
         static_data: list[StaticArmouryItem] = Depends(static_armoury),

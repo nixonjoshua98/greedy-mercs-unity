@@ -2,7 +2,7 @@ from fastapi import Depends
 
 from src.context import (AuthenticatedRequestContext,
                          inject_authenticated_context)
-from src.handlers.bountyshop import (PurchaseArmouryItemHandler,
+from src.handlers import (PurchaseArmouryItemHandler,
                                      PurchaseArmouryItemResponse,
                                      PurchaseCurrencyHandler,
                                      PurchaseCurrencyResponse)

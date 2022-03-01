@@ -2,7 +2,7 @@ from fastapi import Depends
 
 from src.context import (AuthenticatedRequestContext,
                          inject_authenticated_context)
-from src.handlers.artefacts import (UnlockArtefactHandler,
+from src.handlers import (UnlockArtefactHandler,
                                     UnlockArtefactResponse,
                                     UpgradeArtefactHandler,
                                     UpgradeArtefactResponse)

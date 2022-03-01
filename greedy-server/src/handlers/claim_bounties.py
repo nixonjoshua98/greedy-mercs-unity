@@ -23,7 +23,7 @@ class BountyClaimResponse(BaseResponse):
     currencies: CurrenciesModel
 
 
-class BountyClaimHandler(BaseHandler):
+class ClaimBountiesHandler(BaseHandler):
     def __init__(
         self,
         bounties_data: StaticBounties = Depends(inject_static_bounties),

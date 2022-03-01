@@ -34,8 +34,14 @@ class UpgradeArtefactHandler(BaseHandler):
         self.currency_repo = currency_repo
 
     async def handle(
-        self, user: AuthenticatedRequestContext, artefact_id: int, levels: int
+        self,
+        user: AuthenticatedRequestContext,
+        artefact_id: int,
+        levels: int
     ) -> UpgradeArtefactResponse:
+        """
+
+        """
         s_artefact: StaticArtefact = utils.get(self.artefacts_data, id=artefact_id)
         u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(
             user.user_id, artefact_id
@@ -71,7 +77,5 @@ class UpgradeArtefactHandler(BaseHandler):
         )
 
     @staticmethod
-    def upgrade_cost(
-        s_artefact: StaticArtefact, u_artefact: ArtefactModel, levels: int
-    ) -> int:
+    def upgrade_cost(s_artefact: StaticArtefact, u_artefact: ArtefactModel, levels: int) -> int:
         return formulas.artefact_upgrade_cost(s_artefact, u_artefact.level, levels)

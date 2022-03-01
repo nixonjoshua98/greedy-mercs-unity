@@ -68,7 +68,7 @@ namespace GM.Units.Controllers
             ProcessLoot();
             InstantiateDefeatPS();
 
-            FadeOut(0.75f, () => Destroy(gameObject));
+            FadeOut(0.5f, () => Destroy(gameObject));
         }
 
         void ProcessLoot()

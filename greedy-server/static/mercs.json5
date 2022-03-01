@@ -6,7 +6,6 @@
       "bonusValue": 1.1
     }
   ],
-
   "mercs": [
     {
       "name": "Stone Golem",
@@ -14,6 +13,26 @@
       "baseUpgradeCost": 50,
       "baseDamage": 10,
       "passives": [
+        {
+          "passiveId": 0,
+          "unlockLevel": 10
+        },
+        {
+          "passiveId": 0,
+          "unlockLevel": 10
+        },
+        {
+          "passiveId": 0,
+          "unlockLevel": 10
+        },
+        {
+          "passiveId": 0,
+          "unlockLevel": 10
+        },
+        {
+          "passiveId": 0,
+          "unlockLevel": 10
+        },
         {
           "passiveId": 0,
           "unlockLevel": 10

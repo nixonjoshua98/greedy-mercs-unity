@@ -5,10 +5,10 @@ from fastapi import Depends
 from src.context import RequestContext
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.resources.mercs import StaticMerc, inject_merc_data
+from src.resources.mercs import inject_merc_data
 from src.resources.armoury import static_armoury, StaticArmouryItem
 
-from ..abc import BaseHandler, BaseResponse
+from src.handlers.abc import BaseHandler, BaseResponse
 
 
 @dataclasses.dataclass()
@@ -16,7 +16,7 @@ class StaticDataResponse(BaseResponse):
     data: dict
 
 
-class GetStaticData(BaseHandler):
+class GetStaticDataHandler(BaseHandler):
     def __init__(
         self,
         ctx: RequestContext = Depends(),
@@ -30,7 +30,7 @@ class GetStaticData(BaseHandler):
         self.s_armoury: list[StaticArmouryItem] = s_armoury
         self.s_bounties: StaticBounties = s_bounties
         self.s_artefacts: list[StaticArtefact] = s_artefacts
-        self.s_mercs: list[StaticMerc] = s_mercs
+        self.s_mercs = s_mercs
 
     async def handle(self) -> StaticDataResponse:
 

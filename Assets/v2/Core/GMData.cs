@@ -7,11 +7,8 @@ using GM.CurrencyItems.Data;
 using GM.Inventory.Data;
 using GM.LocalSave;
 using GM.Mercs.Data;
-using GM.States;
 using GM.Upgrades.Data;
 using System;
-using UnityEngine;
-using System.IO;
 
 namespace GM.Core
 {
@@ -26,7 +23,7 @@ namespace GM.Core
         public BountyShopData BountyShop;
         public PlayerUpgrades Upgrades;
 
-        public GameState GameState;
+        public CurrentPrestigeState GameState;
 
         public DateTime NextDailyReset;
         public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
@@ -39,7 +36,7 @@ namespace GM.Core
             Items = new ItemsData();
 
             // = Local Models = //
-            GameState = GameState.Deserialize(localSaveFile);
+            GameState = CurrentPrestigeState.Deserialize(localSaveFile);
 
             Upgrades    = new PlayerUpgrades();
             Inv         = new UserInventory(userData.CurrencyItems);
@@ -52,7 +49,7 @@ namespace GM.Core
 
         public void ResetPrestigeData()
         {
-            GameState = new GameState();
+            GameState = new CurrentPrestigeState();
 
             Mercs.ResetLevels();
             Upgrades.ResetLevels();

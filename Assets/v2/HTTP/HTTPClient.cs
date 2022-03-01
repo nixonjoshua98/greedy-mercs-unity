@@ -83,10 +83,9 @@ namespace GM.HTTP
             });
         }
 
-        public void Prestige(Action<PrestigeResponse> callback)
+        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
         {
-            var req = new PrestigeRequest();
-            var www = UnityWebRequest.Post(ResolveURL("prestige"), SerializeRequest(req));
+            var www = UnityWebRequest.Post(ResolveURL("prestige"), SerializeRequest(request));
 
             SendAuthenticatedRequest(www, callback);
         }

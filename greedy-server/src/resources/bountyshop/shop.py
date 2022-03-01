@@ -7,12 +7,13 @@ from fastapi import Depends
 
 from src import utils
 from src.context import RequestContext
+from src.resources.armoury import StaticArmouryItem, static_armoury
+
 from .loottable import BountyShopLootTable
 from .models import (BountyShopArmouryItem, BountyShopCurrencyItem,
                      PurchasableBountyShopItem)
 from .shopconfig import (BountyShopLevelConfig, CurrencyItemConfig,
                          FullBountyShopConfig, bounty_shop_config)
-from src.resources.armoury import static_armoury, StaticArmouryItem
 
 
 async def dynamic_bounty_shop(

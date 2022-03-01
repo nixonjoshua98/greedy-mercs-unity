@@ -1,21 +1,21 @@
 # Armoury
-from .purchase_armoury_item import PurchaseArmouryItemResponse, PurchaseArmouryItemHandler
-from .upgrade_armoury_item import UpgradeArmouryItemHandler, UpgradeItemResponse
-
 # Bounties
-from .claim_bounties import ClaimBountiesHandler, BountyClaimResponse
-from .update_bounties import UpdateBountiesResponse, UpdateBountiesHandler
-
+from .claim_bounties import BountyClaimResponse, ClaimBountiesHandler
+# Accounts
+from .create_account import AccountCreationResponse, CreateAccountHandler
 # Data
 from .get_static_data import GetStaticDataHandler, StaticDataResponse
 from .get_user_data import GetUserDataHandler, UserDataResponse
-
-# Accounts
-from .create_account import CreateAccountHandler, AccountCreationResponse
-
+# Prestige
+from .prestige import PrestigeHandler, PrestigeResponse
+from .purchase_armoury_item import (PurchaseArmouryItemHandler,
+                                    PurchaseArmouryItemResponse)
 # Bounty Shop
-from .purchase_bs_currency_item import PurchaseCurrencyHandler, PurchaseCurrencyResponse
-
+from .purchase_bs_currency_item import (PurchaseCurrencyHandler,
+                                        PurchaseCurrencyResponse)
 # Artefacts
 from .unlock_artefact import UnlockArtefactHandler, UnlockArtefactResponse
+from .update_bounties import UpdateBountiesHandler, UpdateBountiesResponse
+from .upgrade_armoury_item import (UpgradeArmouryItemHandler,
+                                   UpgradeItemResponse)
 from .upgrade_artefact import UpgradeArtefactHandler, UpgradeArtefactResponse

@@ -10,7 +10,7 @@ namespace GM.LocalSave
         const string LOCAL_FILE = "localsave";
         const string USER_FILE = "userdata";
 
-        public bool Paused = false;
+        public bool Paused { get; set; } = false;
 
         void Awake()
         {

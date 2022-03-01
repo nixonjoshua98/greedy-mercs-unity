@@ -8,7 +8,7 @@ from src import utils
 from src.context import AuthenticatedRequestContext
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.bounties import (BountiesRepository,
-                                             UserBountiesModel,
+                                             UserBountiesDataModel,
                                              bounties_repository)
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
@@ -39,7 +39,7 @@ class ClaimBountiesHandler(BaseHandler):
         claim_time = dt.datetime.utcnow()
 
         # Fetch bounties data for the user
-        user_bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(
+        user_bounties: UserBountiesDataModel = await self.bounties_repo.get_user_bounties(
             user.user_id
         )
 
@@ -62,7 +62,7 @@ class ClaimBountiesHandler(BaseHandler):
         )
 
     def unclaimed_points(
-        self, now: dt.datetime, user_bounties: UserBountiesModel
+        self, now: dt.datetime, user_bounties: UserBountiesDataModel
     ) -> int:
         points = 0  # Total unclaimed points (ready to be claimed)
 

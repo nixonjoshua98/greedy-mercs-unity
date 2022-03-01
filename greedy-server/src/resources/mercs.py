@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from src.common.enums import AttackType
 from src.pymodels import BaseModel, Field
 from src.request import ServerRequest
-from src.common.enums import AttackType
 
 
 def inject_merc_data(request: ServerRequest) -> StaticMercsData:

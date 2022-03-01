@@ -5,7 +5,7 @@ from fastapi import Depends
 from src.context import AuthenticatedRequestContext
 from src.handlers.abc import BaseHandler, HandlerException
 from src.mongo.repositories.bounties import (BountiesRepository,
-                                             UserBountiesModel,
+                                             UserBountiesDataModel,
                                              bounties_repository)
 from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
@@ -14,7 +14,7 @@ from src.resources.bounties import StaticBounties, inject_static_bounties
 
 @dataclasses.dataclass()
 class UpdateBountiesResponse:
-    bounties: UserBountiesModel
+    bounties: UserBountiesDataModel
 
 
 class UpdateBountiesHandler(BaseHandler):
@@ -36,7 +36,7 @@ class UpdateBountiesHandler(BaseHandler):
             raise HandlerException(400, "Exceeded maximum active bounties")
 
         # Load data from the mongo database
-        user_bounty_data: UserBountiesModel = (
+        user_bounty_data: UserBountiesDataModel = (
             await self.bounties_repo.get_user_bounties(user.user_id)
         )
 
@@ -46,13 +46,13 @@ class UpdateBountiesHandler(BaseHandler):
         # Enable (or disable) the relevant bounties
         await self.bounties_repo.update_active_bounties(user.user_id, bounty_ids)
 
-        bounties: UserBountiesModel = await self.bounties_repo.get_user_bounties(
+        bounties: UserBountiesDataModel = await self.bounties_repo.get_user_bounties(
             user.user_id
         )
 
         return UpdateBountiesResponse(bounties=bounties)
 
-    def is_bounties_valid(self, bounty_ids: list[int], user_data: UserBountiesModel) -> bool:
+    def is_bounties_valid(self, bounty_ids: list[int], user_data: UserBountiesDataModel) -> bool:
         u_bounty_ids: list[int] = [b.bounty_id for b in user_data.bounties]
         s_bounty_ids: list[int] = [b.id for b in self.bounties_data.bounties]
 

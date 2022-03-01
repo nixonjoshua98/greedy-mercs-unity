@@ -1,5 +1,4 @@
 using GM.Common;
-using GM.States;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,7 +13,7 @@ namespace GM
         [HideInInspector] public UnityEvent E_BossDefeated { get; private set; } = new UnityEvent();
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveStart { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
 
-        GameState CurrentGameState => App.Data.GameState;
+        CurrentPrestigeState CurrentGameState => App.Data.GameState;
 
         void Awake()
         {

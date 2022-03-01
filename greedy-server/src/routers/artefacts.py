@@ -2,10 +2,8 @@ from fastapi import Depends
 
 from src.context import (AuthenticatedRequestContext,
                          inject_authenticated_context)
-from src.handlers import (UnlockArtefactHandler,
-                                    UnlockArtefactResponse,
-                                    UpgradeArtefactHandler,
-                                    UpgradeArtefactResponse)
+from src.handlers import (UnlockArtefactHandler, UnlockArtefactResponse,
+                          UpgradeArtefactHandler, UpgradeArtefactResponse)
 from src.pymodels import BaseModel
 from src.response import ServerResponse
 from src.router import APIRouter

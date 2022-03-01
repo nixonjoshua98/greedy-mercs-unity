@@ -1,33 +1,47 @@
 using GM.HTTP;
-using UnityEngine.SceneManagement;
-using UnityEngine;
 using GM.HTTP.Requests;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GM.Managers
 {
     public class PrestigeManager : Core.GMMonoBehaviour
     {
-        public void OnPrestigeButton()
-        {
-            App.SaveManager.Paused = true;
-            App.SaveManager.DeleteLocalFile();
+        static PrestigeManager Instance = null;
 
-            App.HTTP.Prestige(OnPrestigeResponse);
+        void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
         }
 
-        void OnPrestigeResponse(PrestigeResponse resp)
+        void PerformPrestige()
         {
-            if (resp.StatusCode == HTTPCodes.Success)
+            var request = new PrestigeRequest()
             {
-                OnPrestigeSuccess(resp);
-            }
-            else
-            {
-                App.SaveManager.Paused = false;
-                App.SaveManager.Save();
+                PrestigeStage = App.Data.GameState.Stage
+            };
 
-                Debug.Log("Prestige failed");
-            }
+            App.HTTP.Prestige(request, Server_OnPrestige);
+        }
+
+        // = Callbacks = //
+
+        void OnPrePrestige()
+        {
+            Debug.Log("OnPrePrestige");
+            App.SaveManager.Paused = true;
+            App.SaveManager.DeleteLocalFile();
+        }
+
+        void OnPrestigeFailed(PrestigeResponse resp)
+        {
+            App.SaveManager.Paused = false;
+            App.SaveManager.Save();
+
+            Debug.Log("Prestige failed");
         }
 
         void OnPrestigeSuccess(PrestigeResponse resp)
@@ -39,6 +53,28 @@ namespace GM.Managers
             App.SaveManager.Save();
 
             SceneManager.LoadSceneAsync("GameScene");
+        }
+
+        // = Server Callbacks = //
+
+        void Server_OnPrestige(PrestigeResponse resp)
+        {
+            if (resp.StatusCode == HTTPCodes.Success)
+            {
+                OnPrestigeSuccess(resp);
+            }
+            else
+            {
+                OnPrestigeFailed(resp);
+            }
+        }
+
+        // = UI Callbacks = //
+
+        public void Button_OnPrestige()
+        {
+            OnPrePrestige();
+            PerformPrestige();
         }
     }
 }

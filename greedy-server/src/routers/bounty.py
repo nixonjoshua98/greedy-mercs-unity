@@ -24,9 +24,9 @@ async def claim_points(
 
     return ServerResponse({
         "claimTime": resp.claim_time,
-        "currencyItems": resp.currencies.client_dict(),
+        "currencyItems": resp.currencies,
         "pointsClaimed": resp.claim_amount,
-        })
+    })
 
 
 @router.post("/setactive")

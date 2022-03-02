@@ -1,9 +1,8 @@
 using GM.Common.Enums;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using UnityEngine.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace GM.Mercs.UI
 {
@@ -11,9 +10,11 @@ namespace GM.Mercs.UI
     {
         [Header("Prefab Objects")]
         public GameObject MercSlot;
+        public GameObject ManageMercSlot;
+        public GameObject ManageMercIconObject;
 
         [Header("Parents")]
-        public Transform MercSquadParent;
+        public Transform SquadIconsParent;
         public Transform AvailableMercsParent;
 
         // Scene
@@ -22,6 +23,7 @@ namespace GM.Mercs.UI
         public bool SquadFull => SquadMercs.Count >= GM.Common.Constants.MAX_SQUAD_SIZE;
 
         Dictionary<UnitID, MercManageSlot> Slots = new Dictionary<UnitID, MercManageSlot>();
+        List<MercManageIcon> Icons = new List<MercManageIcon>();
         List<MercManageSlot> SquadMercs => Slots.Values.Where(x => x.InSquad).ToList();
 
 
@@ -38,13 +40,21 @@ namespace GM.Mercs.UI
             MercSquad = this.GetComponentInScene<MercSquadController>();
         }
 
+
         void Start()
+        {
+            CreateIcons();
+            InstantiateSlots();
+            UpdateSquadIcons();
+        }
+
+        void InstantiateSlots()
         {
             foreach (var unlockedMerc in App.Data.Mercs.UnlockedMercs)
             {
-                MercManageSlot slot = Instantiate<MercManageSlot>(MercSlot, null);
+                MercManageSlot slot = Instantiate<MercManageSlot>(ManageMercSlot, null);
 
-                UpdateParent(slot, unlockedMerc.InDefaultSquad);
+                slot.transform.SetParent(AvailableMercsParent, false);
 
                 slot.Set(this, unlockedMerc.ID);
 
@@ -52,23 +62,40 @@ namespace GM.Mercs.UI
             }
         }
 
-        void UpdateParent(MercManageSlot slot, bool inSquad)
+        void CreateIcons()
         {
-            if (inSquad)
+            for (int i = 0; i < GM.Common.Constants.MAX_SQUAD_SIZE; ++i)
             {
-                slot.transform.SetParent(MercSquadParent, false);
-            }
-            else
-            {
-                slot.transform.SetParent(AvailableMercsParent, false);
+                MercManageIcon slot = Instantiate<MercManageIcon>(ManageMercIconObject, SquadIconsParent);
+
+                Icons.Add(slot);
             }
         }
 
-        public void UpdateMerc(UnitID unit, bool inSquad)
+        void UpdateSquadIcons()
+        {
+            for (int i = 0; i < Icons.Count; i++)
+            {
+                MercManageIcon icon = Icons[i];
+
+                if (SquadMercs.Count > i)
+                {
+                    MercManageSlot slot = SquadMercs[i];
+
+                    icon.SetIcon(GetMercIconSprite(slot.Unit));
+                }
+
+                icon.gameObject.SetActive(SquadMercs.Count > i);
+            }
+        }
+
+        Sprite GetMercIconSprite(UnitID unit) => App.Data.Mercs.GetGameMerc(unit).Icon;
+
+        public void UpdateMerc(UnitID unit)
         {
             MercManageSlot slot = Slots[unit];
 
-            UpdateParent(slot, inSquad);
+            UpdateSquadIcons();
 
             Slots.Values.ToList().ForEach(x => x.UpdateActiveUI());
         }

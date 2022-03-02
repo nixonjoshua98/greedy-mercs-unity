@@ -7,17 +7,14 @@ namespace GM.Mercs.UI
 {
     public class MercManageSlot : GM.Core.GMMonoBehaviour
     {
-        [Header("Sprites")]
-        [SerializeField] Sprite InSquadBackgroundSprite;
-        [SerializeField] Sprite OutSquadBackgroundSprite;
-
         [Header("References")]
         public GameObject AddButton;
         public GameObject RemoveButton;
         public GameObject NeutrelButton;
-
-        public Image BackgroundImage;
+        [Space]
         public Image MercIconImage;
+
+        public UnitID Unit { get; private set; }
 
         MercManagePopup Manager;
         MercData MercData;
@@ -27,6 +24,7 @@ namespace GM.Mercs.UI
         public void Set(MercManagePopup manager, UnitID unit)
         {
             Manager = manager;
+            Unit = unit;
             MercData = App.Data.Mercs.GetMerc(unit);
             InSquad = MercData.InDefaultSquad;
 
@@ -44,8 +42,6 @@ namespace GM.Mercs.UI
             AddButton.SetActive(!InSquad && !Manager.SquadFull);
             RemoveButton.SetActive(InSquad);
             NeutrelButton.SetActive(!InSquad && Manager.SquadFull);
-
-            BackgroundImage.sprite = InSquad ? InSquadBackgroundSprite : OutSquadBackgroundSprite;
         }
 
         // = UI Callbacks = //
@@ -53,14 +49,14 @@ namespace GM.Mercs.UI
         public void Button_AddMerc()
         {
             InSquad = true;
-            Manager.UpdateMerc(MercData.ID, true);
+            Manager.UpdateMerc(MercData.ID);
             UpdateActiveUI();
         }
 
         public void Button_RemoveMerc()
         {
             InSquad = false;
-            Manager.UpdateMerc(MercData.ID, false);
+            Manager.UpdateMerc(MercData.ID);
             UpdateActiveUI();
         }
     }

@@ -8,7 +8,6 @@ namespace GM.Mercs.UI
     {
         [Header("Prefabs")]
         public GameObject SquadMercSlotObject;
-        public GameObject AvailMercSlotObject;
         public GameObject ManageMercsObject;
 
         [Header("References")]

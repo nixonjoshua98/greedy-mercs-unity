@@ -34,13 +34,13 @@ namespace GM.Mercs.Data
         public bool IsMaxLevel => User.Level >= MaxLevel;
         public Sprite Icon => Game.Icon;
         public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
-        public bool InDefaultSquad => User.InDefaultSquad;
+        public bool InDefaultSquad => User.InSquad;
         public double BaseUpgradeCost => Game.BaseUpgradeCost;
         public AttackType AttackType => Game.AttackType;
         public List<MercPassiveReference> Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
-        public BigDouble DamagePerAttack => App.Cache.MercDamagePerAttack(this);
-        public BigDouble UpgradeCost(int numLevels) => App.Cache.MercUpgradeCost(this, numLevels);
+        public BigDouble DamagePerAttack => App.GMCache.MercDamagePerAttack(this);
+        public BigDouble UpgradeCost(int numLevels) => App.GMCache.MercUpgradeCost(this, numLevels);
         public List<MercPassiveReference> UnlockedPassives
         {
             get

@@ -8,9 +8,9 @@ namespace GM.Enemies
     {
         public override void Process()
         {
-            BigDouble gold = App.Cache.GoldPerStageBossAtStage(spawnedStage);
+            BigDouble gold = App.GMCache.GoldPerStageBossAtStage(spawnedStage);
 
-            App.Data.Inv.Gold += gold;
+            App.GMData.Inv.Gold += gold;
 
             App.Events.GoldChanged.Invoke(gold);
         }

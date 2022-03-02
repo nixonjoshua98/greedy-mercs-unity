@@ -32,11 +32,12 @@ namespace GM
             try
             {
                 string contents = AES.Decrypt(ReadFromFile(path));
-
                 result = JsonConvert.DeserializeObject<T>(contents);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                GMLogger.Exception("Loading model", e);
+
                 return FileStatus.CORRUPTED;
             }
 

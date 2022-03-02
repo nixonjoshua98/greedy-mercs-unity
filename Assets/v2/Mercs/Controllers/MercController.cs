@@ -21,7 +21,7 @@ namespace GM.Mercs.Controllers
         GameManager GameManager;
 
         // ...
-        GM.Mercs.Data.MercData MercDataValues => App.Data.Mercs.GetMerc(Id);
+        GM.Mercs.Data.MercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
 
 
         void Awake()

@@ -2,13 +2,12 @@
 using UnityEngine;
 using GM.Common.Interfaces;
 
-namespace GM.LocalSave
+namespace GM
 {
     public class LocalSaveManager : Common.MonoClass<LocalSaveManager>
     {
         const string STATIC_FILE = "staticdata";
         const string LOCAL_FILE = "localsave";
-        const string USER_FILE = "userdata";
 
         public bool Paused { get; set; } = false;
 
@@ -33,16 +32,10 @@ namespace GM.LocalSave
         public void Save()
         {
             // = Models = //
-            var savefile = new LocalSaveFileModel();
-            var userdata = new LocalUserDataFileModel();
-
-            // = Update Models = //
-            App.Data.GameState.Serialize(ref savefile);
-            App.Data.Artefacts.Serialize(ref userdata);
+            var savefile = GMData.CreateLocalSaveFile();
 
             // = Write to File = //
             FileUtils.WriteModel(LOCAL_FILE, savefile);
-            FileUtils.WriteModel(USER_FILE, userdata);
         }
 
         public void WriteStaticData(IStaticGameData model) => FileUtils.WriteModel(STATIC_FILE, model);

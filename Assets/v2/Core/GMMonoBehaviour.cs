@@ -5,6 +5,7 @@ namespace GM.Core
     public abstract class GMMonoBehaviour : MonoBehaviour
     {
         protected GMApplication App => GMApplication.Instance;
+        protected GMData GMData => App.GMData;
 
 
 

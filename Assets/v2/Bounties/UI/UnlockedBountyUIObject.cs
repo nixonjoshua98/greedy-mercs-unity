@@ -13,6 +13,6 @@ namespace GM.Bounties.UI
 
         protected abstract void OnAssigned();
 
-        public Data.UnlockedBountyData AssignedBounty { get => App.Data.Bounties.GetUnlockedBounty(AssignedBountyId); }
+        public Data.UnlockedBountyData AssignedBounty { get => App.GMData.Bounties.GetUnlockedBounty(AssignedBountyId); }
     }
 }

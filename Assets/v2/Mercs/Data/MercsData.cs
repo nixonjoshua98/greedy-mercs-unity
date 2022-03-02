@@ -1,30 +1,88 @@
+using GM.Common.Enums;
+using GM.Common.Interfaces;
 using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.Data
 {
-    public class MercsData : Core.GMClass
+    public class MercsData : Core.GMClass, ILocalSaveSerializer
     {
         Dictionary<UnitID, UserMercState> UserMercs = new Dictionary<UnitID, UserMercState>();
         Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
 
-        public MercsData(Common.Interfaces.IServerUserData userData, StaticMercsDataResponse staticData)
+        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local)
         {
-            SetStaticData(staticData);
-            UpdateUserData(userData.UnlockedMercs);
+            Update(userData, staticData, local);
         }
 
-        void SetStaticData(StaticMercsDataResponse data)
+        public void Update(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local)
         {
-            Dictionary<int, MercPassive> passives = data.Passives.ToDictionary(x => x.ID, x => x);
+            SetDefaultMercStates(userData);
+
+            // We have existing local data
+            if (!(local == null || local.Mercs == null))
+                SetStatesFromSaveFile(local);
+
+            SetStaticData(staticData);
+        }
+
+        public void DeleteSoftData()
+        {
+            var copy = UserMercs;
+
+            // .Clear() would clear the copy too
+            UserMercs = new Dictionary<UnitID, UserMercState>();
+
+            foreach (var pair in copy)
+            {
+                UserMercs[pair.Key] = new UserMercState(pair.Key);
+            }
+        }
+
+        void ValidateLocalSaveFile(ref LocalSaveFileModel model)
+        {
+            if (model.Mercs.Where(x => x.InSquad).Count() > GM.Common.Constants.MAX_SQUAD_SIZE)
+            {
+                model.Mercs.ForEach(m => m.InSquad = false);
+            }
+        }
+
+        void SetStatesFromSaveFile(LocalSaveFileModel model)
+        {
+            ValidateLocalSaveFile(ref model);
+
+            foreach (var merc in model.Mercs)
+            {
+                UserMercs[merc.ID] = merc;
+            }
+        }
+
+        void SetDefaultMercStates(IServerUserData data)
+        {
+            foreach (var merc in data.UnlockedMercs)
+            {
+                UserMercs[merc.ID] = new UserMercState(merc.ID);
+            }
+        }
+
+        public void UpdateLocalSaveFile(ref LocalSaveFileModel model)
+        {
+            model.Mercs = UserMercs.Values.ToList();
+        }
+
+        void SetStaticData(IStaticGameData data)
+        {
+            Dictionary<int, MercPassive> passives = data.Mercs.Passives.ToDictionary(x => x.ID, x => x);
+            List<StaticMercData> mercs = data.Mercs.Mercs;
 
             var allLocalMercData = LoadLocalData();
 
-            foreach (StaticMercData merc in data.Mercs)
+            for (int i = 0; i < mercs.Count; i++)
             {
+                StaticMercData merc = mercs[i];
+
                 if (!allLocalMercData.TryGetValue(merc.ID, out MercScriptableObject localData))
                 {
                     Debug.LogWarning($"Missing data for '{merc.ID}'");
@@ -34,64 +92,53 @@ namespace GM.Mercs.Data
                 merc.Icon = localData.Icon;
                 merc.Prefab = localData.Prefab;
 
-                foreach (MercPassiveReference reference in merc.Passives)
-                {
-                    if (passives.TryGetValue(reference.PassiveID, out MercPassive passive))
-                    {
-                        reference.Values = passive;
-                    }
-                }
-
-                merc.Passives.RemoveAll((p) => p.Values == null);
+                UpdateMercPassivesFromReferences(ref merc, in passives);
 
                 StaticMercs[merc.ID] = merc;
             }
         }
 
-        public void ResetLevels(int level = 1)
+        /// <summary>
+        /// Set the merc passives using the static data
+        /// </summary>
+        void UpdateMercPassivesFromReferences(ref StaticMercData merc, in Dictionary<int, MercPassive> passives)
         {
-            foreach (UserMercState merc in UserMercs.Values)
+            foreach (MercPassiveReference reference in merc.Passives)
             {
-                merc.Level = level;
+                if (passives.TryGetValue(reference.PassiveID, out MercPassive passive))
+                {
+                    reference.Values = passive;
+                }
             }
+
+            merc.Passives.RemoveAll((p) => p.Values == null);
         }
 
         /// <summary> Load local scriptable merc data </summary>
         Dictionary<UnitID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
-        void UpdateUserData(List<UserMercDataModel> ls)
-        {
-            foreach (var merc in ls)
-            {
-                if (!UserMercs.ContainsKey(merc.ID))
-                    UserMercs[merc.ID] = new UserMercState();
-            }
-        }
+        public void AddMercToSquad(UnitID mercId) => UserMercs[mercId].InSquad = true;
 
-        public void AddMercToSquad(UnitID mercId)
-        {
-            UserMercs[mercId].InDefaultSquad = true;
-        }
+        public void RemoveMercFromSquad(UnitID mercId) => UserMercs[mercId].InSquad = false;
 
-        public void RemoveMercFromSquad(UnitID mercId)
-        {
-            UserMercs[mercId].InDefaultSquad = false;
-        }
+        /// <summary>
+        /// Fetch the data about a merc
+        /// </summary>
+        public StaticMercData GetGameMerc(UnitID key) => StaticMercs[key];
 
-        /// <summary> Fetch the data about a merc </summary>
-        public StaticMercData GetGameMerc(UnitID key)
-        {
-            return StaticMercs[key];
-        }
+        /// <summary>
+        /// Fetch the aggregated dataclass for the unit
+        /// </summary>
+        public MercData GetMerc(UnitID key) => new MercData(StaticMercs[key], UserMercs[key]);
 
-        /// <summary> Fetch user merc data </summary>
-        UserMercState GetUserMerc(UnitID key) => UserMercs[key];
-
-        public MercData GetMerc(UnitID key) => new MercData(GetGameMerc(key), GetUserMerc(key));
-
-        /// <summary> Fetch the full data for all user unlocked mercs </summary>
+        /// <summary> 
+        /// Fetch the full data for all user unlocked mercs
+        /// </summary>
         public List<MercData> UnlockedMercs => UserMercs.Select(pair => GetMerc(pair.Key)).ToList();
 
-        public List<UnitID> MercsInSquad => UserMercs.Where(x => x.Value.InDefaultSquad).Select(x => x.Key).ToList();
+        /// <summary>
+        /// Unit IDs for the units currently in the squad
+        /// </summary>
+        public List<UnitID> MercsInSquad => UserMercs.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
     }
 }

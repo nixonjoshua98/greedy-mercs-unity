@@ -13,7 +13,7 @@ namespace GM
         [HideInInspector] public UnityEvent E_BossDefeated { get; private set; } = new UnityEvent();
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveStart { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
 
-        CurrentPrestigeState CurrentGameState => App.Data.GameState;
+        CurrentPrestigeState CurrentGameState => App.GMData.GameState;
 
         void Awake()
         {
@@ -41,7 +41,7 @@ namespace GM
                 enemies.Add(UnitManager.InstantiateEnemyUnit());
             }
 
-            BigDouble combinedHealth = App.Cache.EnemyHealthAtStage(CurrentGameState.Stage);
+            BigDouble combinedHealth = App.GMCache.EnemyHealthAtStage(CurrentGameState.Stage);
 
             foreach (GM.Units.UnitBaseClass unit in enemies)
             {
@@ -66,7 +66,7 @@ namespace GM
             GM.Units.UnitBaseClass unitClass = enemy.GameObject.GetComponent<GM.Units.UnitBaseClass>();
 
             // Setup
-            health.Init(val: App.Cache.StageBossHealthAtStage(CurrentGameState.Stage));
+            health.Init(val: App.GMCache.StageBossHealthAtStage(CurrentGameState.Stage));
 
             // Add event callbacks
             health.E_OnZeroHealth.AddListener(OnBossZeroHealth);

@@ -27,7 +27,7 @@ namespace GM.Mercs.UI
 
         void UpdateSlotsUI()
         {
-            foreach (var merc in App.Data.Mercs.UnlockedMercs)
+            foreach (var merc in App.GMData.Mercs.UnlockedMercs)
             {
                 // Merc has been removed from squad
                 if (MercSlots.ContainsKey(merc.ID) && !merc.InDefaultSquad)

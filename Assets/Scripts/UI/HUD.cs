@@ -11,7 +11,7 @@ namespace GM
 
         void FixedUpdate()
         {
-            CurrentStageText.text = $"Stage {App.Data.GameState.Stage}\n{App.Data.GameState.EnemiesDefeated}/{App.Data.GameState.EnemiesPerStage}";
+            CurrentStageText.text = $"Stage {App.GMData.GameState.Stage}\n{App.GMData.GameState.EnemiesDefeated}/{App.GMData.GameState.EnemiesPerStage}";
         }
     }
 }

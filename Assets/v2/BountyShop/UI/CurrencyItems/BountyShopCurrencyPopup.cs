@@ -34,7 +34,7 @@ namespace GM.BountyShop.UI
 
         public void OnPurchaseButton()
         {
-            App.Data.BountyShop.PurchaseCurrencyItem(AssignedItem.Id, (success) =>
+            App.GMData.BountyShop.PurchaseCurrencyItem(AssignedItem.Id, (success) =>
             {
                 purchaseCallback?.Invoke();
 

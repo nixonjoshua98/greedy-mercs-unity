@@ -56,7 +56,7 @@ namespace GM.Mercs.UI
                 UpgradeButton.SetText($"x{BuyAmount}", Format.Number(AssignedMerc.UpgradeCost(BuyAmount)));
             }
 
-            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Data.Inv.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
+            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.GMData.Inv.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
         }
 
         string GetBonusText() => $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
@@ -64,16 +64,16 @@ namespace GM.Mercs.UI
 
         public void OnUpgradeButton()
         {
-            BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, BuyAmount);
+            BigDouble upgradeCost = App.GMCache.MercUpgradeCost(AssignedMerc, BuyAmount);
 
             bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > Common.Constants.MAX_MERC_LEVEL;
-            bool canAffordUpgrade = App.Data.Inv.Gold >= upgradeCost;
+            bool canAffordUpgrade = App.GMData.Inv.Gold >= upgradeCost;
 
             if (!willExceedMaxLevel && canAffordUpgrade)
             {
                 AssignedMerc.CurrentLevel += BuyAmount;
 
-                App.Data.Inv.Gold -= upgradeCost;
+                App.GMData.Inv.Gold -= upgradeCost;
 
                 App.Events.GoldChanged.Invoke(upgradeCost * -1);
             }

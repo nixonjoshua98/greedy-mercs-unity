@@ -20,6 +20,6 @@ namespace GM.BountyShop.Data
         public int PurchaseCost { get; set; }
 
         [JsonIgnore]
-        public bool InStock => purchaseLimit > App.Data.BountyShop.GetItemPurchaseData(Id);
+        public bool InStock => purchaseLimit > App.GMData.BountyShop.GetItemPurchaseData(Id);
     }
 }

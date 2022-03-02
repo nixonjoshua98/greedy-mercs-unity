@@ -1,12 +1,11 @@
-﻿using GM.LocalSave;
-using System;
+﻿using GM.Common.Interfaces;
 using Newtonsoft.Json;
+using System;
 
 namespace GM
 {
-    public class CurrentPrestigeState
+    public class CurrentPrestigeState : ILocalSaveSerializer
     {
-        // Constants
         public readonly int EnemiesPerStage = 3;
 
         public int Stage = 1;
@@ -23,7 +22,7 @@ namespace GM
             return model.GameState;
         }
 
-        public void Serialize(ref LocalSaveFileModel model)
+        public void UpdateLocalSaveFile(ref LocalSaveFileModel model)
         {
             model.GameState = this;
         }

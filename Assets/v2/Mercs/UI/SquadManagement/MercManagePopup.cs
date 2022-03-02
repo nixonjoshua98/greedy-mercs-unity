@@ -40,7 +40,6 @@ namespace GM.Mercs.UI
             MercSquad = this.GetComponentInScene<MercSquadController>();
         }
 
-
         void Start()
         {
             CreateIcons();
@@ -50,7 +49,7 @@ namespace GM.Mercs.UI
 
         void InstantiateSlots()
         {
-            foreach (var unlockedMerc in App.Data.Mercs.UnlockedMercs)
+            foreach (var unlockedMerc in App.GMData.Mercs.UnlockedMercs)
             {
                 MercManageSlot slot = Instantiate<MercManageSlot>(ManageMercSlot, null);
 
@@ -91,7 +90,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        Sprite GetMercIconSprite(UnitID unit) => App.Data.Mercs.GetGameMerc(unit).Icon;
+        Sprite GetMercIconSprite(UnitID unit) => App.GMData.Mercs.GetGameMerc(unit).Icon;
 
         public void UpdateMerc(UnitID unit)
         {
@@ -108,16 +107,16 @@ namespace GM.Mercs.UI
         {
             List<UnitID> newSquadMercIds = Slots.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
 
-            foreach (UnitID merc in App.Data.Mercs.MercsInSquad)
+            foreach (UnitID merc in App.GMData.Mercs.MercsInSquad)
             {
                 MercSquad.RemoveMercFromSquad(merc);
-                App.Data.Mercs.RemoveMercFromSquad(merc);
+                App.GMData.Mercs.RemoveMercFromSquad(merc);
             }
 
             foreach (UnitID merc in newSquadMercIds)
             {
                 MercSquad.AddMercToSquad(merc);
-                App.Data.Mercs.AddMercToSquad(merc);
+                App.GMData.Mercs.AddMercToSquad(merc);
             }
 
             OnSavedChanges?.Invoke();

@@ -59,7 +59,7 @@ namespace GM.BountyShop.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    App.Data.Armoury.Update(resp.ArmouryItem);
+                    App.GMData.Armoury.Update(resp.ArmouryItem);
 
                     OnAnySuccessfullPurchase(itemId, resp);
                 }
@@ -92,7 +92,7 @@ namespace GM.BountyShop.Data
         {
             itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
 
-            App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+            App.GMData.Inv.UpdateCurrencies(resp.CurrencyItems);
 
             App.Events.BountyPointsChanged.Invoke(resp.PurchaseCost * -1);
         }

@@ -28,7 +28,7 @@ namespace GM.Controllers
         {
             Vector3 viewportClickPosition = Camera.main.ScreenToViewportPoint(screenPos);
 
-            BigDouble damage = App.Cache.TotalTapDamage;
+            BigDouble damage = App.GMCache.TotalTapDamage;
 
             if (CollisionCheck(viewportClickPosition) && GameManager.DealDamageToTarget(damage, showDamageNumber: false))
             {

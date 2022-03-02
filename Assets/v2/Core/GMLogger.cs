@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace GM
 {
@@ -24,6 +25,16 @@ namespace GM
                     Debug.Log(msg);
                 }
             }           
+        }
+
+        public static void Exception(string msg, Exception e)
+        {
+            Debug.LogError($"{msg}\n{e.Message}");
+        }
+
+        public static void JSON(object obj)
+        {
+            Debug.Log(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
         }
     }
 }

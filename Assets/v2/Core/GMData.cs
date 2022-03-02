@@ -5,7 +5,6 @@ using GM.BountyShop.Data;
 using GM.Common.Interfaces;
 using GM.CurrencyItems.Data;
 using GM.Inventory.Data;
-using GM.LocalSave;
 using GM.Mercs.Data;
 using GM.Upgrades.Data;
 using System;
@@ -26,7 +25,6 @@ namespace GM.Core
         public CurrentPrestigeState GameState;
 
         public DateTime NextDailyReset;
-        public TimeSpan TimeUntilDailyReset => NextDailyReset - DateTime.UtcNow;
 
         public GMData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel localSaveFile)
         {
@@ -40,26 +38,39 @@ namespace GM.Core
 
             Upgrades    = new PlayerUpgrades();
             Inv         = new UserInventory(userData.CurrencyItems);
-            Mercs       = new MercsData(userData, staticData.Mercs);
+            Mercs       = new MercsData(userData, staticData, localSaveFile);
             Artefacts   = new ArtefactsData(userData.Artefacts, staticData.Artefacts);
             Armoury     = new ArmouryData(userData.ArmouryItems, staticData.Armoury);
             Bounties    = new BountiesData(userData.BountyData, staticData.Bounties);
             BountyShop  = new BountyShopData(userData.BountyShop);
         }
 
-        public void ResetPrestigeData()
+        public LocalSaveFileModel CreateLocalSaveFile()
+        {
+            LocalSaveFileModel savefile = new LocalSaveFileModel();
+
+            GameState.UpdateLocalSaveFile(ref savefile);
+            Mercs.UpdateLocalSaveFile(ref savefile);
+
+            return savefile;
+        }
+
+        public void DeleteSoftUserData()
         {
             GameState = new CurrentPrestigeState();
 
-            Mercs.ResetLevels();
+            Mercs.DeleteSoftData();
+
             Upgrades.ResetLevels();
             Inv.ResetLocalResources();
         }
 
         public void Update(IServerUserData userData, IStaticGameData staticData)
         {
-            // = Object Recreation = //
-            Mercs       = new MercsData(userData, staticData.Mercs);
+            LocalSaveFileModel savefile = App.SaveManager.LoadSaveFile();
+
+            Mercs.Update(userData, staticData, savefile);
+
             BountyShop  = new BountyShopData(userData.BountyShop);
 
             Inv.UpdateCurrencies(userData.CurrencyItems);

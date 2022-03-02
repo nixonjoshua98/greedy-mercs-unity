@@ -11,15 +11,15 @@
 
         void Awake()
         {
-            spawnedStage = App.Data.GameState.Stage;
+            spawnedStage = App.GMData.GameState.Stage;
         }
 
 
         public virtual void Process()
         {
-            BigDouble gold = App.Cache.GoldPerEnemyAtStage(spawnedStage);
+            BigDouble gold = App.GMCache.GoldPerEnemyAtStage(spawnedStage);
 
-            App.Data.Inv.Gold += gold;
+            App.GMData.Inv.Gold += gold;
 
             App.Events.GoldChanged.Invoke(gold);
         }

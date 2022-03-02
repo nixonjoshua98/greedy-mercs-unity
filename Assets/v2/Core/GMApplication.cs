@@ -1,5 +1,4 @@
 using GM.Common.Interfaces;
-using GM.LocalSave;
 
 namespace GM.Core
 {
@@ -7,8 +6,8 @@ namespace GM.Core
     {
         public static GMApplication Instance { get; private set; }
 
-        public GMData Data;
-        public GMCache Cache;
+        public GMData GMData;
+        public GMCache GMCache;
         public LocalSaveManager SaveManager;
 
         public EventHandler Events = new EventHandler();
@@ -19,10 +18,10 @@ namespace GM.Core
             if (Instance == null)
             {
                 Instance = new GMApplication();
+                Instance.GMCache = new GMCache();
 
-                Instance.Cache = new GMCache();
                 Instance.SaveManager = LocalSaveManager.Create();
-                Instance.Data = new GMData(userData, gameData, Instance.SaveManager.LoadSaveFile());
+                Instance.GMData = new GMData(userData, gameData, Instance.SaveManager.LoadSaveFile());
             }
 
             return Instance;

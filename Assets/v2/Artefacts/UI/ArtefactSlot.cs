@@ -65,7 +65,7 @@ namespace GM.Artefacts.UI
 
             if (!AssignedArtefact.IsMaxLevel)
             {
-                ugradeCost = App.Cache.ArtefactUpgradeCost(AssignedArtefact, BuyAmount);
+                ugradeCost = App.GMCache.ArtefactUpgradeCost(AssignedArtefact, BuyAmount);
 
                 UpgradeButton.SetText($"x{BuyAmount}", Format.Number(ugradeCost));
             }
@@ -73,14 +73,14 @@ namespace GM.Artefacts.UI
             LevelText.text = FormatLevel(AssignedArtefact.CurrentLevel);
             BonusText.text = GetBonusText();
 
-            UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Data.Inv.PrestigePoints;
+            UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.GMData.Inv.PrestigePoints;
         }
 
 
         // == Callbacks == //
         public void OnUpgradeButton()
         {
-            App.Data.Artefacts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
+            App.GMData.Artefacts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
             {
                 UpdateUI();
 

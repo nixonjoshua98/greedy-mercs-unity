@@ -25,7 +25,7 @@ namespace GM.Armoury.Data
         public int NumOwned => User.NumOwned;
         public int CurrentLevel => User.Level;
 
-        public double BonusValue => App.Cache.ArmouryItemBonusValue(this);
-        public int UpgradeCost() => App.Cache.ArmouryItemUpgradeCost(this);
+        public double BonusValue => App.GMCache.ArmouryItemBonusValue(this);
+        public int UpgradeCost() => App.GMCache.ArmouryItemUpgradeCost(this);
     }
 }

@@ -823,7 +823,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4950480674301596}
   - component: {fileID: 2716748281763595501}
-  - component: {fileID: 5734236554522229005}
   - component: {fileID: 95300950981661372}
   - component: {fileID: 6308860688182506512}
   - component: {fileID: 7554022141221484536}
@@ -873,25 +872,13 @@ MonoBehaviour:
     Attack: 
     Defeat: Dying
     Hurt: Hurt
---- !u!114 &5734236554522229005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571328342031654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98ecdcdfd93742640a3261f6994ffa97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Attack:
+  E_Anim_OnAttack:
     m_PersistentCalls:
       m_Calls: []
-  Defeat:
+  E_Anim_OnDefeat:
     m_PersistentCalls:
       m_Calls: []
-  Hurt:
+  E_Anim_OnHurt:
     m_PersistentCalls:
       m_Calls: []
 --- !u!95 &95300950981661372
@@ -6368,7 +6355,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.38333333
-    functionName: InvokeDefeatEvent
+    functionName: Animation_OnDefeat
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

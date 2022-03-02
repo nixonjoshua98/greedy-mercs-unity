@@ -42,9 +42,7 @@ namespace GM.Units.Controllers
 
         void SubscribeToEvents()
         {
-            var events = GetComponentInChildren<UnitAvatarAnimationEvents>();
-
-            events.Defeat.AddListener(OnDefeatAnimation);
+            UnitAvatar.E_Anim_OnDefeat.AddListener(OnDefeatAnimation);
 
             HealthController.E_OnZeroHealth.AddListener(OnZeroHealth);
             HealthController.E_OnDamageTaken.AddListener(OnDamageTaken);

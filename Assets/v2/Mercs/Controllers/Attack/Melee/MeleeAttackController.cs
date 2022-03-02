@@ -25,9 +25,7 @@ namespace GM.Mercs.Controllers
 
         void SetupEvents()
         {
-            var events = GetComponentInChildren<UnitAvatarAnimationEvents>();
-
-            events.Attack.AddListener(OnMeleeAttackImpact);
+            Avatar.E_Anim_OnAttack.AddListener(OnMeleeAttackImpact);
         }
 
         void GetComponents()

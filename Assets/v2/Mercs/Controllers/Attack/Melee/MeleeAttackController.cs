@@ -12,6 +12,9 @@ namespace GM.Mercs.Controllers
         public GameObject AttackImpactObject;
 
         [Header("Properties")]
+        [SerializeField, Tooltip("Animation may continue after impact")]
+        bool HasAttackFinishedEvent = false;
+
         [SerializeField] float AttackRange = 0.5f;
 
         // = Controllers = //
@@ -25,7 +28,17 @@ namespace GM.Mercs.Controllers
 
         void SetupEvents()
         {
-            Avatar.E_Anim_OnAttack.AddListener(OnMeleeAttackImpact);
+            Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackImpact);
+
+            if (HasAttackFinishedEvent)
+            {
+                Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
+            }
+            // Call the event at the same time as the impact (should be added after the actual impact callback)
+            else
+            {
+                Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackFinished);
+            }
         }
 
         void GetComponents()
@@ -69,11 +82,16 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        public void OnMeleeAttackImpact()
+        public void Animation_AttackImpact()
         {
-            Cooldown();
             DealDamageToTarget();
             InstantiateAttackImpactObject();
+        }
+
+        public void Animation_AttackFinished()
+        {
+            _IsAttacking = false;
+            StartCooldown();
         }
 
         void InstantiateAttackImpactObject()

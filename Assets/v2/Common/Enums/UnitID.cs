@@ -6,5 +6,6 @@ namespace GM.Common.Enums
         NONE = -1,
 
         STONE_GOLEM,
+        FALLEN_ANGEL,
     }
 }

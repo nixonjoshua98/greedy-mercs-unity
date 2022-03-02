@@ -449,7 +449,7 @@ MonoBehaviour:
     Attack: Attacking
     Defeat: 
     Hurt: 
-  E_Anim_OnAttack:
+  E_Anim_MeleeAttackImpact:
     m_PersistentCalls:
       m_Calls: []
   E_Anim_OnDefeat:
@@ -487,7 +487,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!61 &1876670771663251476
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6208,7 +6208,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.3
-    functionName: Animation_OnAttack
+    functionName: Animation_MeleeAttackImpact
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

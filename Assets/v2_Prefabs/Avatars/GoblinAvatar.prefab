@@ -872,7 +872,10 @@ MonoBehaviour:
     Attack: 
     Defeat: Dying
     Hurt: Hurt
-  E_Anim_OnAttack:
+  E_Anim_MeleeAttackImpact:
+    m_PersistentCalls:
+      m_Calls: []
+  E_Anim_MeleeAttackFinished:
     m_PersistentCalls:
       m_Calls: []
   E_Anim_OnDefeat:
@@ -18968,7 +18971,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.25
-    functionName: InvokeHurtEvent
+    functionName: Animation_OnHurt
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

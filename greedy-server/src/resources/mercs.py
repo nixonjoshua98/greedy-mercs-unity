@@ -22,7 +22,6 @@ class StaticMerc(BaseModel):
     id: int = Field(..., alias="mercId")
     attack_type: AttackType = Field(AttackType.MELEE, alias="attackType")
     name: str = Field("Missing Merc name", alias="name")
-    is_default: bool = Field(False, alias="isDefault")
     base_cost: float = Field(..., alias="baseUpgradeCost")
     base_damage: float = Field(..., alias="baseDamage")
 

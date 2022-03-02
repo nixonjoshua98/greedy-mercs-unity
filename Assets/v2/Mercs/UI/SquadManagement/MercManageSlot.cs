@@ -2,6 +2,7 @@ using GM.Common.Enums;
 using GM.Mercs.Data;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace GM.Mercs.UI
 {
@@ -13,6 +14,8 @@ namespace GM.Mercs.UI
         public GameObject NeutrelButton;
         [Space]
         public Image MercIconImage;
+        public TMP_Text LevelText;
+        public TMP_Text NameText;
 
         public UnitID Unit { get; private set; }
 
@@ -28,13 +31,9 @@ namespace GM.Mercs.UI
             MercData = App.Data.Mercs.GetMerc(unit);
             InSquad = MercData.InDefaultSquad;
 
-            SetInitialUI();
-        }
-
-        void SetInitialUI()
-        {
+            NameText.text = MercData.Name;
+            LevelText.text = $"Lvl. <color=orange>{MercData.CurrentLevel}</color>";
             MercIconImage.sprite = MercData.Icon;
-            UpdateActiveUI();
         }
 
         public void UpdateActiveUI()

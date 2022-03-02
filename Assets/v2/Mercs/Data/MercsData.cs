@@ -26,7 +26,10 @@ namespace GM.Mercs.Data
             foreach (StaticMercData merc in data.Mercs)
             {
                 if (!allLocalMercData.TryGetValue(merc.ID, out MercScriptableObject localData))
+                {
+                    Debug.LogWarning($"Missing data for '{merc.ID}'");
                     continue;
+                }
 
                 merc.Icon = localData.Icon;
                 merc.Prefab = localData.Prefab;
@@ -43,8 +46,6 @@ namespace GM.Mercs.Data
 
                 StaticMercs[merc.ID] = merc;
             }
-
-            AddDefaultUnits();
         }
 
         public void ResetLevels(int level = 1)
@@ -65,19 +66,6 @@ namespace GM.Mercs.Data
                 if (!UserMercs.ContainsKey(merc.ID))
                     UserMercs[merc.ID] = new UserMercState();
             }
-
-            AddDefaultUnits();
-        }
-
-        void AddDefaultUnits()
-        {
-            foreach (var pair in StaticMercs)
-            {
-                StaticMercData model = pair.Value;
-
-                if (!UserMercs.ContainsKey(pair.Key) && model.IsDefault)
-                    UserMercs[pair.Key] = new UserMercState();
-            }
         }
 
         public void AddMercToSquad(UnitID mercId)
@@ -91,7 +79,10 @@ namespace GM.Mercs.Data
         }
 
         /// <summary> Fetch the data about a merc </summary>
-        public StaticMercData GetGameMerc(UnitID key) => StaticMercs[key];
+        public StaticMercData GetGameMerc(UnitID key)
+        {
+            return StaticMercs[key];
+        }
 
         /// <summary> Fetch user merc data </summary>
         UserMercState GetUserMerc(UnitID key) => UserMercs[key];

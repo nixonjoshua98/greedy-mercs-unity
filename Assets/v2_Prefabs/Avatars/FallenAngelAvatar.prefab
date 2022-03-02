@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1123158135}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2}
-  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4301320719418220}
   m_RootOrder: 4
@@ -886,8 +886,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4301320719418220}
+  - component: {fileID: 6588623606908840702}
   - component: {fileID: 95891482203547316}
   - component: {fileID: 7985129795591114447}
+  - component: {fileID: 6104197953416813611}
   m_Layer: 0
   m_Name: FallenAngelAvatar
   m_TagString: Untagged
@@ -904,7 +906,7 @@ Transform:
   m_GameObject: {fileID: 1797753984441286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1640625, y: 0.1640625, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 4127760536470868}
   - {fileID: 4558492282493154}
@@ -914,6 +916,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6588623606908840702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797753984441286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Collider: {fileID: 6104197953416813611}
+  Animator: {fileID: 95891482203547316}
+  Animations:
+    Idle: Idle
+    Walk: Walk
+    Attack: Slashing
+    Defeat: 
+    Hurt: 
+  E_Anim_MeleeAttackImpact:
+    m_PersistentCalls:
+      m_Calls: []
+  E_Anim_MeleeAttackFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  E_Anim_OnDefeat:
+    m_PersistentCalls:
+      m_Calls: []
+  E_Anim_OnHurt:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &95891482203547316
 Animator:
   serializedVersion: 3
@@ -943,7 +977,33 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
+--- !u!61 &6104197953416813611
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797753984441286}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.13272595, y: 2.7724993}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.978962, y: 5.601169}
+  m_EdgeRadius: 0
 --- !u!1 &1851652947728392
 GameObject:
   m_ObjectHideFlags: 0
@@ -14930,8 +14990,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.15
-    functionName: InvokeAttackEvent
+  - time: 0.18333334
+    functionName: Animation_MeleeAttackImpact
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.4
+    functionName: Animation_MeleeAttackFinished
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

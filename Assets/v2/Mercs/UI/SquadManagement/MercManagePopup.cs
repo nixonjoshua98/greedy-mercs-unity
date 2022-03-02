@@ -60,6 +60,8 @@ namespace GM.Mercs.UI
 
                 Slots[unlockedMerc.ID] = slot;
             }
+
+            Slots.Values.ToList().ForEach(slot => slot.UpdateActiveUI());
         }
 
         void CreateIcons()

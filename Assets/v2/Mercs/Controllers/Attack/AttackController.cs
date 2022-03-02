@@ -69,7 +69,11 @@ namespace GM.Mercs.Controllers
         protected void Cooldown()
         {
             _IsAttacking = false;
+            StartCooldown();
+        }
 
+        protected void StartCooldown()
+        {
             StartCoroutine(CooldownTask());
         }
 

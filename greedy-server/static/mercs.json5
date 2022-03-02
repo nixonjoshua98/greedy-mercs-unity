@@ -16,23 +16,15 @@
         {
           "passiveId": 0,
           "unlockLevel": 10
-        },
-        {
-          "passiveId": 0,
-          "unlockLevel": 10
-        },
-        {
-          "passiveId": 0,
-          "unlockLevel": 10
-        },
-        {
-          "passiveId": 0,
-          "unlockLevel": 10
-        },
-        {
-          "passiveId": 0,
-          "unlockLevel": 10
-        },
+        }
+      ]
+    },
+    {
+      "name": "Fallen Angel",
+      "mercId": 1,
+      "baseUpgradeCost": 50,
+      "baseDamage": 10,
+      "passives": [
         {
           "passiveId": 0,
           "unlockLevel": 10

@@ -39,9 +39,6 @@ namespace GM.Mercs
         [JsonProperty(PropertyName = "mercId", Required = Required.Always)]
         public UnitID ID;
 
-        [JsonProperty]
-        public bool IsDefault = false;
-
         [JsonProperty(Required = Required.Always)]
         public double BaseUpgradeCost;
 

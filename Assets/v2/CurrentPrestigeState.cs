@@ -1,5 +1,4 @@
 ﻿using GM.Common.Interfaces;
-using Newtonsoft.Json;
 using System;
 
 namespace GM
@@ -13,9 +12,6 @@ namespace GM
 
         public int EnemiesRemaining => Math.Max(0, EnemiesPerStage - EnemiesDefeated);
         public bool HasBossSpawned { get; set; } = false;
-
-        [JsonIgnore]
-        public bool PreviouslyPrestiged;
 
         public static CurrentPrestigeState Deserialize(LocalSaveFileModel model)
         {

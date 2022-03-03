@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GM.Mercs.UI
 {
-    public class MercManagePopup : GM.UI.Common.PanelPopupBase
+    public class MercManagePopup : GM.UI.Common.PopupPanelBase
     {
         [Header("Prefab Objects")]
         public GameObject MercSlot;
@@ -92,7 +92,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        Sprite GetMercIconSprite(UnitID unit) => App.GMData.Mercs.GetGameMerc(unit).Icon;
+        Sprite GetMercIconSprite(UnitID unit) => GMData.Mercs.GetGameMerc(unit).Icon;
 
         public void UpdateMerc(UnitID unit)
         {

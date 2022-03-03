@@ -55,16 +55,6 @@ namespace GM.UI
             Text.color = val > 0 ? GM.Common.Colors.Gold : GM.Common.Colors.Red;
         }
 
-        public void Set(BigDouble val, Color color, Vector3 position)
-        {
-            Reset();
-
-            Text.text = Format.Number(val);
-            Text.color = color;
-
-            transform.position = position;
-        }
-
         void Reset()
         {
             isSet = true;

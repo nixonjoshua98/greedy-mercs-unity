@@ -1,42 +1,22 @@
 from fastapi import Depends
 
-from src.cache import MemoryCache, memory_cache
-from src.context import RequestContext, Session
-from src.handlers import (CreateAccountHandler, GetUserDataHandler,
-                          UserDataResponse)
-from src.mongo.repositories.accounts import (AccountsRepository,
-                                             accounts_repository)
-from src.pymodels import BaseModel
+from src.handlers import LoginHandler, LoginResponse
+from src.request_models import LoginModel
 from src.response import ServerResponse
 from src.router import APIRouter
 
 router = APIRouter(prefix="/api/login")
 
 
-class LoginModel(BaseModel):
-    device_id: str
-
-
 @router.post("/")
 async def index(
     data: LoginModel,
-    ctx: RequestContext = Depends(),
-    user_data_handler: GetUserDataHandler = Depends(),
-    create_account: CreateAccountHandler = Depends(),
-    mem_cache: MemoryCache = Depends(memory_cache),
-    acc_repo: AccountsRepository = Depends(accounts_repository),
+    handler: LoginHandler = Depends()
 ):
-    user = await acc_repo.get_user_by_device_id(data.device_id)
-
-    if user is None:
-        user = await create_account.handle(data.device_id)
-
-    data_resp: UserDataResponse = await user_data_handler.handle(user.id, ctx.prev_daily_reset)
-
-    mem_cache.set_session(session := Session(user.id))
+    resp: LoginResponse = await handler.handle(data)
 
     return ServerResponse({
-        "userId": user.id,
-        "sessionId": session.id,
-        "userData": data_resp.data
+        "userId": resp.user_id,
+        "sessionId": resp.session.id,
+        "userData": resp.user_data
     })

@@ -1,11 +1,12 @@
 from fastapi import Depends
 
-from src.handlers import PrestigeHandler, PrestigeResponse
+from src.context import (AuthenticatedRequestContext,
+                         inject_authenticated_context)
+from src.handlers import (GetStaticDataHandler, GetUserDataHandler,
+                          PrestigeHandler, PrestigeResponse)
 from src.request_models import PrestigeData
 from src.response import ServerResponse
 from src.router import APIRouter
-from src.handlers import GetUserDataHandler, GetStaticDataHandler
-from src.context import AuthenticatedRequestContext, inject_authenticated_context
 
 router = APIRouter(prefix="/api/prestige")
 

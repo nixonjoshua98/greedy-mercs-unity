@@ -1,3 +1,6 @@
+import enum
+
+
 class BonusType:
     NONE = 0
 

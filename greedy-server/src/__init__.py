@@ -5,14 +5,21 @@ from fastapi.exceptions import RequestValidationError
 
 from src import exception_handlers, utils
 from src.application import Application
-from src.cache import MemoryCache
+from src.auth import AuthenticationService
 from src.handlers.abc import HandlerException
 from src.mongo.motorclient import MotorClient
+from src.redis import RedisClient
 
 
 async def _on_app_start(app: Application):
+    app.state.redis_client = redis_client = RedisClient(
+        host=app.config.redis.host,
+        db=app.config.redis.database,
+        decode_responses=True
+    )
+
     app.state.mongo = MotorClient(app.config.mongo_con_str)
-    app.state.memory_cache = MemoryCache()
+    app.state.auth_service = AuthenticationService(redis=redis_client)
 
 
 def create_app():

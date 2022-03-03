@@ -7,23 +7,15 @@ namespace GM
     {
         public static void Editor(object obj)
         {
-#if UNITY_EDITOR
-            Debug.Log($"[Editor] {obj}");
-#endif
+            if (Application.isEditor)
+                Debug.Log($"[Editor] {obj}");
         }
 
-        public static void WhenNull(object obj, object msg, bool editor = false)
+        public static void WhenNull(object obj, object msg, bool editorOnly = false)
         {
-            if (ReferenceEquals(obj, null))
+            if (obj == null && ((Application.isEditor && editorOnly) || !editorOnly))
             {
-                if (editor)
-                {
-                    Editor(msg);
-                }
-                else
-                {
-                    Debug.Log(msg);
-                }
+                Debug.Log(msg);
             }           
         }
 

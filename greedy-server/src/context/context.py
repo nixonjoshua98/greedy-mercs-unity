@@ -6,7 +6,7 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src.cache import MemoryCache, memory_cache
+from src.auth import AuthenticationService, authentication_service
 from src.request import ServerRequest
 
 
@@ -26,15 +26,16 @@ class AuthenticatedRequestContext(RequestContext):
 
 async def inject_authenticated_context(
     request: ServerRequest,
-    cache: MemoryCache = Depends(memory_cache)
+    auth: AuthenticationService = Depends(authentication_service),
 ) -> AuthenticatedRequestContext:
     """
-    Inject an 'AuthenticatedRequestContext' context (Forced endpoint to be authenticated) or throw an exception
+
     """
+
     key: Optional[str] = request.headers.get("authentication")
 
     # Header was not provided or session was not found
-    if key is None or (session := cache.get_session(key)) is None:
+    if key is None or (session := auth.get_user_session(key)) is None:
         raise HTTPException(401, detail="Unauthorized")
 
     return AuthenticatedRequestContext(uid=session.user_id)

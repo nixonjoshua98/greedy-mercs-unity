@@ -5,7 +5,7 @@ import multipledispatch as md
 from bson import ObjectId
 from fastapi import Depends
 
-from src.context import AuthenticatedRequestContext
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.repositories.armoury import (ArmouryRepository,
                                             armoury_repository)
@@ -45,6 +45,10 @@ class GetUserDataHandler(BaseHandler):
         self.bounties_repo: BountiesRepository = bounties_repo
         self.artefacts_repo: ArtefactsRepository = artefacts_repo
         self.bountyshop_repo: BountyShopRepository = bountyshop_repo
+
+    @md.dispatch(ObjectId, RequestContext)
+    async def handle(self, uid: ObjectId, ctx: RequestContext):
+        return await self.handle(uid, ctx.prev_daily_reset)
 
     @md.dispatch(AuthenticatedRequestContext)
     async def handle(self, ctx: AuthenticatedRequestContext):

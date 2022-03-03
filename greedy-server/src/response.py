@@ -11,10 +11,10 @@ class ServerResponse(_JSONResponse):
         super(ServerResponse, self).__init__(content, *args, **kwargs)
 
     def render(self, content: Any) -> bytes:
-        return utils.json_dumps(content, default=self._json_encoder).encode("utf-8")
+        return utils.json_dumps(content, default=self._json_default).encode("utf-8")
 
     @staticmethod
-    def _json_encoder(value: Any):
+    def _json_default(value: Any):
         if isinstance(value, BaseModel):
             return value.client_dict()
 

@@ -19,7 +19,4 @@ class _ServerRoute(_APIRoute):
 
 class APIRouter(_APIRouter):
     def __init__(self, *, route_class=_ServerRoute, **kwargs):
-        super(APIRouter, self).__init__(
-            route_class=route_class,
-            **kwargs
-        )
+        super(APIRouter, self).__init__(route_class=route_class, **kwargs)

@@ -4,10 +4,10 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src.auth import Session, AuthenticationService, authentication_service
+from src.auth import AuthenticationService, Session, authentication_service
 from src.context import RequestContext
-from src.handlers import (CreateAccountHandler, GetUserDataHandler,
-                          UserDataResponse, AccountCreationResponse)
+from src.handlers import (AccountCreationResponse, CreateAccountHandler,
+                          GetUserDataHandler, UserDataResponse)
 from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.repositories.accounts import (AccountModel, AccountsRepository,
                                              accounts_repository)

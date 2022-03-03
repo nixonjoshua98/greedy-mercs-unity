@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 from typing import Optional
+
 from bson import ObjectId
 
-from .session import Session
-from src.redis import RedisClient, RedisPrefix
+from src.redis import RedisClient, execute_redis_pipeline
 from src.request import ServerRequest
+
+from .session import Session
+
+UID_SID_KEY = "Auth:UID-SID/"
+SID_UID_KEY = "Auth:SID-UID/"
+SID_SJSON_KEY = "Auth:SID-SJSON/"
 
 
 def authentication_service(request: ServerRequest) -> AuthenticationService:
@@ -14,35 +20,34 @@ def authentication_service(request: ServerRequest) -> AuthenticationService:
 
 class AuthenticationService:
     def __init__(self, redis: RedisClient):
-        self.__redis: RedisClient = redis
-
-        self.__sessionid2user: dict[str, ObjectId] = dict()
-        self.__userid2session: dict[ObjectId, Session] = dict()
+        self._redis: RedisClient = redis
 
     def set_user_session(self, uid: ObjectId) -> Session:
-        self.del_user_session(uid)
-
         sess = Session(uid)
-
-        self.__redis.set(f"{RedisPrefix.USER_2_SESSION}/{uid}", sess.to_json())
-        self.__redis.set(f"{RedisPrefix.SESSION_2_USER}/{sess.id}", str(uid))
-
+        with execute_redis_pipeline(redis=self._redis) as pipeline:
+            self._del_user_session_redis(uid, pipeline=pipeline)
+            self._set_user_session_redis(uid, sess, pipeline=pipeline)
         return sess
 
     def get_user_session(self, sid: str) -> Optional[Session]:
-        str_uid = self.__redis.get(f"{RedisPrefix.SESSION_2_USER}/{sid}")
+        return self._get_user_session_redis(sid)
 
-        if str_uid:
-            session_json = self.__redis.get(f"{RedisPrefix.USER_2_SESSION}/{str_uid}")
+    def _del_user_session_redis(self, uid: ObjectId, *, pipeline):
+        str_sid = self._redis.get(f"{UID_SID_KEY}{uid}")
 
-            if session_json:
-                return Session.from_json(session_json)
+        pipeline.delete(f"{SID_UID_KEY}{str_sid}")
+        pipeline.delete(f"{UID_SID_KEY}{uid}")
+        pipeline.delete(f"{SID_SJSON_KEY}{str_sid}")
 
-    def del_user_session(self, uid: ObjectId):
-        session_json = self.__redis.get(f"{RedisPrefix.USER_2_SESSION}/{uid}")
+    def _get_user_session_redis(self, sid: str) -> Optional[Session]:
+        str_uid = self._redis.get(f"{SID_UID_KEY}{sid}")
+        str_sid = self._redis.get(f"{UID_SID_KEY}{str_uid}")
+        session_json = self._redis.get(f"{SID_SJSON_KEY}{str_sid}")
 
-        if session_json:
-            sess = Session.from_json(session_json)
+        return Session.from_json(session_json) if session_json else None
 
-            self.__redis.delete(f"{RedisPrefix.USER_2_SESSION}/{uid}")
-            self.__redis.delete(f"{RedisPrefix.SESSION_2_USER}/{sess.id}")
+    @classmethod
+    def _set_user_session_redis(cls, uid: ObjectId, sess: Session, *, pipeline):
+        pipeline.set(f"{UID_SID_KEY}{uid}", sess.id)
+        pipeline.set(f"{SID_UID_KEY}{sess.id}", str(uid))
+        pipeline.set(f"{SID_SJSON_KEY}{sess.id}", sess.to_json())

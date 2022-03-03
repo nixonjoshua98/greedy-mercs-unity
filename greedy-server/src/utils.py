@@ -73,7 +73,7 @@ def default_json_encoder(value: Any) -> Any:
     if isinstance(value, bson.ObjectId):
         return str(value)
 
-    elif isinstance(value, (dt.datetime, dt.datetime)):
+    elif isinstance(value, dt.datetime):
         return int(value.timestamp())
 
     elif isinstance(value, BaseModel):

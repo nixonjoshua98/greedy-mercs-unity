@@ -12,11 +12,7 @@ from src.redis import RedisClient
 
 
 async def _on_app_start(app: Application):
-    app.state.redis_client = redis_client = RedisClient(
-        host=app.config.redis.host,
-        db=app.config.redis.database,
-        decode_responses=True
-    )
+    app.state.redis_client = redis_client = RedisClient(app.config.redis)
 
     app.state.mongo = MotorClient(app.config.mongo_con_str)
     app.state.auth_service = AuthenticationService(redis=redis_client)

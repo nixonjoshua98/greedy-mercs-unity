@@ -20,12 +20,14 @@ namespace GM
         {
             while (true)
             {
-                yield return new WaitForSecondsRealtime(3);
+                yield return new WaitForSecondsRealtime(1);
 
                 if (!Paused)
                 {
                     Save();
                 }
+
+                App.PersistantLocalFile.WriteToFile();
             }
         }
 
@@ -46,18 +48,7 @@ namespace GM
         {
             FileStatus status = FileUtils.LoadModel(LOCAL_FILE, out LocalSaveFileModel model);
 
-            switch (status)
-            {
-                case FileStatus.OK:
-                    return model;
-
-                case FileStatus.CORRUPTED:
-                    Debug.Log("Local save file was corrupted");
-                    return new LocalSaveFileModel();
-
-                default:
-                    return new LocalSaveFileModel();
-            }
+            return model;
         }
     }
 }

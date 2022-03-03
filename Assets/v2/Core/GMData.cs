@@ -8,6 +8,7 @@ using GM.Inventory.Data;
 using GM.Mercs.Data;
 using GM.Upgrades.Data;
 using System;
+using GM.LocalFiles;
 
 namespace GM.Core
 {
@@ -26,7 +27,7 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
-        public GMData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel localSaveFile)
+        public GMData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel localSaveFile, PersistantLocalFile persistLocalFile)
         {
             NextDailyReset = staticData.NextDailyReset;
 
@@ -38,7 +39,7 @@ namespace GM.Core
 
             Upgrades    = new PlayerUpgrades();
             Inv         = new UserInventory(userData.CurrencyItems);
-            Mercs       = new MercsData(userData, staticData, localSaveFile);
+            Mercs       = new MercsData(userData, staticData, localSaveFile, persistLocalFile);
             Artefacts   = new ArtefactsData(userData.Artefacts, staticData.Artefacts);
             Armoury     = new ArmouryData(userData.ArmouryItems, staticData.Armoury);
             Bounties    = new BountiesData(userData.BountyData, staticData.Bounties);

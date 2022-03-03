@@ -18,7 +18,7 @@ namespace GM
             {
                 if (editor)
                 {
-                    GMLogger.Editor(msg);
+                    Editor(msg);
                 }
                 else
                 {
@@ -27,9 +27,10 @@ namespace GM
             }           
         }
 
-        public static void Exception(string msg, Exception e)
-        {
-            Debug.LogError($"{msg}\n{e.Message}");
+        public static void Exception(string msg, Exception e, bool editorOnly = false)
+        { 
+            if ((Application.isEditor && editorOnly) || !editorOnly)
+                Debug.LogError($"{msg}\n{e.Message}");
         }
 
         public static void JSON(object obj)

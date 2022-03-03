@@ -37,15 +37,16 @@ namespace GM.Mercs
 
             Mercs.Add(merc);
 
+            App.PersistantLocalFile.SquadMercIDs.Add(mercId);
+
             OnUnitAddedToSquad.Invoke(merc);
         }
 
         public void RemoveMercFromSquad(UnitID mercId)
         {
+            App.PersistantLocalFile.SquadMercIDs.Remove(mercId);
             SquadMerc merc = Mercs.First(x => x.Id == mercId);
-
             Mercs.Remove(merc);
-
             Destroy(merc.GameObject);
         }
     }

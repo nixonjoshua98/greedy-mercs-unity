@@ -1,6 +1,6 @@
 ﻿namespace GM.Common.Interfaces
 {
-    interface ILocalSaveSerializer
+    interface ILocalStateFileSerializer
     {
         void UpdateLocalSaveFile(ref LocalSaveFileModel model);
     }

@@ -7,8 +7,8 @@
             - Data which is relevant to the current prestige and will be deleted
         - StaticData
             - Game values pulled from the server or scriptable objects
-        - PersistantUserData (maybe?)
-            - Data pulled from the server. The C# class will most likely be updated using the PersistantLocalFile 
+        - UserData
+            - Data pulled from the server
  
     __Model Classes__
         - Models are primarily used as data transfer objects between either the server or file system        

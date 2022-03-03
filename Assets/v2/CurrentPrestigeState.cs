@@ -4,7 +4,7 @@ using System;
 
 namespace GM
 {
-    public class CurrentPrestigeState : ILocalSaveSerializer
+    public class CurrentPrestigeState : ILocalStateFileSerializer
     {
         public readonly int EnemiesPerStage = 3;
 

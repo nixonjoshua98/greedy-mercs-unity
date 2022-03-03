@@ -4,15 +4,16 @@ using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using GM.LocalFiles;
 
 namespace GM.Mercs.Data
 {
-    public class MercsData : Core.GMClass, ILocalSaveSerializer
+    public class MercsData : Core.GMClass, ILocalStateFileSerializer
     {
         Dictionary<UnitID, UserMercState> UserMercs = new Dictionary<UnitID, UserMercState>();
         Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
 
-        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local)
+        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local, PersistantLocalFile persistLocalFile)
         {
             Update(userData, staticData, local);
         }
@@ -41,18 +42,8 @@ namespace GM.Mercs.Data
             }
         }
 
-        void ValidateLocalSaveFile(ref LocalSaveFileModel model)
-        {
-            if (model.Mercs.Where(x => x.InSquad).Count() > GM.Common.Constants.MAX_SQUAD_SIZE)
-            {
-                model.Mercs.ForEach(m => m.InSquad = false);
-            }
-        }
-
         void SetStatesFromSaveFile(LocalSaveFileModel model)
         {
-            ValidateLocalSaveFile(ref model);
-
             foreach (var merc in model.Mercs)
             {
                 UserMercs[merc.ID] = merc;
@@ -116,10 +107,6 @@ namespace GM.Mercs.Data
 
         /// <summary> Load local scriptable merc data </summary>
         Dictionary<UnitID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
-
-        public void AddMercToSquad(UnitID mercId) => UserMercs[mercId].InSquad = true;
-
-        public void RemoveMercFromSquad(UnitID mercId) => UserMercs[mercId].InSquad = false;
 
         /// <summary>
         /// Fetch the data about a merc

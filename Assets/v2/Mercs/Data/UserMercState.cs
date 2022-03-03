@@ -3,14 +3,16 @@ using Newtonsoft.Json;
 
 namespace GM.Mercs.Data
 {
-    public class UserMercState
+    public class UserMercState : GM.Core.GMClass
     {
         [JsonProperty(Required = Required.Always)]
         public readonly UnitID ID;
 
+        [JsonProperty]
         public int Level = 1;
 
-        public bool InSquad = false;
+        [JsonIgnore]
+        public bool InSquad { get => App.PersistantLocalFile.SquadMercIDs.Contains(ID); }
 
         private UserMercState() { }
 

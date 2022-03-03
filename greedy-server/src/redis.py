@@ -60,7 +60,7 @@ class RedisClient:
         str_sid = self._client.get(f"{UID_SID_KEY}{str_uid}")
         session_json = self._client.get(f"{SID_SJSON_KEY}{str_sid}")
 
-        return Session.from_json(session_json) if session_json else None
+        return Session.load(session_json) if session_json else None
 
     def set_user_session(self, uid: ObjectId, sess: Session):
         """
@@ -72,7 +72,7 @@ class RedisClient:
         self._client.mset({
             f"{UID_SID_KEY}{uid}": sess.id,
             f"{SID_UID_KEY}{sess.id}": str(uid),
-            f"{SID_SJSON_KEY}{sess.id}": sess.to_json()
+            f"{SID_SJSON_KEY}{sess.id}": sess.dump()
         })
 
 

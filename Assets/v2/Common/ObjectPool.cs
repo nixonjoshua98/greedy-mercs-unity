@@ -28,10 +28,6 @@ namespace GM.Common
 
         GameObject InstantiatePooledObject()
         {
-            if (ObjectParent == null)
-            {
-                return Instantiate(PooledObject);
-            }
             return Instantiate(PooledObject, ObjectParent);
         }
 

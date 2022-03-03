@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GM.Mercs.UI
 {
-    public class MercManagePopup : GM.Core.GMMonoBehaviour
+    public class MercManagePopup : GM.UI.Common.PanelPopupBase
     {
         [Header("Prefab Objects")]
         public GameObject MercSlot;
@@ -38,13 +38,15 @@ namespace GM.Mercs.UI
         void Awake()
         {
             MercSquad = this.GetComponentInScene<MercSquadController>();
+
+            CreateIcons();
+            InstantiateSlots();
+            UpdateSquadIcons();
         }
 
         void Start()
         {
-            CreateIcons();
-            InstantiateSlots();
-            UpdateSquadIcons();
+            ShowInnerPanel();
         }
 
         void InstantiateSlots()

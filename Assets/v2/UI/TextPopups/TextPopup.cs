@@ -44,7 +44,7 @@ namespace GM.UI
             Reset();
 
             Text.text = Format.Number(val);
-            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
+            Text.color = val > 0 ? GM.Common.Colors.Gold : GM.Common.Colors.Red;
         }
 
         public void Set(BigDouble val)
@@ -52,7 +52,7 @@ namespace GM.UI
             Reset();
 
             Text.text = Format.Number(val);
-            Text.color = val > 0 ? Common.Colors.Gold : Common.Colors.Red;
+            Text.color = val > 0 ? GM.Common.Colors.Gold : GM.Common.Colors.Red;
         }
 
         public void Set(BigDouble val, Color color, Vector3 position)

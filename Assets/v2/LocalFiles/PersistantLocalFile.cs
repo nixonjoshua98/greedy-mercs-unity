@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GM.LocalFiles
 {
-    public class PersistantLocalFile
+    public sealed class PersistantLocalFile
     {
         const string FilePath = "PersistantLocalFile";
 

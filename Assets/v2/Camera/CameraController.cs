@@ -26,7 +26,7 @@ namespace GM
 
         void SetCameraPosition(float xPos)
         {
-            Vector3 to = new Vector3(xPos, transform.position.y, transform.position.z);
+            Vector3 to = new Vector3(Mathf.Max(transform.position.x, xPos), transform.position.y, transform.position.z);
 
             transform.position = Vector3.MoveTowards(transform.position, to, MoveSpeed * Time.fixedUnscaledDeltaTime);
         }

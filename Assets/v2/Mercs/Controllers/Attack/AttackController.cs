@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
 {
@@ -11,7 +12,7 @@ namespace GM.Mercs.Controllers
         public bool IsAvailable { get; }
         public bool IsAttacking { get; }
 
-        void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback);
+        void StartAttack(GM.Units.UnitBaseClass target, Action callback);
         bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
         void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
     }
@@ -23,7 +24,7 @@ namespace GM.Mercs.Controllers
         float CooldownTimer = 1.0f;
 
         protected GM.Units.UnitBaseClass CurrentTarget;
-        Action<GM.Units.UnitBaseClass> DealDamageToTargetAction;
+        Action DealDamageToTargetAction;
 
         // State
         protected bool _IsAttacking;
@@ -31,8 +32,9 @@ namespace GM.Mercs.Controllers
 
         protected bool IsOnCooldown;
         public bool IsAvailable => !IsOnCooldown && !_IsAttacking;
-        // ...
 
+        // Events
+        [HideInInspector] public UnityEvent E_AttackFinished = new UnityEvent();
 
         public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
         public abstract void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
@@ -47,7 +49,7 @@ namespace GM.Mercs.Controllers
             return !health.IsDead;
         }
 
-        public virtual void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
+        public virtual void StartAttack(GM.Units.UnitBaseClass target, Action callback)
         {
             _IsAttacking = true;
             CurrentTarget = target;
@@ -62,7 +64,7 @@ namespace GM.Mercs.Controllers
             }
             else
             {
-                DealDamageToTargetAction(CurrentTarget);
+                DealDamageToTargetAction.Invoke();
             }
         }
 

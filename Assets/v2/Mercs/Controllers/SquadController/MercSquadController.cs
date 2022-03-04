@@ -9,7 +9,7 @@ namespace GM.Mercs
     public interface ISquadController
     {
         bool TryGetFrontUnitQueue(out UnitBaseClass unit);
-
+        void RemoveMercFromQueue(UnitBaseClass unit);
         void AddMercToSquad(UnitID mercId);
         void RemoveMercFromSquad(UnitID mercId);
         int GetQueuePosition(UnitBaseClass unit);
@@ -52,6 +52,11 @@ namespace GM.Mercs
                     InstantiateMerc(merc.ID);
                 }
             }
+        }
+
+        public void RemoveMercFromQueue(UnitBaseClass unit)
+        {
+            UnitQueue.Remove(unit);
         }
 
         public bool TryGetFrontUnitQueue(out UnitBaseClass unit)

@@ -25,7 +25,8 @@ namespace GM.Mercs
 
     public class MercPassiveReference
     {
-        public int PassiveID { get; set; } = 0;
+        [JsonProperty(Required = Required.Always)]
+        public int PassiveID { get; set; }
 
         [JsonProperty(Required = Required.Always)]
         public int UnlockLevel { get; set; }
@@ -54,8 +55,10 @@ namespace GM.Mercs
         [JsonProperty(PropertyName = "attackType")]
         public AttackType AttackType = AttackType.MELEE;
 
-        public int SpawnEnergyRequired = 100;
-        public int EnergyGainedPerSecond = 10;
+        public int SpawnEnergyRequired = 40;
+        public int EnergyGainedPerSecond = 5;
+        public int BattleEnergyCapacity = 50;
+        public int EnergyConsumedPerAttack = 11;
 
         [JsonIgnore]
         public Sprite Icon;

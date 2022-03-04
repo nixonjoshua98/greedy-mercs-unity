@@ -5,26 +5,28 @@ using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
-    public class MercController : Units.UnitBaseClass
+    public class MercController : UnitBaseClass
     {
         public UnitID Id;
 
         [Header("Components")]
         [SerializeField] MovementController Movement;
+        AttackController AttackController;
 
         // = Controllers = //
-        GM.Units.UnitBaseClass CurrentTarget;
+        UnitBaseClass CurrentTarget;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
-
-        // Interfaces
-        IAttackController AttackController;
 
         // Managers
         IEnemyUnitFactory UnitManager;
         GameManager GameManager;
         ISquadController SquadController;
+
+        // Energy
+        bool IsEnergyDepleted;
+        int EnergyRemaining;
 
         // ...
         GM.Mercs.Data.MercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
@@ -33,6 +35,14 @@ namespace GM.Mercs.Controllers
         void Awake()
         {
             GetComponents();
+            SubscribeToEvents();
+
+            EnergyRemaining = MercDataValues.BattleEnergyCapacity;
+        }
+
+        void SubscribeToEvents()
+        {
+            AttackController.E_AttackFinished.AddListener(AttackController_OnAttackFinished);
         }
 
         protected void GetComponents()
@@ -41,10 +51,22 @@ namespace GM.Mercs.Controllers
             GameManager = this.GetComponentInScene<GameManager>();
             SquadController = this.GetComponentInScene<ISquadController>();
 
-            AttackController = GetComponent<IAttackController>();
+            AttackController = GetComponent<AttackController>();
         }
 
         void FixedUpdate()
+        {
+            if (!IsEnergyDepleted)
+            {
+                UpdateMercWithEnergy();
+            }
+            else
+            {
+
+            }
+        }
+
+        void UpdateMercWithEnergy()
         {
             int idx = SquadController.GetQueuePosition(this);
 
@@ -63,7 +85,7 @@ namespace GM.Mercs.Controllers
 
                     else if (AttackController.IsAvailable)
                     {
-                        AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
+                        StartAttack();
                     }
                 }
             }
@@ -72,7 +94,7 @@ namespace GM.Mercs.Controllers
             {
                 UnitBaseClass unit = SquadController.GetUnitAtQueuePosition(idx - 1);
 
-                Vector3 targetPosition = unit.Avatar.Bounds.min - new Vector3(3, 0);
+                Vector3 targetPosition = new Vector3(unit.Avatar.Bounds.min.x - unit.Avatar.Bounds.size.x, transform.position.y);
 
                 if (transform.position != targetPosition)
                 {
@@ -85,13 +107,39 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        protected void DealDamageToTarget(GM.Units.UnitBaseClass attackTarget)
+        protected void StartAttack()
+        {
+            AttackController.StartAttack(CurrentTarget, OnAttackImpact);
+        }
+
+        void DealDamageToTarget()
         {
             BigDouble dmg = MercDataValues.DamagePerAttack;
 
             if (GameManager.DealDamageToTarget(dmg))
             {
                 OnDamageDealt.Invoke(dmg);
+            }
+        }
+
+        // = Callbacks = //
+
+        protected void OnAttackImpact()
+        {
+            DealDamageToTarget();
+        }
+
+        void AttackController_OnAttackFinished()
+        {
+            EnergyRemaining -= MercDataValues.EnergyConsumedPerAttack;
+
+            if (EnergyRemaining <= 0)
+            {
+                IsEnergyDepleted = true;
+
+                SquadController.RemoveMercFromQueue(this);
+
+                Destroy(gameObject);
             }
         }
     }

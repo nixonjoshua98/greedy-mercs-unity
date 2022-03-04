@@ -15,6 +15,7 @@ class PassiveBonus(BaseModel):
 
 
 class MercPassive(BaseModel):
+    passive_id: int = Field(..., alias="passiveId")
     unlock_level: int = Field(..., alias="unlockLevel")
 
 

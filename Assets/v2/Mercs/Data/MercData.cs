@@ -31,6 +31,8 @@ namespace GM.Mercs.Data
         // Energy
         public int EnergyGainedPerSecond => Game.EnergyGainedPerSecond;
         public int SpawnEnergyRequired => Game.SpawnEnergyRequired;
+        public int BattleEnergyCapacity => Game.BattleEnergyCapacity;
+        public int EnergyConsumedPerAttack => Game.EnergyConsumedPerAttack;
         public float CurrentSpawnEnergy
         {
             get => User.CurrentSpawnEnergy;

@@ -20,10 +20,11 @@ namespace GM.Mercs.Controllers
         // = Controllers = //
         IMovementController MoveController;
 
+
         void Awake()
         {
             SetupEvents();
-            GetComponents();
+            GetRequiredComponents();
         }
 
         void SetupEvents()
@@ -41,12 +42,12 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        void GetComponents()
+        protected void GetRequiredComponents()
         {
             MoveController = GetComponent<IMovementController>();
         }
 
-        public override void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
+        public override void StartAttack(GM.Units.UnitBaseClass target, Action callback)
         {
             base.StartAttack(target, callback);
 
@@ -92,6 +93,7 @@ namespace GM.Mercs.Controllers
         {
             _IsAttacking = false;
             StartCooldown();
+            E_AttackFinished.Invoke();
         }
 
         void InstantiateAttackImpactObject()

@@ -16,7 +16,7 @@ T = TypeVar("T")
 
 def compress(d: dict) -> str:
     """
-    Compress a python dict to a gzipped bae64 string
+    Compress a python dict to a gzipped base64 string
 
     :param d: Dict object
 
@@ -26,7 +26,7 @@ def compress(d: dict) -> str:
     return base64.b64encode(gzip.compress(json_dumps(d).encode("utf-8"))).decode("utf-8")
 
 
-def uncompress(d: str) -> dict:
+def decompress(d: str) -> dict:
     """
     Uncompress a string (made by .compress()) to a dict
 
@@ -78,7 +78,7 @@ def json_load(fp: str) -> Union[dict, list]:
         Loaded json file
     """
     with open(fp) as fh:
-        load_ = pyjson5.load if fp.endswith("json5") else ujson
+        load_ = pyjson5.load if fp.endswith("json5") else ujson.load
 
         return load_(fh)
 

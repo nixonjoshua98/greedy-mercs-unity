@@ -5,12 +5,13 @@ from typing import Optional
 from bson import ObjectId
 
 from redis import Redis as _Redis
-from src.auth.session import Session
+from src.auth.session import AuthenticatedSession
 from src.pymodels.configmodel import RedisConfiguration
 from src.request import ServerRequest
 
-UID_SID_KEY = "Auth:UID:SID/"
-SID_SJSON_KEY = "Auth:SID:SJSON/"
+SID_UID_KEY = "Auth:SID:UID:"
+UID_SID_KEY = "Auth:UID:SID:"
+SID_SJSON_KEY = "Auth:SID:SJSON:"
 
 
 class RedisClient:
@@ -29,12 +30,9 @@ class RedisClient:
         """
         sid = self._client.get(f"{UID_SID_KEY}{uid}")
 
-        self._client.delete(
-            f"{UID_SID_KEY}{uid}",
-            f"{SID_SJSON_KEY}{sid}"
-        )
+        self._client.delete(f"{SID_UID_KEY}{sid}" f"{UID_SID_KEY}{uid}", f"{SID_SJSON_KEY}{sid}")
 
-    def get_user_session(self, sid: str) -> Optional[Session]:
+    def get_user_session(self, sid: str) -> Optional[AuthenticatedSession]:
         """
         Fetch the session associated to the sid.
 
@@ -43,11 +41,15 @@ class RedisClient:
         :return:
             Session object or None
         """
-        session_json = self._client.get(f"{SID_SJSON_KEY}{sid}")
+        str_uid = self._client.get(f"{SID_UID_KEY}{sid}")
+        str_sid = self._client.get(f"{UID_SID_KEY}{str_uid}")
 
-        return Session.load(session_json) if session_json else None
+        if str_sid is not None and (str_sid == sid):
+            session_json = self._client.get(f"{SID_SJSON_KEY}{str_sid}")
 
-    def set_user_session(self, uid: ObjectId, sess: Session):
+            return AuthenticatedSession.load(session_json) if session_json else None
+
+    def set_user_session(self, uid: ObjectId, sess: AuthenticatedSession):
         """
         Set the required keys for authentication session lookup
 
@@ -56,6 +58,7 @@ class RedisClient:
         """
         self._client.mset({
             f"{UID_SID_KEY}{uid}": sess.id,
+            f"{SID_UID_KEY}{sess.id}": str(uid),
             f"{SID_SJSON_KEY}{sess.id}": sess.dump()
         })
 

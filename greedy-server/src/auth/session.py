@@ -5,7 +5,7 @@ from bson import ObjectId
 from src import utils
 
 
-class Session:
+class AuthenticatedSession:
     def __init__(self, uid: ObjectId, *, sid: str = None):
         self.id: str = sid if sid else self.generate_id(uid)
         self.user_id: ObjectId = uid
@@ -19,6 +19,6 @@ class Session:
 
     @classmethod
     def load(cls, data: str):
-        session_dict = utils.uncompress(data)
+        session_dict = utils.decompress(data)
 
         return cls(uid=ObjectId(session_dict["uid"]), sid=session_dict["sid"])

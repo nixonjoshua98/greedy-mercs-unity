@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Avatar: {fileID: 4929902558634325923}
   Id: 0
+  Movement: {fileID: 3476196780248353833}
 --- !u!114 &-6697651762150541026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +64,7 @@ MonoBehaviour:
   CooldownTimer: 0.25
   Avatar: {fileID: 4929902558634325923}
   AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
+  HasAttackFinishedEvent: 0
   AttackRange: 1
 --- !u!114 &3476196780248353833
 MonoBehaviour:

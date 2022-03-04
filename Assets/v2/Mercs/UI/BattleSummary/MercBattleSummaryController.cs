@@ -35,9 +35,11 @@ namespace GM.Mercs.UI
 
             squad.OnUnitAddedToSquad.AddListener(merc =>
             {
-                merc.Controller.OnDamageDealt.AddListener(dmg =>
+                var controller = merc.GetComponent<GM.Mercs.Controllers.MercController>();
+
+                controller.OnDamageDealt.AddListener(dmg =>
                 {
-                    damageValues.Add(new MercDamageValue(merc.Id, dmg));
+                    damageValues.Add(new MercDamageValue(controller.Id, dmg));
                 });
             });
 

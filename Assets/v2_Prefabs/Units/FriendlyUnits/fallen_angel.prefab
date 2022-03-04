@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Avatar: {fileID: 7990702041426216414}
   Id: 1
+  Movement: {fileID: 3858409953258592751}
 --- !u!114 &3858409953258592748
 MonoBehaviour:
   m_ObjectHideFlags: 0

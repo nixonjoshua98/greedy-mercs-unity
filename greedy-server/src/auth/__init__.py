@@ -7,7 +7,7 @@ from src.request import ServerRequest as _ServerRequest
 
 from .context import AuthenticatedRequestContext, RequestContext
 from .service import AuthenticationService
-from .session import Session
+from .session import AuthenticatedSession
 
 
 def authentication_service(request: _ServerRequest) -> AuthenticationService:
@@ -28,7 +28,7 @@ async def inject_authenticated_context(
 
 
 __all__ = (
-    "Session",
+    "AuthenticatedSession",
     "AuthenticationService",
     "authentication_service",
     "AuthenticatedRequestContext",

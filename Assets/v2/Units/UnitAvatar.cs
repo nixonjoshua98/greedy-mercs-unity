@@ -20,7 +20,10 @@ namespace GM.Units
 
         public void PlayAnimation(string anim)
         {
-            Animator.Play(anim);
+            if (!Animator.GetCurrentAnimatorStateInfo(0).IsName(anim))
+            {
+                Animator.Play(anim);
+            }
         }
 
         // = Animation Callbacks = //

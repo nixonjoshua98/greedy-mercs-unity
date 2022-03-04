@@ -4,7 +4,7 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src.auth import (AuthenticationService, RequestContext, Session,
+from src.auth import (AuthenticationService, RequestContext, AuthenticatedSession,
                       authentication_service)
 from src.handlers import (AccountCreationResponse, CreateAccountHandler,
                           GetUserDataHandler, UserDataResponse)
@@ -18,7 +18,7 @@ from src.request_models import LoginModel
 class LoginResponse(BaseResponse):
     user_id: ObjectId
     user_data: dict
-    session: Session
+    session: AuthenticatedSession
 
 
 class LoginHandler(BaseHandler):
@@ -51,7 +51,7 @@ class LoginHandler(BaseHandler):
             user_data=data_resp.data
         )
 
-    def _create_auth_session(self) -> Session:
+    def _create_auth_session(self) -> AuthenticatedSession:
         session = self._auth.set_user_session(self.account.id)
 
         return session

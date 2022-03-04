@@ -3,19 +3,29 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnitID = GM.Common.Enums.UnitID;
-
+using GM.Units;
 
 namespace GM.Mercs
 {
-    public class MercSquadController : Core.GMMonoBehaviour
+    public interface ISquadController
     {
-        List<SquadMerc> Mercs = new List<SquadMerc>();
+        void AddMercToSquad(UnitID mercId);
+        void RemoveMercFromSquad(UnitID mercId);
+        int GetQueuePosition(UnitID unit);
+        UnitBaseClass GetUnitAtQueuePosition(int idx);
+    }
+
+
+    public class MercSquadController : Core.GMMonoBehaviour, ISquadController
+    {
+        Dictionary<UnitID, UnitBaseClass> Units { get; set; } = new Dictionary<UnitID, UnitBaseClass>();
+
 
         // Current positions of the mercs in the squad
-        public List<Vector3> MercPositions => Mercs.Select(x => x.Position).ToList();
+        public List<Vector3> MercPositions => Units.Values.Select(x => x.gameObject.transform.position).ToList();
 
         // = Events = //
-        public UnityEvent<SquadMerc> OnUnitAddedToSquad { get; set; } = new UnityEvent<SquadMerc>();
+        public UnityEvent<UnitBaseClass> OnUnitAddedToSquad { get; set; } = new UnityEvent<UnitBaseClass>();
 
         void Awake()
         {
@@ -24,7 +34,11 @@ namespace GM.Mercs
                 AddMercToSquad(squadMerc);
             }
         }
-        
+
+        public UnitBaseClass GetUnitAtQueuePosition(int idx) => Units[Units.Keys.ToList()[idx]];
+        public int GetQueuePosition(UnitID unit) => Units.Keys.FindIndexWhere(x => x == unit);
+
+
         public void AddMercToSquad(UnitID mercId)
         {
             Vector2 pos = new Vector2(Camera.main.MinBounds().x - 1.0f, Common.Constants.CENTER_BATTLE_Y);
@@ -33,21 +47,24 @@ namespace GM.Mercs
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
-            var merc = new SquadMerc(o);
+            UnitBaseClass unit = o.GetComponent<UnitBaseClass>();
 
-            Mercs.Add(merc);
+            Units[mercId] = unit;
 
             App.PersistantLocalFile.SquadMercIDs.Add(mercId);
 
-            OnUnitAddedToSquad.Invoke(merc);
+            OnUnitAddedToSquad.Invoke(unit);
         }
 
         public void RemoveMercFromSquad(UnitID mercId)
         {
             App.PersistantLocalFile.SquadMercIDs.Remove(mercId);
-            SquadMerc merc = Mercs.First(x => x.Id == mercId);
-            Mercs.Remove(merc);
-            Destroy(merc.GameObject);
+
+            UnitBaseClass unit = Units[mercId];
+
+            Units.Remove(mercId);
+
+            Destroy(unit.gameObject);
         }
     }
 }

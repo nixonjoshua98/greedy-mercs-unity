@@ -6,6 +6,8 @@ namespace GM
 {
     public class CameraController : MonoBehaviour
     {
+        [SerializeField] float MoveSpeed = 10.0f;
+
         ISquadController MercSquad;
 
         void Awake()
@@ -14,7 +16,7 @@ namespace GM
         }
 
 
-        void LateUpdate()
+        void FixedUpdate()
         {
             if (MercSquad.TryGetFrontUnitQueue(out UnitBaseClass unit))
             {
@@ -24,7 +26,9 @@ namespace GM
 
         void SetCameraPosition(float xPos)
         {
-            transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
+            Vector3 to = new Vector3(xPos, transform.position.y, transform.position.z);
+
+            transform.position = Vector3.MoveTowards(transform.position, to, MoveSpeed * Time.fixedUnscaledDeltaTime);
         }
     }
 }

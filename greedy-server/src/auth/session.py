@@ -1,7 +1,8 @@
-import json
 import secrets
 
 from bson import ObjectId
+
+from src import utils
 
 
 class Session:
@@ -14,10 +15,10 @@ class Session:
         return f"{secrets.token_urlsafe(128)}{uid}".upper()
 
     def dump(self) -> str:
-        return json.dumps({"sid": self.id, "uid": self.user_id}, default=str)
+        return utils.compress({"sid": self.id, "uid": self.user_id})
 
     @classmethod
     def load(cls, data: str):
-        session_dict = json.loads(data)
+        session_dict = utils.uncompress(data)
 
         return cls(uid=ObjectId(session_dict["uid"]), sid=session_dict["sid"])

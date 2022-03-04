@@ -9,6 +9,8 @@ namespace GM.Mercs
 {
     public interface ISquadController
     {
+        bool TryGetFrontUnitQueue(out UnitBaseClass unit);
+
         void AddMercToSquad(UnitID mercId);
         void RemoveMercFromSquad(UnitID mercId);
         int GetQueuePosition(UnitID unit);
@@ -33,6 +35,12 @@ namespace GM.Mercs
             {
                 AddMercToSquad(squadMerc);
             }
+        }
+
+        public bool TryGetFrontUnitQueue(out UnitBaseClass unit)
+        {
+            unit = Units.Count == 0 ? null : GetUnitAtQueuePosition(0);
+            return unit != null;
         }
 
         public UnitBaseClass GetUnitAtQueuePosition(int idx) => Units[Units.Keys.ToList()[idx]];

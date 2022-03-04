@@ -1,33 +1,28 @@
 using GM.Mercs;
-using System.Linq;
+using GM.Units;
 using UnityEngine;
 
-namespace GM.CameraControllers
+namespace GM
 {
     public class CameraController : MonoBehaviour
     {
-        public float Speed = 20000000000.5f;
-
-        MercSquadController MercSquad;
-
+        ISquadController MercSquad;
 
         void Awake()
         {
-            MercSquad = this.GetComponentInScene<MercSquadController>();
+            MercSquad = this.GetComponentInScene<ISquadController>();
         }
 
 
         void LateUpdate()
         {
-            var mercPositions = MercSquad.MercPositions;
-
-            if (mercPositions.Count > 0)
+            if (MercSquad.TryGetFrontUnitQueue(out UnitBaseClass unit))
             {
-                UpdateCamera(Mathf.Max(0, mercPositions.Average(pos => pos.x)));
+                SetCameraPosition(unit.Avatar.Bounds.max.x);
             }
         }
 
-        void UpdateCamera(float xPos)
+        void SetCameraPosition(float xPos)
         {
             transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
         }

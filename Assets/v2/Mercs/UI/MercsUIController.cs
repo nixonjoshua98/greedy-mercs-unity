@@ -1,7 +1,6 @@
-using GM.Mercs.Data;
 using System.Collections.Generic;
 using UnityEngine;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.UI
 {
@@ -9,7 +8,7 @@ namespace GM.Mercs.UI
     {
         [Header("Prefabs")]
         public GameObject SquadMercSlotObject;
-        public GameObject AvailMercSlotObject;
+        public GameObject ManageMercsObject;
 
         [Header("References")]
         public GM.UI.AmountSelector UpgradeAmountSelector;
@@ -17,97 +16,59 @@ namespace GM.Mercs.UI
         public Transform AvailMercSlotsParent;
         public Transform SquadMercSlotsParent;
         [Space]
-        [SerializeField] MercSquadController MercSquad;
 
         // ...
-        Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
+        Dictionary<UnitID, MercUIObject> MercSlots = new Dictionary<UnitID, MercUIObject>();
 
         void Start()
         {
-            InstantiateMercSlots();
+            UpdateSlotsUI();
         }
 
-        void InstantiateMercSlots()
+        void UpdateSlotsUI()
         {
-            App.Data.Mercs.UnlockedMercs.ForEach(merc => InstantiateSlot(merc.Id));
-        }
-
-        void InstantiateSlot(MercID mercId)
-        {
-            bool isMercUnlocked = App.Data.Mercs.IsMercUnlocked(mercId);
-
-            if (isMercUnlocked)
+            foreach (var merc in App.GMData.Mercs.UnlockedMercs)
             {
-                DestroySlot(mercId); // Destroy if exists
-
-                MercData merc = App.Data.Mercs.GetMerc(mercId);
-
-                if (merc.InDefaultSquad)
+                // Merc has been removed from squad
+                if (MercSlots.ContainsKey(merc.ID) && !merc.InDefaultSquad)
                 {
-                    InstantiateSquadMercSlot(merc.Id);
+                    DestroySlot(merc.ID);
                 }
 
-                else
+                // Merc has been added to the squad
+                else if (!MercSlots.ContainsKey(merc.ID) && merc.InDefaultSquad)
                 {
-                    InstantiateIdleMercSlot(merc.Id);
+                    InstantiateSlot(merc.ID);
                 }
             }
-
         }
 
-        void InstantiateSquadMercSlot(MercID mercId)
+        void InstantiateSlot(UnitID merc)
         {
             SquadMercSlot slot = Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
 
-            slot.Assign(mercId, UpgradeAmountSelector, RemoveMercFromSquad);
+            slot.Assign(merc, UpgradeAmountSelector);
 
-            MercSlots.Add(mercId, slot);
+            MercSlots.Add(merc, slot);
+            
         }
 
-        void InstantiateIdleMercSlot(MercID mercId)
-        {
-            IdleMercSlot slot = Instantiate<IdleMercSlot>(AvailMercSlotObject, AvailMercSlotsParent);
-
-            slot.Assign(mercId, UpgradeAmountSelector, AddSquadToMerc);
-
-            MercSlots.Add(mercId, slot);
-        }
-
-        void AddSquadToMerc(MercID mercId)
-        {
-            if (MercSquad.AddMercToSquad(mercId))
-            {
-                App.Data.Mercs.AddMercToSquad(mercId);
-
-                InstantiateSlot(mercId);
-            }
-            else
-            {
-                GMLogger.Editor("Failed to add unit to squad");
-            }
-        }
-
-        void RemoveMercFromSquad(MercID mercId)
-        {
-            if (MercSquad.RemoveMercFromSquad(mercId))
-            {
-                App.Data.Mercs.RemoveMercFromSquad(mercId);
-
-                InstantiateSlot(mercId);
-            }
-            else
-            {
-                GMLogger.Editor("Failed to remove unit from squad");
-            }
-        }
-
-        void DestroySlot(MercID mercId)
+        void DestroySlot(UnitID mercId)
         {
             if (MercSlots.TryGetValue(mercId, out MercUIObject slot))
             {
                 Destroy(slot.gameObject);
                 MercSlots.Remove(mercId);
             }
+        }
+
+        // = UI Callbacks = //
+
+        public void ShowAvailableMercs()
+        {
+            InstantiateUI<MercManagePopup>(ManageMercsObject).AssignCallback(() => {
+                UpdateSlotsUI();
+            });
         }
     }
 }

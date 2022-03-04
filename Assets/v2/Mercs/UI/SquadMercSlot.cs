@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.UI
 {
@@ -19,15 +19,12 @@ namespace GM.Mercs.UI
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
 
-        Action<MercID> RemoveMercFromSquad;
-
         int _buyAmount;
         protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, Common.Constants.MAX_MERC_LEVEL);
 
-        public void Assign(MercID merc, GM.UI.AmountSelector selector, Action<MercID> removeMerc)
+        public void Assign(UnitID merc, GM.UI.AmountSelector selector)
         {
             _buyAmount = selector.Current;
-            RemoveMercFromSquad = removeMerc;
 
             Assign(merc); 
 
@@ -59,7 +56,7 @@ namespace GM.Mercs.UI
                 UpgradeButton.SetText($"x{BuyAmount}", Format.Number(AssignedMerc.UpgradeCost(BuyAmount)));
             }
 
-            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Data.Inv.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
+            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.GMData.Inv.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
         }
 
         string GetBonusText() => $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
@@ -67,30 +64,25 @@ namespace GM.Mercs.UI
 
         public void OnUpgradeButton()
         {
-            BigDouble upgradeCost = App.Cache.MercUpgradeCost(AssignedMerc, BuyAmount);
+            BigDouble upgradeCost = App.GMCache.MercUpgradeCost(AssignedMerc, BuyAmount);
 
             bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > Common.Constants.MAX_MERC_LEVEL;
-            bool canAffordUpgrade = App.Data.Inv.Gold >= upgradeCost;
+            bool canAffordUpgrade = App.GMData.Inv.Gold >= upgradeCost;
 
             if (!willExceedMaxLevel && canAffordUpgrade)
             {
                 AssignedMerc.CurrentLevel += BuyAmount;
 
-                App.Data.Inv.Gold -= upgradeCost;
+                App.GMData.Inv.Gold -= upgradeCost;
 
                 App.Events.GoldChanged.Invoke(upgradeCost * -1);
             }
         }
 
-        public void OnRemoveSquadMercButton()
-        {
-            RemoveMercFromSquad.Invoke(AssignedMerc.Id);
-        }
-
         /// <summary> Callback from UI to open the merc popup </summary>
         public void OnInfoButton()
         {
-            InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.Id);
+            InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.ID);
         }
     }
 }

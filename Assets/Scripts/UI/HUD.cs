@@ -1,18 +1,17 @@
-﻿
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace GM
 {
     public class HUD : Core.GMMonoBehaviour
     {
-        [SerializeField] Text stageText;
-        [SerializeField] Text waveText;
+        [SerializeField]
+        TMP_Text CurrentStageText;
 
         void FixedUpdate()
         {
-            stageText.text = $"Stage {App.Data.GameState.Stage}";
-            waveText.text = $"{App.Data.GameState.Wave} / {Common.Constants.WAVES_PER_STAGE}";
+            CurrentStageText.text = $"Stage {App.GMData.GameState.Stage}\n{App.GMData.GameState.EnemiesDefeated}/{App.GMData.GameState.EnemiesPerStage}";
         }
     }
 }

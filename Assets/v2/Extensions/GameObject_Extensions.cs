@@ -7,6 +7,14 @@ namespace GM
 {
     public static class GameObject_Extensions
     {
+        public static bool TryGetComponentInChildren<T>(this GameObject obj, out T component)
+        {
+            component = obj.GetComponentInChildren<T>();
+
+            return component != null;
+        }
+
+
         public static void Fade(this MonoBehaviour mono, float duration, Action action)
         {
             mono.StartCoroutine(FadeEnumerator(mono, duration, action));

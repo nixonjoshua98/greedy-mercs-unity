@@ -13,7 +13,7 @@ namespace GM.Inventory.Data
 
         public UserInventory(Models.UserCurrenciesModel currencies)
         {
-            Gold = BigDouble.Billion;
+            Gold = BigDouble.HighValue;
 
             UpdateCurrencies(currencies);
         }

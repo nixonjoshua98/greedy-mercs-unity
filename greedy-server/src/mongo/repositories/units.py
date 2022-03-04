@@ -5,7 +5,7 @@ import datetime as dt
 from bson import ObjectId
 
 from src.pymodels import BaseDocument, Field
-from src.routing import ServerRequest
+from src.request import ServerRequest
 
 
 def units_repository(request: ServerRequest) -> CharacterUnitsRepository:

@@ -76,7 +76,7 @@ namespace GM.Artefacts.Data
                 {
                     Update(resp.Artefact);
 
-                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.GMData.Inv.UpdateCurrencies(resp.CurrencyItems);
 
                     App.Events.PrestigePointsChanged.Invoke(resp.UpgradeCost * -1);
                 }
@@ -93,7 +93,7 @@ namespace GM.Artefacts.Data
                 {
                     Update(resp.Artefact);
 
-                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.GMData.Inv.UpdateCurrencies(resp.CurrencyItems);
 
                     App.Events.PrestigePointsChanged.Invoke(resp.UnlockCost * -1);
                 }

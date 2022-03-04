@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from src.pymodels import BaseModel, Field
-from src.routing import ServerRequest
+from src.request import ServerRequest
 
 
 def inject_static_bounties(request: ServerRequest) -> StaticBounties:

@@ -4,7 +4,14 @@ namespace GM.Core
 {
     public abstract class GMMonoBehaviour : MonoBehaviour
     {
-        protected static GMApplication App => GMApplication.Instance;
+        protected GMApplication App => GMApplication.Instance;
+        protected GMData GMData => App.GMData;
+
+
+
+
+
+
 
         private GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
 

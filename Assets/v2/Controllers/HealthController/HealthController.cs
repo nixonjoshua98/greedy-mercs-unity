@@ -3,47 +3,50 @@ using UnityEngine.Events;
 
 namespace GM.Controllers
 {
-    public class HealthController : MonoBehaviour
+    public abstract class AbstractHealthController: MonoBehaviour
     {
-        public BigDouble MaxHealth { get; private set; }
-        public BigDouble Current { get; private set; }
+        // Events
+        public UnityEvent E_OnZeroHealth { get; private set; } = new UnityEvent();
+        public UnityEvent<BigDouble> E_OnDamageTaken { get; private set; } = new UnityEvent<BigDouble>();
 
-        public UnityEvent OnZeroHealth { get; set; } = new UnityEvent();
-        public UnityEvent<BigDouble> OnDamageTaken { get; set; } = new UnityEvent<BigDouble>();
-
+        // Status
+        public bool Invincible { get; set; } = false;
+        public bool CanTakeDamage => !IsDead && !Invincible;
         public bool IsDead { get; private set; } = false;
-        public bool Invulnerable { get; set; } = false;
-        public float Percent => (float)(Current / MaxHealth).ToDouble();
 
-        public void Init(BigDouble val)
-        {
-            MaxHealth = Current = val;
-        }
+        // Health
+        public BigDouble MaxHealth { get; protected set; }
+        public BigDouble CurrentHealth { get; protected set; }
 
-        public virtual BigDouble TakeDamage(BigDouble amount)
+        // ...
+        public float Percent => (float)(CurrentHealth / MaxHealth).ToDouble();
+
+        public virtual void TakeDamage(BigDouble value)
         {
-            if (!Invulnerable)
+            if (CanTakeDamage)
             {
-                if (!IsDead)
+                BigDouble dmgDealt = BigDouble.Min(value, CurrentHealth);
+
+                CurrentHealth -= value;
+
+                E_OnDamageTaken.Invoke(dmgDealt);
+
+                if (CurrentHealth <= 0.0f)
                 {
-                    BigDouble dmgDealt = BigDouble.Min(amount, Current);
+                    IsDead = true;
 
-                    Current -= amount;
-
-                    OnDamageTaken.Invoke(dmgDealt);
-
-                    if (Current <= 0.0f)
-                    {
-                        IsDead = true;
-
-                        OnZeroHealth.Invoke();
-                    }
-
-                    return dmgDealt;
+                    E_OnZeroHealth.Invoke();
                 }
             }
+        }
+    }
 
-            return 0;
+
+    public class HealthController : AbstractHealthController
+    {
+        public void Init(BigDouble val)
+        {
+            MaxHealth = CurrentHealth = val;
         }
     }
 }

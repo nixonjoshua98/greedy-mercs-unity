@@ -3,60 +3,84 @@ using UnityEngine;
 
 namespace GM.Common
 {
+    class ObjectPoolObject
+    {
+        public readonly GameObject GameObject;
+
+        float lastUsedTime;        
+
+        public ObjectPoolObject(GameObject obj)
+        {
+            GameObject = obj;
+        }
+
+        public void Set()
+        {
+            lastUsedTime = Time.time;
+        }
+
+        public bool Expired(float expireTimer = 30.0f) => (Time.time - lastUsedTime) >= expireTimer;
+    }
+
     public class ObjectPool : Core.GMMonoBehaviour
     {
         [SerializeField] GameObject PooledObject;
         [SerializeField] Transform ObjectParent = null;
 
-        List<GameObject> Objects = new List<GameObject>();
+        List<ObjectPoolObject> Objects = new List<ObjectPoolObject>();
 
         GameObject Spawn()
         {
-            if (!TryGetAvailablePooledObject(out GameObject obj))
+            DestroyExpiredObjects();
+
+            if (!TryGetAvailablePooledObject(out ObjectPoolObject obj))
             {
-                obj = InstantiatePooledObject();
+                obj = new ObjectPoolObject(Instantiate(PooledObject, ObjectParent));
 
                 Objects.Add(obj);
             }
 
-            obj.SetActive(true);
+            GameObject go = obj.GameObject;
 
-            return obj;
+            go.SetActive(true);
+            obj.Set();
+
+            return go;
         }
 
         public T Spawn<T>() where T: Object => Spawn().GetComponent<T>();
-        public T Spawn<T>(Vector3 position) where T : Object
-        {
-            GameObject o = Spawn();
-            o.transform.position = position;
-            return o.GetComponent<T>();
-        }
 
-        GameObject InstantiatePooledObject()
-        {
-            if (ObjectParent == null)
-            {
-                return Instantiate(PooledObject);
-            }
-            return Instantiate(PooledObject, ObjectParent);
-        }
-
-        bool TryGetAvailablePooledObject(out GameObject obj)
+        bool TryGetAvailablePooledObject(out ObjectPoolObject obj)
         {
             obj = null;
 
-            Objects.RemoveAll(x => x == null);
-
-            foreach (GameObject o in Objects)
+            foreach (ObjectPoolObject pooledObject in Objects)
             {
-                if (!o.activeInHierarchy)
+                if (!pooledObject.GameObject.activeInHierarchy)
                 {
-                    obj = o;
+                    obj = pooledObject;
+
                     return true;
                 }
             }
 
             return false;
+        }
+
+        void DestroyExpiredObjects()
+        {
+            for (int i = 0; i < Objects.Count; ++i)
+            {
+                var current = Objects[i];
+
+                if (current.Expired())
+                {
+                    Destroy(current.GameObject);
+                    Objects[i] = null;
+                }
+            }
+
+            Objects.RemoveAll(x => x == null || x.GameObject == null);
         }
     }
 }

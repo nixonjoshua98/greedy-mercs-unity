@@ -13,7 +13,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "86.180.62.169"
+            Address = "109.154.100.101"
         };
 
         IServerAuthentication Authentication;
@@ -83,10 +83,9 @@ namespace GM.HTTP
             });
         }
 
-        public void Prestige(Action<PrestigeResponse> callback)
+        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
         {
-            var req = new PrestigeRequest();
-            var www = UnityWebRequest.Post(ResolveURL("prestige"), SerializeRequest(req));
+            var www = UnityWebRequest.Post(ResolveURL("prestige"), SerializeRequest(request));
 
             SendAuthenticatedRequest(www, callback);
         }
@@ -149,10 +148,7 @@ namespace GM.HTTP
             }
             finally
             {
-                if (resp.StatusCode != HTTPCodes.Success)
-                {
-                    Debug.LogError(resp.ErrorMessage);
-                }
+                GMLogger.Editor($"{www.url} {resp.StatusCode} {resp.ErrorMessage}");
             }
         }
 

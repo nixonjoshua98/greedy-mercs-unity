@@ -1,3 +1,6 @@
+import enum
+
+
 class BonusType:
     NONE = 0
 
@@ -22,3 +25,8 @@ class BonusType:
 
 class CurrencyType:
     ARMOURY_POINTS = 200
+
+
+class AttackType:
+    MELEE = 0
+    RANGED = 1

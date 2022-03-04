@@ -1,4 +1,3 @@
-using GM.Targets;
 using GM.Units;
 using System;
 using UnityEngine;
@@ -13,6 +12,9 @@ namespace GM.Mercs.Controllers
         public GameObject AttackImpactObject;
 
         [Header("Properties")]
+        [SerializeField, Tooltip("Animation may continue after impact")]
+        bool HasAttackFinishedEvent = false;
+
         [SerializeField] float AttackRange = 0.5f;
 
         // = Controllers = //
@@ -26,49 +28,75 @@ namespace GM.Mercs.Controllers
 
         void SetupEvents()
         {
-            var events = GetComponentInChildren<UnitAvatarAnimationEvents>();
+            Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackImpact);
 
-            events.Attack.AddListener(OnMeleeAttackImpact);
+            if (HasAttackFinishedEvent)
+            {
+                Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
+            }
+            // Call the event at the same time as the impact (should be added after the actual impact callback)
+            else
+            {
+                Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackFinished);
+            }
         }
 
         void GetComponents()
         {
             MoveController = GetComponent<IMovementController>();
-
-            GMLogger.WhenNull(MoveController, "IMovementController is Null");
         }
 
-        public override void StartAttack(Target target, Action<Target> callback)
+        public override void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
         {
             base.StartAttack(target, callback);
 
-            Avatar.PlayAnimation(Avatar.AnimationStrings.Attack);
+            Avatar.PlayAnimation(Avatar.Animations.Attack);
         }
 
-        public override bool InAttackPosition(Target target)
+        public override bool IsWithinAttackDistance(GM.Units.UnitBaseClass unit)
         {
-            return Vector2.Distance(transform.position, target.Position) <= AttackRange;
+            Vector3 position = GetTargetPositionFromTarget(unit);
+
+            return Mathf.Abs(Avatar.Bounds.center.x - position.x) <= AttackRange;
         }
 
-        public override void MoveTowardsAttackPosition(Target target)
+        public override void MoveTowardsAttackPosition(GM.Units.UnitBaseClass unit)
         {
-            MoveController.MoveTowards(target.Position);
+            MoveController.MoveTowards(GetTargetPositionFromTarget(unit));
         }
 
-        public void OnMeleeAttackImpact()
+        /// <summary>
+        /// Fetch the target position from the unit provided. We use the Avatar to determine which side (Left or Right) to move towards
+        /// </summary>
+        Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
         {
-            Cooldown();
-            DealDamageToTarget();
-
-            if (IsCurrentTargetValid)
+            // Target is LEFT
+            if (Avatar.Bounds.min.x > unit.Avatar.Bounds.max.x)
             {
-                InstantiateAttackImpactObject();
+                return new Vector3(unit.Avatar.Bounds.max.x + AttackRange, transform.position.y);
             }
+            // Target is RIGHT
+            else
+            {
+                return new Vector3(unit.Avatar.Bounds.min.x - AttackRange, transform.position.y);
+            }
+        }
+
+        public void Animation_AttackImpact()
+        {
+            DealDamageToTarget();
+            InstantiateAttackImpactObject();
+        }
+
+        public void Animation_AttackFinished()
+        {
+            _IsAttacking = false;
+            StartCooldown();
         }
 
         void InstantiateAttackImpactObject()
         {
-            Instantiate(AttackImpactObject, CurrentTarget.Avatar.AvatarCenter);
+            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition());
         }
     }
 }

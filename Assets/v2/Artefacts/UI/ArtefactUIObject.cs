@@ -15,7 +15,7 @@ namespace GM.Artefacts.UI
 
         protected virtual void OnAssigned() { }
 
-        protected Data.ArtefactData AssignedArtefact => App.Data.Artefacts.GetArtefact(AssignedArtefactId);
+        protected Data.ArtefactData AssignedArtefact => App.GMData.Artefacts.GetArtefact(AssignedArtefactId);
 
         protected string GetBonusText() => Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
     }

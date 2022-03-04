@@ -6,7 +6,7 @@ from bson import ObjectId
 from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument, Field
-from src.routing import ServerRequest
+from src.request import ServerRequest
 
 
 def armoury_repository(request: ServerRequest) -> ArmouryRepository:
@@ -59,23 +59,11 @@ class ArmouryRepository:
 
         return ArmouryItemModel.parse_obj(r) if r is not None else None
 
-    async def inc_item_owned(
-        self, uid: ObjectId, iid: int, val: int
-    ) -> Optional[ArmouryItemModel]:
-        return await self.update_item(
-            uid, iid, {"$inc": {Fields.NUM_OWNED: val}}, upsert=True
-        )
+    async def inc_item_owned(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
+        return await self.update_item(uid, iid, {"$inc": {Fields.NUM_OWNED: val}}, upsert=True)
 
-    async def inc_item_level(
-        self, uid: ObjectId, iid: int, val: int
-    ) -> Optional[ArmouryItemModel]:
-        return await self.update_item(
-            uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False
-        )
+    async def inc_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
+        return await self.update_item(uid, iid, {"$inc": {Fields.LEVEL: val}}, upsert=False)
 
-    async def inc_merge_item_level(
-        self, uid: ObjectId, iid: int, val: int
-    ) -> Optional[ArmouryItemModel]:
-        return await self.update_item(
-            uid, iid, {"$inc": {Fields.MERGE_LEVEL: val}}, upsert=False
-        )
+    async def inc_merge_item_level(self, uid: ObjectId, iid: int, val: int) -> Optional[ArmouryItemModel]:
+        return await self.update_item(uid, iid, {"$inc": {Fields.MERGE_LEVEL: val}}, upsert=False)

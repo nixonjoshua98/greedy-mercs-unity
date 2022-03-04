@@ -138,7 +138,7 @@ namespace GM.Bounties.Data
             }
         }
 
-        public bool GetStageBounty(int stage, out Models.BountyGameData result)
+        public bool TryGetStageBounty(int stage, out Models.BountyGameData result)
         {
             result = default;
 
@@ -181,7 +181,7 @@ namespace GM.Bounties.Data
                 {
                     UserData.LastClaimTime = resp.ClaimTime;
 
-                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.GMData.Inv.UpdateCurrencies(resp.CurrencyItems);
 
                     App.Events.BountyPointsChanged.Invoke(resp.PointsClaimed);
                 }

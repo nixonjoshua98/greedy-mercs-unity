@@ -36,7 +36,7 @@ namespace GM.Artefacts.UI
             // Disable some elements while the animation is running
             DestroyButton.interactable = UnlockButton.interactable = false;
 
-            List<ArtefactGameDataModel> artefacts = App.Data.Artefacts.GameArtefactsList;
+            List<ArtefactGameDataModel> artefacts = App.GMData.Artefacts.GameArtefactsList;
 
             while (animationTimer > 0.0f)
             {
@@ -67,14 +67,14 @@ namespace GM.Artefacts.UI
         {
             UnlockButton.interactable = true;
 
-            BigInteger unlockCost = App.Cache.ArtefactUnlockCost(App.Data.Artefacts.NumUnlockedArtefacts);
+            BigInteger unlockCost = App.GMCache.ArtefactUnlockCost(App.GMData.Artefacts.NumUnlockedArtefacts);
 
-            if (unlockCost > App.Data.Inv.PrestigePoints)
+            if (unlockCost > App.GMData.Inv.PrestigePoints)
             {
                 UnlockButton.interactable = false;
                 UnlockButtonText.text = "Cannot Afford";
             }
-            else if (App.Data.Artefacts.UserUnlockedAll)
+            else if (App.GMData.Artefacts.UserUnlockedAll)
             {
                 UnlockButton.interactable = false;
                 UnlockButtonText.text = "Unlocked all";
@@ -87,7 +87,7 @@ namespace GM.Artefacts.UI
 
         public void OnUnlockButton()
         {
-            App.Data.Artefacts.UnlockArtefact((success, artefact) =>
+            App.GMData.Artefacts.UnlockArtefact((success, artefact) =>
             {
                 if (success)
                 {

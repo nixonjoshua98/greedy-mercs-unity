@@ -36,8 +36,8 @@ namespace GM.Upgrades.Data
             {
                 return Id switch
                 {
-                    UpgradeID.FLAT_TAP_DMG => App.Cache.MinorTapUpgradeDamage,
-                    UpgradeID.MULT_TAP_DMG => App.Cache.MajorTapUpgradeDamage,
+                    UpgradeID.FLAT_TAP_DMG => App.GMCache.MinorTapUpgradeDamage,
+                    UpgradeID.MULT_TAP_DMG => App.GMCache.MajorTapUpgradeDamage,
                     _ => throw new System.Exception()
                 };
             }

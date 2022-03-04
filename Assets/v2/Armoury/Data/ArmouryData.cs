@@ -82,7 +82,7 @@ namespace GM.Armoury.Data
                 {
                     Update(resp.Item);
 
-                    App.Data.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.GMData.Inv.UpdateCurrencies(resp.CurrencyItems);
                 }
 
                 call(resp.StatusCode == HTTP.HTTPCodes.Success, resp);

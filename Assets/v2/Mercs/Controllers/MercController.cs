@@ -1,151 +1,98 @@
 using GM.Common.Enums;
-using GM.Controllers;
-using GM.Targets;
 using UnityEngine.Events;
-using UnityEngine;
 using GM.Units;
-using Random = UnityEngine.Random;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
-    public interface IMercController : IUnitController
+    public class MercController : Units.UnitBaseClass
     {
-        UnityEvent<BigDouble> OnDamageDealt { get; set; }
+        public UnitID Id;
 
-        void Pause();
-        void Resume();
-        void SetPriorityTarget(Target target);
-    }
-
-    public class MercController : UnitController, IMercController
-    {
-        public MercID Id;
-        public UnitAvatar Avatar;
+        [Header("Components")]
+        [SerializeField] MovementController Movement;
 
         // = Controllers = //
-        IAttackController AttackController;
-
-        Target CurrentTarget;
-
-        // = States = //
-        bool IsPaused { get; set; } = false;
-        bool IsTargetPriority { get; set; } = false;
+        GM.Units.UnitBaseClass CurrentTarget;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
 
-        ITargetManager TargetManager;
+        // Interfaces
+        IAttackController AttackController;
+
+        // Managers
+        IEnemyUnitFactory UnitManager;
+        GameManager GameManager;
+        ISquadController SquadController;
+
+        // ...
+        GM.Mercs.Data.MercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
+
 
         void Awake()
         {
             GetComponents();
         }
 
-        protected override void GetComponents()
+        protected void GetComponents()
         {
-            base.GetComponents();
+            UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
+            GameManager = this.GetComponentInScene<GameManager>();
+            SquadController = this.GetComponentInScene<ISquadController>();
 
             AttackController = GetComponent<IAttackController>();
-            TargetManager = this.GetComponentInScene<ITargetManager>();         
-
-            GMLogger.WhenNull(TargetManager, "Fatal: TargetManager is Null");
-            GMLogger.WhenNull(Movement, "IMovementController is Null");
-            GMLogger.WhenNull(AttackController, "IAttackController is Null");
         }
 
         void FixedUpdate()
         {
-            // Pausing the controller generally means the merc is being controlled from outside
-            if (IsPaused)
-            {
+            int idx = SquadController.GetQueuePosition(Id);
 
-            }
-
-            // Target is marked as a priority ( should find a better name ) which means in this context
-            // that the merc will start attacking the target and ignore all position checks
-            else if (IsTargetPriority && CanAttackPriorityTarget)
+            if (idx == 0)
             {
-                Movement.LookAt(CurrentTarget.Position);
-
-                StartAttack();
-            }
-
-            else
-            {
-                AttackLoop();
-            }
-        }
-
-        void AttackLoop()
-        {
-            if (!IsCurrentTargetValid)
-            {
-                TargetManager.TryGetMercTarget(ref CurrentTarget);
-            }
-            else
-            {
-                if (AttackController.IsAvailable)
+                if (!AttackController.IsTargetValid(CurrentTarget))
                 {
-                    if (!AttackController.InAttackPosition(CurrentTarget))
+                    UnitManager.TryGetEnemyUnit(out CurrentTarget);
+                }
+                else if (!AttackController.IsAttacking)
+                {
+                    if (!AttackController.IsWithinAttackDistance(CurrentTarget))
                     {
                         AttackController.MoveTowardsAttackPosition(CurrentTarget);
                     }
-                    else
+
+                    else if (AttackController.IsAvailable)
                     {
-                        StartAttack();
+                        AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
                     }
+                }
+            }
+
+            else if (idx > 0)
+            {
+                UnitBaseClass unit = SquadController.GetUnitAtQueuePosition(idx - 1);
+
+                Vector3 targetPosition = unit.Avatar.Bounds.min - new Vector3(3, 0);
+
+                if (transform.position != targetPosition)
+                {
+                    Movement.MoveTowards(targetPosition);
+                }
+                else
+                {
+                    Avatar.PlayAnimation(Avatar.Animations.Idle);
                 }
             }
         }
 
-        bool CanAttackPriorityTarget => AttackController.IsAvailable && IsCurrentTargetValid;
-        bool IsCurrentTargetValid => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
-
-        void StartAttack()
+        protected void DealDamageToTarget(GM.Units.UnitBaseClass attackTarget)
         {
-            AttackController.StartAttack(CurrentTarget, DealDamageToTarget);
-        }
+            BigDouble dmg = MercDataValues.DamagePerAttack;
 
-
-        protected void DealDamageToTarget(Target attackTarget)
-        {
-            if (attackTarget.GameObject.TryGetComponent(out HealthController health))
+            if (GameManager.DealDamageToTarget(dmg))
             {
-                BigDouble dmg = App.Data.Mercs.GetMerc(Id).DamagePerAttack;
-
-                App.Cache.ApplyCritHit(ref dmg);
-
-                health.TakeDamage(dmg);
-
                 OnDamageDealt.Invoke(dmg);
             }
-        }
-
-        public void Pause()
-        {
-            IsPaused = true;
-            AttackController.Reset();
-        }
-
-        public void Resume()
-        {
-            IsPaused = false;
-        }
-
-        public void Idle()
-        {
-            Avatar.PlayAnimation(Avatar.AnimationStrings.Idle);
-        }
-
-        public void SetPriorityTarget(Target target)
-        {
-            CurrentTarget = target;
-            IsTargetPriority = true;
-
-            GMLogger.WhenNull(target.Health, "Fatal Error: Priority target health is Null");
-
-            // Reset the flag once the target has been defeated
-            target.Health.OnZeroHealth.AddListener(() => { IsTargetPriority = false; });
         }
     }
 }

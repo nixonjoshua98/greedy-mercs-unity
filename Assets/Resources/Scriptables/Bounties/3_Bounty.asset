@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Goblin
   Icon: {fileID: 21300000, guid: aedcaac2e4aee3c4ca987ae168074dfa, type: 3}
-  Prefab: {fileID: 5637605409151643745, guid: a948087f93fbd7342a043fa2e9d31981, type: 3}
+  Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1, type: 3}

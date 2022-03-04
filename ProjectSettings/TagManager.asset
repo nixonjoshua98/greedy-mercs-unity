@@ -11,6 +11,8 @@ TagManager:
   - EnemyHealthbar
   - PopupNumbersCanvas
   - FxTemporaire
+  - DamageNumbersParent
+  - EnemyBossUnitHealthBar
   layers:
   - Default
   - TransparentFX
@@ -50,4 +52,10 @@ TagManager:
     locked: 0
   - name: Particle System
     uniqueID: 1953722343
+    locked: 0
+  - name: Units
+    uniqueID: 651508985
+    locked: 0
+  - name: Foreground
+    uniqueID: 2576528843
     locked: 0

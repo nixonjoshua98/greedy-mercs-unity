@@ -33,7 +33,7 @@ namespace GM.Artefacts.Data
         public float BaseEffect => Game.BaseEffect;
         public float CostExpo => Game.CostExpo;
         public float CostCoeff => Game.CostCoeff;
-        public BigDouble Effect => App.Cache.ArtefactEffect(this);
+        public BigDouble Effect => App.GMCache.ArtefactEffect(this);
         public bool IsMaxLevel => User.Level >= Game.MaxLevel;
     }
 }

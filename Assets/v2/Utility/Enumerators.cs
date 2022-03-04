@@ -13,11 +13,6 @@ namespace GM
             callback.Invoke();
         }
 
-        public static IEnumerator InvokeAfter(IEnumerator coroutine, Action action)
-        {
-            yield return coroutine;
-
-            action.Invoke();
-        }
+        public static void InvokeAfter(MonoBehaviour mono, Func<bool> predicate, Action callback) => mono.StartCoroutine(InvokeAfter(predicate, callback));
     }
 }

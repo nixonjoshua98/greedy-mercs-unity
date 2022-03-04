@@ -6,6 +6,46 @@ from src.mongo.repositories.artefacts import ArtefactModel
 from src.resources.artefacts import StaticArtefact
 
 
+def create_bonus_dict(ls: list[tuple[int, float]]) -> dict[int, float]:
+    d: dict[int, float] = {}
+
+    for bonus, value in ls:
+        current: float = d.get(bonus)
+
+        if current is None:
+            d[bonus] = value
+
+        else:
+            d[bonus] = {
+
+            }.get(
+                bonus,
+                current * value
+            )
+
+    return d
+
+
+def create_artefacts_bonus_list(
+    user_artefacts: list[ArtefactModel],
+    static_artefacts: dict[int, StaticArtefact]
+) -> list[tuple[int, float]]:
+    """
+
+    """
+    ls: list[tuple[int, float]] = []
+
+    for user_artefact in user_artefacts:
+        static_artefact = static_artefacts.get(user_artefact.artefact_id)
+
+        if static_artefact:
+            bonus = artefact_base_effect(user_artefact, static_artefact)
+
+            ls.append((static_artefact.bonus_type, bonus))
+
+    return ls
+
+
 def artefacts_bonus_product(
     bonus_type: BonusType, u_arts: list[ArtefactModel], s_arts: list[StaticArtefact]
 ):
@@ -24,9 +64,7 @@ def artefact_base_effect(u_art: ArtefactModel, s_art: StaticArtefact) -> float:
 
 
 def artefact_upgrade_cost(s_art: StaticArtefact, current: int, buying: int) -> int:
-    return math.ceil(
-        s_art.cost_coeff * sum_non_int_power_seq(current, buying, s_art.cost_expo)
-    )
+    return math.ceil(s_art.cost_coeff * sum_non_int_power_seq(current, buying, s_art.cost_expo))
 
 
 def base_points_at_stage(stage: int):

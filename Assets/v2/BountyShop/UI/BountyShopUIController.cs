@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace GM.BountyShop.UI
 {
@@ -20,13 +21,13 @@ namespace GM.BountyShop.UI
 
         void InstantiateItemSlots()
         {
-            App.Data.BountyShop.CurrencyItems.ForEach(item => Instantiate<BountyShopCurrencyTypeSlot>(CurrencyItemSlotObject, ItemsParent).Assign(item));
-            App.Data.BountyShop.ArmouryItems.ForEach(item => Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item));
+            App.GMData.BountyShop.CurrencyItems.ForEach(item => Instantiate<BountyShopCurrencyTypeSlot>(CurrencyItemSlotObject, ItemsParent).Assign(item));
+            App.GMData.BountyShop.ArmouryItems.ForEach(item => Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item));
         }
 
         void FixedUpdate()
         {
-            RefreshText.text = $"Daily Shop | <color=orange>{App.Data.TimeUntilDailyReset.Format()}</color>";
+            RefreshText.text = $"Daily Shop | <color=orange>{(GMData.NextDailyReset - DateTime.UtcNow).Format()}</color>";
         }
     }
 }

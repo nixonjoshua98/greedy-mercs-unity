@@ -24,20 +24,20 @@ namespace GM.Core
             return false;
         }
 
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => App.Data.Upgrades.Upgrades.Values.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.Value));
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => App.GMData.Upgrades.Upgrades.Values.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.Value));
         List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
         {
             get
             {
                 List<KeyValuePair<BonusType, BigDouble>> ls = new List<KeyValuePair<BonusType, BigDouble>>();
 
-                App.Data.Mercs.UnlockedMercs.ForEach(m => ls.AddRange(m.UnlockedPassives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.Type, x.Value))));
+                App.GMData.Mercs.UnlockedMercs.ForEach(m => ls.AddRange(m.UnlockedPassives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.Values.Type, x.Values.Value))));
 
                 return ls;
             }
         }
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArtefactBonuses => App.Data.Artefacts.UserOwnedArtefacts.Select(s => new KeyValuePair<BonusType, BigDouble>(s.Bonus, s.Effect));
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArmouryBonuses => App.Data.Armoury.UserItems.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue));
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArtefactBonuses => App.GMData.Artefacts.UserOwnedArtefacts.Select(s => new KeyValuePair<BonusType, BigDouble>(s.Bonus, s.Effect));
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArmouryBonuses => App.GMData.Armoury.UserItems.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue));
 
         Dictionary<BonusType, BigDouble> CombinedBonuses
         {
@@ -98,13 +98,13 @@ namespace GM.Core
         #endregion
 
         #region Minor Tap Upgrade
-        public BigDouble MinorTapUpgradeCost(int levels) => GameFormulas.MinorTapUpgradeCost(App.Data.Upgrades.MinorTapUpgrade.Level, levels);
-        public BigDouble MinorTapUpgradeDamage => GameFormulas.MinorTapUpgradeBonusValue(App.Data.Upgrades.MinorTapUpgrade.Level);
+        public BigDouble MinorTapUpgradeCost(int levels) => GameFormulas.MinorTapUpgradeCost(App.GMData.Upgrades.MinorTapUpgrade.Level, levels);
+        public BigDouble MinorTapUpgradeDamage => GameFormulas.MinorTapUpgradeBonusValue(App.GMData.Upgrades.MinorTapUpgrade.Level);
         #endregion
 
         #region Major Tap Upgrade
-        public BigDouble MajorTapUpgradeCost(int levels) => GameFormulas.MajorTapUpgradeCost(App.Data.Upgrades.MajorTapUpgrade.Level, levels);
-        public BigDouble MajorTapUpgradeDamage => GameFormulas.MajorTapUpgradeBonusValue(App.Data.Upgrades.MajorTapUpgrade.Level);
+        public BigDouble MajorTapUpgradeCost(int levels) => GameFormulas.MajorTapUpgradeCost(App.GMData.Upgrades.MajorTapUpgrade.Level, levels);
+        public BigDouble MajorTapUpgradeDamage => GameFormulas.MajorTapUpgradeBonusValue(App.GMData.Upgrades.MajorTapUpgrade.Level);
         #endregion
 
         #region Artefacts

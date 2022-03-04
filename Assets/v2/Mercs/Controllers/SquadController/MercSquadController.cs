@@ -1,180 +1,78 @@
-using GM.Mercs.Models;
-using GM.Units.Formations;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using MercID = GM.Common.Enums.MercID;
-
+using UnitID = GM.Common.Enums.UnitID;
+using GM.Units;
 
 namespace GM.Mercs
 {
-    public class MercSquadController : Core.GMMonoBehaviour
-    {      
-        [SerializeField] private UnitFormation MercFormation;
+    public interface ISquadController
+    {
+        bool TryGetFrontUnitQueue(out UnitBaseClass unit);
 
-        // Array which can contain nulls to preserve indexing
-        SquadMerc[] FormationSpots { get; set; } = new SquadMerc[Common.Constants.MAX_SQUAD_SIZE];
+        void AddMercToSquad(UnitID mercId);
+        void RemoveMercFromSquad(UnitID mercId);
+        int GetQueuePosition(UnitID unit);
+        UnitBaseClass GetUnitAtQueuePosition(int idx);
+    }
 
-        // Return only non-null elements
-        public List<SquadMerc> Mercs => FormationSpots.Where(x => x != null).ToList();
+
+    public class MercSquadController : Core.GMMonoBehaviour, ISquadController
+    {
+        Dictionary<UnitID, UnitBaseClass> Units { get; set; } = new Dictionary<UnitID, UnitBaseClass>();
+
 
         // Current positions of the mercs in the squad
-        public List<Vector3> MercPositions => Mercs.Select(x => x.Position).ToList();
-
-        // Formation positions used i nthe current (or previous) formation
-        List<Vector2> CurrentFormationPositions;
-
-        // = States = //
-        public bool IsMovingToFormation { get; private set; }
+        public List<Vector3> MercPositions => Units.Values.Select(x => x.gameObject.transform.position).ToList();
 
         // = Events = //
-        public UnityEvent<SquadMerc> OnUnitAddedToSquad { get; set; } = new UnityEvent<SquadMerc>();
+        public UnityEvent<UnitBaseClass> OnUnitAddedToSquad { get; set; } = new UnityEvent<UnitBaseClass>();
 
-        /// <summary> Take control of each merc and move them into formation </summary>
-        public void MoveMercsToFormation(Action<SquadMerc> mercCallback, Action callback)
+        void Awake()
         {
-            IEnumerator coro = Enumerators.InvokeAfter(MoveSquadIntoFormation(mercCallback), callback);
-
-            StartCoroutine(coro);
-        }
-
-        IEnumerator MoveSquadIntoFormation(Action<SquadMerc> onMercReachedPosition)
-        {
-            Vector2 center = new Vector3(MercPositions.Average(pos => pos.x) + 1.5f, Common.Constants.CENTER_BATTLE_Y);
-
-            // Set the formation positions so we can use it elsewhere
-            CurrentFormationPositions = MercFormation.Positions(center);
-
-            // Set some state variables
-            bool isAnyMercMoving = true;
-            IsMovingToFormation = true;
-
-            // Prepare a dictionary for distances
-            var distanceFromSpots = new Dictionary<int, float>();
-
-            while (isAnyMercMoving)
+            foreach (var squadMerc in GMData.Mercs.MercsInSquad)
             {
-                yield return new WaitForFixedUpdate();
-
-                isAnyMercMoving = false;
-
-                // Iterate over the spots to keep indexes
-                for (int i = 0; i < FormationSpots.Length; ++i)
-                {
-                    SquadMerc merc = FormationSpots[i];
-
-                    if (merc == null)
-                    {
-                        distanceFromSpots[i] = float.MaxValue;
-                        continue;
-                    }
-
-                    merc.Controller.Pause(); // Take control of the unit
-
-                    Vector3 position = CurrentFormationPositions[i].ToVector3();
-
-                    // Current distance to the target
-                    float distToPosition = Vector2.Distance(merc.Position, position);
-
-                    // Distance from the target last update. Used to check if the unit has just reached the spot
-                    float prevDistance = distanceFromSpots.Get(i, float.MaxValue);
-
-                    // Unit is now in position
-                    if (prevDistance > 0 && distToPosition == 0)
-                    {
-                        onMercReachedPosition.Invoke(merc);
-
-                        merc.Controller.Idle();
-                    }
-
-                    // Unit needs to move towards the position
-                    else if (distToPosition > 0)
-                    {
-                        isAnyMercMoving = true;
-
-                        merc.Controller.MoveTowards(position);
-                    }
-
-                    distanceFromSpots[i] = distToPosition;
-                }
+                AddMercToSquad(squadMerc);
             }
-
-            IsMovingToFormation = false;
         }
 
-        public bool AddMercToSquad(MercID mercId)
+        public bool TryGetFrontUnitQueue(out UnitBaseClass unit)
         {
-            Vector2 pos = new Vector2(Camera.main.MinBounds().x - 1.0f, Common.Constants.CENTER_BATTLE_Y);
+            unit = Units.Count == 0 ? null : GetUnitAtQueuePosition(0);
+            return unit != null;
+        }
 
-            MercGameDataModel data = App.Data.Mercs.GetGameMerc(mercId);
+        public UnitBaseClass GetUnitAtQueuePosition(int idx) => Units[Units.Keys.ToList()[idx]];
+        public int GetQueuePosition(UnitID unit) => Units.Keys.FindIndexWhere(x => x == unit);
+        public UnitBaseClass GetUnitQueueLast() => GetUnitAtQueuePosition(Units.Keys.Count - 1);
+
+        public void AddMercToSquad(UnitID mercId)
+        {
+            Vector2 pos = new Vector2(Camera.main.MinBounds().x - 1.5f, Common.Constants.CENTER_BATTLE_Y);
+
+            StaticMercData data = App.GMData.Mercs.GetGameMerc(mercId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
-            int squadIndex = GetAvailableFormationSpot();
+            UnitBaseClass unit = o.GetComponent<UnitBaseClass>();
 
-            if (squadIndex >= 0)
-            {
-                var merc = new SquadMerc(o);
+            Units[mercId] = unit;
 
-                FormationSpots[squadIndex] = merc;
+            App.PersistantLocalFile.SquadMercIDs.Add(mercId);
 
-                OnUnitAddedToSquad.Invoke(merc);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            OnUnitAddedToSquad.Invoke(unit);
         }
 
-        public void MoveMercToFormation(MercID mercId)
+        public void RemoveMercFromSquad(UnitID mercId)
         {
-            int index = GetFormationIndex(mercId);
+            App.PersistantLocalFile.SquadMercIDs.Remove(mercId);
 
-            if (index >= 0)
-            {
-                SquadMerc merc = FormationSpots[index];
+            UnitBaseClass unit = Units[mercId];
 
-                merc.Position = CurrentFormationPositions[index];
+            Units.Remove(mercId);
 
-                merc.Controller.Idle();
-            }
-            else
-            {
-                Debug.Log("Fatal: Attempted to move idle merc to formation");
-            }
-        }
-
-        public bool RemoveMercFromSquad(MercID mercId)
-        {
-            int index = GetFormationIndex(mercId);
-
-            if (index >= 0)
-            {
-                Destroy(FormationSpots[index].GameObject);
-
-                FormationSpots[index] = null;
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        int GetFormationIndex(MercID mercId)
-        {
-            return FormationSpots.FindIndexWhere(merc => merc != null && merc.Controller.Id == mercId);
-        }
-
-        int GetAvailableFormationSpot()
-        {
-            return Array.FindIndex(FormationSpots, (merc) => merc == null);
+            Destroy(unit.gameObject);
         }
     }
 }

@@ -23,9 +23,9 @@ namespace GM.Mercs.UI
             DamageSlider.value = 0;
         }
 
-        public void UpdateValues(MercID mercId, BigDouble val, float percent)
+        public void UpdateValues(UnitID mercId, BigDouble val, float percent)
         {
-            MercIconImage.sprite = App.Data.Mercs.GetGameMerc(mercId).Icon;
+            MercIconImage.sprite = App.GMData.Mercs.GetGameMerc(mercId).Icon;
 
             DamagePercentText.text = Format.Percentage(percent);
             DamageText.text = Format.Number(val);

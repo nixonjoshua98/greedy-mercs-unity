@@ -1,57 +1,62 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 using System;
-using UnityEngine.Events;
-using GM.Targets;
+using System.Collections;
+using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
     public interface IAttackController
     {
+        public bool IsTargetValid(GM.Units.UnitBaseClass obj);
         public bool IsAvailable { get; }
+        public bool IsAttacking { get; }
 
-        void Reset();
-
-        void StartAttack(Target target, Action<Target> callback);
-        bool InAttackPosition(Target target);
-        void MoveTowardsAttackPosition(Target target);
+        void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback);
+        bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
+        void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
     }
+
 
     public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
     {
-        public float CooldownTimer = 1.0f;
+        [SerializeField]
+        float CooldownTimer = 1.0f;
 
-        protected Target CurrentTarget;
-        Action<Target> DealDamageToTargetAction;
+        protected GM.Units.UnitBaseClass CurrentTarget;
+        Action<GM.Units.UnitBaseClass> DealDamageToTargetAction;
 
-        // = State Variables = //
-        protected bool isAttacking;
-        protected bool isOnCooldown;
+        // State
+        protected bool _IsAttacking;
+        public bool IsAttacking { get => _IsAttacking; }
 
-        // = Properties = //
-        protected bool IsCurrentTargetValid => !(CurrentTarget == null || CurrentTarget.GameObject == null || CurrentTarget.Health.IsDead);
-        public bool IsAvailable => !isOnCooldown && !isAttacking;
+        protected bool IsOnCooldown;
+        public bool IsAvailable => !IsOnCooldown && !_IsAttacking;
+        // ...
 
-        public abstract bool InAttackPosition(Target target);
-        public abstract void MoveTowardsAttackPosition(Target target);
 
-        public virtual void StartAttack(Target target, Action<Target> callback)
+        public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
+        public abstract void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
+
+        public bool IsTargetValid(GM.Units.UnitBaseClass obj)
         {
-            isAttacking = true;
+            if (obj == null)
+                return false;
+
+            GM.Controllers.HealthController health = obj.GetComponent<GM.Controllers.HealthController>();
+
+            return !health.IsDead;
+        }
+
+        public virtual void StartAttack(GM.Units.UnitBaseClass target, Action<GM.Units.UnitBaseClass> callback)
+        {
+            _IsAttacking = true;
             CurrentTarget = target;
             DealDamageToTargetAction = callback;
         }
 
-        public void Reset()
-        {
-            isAttacking = false;
-            CurrentTarget = null;
-        }
-
         protected void DealDamageToTarget()
         {
-            if (CurrentTarget == null || CurrentTarget.GameObject == null)
+            if (CurrentTarget == null)
             {
                 GMLogger.Editor("Attempted to deal damage to destroyed target");
             }
@@ -63,16 +68,20 @@ namespace GM.Mercs.Controllers
 
         protected void Cooldown()
         {
-            isAttacking = false;
+            _IsAttacking = false;
+            StartCooldown();
+        }
 
+        protected void StartCooldown()
+        {
             StartCoroutine(CooldownTask());
         }
 
         IEnumerator CooldownTask()
         {
-            isOnCooldown = true;
+            IsOnCooldown = true;
             yield return new WaitForSecondsRealtime(CooldownTimer);
-            isOnCooldown = false;
+            IsOnCooldown = false;
         }
     }
 }

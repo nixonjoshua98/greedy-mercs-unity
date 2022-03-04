@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace GM.Mercs.UI
 {
@@ -22,9 +20,9 @@ namespace GM.Mercs.UI
         public Image IconBackgroundImage;
         public TMP_Text BonusText;
 
-        GM.Mercs.Models.MercPassiveDataModel AssignedPassive;
+        MercPassiveReference AssignedPassive;
 
-        public void Assign(GM.Mercs.Models.MercPassiveDataModel passive, bool isUnlocked)
+        public void Assign(MercPassiveReference passive, bool isUnlocked)
         {
             AssignedPassive = passive;
 
@@ -33,9 +31,10 @@ namespace GM.Mercs.UI
 
         void Toggle(bool isUnlocked)
         {
-            UnlockLevelText.text = AssignedPassive.UnlockLevel.ToString();
+            UnlockLevelText.text = $"Level <color=orange>{AssignedPassive.UnlockLevel}</color>";
             IconBackgroundImage.sprite = isUnlocked ? BackgroundSprites.UnlockedSprite : BackgroundSprites.LockedSprite;
-            BonusText.text = Format.Bonus(AssignedPassive.Type, AssignedPassive.Value);
+            BonusText.text = Format.Bonus(AssignedPassive.Values.Type, AssignedPassive.Values.Value);
+            BonusText.text = $"<color=orange>{Format.Number(AssignedPassive.Values.Value, AssignedPassive.Values.Type)}</color> {Format.Bonus(AssignedPassive.Values.Type)}";
         }
     }
 }

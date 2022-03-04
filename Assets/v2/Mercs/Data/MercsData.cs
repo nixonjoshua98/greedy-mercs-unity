@@ -1,106 +1,131 @@
-using GM.Mercs.Models;
+using GM.Common.Enums;
+using GM.Common.Interfaces;
 using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using MercID = GM.Common.Enums.MercID;
+using GM.LocalFiles;
 
 namespace GM.Mercs.Data
 {
-    public class MercsData : Core.GMClass
+    public class MercsData : Core.GMClass, ILocalStateFileSerializer
     {
-        Dictionary<MercID, MercGameDataModel> StaticMercDataLookup;
-        Dictionary<MercID, MercUserData> UserMercDataLookup = new Dictionary<MercID, MercUserData>();
+        Dictionary<UnitID, UserMercState> UserMercs = new Dictionary<UnitID, UserMercState>();
+        Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
 
-        public MercsData(Common.Interfaces.IServerUserData userData, List<MercGameDataModel> staticData)
+        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local, PersistantLocalFile persistLocalFile)
         {
-            SetStaticGameData(staticData);
-            UpdateUserData(userData.UnlockedMercs);
+            Update(userData, staticData, local);
         }
 
-        public void ResetLevels(int level = 1)
+        public void Update(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local)
         {
-            foreach (MercUserData merc in UserMercDataLookup.Values)
+            SetDefaultMercStates(userData);
+
+            // We have existing local data
+            if (!(local == null || local.Mercs == null))
+                SetStatesFromSaveFile(local);
+
+            SetStaticData(staticData);
+        }
+
+        public void DeleteSoftData()
+        {
+            var copy = UserMercs;
+
+            // .Clear() would clear the copy too
+            UserMercs = new Dictionary<UnitID, UserMercState>();
+
+            foreach (var pair in copy)
             {
-                merc.Level = level;
+                UserMercs[pair.Key] = new UserMercState(pair.Key);
             }
+        }
+
+        void SetStatesFromSaveFile(LocalSaveFileModel model)
+        {
+            foreach (var merc in model.Mercs)
+            {
+                UserMercs[merc.ID] = merc;
+            }
+        }
+
+        void SetDefaultMercStates(IServerUserData data)
+        {
+            foreach (var merc in data.UnlockedMercs)
+            {
+                UserMercs[merc.ID] = new UserMercState(merc.ID);
+            }
+        }
+
+        public void UpdateLocalSaveFile(ref LocalSaveFileModel model)
+        {
+            model.Mercs = UserMercs.Values.ToList();
+        }
+
+        void SetStaticData(IStaticGameData data)
+        {
+            Dictionary<int, MercPassive> passives = data.Mercs.Passives.ToDictionary(x => x.ID, x => x);
+            List<StaticMercData> mercs = data.Mercs.Mercs;
+
+            var allLocalMercData = LoadLocalData();
+
+            for (int i = 0; i < mercs.Count; i++)
+            {
+                StaticMercData merc = mercs[i];
+
+                if (!allLocalMercData.TryGetValue(merc.ID, out MercScriptableObject localData))
+                {
+                    Debug.LogWarning($"Missing data for '{merc.ID}'");
+                    continue;
+                }
+
+                merc.Icon = localData.Icon;
+                merc.Prefab = localData.Prefab;
+
+                UpdateMercPassivesFromReferences(ref merc, in passives);
+
+                StaticMercs[merc.ID] = merc;
+            }
+        }
+
+        /// <summary>
+        /// Set the merc passives using the static data
+        /// </summary>
+        void UpdateMercPassivesFromReferences(ref StaticMercData merc, in Dictionary<int, MercPassive> passives)
+        {
+            foreach (MercPassiveReference reference in merc.Passives)
+            {
+                if (passives.TryGetValue(reference.PassiveID, out MercPassive passive))
+                {
+                    reference.Values = passive;
+                }
+            }
+
+            merc.Passives.RemoveAll((p) => p.Values == null);
         }
 
         /// <summary> Load local scriptable merc data </summary>
-        Dictionary<MercID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
+        Dictionary<UnitID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
-        /// <summary> Update the game data </summary>
-        void SetStaticGameData(List<MercGameDataModel> data)
-        {
-            StaticMercDataLookup = data.ToDictionary(x => x.Id, x => x);
+        /// <summary>
+        /// Fetch the data about a merc
+        /// </summary>
+        public StaticMercData GetGameMerc(UnitID key) => StaticMercs[key];
 
-            UpdateStaticGameDataWithLocalData();
+        /// <summary>
+        /// Fetch the aggregated dataclass for the unit
+        /// </summary>
+        public MercData GetMerc(UnitID key) => new MercData(StaticMercs[key], UserMercs[key]);
 
-            AddDefaultUnits();
-        }
+        /// <summary> 
+        /// Fetch the full data for all user unlocked mercs
+        /// </summary>
+        public List<MercData> UnlockedMercs => UserMercs.Select(pair => GetMerc(pair.Key)).ToList();
 
-        void UpdateStaticGameDataWithLocalData()
-        {
-            var allLocalMercData = LoadLocalData();
-
-            foreach (var pair in StaticMercDataLookup)
-            {
-                MercGameDataModel model = pair.Value;
-
-                MercScriptableObject local = allLocalMercData[pair.Key];
-
-                model.Name = local.Name;
-                model.Icon = local.Icon;
-                model.Prefab = local.Prefab;
-                model.AttackType = local.AttackType;
-            }
-        }
-
-        void UpdateUserData(List<UserMercDataModel> ls)
-        {
-            foreach (var merc in ls)
-            {
-                if (!UserMercDataLookup.ContainsKey(merc.Id))
-                    UserMercDataLookup[merc.Id] = new MercUserData();
-            }
-
-            AddDefaultUnits();
-        }
-
-        void AddDefaultUnits()
-        {
-            foreach (var pair in StaticMercDataLookup)
-            {
-                MercID mercId = pair.Key;
-                MercGameDataModel model = pair.Value;
-
-                if (!UserMercDataLookup.ContainsKey(mercId) && model.IsDefault)
-                    UserMercDataLookup[mercId] = new MercUserData();
-            }
-        }
-
-        public void AddMercToSquad(MercID mercId)
-        {
-            UserMercDataLookup[mercId].InDefaultSquad = true;
-        }
-
-        public void RemoveMercFromSquad(MercID mercId)
-        {
-            UserMercDataLookup[mercId].InDefaultSquad = false;
-        }
-
-        /// <summary> Fetch the data about a merc </summary>
-        public MercGameDataModel GetGameMerc(MercID key) => StaticMercDataLookup[key];
-
-        /// <summary> Fetch user merc data </summary>
-        MercUserData GetUserMerc(MercID key) => UserMercDataLookup[key];
-
-        public MercData GetMerc(MercID key) => new MercData(GetGameMerc(key), GetUserMerc(key));
-
-        /// <summary> Check if the user has unlocked a merc </summary>
-        public bool IsMercUnlocked(MercID chara) => UserMercDataLookup.ContainsKey(chara);
-
-        /// <summary> Fetch the full data for all user unlocked mercs </summary>
-        public List<MercData> UnlockedMercs => UserMercDataLookup.Select(pair => GetMerc(pair.Key)).ToList();
+        /// <summary>
+        /// Unit IDs for the units currently in the squad
+        /// </summary>
+        public List<UnitID> MercsInSquad => UserMercs.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
     }
 }

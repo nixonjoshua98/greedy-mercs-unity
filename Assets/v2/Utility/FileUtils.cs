@@ -18,35 +18,42 @@ namespace GM
 
         public static void DeleteFile(string path) => File.Delete(ResolvePath(path));
 
-        public static FileStatus LoadModel<T>(string path, out T result)
+        public static FileStatus LoadModel<T>(string path, out T result) where T: new()
         {
-            result = default;
+            result = new T();
 
             path = ResolvePath(path);
 
-            if (!File.Exists(path))
-            {
-                return FileStatus.NOT_EXISTS;
-            }
-
             try
             {
-                string contents = AES.Decrypt(ReadFromFile(path));
+                if (!File.Exists(path))
+                    return FileStatus.NOT_EXISTS;
 
-                result = JsonConvert.DeserializeObject<T>(contents);
+                //result = JsonConvert.DeserializeObject<T>(AES.Decrypt(ReadFromFile(path)));
+                result = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+
+                if (result == null)
+                {
+                    result = new T();
+                    return FileStatus.CORRUPTED;
+                }
+
+                return FileStatus.OK;
             }
-            catch (System.Exception)
+            catch
             {
+                result = new T();
                 return FileStatus.CORRUPTED;
             }
-
-            return FileStatus.OK;
         }
 
 
         public static void WriteModel<T>(string path, T model)
         {
             path = ResolvePath(path);
+
+            File.WriteAllText(path, JsonConvert.SerializeObject(model));
+            return;
 
             string json = JsonConvert.SerializeObject(model);
             string encrypted = AES.Encrypt(json);

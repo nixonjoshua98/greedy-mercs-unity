@@ -1,0 +1,5 @@
+MONGO_CON_STR: localhost
+
+Redis:
+  Database: 0
+  Host: localhost

@@ -1,21 +1,62 @@
 using GM.HTTP;
-using UnityEngine.SceneManagement;
-using UnityEngine;
 using GM.HTTP.Requests;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GM.Managers
 {
     public class PrestigeManager : Core.GMMonoBehaviour
     {
-        public void OnPrestigeButton()
+        static PrestigeManager Instance = null;
+
+        void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+        }
+
+        void PerformPrestige()
+        {
+            var request = new PrestigeRequest()
+            {
+                PrestigeStage = GMData.GameState.Stage
+            };
+
+            App.HTTP.Prestige(request, Server_OnPrestige);
+        }
+
+        // = Callbacks = //
+
+        void OnPrePrestige()
         {
             App.SaveManager.Paused = true;
             App.SaveManager.DeleteLocalFile();
-
-            App.HTTP.Prestige(OnPrestigeResponse);
         }
 
-        void OnPrestigeResponse(PrestigeResponse resp)
+        void OnPrestigeFailed(PrestigeResponse resp)
+        {
+            App.SaveManager.Paused = false;
+            App.SaveManager.Save();
+
+            Debug.Log("Prestige failed");
+        }
+
+        void OnPrestigeSuccess(PrestigeResponse resp)
+        {
+            GMData.DeleteSoftUserData();
+
+            GMData.Update(resp.UserData, resp.StaticData);
+
+            App.SaveManager.Save();
+
+            SceneManager.LoadSceneAsync("GameScene");
+        }
+
+        // = Server Callbacks = //
+
+        void Server_OnPrestige(PrestigeResponse resp)
         {
             if (resp.StatusCode == HTTPCodes.Success)
             {
@@ -23,22 +64,16 @@ namespace GM.Managers
             }
             else
             {
-                App.SaveManager.Paused = false;
-                App.SaveManager.Save();
-
-                Debug.Log("Prestige failed");
+                OnPrestigeFailed(resp);
             }
         }
 
-        void OnPrestigeSuccess(PrestigeResponse resp)
+        // = UI Callbacks = //
+
+        public void Button_OnPrestige()
         {
-            App.Data.Update(resp.UserData, resp.StaticData);
-
-            App.Data.ResetPrestigeData();
-
-            App.SaveManager.Save();
-
-            SceneManager.LoadSceneAsync("GameScene");
+            OnPrePrestige();
+            PerformPrestige();
         }
     }
 }

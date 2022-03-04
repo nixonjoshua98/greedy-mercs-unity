@@ -8,11 +8,11 @@ namespace GM.Mercs.UI
 {
     struct MercDamageValue
     {
-        public MercID MercId;
+        public UnitID MercId;
         public DateTime Time;
         public BigDouble Damage;
 
-        public MercDamageValue(MercID mercId, BigDouble dmg)
+        public MercDamageValue(UnitID mercId, BigDouble dmg)
         {
             Time = DateTime.UtcNow;
             MercId = mercId;
@@ -22,8 +22,6 @@ namespace GM.Mercs.UI
 
     public class MercBattleSummaryController : Core.GMMonoBehaviour
     {
-        [SerializeField] MercSquadController MercSquad;
-
         [Header("Prefabs")]
         public GameObject PopupObject;
 
@@ -33,11 +31,15 @@ namespace GM.Mercs.UI
 
         void Awake()
         {
-            MercSquad.OnUnitAddedToSquad.AddListener(merc =>
+            MercSquadController squad = this.GetComponentInScene<MercSquadController>();
+
+            squad.OnUnitAddedToSquad.AddListener(merc =>
             {
-                merc.Controller.OnDamageDealt.AddListener(dmg =>
+                var controller = merc.GetComponent<GM.Mercs.Controllers.MercController>();
+
+                controller.OnDamageDealt.AddListener(dmg =>
                 {
-                    damageValues.Add(new MercDamageValue(merc.Id, dmg));
+                    damageValues.Add(new MercDamageValue(controller.Id, dmg));
                 });
             });
 
@@ -51,7 +53,7 @@ namespace GM.Mercs.UI
             if (SummaryPopup != null)
             {
                 // Group up the damage dealt per merc
-                var dmg = damageValues.GroupBy(m => m.MercId).Select(x => new KeyValuePair<MercID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum())).OrderByDescending(x => x.Value);
+                var dmg = damageValues.GroupBy(m => m.MercId).Select(x => new KeyValuePair<UnitID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum())).OrderByDescending(x => x.Value);
 
                 SummaryPopup.UpdateDamageNumbers(dmg.ToList());
             }

@@ -14,7 +14,7 @@ namespace GM.Controllers
         [Space]
         public ObjectPool ParticlePool;
 
-        private void Awake()
+        void Start()
         {
             if (Instance == null)
             {
@@ -28,7 +28,7 @@ namespace GM.Controllers
             }
         }
 
-        protected override void OnClick(Vector3 pos)
+        protected override void OnClick(Vector2 pos)
         {
             ClickObject inst = ParticlePool.Spawn<ClickObject>();
 

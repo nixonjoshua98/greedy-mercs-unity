@@ -357,7 +357,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 31
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -446,7 +446,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -651,6 +651,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d791f6d46b074114b841893f6809589a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxClicksPerSeconds: 20
+  ClickIntervalMilliseconds: 0
   ClickPS: {fileID: 4753086767240118771, guid: c320183d952ef6e46afac2c00753d600, type: 3}
   ParticlePool: {fileID: 1695799913}
 --- !u!4 &1695799912

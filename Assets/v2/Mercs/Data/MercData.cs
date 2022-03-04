@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AttackType = GM.Common.Enums.AttackType;
-using MercID = GM.Common.Enums.MercID;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.Data
 {
     public class MercData : Core.GMClass
     {
-        Models.MercGameDataModel Game;
-        MercUserData User;
+        StaticMercData Game;
+        UserMercState User;
 
-        public MercData(Models.MercGameDataModel gameData, MercUserData userData)
+        public MercData(StaticMercData gameData, UserMercState userData)
         {
             Game = gameData;
             User = userData;
         }
 
-        public MercID Id => Game.Id;
+        public UnitID ID => Game.ID;
         public string Name => Game.Name;
         public int CurrentLevel
         {
@@ -25,7 +25,7 @@ namespace GM.Mercs.Data
             set
             {
                 if (value > MaxLevel)
-                    Debug.Log($"Fatal: Merc '{Id}' level exceeded max level");
+                    Debug.Log($"Fatal: Merc '{ID}' level exceeded max level");
 
                 User.Level = Mathf.Min(MaxLevel, value);
             }
@@ -34,14 +34,14 @@ namespace GM.Mercs.Data
         public bool IsMaxLevel => User.Level >= MaxLevel;
         public Sprite Icon => Game.Icon;
         public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
-        public bool InDefaultSquad => User.InDefaultSquad;
+        public bool InDefaultSquad => User.InSquad;
         public double BaseUpgradeCost => Game.BaseUpgradeCost;
         public AttackType AttackType => Game.AttackType;
-        public Models.MercPassiveDataModel[] Passives => Game.Passives;
+        public List<MercPassiveReference> Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
-        public BigDouble DamagePerAttack => App.Cache.MercDamagePerAttack(this);
-        public BigDouble UpgradeCost(int numLevels) => App.Cache.MercUpgradeCost(this, numLevels);
-        public List<Models.MercPassiveDataModel> UnlockedPassives
+        public BigDouble DamagePerAttack => App.GMCache.MercDamagePerAttack(this);
+        public BigDouble UpgradeCost(int numLevels) => App.GMCache.MercUpgradeCost(this, numLevels);
+        public List<MercPassiveReference> UnlockedPassives
         {
             get
             {
@@ -50,6 +50,6 @@ namespace GM.Mercs.Data
                 return Game.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToList();
             }
         }
-        public bool IsPassiveUnlocked(Models.MercPassiveDataModel passive) => User.Level >= passive.UnlockLevel;
+        public bool IsPassiveUnlocked(MercPassiveReference passive) => User.Level >= passive.UnlockLevel;
     }
 }

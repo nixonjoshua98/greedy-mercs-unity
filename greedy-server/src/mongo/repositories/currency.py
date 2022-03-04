@@ -7,7 +7,8 @@ from pydantic import Field
 from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument
-from src.routing import ServerRequest
+from src.request import ServerRequest
+from src.response import ServerResponse
 
 
 def currency_repository(request: ServerRequest) -> CurrencyRepository:
@@ -21,9 +22,15 @@ class Fields:
 
 
 class CurrenciesModel(BaseDocument):
-    prestige_points: int = Field(0, alias=Fields.PRESTIGE_POINTS)
-    bounty_points: int = Field(0, alias=Fields.BOUNTY_POINTS)
-    armoury_points: int = Field(0, alias=Fields.ARMOURY_POINTS)
+
+    class Aliases:
+        bounty_points = "bountyPoints"
+        armoury_points = "armouryPoints"
+        prestige_points = "prestigePoints"
+
+    prestige_points: int = Field(0, alias=Aliases.prestige_points)
+    bounty_points: int = Field(0, alias=Aliases.bounty_points)
+    armoury_points: int = Field(0, alias=Aliases.armoury_points)
 
     def client_dict(self):
         return self.dict(exclude={"id"})

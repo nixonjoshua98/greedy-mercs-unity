@@ -9,3 +9,5 @@ PyYAML~=6.0
 pyjson5~=1.6.0.post1
 pycryptodome
 multipledispatch~=0.6.0
+redis~=4.1.4
+ujson~=5.1.0

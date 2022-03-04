@@ -4,8 +4,8 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src.auth import AuthenticationService, Session, authentication_service
-from src.context import RequestContext
+from src.auth import (AuthenticationService, RequestContext, Session,
+                      authentication_service)
 from src.handlers import (AccountCreationResponse, CreateAccountHandler,
                           GetUserDataHandler, UserDataResponse)
 from src.handlers.abc import BaseHandler, BaseResponse

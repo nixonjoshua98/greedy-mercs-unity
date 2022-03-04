@@ -5,7 +5,7 @@ import multipledispatch as md
 from bson import ObjectId
 from fastapi import Depends
 
-from src.context import AuthenticatedRequestContext, RequestContext
+from src.auth import AuthenticatedRequestContext, RequestContext
 from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.repositories.armoury import (ArmouryRepository,
                                             armoury_repository)

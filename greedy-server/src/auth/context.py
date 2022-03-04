@@ -4,10 +4,6 @@ import datetime as dt
 from typing import Optional
 
 from bson import ObjectId
-from fastapi import Depends, HTTPException
-
-from src.auth import AuthenticationService, authentication_service
-from src.request import ServerRequest
 
 
 class RequestContext:
@@ -22,23 +18,6 @@ class AuthenticatedRequestContext(RequestContext):
         super(AuthenticatedRequestContext, self).__init__()
 
         self.user_id: Optional[ObjectId] = uid
-
-
-async def inject_authenticated_context(
-    request: ServerRequest,
-    auth: AuthenticationService = Depends(authentication_service),
-) -> AuthenticatedRequestContext:
-    """
-
-    """
-
-    key: Optional[str] = request.headers.get("authentication")
-
-    # Header was not provided or session was not found
-    if key is None or (session := auth.get_user_session(key)) is None:
-        raise HTTPException(401, detail="Unauthorized")
-
-    return AuthenticatedRequestContext(uid=session.user_id)
 
 
 def _prev_daily_reset_datetime(now: dt.datetime) -> dt.datetime:

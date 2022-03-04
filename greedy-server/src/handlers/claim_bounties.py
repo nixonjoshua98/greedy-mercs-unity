@@ -5,7 +5,7 @@ import math
 from fastapi import Depends
 
 from src import utils
-from src.context import AuthenticatedRequestContext
+from src.auth import AuthenticatedRequestContext
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesDataModel,

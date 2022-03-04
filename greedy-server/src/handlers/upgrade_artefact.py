@@ -3,8 +3,8 @@ import dataclasses
 from fastapi import Depends
 
 from src import utils
+from src.auth import AuthenticatedRequestContext
 from src.common import formulas
-from src.context import AuthenticatedRequestContext
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,

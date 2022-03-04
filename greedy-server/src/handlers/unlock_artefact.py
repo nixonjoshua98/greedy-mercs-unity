@@ -4,7 +4,7 @@ import random
 
 from fastapi import Depends
 
-from src.context import AuthenticatedRequestContext
+from src.auth import AuthenticatedRequestContext
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,

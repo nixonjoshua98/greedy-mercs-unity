@@ -3,8 +3,10 @@ from __future__ import annotations
 from typing import Optional
 
 from bson import ObjectId
-from .session import Session
+
 from src.redis import RedisClient
+
+from .session import Session
 
 
 class AuthenticationService:
@@ -12,7 +14,9 @@ class AuthenticationService:
         self._redis: RedisClient = redis
 
     def set_user_session(self, uid: ObjectId) -> Session:
-        self._redis.update_user_session(uid, sess := Session(uid))
+        sess = Session(uid)
+        self._redis.del_user_session(uid)
+        self._redis.set_user_session(uid, sess)
         return sess
 
     def get_user_session(self, sid: str) -> Optional[Session]:

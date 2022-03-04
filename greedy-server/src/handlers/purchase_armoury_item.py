@@ -4,8 +4,7 @@ import datetime as dt
 from bson import ObjectId
 from fastapi import Depends
 
-from src.context import (AuthenticatedRequestContext,
-                         inject_authenticated_context)
+from src.auth import AuthenticatedRequestContext, inject_authenticated_context
 from src.handlers.abc import HandlerException
 from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,

@@ -37,11 +37,11 @@ namespace GM.Mercs
 
         public UnitBaseClass GetUnitAtQueuePosition(int idx) => Units[Units.Keys.ToList()[idx]];
         public int GetQueuePosition(UnitID unit) => Units.Keys.FindIndexWhere(x => x == unit);
-
+        public UnitBaseClass GetUnitQueueLast() => GetUnitAtQueuePosition(Units.Keys.Count - 1);
 
         public void AddMercToSquad(UnitID mercId)
         {
-            Vector2 pos = new Vector2(Camera.main.MinBounds().x - 1.0f, Common.Constants.CENTER_BATTLE_Y);
+            Vector2 pos = new Vector2(Camera.main.MinBounds().x - 1.5f, Common.Constants.CENTER_BATTLE_Y);
 
             StaticMercData data = App.GMData.Mercs.GetGameMerc(mercId);
 

@@ -14,6 +14,9 @@ namespace GM.Mercs.Data
         [JsonIgnore]
         public bool InSquad { get => App.PersistantLocalFile.SquadMercIDs.Contains(ID); }
 
+        [JsonIgnore]
+        public float CurrentSpawnEnergy = 0.0f;
+
         private UserMercState() { }
 
         public UserMercState(UnitID unit)

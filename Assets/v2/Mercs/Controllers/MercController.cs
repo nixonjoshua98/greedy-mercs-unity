@@ -46,7 +46,7 @@ namespace GM.Mercs.Controllers
 
         void FixedUpdate()
         {
-            int idx = SquadController.GetQueuePosition(Id);
+            int idx = SquadController.GetQueuePosition(this);
 
             if (idx == 0)
             {

@@ -52,7 +52,10 @@ namespace GM.Mercs
         public string Name = "Missing Merc Name";
 
         [JsonProperty(PropertyName = "attackType")]
-        public AttackType AttackType = AttackType.MELEE; 
+        public AttackType AttackType = AttackType.MELEE;
+
+        public int SpawnEnergyRequired = 100;
+        public int EnergyGainedPerSecond = 10;
 
         [JsonIgnore]
         public Sprite Icon;

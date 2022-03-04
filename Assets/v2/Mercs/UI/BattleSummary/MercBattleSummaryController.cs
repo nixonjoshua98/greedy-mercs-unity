@@ -33,7 +33,7 @@ namespace GM.Mercs.UI
         {
             MercSquadController squad = this.GetComponentInScene<MercSquadController>();
 
-            squad.OnUnitAddedToSquad.AddListener(merc =>
+            squad.E_UnitSpawned.AddListener(merc =>
             {
                 var controller = merc.GetComponent<GM.Mercs.Controllers.MercController>();
 

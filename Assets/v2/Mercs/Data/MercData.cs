@@ -22,17 +22,23 @@ namespace GM.Mercs.Data
         public int CurrentLevel
         {
             get => User.Level; 
-            set
-            {
-                if (value > MaxLevel)
-                    Debug.Log($"Fatal: Merc '{ID}' level exceeded max level");
-
-                User.Level = Mathf.Min(MaxLevel, value);
-            }
+            set { User.Level = Mathf.Min(MaxLevel, value); }
         }
 
         public bool IsMaxLevel => User.Level >= MaxLevel;
         public Sprite Icon => Game.Icon;
+
+        // Energy
+        public int EnergyGainedPerSecond => Game.EnergyGainedPerSecond;
+        public int SpawnEnergyRequired => Game.SpawnEnergyRequired;
+        public float CurrentSpawnEnergy
+        {
+            get => User.CurrentSpawnEnergy;
+            set => User.CurrentSpawnEnergy = Mathf.Min(SpawnEnergyRequired, value);
+        }
+        public float EnergyCapacityPercentage => CurrentSpawnEnergy / SpawnEnergyRequired;
+
+
         public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
         public bool InDefaultSquad => User.InSquad;
         public double BaseUpgradeCost => Game.BaseUpgradeCost;

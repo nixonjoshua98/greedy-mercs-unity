@@ -1,7 +1,4 @@
 using GM.Upgrades.Data;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace GM.Upgrades.UI
 {
@@ -10,6 +7,6 @@ namespace GM.Upgrades.UI
         protected override BigDouble UpgradeCost => App.GMCache.MajorTapUpgradeCost(BuyAmount);
         protected override UpgradeState Upgrade => App.GMData.Upgrades.MajorTapUpgrade;
 
-        protected override string GetBonusText() => $"<color=orange>{Format.Percentage(Upgrade.Value)}</color> TAP DMG";
+        protected override string GetBonusText() => $"<color=orange>{Format.Percentage(Upgrade.Value.ToDouble())}</color> TAP DMG";
     }
 }

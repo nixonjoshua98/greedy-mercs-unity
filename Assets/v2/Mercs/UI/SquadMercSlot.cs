@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 using UnitID = GM.Common.Enums.UnitID;
 
@@ -16,6 +15,9 @@ namespace GM.Mercs.UI
         public TMP_Text NameText;
         public TMP_Text LevelText;
         public TMP_Text DamageText;
+
+        [SerializeField] TMP_Text EnergyPercentageText;
+        [SerializeField] Slider EnergySlider;
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
 
@@ -46,6 +48,10 @@ namespace GM.Mercs.UI
 
         void UpdateUI()
         {
+            // Energy
+            EnergyPercentageText.text = Format.Percentage(AssignedMerc.EnergyCapacityPercentage, 0);
+            EnergySlider.value = AssignedMerc.EnergyCapacityPercentage;
+
             LevelText.text = FormatLevel(AssignedMerc.CurrentLevel);
             DamageText.text = GetBonusText();
 

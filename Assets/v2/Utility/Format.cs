@@ -12,17 +12,19 @@ namespace GM
 
         Common.TTLCache cache = new Common.TTLCache();
 
-        public static string Percentage(BigDouble val, int dp = 2) => Number(val * Mathf.Pow(10, dp)) + "%";
+        public static string Percentage(double val, int dp = 2)
+        {
+            return $"{Math.Round(val * 100, dp, MidpointRounding.ToEven)}%";
+        }
 
         public static string Number(BigDouble val, BonusType bonus)
         {
            return bonus switch
             {
                 BonusType.FLAT_TAP_DMG => Number(val),
-                _ => Percentage(val)
+                _ => Percentage(val.ToDouble())
             };
         }
-        public static string Number(double val) => Number(new BigDouble(val));
         public static string Number(long val) => Number(new BigInteger(val));
 
         public static string Bonus(BonusType bonusType, BigDouble value) => $"{Number(value, bonusType)} {Bonus(bonusType)}";

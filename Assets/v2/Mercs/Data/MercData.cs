@@ -30,19 +30,19 @@ namespace GM.Mercs.Data
 
         // Energy
         public int EnergyGainedPerSecond => Game.EnergyGainedPerSecond;
-        public int SpawnEnergyRequired => Game.SpawnEnergyRequired;
+        public int SpawnEnergyRequired => GM.Common.Constants.MercSpawnEnergyRequired;
         public int BattleEnergyCapacity => Game.BattleEnergyCapacity;
-        public int EnergyConsumedPerAttack => Game.EnergyConsumedPerAttack;
+        public int EnergyConsumedPerAttack => GM.Common.Constants.EnemyConsumedPerAttack;
         public float CurrentSpawnEnergy
         {
             get => User.CurrentSpawnEnergy;
             set => User.CurrentSpawnEnergy = Mathf.Min(SpawnEnergyRequired, value);
         }
-        public float EnergyCapacityPercentage => CurrentSpawnEnergy / SpawnEnergyRequired;
+        public float CurrentSpawnEnergyPercentage => CurrentSpawnEnergy / SpawnEnergyRequired;
 
 
         public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
-        public bool InDefaultSquad => User.InSquad;
+        public bool InSquad => User.InSquad;
         public double BaseUpgradeCost => Game.BaseUpgradeCost;
         public AttackType AttackType => Game.AttackType;
         public List<MercPassiveReference> Passives => Game.Passives;

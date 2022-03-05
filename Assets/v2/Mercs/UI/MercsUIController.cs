@@ -30,13 +30,13 @@ namespace GM.Mercs.UI
             foreach (var merc in App.GMData.Mercs.UnlockedMercs)
             {
                 // Merc has been removed from squad
-                if (MercSlots.ContainsKey(merc.ID) && !merc.InDefaultSquad)
+                if (MercSlots.ContainsKey(merc.ID) && !merc.InSquad)
                 {
                     DestroySlot(merc.ID);
                 }
 
                 // Merc has been added to the squad
-                else if (!MercSlots.ContainsKey(merc.ID) && merc.InDefaultSquad)
+                else if (!MercSlots.ContainsKey(merc.ID) && merc.InSquad)
                 {
                     InstantiateSlot(merc.ID);
                 }

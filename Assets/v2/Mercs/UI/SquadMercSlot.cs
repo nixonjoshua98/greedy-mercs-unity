@@ -49,8 +49,8 @@ namespace GM.Mercs.UI
         void UpdateUI()
         {
             // Energy
-            EnergyPercentageText.text = Format.Percentage(AssignedMerc.EnergyCapacityPercentage, 0);
-            EnergySlider.value = AssignedMerc.EnergyCapacityPercentage;
+            EnergyPercentageText.text = Format.Percentage(AssignedMerc.CurrentSpawnEnergyPercentage, 0);
+            EnergySlider.value = AssignedMerc.CurrentSpawnEnergyPercentage;
 
             LevelText.text = FormatLevel(AssignedMerc.CurrentLevel);
             DamageText.text = GetBonusText();

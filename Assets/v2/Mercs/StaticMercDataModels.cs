@@ -55,10 +55,8 @@ namespace GM.Mercs
         [JsonProperty(PropertyName = "attackType")]
         public AttackType AttackType = AttackType.MELEE;
 
-        public int SpawnEnergyRequired = 40;
         public int EnergyGainedPerSecond = 5;
         public int BattleEnergyCapacity = 50;
-        public int EnergyConsumedPerAttack = 11;
 
         [JsonIgnore]
         public Sprite Icon;

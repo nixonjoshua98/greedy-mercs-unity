@@ -29,7 +29,7 @@ namespace GM.Mercs.UI
             Manager = manager;
             Unit = unit;
             MercData = App.GMData.Mercs.GetMerc(unit);
-            InSquad = MercData.InDefaultSquad;
+            InSquad = MercData.InSquad;
 
             NameText.text = MercData.Name;
             LevelText.text = $"Lvl. <color=orange>{MercData.CurrentLevel}</color>";

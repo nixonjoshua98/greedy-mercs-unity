@@ -37,7 +37,7 @@ namespace GM.Mercs
 
         void UpdateMercsEnergy()
         {
-            float ts = Time.fixedUnscaledDeltaTime;
+            float ts = Time.fixedDeltaTime;
 
             foreach (UnitID unit in App.GMData.Mercs.MercsInSquad)
             {
@@ -45,9 +45,15 @@ namespace GM.Mercs
 
                 float energyGained = merc.EnergyGainedPerSecond * ts;
 
-                merc.CurrentSpawnEnergy = Mathf.Min(merc.SpawnEnergyRequired, merc.CurrentSpawnEnergy + energyGained);
+                // Reduce the energy gained if we are 'over-charging' for extra damage
+                if (merc.CurrentSpawnEnergy >= merc.SpawnEnergyRequired)
+                    energyGained /= ((merc.CurrentSpawnEnergy / merc.SpawnEnergyRequired) * 2);
 
-                if (merc.CurrentSpawnEnergy == merc.SpawnEnergyRequired && !UnitExistsInQueue(merc.ID))
+                // Increment the energy value
+                merc.CurrentSpawnEnergy += energyGained;
+
+                // Check if we can spawn a new unit in the queue
+                if (merc.CurrentSpawnEnergy >= merc.SpawnEnergyRequired && !UnitExistsInQueue(merc.ID))
                 {
                     merc.CurrentSpawnEnergy = 0;
 

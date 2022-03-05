@@ -24,7 +24,7 @@ namespace GM.Core
 
             GMCache = new GMCache();
             SaveManager = LocalSaveManager.Create();
-            GMData = new GMData(userData, gameData, SaveManager.LoadSaveFile(), PersistantLocalFile);
+            GMData = new GMData(userData, gameData, SaveManager.LoadSaveFile());
         }
 
         public static GMApplication Create(IServerUserData userData, IStaticGameData gameData)

@@ -9,7 +9,7 @@ namespace GM.Common
         #region Minor Tap Upgrade
         public static BigDouble MinorTapUpgradeBonusValue(int currentLevel)
         {
-            return currentLevel * BigDouble.Pow(2.0f, (currentLevel - 1) / 47.5f);
+            return currentLevel * BigDouble.Pow(2.0f, (currentLevel - 1) / 25.0f);
         }
 
         public static BigDouble MinorTapUpgradeCost(int currentLevel, int levels)
@@ -62,19 +62,19 @@ namespace GM.Common
         #region Mercs
         public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying)
         {
-            return BigMath.SumGeometricSeries(levelsBuying, 10, 1.077f, (currentLevel - 1));
+            return BigMath.SumGeometricSeries(levelsBuying, 25, 1.09f, (currentLevel - 1));
         }
 
         public static BigDouble MercBaseDamageAtLevel(BigDouble baseDamage, int level)
         {
-            return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f);
+            return baseDamage * level * BigDouble.Pow(baseDamage, (level - 1) / 50.0f);
         }
         #endregion
 
-        // = = = Enemies = = = //
+        #region Enemy Health
         public static BigDouble EnemyHealth(int stage)
         {
-            BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
+            BigDouble x = BigDouble.Pow(1.31, Mathf.Min(stage - 1, 65));
             BigDouble y = BigDouble.Pow(1.16, BigDouble.Max(stage - 65, 0));
 
             return 15.0 * x * y;
@@ -82,14 +82,15 @@ namespace GM.Common
 
         public static BigDouble BossHealth(int stage)
         {
-            return EnemyHealth(stage) * 5.5f;
+            return EnemyHealth(stage) * 5;
         }
+        #endregion
 
         // =====
 
         public static BigDouble CalcEnemyGold(int stage)
         {
-            return 10.0f * EnemyHealth(stage) * (0.01 + (0.0005 * Mathf.Max(0, 100 - (stage - 1))));
+            return 10.0f * EnemyHealth(stage) * (0.005 + (0.0004 * Mathf.Max(0, 50 - (stage - 1))));
         }
 
         public static BigDouble CalcBossGold(int stage)

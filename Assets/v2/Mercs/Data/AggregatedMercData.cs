@@ -30,13 +30,13 @@ namespace GM.Mercs.Data
 
         // Energy
         public int SpawnEnergyRequired => Game.SpawnEnergyRequired;
-
-        // Energy (Computed)
         public float CurrentSpawnEnergy
         {
             get => User.CurrentSpawnEnergy;
-            set => User.CurrentSpawnEnergy = Mathf.Min(SpawnEnergyRequired, value);
+            set => User.CurrentSpawnEnergy = value;
         }
+
+        // Energy (Computed)
         public float CurrentSpawnEnergyPercentage => CurrentSpawnEnergy / SpawnEnergyRequired;
 
         // Energy (Constants)

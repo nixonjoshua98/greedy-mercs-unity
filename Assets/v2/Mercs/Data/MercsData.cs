@@ -13,7 +13,7 @@ namespace GM.Mercs.Data
         Dictionary<UnitID, UserMercState> UserMercs = new Dictionary<UnitID, UserMercState>();
         Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
 
-        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local, PersistantLocalFile persistLocalFile)
+        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local)
         {
             Update(userData, staticData, local);
         }

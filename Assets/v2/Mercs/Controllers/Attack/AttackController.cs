@@ -82,7 +82,7 @@ namespace GM.Mercs.Controllers
         IEnumerator CooldownTask()
         {
             IsOnCooldown = true;
-            yield return new WaitForSecondsRealtime(CooldownTimer);
+            yield return new WaitForSeconds(CooldownTimer);
             IsOnCooldown = false;
         }
     }

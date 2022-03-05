@@ -11,7 +11,7 @@
       "name": "Stone Golem",
       "mercId": 0,
       "baseDamage": 10,
-      "spawnEnergyRequired": 50,
+      "spawnEnergyRequired": 25,
       "passives": [
         {
           "passiveId": 0,
@@ -22,8 +22,20 @@
     {
       "name": "Fallen Angel",
       "mercId": 1,
-      "baseDamage": 13,
-      "spawnEnergyRequired": 75,
+      "baseDamage": 15,
+      "spawnEnergyRequired": 50,
+      "passives": [
+        {
+          "passiveId": 0,
+          "unlockLevel": 10
+        }
+      ]
+    },
+        {
+      "name": "Demon Knight",
+      "mercId": 2,
+      "baseDamage": 20,
+      "spawnEnergyRequired": 60,
       "passives": [
         {
           "passiveId": 0,

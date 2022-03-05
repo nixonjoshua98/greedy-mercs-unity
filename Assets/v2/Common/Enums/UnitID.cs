@@ -7,5 +7,6 @@ namespace GM.Common.Enums
 
         STONE_GOLEM,
         FALLEN_ANGEL,
+        RED_DEMON_KNIGHT
     }
 }

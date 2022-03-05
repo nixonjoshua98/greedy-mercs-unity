@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnitID = GM.Common.Enums.UnitID;
+using GM.Units.Mercs;
 
 namespace GM.Mercs
 {
     public interface ISquadController
     {
-        bool TryGetFrontUnitQueue(out UnitBaseClass unit);
-        void RemoveMercFromQueue(UnitBaseClass unit);
+        bool TryGetFrontUnitQueue(out MercBaseClass unit);
+        void RemoveMercFromQueue(MercBaseClass unit);
         void AddMercToSquad(UnitID mercId);
         void RemoveMercFromSquad(UnitID mercId);
-        int GetQueuePosition(UnitBaseClass unit);
-        UnitBaseClass GetUnitAtQueuePosition(int idx);
+        int GetQueuePosition(MercBaseClass unit);
+        MercBaseClass GetUnitAtQueuePosition(int idx);
     }
 
 
     public class MercSquadController : Core.GMMonoBehaviour, ISquadController
     {
-        List<UnitBaseClass> UnitQueue = new List<UnitBaseClass>();
+        List<MercBaseClass> UnitQueue = new List<MercBaseClass>();
+        List<UnitID> UnitIDs = new List<UnitID>();
 
-        public UnityEvent<UnitBaseClass> E_UnitSpawned { get; set; } = new UnityEvent<UnitBaseClass>();
+        public UnityEvent<MercBaseClass> E_UnitSpawned { get; set; } = new UnityEvent<MercBaseClass>();
 
         void Awake()
         {
-            GMData.Mercs.MercsInSquad.ForEach(merc => AddMercToSquad(merc));
+            App.GMData.Mercs.MercsInSquad.ForEach(merc => AddMercToSquad(merc));
         }
 
         void FixedUpdate()
@@ -45,42 +47,52 @@ namespace GM.Mercs
 
                 merc.CurrentSpawnEnergy = Mathf.Min(merc.SpawnEnergyRequired, merc.CurrentSpawnEnergy + energyGained);
 
-                if (merc.CurrentSpawnEnergy == merc.SpawnEnergyRequired)
+                if (merc.CurrentSpawnEnergy == merc.SpawnEnergyRequired && !UnitExistsInQueue(merc.ID))
                 {
                     merc.CurrentSpawnEnergy = 0;
 
-                    InstantiateMerc(merc.ID);
+                    AddMercToQueue(merc.ID);
                 }
             }
         }
 
-        public void RemoveMercFromQueue(UnitBaseClass unit)
+        public void RemoveMercFromQueue(MercBaseClass unit)
         {
             UnitQueue.Remove(unit);
+            UnitIDs.Remove(unit.Id);
         }
 
-        public bool TryGetFrontUnitQueue(out UnitBaseClass unit)
+        void AddMercToQueue(UnitID unitId)
+        {
+            MercBaseClass unit = InstantiateMerc(unitId);
+
+            UnitQueue.Add(unit);
+            UnitIDs.Add(unitId);
+
+            E_UnitSpawned.Invoke(unit);
+        }
+
+        bool UnitExistsInQueue(UnitID unit) => UnitIDs.Contains(unit);
+
+        public bool TryGetFrontUnitQueue(out MercBaseClass unit)
         {
             unit = UnitQueue.Count == 0 ? null : GetUnitAtQueuePosition(0);
             return unit != null;
         }
 
-        public UnitBaseClass GetUnitAtQueuePosition(int idx) => UnitQueue[idx];
-        public int GetQueuePosition(UnitBaseClass unit) => UnitQueue.FindIndex((u) => u == unit);
+        public MercBaseClass GetUnitAtQueuePosition(int idx) => UnitQueue[idx];
 
-        void InstantiateMerc(UnitID unitId)
+        public int GetQueuePosition(MercBaseClass unit) => UnitQueue.FindIndex((u) => u == unit);
+
+        MercBaseClass InstantiateMerc(UnitID unitId)
         {
-            Vector2 pos = new Vector2(Camera.main.MinBounds().x - 1.5f, Common.Constants.CENTER_BATTLE_Y);
+            Vector2 pos = new Vector2(Camera.main.MinBounds().x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
 
             StaticMercData data = App.GMData.Mercs.GetGameMerc(unitId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
-            UnitBaseClass unit = o.GetComponent<UnitBaseClass>();
-
-            UnitQueue.Add(unit);
-
-            E_UnitSpawned.Invoke(unit);
+            return o.GetComponent<MercBaseClass>();
         }
 
 

@@ -3,7 +3,7 @@ from typing import Optional
 
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, inject_authenticated_context
+from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common import formulas
 from src.common.enums import BonusType
 from src.dependencies import get_static_artefacts_dict, get_static_bounties
@@ -31,7 +31,7 @@ class PrestigeResponse(BaseResponse):
 class PrestigeHandler(BaseHandler):
     def __init__(
         self,
-        ctx: AuthenticatedRequestContext = Depends(inject_authenticated_context),
+        ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
         # Static Data
         s_artefacts=Depends(get_static_artefacts_dict),
         s_bounties=Depends(get_static_bounties),

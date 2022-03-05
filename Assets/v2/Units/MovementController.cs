@@ -1,18 +1,9 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 namespace GM.Units
 {
-    public interface IMovementController
-    {
-        public void MoveTowards(Vector3 target);
-        public void MoveTowards(Vector3 target, Action action);
-        public void LookAt(Vector3 position);
-    }
-
-
-    public class MovementController : MonoBehaviour, IMovementController
+    public class MovementController : MonoBehaviour
     {
         public UnitAvatar Avatar;
 
@@ -28,23 +19,16 @@ namespace GM.Units
             Avatar.PlayAnimation(Avatar.Animations.Walk);
         }
 
-        public void MoveTowards(Vector3 target, Action action)
+        public void MoveDirection(Vector3 dir) => MoveTowards(transform.position + (dir * MoveSpeed));
+
+        public IEnumerator MoveTowardsEnumerator(Vector3 target)
         {
-            IEnumerator _MoveTowards()
+            while (transform.position != target)
             {
-                while (transform.position != target)
-                {
-                    yield return new WaitForFixedUpdate();
+                MoveTowards(target);
 
-                    MoveTowards(target);
-                }
-
-                Avatar.PlayAnimation(Avatar.Animations.Idle);
-
-                action.Invoke();
+                yield return new WaitForFixedUpdate();
             }
-
-            StartCoroutine(_MoveTowards());
         }
 
         void LookAtDirection(Vector3 dir)
@@ -52,7 +36,7 @@ namespace GM.Units
             LookAt(transform.position + (dir * MoveSpeed));
         }
 
-        public void LookAt(Vector3 pos)
+        void LookAt(Vector3 pos)
         {
             bool isTargetRight = pos.x > transform.position.x;
             bool isFacingRight = Avatar.transform.localScale.x >= 0.0f;

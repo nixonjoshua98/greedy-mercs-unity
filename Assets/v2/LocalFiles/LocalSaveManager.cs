@@ -34,7 +34,7 @@ namespace GM
         public void Save()
         {
             // = Models = //
-            var savefile = GMData.CreateLocalSaveFile();
+            var savefile = App.GMData.CreateLocalSaveFile();
 
             // = Write to File = //
             FileUtils.WriteModel(LOCAL_FILE, savefile);

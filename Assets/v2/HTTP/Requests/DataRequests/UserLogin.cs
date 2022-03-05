@@ -1,13 +1,5 @@
-﻿using GM.Armoury.Models;
-using GM.Artefacts.Models;
-using GM.Bounties.Models;
-using GM.BountyShop.Models;
-using GM.Common.Interfaces;
-using GM.Inventory.Models;
-using GM.Mercs.Models;
+﻿using GM.Common.Models;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using GM.Common.Models;
 
 namespace GM.HTTP.Requests
 {

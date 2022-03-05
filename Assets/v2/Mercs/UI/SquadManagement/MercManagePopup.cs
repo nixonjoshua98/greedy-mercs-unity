@@ -92,7 +92,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        Sprite GetMercIconSprite(UnitID unit) => GMData.Mercs.GetGameMerc(unit).Icon;
+        Sprite GetMercIconSprite(UnitID unit) => App.GMData.Mercs.GetGameMerc(unit).Icon;
 
         public void UpdateMerc(UnitID unit)
         {

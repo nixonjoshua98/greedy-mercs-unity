@@ -5,17 +5,20 @@ from typing import Optional
 
 from bson import ObjectId
 
+from src.request import ServerRequest
+
 
 class RequestContext:
-    def __init__(self):
+    def __init__(self, request: ServerRequest):
+        self.request = request
         self.datetime: dt.datetime = dt.datetime.utcnow()
         self.prev_daily_reset: dt.datetime = _prev_daily_reset_datetime(self.datetime)
         self.next_daily_reset: dt.datetime = self.prev_daily_reset + dt.timedelta(days=1)
 
 
 class AuthenticatedRequestContext(RequestContext):
-    def __init__(self, uid: Optional[ObjectId]):
-        super(AuthenticatedRequestContext, self).__init__()
+    def __init__(self, uid: Optional[ObjectId], request: ServerRequest):
+        super(AuthenticatedRequestContext, self).__init__(request=request)
 
         self.user_id: Optional[ObjectId] = uid
 

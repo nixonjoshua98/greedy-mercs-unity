@@ -4,8 +4,8 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src.auth import (AuthenticationService, RequestContext, AuthenticatedSession,
-                      authentication_service)
+from src.auth import (AuthenticatedSession, AuthenticationService,
+                      RequestContext, authentication_service, get_context)
 from src.handlers import (AccountCreationResponse, CreateAccountHandler,
                           GetUserDataHandler, UserDataResponse)
 from src.handlers.abc import BaseHandler, BaseResponse
@@ -24,7 +24,7 @@ class LoginResponse(BaseResponse):
 class LoginHandler(BaseHandler):
     def __init__(
         self,
-        ctx: RequestContext = Depends(),
+        ctx: RequestContext = Depends(get_context),
         user_data_handler: GetUserDataHandler = Depends(),
         create_account_handler: CreateAccountHandler = Depends(),
         auth: AuthenticationService = Depends(authentication_service),

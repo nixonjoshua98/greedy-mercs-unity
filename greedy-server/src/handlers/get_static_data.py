@@ -2,12 +2,12 @@ import dataclasses
 
 from fastapi import Depends
 
-from src.auth import RequestContext
+from src.auth import RequestContext, get_context
 from src.handlers.abc import BaseHandler, BaseResponse
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.artefacts import StaticArtefact, static_artefacts
 from src.resources.bounties import StaticBounties, inject_static_bounties
-from src.resources.mercs import inject_merc_data
+from src.services import StaticDataService
 
 
 @dataclasses.dataclass()
@@ -18,18 +18,18 @@ class StaticDataResponse(BaseResponse):
 class GetStaticDataHandler(BaseHandler):
     def __init__(
         self,
-        ctx: RequestContext = Depends(),
+        ctx: RequestContext = Depends(get_context),
         s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
         s_bounties=Depends(inject_static_bounties),
-        s_artefacts=Depends(static_artefacts),
-        s_mercs=Depends(inject_merc_data),
+        s_artefacts=Depends(static_artefacts)
     ):
         self.ctx: RequestContext = ctx
+
+        self.s_mercs: dict = StaticDataService.load_mercs()
 
         self.s_armoury: list[StaticArmouryItem] = s_armoury
         self.s_bounties: StaticBounties = s_bounties
         self.s_artefacts: list[StaticArtefact] = s_artefacts
-        self.s_mercs = s_mercs
 
     async def handle(self) -> StaticDataResponse:
 

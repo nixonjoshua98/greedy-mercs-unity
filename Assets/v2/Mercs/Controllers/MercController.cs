@@ -1,14 +1,13 @@
-using GM.Common.Enums;
-using UnityEngine.Events;
 using GM.Units;
 using UnityEngine;
+using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace GM.Mercs.Controllers
 {
-    public class MercController : UnitBaseClass
+    public class MercController : GM.Units.Mercs.MercBaseClass
     {
-        public UnitID Id;
-
         [Header("Components")]
         [SerializeField] MovementController Movement;
         AttackController AttackController;
@@ -26,7 +25,7 @@ namespace GM.Mercs.Controllers
 
         // Energy
         bool IsEnergyDepleted;
-        int EnergyRemaining;
+        float EnergyRemaining;
 
         // ...
         GM.Mercs.Data.MercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
@@ -122,6 +121,22 @@ namespace GM.Mercs.Controllers
             }
         }
 
+        IEnumerator EnergyExhaustedAnimation()
+        {
+            Vector3 originalScale = transform.localScale;
+
+            // Scale down the unit eventually to zero
+            Enumerators.Lerp01(this, 2, (value) => { transform.localScale = originalScale * (1 - value); });
+
+            // Move down slightly
+            yield return Movement.MoveTowardsEnumerator(transform.position - new Vector3(0, 1.5f));
+
+            // Move left until out of camera view
+            yield return Enumerators.InvokeUntil(() => !Camera.main.IsVisible(Avatar.Bounds.max), () => Movement.MoveDirection(Vector2.left));
+
+            Destroy(gameObject);
+        }
+
         // = Callbacks = //
 
         protected void OnAttackImpact()
@@ -139,7 +154,7 @@ namespace GM.Mercs.Controllers
 
                 SquadController.RemoveMercFromQueue(this);
 
-                Destroy(gameObject);
+                StartCoroutine(EnergyExhaustedAnimation());
             }
         }
     }

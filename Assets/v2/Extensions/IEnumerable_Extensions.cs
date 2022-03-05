@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace GM
 {
@@ -16,22 +14,6 @@ namespace GM
             }
 
             return total;
-        }
-
-        public static int FindIndexWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate)
-        {
-            int index = 0;
-
-            foreach (T ele in source)
-            {
-                if (predicate(ele))
-                {
-                    return index;
-                }
-                index++;
-            }
-
-            return -1;
         }
     }
 }

@@ -11,20 +11,20 @@ namespace GM.Mercs.Controllers
         [Header("Prefabs")]
         public GameObject AttackImpactObject;
 
+        [Header("Components")]
+        [SerializeField] MovementController MoveController;
+
         [Header("Properties")]
-        [SerializeField, Tooltip("Animation may continue after impact")]
-        bool HasAttackFinishedEvent = false;
+
+        // Use this toggle if the impact event is different from the finished attack event
+        // If this is false then the attack is assumed to have ended directly after impact
+        [SerializeField] bool HasAttackFinishedEvent = false;
 
         [SerializeField] float AttackRange = 0.5f;
-
-        // = Controllers = //
-        IMovementController MoveController;
-
 
         void Awake()
         {
             SetupEvents();
-            GetRequiredComponents();
         }
 
         void SetupEvents()
@@ -40,11 +40,6 @@ namespace GM.Mercs.Controllers
             {
                 Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackFinished);
             }
-        }
-
-        protected void GetRequiredComponents()
-        {
-            MoveController = GetComponent<IMovementController>();
         }
 
         public override void StartAttack(GM.Units.UnitBaseClass target, Action callback)

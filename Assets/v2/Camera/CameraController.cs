@@ -1,5 +1,5 @@
 using GM.Mercs;
-using GM.Units;
+using GM.Units.Mercs;
 using UnityEngine;
 
 namespace GM
@@ -18,7 +18,7 @@ namespace GM
 
         void FixedUpdate()
         {
-            if (MercSquad.TryGetFrontUnitQueue(out UnitBaseClass unit))
+            if (MercSquad.TryGetFrontUnitQueue(out MercBaseClass unit))
             {
                 SetCameraPosition(unit.Avatar.Bounds.max.x);
             }

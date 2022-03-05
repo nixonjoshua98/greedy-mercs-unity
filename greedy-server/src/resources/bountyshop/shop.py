@@ -6,7 +6,7 @@ from random import Random
 from fastapi import Depends
 
 from src import utils
-from src.auth import RequestContext
+from src.auth import RequestContext, get_context
 from src.resources.armoury import StaticArmouryItem, static_armoury
 
 from .loottable import BountyShopLootTable
@@ -17,7 +17,7 @@ from .shopconfig import (BountyShopLevelConfig, CurrencyItemConfig,
 
 
 async def dynamic_bounty_shop(
-    ctx: RequestContext = Depends(),
+    ctx: RequestContext = Depends(get_context),
     static_data: list[StaticArmouryItem] = Depends(static_armoury),
     shop_config: FullBountyShopConfig = Depends(bounty_shop_config),
 ) -> DynamicBountyShop:

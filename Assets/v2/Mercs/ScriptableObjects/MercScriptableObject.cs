@@ -1,7 +1,5 @@
-using UnitID = GM.Common.Enums.UnitID;
-using AttackType = GM.Common.Enums.AttackType;
-
 using UnityEngine;
+using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.ScriptableObjects
 {

@@ -5,7 +5,7 @@ namespace GM
 {
     public static class Object_Extensions
     {
-        public static T GetComponentInScene<T>(this MonoBehaviour @this)
+        public static T GetComponentInScene<T>(this MonoBehaviour source)
         {
             GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
 

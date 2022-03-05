@@ -21,7 +21,7 @@ namespace GM.Managers
         {
             var request = new PrestigeRequest()
             {
-                PrestigeStage = GMData.GameState.Stage
+                PrestigeStage = App.GMData.GameState.Stage
             };
 
             App.HTTP.Prestige(request, Server_OnPrestige);
@@ -45,9 +45,9 @@ namespace GM.Managers
 
         void OnPrestigeSuccess(PrestigeResponse resp)
         {
-            GMData.DeleteSoftUserData();
+            App.GMData.DeleteSoftUserData();
 
-            GMData.Update(resp.UserData, resp.StaticData);
+            App.GMData.Update(resp.UserData, resp.StaticData);
 
             App.SaveManager.Save();
 

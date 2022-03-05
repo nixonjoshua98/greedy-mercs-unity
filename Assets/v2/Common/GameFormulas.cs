@@ -60,14 +60,14 @@ namespace GM.Common
         #endregion
 
         #region Mercs
-        public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying, double unlockCost)
+        public static BigDouble MercUpgradeCost(int currentLevel, int levelsBuying)
         {
-            return BigMath.SumGeometricSeries(levelsBuying, unlockCost, 1.077f, currentLevel);
+            return BigMath.SumGeometricSeries(levelsBuying, 10, 1.077f, (currentLevel - 1));
         }
 
         public static BigDouble MercBaseDamageAtLevel(BigDouble baseDamage, int level)
         {
-            return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f) * (1 - 0.035f);
+            return baseDamage * level * BigDouble.Pow(1.99f, (level - 1) / 100.0f);
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace GM.Common
         public static BigDouble EnemyHealth(int stage)
         {
             BigDouble x = BigDouble.Pow(1.35, Mathf.Min(stage - 1, 65));
-            BigDouble y = BigDouble.Pow(1.16, BigDouble.Parse(Mathf.Max(stage - 65, 0).ToString()));
+            BigDouble y = BigDouble.Pow(1.16, BigDouble.Max(stage - 65, 0));
 
             return 15.0 * x * y;
         }

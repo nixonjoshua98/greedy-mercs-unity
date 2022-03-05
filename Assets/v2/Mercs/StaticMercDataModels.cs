@@ -41,9 +41,6 @@ namespace GM.Mercs
         public UnitID ID;
 
         [JsonProperty(Required = Required.Always)]
-        public double BaseUpgradeCost;
-
-        [JsonProperty(Required = Required.Always)]
         public double BaseDamage;
 
         [JsonProperty(PropertyName = "passives")]
@@ -56,7 +53,7 @@ namespace GM.Mercs
         public AttackType AttackType = AttackType.MELEE;
 
         [JsonProperty]
-        public float EnergyGainedPerSecond;
+        public int SpawnEnergyRequired;
 
         [JsonIgnore]
         public Sprite Icon;

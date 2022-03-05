@@ -12,5 +12,5 @@ class LoginModel(BaseModel):
 
     @validator("device_id")
     def v_device_id(cls, val):
-        return "0"
+        return "1"
 

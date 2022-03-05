@@ -426,7 +426,7 @@ MonoBehaviour:
   MercIconImage: {fileID: 1770506914410180491}
   LevelText: {fileID: 140330671020513237}
   NameText: {fileID: 3182082200392699230}
-  EnergyGainedText: {fileID: 156607879426400854}
+  EnergyText: {fileID: 156607879426400854}
 --- !u!222 &1770506913152432305
 CanvasRenderer:
   m_ObjectHideFlags: 0

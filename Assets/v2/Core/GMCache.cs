@@ -142,7 +142,7 @@ namespace GM.Core
         /// <summary>Upgrade cost for merc. CurrentLevel -> (CurrentLevel + levels)</summary>
         public BigDouble MercUpgradeCost(GM.Mercs.Data.AggregatedMercData merc, int levels)
         {
-            return GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels, merc.BaseUpgradeCost);
+            return GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels);
         }
 
         /// <summary>Base merc damage for current level. Does not apply any bonuses</summary>

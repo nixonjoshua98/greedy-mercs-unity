@@ -29,11 +29,9 @@ namespace GM.Mercs.Data
         public Sprite Icon => Game.Icon;
 
         // Energy
-        public float EnergyGainedPerSecond => Game.EnergyGainedPerSecond;
+        public int SpawnEnergyRequired => Game.SpawnEnergyRequired;
 
         // Energy (Computed)
-        public float TimeToFillSpawnEnergy => SpawnEnergyRequired / EnergyGainedPerSecond;
-        public int AttacksPerInstance => Mathf.CeilToInt(BattleEnergyCapacity / EnergyConsumedPerAttack);
         public float CurrentSpawnEnergy
         {
             get => User.CurrentSpawnEnergy;
@@ -42,13 +40,12 @@ namespace GM.Mercs.Data
         public float CurrentSpawnEnergyPercentage => CurrentSpawnEnergy / SpawnEnergyRequired;
 
         // Energy (Constants)
-        public float EnergyConsumedPerAttack => GM.Common.Constants.EnergyConsumedPerAttack;
-        public int SpawnEnergyRequired => GM.Common.Constants.MercSpawnEnergyRequired;
-        public int BattleEnergyCapacity => GM.Common.Constants.BattleEnergyCapacity;
+        public float EnergyGainedPerSecond => 10;
+        public float EnergyConsumedPerAttack => 10;
+        public int BattleEnergyCapacity => 50;
 
         public int MaxLevel => Common.Constants.MAX_MERC_LEVEL;
         public bool InSquad => User.InSquad;
-        public double BaseUpgradeCost => Game.BaseUpgradeCost;
         public AttackType AttackType => Game.AttackType;
         public List<MercPassiveReference> Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;

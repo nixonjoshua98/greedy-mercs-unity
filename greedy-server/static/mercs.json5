@@ -10,9 +10,8 @@
     {
       "name": "Stone Golem",
       "mercId": 0,
-      "baseUpgradeCost": 50,
       "baseDamage": 10,
-      "energyGainedPerSecond": 75,
+      "spawnEnergyRequired": 50,
       "passives": [
         {
           "passiveId": 0,
@@ -23,9 +22,8 @@
     {
       "name": "Fallen Angel",
       "mercId": 1,
-      "baseUpgradeCost": 50,
-      "baseDamage": 10,
-      "energyGainedPerSecond": 125,
+      "baseDamage": 13,
+      "spawnEnergyRequired": 75,
       "passives": [
         {
           "passiveId": 0,

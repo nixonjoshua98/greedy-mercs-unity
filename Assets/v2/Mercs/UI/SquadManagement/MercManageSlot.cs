@@ -16,7 +16,7 @@ namespace GM.Mercs.UI
         public Image MercIconImage;
         public TMP_Text LevelText;
         public TMP_Text NameText;
-        [SerializeField] TMP_Text EnergyGainedText;
+        [SerializeField] TMP_Text EnergyText;
 
         public UnitID Unit { get; private set; }
 
@@ -33,7 +33,7 @@ namespace GM.Mercs.UI
             InSquad = MercData.InSquad;
 
             NameText.text = MercData.Name;
-            EnergyGainedText.text = $"{MercData.EnergyGainedPerSecond}";
+            EnergyText.text = $"{MercData.SpawnEnergyRequired}";
             LevelText.text = $"Lvl. <color=orange>{MercData.CurrentLevel}</color>";
             MercIconImage.sprite = MercData.Icon;
         }

@@ -3,6 +3,7 @@ namespace GM.Common
 {
     public static class Constants
     {
+        public const int EnergyConsumedPerAttack = 200;
         public const int BattleEnergyCapacity = 1_000;
         public const int MercSpawnEnergyRequired = 1_000;
 

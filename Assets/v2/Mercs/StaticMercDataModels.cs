@@ -58,9 +58,6 @@ namespace GM.Mercs
         [JsonProperty]
         public float EnergyGainedPerSecond;
 
-        [JsonProperty]
-        public float EnergyConsumedPerAttack;
-
         [JsonIgnore]
         public Sprite Icon;
 

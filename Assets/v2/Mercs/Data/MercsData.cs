@@ -116,12 +116,12 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Fetch the aggregated dataclass for the unit
         /// </summary>
-        public MercData GetMerc(UnitID key) => new MercData(StaticMercs[key], UserMercs[key]);
+        public AggregatedMercData GetMerc(UnitID key) => new AggregatedMercData(StaticMercs[key], UserMercs[key]);
 
         /// <summary> 
         /// Fetch the full data for all user unlocked mercs
         /// </summary>
-        public List<MercData> UnlockedMercs => UserMercs.Select(pair => GetMerc(pair.Key)).ToList();
+        public List<AggregatedMercData> UnlockedMercs => UserMercs.Select(pair => GetMerc(pair.Key)).ToList();
 
         /// <summary>
         /// Unit IDs for the units currently in the squad

@@ -12,7 +12,6 @@
       "mercId": 0,
       "baseUpgradeCost": 50,
       "baseDamage": 10,
-      "energyConsumedPerAttack": 250,
       "energyGainedPerSecond": 75,
       "passives": [
         {
@@ -26,7 +25,6 @@
       "mercId": 1,
       "baseUpgradeCost": 50,
       "baseDamage": 10,
-      "energyConsumedPerAttack": 225,
       "energyGainedPerSecond": 125,
       "passives": [
         {

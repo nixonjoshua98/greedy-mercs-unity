@@ -6,12 +6,12 @@ using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs.Data
 {
-    public class MercData : Core.GMClass
+    public class AggregatedMercData : Core.GMClass
     {
         StaticMercData Game;
         UserMercState User;
 
-        public MercData(StaticMercData gameData, UserMercState userData)
+        public AggregatedMercData(StaticMercData gameData, UserMercState userData)
         {
             Game = gameData;
             User = userData;
@@ -30,9 +30,10 @@ namespace GM.Mercs.Data
 
         // Energy
         public float EnergyGainedPerSecond => Game.EnergyGainedPerSecond;
-        public float EnergyConsumedPerAttack => Game.EnergyConsumedPerAttack;
 
         // Energy (Computed)
+        public float TimeToFillSpawnEnergy => SpawnEnergyRequired / EnergyGainedPerSecond;
+        public int AttacksPerInstance => Mathf.CeilToInt(BattleEnergyCapacity / EnergyConsumedPerAttack);
         public float CurrentSpawnEnergy
         {
             get => User.CurrentSpawnEnergy;
@@ -41,6 +42,7 @@ namespace GM.Mercs.Data
         public float CurrentSpawnEnergyPercentage => CurrentSpawnEnergy / SpawnEnergyRequired;
 
         // Energy (Constants)
+        public float EnergyConsumedPerAttack => GM.Common.Constants.EnergyConsumedPerAttack;
         public int SpawnEnergyRequired => GM.Common.Constants.MercSpawnEnergyRequired;
         public int BattleEnergyCapacity => GM.Common.Constants.BattleEnergyCapacity;
 

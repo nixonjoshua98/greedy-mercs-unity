@@ -28,7 +28,7 @@ namespace GM.Mercs.Controllers
         float EnergyRemaining;
 
         // ...
-        GM.Mercs.Data.MercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
+        GM.Mercs.Data.AggregatedMercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
 
 
         void Awake()

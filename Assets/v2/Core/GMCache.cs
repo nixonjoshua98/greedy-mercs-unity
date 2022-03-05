@@ -140,18 +140,18 @@ namespace GM.Core
 
         #region Mercs
         /// <summary>Upgrade cost for merc. CurrentLevel -> (CurrentLevel + levels)</summary>
-        public BigDouble MercUpgradeCost(GM.Mercs.Data.MercData merc, int levels)
+        public BigDouble MercUpgradeCost(GM.Mercs.Data.AggregatedMercData merc, int levels)
         {
             return GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels, merc.BaseUpgradeCost);
         }
 
         /// <summary>Base merc damage for current level. Does not apply any bonuses</summary>
-        public BigDouble MercBaseDamage(GM.Mercs.Data.MercData merc)
+        public BigDouble MercBaseDamage(GM.Mercs.Data.AggregatedMercData merc)
         {
             return GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel);
         }
 
-        public BigDouble MercDamagePerAttack(GM.Mercs.Data.MercData merc)
+        public BigDouble MercDamagePerAttack(GM.Mercs.Data.AggregatedMercData merc)
         {
             return MercBaseDamage(merc) * CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
         }

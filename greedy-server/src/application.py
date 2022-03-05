@@ -16,9 +16,7 @@ class Application(FastAPI):
 
     @staticmethod
     def _load_config() -> ApplicationConfig:
-        d: dict = utils.yaml_load(os.path.join(os.getcwd(), "config.yml"))
-
-        return ApplicationConfig.parse_obj(d)
+        return ApplicationConfig.parse_obj(utils.yaml_load(os.path.join(os.getcwd(), "config.yml")))
 
     def get_static_file(self, f: str) -> Union[dict, list]:
         return utils.load_static_data_file(f)

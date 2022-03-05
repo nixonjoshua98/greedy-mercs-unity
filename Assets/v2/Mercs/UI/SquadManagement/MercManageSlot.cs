@@ -16,11 +16,12 @@ namespace GM.Mercs.UI
         public Image MercIconImage;
         public TMP_Text LevelText;
         public TMP_Text NameText;
+        [SerializeField] TMP_Text EnergyGainedText;
 
         public UnitID Unit { get; private set; }
 
         MercManagePopup Manager;
-        MercData MercData;
+        AggregatedMercData MercData;
 
         public bool InSquad { get; private set; } = false;
 
@@ -32,6 +33,7 @@ namespace GM.Mercs.UI
             InSquad = MercData.InSquad;
 
             NameText.text = MercData.Name;
+            EnergyGainedText.text = $"{MercData.EnergyGainedPerSecond}";
             LevelText.text = $"Lvl. <color=orange>{MercData.CurrentLevel}</color>";
             MercIconImage.sprite = MercData.Icon;
         }

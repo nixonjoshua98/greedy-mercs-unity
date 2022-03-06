@@ -1,5 +1,4 @@
 using GM.Mercs;
-using GM.Units.Mercs;
 using UnityEngine;
 
 namespace GM

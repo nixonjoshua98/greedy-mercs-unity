@@ -1,4 +1,5 @@
 using UnityEngine;
+using GM.DamageTextPool;
 
 namespace GM.Controllers
 {
@@ -6,7 +7,7 @@ namespace GM.Controllers
     public class DamageClickController : AbstractClickController
     {
         GameManager GameManager;
-        GM.UI.IDamageNumberManager DamageNumberManager;
+        IDamageTextPool DamageNumberManager;
 
         // Bounds
         Vector2 topLeftViewportPosition;
@@ -15,7 +16,7 @@ namespace GM.Controllers
         void Start()
         {
             GameManager = this.GetComponentInScene<GameManager>();
-            DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
+            DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
 
             Vector3[] corners = new Vector3[4];
             GetComponent<RectTransform>().GetWorldCorners(corners);

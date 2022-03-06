@@ -2,15 +2,17 @@ using GM.Units;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using GM.Common.Enums;
 using System.Collections.Generic;
+using GM.DamageTextPool;
 
 namespace GM.Mercs.Controllers
 {
-    public class MercController : GM.Units.Mercs.MercBaseClass
+    public class MercController : GM.Mercs.MercBaseClass
     {
         [Header("Components")]
         [SerializeField] MovementController Movement;
-        AttackController AttackController;
+        [SerializeField] AttackController AttackController;
 
         // = Controllers = //
         UnitBaseClass CurrentTarget;
@@ -20,6 +22,7 @@ namespace GM.Mercs.Controllers
 
         // Managers
         IEnemyUnitFactory UnitManager;
+        IDamageTextPool DamageTextPool;
         GameManager GameManager;
         ISquadController SquadController;
 
@@ -33,7 +36,7 @@ namespace GM.Mercs.Controllers
 
         void Awake()
         {
-            GetComponents();
+            GetRequiredComponents();
             SubscribeToEvents();
 
             EnergyRemaining = MercDataValues.BattleEnergyCapacity;
@@ -44,8 +47,9 @@ namespace GM.Mercs.Controllers
             AttackController.E_AttackFinished.AddListener(AttackController_OnAttackFinished);
         }
 
-        protected void GetComponents()
+        protected void GetRequiredComponents()
         {
+            DamageTextPool = this.GetComponentInScene<IDamageTextPool>();
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             GameManager = this.GetComponentInScene<GameManager>();
             SquadController = this.GetComponentInScene<ISquadController>();
@@ -113,11 +117,34 @@ namespace GM.Mercs.Controllers
 
         void DealDamageToTarget()
         {
-            BigDouble dmg = MercDataValues.DamagePerAttack;
+            DamageType damageType = DamageType.Normal;
 
-            if (GameManager.DealDamageToTarget(dmg))
+            BigDouble damage = MercDataValues.DamagePerAttack;
+
+            // Energy overcharge
+            if (SetupPayload.EnergyPercentUsedToInstantiate > 1.0f)
             {
-                OnDamageDealt.Invoke(dmg);
+                // [TEMP] Only set this damage type for 150%+ otherwise it will near always be energy overcharge
+                if (SetupPayload.EnergyPercentUsedToInstantiate > 1.5)
+                {
+                    damageType = DamageType.EnergyOvercharge;
+                }
+
+                damage *= SetupPayload.EnergyPercentUsedToInstantiate;
+            }
+
+            // Critical hit
+            if (MathUtils.PercentChance(App.GMCache.CriticalHitChance))
+            {
+                damageType = DamageType.CriticalHit;
+                damage *= App.GMCache.CriticalHitMultiplier;
+            }
+
+            if (GameManager.DealDamageToTarget(damage, false))
+            {
+                DamageTextPool.Spawn(CurrentTarget, damage, damageType);
+
+                OnDamageDealt.Invoke(damage);
             }
         }
 

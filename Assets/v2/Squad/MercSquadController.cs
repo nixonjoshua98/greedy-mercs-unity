@@ -1,9 +1,9 @@
-using GM.Units;
+using GM.Mercs;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 using UnitID = GM.Common.Enums.UnitID;
-using GM.Units.Mercs;
 
 namespace GM.Mercs
 {
@@ -55,9 +55,14 @@ namespace GM.Mercs
                 // Check if we can spawn a new unit in the queue
                 if (merc.CurrentSpawnEnergy >= merc.SpawnEnergyRequired && !UnitExistsInQueue(merc.ID))
                 {
+                    // Create payload
+                    MercSetupPayload payload = new MercSetupPayload((float)Math.Round(merc.CurrentSpawnEnergyPercentage, 2));
+
+                    // Reset some data
                     merc.CurrentSpawnEnergy = 0;
 
-                    AddMercToQueue(merc.ID);
+                    // Add merc to queue
+                    AddMercToQueue(merc.ID, payload);
                 }
             }
         }
@@ -68,9 +73,9 @@ namespace GM.Mercs
             UnitIDs.Remove(unit.Id);
         }
 
-        void AddMercToQueue(UnitID unitId)
+        void AddMercToQueue(UnitID unitId, MercSetupPayload payload)
         {
-            MercBaseClass unit = InstantiateMerc(unitId);
+            MercBaseClass unit = InstantiateMerc(unitId, payload);
 
             UnitQueue.Add(unit);
             UnitIDs.Add(unitId);
@@ -98,7 +103,18 @@ namespace GM.Mercs
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
-            return o.GetComponent<MercBaseClass>();
+            MercBaseClass mercBase = o.GetComponent<MercBaseClass>();
+
+            return mercBase;
+        }
+
+        MercBaseClass InstantiateMerc(UnitID unitId, MercSetupPayload payload)
+        {
+            MercBaseClass mercBase = InstantiateMerc(unitId);
+
+            mercBase.Init(payload);
+
+            return mercBase;
         }
 
 

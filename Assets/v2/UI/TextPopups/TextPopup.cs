@@ -55,7 +55,7 @@ namespace GM.UI
             Text.color = val > 0 ? GM.Common.Colors.Gold : GM.Common.Colors.Red;
         }
 
-        void Reset()
+        protected void Reset()
         {
             isSet = true;
             lifetimeTimer = Lifetime;

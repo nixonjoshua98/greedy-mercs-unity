@@ -1,16 +1,18 @@
-﻿namespace GM
+﻿using GM.DamageTextPool;
+
+namespace GM
 {
     public class GameManager : Core.GMMonoBehaviour
     {
         IEnemyUnitFactory UnitManager;
         WaveManager WaveManager;
-        GM.UI.IDamageNumberManager DamageNumberManager;
+        IDamageTextPool DamageNumberManager;
 
         void Awake()
         {
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             WaveManager = this.GetComponentInScene<WaveManager>();
-            DamageNumberManager = this.GetComponentInScene<GM.UI.IDamageNumberManager>();
+            DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
         }
 
         void Start()
@@ -18,29 +20,23 @@
             WaveManager.Run();
         }
 
+
         public bool DealDamageToTarget(BigDouble damageValue, bool showDamageNumber = true)
         {
             if (!UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
                 return false;
 
-            bool dealt = _DealDamageToTarget(unit, damageValue);
-
-            if (dealt && showDamageNumber)
-            {
-                DamageNumberManager.Spawn(unit.Avatar, Format.Number(damageValue));
-            }
-
-            return dealt;
-        }
-
-        bool _DealDamageToTarget(GM.Units.UnitBaseClass unit, BigDouble value)
-        {
             GM.Controllers.AbstractHealthController health = unit.GetComponent<GM.Controllers.AbstractHealthController>();
 
             if (!health.CanTakeDamage)
                 return false;
 
-            health.TakeDamage(value);
+            health.TakeDamage(damageValue);
+
+            if (showDamageNumber)
+            {
+                DamageNumberManager.Spawn(unit.Avatar, Format.Number(damageValue));
+            }
 
             return true;
         }

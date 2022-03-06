@@ -15,7 +15,6 @@ class AuthenticationService:
 
     def set_user_session(self, uid: ObjectId) -> AuthenticatedSession:
         sess = AuthenticatedSession(uid)
-        self._redis.del_user_session(uid)
         self._redis.set_user_session(uid, sess)
         return sess
 

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using GM.Mercs.Data;
+﻿using GM.Mercs.Data;
+using System.Collections.Generic;
 
 namespace GM
 {

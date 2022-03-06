@@ -17,7 +17,6 @@ namespace GM.Mercs.UI
 
         [Header("References")]
         public TMP_Text UnlockLevelText;
-        public Image IconBackgroundImage;
         public TMP_Text BonusText;
 
         MercPassiveReference AssignedPassive;
@@ -32,7 +31,6 @@ namespace GM.Mercs.UI
         void Toggle(bool isUnlocked)
         {
             UnlockLevelText.text = $"Level <color=orange>{AssignedPassive.UnlockLevel}</color>";
-            IconBackgroundImage.sprite = isUnlocked ? BackgroundSprites.UnlockedSprite : BackgroundSprites.LockedSprite;
             BonusText.text = Format.Bonus(AssignedPassive.Values.Type, AssignedPassive.Values.Value);
             BonusText.text = $"<color=orange>{Format.Number(AssignedPassive.Values.Value, AssignedPassive.Values.Type)}</color> {Format.Bonus(AssignedPassive.Values.Type)}";
         }

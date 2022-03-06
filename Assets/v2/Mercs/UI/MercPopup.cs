@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GM.Mercs.UI
 {
@@ -8,8 +9,12 @@ namespace GM.Mercs.UI
         [Header("Prefabs")]
         public GameObject PassiveSlotObject;
 
-        [Header("References")]
+        [Header("Components")]
         public TMP_Text NameText;
+        public TMP_Text EnergyText;
+        public Image IconImage;
+
+        [Header("References")]
         public Transform PassivesParent;
 
         protected override void OnAssigned()
@@ -19,12 +24,14 @@ namespace GM.Mercs.UI
                 Instantiate<MercPassiveSlot>(PassiveSlotObject, PassivesParent).Assign(p, AssignedMerc.IsPassiveUnlocked(p));
             }
 
-            SetTitle();
+            SetUI();
         }
 
-        void SetTitle()
+        void SetUI()
         {
             NameText.text = $"{AssignedMerc.Name} Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>";
+            EnergyText.text = AssignedMerc.SpawnEnergyRequired.ToString();
+            IconImage.sprite = AssignedMerc.Icon;
         }
     }
 }

@@ -46,7 +46,7 @@ class LoginHandler(BaseHandler):
 
         data_resp: UserDataResponse = await self._user_data_handler.handle(self.account.id, self._ctx)
 
-        await self.units_repo.insert_units(self.account.id, [0, 1, 2])
+        await self.units_repo.insert_units(self.account.id, [0, 1, 2, 3])
 
         session = self._create_auth_session()
 
@@ -72,6 +72,3 @@ class LoginHandler(BaseHandler):
 
             if self.account is None:
                 raise HTTPException(500, detail="Account creation has failed")
-
-
-

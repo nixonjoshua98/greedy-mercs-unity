@@ -22,7 +22,7 @@ namespace GM.Upgrades.Data
             Upgrades.Keys.ToList().ForEach(key => { Upgrades[key].Id = key; });
         }
 
-        public void ResetLevels()
+        public void DeleteLocalStateData()
         {
             foreach (UpgradeState state in Upgrades.Values)
             {

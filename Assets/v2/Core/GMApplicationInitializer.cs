@@ -2,6 +2,7 @@ using GM.Common.Interfaces;
 using GM.HTTP;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using GM.LocalFiles;
 
 namespace GM.Core
 {
@@ -58,12 +59,20 @@ namespace GM.Core
             });
         }
 
-
         void Initialize()
         {
-            GMApplication app = GMApplication.Create(Data.UserData, Data.StaticData);
+            PersistantLocalFile.LoadFromFile(out PersistantLocalFile persistFile);
+            LocalStateFile.LoadFromFile(out LocalStateFile localStateFile);
 
-            app.SaveManager.WriteStaticData(Data.StaticData);
+            LocalSaveManager saveManager = LocalSaveManager.Create();
+
+            saveManager.WriteStaticData(Data.StaticData);
+
+            GMData dataContainer = new GMData();
+
+            new GMApplication(persistFile, dataContainer, saveManager).SetInstance();
+
+            dataContainer.Set(Data.UserData, Data.StaticData, localStateFile);
 
             SceneManager.LoadScene("GameScene");
         }

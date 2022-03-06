@@ -39,6 +39,8 @@ namespace GM
             action.Invoke(to);
         }
 
+        public static void Lerp(float duration, float from, float to, Action<float> action) => PersistantMonoBehaviour.Instance.StartCoroutine(LerpFromToCoroutine(from, to, duration, action));
+
         public static void Lerp01(MonoBehaviour mono, float duration, Action<float> action) => mono.StartCoroutine(LerpFromToCoroutine(0, 1, duration, action));
         public static void InvokeAfter(MonoBehaviour mono, Func<bool> predicate, Action callback) => mono.StartCoroutine(InvokeAfter(predicate, callback));
     }

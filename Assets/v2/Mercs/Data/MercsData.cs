@@ -8,7 +8,7 @@ using GM.LocalFiles;
 
 namespace GM.Mercs.Data
 {
-    public class MercsData : Core.GMClass, ILocalStateFileSerializer, IPersistantLocalFileValidator
+    public class MercsData : Core.GMClass, ILocalStateFileSerializer
     {
         Dictionary<UnitID, UserMercState> UserMercs = new Dictionary<UnitID, UserMercState>();
         Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
@@ -17,6 +17,7 @@ namespace GM.Mercs.Data
         {
             Update(userData, staticData, local);
         }
+
 
         public void Update(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
         {
@@ -29,27 +30,9 @@ namespace GM.Mercs.Data
             SetStaticData(staticData);
         }
 
-        public void DeleteSoftData()
+        public void DeleteLocalStateData()
         {
-            var copy = UserMercs;
-
-            // .Clear() would clear the copy too
-            UserMercs = new Dictionary<UnitID, UserMercState>();
-
-            foreach (var pair in copy)
-            {
-                UserMercs[pair.Key] = new UserMercState(pair.Key);
-            }
-        }
-
-        public void ValidatePersistantLocalFile(ref PersistantLocalFile file)
-        {
-            // Check that the list is the correct length
-            if (file.SquadMercIDs == null || file.SquadMercIDs.Count > GM.Common.Constants.MAX_SQUAD_SIZE)
-                file.SquadMercIDs = new HashSet<UnitID>();
-
-            // Remove any locked units which may have been added
-            file.SquadMercIDs.RemoveWhere(x => !UserMercs.ContainsKey(x));
+            UserMercs.Clear();
         }
 
         void SetStatesFromSaveFile(LocalStateFile model)

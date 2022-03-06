@@ -25,7 +25,7 @@ namespace GM.Inventory.Data
             PrestigePoints = model.PrestigePoints;
         }
 
-        public void ResetLocalResources()
+        public void DeleteLocalStateData()
         {
             Gold = 0;
         }

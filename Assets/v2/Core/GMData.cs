@@ -8,7 +8,6 @@ using GM.Inventory.Data;
 using GM.Mercs.Data;
 using GM.Upgrades.Data;
 using System;
-using GM.LocalFiles;
 
 namespace GM.Core
 {
@@ -27,23 +26,25 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
-        public GMData(IServerUserData userData, IStaticGameData staticData, LocalStateFile localSaveFile)
+        public GMData()
+        {
+            Items = new ItemsData();
+            Upgrades = new PlayerUpgrades();
+        }
+
+        public void Set(IServerUserData serverUserData, IStaticGameData staticData, LocalStateFile localStateFile)
         {
             NextDailyReset = staticData.NextDailyReset;
 
-            // = Scriptable Object Models = //
-            Items = new ItemsData();
+            Mercs = new MercsData(serverUserData, staticData, localStateFile);
 
-            // = Local Models = //
-            GameState = CurrentPrestigeState.Deserialize(localSaveFile);
+            GameState = CurrentPrestigeState.Deserialize(localStateFile);
 
-            Upgrades    = new PlayerUpgrades();
-            Inv         = new UserInventory(userData.CurrencyItems);
-            Mercs       = new MercsData(userData, staticData, localSaveFile);
-            Artefacts   = new ArtefactsData(userData.Artefacts, staticData.Artefacts);
-            Armoury     = new ArmouryData(userData.ArmouryItems, staticData.Armoury);
-            Bounties    = new BountiesData(userData.BountyData, staticData.Bounties);
-            BountyShop  = new BountyShopData(userData.BountyShop);
+            Inv = new UserInventory(serverUserData.CurrencyItems);
+            Artefacts = new ArtefactsData(serverUserData.Artefacts, staticData.Artefacts);
+            Armoury = new ArmouryData(serverUserData.ArmouryItems, staticData.Armoury);
+            Bounties = new BountiesData(serverUserData.BountyData, staticData.Bounties);
+            BountyShop = new BountyShopData(serverUserData.BountyShop);
         }
 
         public LocalStateFile CreateLocalSaveFile()
@@ -56,21 +57,19 @@ namespace GM.Core
             return savefile;
         }
 
-        public void DeleteSoftUserData()
+        public void DeleteLocalStateData()
         {
             GameState = new CurrentPrestigeState();
 
-            Mercs.DeleteSoftData();
+            Mercs.DeleteLocalStateData();
 
-            Upgrades.ResetLevels();
-            Inv.ResetLocalResources();
+            Upgrades.DeleteLocalStateData();
+            Inv.DeleteLocalStateData();
         }
 
         public void Update(IServerUserData userData, IStaticGameData staticData)
         {
-            LocalStateFile savefile = App.SaveManager.LoadSaveFile();
-
-            Mercs.Update(userData, staticData, savefile);
+            Mercs.Update(userData, staticData, null);
 
             BountyShop  = new BountyShopData(userData.BountyShop);
 

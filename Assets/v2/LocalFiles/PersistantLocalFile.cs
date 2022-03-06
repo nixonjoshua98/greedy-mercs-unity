@@ -4,12 +4,6 @@ using System.Collections.Generic;
 
 namespace GM.LocalFiles
 {
-    public interface IPersistantLocalFileValidator
-    {
-        void ValidatePersistantLocalFile(ref PersistantLocalFile file);
-    }
-
-
     public sealed class PersistantLocalFile
     {
         const string FilePath = "PersistantLocalFile";

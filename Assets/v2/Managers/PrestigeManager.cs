@@ -45,7 +45,7 @@ namespace GM.Managers
 
         void OnPrestigeSuccess(PrestigeResponse resp)
         {
-            App.GMData.DeleteSoftUserData();
+            App.GMData.DeleteLocalStateData();
 
             App.GMData.Update(resp.UserData, resp.StaticData);
 

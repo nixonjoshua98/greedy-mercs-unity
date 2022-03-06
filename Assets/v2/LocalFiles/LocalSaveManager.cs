@@ -6,8 +6,8 @@ namespace GM
 {
     public class LocalSaveManager : Common.MonoClass<LocalSaveManager>
     {
-        const string STATIC_FILE = "staticdata";
-        const string LOCAL_FILE = "localsave";
+        public const string STATIC_FILE = "staticdata";
+        public const string LOCAL_FILE = "localsave";
 
         public bool Paused { get; set; } = false;
 
@@ -43,12 +43,5 @@ namespace GM
         public void WriteStaticData(IStaticGameData model) => FileUtils.WriteModel(STATIC_FILE, model);
 
         public void DeleteLocalFile() => FileUtils.DeleteFile(LOCAL_FILE);
-
-        public LocalStateFile LoadSaveFile()
-        {
-            FileStatus status = FileUtils.LoadModel(LOCAL_FILE, out LocalStateFile model);
-
-            return model;
-        }
     }
 }

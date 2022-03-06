@@ -46,7 +46,7 @@ namespace GM.Mercs
 
                 // Reduce the energy gained if we are 'over-charging' for extra damage
                 if (merc.CurrentSpawnEnergy >= merc.SpawnEnergyRequired)
-                    energyGained /= ((merc.CurrentSpawnEnergy / merc.SpawnEnergyRequired) * 2);
+                    energyGained /= 4;
 
                 // Increment the energy value
                 merc.CurrentSpawnEnergy = Mathf.Min(merc.CurrentSpawnEnergy + energyGained, merc.SpawnEnergyRequired * 2);

@@ -94,7 +94,7 @@ namespace GM
             {
                 unitToSpawn = RandomBossUnitObject();
 
-                result.Name = "Boss";
+                result.Name = "Boss Battle";
             }
 
             // Instantiate the boss object

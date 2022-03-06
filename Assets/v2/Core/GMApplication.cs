@@ -1,6 +1,4 @@
-using GM.Common.Interfaces;
 using GM.LocalFiles;
-using UnityEngine;
 
 namespace GM.Core
 {
@@ -10,38 +8,25 @@ namespace GM.Core
 
         public GMData GMData;
         public GMCache GMCache;
-        public LocalSaveManager SaveManager;
+
+        public LocalSaveManager SaveManager { get; set; }
         public PersistantLocalFile PersistantLocalFile;
 
         public EventHandler Events = new EventHandler();
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
-        private GMApplication(IServerUserData userData, IStaticGameData gameData)
+        public GMApplication(PersistantLocalFile persistantLocalFile, GMData dataContainer, LocalSaveManager localSaveManager)
         {
-            GMLogger.Editor(Application.persistentDataPath);
+            PersistantLocalFile = persistantLocalFile;
+            SaveManager = localSaveManager;
 
             GMCache = new GMCache();
-            SaveManager = LocalSaveManager.Create();
-            GMData = new GMData(userData, gameData, SaveManager.LoadSaveFile());
-
-            LoadPersistantLocalFile();
+            GMData = dataContainer;
         }
 
-        public static GMApplication Create(IServerUserData userData, IStaticGameData gameData)
+        public void SetInstance()
         {
-            if (Instance == null)
-                Instance = new GMApplication(userData, gameData);
-
-            return Instance;
-        }
-
-        void LoadPersistantLocalFile()
-        {
-            FileStatus status = PersistantLocalFile.LoadFromFile(out PersistantLocalFile);
-
-            GMLogger.Editor($"PersistantLocalFile: {status}");
-
-            GMData.Mercs.ValidatePersistantLocalFile(ref PersistantLocalFile);
+            Instance = this;
         }
     }
 }

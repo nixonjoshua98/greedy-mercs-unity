@@ -61,7 +61,7 @@ namespace GM.Core
 
         void Initialize()
         {
-            PersistantLocalFile.LoadFromFile(out PersistantLocalFile persistFile);
+            LocalPersistantFile.LoadFromFile(out LocalPersistantFile persistFile);
             LocalStateFile.LoadFromFile(out LocalStateFile localStateFile);
 
             LocalSaveManager saveManager = LocalSaveManager.Create();

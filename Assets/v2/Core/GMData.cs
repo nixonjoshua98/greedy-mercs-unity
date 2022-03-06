@@ -47,7 +47,7 @@ namespace GM.Core
             BountyShop = new BountyShopData(serverUserData.BountyShop);
         }
 
-        public LocalStateFile CreateLocalSaveFile()
+        public LocalStateFile CreateLocalStateFile()
         {
             LocalStateFile savefile = new LocalStateFile();
 

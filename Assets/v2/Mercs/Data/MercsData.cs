@@ -18,12 +18,11 @@ namespace GM.Mercs.Data
             Update(userData, staticData, local);
         }
 
-
         public void Update(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
         {
             SetDefaultMercStates(userData);
 
-            // We have existing local data
+            // We may have existing local data
             if (!(local == null || local.Mercs == null))
                 SetStatesFromSaveFile(local);
 
@@ -105,7 +104,9 @@ namespace GM.Mercs.Data
             merc.Passives.RemoveAll((p) => p.Values == null);
         }
 
-        /// <summary> Load local scriptable merc data </summary>
+        /// <summary>
+        /// Load local merc data and convert to a lookup dictionary
+        /// </summary>
         Dictionary<UnitID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
         /// <summary>

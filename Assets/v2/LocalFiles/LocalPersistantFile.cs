@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GM.LocalFiles
 {
-    public sealed class PersistantLocalFile
+    public sealed class LocalPersistantFile
     {
         const string FilePath = "PersistantLocalFile";
 
@@ -16,7 +16,7 @@ namespace GM.LocalFiles
         /// <summary>
         /// Static constructor (preferred usage)
         /// </summary>
-        public static FileStatus LoadFromFile(out PersistantLocalFile file)
+        public static FileStatus LoadFromFile(out LocalPersistantFile file)
         {
             FileStatus status = FileUtils.LoadModel(FilePath, out file);
 

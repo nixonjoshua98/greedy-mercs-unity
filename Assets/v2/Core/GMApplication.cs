@@ -10,12 +10,12 @@ namespace GM.Core
         public GMCache GMCache;
 
         public LocalSaveManager SaveManager { get; set; }
-        public PersistantLocalFile PersistantLocalFile;
+        public LocalPersistantFile PersistantLocalFile;
 
         public EventHandler Events = new EventHandler();
         public HTTP.HTTPClient HTTP => GM.HTTP.HTTPClient.Instance;
 
-        public GMApplication(PersistantLocalFile persistantLocalFile, GMData dataContainer, LocalSaveManager localSaveManager)
+        public GMApplication(LocalPersistantFile persistantLocalFile, GMData dataContainer, LocalSaveManager localSaveManager)
         {
             PersistantLocalFile = persistantLocalFile;
             SaveManager = localSaveManager;

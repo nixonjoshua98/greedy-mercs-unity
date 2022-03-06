@@ -27,7 +27,7 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
-        public GMData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel localSaveFile)
+        public GMData(IServerUserData userData, IStaticGameData staticData, LocalStateFile localSaveFile)
         {
             NextDailyReset = staticData.NextDailyReset;
 
@@ -46,9 +46,9 @@ namespace GM.Core
             BountyShop  = new BountyShopData(userData.BountyShop);
         }
 
-        public LocalSaveFileModel CreateLocalSaveFile()
+        public LocalStateFile CreateLocalSaveFile()
         {
-            LocalSaveFileModel savefile = new LocalSaveFileModel();
+            LocalStateFile savefile = new LocalStateFile();
 
             GameState.UpdateLocalSaveFile(ref savefile);
             Mercs.UpdateLocalSaveFile(ref savefile);
@@ -68,7 +68,7 @@ namespace GM.Core
 
         public void Update(IServerUserData userData, IStaticGameData staticData)
         {
-            LocalSaveFileModel savefile = App.SaveManager.LoadSaveFile();
+            LocalStateFile savefile = App.SaveManager.LoadSaveFile();
 
             Mercs.Update(userData, staticData, savefile);
 

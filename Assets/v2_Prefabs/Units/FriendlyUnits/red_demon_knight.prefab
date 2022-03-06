@@ -49,6 +49,7 @@ MonoBehaviour:
   Avatar: {fileID: 180202088276066436}
   Id: 2
   Movement: {fileID: 9182918656529223324}
+  AttackController: {fileID: 9182918656529223323}
 --- !u!114 &9182918656529223323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +69,6 @@ MonoBehaviour:
   Avatar: {fileID: 180202088276066436}
   AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
   MoveController: {fileID: 9182918656529223324}
-  HasAttackFinishedEvent: 1
   AttackRange: 1
 --- !u!114 &9182918656529223324
 MonoBehaviour:
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 180202088276066436}
-  MoveSpeed: 7
+  MoveSpeed: 8
 --- !u!1001 &9182918655072287151
 PrefabInstance:
   m_ObjectHideFlags: 0

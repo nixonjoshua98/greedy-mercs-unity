@@ -12,6 +12,7 @@ from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.repositories.accounts import (AccountModel, AccountsRepository,
                                              accounts_repository)
 from src.request_models import LoginModel
+from src.mongo.repositories.units import CharacterUnitsRepository, units_repository
 
 
 @dataclasses.dataclass()
@@ -27,6 +28,7 @@ class LoginHandler(BaseHandler):
         ctx: RequestContext = Depends(get_context),
         user_data_handler: GetUserDataHandler = Depends(),
         create_account_handler: CreateAccountHandler = Depends(),
+        units_repo: CharacterUnitsRepository = Depends(units_repository),
         auth: AuthenticationService = Depends(authentication_service),
         accounts: AccountsRepository = Depends(accounts_repository)
     ):
@@ -35,6 +37,7 @@ class LoginHandler(BaseHandler):
         self._create_account_handler = create_account_handler
         self._user_data_handler = user_data_handler
         self._auth = auth
+        self.units_repo = units_repo
 
         self.account: Optional[AccountModel] = None
 
@@ -42,6 +45,8 @@ class LoginHandler(BaseHandler):
         await self._get_or_create_account(data)
 
         data_resp: UserDataResponse = await self._user_data_handler.handle(self.account.id, self._ctx)
+
+        await self.units_repo.insert_units(self.account.id, [0, 1, 2])
 
         session = self._create_auth_session()
 

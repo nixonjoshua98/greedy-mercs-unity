@@ -891,7 +891,7 @@ GameObject:
   - component: {fileID: 7985129795591114447}
   - component: {fileID: 6104197953416813611}
   m_Layer: 0
-  m_Name: FallenAngelAvatar
+  m_Name: fallen_angel_avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

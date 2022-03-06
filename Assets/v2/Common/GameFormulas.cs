@@ -90,7 +90,7 @@ namespace GM.Common
 
         public static BigDouble CalcEnemyGold(int stage)
         {
-            return 10.0f * EnemyHealth(stage) * (0.005 + (0.0004 * Mathf.Max(0, 50 - (stage - 1))));
+            return 10.0f * EnemyHealth(stage) * (0.005 + (0.0004 * Mathf.Max(0, 25 - (stage - 1))));
         }
 
         public static BigDouble CalcBossGold(int stage)

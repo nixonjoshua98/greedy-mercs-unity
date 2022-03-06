@@ -3,7 +3,7 @@
     {
       "passiveId": 0,
       "bonusType": 802,
-      "bonusValue": 1.1
+      "bonusValue": 10
     }
   ],
   "mercs": [
@@ -31,7 +31,7 @@
         }
       ]
     },
-        {
+    {
       "name": "Demon Knight",
       "mercId": 2,
       "baseDamage": 20,

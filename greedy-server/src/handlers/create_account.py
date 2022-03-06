@@ -1,6 +1,5 @@
 import dataclasses
 
-from bson import ObjectId
 from fastapi import Depends
 
 from src.handlers.abc import BaseHandler, BaseResponse

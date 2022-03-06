@@ -20,11 +20,11 @@ namespace GM.Core
         {
             GMLogger.Editor(Application.persistentDataPath);
 
-            PersistantLocalFile = LoadPersistantLocalFile();
-
             GMCache = new GMCache();
             SaveManager = LocalSaveManager.Create();
             GMData = new GMData(userData, gameData, SaveManager.LoadSaveFile());
+
+            LoadPersistantLocalFile();
         }
 
         public static GMApplication Create(IServerUserData userData, IStaticGameData gameData)
@@ -35,13 +35,13 @@ namespace GM.Core
             return Instance;
         }
 
-        PersistantLocalFile LoadPersistantLocalFile()
+        void LoadPersistantLocalFile()
         {
-            FileStatus status = PersistantLocalFile.LoadFromFile(out PersistantLocalFile model);
+            FileStatus status = PersistantLocalFile.LoadFromFile(out PersistantLocalFile);
 
             GMLogger.Editor($"PersistantLocalFile: {status}");
 
-            return model;
+            GMData.Mercs.ValidatePersistantLocalFile(ref PersistantLocalFile);
         }
     }
 }

@@ -8,17 +8,17 @@ using GM.LocalFiles;
 
 namespace GM.Mercs.Data
 {
-    public class MercsData : Core.GMClass, ILocalStateFileSerializer
+    public class MercsData : Core.GMClass, ILocalStateFileSerializer, IPersistantLocalFileValidator
     {
         Dictionary<UnitID, UserMercState> UserMercs = new Dictionary<UnitID, UserMercState>();
         Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
 
-        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local)
+        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
         {
             Update(userData, staticData, local);
         }
 
-        public void Update(IServerUserData userData, IStaticGameData staticData, LocalSaveFileModel local)
+        public void Update(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
         {
             SetDefaultMercStates(userData);
 
@@ -42,11 +42,28 @@ namespace GM.Mercs.Data
             }
         }
 
-        void SetStatesFromSaveFile(LocalSaveFileModel model)
+        public void ValidatePersistantLocalFile(ref PersistantLocalFile file)
+        {
+            // Check that the list is the correct length
+            if (file.SquadMercIDs == null || file.SquadMercIDs.Count > GM.Common.Constants.MAX_SQUAD_SIZE)
+                file.SquadMercIDs = new HashSet<UnitID>();
+
+            // Remove any locked units which may have been added
+            file.SquadMercIDs.RemoveWhere(x => !UserMercs.ContainsKey(x));
+        }
+
+        void SetStatesFromSaveFile(LocalStateFile model)
         {
             foreach (var merc in model.Mercs)
             {
-                UserMercs[merc.ID] = merc;
+                if (UserMercs.ContainsKey(merc.ID))
+                {
+                    UserMercs[merc.ID] = merc;
+                }
+                else
+                {
+                    GMLogger.Editor($"Merc '{merc.ID}' state found but is currently locked");
+                }
             }
         }
 
@@ -58,7 +75,7 @@ namespace GM.Mercs.Data
             }
         }
 
-        public void UpdateLocalSaveFile(ref LocalSaveFileModel model)
+        public void UpdateLocalSaveFile(ref LocalStateFile model)
         {
             model.Mercs = UserMercs.Values.ToList();
         }

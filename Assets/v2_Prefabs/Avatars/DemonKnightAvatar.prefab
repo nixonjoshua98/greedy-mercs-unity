@@ -444,7 +444,7 @@ MonoBehaviour:
   Animator: {fileID: 1998897824565394128}
   Animations:
     Idle: Idle
-    Walk: Walk
+    Walk: Walking
     Attack: Attacking
     Defeat: 
     Hurt: 

@@ -1,8 +1,7 @@
-using GM.Mercs;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using System;
 using UnitID = GM.Common.Enums.UnitID;
 
 namespace GM.Mercs
@@ -50,13 +49,13 @@ namespace GM.Mercs
                     energyGained /= ((merc.CurrentSpawnEnergy / merc.SpawnEnergyRequired) * 2);
 
                 // Increment the energy value
-                merc.CurrentSpawnEnergy += energyGained;
+                merc.CurrentSpawnEnergy = Mathf.Min(merc.CurrentSpawnEnergy + energyGained, merc.SpawnEnergyRequired * 2);
 
                 // Check if we can spawn a new unit in the queue
                 if (merc.CurrentSpawnEnergy >= merc.SpawnEnergyRequired && !UnitExistsInQueue(merc.ID))
                 {
                     // Create payload
-                    MercSetupPayload payload = new MercSetupPayload((float)Math.Round(merc.CurrentSpawnEnergyPercentage, 2));
+                    MercSetupPayload payload = new MercSetupPayload(merc.CurrentSpawnEnergyPercentage);
 
                     // Reset some data
                     merc.CurrentSpawnEnergy = 0;

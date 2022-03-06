@@ -15,11 +15,6 @@ namespace GM.Mercs.Controllers
         [SerializeField] MovementController MoveController;
 
         [Header("Properties")]
-
-        // Use this toggle if the impact event is different from the finished attack event
-        // If this is false then the attack is assumed to have ended directly after impact
-        [SerializeField] bool HasAttackFinishedEvent = false;
-
         [SerializeField] float AttackRange = 0.5f;
 
         void Awake()
@@ -30,16 +25,7 @@ namespace GM.Mercs.Controllers
         void SetupEvents()
         {
             Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackImpact);
-
-            if (HasAttackFinishedEvent)
-            {
-                Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
-            }
-            // Call the event at the same time as the impact (should be added after the actual impact callback)
-            else
-            {
-                Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackFinished);
-            }
+            Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
         }
 
         public override void StartAttack(GM.Units.UnitBaseClass target, Action callback)

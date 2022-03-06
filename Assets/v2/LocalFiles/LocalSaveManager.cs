@@ -44,9 +44,9 @@ namespace GM
 
         public void DeleteLocalFile() => FileUtils.DeleteFile(LOCAL_FILE);
 
-        public LocalSaveFileModel LoadSaveFile()
+        public LocalStateFile LoadSaveFile()
         {
-            FileStatus status = FileUtils.LoadModel(LOCAL_FILE, out LocalSaveFileModel model);
+            FileStatus status = FileUtils.LoadModel(LOCAL_FILE, out LocalStateFile model);
 
             return model;
         }

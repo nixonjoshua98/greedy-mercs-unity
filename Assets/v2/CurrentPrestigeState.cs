@@ -13,12 +13,12 @@ namespace GM
         public int EnemiesRemaining => Math.Max(0, EnemiesPerStage - EnemiesDefeated);
         public bool HasBossSpawned { get; set; } = false;
 
-        public static CurrentPrestigeState Deserialize(LocalSaveFileModel model)
+        public static CurrentPrestigeState Deserialize(LocalStateFile model)
         {
             return model.GameState;
         }
 
-        public void UpdateLocalSaveFile(ref LocalSaveFileModel model)
+        public void UpdateLocalSaveFile(ref LocalStateFile model)
         {
             model.GameState = this;
         }

@@ -1,10 +1,9 @@
+using GM.Common.Enums;
+using GM.DamageTextPool;
 using GM.Units;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
-using GM.Common.Enums;
-using System.Collections.Generic;
-using GM.DamageTextPool;
 
 namespace GM.Mercs.Controllers
 {
@@ -53,8 +52,6 @@ namespace GM.Mercs.Controllers
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             GameManager = this.GetComponentInScene<GameManager>();
             SquadController = this.GetComponentInScene<ISquadController>();
-
-            AttackController = GetComponent<AttackController>();
         }
 
         void FixedUpdate()
@@ -124,11 +121,9 @@ namespace GM.Mercs.Controllers
             // Energy overcharge
             if (SetupPayload.EnergyPercentUsedToInstantiate > 1.0f)
             {
-                // [TEMP] Only set this damage type for 150%+ otherwise it will near always be energy overcharge
+                // Only set this damage type for 150%+ otherwise it will near always be energy overcharge
                 if (SetupPayload.EnergyPercentUsedToInstantiate > 1.5)
-                {
                     damageType = DamageType.EnergyOvercharge;
-                }
 
                 damage *= SetupPayload.EnergyPercentUsedToInstantiate;
             }

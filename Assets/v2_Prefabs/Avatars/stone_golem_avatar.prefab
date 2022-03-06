@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 4484796574378713095}
   - component: {fileID: 1876670771663251476}
   m_Layer: 0
-  m_Name: StoneGolemAvatar
+  m_Name: stone_golem_avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,6 +450,9 @@ MonoBehaviour:
     Defeat: 
     Hurt: 
   E_Anim_MeleeAttackImpact:
+    m_PersistentCalls:
+      m_Calls: []
+  E_Anim_MeleeAttackFinished:
     m_PersistentCalls:
       m_Calls: []
   E_Anim_OnDefeat:
@@ -6209,6 +6212,13 @@ AnimationClip:
   m_Events:
   - time: 0.3
     functionName: Animation_MeleeAttackImpact
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.4
+    functionName: Animation_MeleeAttackFinished
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

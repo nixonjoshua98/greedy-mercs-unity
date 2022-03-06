@@ -5,8 +5,9 @@ namespace GM.Common.Enums
     {
         NONE = -1,
 
-        STONE_GOLEM,
-        FALLEN_ANGEL,
-        RED_DEMON_KNIGHT
+        STONE_GOLEM = 0,
+        FALLEN_ANGEL = 1,
+        RED_DEMON_KNIGHT = 2,
+        SKELETON_01 = 3
     }
 }

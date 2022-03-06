@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dd42ccd9886a84498e668347e7cafe, type: 3}
+  m_Name: skeleton_01
+  m_EditorClassIdentifier: 
+  ID: 3
+  Prefab: {fileID: 2292817266137231970, guid: 4fd4ad789bec6e044ad66c1506a965af, type: 3}
+  Icon: {fileID: 21300000, guid: 0e7f5b30c9fb0b9459b26e9411b5fdef, type: 3}

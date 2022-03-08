@@ -10,15 +10,11 @@ namespace GM.Units
         [Header("Properties")]
         public float MoveSpeed = 2.5f;
 
-        Vector3 _CurrentMovingDirection = Vector3.zero;
-
-        public void MoveTowards(Vector3 target, bool playAnimation = true)
+        public void MoveTowards(Vector3 target, float moveSpeed, bool playAnimation = true)
         {
-            UpdateCurrentMovingDirection(target);
-
             LookAtDirection(target - transform.position);
 
-            transform.position = Vector3.MoveTowards(transform.position, target, Time.fixedDeltaTime * MoveSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.fixedDeltaTime * moveSpeed);
 
             if (playAnimation)
             {
@@ -26,13 +22,20 @@ namespace GM.Units
             }
         }
 
-        void UpdateCurrentMovingDirection(Vector3 targetPosition)
+        public void MoveTowards(Vector3 target, bool playAnimation = true)
         {
-            _CurrentMovingDirection = (targetPosition - transform.position).normalized;
+            MoveTowards(target, MoveSpeed, playAnimation: playAnimation);
         }
 
-        public void MoveDirection(Vector3 dir, bool playAnimation = true) => MoveTowards(transform.position + (dir * MoveSpeed), playAnimation: playAnimation);
-        public void Continue() => MoveTowards(transform.position + (_CurrentMovingDirection * MoveSpeed));
+        public void MoveDirection(Vector3 dir, bool playAnimation = true)
+        {
+            MoveDirection(dir, MoveSpeed, playAnimation: playAnimation);
+        }
+
+        public void MoveDirection(Vector3 dir, float moveSpeed, bool playAnimation = true)
+        {
+            MoveTowards(transform.position + (dir * 100), moveSpeed, playAnimation: playAnimation);
+        }
 
         public IEnumerator MoveTowardsEnumerator(Vector3 target)
         {
@@ -46,7 +49,7 @@ namespace GM.Units
 
         void LookAtDirection(Vector3 dir)
         {
-            LookAt(transform.position + (dir * MoveSpeed));
+            LookAt(transform.position + (dir * 100));
         }
 
         void LookAt(Vector3 pos)

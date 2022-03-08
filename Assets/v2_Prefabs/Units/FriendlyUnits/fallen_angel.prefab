@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3858409953258592746}
-  - component: {fileID: 5532813829030246785}
   - component: {fileID: 3858409953258592749}
+  - component: {fileID: 8225767181027567733}
+  - component: {fileID: 5855116896621325249}
   - component: {fileID: 3858409953258592751}
   m_Layer: 0
   m_Name: fallen_angel
@@ -34,26 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5532813829030246785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3858409953258592750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7f3ed3be8436414a999b85d8958c783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CooldownTimer: 1
-  E_AttackFinished:
-    m_PersistentCalls:
-      m_Calls: []
-  Avatar: {fileID: 7990702041426216414}
-  AttackImpactObject: {fileID: 100000, guid: 3156817f64ec68948ad6bb26569b9ef5, type: 3}
-  MoveController: {fileID: 3858409953258592751}
-  AttackRange: 1
 --- !u!114 &3858409953258592749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +50,43 @@ MonoBehaviour:
   Avatar: {fileID: 7990702041426216414}
   Id: 1
   Movement: {fileID: 3858409953258592751}
-  Attack: {fileID: 5532813829030246785}
+  Attack: {fileID: 5855116896621325249}
+--- !u!114 &8225767181027567733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3858409953258592750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92028f80970bb4f40b72a26086e2b421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 10
+  Avatar: {fileID: 7990702041426216414}
+  Controller: {fileID: 3858409953258592749}
+  Movement: {fileID: 3858409953258592751}
+--- !u!114 &5855116896621325249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3858409953258592750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331aac1a6cc4c864d9840291ceb316f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CooldownTimer: 1
+  E_AttackFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  Avatar: {fileID: 7990702041426216414}
+  AttackImpactObject: {fileID: 100000, guid: 3156817f64ec68948ad6bb26569b9ef5, type: 3}
+  MoveController: {fileID: 3858409953258592751}
+  AttackRange: 1
 --- !u!114 &3858409953258592751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 7990702041426216414}
-  MoveSpeed: 9
+  MoveSpeed: 7
 --- !u!1001 &3858409952586444576
 PrefabInstance:
   m_ObjectHideFlags: 0

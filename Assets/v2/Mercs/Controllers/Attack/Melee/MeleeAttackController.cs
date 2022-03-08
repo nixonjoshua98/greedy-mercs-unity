@@ -1,9 +1,6 @@
 using GM.Units;
 using System;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
-using GM.Controllers;
 
 namespace GM.Mercs.Controllers
 {
@@ -23,7 +20,6 @@ namespace GM.Mercs.Controllers
         void Awake()
         {
             SubscribeToEvents();
-            GetRequiredComponents();
         }
 
         protected virtual void SubscribeToEvents()
@@ -31,8 +27,6 @@ namespace GM.Mercs.Controllers
             Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackImpact);
             Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
         }
-
-        protected virtual void GetRequiredComponents() { }
 
         public override void StartAttack(GM.Units.UnitBaseClass target, Action callback)
         {
@@ -45,7 +39,7 @@ namespace GM.Mercs.Controllers
         {
             Vector3 position = GetTargetPositionFromTarget(unit);
 
-            return Mathf.Abs(Avatar.Bounds.center.x - position.x) <= (AttackRange * 2);
+            return Mathf.Abs(Avatar.Bounds.center.x - position.x) <= AttackRange;
         }
 
         public override void MoveTowardsTarget(GM.Units.UnitBaseClass unit)
@@ -78,7 +72,7 @@ namespace GM.Mercs.Controllers
 
         public void Animation_AttackFinished()
         {
-            _IsAttacking = false;
+            IsAttacking = false;
             StartCooldown();
             E_AttackFinished.Invoke();
         }

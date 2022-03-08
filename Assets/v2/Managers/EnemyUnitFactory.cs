@@ -10,6 +10,7 @@ namespace GM
         int NumEnemyUnits { get; }
 
         bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit);
+        bool ContainsEnemyUnit(UnitBaseClass unit);
 
         UnitBaseClass InstantiateEnemyUnit();
         UnitFactoryInstantiatedBossUnit InstantiateEnemyBossUnit();
@@ -47,6 +48,8 @@ namespace GM
 
             return false;
         }
+
+        public bool ContainsEnemyUnit(UnitBaseClass unit) => EnemyUnits.Contains(unit);
 
         /// <summary>
         /// Instantiate a regular enemy unit with minimal setup

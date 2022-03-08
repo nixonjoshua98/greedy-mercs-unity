@@ -16,17 +16,12 @@ namespace GM.Mercs.Controllers
         protected GM.Units.UnitBaseClass CurrentTarget;
         Action DealDamageToTargetAction;
 
-        // State
-        protected bool _IsAttacking;
-        public bool HasControl { get; protected set; }
-        public bool IsAttacking { get => _IsAttacking; }
-
-        protected bool IsOnCooldown;
+        public bool IsAttacking { get; protected set; }
+        public bool IsOnCooldown { get; protected set; }
 
         // Events
-        [HideInInspector] public UnityEvent E_AttackFinished = new UnityEvent();
+        [HideInInspector] public UnityEvent E_AttackFinished { get; set; } = new UnityEvent();
 
-        public virtual void TryGiveControl(int queuePosition, Action<UnitBaseClass> damageImpact) { }
         public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
         public abstract void MoveTowardsTarget(GM.Units.UnitBaseClass target);
 
@@ -37,7 +32,7 @@ namespace GM.Mercs.Controllers
 
         public virtual void StartAttack(GM.Units.UnitBaseClass target, Action callback)
         {
-            _IsAttacking = true;
+            IsAttacking = true;
             CurrentTarget = target;
             DealDamageToTargetAction = callback;
         }

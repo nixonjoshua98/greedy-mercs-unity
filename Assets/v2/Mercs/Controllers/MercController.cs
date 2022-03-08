@@ -13,6 +13,7 @@ namespace GM.Mercs.Controllers
         [Header("Components")]
         [SerializeField] MovementController Movement;
         [SerializeField] AttackController Attack;
+        ISpecialAttackController SpecialAttack;
 
         // = Controllers = //
         UnitBaseClass CurrentTarget;
@@ -31,7 +32,7 @@ namespace GM.Mercs.Controllers
         float EnergyRemaining;
 
         // ...
-        GM.Mercs.Data.AggregatedMercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
+        public GM.Mercs.Data.AggregatedMercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
 
         void Awake()
         {
@@ -48,6 +49,8 @@ namespace GM.Mercs.Controllers
 
         protected void GetRequiredComponents()
         {
+            SpecialAttack = this.GetCachedComponent<ISpecialAttackController>();
+
             DamageTextPool = this.GetComponentInScene<IDamageTextPool>();
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             GameManager = this.GetComponentInScene<GameManager>();
@@ -70,24 +73,41 @@ namespace GM.Mercs.Controllers
         {
             int idx = SquadController.GetQueuePosition(this);
 
-            if (AttackHasControl(idx))
-                return; // Return early
+            if (SpecialAttack.HasControl)
+            {
+                return;
+            }
+            else if (CanGiveControlToSpecialAttack())
+            {
+                SpecialAttack.GiveControl();
+
+                if (SpecialAttack.HasControl)
+                {
+                    return;
+                }
+            }
 
             if (idx == 0)
             {
-                UpdateInvalidTarget();
+                if (TryGetValidTarget(ref CurrentTarget))
+                {
+                    // We are not attacking and not in attack distance so move towards the target
+                    if (!Attack.IsAttacking && !Attack.IsWithinAttackDistance(CurrentTarget))
+                    {
+                        Attack.MoveTowardsTarget(CurrentTarget);
+                    }
 
-                // No valid target exists so return early
-                if (!IsTargetValid(CurrentTarget))
-                    return; 
+                    // Start an attack (assuming we can)
+                    else if (Attack.CanStartAttack(CurrentTarget))
+                    {
+                        StartAttack();
+                    }
 
-                // We are not attacking and not in attack distance so move towards the target
-                else if (!Attack.IsAttacking && !Attack.IsWithinAttackDistance(CurrentTarget))
-                    Attack.MoveTowardsTarget(CurrentTarget);
-
-                // Start an attack (assuming we can)
-                else if (Attack.CanStartAttack(CurrentTarget))
-                    StartAttack();
+                    else if (Attack.IsOnCooldown)
+                    {
+                        Avatar.PlayAnimation(Avatar.Animations.Idle);
+                    }
+                }
             }
 
             else
@@ -96,27 +116,8 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        void UpdateInvalidTarget()
-        {
-            if (!IsTargetValid(CurrentTarget))
-            {
-                UnitManager.TryGetEnemyUnit(out CurrentTarget);
-            }
-        }
 
-        bool AttackHasControl(int queuePosition)
-        {
-            if (!Attack.HasControl)
-            {
-                Attack.TryGiveControl(queuePosition, (target) =>
-                {
-                    CurrentTarget = target;
-                    DealDamageToTarget();
-                });
-            }
-
-            return Attack.HasControl;
-        }
+        bool CanGiveControlToSpecialAttack() => !Attack.IsAttacking && SpecialAttack.WantsControl();
 
         /// <summary>
         /// Move forward in the merc queue
@@ -142,14 +143,11 @@ namespace GM.Mercs.Controllers
             Attack.StartAttack(CurrentTarget, DealDamageToTarget);
         }
 
-        bool IsTargetValid(GM.Units.UnitBaseClass obj)
+        public void PerformAttack(UnitBaseClass target)
         {
-            if (obj == null)
-                return false;
+            CurrentTarget = target;
 
-            HealthController health = obj.GetCachedComponent<HealthController>();
-
-            return !health.IsDead;
+            DealDamageToTarget();
         }
 
         void DealDamageToTarget()
@@ -181,6 +179,14 @@ namespace GM.Mercs.Controllers
 
                 OnDamageDealt.Invoke(damage);
             }
+        }
+
+        public bool TryGetValidTarget(ref UnitBaseClass current)
+        {
+            if (!UnitManager.ContainsEnemyUnit(current))
+                UnitManager.TryGetEnemyUnit(out current);
+
+            return UnitManager.ContainsEnemyUnit(current);
         }
 
         IEnumerator EnergyExhaustedAnimation()

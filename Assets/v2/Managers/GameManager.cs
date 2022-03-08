@@ -26,7 +26,7 @@ namespace GM
             if (!UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
                 return false;
 
-            GM.Controllers.AbstractHealthController health = unit.GetComponent<GM.Controllers.AbstractHealthController>();
+            GM.Controllers.AbstractHealthController health = unit.GetCachedComponent<GM.Controllers.AbstractHealthController>();
 
             if (!health.CanTakeDamage)
                 return false;

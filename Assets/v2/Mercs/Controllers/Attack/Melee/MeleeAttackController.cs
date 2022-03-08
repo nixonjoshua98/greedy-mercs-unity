@@ -1,6 +1,9 @@
 using GM.Units;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+using GM.Controllers;
 
 namespace GM.Mercs.Controllers
 {
@@ -12,21 +15,24 @@ namespace GM.Mercs.Controllers
         public GameObject AttackImpactObject;
 
         [Header("Components")]
-        [SerializeField] MovementController MoveController;
+        [SerializeField] protected MovementController MoveController;
 
         [Header("Properties")]
         [SerializeField] float AttackRange = 0.5f;
 
         void Awake()
         {
-            SetupEvents();
+            SubscribeToEvents();
+            GetRequiredComponents();
         }
 
-        void SetupEvents()
+        protected virtual void SubscribeToEvents()
         {
             Avatar.E_Anim_MeleeAttackImpact.AddListener(Animation_AttackImpact);
             Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
         }
+
+        protected virtual void GetRequiredComponents() { }
 
         public override void StartAttack(GM.Units.UnitBaseClass target, Action callback)
         {
@@ -39,10 +45,10 @@ namespace GM.Mercs.Controllers
         {
             Vector3 position = GetTargetPositionFromTarget(unit);
 
-            return Mathf.Abs(Avatar.Bounds.center.x - position.x) <= AttackRange;
+            return Mathf.Abs(Avatar.Bounds.center.x - position.x) <= (AttackRange * 2);
         }
 
-        public override void MoveTowardsAttackPosition(GM.Units.UnitBaseClass unit)
+        public override void MoveTowardsTarget(GM.Units.UnitBaseClass unit)
         {
             MoveController.MoveTowards(GetTargetPositionFromTarget(unit));
         }
@@ -50,7 +56,7 @@ namespace GM.Mercs.Controllers
         /// <summary>
         /// Fetch the target position from the unit provided. We use the Avatar to determine which side (Left or Right) to move towards
         /// </summary>
-        Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
+        protected Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
         {
             // Target is LEFT
             if (Avatar.Bounds.min.x > unit.Avatar.Bounds.max.x)
@@ -80,6 +86,6 @@ namespace GM.Mercs.Controllers
         void InstantiateAttackImpactObject()
         {
             Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition());
-        }
+        }        
     }
 }

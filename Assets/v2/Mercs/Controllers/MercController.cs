@@ -4,6 +4,7 @@ using GM.Units;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using GM.Controllers;
 
 namespace GM.Mercs.Controllers
 {
@@ -11,7 +12,7 @@ namespace GM.Mercs.Controllers
     {
         [Header("Components")]
         [SerializeField] MovementController Movement;
-        [SerializeField] AttackController AttackController;
+        [SerializeField] AttackController Attack;
 
         // = Controllers = //
         UnitBaseClass CurrentTarget;
@@ -32,7 +33,6 @@ namespace GM.Mercs.Controllers
         // ...
         GM.Mercs.Data.AggregatedMercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
 
-
         void Awake()
         {
             GetRequiredComponents();
@@ -43,7 +43,7 @@ namespace GM.Mercs.Controllers
 
         void SubscribeToEvents()
         {
-            AttackController.E_AttackFinished.AddListener(AttackController_OnAttackFinished);
+            Attack.E_AttackFinished.AddListener(AttackController_OnAttackFinished);
         }
 
         protected void GetRequiredComponents()
@@ -70,46 +70,86 @@ namespace GM.Mercs.Controllers
         {
             int idx = SquadController.GetQueuePosition(this);
 
+            if (AttackHasControl(idx))
+                return; // Return early
+
             if (idx == 0)
             {
-                if (!AttackController.IsTargetValid(CurrentTarget))
-                {
-                    UnitManager.TryGetEnemyUnit(out CurrentTarget);
-                }
-                else if (!AttackController.IsAttacking)
-                {
-                    if (!AttackController.IsWithinAttackDistance(CurrentTarget))
-                    {
-                        AttackController.MoveTowardsAttackPosition(CurrentTarget);
-                    }
+                UpdateInvalidTarget();
 
-                    else if (AttackController.IsAvailable)
-                    {
-                        StartAttack();
-                    }
-                }
+                // No valid target exists so return early
+                if (!IsTargetValid(CurrentTarget))
+                    return; 
+
+                // We are not attacking and not in attack distance so move towards the target
+                else if (!Attack.IsAttacking && !Attack.IsWithinAttackDistance(CurrentTarget))
+                    Attack.MoveTowardsTarget(CurrentTarget);
+
+                // Start an attack (assuming we can)
+                else if (Attack.CanStartAttack(CurrentTarget))
+                    StartAttack();
             }
 
-            else if (idx > 0)
+            else
             {
-                UnitBaseClass unit = SquadController.GetUnitAtQueuePosition(idx - 1);
+                FollowUnitInFront(idx);
+            }
+        }
 
-                Vector3 targetPosition = new Vector3(unit.Avatar.Bounds.min.x - unit.Avatar.Bounds.size.x, transform.position.y);
+        void UpdateInvalidTarget()
+        {
+            if (!IsTargetValid(CurrentTarget))
+            {
+                UnitManager.TryGetEnemyUnit(out CurrentTarget);
+            }
+        }
 
-                if (transform.position != targetPosition)
+        bool AttackHasControl(int queuePosition)
+        {
+            if (!Attack.HasControl)
+            {
+                Attack.TryGiveControl(queuePosition, (target) =>
                 {
-                    Movement.MoveTowards(targetPosition);
-                }
-                else
-                {
-                    Avatar.PlayAnimation(Avatar.Animations.Idle);
-                }
+                    CurrentTarget = target;
+                    DealDamageToTarget();
+                });
+            }
+
+            return Attack.HasControl;
+        }
+
+        /// <summary>
+        /// Move forward in the merc queue
+        /// </summary>
+        void FollowUnitInFront(int queueIndex)
+        {
+            UnitBaseClass unit = SquadController.GetUnitAtQueuePosition(queueIndex - 1);
+
+            Vector3 targetPosition = new Vector3(unit.Avatar.Bounds.min.x - unit.Avatar.Bounds.size.x, transform.position.y);
+
+            if (transform.position != targetPosition)
+            {
+                Movement.MoveTowards(targetPosition);
+            }
+            else
+            {
+                Avatar.PlayAnimation(Avatar.Animations.Idle);
             }
         }
 
         protected void StartAttack()
         {
-            AttackController.StartAttack(CurrentTarget, OnAttackImpact);
+            Attack.StartAttack(CurrentTarget, DealDamageToTarget);
+        }
+
+        bool IsTargetValid(GM.Units.UnitBaseClass obj)
+        {
+            if (obj == null)
+                return false;
+
+            HealthController health = obj.GetCachedComponent<HealthController>();
+
+            return !health.IsDead;
         }
 
         void DealDamageToTarget()
@@ -148,7 +188,7 @@ namespace GM.Mercs.Controllers
             Vector3 originalScale = transform.localScale;
 
             // Scale down the unit eventually to zero
-            Enumerators.Lerp01(this, 2, (value) => { transform.localScale = originalScale * (1 - value); });
+            Enumerators.Lerp01(this, 3, (value) => { transform.localScale = originalScale * (1 - value); });
 
             // Move down slightly
             yield return Movement.MoveTowardsEnumerator(transform.position - new Vector3(0, 1.5f));
@@ -161,7 +201,7 @@ namespace GM.Mercs.Controllers
 
         // = Callbacks = //
 
-        protected void OnAttackImpact()
+        protected void AttackController_OnAttackImpact()
         {
             DealDamageToTarget();
         }

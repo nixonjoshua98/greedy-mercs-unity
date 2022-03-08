@@ -1,5 +1,4 @@
-﻿using GM.Common.Interfaces;
-using System;
+﻿using System;
 
 namespace GM
 {
@@ -11,7 +10,6 @@ namespace GM
         public int EnemiesDefeated = 0;
 
         public int EnemiesRemaining => Math.Max(0, EnemiesPerStage - EnemiesDefeated);
-        public bool HasBossSpawned { get; set; } = false;
 
         public static CurrentPrestigeState Deserialize(LocalStateFile model)
         {

@@ -10,16 +10,29 @@ namespace GM.Units
         [Header("Properties")]
         public float MoveSpeed = 2.5f;
 
-        public void MoveTowards(Vector3 target)
+        Vector3 _CurrentMovingDirection = Vector3.zero;
+
+        public void MoveTowards(Vector3 target, bool playAnimation = true)
         {
+            UpdateCurrentMovingDirection(target);
+
             LookAtDirection(target - transform.position);
 
             transform.position = Vector3.MoveTowards(transform.position, target, Time.fixedDeltaTime * MoveSpeed);
 
-            Avatar.PlayAnimation(Avatar.Animations.Walk);
+            if (playAnimation)
+            {
+                Avatar.PlayAnimation(Avatar.Animations.Walk);
+            }
         }
 
-        public void MoveDirection(Vector3 dir) => MoveTowards(transform.position + (dir * MoveSpeed));
+        void UpdateCurrentMovingDirection(Vector3 targetPosition)
+        {
+            _CurrentMovingDirection = (targetPosition - transform.position).normalized;
+        }
+
+        public void MoveDirection(Vector3 dir, bool playAnimation = true) => MoveTowards(transform.position + (dir * MoveSpeed), playAnimation: playAnimation);
+        public void Continue() => MoveTowards(transform.position + (_CurrentMovingDirection * MoveSpeed));
 
         public IEnumerator MoveTowardsEnumerator(Vector3 target)
         {

@@ -8,5 +8,6 @@ namespace GM
         public string Attack;
         public string Defeat;
         public string Hurt;
+        public string MoveAttack;
     }
 }

@@ -1,4 +1,6 @@
 
+using GM.Controllers;
+using GM.Units;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -6,19 +8,7 @@ using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
 {
-    public interface IAttackController
-    {
-        public bool IsTargetValid(GM.Units.UnitBaseClass obj);
-        public bool IsAvailable { get; }
-        public bool IsAttacking { get; }
-
-        void StartAttack(GM.Units.UnitBaseClass target, Action callback);
-        bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
-        void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
-    }
-
-
-    public abstract class AttackController : GM.Core.GMMonoBehaviour, IAttackController
+    public abstract class AttackController : GM.Core.GMMonoBehaviour
     {
         [SerializeField]
         float CooldownTimer = 1.0f;
@@ -28,25 +18,21 @@ namespace GM.Mercs.Controllers
 
         // State
         protected bool _IsAttacking;
+        public bool HasControl { get; protected set; }
         public bool IsAttacking { get => _IsAttacking; }
 
         protected bool IsOnCooldown;
-        public bool IsAvailable => !IsOnCooldown && !_IsAttacking;
 
         // Events
         [HideInInspector] public UnityEvent E_AttackFinished = new UnityEvent();
 
+        public virtual void TryGiveControl(int queuePosition, Action<UnitBaseClass> damageImpact) { }
         public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
-        public abstract void MoveTowardsAttackPosition(GM.Units.UnitBaseClass target);
+        public abstract void MoveTowardsTarget(GM.Units.UnitBaseClass target);
 
-        public bool IsTargetValid(GM.Units.UnitBaseClass obj)
+        public virtual bool CanStartAttack(UnitBaseClass unit)
         {
-            if (obj == null)
-                return false;
-
-            GM.Controllers.HealthController health = obj.GetComponent<GM.Controllers.HealthController>();
-
-            return !health.IsDead;
+            return !IsOnCooldown && !IsAttacking && IsWithinAttackDistance(unit);
         }
 
         public virtual void StartAttack(GM.Units.UnitBaseClass target, Action callback)
@@ -68,21 +54,21 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        protected void Cooldown()
-        {
-            _IsAttacking = false;
-            StartCooldown();
-        }
-
         protected void StartCooldown()
         {
-            StartCoroutine(CooldownTask());
+            StartCooldown(CooldownTimer);
         }
 
-        IEnumerator CooldownTask()
+        protected void StartCooldown(float secs)
+        {
+            StartCoroutine(CooldownTask(secs));
+        }
+
+
+        IEnumerator CooldownTask(float seconds)
         {
             IsOnCooldown = true;
-            yield return new WaitForSeconds(CooldownTimer);
+            yield return new WaitForSeconds(seconds);
             IsOnCooldown = false;
         }
     }

@@ -49,7 +49,7 @@ MonoBehaviour:
   Avatar: {fileID: 7369940450850404304}
   Id: 3
   Movement: {fileID: 2292817266137231968}
-  AttackController: {fileID: 2292817266137231969}
+  Attack: {fileID: 2292817266137231969}
 --- !u!114 &2292817266137231969
 MonoBehaviour:
   m_ObjectHideFlags: 0

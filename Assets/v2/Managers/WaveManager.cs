@@ -45,9 +45,7 @@ namespace GM
 
             foreach (GM.Units.UnitBaseClass unit in enemies)
             {
-                GM.Units.UnitBaseClass unitClass = unit.GetComponent<GM.Units.UnitBaseClass>();
-
-                GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
+                GM.Controllers.HealthController health = unit.GetCachedComponent<GM.Controllers.HealthController>();
 
                 health.Init(combinedHealth);
 
@@ -62,17 +60,14 @@ namespace GM
             UnitFactoryInstantiatedBossUnit enemy = UnitManager.InstantiateEnemyBossUnit();
 
             // Components
-            GM.Controllers.HealthController health = enemy.GameObject.GetComponent<GM.Controllers.HealthController>();
-            GM.Units.UnitBaseClass unitClass = enemy.GameObject.GetComponent<GM.Units.UnitBaseClass>();
+            GM.Controllers.HealthController health  = enemy.GameObject.GetComponent<GM.Controllers.HealthController>();
+            GM.Units.UnitBaseClass unitClass        = enemy.GameObject.GetComponent<GM.Units.UnitBaseClass>();
 
             // Setup
             health.Init(val: App.GMCache.StageBossHealthAtStage(CurrentGameState.Stage));
 
             // Add event callbacks
             health.E_OnZeroHealth.AddListener(OnBossZeroHealth);
-
-            // Update the state
-            CurrentGameState.HasBossSpawned = true;
 
             // Set the boss position off-screen
             enemy.GameObject.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
@@ -96,9 +91,6 @@ namespace GM
 
         void OnBossZeroHealth()
         {
-            // Update the state, mainly used for saving and loading state
-            CurrentGameState.HasBossSpawned = false;
-
             CurrentGameState.Stage++;
             CurrentGameState.EnemiesDefeated = 0;
 

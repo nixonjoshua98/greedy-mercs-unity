@@ -12,6 +12,7 @@ namespace GM.Units
 
         [HideInInspector] public UnityEvent E_Anim_MeleeAttackImpact = new UnityEvent();
         [HideInInspector] public UnityEvent E_Anim_MeleeAttackFinished = new UnityEvent();
+        [HideInInspector] public UnityEvent E_Anim_MeleeMoveAttackImpact = new UnityEvent();
 
         [HideInInspector] public UnityEvent E_Anim_OnDefeat = new UnityEvent();
         [HideInInspector] public UnityEvent E_Anim_OnHurt = new UnityEvent();
@@ -32,6 +33,7 @@ namespace GM.Units
         public void Animation_MeleeAttackFinished() => E_Anim_MeleeAttackFinished.Invoke();
         public void Animation_OnDefeat() => E_Anim_OnDefeat.Invoke();
         public void Animation_OnHurt() => E_Anim_OnHurt.Invoke();
+        public void Animation_MeleeMoveAttackImpact() => E_Anim_MeleeMoveAttackImpact.Invoke();
 
     }
 }

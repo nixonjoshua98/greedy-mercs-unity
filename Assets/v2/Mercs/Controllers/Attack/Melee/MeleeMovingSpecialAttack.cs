@@ -59,18 +59,14 @@ namespace GM.Mercs.Controllers
 
             Avatar.PlayAnimation(Avatar.Animations.MoveAttack);
 
-            while (HasControl)
+            while (HasControl && Controller.HasEnergy)
             {
                 yield return new WaitForFixedUpdate();
 
                 if (Controller.TryGetValidTarget(ref target))
                 {
-                    // This attck only works when we can defeat the enemy instantly
                     if (!CanDefeatTargetOneHit(target))
-                    {
-                        RemoveControl();
                         yield break;
-                    }
 
                     moveDir = GetMoveDirection(target);
 
@@ -78,7 +74,7 @@ namespace GM.Mercs.Controllers
 
                     if (Avatar.DistanceBetweenAvatar(target.Avatar) <= AttackRange)
                     {
-                        Controller.PerformAttack(target);
+                        PerformAttack(target);
                     }
                 }
                 else
@@ -86,6 +82,16 @@ namespace GM.Mercs.Controllers
                     Movement.MoveDirection(moveDir, MoveSpeed, playAnimation: false);
                 }
             }
+
+            // Remove control if we still have it
+            if (HasControl)
+                RemoveControl();
+        }
+
+        void PerformAttack(UnitBaseClass unit)
+        {
+            Controller.PerformAttack(unit);
+            Controller.ReduceEnergy(Controller.MercDataValues.EnergyConsumedPerAttack);
         }
 
         bool CanDefeatTargetOneHit(UnitBaseClass unit)

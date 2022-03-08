@@ -4,7 +4,6 @@ using GM.Units;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using GM.Controllers;
 
 namespace GM.Mercs.Controllers
 {
@@ -13,7 +12,7 @@ namespace GM.Mercs.Controllers
         [Header("Components")]
         [SerializeField] MovementController Movement;
         [SerializeField] AttackController Attack;
-        ISpecialAttackController SpecialAttack;
+        /* Optional */ ISpecialAttackController SpecialAttack;
 
         // = Controllers = //
         UnitBaseClass CurrentTarget;
@@ -30,6 +29,10 @@ namespace GM.Mercs.Controllers
         // Energy
         bool IsEnergyDepleted;
         float EnergyRemaining;
+
+        // Properties
+        public bool HasEnergy => EnergyRemaining > 0 && !IsEnergyDepleted;
+        bool HasSpecialAttack => SpecialAttack != null;
 
         // ...
         public GM.Mercs.Data.AggregatedMercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
@@ -49,7 +52,7 @@ namespace GM.Mercs.Controllers
 
         protected void GetRequiredComponents()
         {
-            SpecialAttack = this.GetCachedComponent<ISpecialAttackController>();
+            SpecialAttack = GetCachedComponent<ISpecialAttackController>();
 
             DamageTextPool = this.GetComponentInScene<IDamageTextPool>();
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
@@ -73,22 +76,19 @@ namespace GM.Mercs.Controllers
         {
             int idx = SquadController.GetQueuePosition(this);
 
-            if (SpecialAttack.HasControl)
-            {
-                return;
-            }
-            else if (CanGiveControlToSpecialAttack())
-            {
-                SpecialAttack.GiveControl();
-
-                if (SpecialAttack.HasControl)
-                {
-                    return;
-                }
-            }
-
             if (idx == 0)
             {
+                if (HasSpecialAttack)
+                {
+                    // Give control to the special attack if it wants it
+                    if (CanGiveControlToSpecialAttack())
+                        SpecialAttack.GiveControl();
+
+                    // Return out the loop if we do not have control
+                    if (SpecialAttack.HasControl)
+                        return;
+                }
+               
                 if (TryGetValidTarget(ref CurrentTarget))
                 {
                     // We are not attacking and not in attack distance so move towards the target
@@ -117,7 +117,7 @@ namespace GM.Mercs.Controllers
         }
 
 
-        bool CanGiveControlToSpecialAttack() => !Attack.IsAttacking && SpecialAttack.WantsControl();
+        bool CanGiveControlToSpecialAttack() => !Attack.IsAttacking && !SpecialAttack.HasControl && SpecialAttack.WantsControl();
 
         /// <summary>
         /// Move forward in the merc queue
@@ -205,6 +205,23 @@ namespace GM.Mercs.Controllers
             Destroy(gameObject);
         }
 
+        public void ReduceEnergy(float value)
+        {
+            if (EnergyRemaining > 0)
+            {
+                EnergyRemaining -= value;
+
+                if (EnergyRemaining <= 0)
+                {
+                    IsEnergyDepleted = true;
+
+                    SquadController.RemoveMercFromQueue(this);
+
+                    StartCoroutine(EnergyExhaustedAnimation());
+                }
+            }
+        }
+
         // = Callbacks = //
 
         protected void AttackController_OnAttackImpact()
@@ -214,16 +231,7 @@ namespace GM.Mercs.Controllers
 
         void AttackController_OnAttackFinished()
         {
-            EnergyRemaining -= MercDataValues.EnergyConsumedPerAttack;
-
-            if (EnergyRemaining <= 0)
-            {
-                IsEnergyDepleted = true;
-
-                SquadController.RemoveMercFromQueue(this);
-
-                StartCoroutine(EnergyExhaustedAnimation());
-            }
+            ReduceEnergy(MercDataValues.EnergyConsumedPerAttack);
         }
     }
 }

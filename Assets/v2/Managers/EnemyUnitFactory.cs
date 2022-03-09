@@ -7,17 +7,12 @@ namespace GM
 {
     public interface IEnemyUnitFactory
     {
-        int NumEnemyUnits { get; }
-
-        bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit);
-        bool ContainsEnemyUnit(UnitBaseClass unit);
-
         UnitBaseClass InstantiateEnemyUnit();
         UnitFactoryInstantiatedBossUnit InstantiateEnemyBossUnit();
     }
 
 
-    public class EnemyUnitFactory : Core.GMMonoBehaviour, IEnemyUnitFactory
+    public class EnemyUnitFactory : Core.GMMonoBehaviour, IEnemyUnitFactory, IEnemyUnitQueue
     {
         // Constants
         readonly Vector3 LeftMostEnemyUnitStartPosition = new Vector3(8, GM.Common.Constants.CENTER_BATTLE_Y);
@@ -28,28 +23,19 @@ namespace GM
 
         List<UnitBaseClass> EnemyUnits = new List<UnitBaseClass>();
 
-        /// <summary>
-        /// Public property returning how many units are currently instantiated
-        /// </summary>
-        public int NumEnemyUnits { get => EnemyUnits.Count; }
+        public int NumUnits { get => EnemyUnits.Count; }
 
-        /// <summary>
-        /// Preferred way of getting the first available unit
-        /// </summary>
-        public bool TryGetEnemyUnit(out GM.Units.UnitBaseClass unit)
+        public bool TryGetUnit(ref UnitBaseClass current)
         {
-            unit = default;
-
-            if (EnemyUnits.Count > 0)
+            if (!ContainsUnit(current) && EnemyUnits.Count > 0)
             {
-                unit = EnemyUnits[0];
-                return true;
+                current = EnemyUnits[0];
             }
 
-            return false;
+            return ContainsUnit(current);
         }
 
-        public bool ContainsEnemyUnit(UnitBaseClass unit) => EnemyUnits.Contains(unit);
+        public bool ContainsUnit(UnitBaseClass unit) => EnemyUnits.Contains(unit);
 
         /// <summary>
         /// Instantiate a regular enemy unit with minimal setup

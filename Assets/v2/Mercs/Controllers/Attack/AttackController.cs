@@ -1,29 +1,31 @@
-
-using GM.Controllers;
 using GM.Units;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
 {
-    public abstract class AttackController : GM.Core.GMMonoBehaviour
+    public abstract class AttackController : AbstractUnitActionController, IUnitActionController
     {
+        [Header("Components (AttackController)")]
+        [SerializeField] protected MercController Controller;
+        /* Scene Component */ protected IEnemyUnitQueue EnemyUnits;
+
         [SerializeField]
         float CooldownTimer = 1.0f;
 
-        protected GM.Units.UnitBaseClass CurrentTarget;
-        Action DealDamageToTargetAction;
+        protected UnitBaseClass CurrentTarget;
 
         public bool IsAttacking { get; protected set; }
         public bool IsOnCooldown { get; protected set; }
 
-        // Events
-        [HideInInspector] public UnityEvent E_AttackFinished { get; set; } = new UnityEvent();
+        protected virtual void GetRequiredComponents()
+        {
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
+        }
+
 
         public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
-        public abstract void MoveTowardsTarget(GM.Units.UnitBaseClass target);
 
         public virtual bool CanStartAttack(UnitBaseClass unit)
         {
@@ -31,19 +33,11 @@ namespace GM.Mercs.Controllers
         }
 
 
-        public virtual void StartAttack(GM.Units.UnitBaseClass target, Action callback)
+        public virtual void StartAttack(GM.Units.UnitBaseClass target)
         {
             IsAttacking = true;
             CurrentTarget = target;
-            DealDamageToTargetAction = callback;
         }
-
-
-        protected void DealDamageToTarget()
-        {
-            DealDamageToTargetAction.Invoke();
-        }
-
 
         protected void StartCooldown()
         {

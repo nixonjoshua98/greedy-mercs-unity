@@ -1,15 +1,20 @@
 ﻿using GM.DamageTextPool;
+using GM.Units;
 
 namespace GM
 {
     public class GameManager : Core.GMMonoBehaviour
     {
         IEnemyUnitFactory UnitManager;
+        IEnemyUnitQueue EnemyUnits;
+
         WaveManager WaveManager;
         IDamageTextPool DamageNumberManager;
 
         void Awake()
         {
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
+
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             WaveManager = this.GetComponentInScene<WaveManager>();
             DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
@@ -23,7 +28,9 @@ namespace GM
 
         public bool DealDamageToTarget(BigDouble damageValue, bool showDamageNumber = true)
         {
-            if (!UnitManager.TryGetEnemyUnit(out GM.Units.UnitBaseClass unit))
+            GM.Units.UnitBaseClass unit = null;
+
+            if (!EnemyUnits.TryGetUnit(ref unit))
                 return false;
 
             GM.Controllers.AbstractHealthController health = unit.GetCachedComponent<GM.Controllers.AbstractHealthController>();

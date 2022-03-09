@@ -1,5 +1,5 @@
 using GM.Units;
-using System;
+using System.Collections;
 using UnityEngine;
 
 namespace GM.Mercs.Controllers
@@ -11,15 +11,16 @@ namespace GM.Mercs.Controllers
         [Header("Prefabs")]
         public GameObject AttackImpactObject;
 
-        [Header("Components")]
+        [Header("Components (MeleeAttackController)")]
         [SerializeField] protected MovementController MoveController;
-
+        
         [Header("Properties")]
-        [SerializeField] float AttackRange = 0.5f;
+        [SerializeField] float AttackRange = 1.0f;
 
         void Awake()
         {
             SubscribeToEvents();
+            GetRequiredComponents();
         }
 
         protected virtual void SubscribeToEvents()
@@ -28,58 +29,81 @@ namespace GM.Mercs.Controllers
             Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
         }
 
-        public override void StartAttack(GM.Units.UnitBaseClass target, Action callback)
+        public override void StartAttack(UnitBaseClass target)
         {
-            base.StartAttack(target, callback);
-
+            base.StartAttack(target);
             Avatar.PlayAnimation(Avatar.Animations.Attack);
         }
 
         public override bool IsWithinAttackDistance(GM.Units.UnitBaseClass unit)
         {
-            Vector3 position = GetTargetPositionFromTarget(unit);
+            float dist = Avatar.DistanceBetweenAvatar(unit.Avatar);
 
-            return Mathf.Abs(Avatar.Bounds.center.x - position.x) <= AttackRange;
-        }
-
-        public override void MoveTowardsTarget(GM.Units.UnitBaseClass unit)
-        {
-            MoveController.MoveTowards(GetTargetPositionFromTarget(unit));
-        }
-
-        /// <summary>
-        /// Fetch the target position from the unit provided. We use the Avatar to determine which side (Left or Right) to move towards
-        /// </summary>
-        protected Vector3 GetTargetPositionFromTarget(GM.Units.UnitBaseClass unit)
-        {
-            // Target is LEFT
-            if (Avatar.Bounds.min.x > unit.Avatar.Bounds.max.x)
-            {
-                return new Vector3(unit.Avatar.Bounds.max.x + AttackRange, transform.position.y);
-            }
-            // Target is RIGHT
-            else
-            {
-                return new Vector3(unit.Avatar.Bounds.min.x - AttackRange, transform.position.y);
-            }
+            return dist <= AttackRange;
         }
 
         void InstantiateAttackImpactObject()
         {
-            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition());
+            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition(), Quaternion.identity);
         }
 
+        public override bool WantsControl()
+        {
+            if (!EnemyUnits.TryGetUnit(ref CurrentTarget))
+                return false;
+
+            return IsWithinAttackDistance(CurrentTarget);
+        }
+
+        public override void GiveControl()
+        {
+            HasControl = true;
+            IsAttacking = false;
+            StartCoroutine(UpdateLoop());
+        }
+
+        public override void RemoveControl()
+        {
+            HasControl = false;
+            CurrentTarget = null;
+        }
+
+        IEnumerator UpdateLoop()
+        {
+            while (HasControl && EnemyUnits.TryGetUnit(ref CurrentTarget))
+            {
+                if (!IsAttacking && !IsWithinAttackDistance(CurrentTarget))
+                    break;
+
+                // Start an attack (assuming we can)
+                else if (CanStartAttack(CurrentTarget))
+                {
+                    StartAttack(CurrentTarget);
+                }
+
+                else if (IsOnCooldown)
+                {
+                    Avatar.PlayAnimation(Avatar.Animations.Idle);
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            RemoveControl();
+        }
+
+
+        // == Callbacks == //
         public void Animation_AttackImpact()
         {
-            DealDamageToTarget();
+            Controller.DealDamageToTarget(CurrentTarget);
             InstantiateAttackImpactObject();
         }
 
         public void Animation_AttackFinished()
         {
-            IsAttacking = false;
             StartCooldown();
-            E_AttackFinished.Invoke();
-        }     
+            RemoveControl();
+        }
     }
 }

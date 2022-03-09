@@ -10,21 +10,18 @@ using System.Collections.Generic;
 namespace GM.Mercs.Controllers
 {
 
-    public class MercController : GM.Mercs.MercBaseClass
+    public class MercController : MercBaseClass
     {
         [Header("Components")]
         [SerializeField] MovementController Movement;
-        [SerializeField] AttackController Attack;
         List<IUnitActionController> ActionControllers;
 
-        // = Controllers = //
         UnitBaseClass CurrentTarget;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
 
         // Managers
-        IEnemyUnitFactory UnitManager;
         IDamageTextPool DamageTextPool;
         GameManager GameManager;
         ISquadController SquadController;
@@ -36,7 +33,6 @@ namespace GM.Mercs.Controllers
         // Properties
         bool HasControl => !ActionControllers.Any(x => x.HasControl);
         public bool HasEnergy => EnergyRemaining > 0 && !IsEnergyDepleted;
-        bool HasSpecialAttack => ActionControllers != null;
 
         // ...
         public GM.Mercs.Data.AggregatedMercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
@@ -44,22 +40,15 @@ namespace GM.Mercs.Controllers
         void Awake()
         {
             GetRequiredComponents();
-            SubscribeToEvents();
 
             EnergyRemaining = MercDataValues.BattleEnergyCapacity;
         }
 
-        void SubscribeToEvents()
-        {
-            Attack.E_AttackFinished.AddListener(AttackController_OnAttackFinished);
-        }
-
         protected void GetRequiredComponents()
         {
-            ActionControllers = GetComponents<IUnitActionController>().ToList();
+            ActionControllers = GetComponents<IUnitActionController>().OrderByDescending(x => x.Priority).ToList();
 
             DamageTextPool = this.GetComponentInScene<IDamageTextPool>();
-            UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             GameManager = this.GetComponentInScene<GameManager>();
             SquadController = this.GetComponentInScene<ISquadController>();
         }
@@ -88,26 +77,8 @@ namespace GM.Mercs.Controllers
                 {
                     return;
                 }
-               
-                if (TryGetValidTarget(ref CurrentTarget))
-                {
-                    // We are not attacking and not in attack distance so move towards the target
-                    if (!Attack.IsAttacking && !Attack.IsWithinAttackDistance(CurrentTarget))
-                    {
-                        Attack.MoveTowardsTarget(CurrentTarget);
-                    }
 
-                    // Start an attack (assuming we can)
-                    else if (Attack.CanStartAttack(CurrentTarget))
-                    {
-                        Attack.StartAttack(CurrentTarget, DealDamageToTarget);
-                    }
-
-                    else if (Attack.IsOnCooldown)
-                    {
-                        Avatar.PlayAnimation(Avatar.Animations.Idle);
-                    }
-                }
+                Movement.MoveDirection(Vector2.right);
             }
 
             else
@@ -157,6 +128,8 @@ namespace GM.Mercs.Controllers
         {
             CurrentTarget = target;
 
+            ReduceEnergy(MercDataValues.EnergyConsumedPerAttack);
+
             DealDamageToTarget();
         }
 
@@ -191,14 +164,6 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        public bool TryGetValidTarget(ref UnitBaseClass current)
-        {
-            if (!UnitManager.ContainsEnemyUnit(current))
-                UnitManager.TryGetEnemyUnit(out current);
-
-            return UnitManager.ContainsEnemyUnit(current);
-        }
-
         IEnumerator EnergyExhaustedAnimation()
         {
             Vector3 originalScale = transform.localScale;
@@ -215,7 +180,7 @@ namespace GM.Mercs.Controllers
             Destroy(gameObject);
         }
 
-        public void ReduceEnergy(float value)
+        void ReduceEnergy(float value)
         {
             if (EnergyRemaining > 0)
             {
@@ -230,18 +195,6 @@ namespace GM.Mercs.Controllers
                     StartCoroutine(EnergyExhaustedAnimation());
                 }
             }
-        }
-
-        // = Callbacks = //
-
-        protected void AttackController_OnAttackImpact()
-        {
-            DealDamageToTarget();
-        }
-
-        void AttackController_OnAttackFinished()
-        {
-            ReduceEnergy(MercDataValues.EnergyConsumedPerAttack);
         }
     }
 }

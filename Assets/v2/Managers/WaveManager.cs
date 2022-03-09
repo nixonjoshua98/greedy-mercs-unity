@@ -1,5 +1,6 @@
 using GM.Common;
 using System.Collections.Generic;
+using GM.Units;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,8 @@ namespace GM
 {
     public class WaveManager : GM.Core.GMMonoBehaviour
     {
+        /* Scene Components */
+        IEnemyUnitQueue Enemies;
         IEnemyUnitFactory UnitManager;
 
         [HideInInspector] public UnityEvent<UnitFactoryInstantiatedBossUnit> E_BossSpawn { get; private set; } = new UnityEvent<UnitFactoryInstantiatedBossUnit>();
@@ -17,6 +20,7 @@ namespace GM
 
         void Awake()
         {
+            Enemies = this.GetComponentInScene<IEnemyUnitQueue>();
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
         }
 
@@ -83,7 +87,7 @@ namespace GM
             CurrentGameState.EnemiesDefeated++;
 
             // All wave enemies have been defeated
-            if (UnitManager.NumEnemyUnits == 0)
+            if (Enemies.NumUnits == 0)
             {
                 StartStageBoss();
             }

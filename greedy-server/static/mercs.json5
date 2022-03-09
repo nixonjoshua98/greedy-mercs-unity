@@ -61,7 +61,7 @@
       "name": "Fallen Angel",
       "mercId": 1,
       "baseDamage": 15,
-      "spawnEnergyRequired": 5,
+      "spawnEnergyRequired": 50,
       "passives": [
         {
           "passiveId": 0,

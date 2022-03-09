@@ -5,14 +5,6 @@ using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
-    public interface IUnitActionController
-    {
-        bool HasControl { get; }
-        bool WantsControl();
-        void GiveControl();
-        void RemoveControl();
-    }
-
     public class MovingMeleeAttackController : AbstractUnitActionController, IUnitActionController
     {
         [Header("Properties")]
@@ -24,13 +16,21 @@ namespace GM.Mercs.Controllers
         [SerializeField] MercController Controller;
         [SerializeField] MovementController Movement;
 
+        /* Scene Components */ 
+        IEnemyUnitQueue EnemyUnits;
+
         bool HasPerformedAttack;
+
+        void Awake()
+        {
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
+        }
 
         public override bool WantsControl()
         {
             UnitBaseClass current = null;
 
-            if (HasPerformedAttack || !Controller.TryGetValidTarget(ref current))
+            if (HasPerformedAttack || !EnemyUnits.TryGetUnit(ref current))
             {
                 return false;
             }
@@ -40,6 +40,7 @@ namespace GM.Mercs.Controllers
             return health.Percent >= 1.0 && CanDefeatTargetOneHit(current);
         }
 
+
         public override void GiveControl()
         {
             HasControl = true;
@@ -47,6 +48,7 @@ namespace GM.Mercs.Controllers
 
             StartCoroutine(MovingAttack());
         }
+
 
         public override void RemoveControl()
         {
@@ -67,7 +69,7 @@ namespace GM.Mercs.Controllers
             {
                 yield return new WaitForFixedUpdate();
 
-                if (Controller.TryGetValidTarget(ref target))
+                if (EnemyUnits.TryGetUnit(ref target))
                 {
                     if (!CanDefeatTargetOneHit(target))
                         break;
@@ -78,7 +80,7 @@ namespace GM.Mercs.Controllers
 
                     if (Avatar.DistanceBetweenAvatar(target.Avatar) <= AttackRange)
                     {
-                        PerformAttack(target);
+                        Controller.DealDamageToTarget(target);
                     }
                 }
                 else
@@ -88,12 +90,6 @@ namespace GM.Mercs.Controllers
             }
             
             RemoveControl();
-        }
-
-        void PerformAttack(UnitBaseClass unit)
-        {
-            Controller.DealDamageToTarget(unit);
-            Controller.ReduceEnergy(Controller.MercDataValues.EnergyConsumedPerAttack);
         }
 
         bool CanDefeatTargetOneHit(UnitBaseClass unit)

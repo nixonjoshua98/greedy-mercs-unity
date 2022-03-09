@@ -66,7 +66,7 @@ namespace GM.Mercs.Controllers
                 if (Controller.TryGetValidTarget(ref target))
                 {
                     if (!CanDefeatTargetOneHit(target))
-                        yield break;
+                        break;
 
                     moveDir = GetMoveDirection(target);
 

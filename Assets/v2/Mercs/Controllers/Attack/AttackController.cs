@@ -30,6 +30,7 @@ namespace GM.Mercs.Controllers
             return !IsOnCooldown && !IsAttacking && IsWithinAttackDistance(unit);
         }
 
+
         public virtual void StartAttack(GM.Units.UnitBaseClass target, Action callback)
         {
             IsAttacking = true;
@@ -37,22 +38,18 @@ namespace GM.Mercs.Controllers
             DealDamageToTargetAction = callback;
         }
 
+
         protected void DealDamageToTarget()
         {
-            if (CurrentTarget == null)
-            {
-                GMLogger.Editor("Attempted to deal damage to destroyed target");
-            }
-            else
-            {
-                DealDamageToTargetAction.Invoke();
-            }
+            DealDamageToTargetAction.Invoke();
         }
+
 
         protected void StartCooldown()
         {
             StartCooldown(CooldownTimer);
         }
+
 
         protected void StartCooldown(float secs)
         {

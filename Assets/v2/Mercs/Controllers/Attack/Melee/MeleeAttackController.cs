@@ -64,6 +64,11 @@ namespace GM.Mercs.Controllers
             }
         }
 
+        void InstantiateAttackImpactObject()
+        {
+            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition());
+        }
+
         public void Animation_AttackImpact()
         {
             DealDamageToTarget();
@@ -75,11 +80,6 @@ namespace GM.Mercs.Controllers
             IsAttacking = false;
             StartCooldown();
             E_AttackFinished.Invoke();
-        }
-
-        void InstantiateAttackImpactObject()
-        {
-            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition());
-        }        
+        }     
     }
 }

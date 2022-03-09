@@ -5,14 +5,15 @@ using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
-    public interface ISpecialAttackController
+    public interface IUnitActionController
     {
         bool HasControl { get; }
         bool WantsControl();
         void GiveControl();
+        void RemoveControl();
     }
 
-    public class MeleeMovingSpecialAttack : AbstractSpecialAttackController, ISpecialAttackController
+    public class MovingMeleeAttackController : AbstractUnitActionController, IUnitActionController
     {
         [Header("Properties")]
         [SerializeField] float MoveSpeed = 10.0f;
@@ -49,7 +50,10 @@ namespace GM.Mercs.Controllers
 
         public override void RemoveControl()
         {
-            HasControl = false;
+            if (HasControl)
+            {
+                HasControl = false;
+            }
         }
 
         IEnumerator MovingAttack()
@@ -82,15 +86,13 @@ namespace GM.Mercs.Controllers
                     Movement.MoveDirection(moveDir, MoveSpeed, playAnimation: false);
                 }
             }
-
-            // Remove control if we still have it
-            if (HasControl)
-                RemoveControl();
+            
+            RemoveControl();
         }
 
         void PerformAttack(UnitBaseClass unit)
         {
-            Controller.PerformAttack(unit);
+            Controller.DealDamageToTarget(unit);
             Controller.ReduceEnergy(Controller.MercDataValues.EnergyConsumedPerAttack);
         }
 

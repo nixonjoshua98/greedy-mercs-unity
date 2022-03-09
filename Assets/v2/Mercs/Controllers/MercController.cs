@@ -3,16 +3,19 @@ using GM.DamageTextPool;
 using GM.Units;
 using System.Collections;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 namespace GM.Mercs.Controllers
 {
+
     public class MercController : GM.Mercs.MercBaseClass
     {
         [Header("Components")]
         [SerializeField] MovementController Movement;
         [SerializeField] AttackController Attack;
-        /* Optional */ ISpecialAttackController SpecialAttack;
+        List<IUnitActionController> ActionControllers;
 
         // = Controllers = //
         UnitBaseClass CurrentTarget;
@@ -31,8 +34,9 @@ namespace GM.Mercs.Controllers
         float EnergyRemaining;
 
         // Properties
+        bool HasControl => !ActionControllers.Any(x => x.HasControl);
         public bool HasEnergy => EnergyRemaining > 0 && !IsEnergyDepleted;
-        bool HasSpecialAttack => SpecialAttack != null;
+        bool HasSpecialAttack => ActionControllers != null;
 
         // ...
         public GM.Mercs.Data.AggregatedMercData MercDataValues => App.GMData.Mercs.GetMerc(Id);
@@ -52,7 +56,7 @@ namespace GM.Mercs.Controllers
 
         protected void GetRequiredComponents()
         {
-            SpecialAttack = GetCachedComponent<ISpecialAttackController>();
+            ActionControllers = GetComponents<IUnitActionController>().ToList();
 
             DamageTextPool = this.GetComponentInScene<IDamageTextPool>();
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
@@ -78,15 +82,11 @@ namespace GM.Mercs.Controllers
 
             if (idx == 0)
             {
-                if (HasSpecialAttack)
-                {
-                    // Give control to the special attack if it wants it
-                    if (CanGiveControlToSpecialAttack())
-                        SpecialAttack.GiveControl();
+                ProcessActions();
 
-                    // Return out the loop if we do not have control
-                    if (SpecialAttack.HasControl)
-                        return;
+                if (!HasControl)
+                {
+                    return;
                 }
                
                 if (TryGetValidTarget(ref CurrentTarget))
@@ -100,7 +100,7 @@ namespace GM.Mercs.Controllers
                     // Start an attack (assuming we can)
                     else if (Attack.CanStartAttack(CurrentTarget))
                     {
-                        StartAttack();
+                        Attack.StartAttack(CurrentTarget, DealDamageToTarget);
                     }
 
                     else if (Attack.IsOnCooldown)
@@ -117,7 +117,22 @@ namespace GM.Mercs.Controllers
         }
 
 
-        bool CanGiveControlToSpecialAttack() => !Attack.IsAttacking && !SpecialAttack.HasControl && SpecialAttack.WantsControl();
+        void ProcessActions()
+        {
+            for (int i = 0; i < ActionControllers.Count; i++)
+            {
+                IUnitActionController action = ActionControllers[i];
+
+                if (!HasControl)
+                    return;
+
+                if (action.WantsControl())
+                {
+                    action.GiveControl();
+                }
+            }
+        }
+
 
         /// <summary>
         /// Move forward in the merc queue
@@ -138,12 +153,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        protected void StartAttack()
-        {
-            Attack.StartAttack(CurrentTarget, DealDamageToTarget);
-        }
-
-        public void PerformAttack(UnitBaseClass target)
+        public void DealDamageToTarget(UnitBaseClass target)
         {
             CurrentTarget = target;
 

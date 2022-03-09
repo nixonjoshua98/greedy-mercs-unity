@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
-    public abstract class AbstractSpecialAttackController : MonoBehaviour, ISpecialAttackController
+    public abstract class AbstractUnitActionController : MonoBehaviour, IUnitActionController
     {       
         // Private
         bool _HasControl;

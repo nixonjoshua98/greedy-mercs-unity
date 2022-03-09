@@ -1,29 +1,16 @@
+using GM.Armoury.Data;
 using GM.Common;
 using GM.Common.Enums;
+using GM.Mercs;
+using GM.Mercs.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using GM.Armoury.Data;
 
 namespace GM.Core
 {
     public class GMCache : GMClass
     {
-        // Temp
-        public bool ApplyCritHit(ref BigDouble val)
-        {
-            float critChance = CriticalHitChance;
-
-            if (MathUtils.PercentChance(critChance))
-            {
-                val *= CriticalHitMultiplier;
-
-                return true;
-            }
-
-            return false;
-        }
-
         IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => App.GMData.Upgrades.Upgrades.Values.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.Value));
         List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
         {
@@ -31,7 +18,14 @@ namespace GM.Core
             {
                 List<KeyValuePair<BonusType, BigDouble>> ls = new List<KeyValuePair<BonusType, BigDouble>>();
 
-                App.GMData.Mercs.UnlockedMercs.ForEach(m => ls.AddRange(m.UnlockedPassives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.Values.Type, x.Values.Value))));
+                App.GMData.Mercs.MercsInSquad.ForEach(mercId =>
+                {
+                    AggregatedMercData merc = App.GMData.Mercs.GetMerc(mercId);
+
+                    IEnumerable<MercPassive> passives = merc.Passives.Where(x => merc.CurrentLevel >= x.UnlockLevel).Select(m => m.Values);
+
+                    ls.AddRange(passives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.Type, x.Value)));
+                });
 
                 return ls;
             }

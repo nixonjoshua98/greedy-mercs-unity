@@ -155,6 +155,7 @@ namespace GM.HTTP
         void SetAuthenticationHeader(ref UnityWebRequest www)
         {
             www.SetRequestHeader("Authentication", Authentication.Session);
+            //www.SetRequestHeader("DeviceId", SystemInfo.deviceUniqueIdentifier);
         }
 
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()

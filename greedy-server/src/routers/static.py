@@ -8,8 +8,8 @@ from src.router import APIRouter
 router = APIRouter()
 
 
-@router.get("/")
-async def static(handler: GetStaticDataHandler = Depends()):
+@router.get("")
+async def index(handler: GetStaticDataHandler = Depends()):
     resp: StaticDataResponse = await handler.handle()
 
     return ServerResponse({"staticData": resp.data})

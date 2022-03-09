@@ -10,7 +10,7 @@ from src.router import APIRouter
 router = APIRouter(prefix="/api/prestige")
 
 
-@router.post("/")
+@router.post("")
 async def index(
     data: PrestigeData,
     ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),

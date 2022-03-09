@@ -8,7 +8,7 @@ from src.router import APIRouter
 router = APIRouter(prefix="/api/login")
 
 
-@router.post("/")
+@router.post("")
 async def index(
     data: LoginModel,
     handler: LoginHandler = Depends()

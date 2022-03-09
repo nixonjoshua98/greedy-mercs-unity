@@ -2,7 +2,7 @@ import dataclasses
 
 from fastapi import Depends
 
-from src.auth import RequestContext, get_context
+from src.auth import RequestContext
 from src.handlers.abc import BaseHandler, BaseResponse
 from src.resources.armoury import StaticArmouryItem, static_armoury
 from src.resources.bounties import StaticBounties, inject_static_bounties
@@ -17,7 +17,7 @@ class StaticDataResponse(BaseResponse):
 class GetStaticDataHandler(BaseHandler):
     def __init__(
         self,
-        ctx: RequestContext = Depends(get_context),
+        ctx: RequestContext = Depends(),
         s_armoury: list[StaticArmouryItem] = Depends(static_armoury),
         s_bounties=Depends(inject_static_bounties)
     ):

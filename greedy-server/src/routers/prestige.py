@@ -1,6 +1,6 @@
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
+from src.auth import AuthenticatedRequestContext, authenticated_context
 from src.handlers import (GetStaticDataHandler, GetUserDataHandler,
                           PrestigeHandler, PrestigeResponse)
 from src.request_models import PrestigeData
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/prestige")
 @router.post("")
 async def index(
     data: PrestigeData,
-    ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
+    ctx: AuthenticatedRequestContext = Depends(authenticated_context),
     handler: PrestigeHandler = Depends(),
     user_data: GetUserDataHandler = Depends(),
     static_data: GetStaticDataHandler = Depends()

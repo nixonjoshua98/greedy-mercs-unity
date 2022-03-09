@@ -62,7 +62,7 @@ namespace GM.HTTP
         {
             var www = UnityWebRequest.Get(ResolveURL("static"));
 
-            SendPublicRequest(www, callback);
+            SendAuthenticatedRequest(www, callback);
         }
 
         public void Login(Action<UserLoginReponse> callback)

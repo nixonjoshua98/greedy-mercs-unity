@@ -16,7 +16,7 @@ T = TypeVar("T")
 
 def compress(d: dict) -> str:
     """
-    Compress a python dict to a gzipped base64 string
+    Compress (may end up being longer than the dict) a python dict to a gzipped base64 string
 
     :param d: Dict object
 

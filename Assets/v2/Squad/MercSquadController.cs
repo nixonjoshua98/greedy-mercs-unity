@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,10 +7,10 @@ namespace GM.Mercs
 {
     public interface ISquadController
     {
-        bool TryGetFrontUnitQueue(out MercBaseClass unit);
-        void RemoveMercFromQueue(MercBaseClass unit);
-        void AddMercToSquad(UnitID mercId);
-        void RemoveMercFromSquad(UnitID mercId);
+        bool TryGetUnit(out MercBaseClass unit);
+        void RemoveFromQueue(MercBaseClass unit);
+        void RemoveFromSquad(UnitID mercId);
+        void AddToQueue(UnitID mercId);
         int GetQueuePosition(MercBaseClass unit);
         MercBaseClass GetUnitAtQueuePosition(int idx);
     }
@@ -26,7 +25,7 @@ namespace GM.Mercs
 
         void Awake()
         {
-            App.GMData.Mercs.MercsInSquad.ForEach(merc => AddMercToSquad(merc));
+            App.GMData.Mercs.MercsInSquad.ForEach(merc => AddToQueue(merc));
         }
 
         void FixedUpdate()
@@ -66,7 +65,7 @@ namespace GM.Mercs
             }
         }
 
-        public void RemoveMercFromQueue(MercBaseClass unit)
+        public void RemoveFromQueue(MercBaseClass unit)
         {
             UnitQueue.Remove(unit);
             UnitIDs.Remove(unit.Id);
@@ -84,7 +83,7 @@ namespace GM.Mercs
 
         bool UnitExistsInQueue(UnitID unit) => UnitIDs.Contains(unit);
 
-        public bool TryGetFrontUnitQueue(out MercBaseClass unit)
+        public bool TryGetUnit(out MercBaseClass unit)
         {
             unit = UnitQueue.Count == 0 ? null : GetUnitAtQueuePosition(0);
             return unit != null;
@@ -117,12 +116,12 @@ namespace GM.Mercs
         }
 
 
-        public void AddMercToSquad(UnitID mercId)
+        public void AddToQueue(UnitID mercId)
         {
             App.PersistantLocalFile.SquadMercIDs.Add(mercId);
         }
 
-        public void RemoveMercFromSquad(UnitID mercId)
+        public void RemoveFromSquad(UnitID mercId)
         {
             App.PersistantLocalFile.SquadMercIDs.Remove(mercId);
         }

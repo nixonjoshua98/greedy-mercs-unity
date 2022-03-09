@@ -64,8 +64,11 @@ namespace GM.Mercs.Controllers
 
         public override void RemoveControl()
         {
-            HasControl = false;
-            CurrentTarget = null;
+            if (HasControl)
+            {
+                HasControl = false;
+                CurrentTarget = null;
+            }
         }
 
         IEnumerator UpdateLoop()

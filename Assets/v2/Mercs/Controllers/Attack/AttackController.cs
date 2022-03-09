@@ -1,7 +1,6 @@
 using GM.Units;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
 {
@@ -9,7 +8,9 @@ namespace GM.Mercs.Controllers
     {
         [Header("Components (AttackController)")]
         [SerializeField] protected MercController Controller;
-        /* Scene Component */ protected IEnemyUnitQueue EnemyUnits;
+
+        /* Scene Components */ 
+        protected IEnemyUnitQueue EnemyUnits;
 
         [SerializeField]
         float CooldownTimer = 1.0f;
@@ -19,19 +20,17 @@ namespace GM.Mercs.Controllers
         public bool IsAttacking { get; protected set; }
         public bool IsOnCooldown { get; protected set; }
 
+        public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
+
         protected virtual void GetRequiredComponents()
         {
             EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
         }
-
-
-        public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
-
+       
         public virtual bool CanStartAttack(UnitBaseClass unit)
         {
             return !IsOnCooldown && !IsAttacking && IsWithinAttackDistance(unit);
         }
-
 
         public virtual void StartAttack(GM.Units.UnitBaseClass target)
         {

@@ -1,11 +1,11 @@
 ﻿using GM.DamageTextPool;
 using GM.Units;
+using GM.Controllers;
 
 namespace GM
 {
     public class GameManager : Core.GMMonoBehaviour
     {
-        IEnemyUnitFactory UnitManager;
         IEnemyUnitQueue EnemyUnits;
 
         WaveManager WaveManager;
@@ -15,7 +15,6 @@ namespace GM
         {
             EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
 
-            UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
             WaveManager = this.GetComponentInScene<WaveManager>();
             DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
         }
@@ -33,7 +32,7 @@ namespace GM
             if (!EnemyUnits.TryGetUnit(ref unit))
                 return false;
 
-            GM.Controllers.AbstractHealthController health = unit.GetCachedComponent<GM.Controllers.AbstractHealthController>();
+            HealthController health = unit.GetCachedComponent<HealthController>();
 
             if (!health.CanTakeDamage)
                 return false;

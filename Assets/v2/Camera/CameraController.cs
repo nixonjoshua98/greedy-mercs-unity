@@ -17,7 +17,7 @@ namespace GM
 
         void FixedUpdate()
         {
-            if (MercSquad.TryGetFrontUnitQueue(out MercBaseClass unit))
+            if (MercSquad.TryGetUnit(out MercBaseClass unit))
             {
                 SetCameraPosition(unit.Avatar.Bounds.max.x);
             }

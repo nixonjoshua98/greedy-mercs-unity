@@ -2,10 +2,10 @@ using GM.Common.Enums;
 using GM.DamageTextPool;
 using GM.Units;
 using System.Collections;
-using UnityEngine;
-using System.Linq;
-using UnityEngine.Events;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Mercs.Controllers
 {
@@ -190,7 +190,7 @@ namespace GM.Mercs.Controllers
                 {
                     IsEnergyDepleted = true;
 
-                    SquadController.RemoveMercFromQueue(this);
+                    SquadController.RemoveFromQueue(this);
 
                     StartCoroutine(EnergyExhaustedAnimation());
                 }

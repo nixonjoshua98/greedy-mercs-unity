@@ -3,18 +3,18 @@ using Newtonsoft.Json;
 
 namespace GM.HTTP.Requests
 {
-    public class UserLoginRequest : IServerRequest
+    public class LoginRequest : IServerRequest
     {
         public string DeviceId;
 
-        public UserLoginRequest(string device)
+        public LoginRequest(string device)
         {
             DeviceId = device;
         }
     }
 
 
-    public class UserLoginReponse : ServerResponse, IServerAuthentication
+    public class LoginResponse : ServerResponse, IServerAuthentication
     {
         [JsonProperty(PropertyName = "sessionId", Required = Required.Always)]
         public string Session { get; set; }

@@ -3,7 +3,7 @@ import datetime as dt
 from bson import ObjectId
 
 from src.handlers.abc import BaseHandler
-from src.mongo.repositories.bountyshop import BountyShopRepository
+from src.mongo.bountyshop import BountyShopRepository
 from src.static_models.bountyshop.models import PurchasableBountyShopItem
 
 

@@ -6,12 +6,11 @@ from src.auth import AuthenticatedRequestContext
 from src.common import formulas
 from src.dependencies import get_static_artefacts_dict
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
-from src.mongo.repositories.artefacts import (ArtefactModel,
-                                              ArtefactsRepository,
-                                              artefacts_repository)
-from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyFields
-from src.mongo.repositories.currency import currency_repository
+from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
+                                 artefacts_repository)
+from src.mongo.currency import CurrenciesModel, CurrencyRepository
+from src.mongo.currency import Fields as CurrencyFields
+from src.mongo.currency import currency_repository
 from src.static_models.artefacts import StaticArtefact
 
 

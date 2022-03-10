@@ -1,7 +1,9 @@
 import functools as ft
+
 from fastapi import HTTPException
 from fastapi.exceptions import RequestValidationError
 from redis import Redis
+
 from src import exception_handlers, utils
 from src.application import Application
 from src.auth import AuthenticationService

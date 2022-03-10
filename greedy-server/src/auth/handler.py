@@ -11,7 +11,7 @@ from .service import AuthenticationService, authentication_service
 from .session import AuthenticatedSession
 
 
-async def authenticated_context(
+async def get_authenticated_context(
     device_id: str = Header(default=None, alias=HeaderStrings.DEVICE_ID),
     auth_key: str = Header(default=None, alias=HeaderStrings.AUTH_KEY),
     auth_service: AuthenticationService = Depends(authentication_service)

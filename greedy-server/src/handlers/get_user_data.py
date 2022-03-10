@@ -7,18 +7,12 @@ from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, RequestContext
 from src.handlers.abc import BaseHandler, BaseResponse
-from src.mongo.repositories.armoury import (ArmouryRepository,
-                                            armoury_repository)
-from src.mongo.repositories.artefacts import (ArtefactsRepository,
-                                              artefacts_repository)
-from src.mongo.repositories.bounties import (BountiesRepository,
-                                             bounties_repository)
-from src.mongo.repositories.bountyshop import (BountyShopRepository,
-                                               bountyshop_repository)
-from src.mongo.repositories.currency import (CurrencyRepository,
-                                             currency_repository)
-from src.mongo.repositories.units import (CharacterUnitsRepository,
-                                          units_repository)
+from src.mongo.armoury import ArmouryRepository, armoury_repository
+from src.mongo.artefacts import ArtefactsRepository, artefacts_repository
+from src.mongo.bounties import BountiesRepository, bounties_repository
+from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
+from src.mongo.currency import CurrencyRepository, currency_repository
+from src.mongo.units import CharacterUnitsRepository, units_repository
 from src.static_models.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 
 

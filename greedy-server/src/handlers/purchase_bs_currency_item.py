@@ -5,14 +5,13 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, authenticated_context
+from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common.enums import CurrencyType
 from src.handlers.abc import HandlerException
-from src.mongo.repositories.bountyshop import (BountyShopRepository,
-                                               bountyshop_repository)
-from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.repositories.currency import Fields as CurrencyRepoFields
-from src.mongo.repositories.currency import currency_repository
+from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
+from src.mongo.currency import CurrenciesModel, CurrencyRepository
+from src.mongo.currency import Fields as CurrencyRepoFields
+from src.mongo.currency import currency_repository
 from src.static_models.bountyshop import (BountyShopCurrencyItem,
                                           DynamicBountyShop,
                                           dynamic_bounty_shop)
@@ -30,7 +29,7 @@ class PurchaseCurrencyResponse:
 class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
     def __init__(
         self,
-        ctx: AuthenticatedRequestContext = Depends(authenticated_context),
+        ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
         currency_repo: CurrencyRepository = Depends(currency_repository),
         bountyshop_repo: BountyShopRepository = Depends(bountyshop_repository),
         bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),

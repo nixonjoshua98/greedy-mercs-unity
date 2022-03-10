@@ -1,5 +1,6 @@
 from typing import Union
 
+import humps
 from bson import ObjectId
 from pydantic import BaseModel as _BaseModel
 from pydantic import Field
@@ -19,7 +20,7 @@ class BaseModel(_BaseModel):
         return super().dict(**kwargs)
 
     def client_dict(self):
-        return self.dict()
+        return humps.camelize(self.dict())
 
 
 class BaseDocument(BaseModel):

@@ -1,3 +1,5 @@
+from .bulk_upgrade_artefacts import (BulkUpgradeArtefactsHandler,
+                                     BulkUpgradeArtefactsResponse)
 from .claim_bounties import BountyClaimResponse, ClaimBountiesHandler
 from .create_account import (AccountCreationRequest, AccountCreationResponse,
                              CreateAccountHandler)

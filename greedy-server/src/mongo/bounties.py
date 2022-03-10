@@ -84,7 +84,8 @@ class BountiesRepository:
         return await self.metadata.find_one_and_update(
             {FieldNames.user_id: uid},
             {"$setOnInsert": {FieldNames.last_claim_time: dt.datetime.utcnow()}},
-            return_document=ReturnDocument.AFTER, upsert=True,
+            return_document=ReturnDocument.AFTER,
+            upsert=True,
         )
 
     async def _find_bounties(self, uid: ObjectId) -> list[dict]:

@@ -5,8 +5,10 @@ from typing import Union
 from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
+
 from src.pymodels import BaseDocument
 from src.request import ServerRequest
+
 
 def currency_repository(request: ServerRequest) -> CurrencyRepository:
     return CurrencyRepository(request.app.state.mongo)

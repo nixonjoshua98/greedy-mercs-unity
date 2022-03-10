@@ -65,12 +65,12 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void Login(Action<UserLoginReponse> callback)
+        public void Login(Action<LoginResponse> callback)
         {
-            var req = new UserLoginRequest(SystemInfo.deviceUniqueIdentifier);
+            var req = new LoginRequest(SystemInfo.deviceUniqueIdentifier);
             var www = UnityWebRequest.Post(ResolveURL("login"), SerializeRequest(req));
 
-            SendPublicRequest<UserLoginReponse>(www, (response) =>
+            SendPublicRequest<LoginResponse>(www, (response) =>
             {
                 Authentication = null;
 

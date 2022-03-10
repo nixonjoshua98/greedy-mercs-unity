@@ -1,24 +1,38 @@
 from fastapi import Depends
+from pydantic import Field
 
-from src.auth import AuthenticatedRequestContext, authenticated_context
-from src.handlers import (UnlockArtefactHandler, UnlockArtefactResponse,
-                          UpgradeArtefactHandler, UpgradeArtefactResponse)
+from src.auth import AuthenticatedRequestContext, get_authenticated_context
+from src.handlers import (BulkUpgradeArtefactsHandler,
+                          BulkUpgradeArtefactsResponse, UnlockArtefactHandler,
+                          UnlockArtefactResponse, UpgradeArtefactHandler,
+                          UpgradeArtefactResponse)
 from src.pymodels import BaseModel
+from src.request_models import ArtefactUpgradeModel
 from src.response import ServerResponse
 from src.router import APIRouter
 
-router = APIRouter()
+router = APIRouter(prefix="/api/artefact")
 
 
-class ArtefactUpgradeModel(BaseModel):
-    artefact_id: int
-    upgrade_levels: int
+class ArtefactBulkUpgradeModel(BaseModel):
+    artefacts: list[ArtefactUpgradeModel] = Field(..., alias="artefacts")
+
+
+@router.post("/bulk-upgrade")
+async def bulk_upgrade(
+    body: ArtefactBulkUpgradeModel,
+    ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
+    _bulk_upgrade: BulkUpgradeArtefactsHandler = Depends()
+):
+    response: BulkUpgradeArtefactsResponse = await _bulk_upgrade.handle(ctx.user_id, body.artefacts)
+
+    return ServerResponse(response)
 
 
 @router.post("/upgrade")
 async def upgrade(
     data: ArtefactUpgradeModel,
-    user: AuthenticatedRequestContext = Depends(authenticated_context),
+    user: AuthenticatedRequestContext = Depends(get_authenticated_context),
     handler: UpgradeArtefactHandler = Depends(),
 ):
     resp: UpgradeArtefactResponse = await handler.handle(user, data.artefact_id, data.upgrade_levels)
@@ -32,7 +46,7 @@ async def upgrade(
 
 @router.get("/unlock")
 async def unlock(
-    user: AuthenticatedRequestContext = Depends(authenticated_context),
+    user: AuthenticatedRequestContext = Depends(get_authenticated_context),
     handler: UnlockArtefactHandler = Depends(),
 ):
     resp: UnlockArtefactResponse = await handler.handle(user)

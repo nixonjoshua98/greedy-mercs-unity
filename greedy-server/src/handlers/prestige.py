@@ -3,20 +3,17 @@ from typing import Optional
 
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, authenticated_context
+from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common import formulas
 from src.common.enums import BonusType
 from src.dependencies import get_static_artefacts_dict, get_static_bounties
 from src.handlers.abc import BaseHandler, BaseResponse
-from src.mongo.repositories.artefacts import (ArtefactModel,
-                                              ArtefactsRepository,
-                                              artefacts_repository)
-from src.mongo.repositories.bounties import (BountiesRepository,
-                                             UserBountiesDataModel,
-                                             bounties_repository)
-from src.mongo.repositories.currency import (CurrenciesModel,
-                                             CurrencyRepository,
-                                             currency_repository)
+from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
+                                 artefacts_repository)
+from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
+                                bounties_repository)
+from src.mongo.currency import (CurrenciesModel, CurrencyRepository,
+                                currency_repository)
 from src.request_models import PrestigeData
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties
@@ -31,7 +28,7 @@ class PrestigeResponse(BaseResponse):
 class PrestigeHandler(BaseHandler):
     def __init__(
         self,
-        ctx: AuthenticatedRequestContext = Depends(authenticated_context),
+        ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
         # Static Data
         s_artefacts=Depends(get_static_artefacts_dict),
         s_bounties=Depends(get_static_bounties),

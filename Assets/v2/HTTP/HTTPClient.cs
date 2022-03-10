@@ -131,7 +131,7 @@ namespace GM.HTTP
         {
             www.timeout = 5;
 
-            www.SetRequestHeader("Content-Type", "application/json");
+            SetRequiredHeaders(ref www);
 
             yield return www.SendWebRequest();
 
@@ -155,7 +155,12 @@ namespace GM.HTTP
         void SetAuthenticationHeader(ref UnityWebRequest www)
         {
             www.SetRequestHeader("Authentication", Authentication.Session);
-            //www.SetRequestHeader("DeviceId", SystemInfo.deviceUniqueIdentifier);
+        }
+
+        void SetRequiredHeaders(ref UnityWebRequest www)
+        {
+            www.SetRequestHeader("Content-Type", "application/json");
+            www.SetRequestHeader("DeviceId", SystemInfo.deviceUniqueIdentifier);
         }
 
         T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()

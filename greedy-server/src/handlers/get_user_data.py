@@ -23,7 +23,7 @@ from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 
 
 @dataclasses.dataclass()
-class UserDataResponse(BaseResponse):
+class GetUserDataResponse(BaseResponse):
     data: dict
 
 
@@ -55,7 +55,7 @@ class GetUserDataHandler(BaseHandler):
         return await self.handle(ctx.user_id, ctx.prev_daily_reset)
 
     @md.dispatch(ObjectId, dt.datetime)
-    async def handle(self, uid: ObjectId, prev_reset: dt.datetime) -> UserDataResponse:
+    async def handle(self, uid: ObjectId, prev_reset: dt.datetime) -> GetUserDataResponse:
 
         bshop_purchases = await self.bountyshop_repo.get_daily_purchases(uid, prev_reset)
 
@@ -71,4 +71,4 @@ class GetUserDataHandler(BaseHandler):
             "unlockedUnits": await self.units_repo.get_units(uid)
         }
 
-        return UserDataResponse(data=data)
+        return GetUserDataResponse(data=data)

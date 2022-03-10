@@ -11,7 +11,7 @@ router = APIRouter(prefix="/api/login")
 @router.post("")
 async def index(
     model: LoginData,
-    handler: LoginHandler = Depends()
+    handler: LoginHandler = Depends(),
 ):
     resp: LoginResponse = await handler.handle(model)
 

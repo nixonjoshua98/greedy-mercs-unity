@@ -8,7 +8,7 @@ from src.auth import (AuthenticatedSession, AuthenticationService,
 from src.common.constants import Headers as HeaderConstants
 from src.handlers import (AccountCreationRequest, AccountCreationResponse,
                           CreateAccountHandler, GetUserDataHandler,
-                          UserDataResponse)
+                          GetUserDataResponse)
 from src.handlers.abc import BaseHandler
 from src.mongo.repositories.accounts import (AccountModel, AccountsRepository,
                                              accounts_repository)
@@ -46,24 +46,20 @@ class LoginHandler(BaseHandler):
 
         self.account: Optional[AccountModel] = None
 
-    async def handle(self, model: LoginData) -> LoginResponse:
+    async def handle(self, _model: LoginData) -> LoginResponse:
+
         if self.device_id is None:
-            raise HTTPException(400, detail="Error")
+            raise HTTPException(400)
 
         await self._get_or_create_account()
 
-        data_resp: UserDataResponse = await self._user_data_handler.handle(self.account.id, self._ctx)
+        data_resp: GetUserDataResponse = await self._user_data_handler.handle(self.account.id, self._ctx)
+
+        await self.units_repo.insert_units(self.account.id, [0, 1, 2, 3])
 
         session = self._create_auth_session()
 
         return LoginResponse(user_id=self.account.id, session_id=session.id, user_data=data_resp.data)
-
-    def _create_auth_session(self) -> AuthenticatedSession:
-        session = AuthenticatedSession.create(self.account.id, self.device_id)
-
-        self._auth.set_session(session)
-
-        return session
 
     async def _get_or_create_account(self):
 
@@ -77,4 +73,11 @@ class LoginHandler(BaseHandler):
             self.account = response.account
 
             if self.account is None:
-                raise HTTPException(500, detail="Account creation has failed")
+                raise HTTPException(500, "Account creation has failed")
+
+    def _create_auth_session(self) -> AuthenticatedSession:
+        session = AuthenticatedSession.create(self.account.id, self.device_id)
+
+        self._auth.set_session(session)
+
+        return session

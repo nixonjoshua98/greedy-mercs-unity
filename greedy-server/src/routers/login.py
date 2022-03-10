@@ -16,7 +16,7 @@ async def index(
     resp: LoginResponse = await handler.handle(model)
 
     return ServerResponse({
-        "userId": resp.user_id,
-        "sessionId": resp.session_id,
-        "userData": resp.user_data
+        #"userId": resp.user_id,
+        #"sessionId": resp.session_id,
+        "userData": resp.user_data["bountyData"]
     })

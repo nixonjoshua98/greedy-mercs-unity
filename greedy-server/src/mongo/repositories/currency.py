@@ -5,11 +5,8 @@ from typing import Union
 from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
-
 from src.pymodels import BaseDocument
 from src.request import ServerRequest
-from src.response import ServerResponse
-
 
 def currency_repository(request: ServerRequest) -> CurrencyRepository:
     return CurrencyRepository(request.app.state.mongo)
@@ -42,7 +39,6 @@ class CurrencyRepository:
 
     async def get_user(self, uid) -> CurrenciesModel:
         r = await self.collection.find_one({"_id": uid})
-
         return CurrenciesModel.parse_obj(r or {"_id": uid})
 
     async def inc_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:

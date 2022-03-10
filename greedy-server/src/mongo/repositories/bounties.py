@@ -16,32 +16,27 @@ def bounties_repository(request: ServerRequest) -> BountiesRepository:
     return BountiesRepository(request.app.state.mongo)
 
 
+class FieldNames:
+    user_id = "userId"
+    bounty_id = "bountyId"
+    is_active = "isActive"
+    last_claim_time = "lastClaimTime"
+    bounties = "bounties"
+
+
 class UserBountyModel(BaseModel):
-
-    class Aliases:
-        user_id = "userId"
-        bounty_id = "bountyId"
-        is_active = "isActive"
-
-    user_id: ObjectId = Field(..., alias=Aliases.user_id)
-    bounty_id: BountyID = Field(..., alias=Aliases.bounty_id)
-    is_active: bool = Field(False, alias=Aliases.is_active)
-
-
-class UserBountyMetaData(BaseModel):
-
-    class Aliases:
-        user_id = "userId"
-        last_claim_time = "lastClaimTime"
-
-    user_id: ObjectId = Field(..., alias=Aliases.user_id)
-    last_claim_time: dt.datetime = Field(..., alias=Aliases.last_claim_time)
+    user_id: ObjectId = Field(..., alias=FieldNames.user_id)
+    bounty_id: BountyID = Field(..., alias=FieldNames.bounty_id)
+    is_active: bool = Field(False, alias=FieldNames.is_active)
 
 
 class UserBountiesDataModel(BaseModel):
-    user_id: ObjectId
-    last_claim_time: dt.datetime
-    bounties: list[UserBountyModel]
+    user_id: ObjectId = Field(..., alias=FieldNames.user_id)
+    last_claim_time: dt.datetime = Field(..., alias=FieldNames.last_claim_time)
+    bounties: list[UserBountyModel] = Field(..., alias=FieldNames.bounties)
+
+    def client_dict(self):
+        return self.dict(exclude={"user_id"})
 
     @property
     def active_bounties(self) -> list[UserBountyModel]:
@@ -54,61 +49,49 @@ class BountiesRepository:
         self.bounties = client.database["unlockedBounties"]
 
     async def get_user_bounties(self, uid: ObjectId) -> UserBountiesDataModel:
-        meta: UserBountyMetaData = await self._find_metadata(uid)
-        bounties: list[UserBountyModel] = await self._find_bounties(uid)
+        meta = await self._find_metadata(uid)
+        bounties = await self._find_bounties(uid)
 
-        return UserBountiesDataModel(
-            user_id=uid,
-            last_claim_time=meta.last_claim_time,
-            bounties=bounties
-        )
+        return UserBountiesDataModel.parse_obj({**meta, FieldNames.bounties: bounties})
 
     async def insert_new_bounties(self, uid: ObjectId, bounty_ids: list[int]):
         requests = []
 
         for bounty_id in bounty_ids:
             r = InsertOne({
-                UserBountyModel.Aliases.user_id: uid,
-                UserBountyModel.Aliases.bounty_id: bounty_id,
-                UserBountyModel.Aliases.is_active: False
+                FieldNames.user_id: uid,
+                FieldNames.bounty_id: bounty_id,
+                FieldNames.is_active: False
             })
             requests.append(r)
 
-        if requests: await self.bounties.bulk_write(requests)
+        await self.bounties.bulk_write(requests)
 
     async def update_active_bounties(self, uid, ids: list) -> None:
-        requests = [
-            UpdateMany({UserBountyModel.Aliases.user_id: uid}, {"$set": {UserBountyModel.Aliases.is_active: False}})
-        ]
+        requests = [UpdateMany({FieldNames.user_id: uid}, {"$set": {FieldNames.is_active: False}})]
 
         for bounty_id in ids:
-            r = UpdateOne(self._unique_bounty(uid, bounty_id), {"$set": {UserBountyModel.Aliases.is_active: True}})
+            r = UpdateOne(self._unique_bounty(uid, bounty_id), {"$set": {FieldNames.is_active: True}})
 
             requests.append(r)
 
         await self.bounties.bulk_write(requests)
 
     async def set_claim_time(self, uid: Union[str, ObjectId], claim_time: dt.datetime):
-        await self.metadata.update_one(
-            {UserBountyMetaData.Aliases.user_id: uid},
-            {"$set": {UserBountyMetaData.Aliases.last_claim_time: claim_time}},
-            upsert=True
-        )
+        await self.metadata.update_one({FieldNames.user_id: uid}, {"$set": {FieldNames.last_claim_time: claim_time}})
 
-    async def _find_metadata(self, uid: ObjectId) -> UserBountyMetaData:
-        doc = await self.metadata.find_one_and_update(
-            {UserBountyMetaData.Aliases.user_id: uid},
-            {"$setOnInsert": {UserBountyMetaData.Aliases.last_claim_time: dt.datetime.utcnow()}},
+    async def _find_metadata(self, uid: ObjectId) -> dict:
+        return await self.metadata.find_one_and_update(
+            {FieldNames.user_id: uid},
+            {"$setOnInsert": {FieldNames.last_claim_time: dt.datetime.utcnow()}},
             return_document=ReturnDocument.AFTER, upsert=True,
         )
-        return UserBountyMetaData.parse_obj(doc)
 
-    async def _find_bounties(self, uid: ObjectId) -> list[UserBountyModel]:
-        ls: list[dict] = await self.bounties.find({UserBountyModel.Aliases.user_id: uid}).to_list(length=None)
-        return [UserBountyModel.parse_obj(doc) for doc in ls]
+    async def _find_bounties(self, uid: ObjectId) -> list[dict]:
+        return await self.bounties.find({FieldNames.user_id: uid}).to_list(length=None)
 
     # = Indexes =#
 
     @staticmethod
     def _unique_bounty(uid: ObjectId, bid: int):
-        return {UserBountyModel.Aliases.user_id: uid, UserBountyModel.Aliases.bounty_id: bid}
+        return {FieldNames.user_id: uid, FieldNames.bounty_id: bid}

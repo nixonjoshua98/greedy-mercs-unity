@@ -1,17 +1,14 @@
 from __future__ import annotations
 
+from typing import NewType
+
 from src.pymodels import BaseModel, Field
-from src.request import ServerRequest
 
-
-def inject_static_bounties(request: ServerRequest) -> StaticBounties:
-    d: dict = request.app.get_static_file("bounties.json")
-
-    return StaticBounties.parse_obj(d)
+BountyID = NewType("BountyID", int)
 
 
 class StaticBounty(BaseModel):
-    id: int = Field(..., alias="bountyId")
+    id: BountyID = Field(..., alias="bountyId")
     income: int = Field(..., alias="hourlyIncome")
     stage: int = Field(..., alias="unlockStage")
 

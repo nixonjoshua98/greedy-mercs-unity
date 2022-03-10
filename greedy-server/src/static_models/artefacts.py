@@ -1,19 +1,16 @@
 from __future__ import annotations
 
+from typing import NewType
+
 from pydantic import Field
 
 from src.pymodels import BaseModel
-from src.request import ServerRequest
 
-
-def static_artefacts(request: ServerRequest) -> list[StaticArtefact]:
-    d: list[dict] = request.app.get_static_file("artefacts.json")
-
-    return [StaticArtefact.parse_obj(art) for art in d]
+ArtefactID = NewType("ArtefactID", int)
 
 
 class StaticArtefact(BaseModel):
-    id: int = Field(..., alias="artefactId")
+    id: ArtefactID = Field(..., alias="artefactId")
     bonus_type: int = Field(..., alias="bonusType")
     max_level: int = Field(1_000, alias="maxLevel")
     cost_expo: float = Field(..., alias="costExpo")

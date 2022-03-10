@@ -3,7 +3,7 @@ import math
 from src import utils
 from src.common.enums import BonusType
 from src.mongo.repositories.artefacts import ArtefactModel
-from src.resources.artefacts import StaticArtefact
+from src.static_models.artefacts import StaticArtefact
 
 
 def create_bonus_dict(ls: list[tuple[int, float]]) -> dict[int, float]:

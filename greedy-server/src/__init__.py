@@ -10,6 +10,7 @@ from src.auth import AuthenticationService
 from src.exceptions import AuthenticationError
 from src.handlers.abc import HandlerException
 from src.mongo.motorclient import MotorClient
+from src.static_file_cache import StaticFilesCache
 
 
 async def _on_app_start(app: Application):
@@ -21,6 +22,7 @@ async def _on_app_start(app: Application):
 
     app.state.mongo = MotorClient(app.config.mongo_con_str)
     app.state.auth_service = AuthenticationService(redis=redis_client)
+    app.state.static_files_cache = StaticFilesCache()
 
 
 def create_app():

@@ -5,6 +5,7 @@ import random
 from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext
+from src.dependencies import get_static_artefacts_dict
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
@@ -12,7 +13,7 @@ from src.mongo.repositories.artefacts import (ArtefactModel,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.artefacts import StaticArtefact, static_artefacts
+from src.static_models.artefacts import StaticArtefact
 
 
 @dataclasses.dataclass()
@@ -25,11 +26,11 @@ class UnlockArtefactResponse(BaseResponse):
 class UnlockArtefactHandler(BaseHandler):
     def __init__(
         self,
-        artefacts_data: list[StaticArtefact] = Depends(static_artefacts),
+        artefacts_data=Depends(get_static_artefacts_dict),
         artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
         currency_repo: CurrencyRepository = Depends(currency_repository),
     ):
-        self.artefacts_data = artefacts_data
+        self.artefacts_data: dict[int, StaticArtefact] = artefacts_data
         self.artefacts_repo = artefacts_repo
         self.currency_repo = currency_repo
 
@@ -67,7 +68,7 @@ class UnlockArtefactHandler(BaseHandler):
         return math.ceil(max(1, u_num_arts - 2) * math.pow(1.35, u_num_arts))
 
     def get_new_artefact(self, u_artefacts: list[ArtefactModel]) -> int:
-        ids: list[int] = [art.id for art in self.artefacts_data]
+        ids: list[int] = list(self.artefacts_data.keys())
         u_arts_ids: list[int] = [art.artefact_id for art in u_artefacts]
 
         return random.choice(list(set(ids) - set(u_arts_ids)))

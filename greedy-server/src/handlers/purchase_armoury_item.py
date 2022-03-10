@@ -14,8 +14,9 @@ from src.mongo.repositories.bountyshop import (BountyShopRepository,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyRepoFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.bountyshop import (BountyShopArmouryItem, DynamicBountyShop,
-                                      dynamic_bounty_shop)
+from src.static_models.bountyshop import (BountyShopArmouryItem,
+                                          DynamicBountyShop,
+                                          dynamic_bounty_shop)
 
 from .basepurchasehandler import BaseBountyShopPurchaseHandler
 

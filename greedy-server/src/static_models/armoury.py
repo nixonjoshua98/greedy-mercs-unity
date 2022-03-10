@@ -1,19 +1,16 @@
 from __future__ import annotations
 
+from typing import NewType
+
 from pydantic import Field
 
 from src.pymodels import BaseModel
-from src.request import ServerRequest
 
-
-def static_armoury(request: ServerRequest) -> list[StaticArmouryItem]:
-    d: list[dict] = request.app.get_static_file("armoury.json")
-
-    return [StaticArmouryItem.parse_obj(art) for art in d]
+ArmouryItemID = NewType("ArmouryItemID", int)
 
 
 class StaticArmouryItem(BaseModel):
-    id: int = Field(..., alias="itemId")
+    id: ArmouryItemID = Field(..., alias="itemId")
     bonus_type: int = Field(..., alias="bonusType")
     level_effect: float = Field(..., alias="levelEffect")
     base_effect: float = Field(..., alias="baseEffect")

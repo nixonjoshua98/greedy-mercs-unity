@@ -3,13 +3,14 @@ import dataclasses
 from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext
+from src.dependencies import get_static_bounties
 from src.handlers.abc import BaseHandler, HandlerException
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesDataModel,
                                              bounties_repository)
 from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
-from src.resources.bounties import StaticBounties, inject_static_bounties
+from src.static_models.bounties import StaticBounties
 
 
 @dataclasses.dataclass()
@@ -20,17 +21,17 @@ class UpdateBountiesResponse:
 class UpdateBountiesHandler(BaseHandler):
     def __init__(
         self,
-        static_bounties: StaticBounties = Depends(inject_static_bounties),
+        # Static Data #
+        static_bounties=Depends(get_static_bounties),
+        # Repositories #
         bounties_repo: BountiesRepository = Depends(bounties_repository),
         currency_repo: CurrencyRepository = Depends(currency_repository),
     ):
-        self.bounties_data = static_bounties
+        self.bounties_data: StaticBounties = static_bounties
         self.bounties_repo = bounties_repo
         self.currency_repo = currency_repo
 
-    async def handle(
-        self, user: AuthenticatedRequestContext, bounty_ids: list[int]
-    ) -> UpdateBountiesResponse:
+    async def handle(self, user: AuthenticatedRequestContext, bounty_ids: list[int]) -> UpdateBountiesResponse:
 
         if len(bounty_ids) > self.bounties_data.max_active_bounties:
             raise HandlerException(400, "Exceeded maximum active bounties")

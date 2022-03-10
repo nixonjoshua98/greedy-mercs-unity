@@ -3,7 +3,7 @@ import datetime as dt
 from bson import ObjectId
 
 from src.mongo.repositories.bountyshop import BountyShopRepository
-from src.resources.bountyshop.models import PurchasableBountyShopItem
+from src.static_models.bountyshop.models import PurchasableBountyShopItem
 
 
 class HandlerException(Exception):

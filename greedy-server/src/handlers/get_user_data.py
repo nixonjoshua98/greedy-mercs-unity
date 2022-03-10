@@ -19,7 +19,7 @@ from src.mongo.repositories.currency import (CurrencyRepository,
                                              currency_repository)
 from src.mongo.repositories.units import (CharacterUnitsRepository,
                                           units_repository)
-from src.resources.bountyshop import DynamicBountyShop, dynamic_bounty_shop
+from src.static_models.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 
 
 @dataclasses.dataclass()
@@ -29,15 +29,20 @@ class GetUserDataResponse(BaseResponse):
 
 class GetUserDataHandler(BaseHandler):
     def __init__(
-            self,
-            units_repo=Depends(units_repository),
-            bountyshop=Depends(dynamic_bounty_shop),
-            armoury_repo=Depends(armoury_repository),
-            bounties_repo=Depends(bounties_repository),
-            currency_repo=Depends(currency_repository),
-            artefacts_repo=Depends(artefacts_repository),
-            bountyshop_repo=Depends(bountyshop_repository)
+        self,
+        ctx: RequestContext = Depends(),
+
+        # = Repositories = #
+        units_repo=Depends(units_repository),
+        bountyshop=Depends(dynamic_bounty_shop),
+        armoury_repo=Depends(armoury_repository),
+        bounties_repo=Depends(bounties_repository),
+        currency_repo=Depends(currency_repository),
+        artefacts_repo=Depends(artefacts_repository),
+        bountyshop_repo=Depends(bountyshop_repository)
     ):
+        self.ctx: RequestContext = ctx
+
         self.bountyshop: DynamicBountyShop = bountyshop
         self.armoury_repo: ArmouryRepository = armoury_repo
         self.currency_repo: CurrencyRepository = currency_repo
@@ -46,9 +51,9 @@ class GetUserDataHandler(BaseHandler):
         self.artefacts_repo: ArtefactsRepository = artefacts_repo
         self.bountyshop_repo: BountyShopRepository = bountyshop_repo
 
-    @md.dispatch(ObjectId, RequestContext)
-    async def handle(self, uid: ObjectId, ctx: RequestContext):
-        return await self.handle(uid, ctx.prev_daily_reset)
+    @md.dispatch(ObjectId)
+    async def handle(self, uid: ObjectId):
+        return await self.handle(uid, self.ctx.prev_daily_reset)
 
     @md.dispatch(AuthenticatedRequestContext)
     async def handle(self, ctx: AuthenticatedRequestContext):

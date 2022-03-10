@@ -18,8 +18,8 @@ from src.mongo.repositories.currency import (CurrenciesModel,
                                              CurrencyRepository,
                                              currency_repository)
 from src.request_models import PrestigeData
-from src.resources.artefacts import StaticArtefact
-from src.resources.bounties import StaticBounties
+from src.static_models.artefacts import StaticArtefact
+from src.static_models.bounties import StaticBounties
 
 
 @dataclasses.dataclass()

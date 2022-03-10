@@ -9,6 +9,7 @@ from pymongo import InsertOne, ReturnDocument, UpdateMany, UpdateOne
 
 from src.pymodels import BaseModel
 from src.request import ServerRequest
+from src.static_models.bounties import BountyID
 
 
 def bounties_repository(request: ServerRequest) -> BountiesRepository:
@@ -23,7 +24,7 @@ class UserBountyModel(BaseModel):
         is_active = "isActive"
 
     user_id: ObjectId = Field(..., alias=Aliases.user_id)
-    bounty_id: int = Field(..., alias=Aliases.bounty_id)
+    bounty_id: BountyID = Field(..., alias=Aliases.bounty_id)
     is_active: bool = Field(False, alias=Aliases.is_active)
 
 

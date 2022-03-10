@@ -2,9 +2,9 @@ import dataclasses
 
 from fastapi import Depends
 
-from src import utils
 from src.auth import AuthenticatedRequestContext
 from src.common import formulas
+from src.dependencies import get_static_artefacts_dict
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.artefacts import (ArtefactModel,
                                               ArtefactsRepository,
@@ -12,7 +12,7 @@ from src.mongo.repositories.artefacts import (ArtefactModel,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.artefacts import StaticArtefact, static_artefacts
+from src.static_models.artefacts import StaticArtefact
 
 
 @dataclasses.dataclass()
@@ -25,11 +25,11 @@ class UpgradeArtefactResponse(BaseResponse):
 class UpgradeArtefactHandler(BaseHandler):
     def __init__(
         self,
-        artefacts_data: list[StaticArtefact] = Depends(static_artefacts),
+        artefacts_data=Depends(get_static_artefacts_dict),
         artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
         currency_repo: CurrencyRepository = Depends(currency_repository),
     ):
-        self.artefacts_data = artefacts_data
+        self.artefacts_data: dict[int, StaticArtefact] = artefacts_data
         self.artefacts_repo = artefacts_repo
         self.currency_repo = currency_repo
 
@@ -42,7 +42,7 @@ class UpgradeArtefactHandler(BaseHandler):
         """
 
         """
-        s_artefact: StaticArtefact = utils.get(self.artefacts_data, id=artefact_id)
+        s_artefact: StaticArtefact = self.artefacts_data.get(artefact_id)
         u_artefact: ArtefactModel = await self.artefacts_repo.get_artefact(
             user.user_id, artefact_id
         )

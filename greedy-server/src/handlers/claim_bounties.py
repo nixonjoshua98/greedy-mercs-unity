@@ -6,6 +6,7 @@ from fastapi import Depends
 
 from src import utils
 from src.auth import AuthenticatedRequestContext
+from src.dependencies import get_static_bounties
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.bounties import (BountiesRepository,
                                              UserBountiesDataModel,
@@ -13,7 +14,7 @@ from src.mongo.repositories.bounties import (BountiesRepository,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.bounties import StaticBounties, inject_static_bounties
+from src.static_models.bounties import StaticBounties
 
 
 @dataclasses.dataclass()
@@ -26,7 +27,7 @@ class BountyClaimResponse(BaseResponse):
 class ClaimBountiesHandler(BaseHandler):
     def __init__(
         self,
-        bounties_data: StaticBounties = Depends(inject_static_bounties),
+        bounties_data: StaticBounties = Depends(get_static_bounties),
         bounties_repo: BountiesRepository = Depends(bounties_repository),
         currency_repo: CurrencyRepository = Depends(currency_repository),
     ):

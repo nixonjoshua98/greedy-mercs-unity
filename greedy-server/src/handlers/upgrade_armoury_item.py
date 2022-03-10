@@ -4,6 +4,7 @@ from fastapi import Depends
 
 from src import utils
 from src.auth import AuthenticatedRequestContext
+from src.dependencies import get_static_armoury
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.repositories.armoury import (ArmouryItemModel,
                                             ArmouryRepository,
@@ -11,7 +12,7 @@ from src.mongo.repositories.armoury import (ArmouryItemModel,
 from src.mongo.repositories.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.repositories.currency import Fields as CurrencyFields
 from src.mongo.repositories.currency import currency_repository
-from src.resources.armoury import StaticArmouryItem, static_armoury
+from src.static_models.armoury import StaticArmouryItem
 
 
 @dataclasses.dataclass()
@@ -24,7 +25,7 @@ class UpgradeItemResponse(BaseResponse):
 class UpgradeArmouryItemHandler(BaseHandler):
     def __init__(
         self,
-        static_data: list[StaticArmouryItem] = Depends(static_armoury),
+        static_data: list[StaticArmouryItem] = Depends(get_static_armoury),
         armoury_repo: ArmouryRepository = Depends(armoury_repository),
         currency_repo: CurrencyRepository = Depends(currency_repository),
     ):

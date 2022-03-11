@@ -14,7 +14,7 @@ from src.static_models.artefacts import ArtefactID, StaticArtefact
 
 
 class BulkUpgradeArtefactsResponse(BaseModel):
-    total_cost: int
+    upgrade_cost: int
     prestige_points: int
     artefacts: list[ArtefactModel]
 
@@ -57,7 +57,7 @@ class BulkUpgradeArtefactsHandler:
         user_artefacts = await self._artefacts.get_user_artefacts(uid)
 
         return BulkUpgradeArtefactsResponse(
-            total_cost=total_cost,
+            upgrade_cost=total_cost,
             prestige_points=user_currencies.prestige_points,
             artefacts=user_artefacts
         )

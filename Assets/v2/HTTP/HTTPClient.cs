@@ -4,7 +4,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.Networking;
+using GM.Artefacts.UI;
+using GM.Artefacts;
+using GM.Artefacts.Models;
 
 namespace GM.HTTP
 {
@@ -27,10 +31,14 @@ namespace GM.HTTP
             SendAuthenticatedRequest(www, callback);
         }
 
-        public void UpgradeArtefact(int artefactId, int levelsUpgrading, Action<UpgradeArtefactResponse> callback)
+        public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback)
         {
-            var req = new UpgradeArtefactRequest(artefactId, levelsUpgrading);
-            var www = UnityWebRequest.Post(ResolveURL("artefact/upgrade"), SerializeRequest(req));
+            var req = new BulkUpgradeRequest()
+            {
+                Artefacts = artefacts.Select(x => new BulkArtefactUpgrade(x.Key, x.Value)).ToList()
+            };
+
+            var www = UnityWebRequest.Post(ResolveURL("artefact/bulk-upgrade"), SerializeRequest(req));
 
             SendAuthenticatedRequest(www, callback);
         }

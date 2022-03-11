@@ -5,9 +5,7 @@ from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.handlers.artefacts import (BulkUpgradeArtefactsHandler,
                                     BulkUpgradeArtefactsResponse,
                                     UnlockArtefactHandler,
-                                    UnlockArtefactResponse,
-                                    UpgradeArtefactHandler,
-                                    UpgradeArtefactResponse)
+                                    UnlockArtefactResponse)
 from src.pymodels import BaseModel
 from src.request_models import ArtefactUpgradeModel
 from src.response import ServerResponse
@@ -30,22 +28,6 @@ async def bulk_upgrade(
 
     return ServerResponse(response)
 
-
-@router.post("/upgrade")
-async def upgrade(
-    data: ArtefactUpgradeModel,
-    user: AuthenticatedRequestContext = Depends(get_authenticated_context),
-    handler: UpgradeArtefactHandler = Depends(),
-):
-    resp: UpgradeArtefactResponse = await handler.handle(user, data.artefact_id, data.upgrade_levels)
-
-    return ServerResponse({
-        "currencyItems": resp.currencies,
-        "artefact": resp.artefact,
-        "upgradeCost": resp.upgrade_cost,
-    })
-
-
 @router.get("/unlock")
 async def unlock(
     user: AuthenticatedRequestContext = Depends(get_authenticated_context),
@@ -54,7 +36,7 @@ async def unlock(
     resp: UnlockArtefactResponse = await handler.handle(user)
 
     return ServerResponse({
-        "currencyItems": resp.currencies.client_dict(),
-        "artefact": resp.artefact.client_dict(),
+        "currencyItems": resp.currencies,
+        "artefact": resp.artefact,
         "unlockCost": resp.unlock_cost,
     })

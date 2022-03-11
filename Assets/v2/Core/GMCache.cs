@@ -102,19 +102,24 @@ namespace GM.Core
         #endregion
 
         #region Artefacts
-        public BigDouble ArtefactBaseEffect(Artefacts.Data.ArtefactData art)
+        public BigDouble ArtefactBaseEffect(Artefacts.Data.AggregatedArtefactData art)
         {
             return GameFormulas.ArtefactBonusValue(art.CurrentLevel, art.BaseEffect, art.LevelEffect);
         }
 
-        public BigDouble ArtefactEffect(Artefacts.Data.ArtefactData art)
+        public BigDouble ArtefactEffect(Artefacts.Data.AggregatedArtefactData art)
         {
             return ArtefactBaseEffect(art);
         }
 
         public BigInteger ArtefactUnlockCost(int owned) => GameFormulas.ArtefactUnlockCost(owned);
 
-        public BigInteger ArtefactUpgradeCost(GM.Artefacts.Data.ArtefactData data, int levels)
+        public BigInteger ArtefactUpgradeCost(int artefactId, int levels)
+        {
+            return ArtefactUpgradeCost(App.GMData.Artefacts.GetArtefact(artefactId), levels);
+        }
+
+        public BigInteger ArtefactUpgradeCost(GM.Artefacts.Data.AggregatedArtefactData data, int levels)
         {
             return GameFormulas.ArtefactUpgradeCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff);
         }

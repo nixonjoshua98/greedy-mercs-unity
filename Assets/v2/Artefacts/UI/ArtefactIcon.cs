@@ -22,7 +22,7 @@ namespace GM.Artefacts.UI
             if (artefact.IconBackground != null) BackgroundImage.sprite = artefact.IconBackground;
         }
 
-        public void Set(ArtefactData artefact)
+        public void Set(AggregatedArtefactData artefact)
         {
             Set(App.GMData.Artefacts.GetGameArtefact(artefact.Id));
         }

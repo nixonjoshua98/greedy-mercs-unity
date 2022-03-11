@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
+using System.Linq;
 
 namespace GM
 {
@@ -12,6 +14,16 @@ namespace GM
             {
                 total += val;
             }
+
+            return total;
+        }
+
+        public static BigInteger Sum(this IEnumerable<BigInteger> source)
+        {
+            BigInteger total = 0;
+
+            foreach (BigInteger val in source)
+                total += val;
 
             return total;
         }

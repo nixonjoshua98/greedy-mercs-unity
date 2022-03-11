@@ -1,6 +1,3 @@
-from src.handlers.artefacts.upgrade_artefact import (UpgradeArtefactHandler,
-                                                     UpgradeArtefactResponse)
-
 from .claim_bounties import BountyClaimResponse, ClaimBountiesHandler
 from .create_account import (AccountCreationRequest, AccountCreationResponse,
                              CreateAccountHandler)

@@ -19,14 +19,14 @@ namespace GM.Artefacts.UI
         public Button UnlockButton;
         public TMP_Text UnlockButtonText;
 
-        Action<ArtefactData> OnArtefactUnlocked;
+        Action<AggregatedArtefactData> OnArtefactUnlocked;
 
-        public void Init(Action<ArtefactData> action)
+        public void Init(Action<AggregatedArtefactData> action)
         {
             OnArtefactUnlocked = action;
         }
 
-        IEnumerator ArtefactRotationAnimation(ArtefactData unlockedArtefact, Action finishedAction)
+        IEnumerator ArtefactRotationAnimation(AggregatedArtefactData unlockedArtefact, Action finishedAction)
         {
             // Fetch a random animation duration
             float animationTimer = UnityEngine.Random.Range(2.5f, 4.0f);

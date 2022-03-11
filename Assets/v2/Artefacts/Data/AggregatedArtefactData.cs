@@ -1,29 +1,25 @@
 using GM.Artefacts.Models;
 using UnityEngine;
 using BonusType = GM.Common.Enums.BonusType;
-using GM.Artefacts.Scriptables;
 
 namespace GM.Artefacts.Data
 {
-    public class ArtefactData : Core.GMClass
+    public class AggregatedArtefactData : Core.GMClass
     {
-        ArtefactGameDataModel Game;
-        ArtefactUserDataModel User;
+        public readonly int Id;
 
-        public ArtefactData(ArtefactGameDataModel values, ArtefactScriptableObject scriptable, ArtefactUserDataModel state)
+        ArtefactGameDataModel Game => App.GMData.Artefacts.GetGameArtefact(Id);
+        ArtefactUserDataModel User => App.GMData.Artefacts.GetUserArtefact(Id);
+
+        public AggregatedArtefactData(int artefactId)
         {
-            Game = values;
-            User = state;
+            Id = artefactId;
         }
 
-        public ArtefactData(ArtefactGameDataModel values, ArtefactUserDataModel state)
-        {
-            Game = values;
-            User = state;
-        }
+        // Can be used to pre-upgrade an artefact before the server replies
+        public int LocalLevelChange = 0;
 
-        public int Id => Game.Id;
-        public int CurrentLevel => User.Level;
+        public int CurrentLevel => User.Level + LocalLevelChange;
         public int MaxLevel => Game.MaxLevel;
         public float LevelEffect => Game.LevelEffect;
         public string Name => Game.Name;

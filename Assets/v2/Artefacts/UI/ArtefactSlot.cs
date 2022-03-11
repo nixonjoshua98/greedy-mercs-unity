@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using GM.UI;
 using BigInteger = System.Numerics.BigInteger;
 
@@ -21,14 +22,14 @@ namespace GM.Artefacts.UI
         [Space]
         public VStackedButton UpgradeButton;
 
-        AmountSelector amountSelector;
+        Action<int, int> upgradeCallback;
         int _BuyAmount; // Raw value. We should use BuyAmount for most cases
 
         int BuyAmount => MathUtils.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
 
-        public void AssignArtefact(int artefactId, AmountSelector selector)
+        public void Setup(int artefactId, AmountSelector selector, Action<int, int> callback)
         {
-            amountSelector = selector;
+            upgradeCallback = callback;
 
             // Set the callback for when the user changes the buy amount
             selector.E_OnChange.AddListener(val => {
@@ -80,12 +81,9 @@ namespace GM.Artefacts.UI
         // == Callbacks == //
         public void OnUpgradeButton()
         {
-            App.GMData.Artefacts.UpgradeArtefact(AssignedArtefact.Id, BuyAmount, (success) =>
-            {
-                UpdateUI();
+            upgradeCallback.Invoke(AssignedArtefact.Id, BuyAmount);
 
-                amountSelector.ReInvoke(); // Force a UI update for the other artefacts
-            });
+            UpdateUI();
         }
 
         public void OnShowPopupButton()

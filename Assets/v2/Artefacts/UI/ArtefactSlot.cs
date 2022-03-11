@@ -1,9 +1,9 @@
+using GM.UI;
+using System;
+using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using GM.UI;
-using BigInteger = System.Numerics.BigInteger;
 
 namespace GM.Artefacts.UI
 {

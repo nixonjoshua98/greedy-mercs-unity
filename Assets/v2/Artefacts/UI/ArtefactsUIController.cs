@@ -43,10 +43,12 @@ namespace GM.Artefacts.UI
         {
             while (true)
             {
-                yield return new WaitForSecondsRealtime(1.0f);
+                yield return new WaitForSecondsRealtime(0.5f);
 
                 if (BulkUpgrades.RequestIsReady)
+                {
                     BulkUpgrades.Process();
+                }
             }
         }
 
@@ -97,7 +99,6 @@ namespace GM.Artefacts.UI
             {
                 UpdateArtefactSlots();
                 UpdateUnlockArtefactText();
-                UpdateUI();
 
                 UpgradeAmountSelector.ReInvoke(); // Force a UI update
             });
@@ -108,7 +109,6 @@ namespace GM.Artefacts.UI
         {
             UpgradeAmountSelector.ReInvoke();
         }
-
 
         void ArtefactSlot_OnUpgradeButton(int artefactId, int levels)
         {

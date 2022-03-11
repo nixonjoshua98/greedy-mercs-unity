@@ -13,7 +13,7 @@ namespace GM.Artefacts
     public class BulkUpgradeController: GM.Core.GMClass
     {
         DateTime FirstUpdateTime;
-        Action<bool> SuccessCallback;
+        Action<bool> UpgradeCallback;
         float RequestInterval;
         bool WaitingForResponse;
 
@@ -22,7 +22,7 @@ namespace GM.Artefacts
 
         public BulkUpgradeController(Action<bool> success, float interval = 3.0f)
         {
-            SuccessCallback = success;
+            UpgradeCallback = success;
             RequestInterval = interval;
         }
 
@@ -57,7 +57,7 @@ namespace GM.Artefacts
                 RequestChanges      = UnprocessedChanges;
                 UnprocessedChanges  = null;
 
-                App.GMData.Artefacts.BulkUpgradeArtefact(RequestChanges.Upgrades, OnResponseReceived, SuccessCallback);
+                App.GMData.Artefacts.BulkUpgradeArtefact(RequestChanges.Upgrades, OnResponseReceived, UpgradeCallback);
             }
         }
 

@@ -6,6 +6,16 @@ from src.mongo.artefacts import ArtefactModel
 from src.static_models.artefacts import StaticArtefact
 
 
+def calculate_artefact_upgrade_cost(static_artefact: StaticArtefact, user_artefact: ArtefactModel, levels: int) -> int:
+    base_cost = calculate_base_artefact_upgrade_cost(static_artefact, user_artefact, levels)
+
+    return base_cost
+
+
+def calculate_base_artefact_upgrade_cost(s_art: StaticArtefact, u_art: ArtefactModel, buying: int) -> int:
+    return math.ceil(s_art.cost_coeff * sum_non_int_power_seq(u_art.level, buying, s_art.cost_expo))
+
+
 def create_bonus_dict(ls: list[tuple[int, float]]) -> dict[int, float]:
     d: dict[int, float] = {}
 

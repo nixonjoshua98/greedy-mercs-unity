@@ -44,8 +44,8 @@ class DynamicBountyShop:
 
     def dict(self) -> dict[str, list]:
         return {
-            "armouryItems": [x.client_dict() for x in self.all_items if isinstance(x, BountyShopArmouryItem)],
-            "currencyItems": [x.client_dict() for x in self.all_items if isinstance(x, BountyShopCurrencyItem)]
+            "armouryItems": [x.dict() for x in self.all_items if isinstance(x, BountyShopArmouryItem)],
+            "currencyItems": [x.dict() for x in self.all_items if isinstance(x, BountyShopCurrencyItem)]
         }
 
     @staticmethod

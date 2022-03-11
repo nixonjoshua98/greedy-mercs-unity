@@ -7,9 +7,9 @@ from src.static_models.bountyshop.models import PurchasableBountyShopItem
 
 
 class HandlerException(Exception):
-    def __init__(self, code: int = 500, message: str = "Internal server error"):
-        self.status_code: int = code
-        self.message: str = message
+    def __init__(self, code: int, message: str):
+        self.status_code = code
+        self.message = message
 
 
 class BaseHandler:

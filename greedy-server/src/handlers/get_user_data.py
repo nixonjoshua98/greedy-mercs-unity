@@ -62,7 +62,7 @@ class GetUserDataHandler(BaseHandler):
             "currencyItems": await self.currency_repo.get_user(uid),
             "bountyData": await self.bounties_repo.get_user_bounties(uid),
             "armouryItems": await self.armoury_repo.get_user_items(uid),
-            "artefacts": await self.artefacts_repo.get_all_artefacts(uid),
+            "artefacts": await self.artefacts_repo.get_user_artefacts(uid),
             "bountyShop": {
                 "purchases": bshop_purchases,
                 "shopItems": self.bountyshop.dict(),

@@ -15,13 +15,8 @@ class BaseModel(_BaseModel):
         return hash((type(self),) + tuple(self.__dict__.values()))
 
     def dict(self, *args, **kwargs):
-        kwargs["by_alias"] = True  # We only want to use the aliases
-
-        return super().dict(**kwargs)
-
-    def client_dict(self):
-        return humps.camelize(self.dict())
+        return humps.camelize(super().dict(by_alias=True))
 
 
 class BaseDocument(BaseModel):
-    id: Union[str, ObjectId] = Field(..., alias="_id")
+    id: Union[str, ObjectId] = Field(alias="_id", default=ObjectId)

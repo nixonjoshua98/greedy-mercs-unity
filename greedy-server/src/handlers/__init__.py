@@ -1,5 +1,6 @@
-from .bulk_upgrade_artefacts import (BulkUpgradeArtefactsHandler,
-                                     BulkUpgradeArtefactsResponse)
+from src.handlers.artefacts.upgrade_artefact import (UpgradeArtefactHandler,
+                                                     UpgradeArtefactResponse)
+
 from .claim_bounties import BountyClaimResponse, ClaimBountiesHandler
 from .create_account import (AccountCreationRequest, AccountCreationResponse,
                              CreateAccountHandler)
@@ -11,8 +12,6 @@ from .purchase_armoury_item import (PurchaseArmouryItemHandler,
                                     PurchaseArmouryItemResponse)
 from .purchase_bs_currency_item import (PurchaseCurrencyHandler,
                                         PurchaseCurrencyResponse)
-from .unlock_artefact import UnlockArtefactHandler, UnlockArtefactResponse
 from .update_bounties import UpdateBountiesHandler, UpdateBountiesResponse
 from .upgrade_armoury_item import (UpgradeArmouryItemHandler,
                                    UpgradeItemResponse)
-from .upgrade_artefact import UpgradeArtefactHandler, UpgradeArtefactResponse

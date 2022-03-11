@@ -2,10 +2,12 @@ from fastapi import Depends
 from pydantic import Field
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
-from src.handlers import (BulkUpgradeArtefactsHandler,
-                          BulkUpgradeArtefactsResponse, UnlockArtefactHandler,
-                          UnlockArtefactResponse, UpgradeArtefactHandler,
-                          UpgradeArtefactResponse)
+from src.handlers.artefacts import (BulkUpgradeArtefactsHandler,
+                                    BulkUpgradeArtefactsResponse,
+                                    UnlockArtefactHandler,
+                                    UnlockArtefactResponse,
+                                    UpgradeArtefactHandler,
+                                    UpgradeArtefactResponse)
 from src.pymodels import BaseModel
 from src.request_models import ArtefactUpgradeModel
 from src.response import ServerResponse

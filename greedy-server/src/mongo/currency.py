@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from typing import Union
-
 from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
 
 from src.pymodels import BaseDocument
 from src.request import ServerRequest
+from src.types import Number
 
 
 def currency_repository(request: ServerRequest) -> CurrencyRepository:
@@ -43,10 +42,13 @@ class CurrencyRepository:
         r = await self.collection.find_one({"_id": uid})
         return CurrenciesModel.parse_obj(r or {"_id": uid})
 
-    async def inc_value(self, uid: ObjectId, field: str, value: Union[int, float]) -> CurrenciesModel:
+    async def decr(self, uid: ObjectId, field: str, value: Number) -> CurrenciesModel:
+        return await self.update_one(uid, {"$inc": {field: -value}})
+
+    async def inc_value(self, uid: ObjectId, field: str, value: Number) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": {field: value}})
 
-    async def inc_values(self, uid: ObjectId, fields: dict[str, Union[int, float]]) -> CurrenciesModel:
+    async def inc_values(self, uid: ObjectId, fields: dict[str, Number]) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": fields})
 
     async def update_one(self, uid, update: dict) -> CurrenciesModel:

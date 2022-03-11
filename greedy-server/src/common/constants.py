@@ -10,4 +10,4 @@ class RedisKeys:
 
 
 class StatusCodes:
-    INVALIDATE_CLIENT = 420
+    INVALIDATE_CLIENT = 419

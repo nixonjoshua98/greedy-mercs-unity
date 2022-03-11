@@ -34,7 +34,7 @@ class UnlockArtefactHandler(BaseHandler):
         self.currency_repo = currency_repo
 
     async def handle(self, user: AuthenticatedRequestContext) -> UnlockArtefactResponse:
-        u_artefacts: list[ArtefactModel] = await self.artefacts_repo.get_all_artefacts(user.user_id)
+        u_artefacts: list[ArtefactModel] = await self.artefacts_repo.get_user_artefacts(user.user_id)
 
         if self.unlocked_all_artefacts(u_artefacts):
             raise HandlerException(400, "All artefacts unlocked")

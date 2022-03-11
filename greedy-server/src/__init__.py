@@ -7,7 +7,6 @@ from redis import Redis
 from src import exception_handlers, utils
 from src.application import Application
 from src.auth import AuthenticationService
-from src.exceptions import AuthenticationError
 from src.handlers.abc import HandlerException
 from src.mongo.motorclient import MotorClient
 from src.static_file_cache import StaticFilesCache
@@ -36,7 +35,6 @@ def create_app():
     app.add_exception_handler(HTTPException, exception_handlers.handle_http_exception)
     app.add_exception_handler(RequestValidationError, exception_handlers.handle_validation_exception)
     app.add_exception_handler(HandlerException, exception_handlers.handle_handler_exception)
-    app.add_exception_handler(AuthenticationError, exception_handlers.handle_auth_exception)
 
     app.add_event_handler("startup", ft.partial(_on_app_start, app))
 

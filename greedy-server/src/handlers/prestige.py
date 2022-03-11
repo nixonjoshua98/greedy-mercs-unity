@@ -50,7 +50,7 @@ class PrestigeHandler(BaseHandler):
         self.bounties: Optional[UserBountiesDataModel] = None
 
     async def fetch_user_data(self):
-        self.artefacts = await self.artefacts_repo.get_all_artefacts(self.ctx.user_id)
+        self.artefacts = await self.artefacts_repo.get_user_artefacts(self.ctx.user_id)
         self.bounties = await self.bounties_repo.get_user_bounties(self.ctx.user_id)
 
     async def handle(self, data: PrestigeData) -> PrestigeResponse:
@@ -60,7 +60,9 @@ class PrestigeHandler(BaseHandler):
         points: int = self.calculate_prestige_points(data.prestige_stage)
         new_bounties: list[int] = self.calculate_unlocked_bounties(data.prestige_stage)
 
-        await self.bounties_repo.insert_new_bounties(self.ctx.user_id, new_bounties)
+        if new_bounties:
+            await self.bounties_repo.insert_new_bounties(self.ctx.user_id, new_bounties)
+
         await self.currency_repo.inc_value(self.ctx.user_id, CurrenciesModel.Aliases.prestige_points, points)
 
         return PrestigeResponse(

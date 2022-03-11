@@ -136,7 +136,7 @@ namespace GM.HTTP
 
                 bool isEncrypted = www.GetBoolResponseHeader("Response-Encrypted", false);
 
-                T resp = DeserializeResponse<T>(www);
+                T resp = DeserializeResponse<T>(www, isEncrypted);
 
                 callback.Invoke(resp);
             }
@@ -153,20 +153,24 @@ namespace GM.HTTP
             www.SetRequestHeader("DeviceId", SystemInfo.deviceUniqueIdentifier);
         }
 
-        T DeserializeResponse<T>(UnityWebRequest www) where T : IServerResponse, new()
+        T DeserializeResponse<T>(UnityWebRequest www, bool encrpted) where T : IServerResponse, new()
         {
+            string text = www.downloadHandler.text;
+
             T model;
 
             try
             {
-                model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
+                if (encrpted)
+                    text = AES.Decrypt(text);
+
+                model = JsonConvert.DeserializeObject<T>(text);
 
                 if (model == null)
                 {
                     model = new T() { ErrorMessage = "Failed to deserialize server response" };
                 }
 
-                model.StatusCode = www.responseCode;
             }
             catch (Exception e)
             {

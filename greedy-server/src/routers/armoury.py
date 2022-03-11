@@ -5,10 +5,11 @@ from src.handlers import UpgradeArmouryItemHandler, UpgradeItemResponse
 from src.pymodels import BaseModel
 from src.response import ServerResponse
 from src.router import APIRouter
+from src.static_models.armoury import ArmouryItemID
 
 
 class ArmouryItemActionModel(BaseModel):
-    item_id: int
+    item_id: ArmouryItemID
 
 
 router = APIRouter()

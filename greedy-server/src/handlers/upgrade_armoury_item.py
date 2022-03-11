@@ -11,7 +11,7 @@ from src.mongo.armoury import (ArmouryItemModel, ArmouryRepository,
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import currency_repository
-from src.static_models.armoury import StaticArmouryItem
+from src.static_models.armoury import ArmouryItemID, StaticArmouryItem
 
 
 @dataclasses.dataclass()
@@ -24,16 +24,16 @@ class UpgradeItemResponse(BaseResponse):
 class UpgradeArmouryItemHandler(BaseHandler):
     def __init__(
         self,
-        static_data: list[StaticArmouryItem] = Depends(get_static_armoury),
-        armoury_repo: ArmouryRepository = Depends(armoury_repository),
-        currency_repo: CurrencyRepository = Depends(currency_repository),
+        static_data=Depends(get_static_armoury),
+        armoury_repo=Depends(armoury_repository),
+        currency_repo=Depends(currency_repository),
     ):
-        self.static_data = static_data
+        self.static_data: list[StaticArmouryItem]= static_data
 
-        self.armoury_repo = armoury_repo
-        self.currency_repo = currency_repo
+        self.armoury_repo: ArmouryRepository = armoury_repo
+        self.currency_repo: CurrencyRepository = currency_repo
 
-    async def handle(self, user: AuthenticatedRequestContext, item_id: int) -> UpgradeItemResponse:
+    async def handle(self, user: AuthenticatedRequestContext, item_id: ArmouryItemID) -> UpgradeItemResponse:
 
         static_item: StaticArmouryItem = utils.get(self.static_data, id=item_id)
         user_item: ArmouryItemModel = await self.armoury_repo.get_user_item(user.user_id, item_id)

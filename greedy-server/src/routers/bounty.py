@@ -36,4 +36,4 @@ async def set_active_bounties(
 ):
     resp: UpdateBountiesResponse = await handler.handle(user, model.bounty_ids)
 
-    return ServerResponse(resp.bounties.client_dict())
+    return ServerResponse(resp.bounties)

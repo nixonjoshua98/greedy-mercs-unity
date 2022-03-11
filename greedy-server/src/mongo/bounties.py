@@ -35,9 +35,6 @@ class UserBountiesDataModel(BaseModel):
     last_claim_time: dt.datetime = Field(..., alias=FieldNames.last_claim_time)
     bounties: list[UserBountyModel] = Field(..., alias=FieldNames.bounties)
 
-    def client_dict(self):
-        return self.dict(exclude={"user_id"})
-
     @property
     def active_bounties(self) -> list[UserBountyModel]:
         return [b for b in self.bounties if b.is_active]

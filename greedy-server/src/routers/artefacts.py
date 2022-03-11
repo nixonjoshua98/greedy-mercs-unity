@@ -28,6 +28,7 @@ async def bulk_upgrade(
 
     return ServerResponse(response)
 
+
 @router.get("/unlock")
 async def unlock(
     user: AuthenticatedRequestContext = Depends(get_authenticated_context),

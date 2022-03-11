@@ -37,7 +37,7 @@ class BulkUpgradeArtefactsHandler:
         if len(to_upgrade) == 0:
             raise HTTPException(400, "No artefacts provided")
 
-        elif len(set(to_upgrade)) < len(to_upgrade):
+        elif not self._validate_artefact_uniqueness(to_upgrade):
             raise HTTPException(400, "Attempted to bulk upgrade duplicate artefacts")
 
         elif not self._validate_artefact_ids(user_artefacts, to_upgrade):
@@ -62,7 +62,30 @@ class BulkUpgradeArtefactsHandler:
             artefacts=user_artefacts
         )
 
+    @classmethod
+    def _validate_artefact_uniqueness(cls, to_upgrade: list[ArtefactUpgradeModel]):
+        """
+        Check that the artefacts provided all have unique ids
+
+        :param to_upgrade: Artefacts to upgrade
+
+        :return:
+            Boolean on whether the check passed
+        """
+        upgrade_ids: list[ArtefactID] = [art.artefact_id for art in to_upgrade]
+
+        return len(upgrade_ids) == len(set(upgrade_ids))
+
     def _validate_artefact_ids(self, unlocked: list[ArtefactModel], to_upgrade: list[ArtefactUpgradeModel]) -> bool:
+        """
+        Check that the artefacts we have requested to upgrade both exist and are already unlocked
+
+        :param unlocked: Unlocked artefacts list
+        :param to_upgrade: Artefacts to upgrade
+
+        :return:
+            Boolean on whether the check passed
+        """
         unlocked_ids: list[ArtefactID] = [art.artefact_id for art in unlocked]
         upgrade_ids: list[ArtefactID] = [art.artefact_id for art in to_upgrade]
 
@@ -73,6 +96,15 @@ class BulkUpgradeArtefactsHandler:
         unlocked: list[ArtefactModel],
         to_upgrade: list[ArtefactUpgradeModel]
     ) -> dict[ArtefactID, int]:
+        """
+        Create a dict lookup of all the artefact upgrade costs
+
+        :param unlocked: Unlocked artefacts list
+        :param to_upgrade: Artefacts to upgrade
+
+        :return:
+            Dict of ArtefactID to upgrade cost
+        """
         d: dict[ArtefactID, int] = dict()
 
         unlocked_lookup: dict[ArtefactID, ArtefactModel] = {art.artefact_id: art for art in unlocked}

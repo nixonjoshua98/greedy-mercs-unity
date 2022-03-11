@@ -19,12 +19,12 @@ class StaticFilesCache:
         self._cache: dict[str, StaticFileCacheObject] = dict()
 
     # = Preferred load methods = #
-    def load_mercs(self) -> dict: return self._load_or_from_cache("mercs.json5")
-    def load_artefacts(self) -> list: return self._load_or_from_cache("artefacts.json")
-    def load_bounties(self) -> dict: return self._load_or_from_cache("bounties.json")
-    def load_armoury(self) -> list: return self._load_or_from_cache("armoury.json")
+    def load_mercs(self) -> dict: return self._cached_or_reload("mercs.json5")
+    def load_artefacts(self) -> list: return self._cached_or_reload("artefacts.json")
+    def load_bounties(self) -> dict: return self._cached_or_reload("bounties.json")
+    def load_armoury(self) -> list: return self._cached_or_reload("armoury.json")
 
-    def _load_or_from_cache(self, fp: str):
+    def _cached_or_reload(self, fp: str):
         if fp not in self._cache:
             self._cache[fp] = self._create_new_cache_item(fp)
 

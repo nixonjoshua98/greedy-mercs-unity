@@ -4,7 +4,7 @@ from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
 
-from src.pymodels import BaseDocument
+from src.pymodels import BaseModel
 from src.request import ServerRequest
 from src.types import Number
 
@@ -14,24 +14,16 @@ def currency_repository(request: ServerRequest) -> CurrencyRepository:
 
 
 class Fields:
+    user_id = "userId"
     BOUNTY_POINTS = "bountyPoints"
     ARMOURY_POINTS = "armouryPoints"
     PRESTIGE_POINTS = "prestigePoints"
 
 
-class CurrenciesModel(BaseDocument):
-
-    class Aliases:
-        bounty_points = "bountyPoints"
-        armoury_points = "armouryPoints"
-        prestige_points = "prestigePoints"
-
-    prestige_points: int = Field(0, alias=Aliases.prestige_points)
-    bounty_points: int = Field(0, alias=Aliases.bounty_points)
-    armoury_points: int = Field(0, alias=Aliases.armoury_points)
-
-    def client_dict(self):
-        return self.dict(exclude={"id"})
+class CurrenciesModel(BaseModel):
+    prestige_points: int = Field(0, alias=Fields.PRESTIGE_POINTS)
+    bounty_points: int = Field(0, alias=Fields.BOUNTY_POINTS)
+    armoury_points: int = Field(0, alias=Fields.ARMOURY_POINTS)
 
 
 class CurrencyRepository:
@@ -39,8 +31,8 @@ class CurrencyRepository:
         self.collection = client.database["currencyItems"]
 
     async def get_user(self, uid) -> CurrenciesModel:
-        r = await self.collection.find_one({"_id": uid})
-        return CurrenciesModel.parse_obj(r or {"_id": uid})
+        r = await self.collection.find_one(default := {Fields.user_id: uid})
+        return CurrenciesModel.parse_obj(r or default)
 
     async def decr(self, uid: ObjectId, field: str, value: Number) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": {field: -value}})
@@ -53,7 +45,9 @@ class CurrencyRepository:
 
     async def update_one(self, uid, update: dict) -> CurrenciesModel:
         r = await self.collection.find_one_and_update(
-            {"_id": uid}, update, upsert=True, return_document=ReturnDocument.AFTER
+            {Fields.user_id: uid},
+            update,
+            upsert=True,
+            return_document=ReturnDocument.AFTER
         )
-
         return CurrenciesModel.parse_obj(r)

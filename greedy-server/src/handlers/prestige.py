@@ -12,8 +12,9 @@ from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
                                 bounties_repository)
-from src.mongo.currency import (CurrenciesModel, CurrencyRepository,
-                                currency_repository)
+from src.mongo.currency import CurrencyRepository
+from src.mongo.currency import Fields as CurrencyFields
+from src.mongo.currency import currency_repository
 from src.request_models import PrestigeData
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties
@@ -63,7 +64,7 @@ class PrestigeHandler(BaseHandler):
         if new_bounties:
             await self.bounties_repo.insert_new_bounties(self.ctx.user_id, new_bounties)
 
-        await self.currency_repo.inc_value(self.ctx.user_id, CurrenciesModel.Aliases.prestige_points, points)
+        await self.currency_repo.inc_value(self.ctx.user_id, CurrencyFields.PRESTIGE_POINTS, points)
 
         return PrestigeResponse(
             prestige_points=points,

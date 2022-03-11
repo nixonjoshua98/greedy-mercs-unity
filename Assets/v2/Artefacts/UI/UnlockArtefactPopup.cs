@@ -38,7 +38,7 @@ namespace GM.Artefacts.UI
 
             List<ArtefactGameDataModel> artefacts = App.GMData.Artefacts.GameArtefactsList;
 
-            while (animationTimer > 0.0f)
+            while (false && animationTimer > 0.0f)
             {
                 // Generate a random frame time
                 float frameTime = UnityEngine.Random.Range(0.1f, 0.15f);

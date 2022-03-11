@@ -23,4 +23,7 @@ class ServerResponse(_JSONResponse):
 
 
 class EncryptedServerResponse(ServerResponse):
-    ...
+    def __init__(self, content: Any, *args, **kwargs):
+        headers = {"Response-Encrypted": "true", **kwargs.pop("headers", {})}
+
+        super(EncryptedServerResponse, self).__init__(content, *args, headers=headers, **kwargs)

@@ -17,12 +17,10 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "109.154.100.101"
+            Address = "localhost"
         };
 
         IServerAuthentication Authentication;
-
-        public bool IsAuthenticated => Authentication.Session != null;
 
         public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
         {
@@ -123,40 +121,24 @@ namespace GM.HTTP
 
         void SendAuthenticatedRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
-            if (!IsAuthenticated)
-            {
-                callback.Invoke(InvalidAuthResponse<T>());
-            }
-            else
-            {
-                SetAuthenticationHeader(ref www);
+            SetAuthenticationHeader(ref www);
 
-                StartCoroutine(SendRequest(www, callback));
-            }
+            StartCoroutine(SendRequest(www, callback));
         }
 
         IEnumerator SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
-            www.timeout = 5;
-
             SetRequiredHeaders(ref www);
 
-            yield return www.SendWebRequest();
-
-            HandleRequestResponse(www, callback);
-        }
-
-        void HandleRequestResponse<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
-        {
-            T resp = DeserializeResponse<T>(www);
-
-            try
+            using (www)
             {
+                yield return www.SendWebRequest();
+
+                bool isEncrypted = www.GetBoolResponseHeader("Response-Encrypted", false);
+
+                T resp = DeserializeResponse<T>(www);
+
                 callback.Invoke(resp);
-            }
-            finally
-            {
-                GMLogger.Editor($"{www.url} {resp.StatusCode} {resp.ErrorMessage}");
             }
         }
 
@@ -177,28 +159,21 @@ namespace GM.HTTP
 
             try
             {
-                // Attempt to deserialize the response text
                 model = JsonConvert.DeserializeObject<T>(www.downloadHandler.text);
 
                 if (model == null)
                 {
-                    model = new T()
-                    {
-                        ErrorMessage = "Failed to deserialize server response"
-                    };
+                    model = new T() { ErrorMessage = "Failed to deserialize server response" };
                 }
 
                 model.StatusCode = www.responseCode;
             }
             catch (Exception e)
             {
-                // We failed to deserialize for an unknown reason so we set the error message and status code
-                model = new T()
-                {
-                    ErrorMessage = e.Message,
-                    StatusCode = HTTPCodes.FailedToDeserialize
-                };
+                model = new T() { ErrorMessage = e.Message };
             }
+
+            model.StatusCode = www.responseCode;
 
             return model;
         }
@@ -207,7 +182,5 @@ namespace GM.HTTP
         {
             return JsonConvert.SerializeObject(request);
         }
-
-        T InvalidAuthResponse<T>() where T : IServerResponse, new() => new T { ErrorMessage = "A game relaunch is required as you are playing in offline mode", StatusCode = HTTPCodes.OfflineMode };
     }
 }

@@ -6,14 +6,14 @@ namespace GM
     {
         public static bool GetBoolResponseHeader(this UnityWebRequest www, string name, bool defaultValue)
         {
-            if (ResponseHeaderExists(www, name))
-            {
-                return www.GetResponseHeader(name) == "true";
-            }
-
-            return defaultValue;
+            return ResponseHeaderExists(www, name) ? www.GetResponseHeader(name) == "true" : defaultValue;
         }
 
-        static bool ResponseHeaderExists(UnityWebRequest www, string name) => www.GetResponseHeaders().ContainsKey(name);
+        static bool ResponseHeaderExists(UnityWebRequest www, string name)
+        {
+            var headers = www.GetResponseHeaders();            
+
+            return headers == null ? false : headers.ContainsKey(name);
+        }
     }
 }

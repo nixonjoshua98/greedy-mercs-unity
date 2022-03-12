@@ -14,10 +14,10 @@ namespace GM.HTTP.Requests
     }
 
 
-    public class LoginResponse : ServerResponse, IServerAuthentication
+    public class LoginResponse : ServerResponse
     {
-        [JsonProperty(PropertyName = "sessionId", Required = Required.Always)]
-        public string Session { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Token { get; set; }
 
         public ServerUserDataModel UserData { get; set; }
     }

@@ -35,4 +35,4 @@ async def index(
 
     user_data = await _user_data.handle(resp.user_id)
 
-    return ServerResponse({"sessionId": resp.session_id, "userData": user_data.data})
+    return ServerResponse({"token": resp.session_id, "userData": user_data.data})

@@ -24,6 +24,11 @@ namespace GM.Core
             GMData = dataContainer;
         }
 
+        public void InvalidateClient()
+        {
+            
+        }
+
         public void SetInstance()
         {
             Instance = this;

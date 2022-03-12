@@ -4,4 +4,9 @@ namespace GM.HTTP
     {
 
     }
+
+    public sealed class ServerRequest : IServerRequest
+    {
+        public static ServerRequest Empty = new();
+    }
 }

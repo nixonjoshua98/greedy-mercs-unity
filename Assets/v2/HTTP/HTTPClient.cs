@@ -18,55 +18,32 @@ namespace GM.HTTP
             Address = "109.154.100.101"
         };
 
-        IServerAuthentication Authentication;
+        string Authentication = null;
 
-        public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
-        {
-            var www = UnityWebRequest.Get(ResolveURL("artefact/unlock"));
+        public void FetchStaticData(Action<FetchGameDataResponse> callback) => SendRequest("GET", "static", ServerRequest.Empty, false, callback);
 
-            SendRequest(www, callback);
-        }
+        public void UnlockArtefact(Action<UnlockArtefactResponse> callback) => SendRequest("GET", "artefact/unlock", ServerRequest.Empty, false, callback);
 
         public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback)
         {
-            var req = new BulkUpgradeRequest()
-            {
-                Artefacts = artefacts.Select(x => new BulkArtefactUpgrade(x.Key, x.Value)).ToList()
-            };
+            var req = new BulkUpgradeRequest() { Artefacts = artefacts.Select(x => new BulkArtefactUpgrade(x.Key, x.Value)).ToList() };
 
-            var www = UnityWebRequest.Post(ResolveURL("artefact/bulk-upgrade"), SerializeRequest(req));
-
-            SendRequest(www, callback);
+            SendRequest("POST", "artefact/bulk-upgrade", req, false, callback);
         }
 
         public void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback)
         {
             var req = new UpgradeArmouryItemRequest(item);
-            var www = UnityWebRequest.Post(ResolveURL("armoury/upgrade"), SerializeRequest(req));
 
-            SendRequest(www, callback);
+            SendRequest("POST", "armoury/upgrade", req, false, callback);
         }
 
-        public void ClaimBounties(Action<BountyClaimResponse> callback)
-        {
-            var www = UnityWebRequest.Get(ResolveURL("bounty/claim"));
-
-            SendRequest(www, callback);
-        }
+        public void ClaimBounties(Action<BountyClaimResponse> callback) => SendRequest("GET", "bounty/claim", ServerRequest.Empty, false, callback);
 
         public void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback)
         {
             var req = new UpdateActiveBountiesRequest(bounties);
-            var www = UnityWebRequest.Post(ResolveURL("bounty/setactive"), SerializeRequest(req));
-
-            SendRequest(www, callback);
-        }
-
-        public void FetchStaticData(Action<FetchGameDataResponse> callback)
-        {
-            var www = UnityWebRequest.Get(ResolveURL("static"));
-
-            SendRequest(www, callback);
+            SendRequest("POST", "bounty/setactive", req, false, callback);
         }
 
         public void Login(Action<LoginResponse> callback)
@@ -74,64 +51,69 @@ namespace GM.HTTP
             var req = new LoginRequest(SystemInfo.deviceUniqueIdentifier);
             var www = UnityWebRequest.Post(ResolveURL("login"), SerializeRequest(req));
 
-            SendRequest<LoginResponse>(www, (response) =>
+            SendRequest<LoginRequest, LoginResponse>("POST", "login", req, false, (resp) =>
             {
                 Authentication = null;
 
-                if (response.StatusCode == HTTPCodes.Success)
+                if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    Authentication = response;
+                    Authentication = resp.Token;
                 }
 
-                callback.Invoke(response);
+                callback.Invoke(resp);
             });
         }
 
-        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
-        {
-            var www = UnityWebRequest.Post(ResolveURL("prestige"), SerializeRequest(request));
-
-            SendRequest(www, callback);
-        }
+        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback) => SendRequest("POST", "prestige", request, false, callback);
 
         public void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback)
         {
             var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
-            var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/armouryitem"), SerializeRequest(req));
 
-            SendRequest(www, callback);
+            SendRequest("POST", "bountyshop/purchase/armouryitem", req, false, callback);
         }
 
         public void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback)
         {
             var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
-            var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/currency"), SerializeRequest(req));
 
-            SendRequest(www, callback);
+            SendRequest("POST", "bountyshop/purchase/currency", req, false, callback);
         }
 
-        string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
-
-        void SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
+        UnityWebRequest CreateWebRequest<TRequest>(string method, string url, TRequest request, bool encrypt = false) where TRequest: IServerRequest
         {
-            StartCoroutine(_SendRequest(www, callback));
+            url = ResolveURL(url);
+
+            UnityWebRequest www = method switch
+            {
+                "GET" => UnityWebRequest.Get(url),
+                "POST" => UnityWebRequest.Post(url, SerializeRequest(request, encrypt)),
+                _ => throw new Exception()
+            };
+
+            return www;
         }
 
-        IEnumerator _SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
+        void SendRequest<TRequest, TResponse>(string method, string url, TRequest request, bool encrypt, Action<TResponse> action) where TRequest : IServerRequest where TResponse : IServerResponse, new()
         {
+            UnityWebRequest www = CreateWebRequest(method, url, request, encrypt: encrypt);
+
             SetRequestHeaders(www);
 
+            StartCoroutine(SendRequest(www, () => ResponseHandler(www, action)));
+        }
+
+        IEnumerator SendRequest(UnityWebRequest www, Action action)
+        {
             using (www)
             {
                 yield return www.SendWebRequest();
 
-                bool isEncrypted = www.GetBoolResponseHeader("Response-Encrypted", false);
-
-                T resp = DeserializeResponse<T>(www, isEncrypted);
-
-                callback.Invoke(resp);
+                action.Invoke();
             }
-        }
+        }   
+
+        string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
 
         void SetRequestHeaders(UnityWebRequest www)
         {
@@ -140,7 +122,7 @@ namespace GM.HTTP
 
             if (Authentication is not null)
             {
-                www.SetRequestHeader("Authentication", Authentication.Session);
+                www.SetRequestHeader("Authentication", Authentication);
             }
         }
 
@@ -173,9 +155,43 @@ namespace GM.HTTP
             return model;
         }
 
-        string SerializeRequest<T>(T request) where T: IServerRequest
+        string SerializeRequest<T>(T request, bool encrypt = false) where T: IServerRequest
         {
             return JsonConvert.SerializeObject(request);
+        }
+
+
+        void ResponseHandler<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
+        {
+            bool isEncrypted = www.GetBoolResponseHeader("Response-Encrypted", false);
+            
+            switch (www.responseCode)
+            {
+                case HTTPCodes.InvalidiateClient:
+                    Response_InvalidateClient();
+                    return;
+
+                case HTTPCodes.Unauthorized:
+                    Response_Unauthorized();
+                    return;
+            }
+
+            TResponse resp = DeserializeResponse<TResponse>(www, isEncrypted);
+
+            action.Invoke(resp);
+        }
+
+        // = Special Response Callbacks = //
+        void Response_Unauthorized()
+        {
+            Authentication = null;
+        }
+
+        void Response_InvalidateClient()
+        {
+            Authentication = null;
+
+            App.InvalidateClient();
         }
     }
 }

@@ -1635,8 +1635,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 720, y: 0}
-  m_SizeDelta: {x: 1440, y: 0}
+  m_AnchoredPosition: {x: 740, y: 0}
+  m_SizeDelta: {x: 1480, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &291466025
 MonoBehaviour:
@@ -3112,7 +3112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4521a6468b960ca4c9d80d2dad6caff0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuestsPopupObject: {fileID: 1109614082776913044, guid: e3899ae976c1ea64490c5f8b8178cb71,
+  QuestsPopupObject: {fileID: 2718779818251557578, guid: e3899ae976c1ea64490c5f8b8178cb71,
     type: 3}
 --- !u!1 &485130410
 GameObject:
@@ -5856,7 +5856,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.45
+  m_fontSize: 38.55
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6545,8 +6545,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 720, y: 0}
-  m_SizeDelta: {x: 1440, y: 0}
+  m_AnchoredPosition: {x: 740, y: 0}
+  m_SizeDelta: {x: 1480, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963363273
 MonoBehaviour:
@@ -11253,7 +11253,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 725, y: 0}
+  m_AnchoredPosition: {x: 740, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1578127486
@@ -14866,8 +14866,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 725, y: 0}
-  m_SizeDelta: {x: 1450, y: 0}
+  m_AnchoredPosition: {x: 740, y: 0}
+  m_SizeDelta: {x: 1480, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2115229380
 MonoBehaviour:

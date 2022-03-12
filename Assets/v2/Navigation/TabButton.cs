@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -20,6 +21,9 @@ namespace GM.Navigation
         [SerializeField] Image Background;
         [SerializeField] TabStateSprites Colours;
 
+        public UnityEvent OnSelected;
+        public UnityEvent OnDeselected;
+
         void Awake()
         {
             Group.Subscribe(this);
@@ -28,11 +32,15 @@ namespace GM.Navigation
         public void Select()
         {
             Background.color = Colours.Selected;
+
+            OnSelected?.Invoke();
         }
 
         public void DeSelect()
         {
             Background.color = Colours.Unselected;
+
+            OnDeselected?.Invoke();
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

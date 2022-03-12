@@ -16,7 +16,7 @@ namespace GM
         [HideInInspector] public UnityEvent E_BossDefeated { get; private set; } = new UnityEvent();
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveStart { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
 
-        CurrentPrestigeState CurrentGameState => App.GMData.GameState;
+        CurrentPrestigeState CurrentGameState => App.DataContainers.GameState;
 
         void Awake()
         {

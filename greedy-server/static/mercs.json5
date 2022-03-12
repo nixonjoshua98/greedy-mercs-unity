@@ -1,4 +1,6 @@
 {
+  "maxSquadSize": 5,
+
   "passives": [
     { // 1.1x Enemy Gold
       "passiveId": 0,

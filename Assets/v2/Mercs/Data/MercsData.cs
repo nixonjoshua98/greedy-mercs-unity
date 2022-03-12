@@ -1,17 +1,18 @@
 using GM.Common.Enums;
-using GM.Common.Interfaces;
 using GM.Mercs.ScriptableObjects;
+using GM.Models;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using GM.LocalFiles;
 
 namespace GM.Mercs.Data
 {
     public class MercsData : Core.GMClass, ILocalStateFileSerializer
     {
-        Dictionary<UnitID, UserMercState> UserMercs = new Dictionary<UnitID, UserMercState>();
-        Dictionary<UnitID, StaticMercData> StaticMercs = new Dictionary<UnitID, StaticMercData>();
+        Dictionary<MercID, UserMercState> UserMercs = new Dictionary<MercID, UserMercState>();
+        Dictionary<MercID, StaticMercData> StaticMercs = new Dictionary<MercID, StaticMercData>();
+
+        public int MaxSquadSize { get; private set; } = 5;
 
         public MercsData(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
         {
@@ -55,6 +56,13 @@ namespace GM.Mercs.Data
             {
                 UserMercs[merc.ID] = new UserMercState(merc.ID);
             }
+        }
+
+        public void AddNewUnlockedMerc(MercID mercId)
+        {
+            UserMercs.Add(mercId, new(mercId));
+
+            App.E_OnMercUnlocked.Invoke(mercId);
         }
 
         public void UpdateLocalSaveFile(ref LocalStateFile model)
@@ -107,17 +115,21 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Load local merc data and convert to a lookup dictionary
         /// </summary>
-        Dictionary<UnitID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
+        Dictionary<MercID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
 
         /// <summary>
         /// Fetch the data about a merc
         /// </summary>
-        public StaticMercData GetGameMerc(UnitID key) => StaticMercs[key];
+        public StaticMercData GetGameMerc(MercID key) => StaticMercs[key];
+
+        public HashSet<MercID> SquadMercs => App.PersistantLocalFile.SquadMercIDs;
+
+        public bool IsSquadFull => SquadMercs.Count < MaxSquadSize;
 
         /// <summary>
         /// Fetch the aggregated dataclass for the unit
         /// </summary>
-        public AggregatedMercData GetMerc(UnitID key) => new AggregatedMercData(StaticMercs[key], UserMercs[key]);
+        public AggregatedMercData GetMerc(MercID key) => new AggregatedMercData(StaticMercs[key], UserMercs[key]);
 
         /// <summary> 
         /// Fetch the full data for all user unlocked mercs
@@ -127,6 +139,6 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Unit IDs for the units currently in the squad
         /// </summary>
-        public List<UnitID> MercsInSquad => UserMercs.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
+        public List<MercID> MercsInSquad => UserMercs.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
     }
 }

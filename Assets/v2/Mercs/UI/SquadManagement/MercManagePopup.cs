@@ -22,7 +22,7 @@ namespace GM.Mercs.UI
 
         public bool SquadFull => SquadMercs.Count >= GM.Common.Constants.MAX_SQUAD_SIZE;
 
-        Dictionary<UnitID, MercManageSlot> Slots = new Dictionary<UnitID, MercManageSlot>();
+        Dictionary<MercID, MercManageSlot> Slots = new Dictionary<MercID, MercManageSlot>();
         List<MercManageIcon> Icons = new List<MercManageIcon>();
         List<MercManageSlot> SquadMercs => Slots.Values.Where(x => x.InSquad).ToList();
 
@@ -51,7 +51,7 @@ namespace GM.Mercs.UI
 
         void InstantiateSlots()
         {
-            foreach (var unlockedMerc in App.GMData.Mercs.UnlockedMercs)
+            foreach (var unlockedMerc in App.DataContainers.Mercs.UnlockedMercs)
             {
                 MercManageSlot slot = Instantiate<MercManageSlot>(ManageMercSlot, null);
 
@@ -92,9 +92,9 @@ namespace GM.Mercs.UI
             }
         }
 
-        Sprite GetMercIconSprite(UnitID unit) => App.GMData.Mercs.GetGameMerc(unit).Icon;
+        Sprite GetMercIconSprite(MercID unit) => App.DataContainers.Mercs.GetGameMerc(unit).Icon;
 
-        public void UpdateMerc(UnitID unit)
+        public void UpdateMerc(MercID unit)
         {
             MercManageSlot slot = Slots[unit];
 
@@ -107,16 +107,16 @@ namespace GM.Mercs.UI
 
         public void Button_SaveChanges()
         {
-            List<UnitID> newSquadMercIds = Slots.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
+            List<MercID> newSquadMercIds = Slots.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
 
-            foreach (UnitID merc in App.GMData.Mercs.MercsInSquad)
+            foreach (MercID merc in App.DataContainers.Mercs.MercsInSquad)
             {
                 MercSquad.RemoveFromSquad(merc);
             }
 
-            foreach (UnitID merc in newSquadMercIds)
+            foreach (MercID merc in newSquadMercIds)
             {
-                MercSquad.AddToQueue(merc);
+                MercSquad.AddToSquad(merc);
             }
 
             OnSavedChanges?.Invoke();

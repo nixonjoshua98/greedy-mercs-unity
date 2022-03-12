@@ -1,4 +1,5 @@
 using GM.Artefacts.Models;
+using GM.Common.Enums;
 using GM.HTTP.Requests;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +11,22 @@ using UnityEngine.Networking;
 
 namespace GM.HTTP
 {
-    public class HTTPClient: Common.MonoBehaviourLazySingleton<HTTPClient>
+    public interface IHTTPClient
+    {
+        void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback);
+        void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback);
+        void ClaimBounties(Action<BountyClaimResponse> callback);
+        void CompleteMercRequest(int questId, Action<CompleteMercQuestResponse> action);
+        void FetchStaticData(Action<FetchGameDataResponse> callback);
+        void Login(Action<LoginResponse> callback);
+        void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
+        void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
+        void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback);
+        void UnlockArtefact(Action<UnlockArtefactResponse> callback);
+        void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback);
+    }
+
+    public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>, IHTTPClient
     {
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
@@ -19,6 +35,12 @@ namespace GM.HTTP
         };
 
         string Authentication = null;
+
+        public void CompleteMercRequest(int questId, Action<CompleteMercQuestResponse> action)
+        {
+            CompleteQuestRequest req = new() { QuestType = QuestType.Merc, QuestID = questId };
+            SendRequest("POST", "quests/complete", req, encrypt: false, action);
+        }
 
         public void FetchStaticData(Action<FetchGameDataResponse> callback) => SendRequest("GET", "static", ServerRequest.Empty, false, callback);
 
@@ -80,7 +102,7 @@ namespace GM.HTTP
             SendRequest("POST", "bountyshop/purchase/currency", req, false, callback);
         }
 
-        UnityWebRequest CreateWebRequest<TRequest>(string method, string url, TRequest request, bool encrypt = false) where TRequest: IServerRequest
+        UnityWebRequest CreateWebRequest<TRequest>(string method, string url, TRequest request, bool encrypt = false) where TRequest : IServerRequest
         {
             url = ResolveURL(url);
 
@@ -111,7 +133,7 @@ namespace GM.HTTP
 
                 action.Invoke();
             }
-        }   
+        }
 
         string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
 
@@ -155,7 +177,7 @@ namespace GM.HTTP
             return model;
         }
 
-        string SerializeRequest<T>(T request, bool encrypt = false) where T: IServerRequest
+        string SerializeRequest<T>(T request, bool encrypt = false) where T : IServerRequest
         {
             return JsonConvert.SerializeObject(request);
         }
@@ -164,7 +186,7 @@ namespace GM.HTTP
         void ResponseHandler<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
             bool isEncrypted = www.GetBoolResponseHeader("Response-Encrypted", false);
-            
+
             switch (www.responseCode)
             {
                 case HTTPCodes.InvalidiateClient:

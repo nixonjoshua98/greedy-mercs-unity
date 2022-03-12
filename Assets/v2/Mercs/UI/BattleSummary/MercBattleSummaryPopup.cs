@@ -9,7 +9,7 @@ namespace GM.Mercs.UI
     {
         [SerializeField] List<MercDamageSummarySlot> DamageSlots;
 
-        public void UpdateDamageNumbers(List<KeyValuePair<UnitID, BigDouble>> dmg)
+        public void UpdateDamageNumbers(List<KeyValuePair<MercID, BigDouble>> dmg)
         {
             DamageSlots.ForEach(slot => slot.SetEmpty());
 
@@ -19,7 +19,7 @@ namespace GM.Mercs.UI
             {
                 MercDamageSummarySlot slot = DamageSlots[i];
 
-                UnitID mercId = dmg[i].Key;
+                MercID mercId = dmg[i].Key;
                 BigDouble damageDealt = dmg[i].Value;
 
                 float percent = (float)(damageDealt / totalDamage).ToDouble();

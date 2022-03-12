@@ -88,7 +88,7 @@ namespace GM.Artefacts.Data
                 {
                     Update(resp.Artefacts);
 
-                    App.GMData.Inv.PrestigePoints = resp.PrestigePoints;
+                    App.DataContainers.Inv.PrestigePoints = resp.PrestigePoints;
                 }
 
                 call.Invoke(resp.StatusCode == HTTPCodes.Success);
@@ -103,7 +103,7 @@ namespace GM.Artefacts.Data
                 {
                     Update(resp.Artefact);
 
-                    App.GMData.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.DataContainers.Inv.UpdateCurrencies(resp.CurrencyItems);
 
                     App.Events.PrestigePointsChanged.Invoke(resp.UnlockCost * -1);
                 }

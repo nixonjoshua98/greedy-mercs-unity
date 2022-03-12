@@ -43,10 +43,10 @@ namespace GM.Artefacts
 
             // Currency changes
             UnprocessedChanges.UpgradeCost += upgradeCost;
-            App.GMData.Inv.PrestigePoints -= upgradeCost;
+            App.DataContainers.Inv.PrestigePoints -= upgradeCost;
 
             // Artefact upgrade change
-            App.GMData.Artefacts.GetArtefact(artefact).LocalLevelChange += levels;
+            App.DataContainers.Artefacts.GetArtefact(artefact).LocalLevelChange += levels;
         }
 
         public void Process()
@@ -57,7 +57,7 @@ namespace GM.Artefacts
                 RequestChanges      = UnprocessedChanges;
                 UnprocessedChanges  = null;
 
-                App.GMData.Artefacts.BulkUpgradeArtefact(RequestChanges.Upgrades, OnResponseReceived, UpgradeCallback);
+                App.DataContainers.Artefacts.BulkUpgradeArtefact(RequestChanges.Upgrades, OnResponseReceived, UpgradeCallback);
             }
         }
 
@@ -65,9 +65,9 @@ namespace GM.Artefacts
         {
             WaitingForResponse = false;
 
-            App.GMData.Artefacts.RevertBulkLevelChanges(RequestChanges.Upgrades);
+            App.DataContainers.Artefacts.RevertBulkLevelChanges(RequestChanges.Upgrades);
 
-            App.GMData.Inv.PrestigePoints += RequestChanges.UpgradeCost;
+            App.DataContainers.Inv.PrestigePoints += RequestChanges.UpgradeCost;
         }
     }
 }

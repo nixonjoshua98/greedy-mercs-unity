@@ -18,18 +18,18 @@ namespace GM.Mercs.UI
         public TMP_Text NameText;
         [SerializeField] TMP_Text EnergyText;
 
-        public UnitID Unit { get; private set; }
+        public MercID Unit { get; private set; }
 
         MercManagePopup Manager;
         AggregatedMercData MercData;
 
         public bool InSquad { get; private set; } = false;
 
-        public void Set(MercManagePopup manager, UnitID unit)
+        public void Set(MercManagePopup manager, MercID unit)
         {
             Manager = manager;
             Unit = unit;
-            MercData = App.GMData.Mercs.GetMerc(unit);
+            MercData = App.DataContainers.Mercs.GetMerc(unit);
             InSquad = MercData.InSquad;
 
             NameText.text = MercData.Name;

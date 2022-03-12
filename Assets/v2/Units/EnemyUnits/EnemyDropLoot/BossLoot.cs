@@ -10,7 +10,7 @@ namespace GM.Enemies
         {
             BigDouble gold = App.GMCache.GoldPerStageBossAtStage(spawnedStage);
 
-            App.GMData.Inv.Gold += gold;
+            App.DataContainers.Inv.Gold += gold;
 
             App.Events.GoldChanged.Invoke(gold);
         }

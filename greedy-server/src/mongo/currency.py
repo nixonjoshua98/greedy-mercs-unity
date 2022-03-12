@@ -4,9 +4,9 @@ from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
 
+from src.common.types import Number
 from src.pymodels import BaseModel
 from src.request import ServerRequest
-from src.types import Number
 
 
 def currency_repository(request: ServerRequest) -> CurrencyRepository:

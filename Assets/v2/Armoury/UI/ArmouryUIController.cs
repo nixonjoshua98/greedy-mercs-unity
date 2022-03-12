@@ -9,12 +9,12 @@ namespace GM.Armoury.UI
 
         void Awake()
         {
-            ItemGrid.Populate(App.GMData.Armoury.UserItems);
+            ItemGrid.Populate(App.DataContainers.Armoury.UserItems);
         }
 
         public override void OnShown()
         {
-            ItemGrid.Populate(App.GMData.Armoury.UserItems);
+            ItemGrid.Populate(App.DataContainers.Armoury.UserItems);
         }
     }
 }

@@ -1,12 +1,12 @@
 using UnityEngine;
-using UnitID = GM.Common.Enums.UnitID;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Scriptables/MercScriptableObject")]
     public class MercScriptableObject : ScriptableObject
     {
-        public UnitID ID;
+        public MercID ID;
 
         public GameObject Prefab;
         public Sprite Icon;

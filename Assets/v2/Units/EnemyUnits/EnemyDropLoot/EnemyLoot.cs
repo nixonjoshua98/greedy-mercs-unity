@@ -11,7 +11,7 @@
 
         void Awake()
         {
-            spawnedStage = App.GMData.GameState.Stage;
+            spawnedStage = App.DataContainers.GameState.Stage;
         }
 
 
@@ -19,7 +19,7 @@
         {
             BigDouble gold = App.GMCache.GoldPerEnemyAtStage(spawnedStage);
 
-            App.GMData.Inv.Gold += gold;
+            App.DataContainers.Inv.Gold += gold;
 
             App.Events.GoldChanged.Invoke(gold);
         }

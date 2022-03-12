@@ -1,8 +1,8 @@
-using GM.Common.Interfaces;
 using GM.HTTP;
+using GM.LocalFiles;
+using GM.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using GM.LocalFiles;
 
 namespace GM.Core
 {
@@ -74,7 +74,7 @@ namespace GM.Core
 
             dataContainer.Set(Data.UserData, Data.StaticData, localStateFile);
 
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadSceneAsync("GameScene");
         }
     }
 }

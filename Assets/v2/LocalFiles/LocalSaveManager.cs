@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using GM.Models;
+using System.Collections;
 using UnityEngine;
-using GM.Common.Interfaces;
 
 namespace GM
 {
@@ -34,7 +34,7 @@ namespace GM
         public void Save()
         {
             // = Models = //
-            var savefile = App.GMData.CreateLocalStateFile();
+            var savefile = App.DataContainers.CreateLocalStateFile();
 
             // = Write to File = //
             FileUtils.WriteModel(LOCAL_FILE, savefile);

@@ -1,4 +1,4 @@
-﻿using GM.Common.Models;
+﻿using GM.Models;
 
 namespace GM.HTTP.Requests
 {

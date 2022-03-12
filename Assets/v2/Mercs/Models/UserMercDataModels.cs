@@ -6,6 +6,6 @@ namespace GM.Mercs
     public class UserMercDataModel
     {
         [JsonProperty(PropertyName = "unitId", Required = Required.Always)]
-        public UnitID ID;
+        public MercID ID;
     }
 }

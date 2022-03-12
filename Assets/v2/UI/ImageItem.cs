@@ -19,7 +19,7 @@ namespace GM.UI
 
         void SetSprite(CurrencyType item)
         {
-            GetComponent<Image>().sprite = App.GMData.Items.GetItem(item).Icon;
+            GetComponent<Image>().sprite = App.DataContainers.Items.GetItem(item).Icon;
         }
     }
 }

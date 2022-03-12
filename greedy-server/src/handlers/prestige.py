@@ -5,7 +5,7 @@ from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common import formulas
-from src.common.enums import BonusType
+from src.common.types import BonusType
 from src.dependencies import get_static_artefacts_dict, get_static_bounties
 from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,

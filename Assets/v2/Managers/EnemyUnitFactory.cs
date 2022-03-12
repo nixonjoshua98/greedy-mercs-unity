@@ -71,7 +71,7 @@ namespace GM
 
             GameObject unitToSpawn;
 
-            if (App.GMData.Bounties.TryGetStageBounty(App.GMData.GameState.Stage, out BountyGameData bountyData))
+            if (App.DataContainers.Bounties.TryGetStageBounty(App.DataContainers.GameState.Stage, out BountyGameData bountyData))
             {
                 unitToSpawn = bountyData.Prefab;
 

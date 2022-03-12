@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AttackType = GM.Common.Enums.AttackType;
-using UnitID = GM.Common.Enums.UnitID;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.Data
 {
@@ -17,7 +17,7 @@ namespace GM.Mercs.Data
             User = userData;
         }
 
-        public UnitID ID => Game.ID;
+        public MercID ID => Game.ID;
         public string Name => Game.Name;
         public int CurrentLevel
         {

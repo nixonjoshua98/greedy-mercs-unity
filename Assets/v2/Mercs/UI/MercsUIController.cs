@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnitID = GM.Common.Enums.UnitID;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.UI
 {
@@ -18,16 +18,22 @@ namespace GM.Mercs.UI
         [Space]
 
         // ...
-        Dictionary<UnitID, MercUIObject> MercSlots = new Dictionary<UnitID, MercUIObject>();
+        Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
 
         void Start()
         {
             UpdateSlotsUI();
         }
 
+        public override void OnShown()
+        {
+            base.OnShown();
+            UpdateSlotsUI();
+        }
+
         void UpdateSlotsUI()
         {
-            foreach (var merc in App.GMData.Mercs.UnlockedMercs)
+            foreach (var merc in App.DataContainers.Mercs.UnlockedMercs)
             {
                 // Merc has been removed from squad
                 if (MercSlots.ContainsKey(merc.ID) && !merc.InSquad)
@@ -43,7 +49,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        void InstantiateSlot(UnitID merc)
+        void InstantiateSlot(MercID merc)
         {
             SquadMercSlot slot = Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
 
@@ -53,7 +59,7 @@ namespace GM.Mercs.UI
             
         }
 
-        void DestroySlot(UnitID mercId)
+        void DestroySlot(MercID mercId)
         {
             if (MercSlots.TryGetValue(mercId, out MercUIObject slot))
             {

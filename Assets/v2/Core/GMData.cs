@@ -2,10 +2,10 @@ using GM.Armoury.Data;
 using GM.Artefacts.Data;
 using GM.Bounties.Data;
 using GM.BountyShop.Data;
-using GM.Common.Interfaces;
 using GM.CurrencyItems.Data;
 using GM.Inventory.Data;
 using GM.Mercs.Data;
+using GM.Models;
 using GM.Upgrades.Data;
 using System;
 
@@ -13,6 +13,8 @@ namespace GM.Core
 {
     public class GMData : GMClass
     {
+        public Quests.QuestsDataContainer Quests = new GM.Quests.QuestsDataContainer();
+
         public MercsData Mercs;
         public ArmouryData Armoury;
         public UserInventory Inv;
@@ -32,19 +34,35 @@ namespace GM.Core
             Upgrades = new PlayerUpgrades();
         }
 
-        public void Set(IServerUserData serverUserData, IStaticGameData staticData, LocalStateFile localStateFile)
+        public void Set(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile)
         {
+            Quests.Set(staticData.Quests, userData.Quests);
+
             NextDailyReset = staticData.NextDailyReset;
 
-            Mercs = new MercsData(serverUserData, staticData, localStateFile);
+            Mercs = new MercsData(userData, staticData, stateFile);
 
-            GameState = CurrentPrestigeState.Deserialize(localStateFile);
+            GameState = CurrentPrestigeState.Deserialize(stateFile);
 
-            Inv = new UserInventory(serverUserData.CurrencyItems);
-            Artefacts = new ArtefactsData(serverUserData.Artefacts, staticData.Artefacts);
-            Armoury = new ArmouryData(serverUserData.ArmouryItems, staticData.Armoury);
-            Bounties = new BountiesData(serverUserData.BountyData, staticData.Bounties);
-            BountyShop = new BountyShopData(serverUserData.BountyShop);
+            Inv = new UserInventory(userData.CurrencyItems);
+            Artefacts = new ArtefactsData(userData.Artefacts, staticData.Artefacts);
+            Armoury = new ArmouryData(userData.ArmouryItems, staticData.Armoury);
+            Bounties = new BountiesData(userData.BountyData, staticData.Bounties);
+            BountyShop = new BountyShopData(userData.BountyShop);
+        }
+
+        public void Update(IServerUserData userData, IStaticGameData staticData)
+        {
+            Quests.Set(staticData.Quests, userData.Quests);
+
+            Mercs.Update(userData, staticData, null);
+
+            BountyShop = new BountyShopData(userData.BountyShop);
+
+            Inv.UpdateCurrencies(userData.CurrencyItems);
+            Artefacts.UpdateAllData(userData.Artefacts, staticData.Artefacts);
+            Armoury.UpdateAllData(userData.ArmouryItems, staticData.Armoury);
+            Bounties.UpdateAllData(userData.BountyData, staticData.Bounties);
         }
 
         public LocalStateFile CreateLocalStateFile()
@@ -65,18 +83,6 @@ namespace GM.Core
 
             Upgrades.DeleteLocalStateData();
             Inv.DeleteLocalStateData();
-        }
-
-        public void Update(IServerUserData userData, IStaticGameData staticData)
-        {
-            Mercs.Update(userData, staticData, null);
-
-            BountyShop  = new BountyShopData(userData.BountyShop);
-
-            Inv.UpdateCurrencies(userData.CurrencyItems);
-            Artefacts.UpdateAllData(userData.Artefacts, staticData.Artefacts);
-            Armoury.UpdateAllData(userData.ArmouryItems, staticData.Armoury);
-            Bounties.UpdateAllData(userData.BountyData, staticData.Bounties);
         }
     }
 }

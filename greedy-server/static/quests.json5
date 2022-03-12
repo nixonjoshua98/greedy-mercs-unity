@@ -1,0 +1,7 @@
+{
+  "mercQuests": [
+    {"questId": 0, "requiredStage": 5, "rewardMercId": 1},
+    {"questId": 1, "requiredStage": 25, "rewardMercId": 2},
+    {"questId": 2, "requiredStage": 50, "rewardMercId": 3}
+  ]
+}

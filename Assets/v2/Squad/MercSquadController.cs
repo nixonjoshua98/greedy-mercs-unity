@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnitID = GM.Common.Enums.UnitID;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs
 {
@@ -9,8 +9,8 @@ namespace GM.Mercs
     {
         bool TryGetUnit(out MercBaseClass unit);
         void RemoveFromQueue(MercBaseClass unit);
-        void RemoveFromSquad(UnitID mercId);
-        void AddToQueue(UnitID mercId);
+        void RemoveFromSquad(MercID mercId);
+        void AddToSquad(MercID mercId);
         int GetQueuePosition(MercBaseClass unit);
         MercBaseClass GetUnitAtQueuePosition(int idx);
     }
@@ -19,13 +19,20 @@ namespace GM.Mercs
     public class MercSquadController : Core.GMMonoBehaviour, ISquadController
     {
         List<MercBaseClass> UnitQueue = new List<MercBaseClass>();
-        List<UnitID> UnitIDs = new List<UnitID>();
+        List<MercID> UnitIDs = new List<MercID>();
 
         public UnityEvent<MercBaseClass> E_UnitSpawned { get; set; } = new UnityEvent<MercBaseClass>();
 
         void Awake()
         {
-            App.GMData.Mercs.MercsInSquad.ForEach(merc => AddToQueue(merc));
+            SubscribeToEvents();
+
+            App.DataContainers.Mercs.MercsInSquad.ForEach(merc => AddToSquad(merc));
+        }
+
+        void SubscribeToEvents()
+        {
+            App.E_OnMercUnlocked.AddListener(GMApplication_OnMercUnlocked);
         }
 
         void FixedUpdate()
@@ -37,9 +44,9 @@ namespace GM.Mercs
         {
             float ts = Time.fixedDeltaTime;
 
-            foreach (UnitID unit in App.GMData.Mercs.MercsInSquad)
+            foreach (MercID unit in App.DataContainers.Mercs.MercsInSquad)
             {
-                var merc = App.GMData.Mercs.GetMerc(unit);
+                var merc = App.DataContainers.Mercs.GetMerc(unit);
 
                 float energyGained = merc.EnergyGainedPerSecond * ts;
 
@@ -71,7 +78,7 @@ namespace GM.Mercs
             UnitIDs.Remove(unit.Id);
         }
 
-        void AddMercToQueue(UnitID unitId, MercSetupPayload payload)
+        void AddMercToQueue(MercID unitId, MercSetupPayload payload)
         {
             MercBaseClass unit = InstantiateMerc(unitId, payload);
 
@@ -81,7 +88,7 @@ namespace GM.Mercs
             E_UnitSpawned.Invoke(unit);
         }
 
-        bool UnitExistsInQueue(UnitID unit) => UnitIDs.Contains(unit);
+        bool UnitExistsInQueue(MercID unit) => UnitIDs.Contains(unit);
 
         public bool TryGetUnit(out MercBaseClass unit)
         {
@@ -93,11 +100,11 @@ namespace GM.Mercs
 
         public int GetQueuePosition(MercBaseClass unit) => UnitQueue.FindIndex((u) => u == unit);
 
-        MercBaseClass InstantiateMerc(UnitID unitId)
+        MercBaseClass InstantiateMerc(MercID unitId)
         {
             Vector2 pos = new Vector2(Camera.main.MinBounds().x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
 
-            StaticMercData data = App.GMData.Mercs.GetGameMerc(unitId);
+            StaticMercData data = App.DataContainers.Mercs.GetGameMerc(unitId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
@@ -106,7 +113,7 @@ namespace GM.Mercs
             return mercBase;
         }
 
-        MercBaseClass InstantiateMerc(UnitID unitId, MercSetupPayload payload)
+        MercBaseClass InstantiateMerc(MercID unitId, MercSetupPayload payload)
         {
             MercBaseClass mercBase = InstantiateMerc(unitId);
 
@@ -115,15 +122,24 @@ namespace GM.Mercs
             return mercBase;
         }
 
-
-        public void AddToQueue(UnitID mercId)
+        public void AddToSquad(MercID mercId)
         {
             App.PersistantLocalFile.SquadMercIDs.Add(mercId);
         }
 
-        public void RemoveFromSquad(UnitID mercId)
+        public void RemoveFromSquad(MercID mercId)
         {
             App.PersistantLocalFile.SquadMercIDs.Remove(mercId);
+        }
+
+        // Event Listeners //
+
+        void GMApplication_OnMercUnlocked(MercID mercId)
+        {
+            if (!App.DataContainers.Mercs.IsSquadFull)
+            {
+                AddToSquad(mercId);
+            }
         }
     }
 }

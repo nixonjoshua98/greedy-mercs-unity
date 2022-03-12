@@ -8,12 +8,12 @@ namespace GM._Old
     {
         public void OnClick()
         {
-            App.GMData.GameState.Stage += 100;
+            App.DataContainers.GameState.Stage += 100;
         }
 
         public void AddGold()
         {
-            App.GMData.Inv.Gold += BigDouble.Parse("1e500");
+            App.DataContainers.Inv.Gold += BigDouble.Parse("1e500");
         }
     }
 }

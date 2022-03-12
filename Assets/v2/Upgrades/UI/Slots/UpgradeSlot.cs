@@ -58,16 +58,16 @@ namespace GM.Upgrades.UI
             LevelText.text = FormatLevel(Upgrade.Level);
             BonusText.text = GetBonusText();
 
-            UpgradeButton.interactable = !Upgrade.IsMaxLevel && App.GMData.Inv.Gold >= UpgradeCost;
+            UpgradeButton.interactable = !Upgrade.IsMaxLevel && App.DataContainers.Inv.Gold >= UpgradeCost;
         }
 
         protected abstract string GetBonusText();
 
         public void OnUpgradeButton()
         {
-            if (App.GMData.Inv.Gold >= UpgradeCost)
+            if (App.DataContainers.Inv.Gold >= UpgradeCost)
             {
-                App.GMData.Inv.Gold -= UpgradeCost;
+                App.DataContainers.Inv.Gold -= UpgradeCost;
 
                 Upgrade.Level += BuyAmount;
 

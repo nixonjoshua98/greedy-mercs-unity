@@ -6,7 +6,7 @@ namespace GM.Mercs.Data
     public class UserMercState : GM.Core.GMClass
     {
         [JsonProperty(Required = Required.Always)]
-        public readonly UnitID ID;
+        public readonly MercID ID;
 
         [JsonProperty]
         public int Level = 1;
@@ -19,7 +19,7 @@ namespace GM.Mercs.Data
 
         private UserMercState() { }
 
-        public UserMercState(UnitID unit)
+        public UserMercState(MercID unit)
         {
             ID = unit;
         }

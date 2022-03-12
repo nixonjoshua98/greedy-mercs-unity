@@ -54,12 +54,12 @@ namespace GM.Artefacts.UI
 
         void UpdateUI()
         {
-            UnlockedArtefactsText.text = $"<color=white>{App.GMData.Artefacts.NumUnlockedArtefacts} of {App.GMData.Artefacts.MaxArtefacts}</color> Artefacts unlocked";
+            UnlockedArtefactsText.text = $"<color=white>{App.DataContainers.Artefacts.NumUnlockedArtefacts} of {App.DataContainers.Artefacts.MaxArtefacts}</color> Artefacts unlocked";
         }
 
         void UpdateArtefactSlots()
         {
-            List<AggregatedArtefactData> artefacts = App.GMData.Artefacts.UserOwnedArtefacts;
+            List<AggregatedArtefactData> artefacts = App.DataContainers.Artefacts.UserOwnedArtefacts;
 
             for (int i = 0; i < artefacts.Count; ++i)
             {
@@ -79,11 +79,11 @@ namespace GM.Artefacts.UI
 
         void UpdateUnlockArtefactText()
         {
-            BigInteger unlockCost = App.GMCache.ArtefactUnlockCost(App.GMData.Artefacts.NumUnlockedArtefacts);
+            BigInteger unlockCost = App.GMCache.ArtefactUnlockCost(App.DataContainers.Artefacts.NumUnlockedArtefacts);
 
-            UnlockArtefactButton.interactable = !App.GMData.Artefacts.UserUnlockedAll && App.GMData.Inv.PrestigePoints >= unlockCost;
+            UnlockArtefactButton.interactable = !App.DataContainers.Artefacts.UserUnlockedAll && App.DataContainers.Inv.PrestigePoints >= unlockCost;
 
-            if (!App.GMData.Artefacts.UserUnlockedAll)
+            if (!App.DataContainers.Artefacts.UserUnlockedAll)
             {
                 UnlockArtefactButton.SetText("Unlock", Format.Number(unlockCost));
             }

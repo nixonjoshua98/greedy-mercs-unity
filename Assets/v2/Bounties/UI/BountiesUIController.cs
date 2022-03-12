@@ -66,7 +66,7 @@ namespace GM.Bounties.UI
 
         void UpdateBountySlots()
         {
-            List<UnlockedBountyData> bounties = App.GMData.Bounties.UnlockedBountiesList.OrderBy(b => b.IsActive ? 0 : 1).ThenBy(b => b.Id).ToList();
+            List<UnlockedBountyData> bounties = App.DataContainers.Bounties.UnlockedBountiesList.OrderBy(b => b.IsActive ? 0 : 1).ThenBy(b => b.Id).ToList();
 
             for (int i = 0; i < bounties.Count; ++i)
             {
@@ -87,15 +87,15 @@ namespace GM.Bounties.UI
 
         void UpdateUI()
         {
-            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountyIds.Count : App.GMData.Bounties.ActiveBountiesList.Count)}/{App.GMData.Bounties.MaxActiveBounties})";
+            HeaderText.text = $"Active Bounties ({(isEditing ? activeBountyIds.Count : App.DataContainers.Bounties.ActiveBountiesList.Count)}/{App.DataContainers.Bounties.MaxActiveBounties})";
         }
 
         void UpdateClaimUI()
         {
-            TimeUntilMaxClaimText.text = $"Full in <color=orange>{App.GMData.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
-            ClaimAmountText.text = $"{Format.Number(App.GMData.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.GMData.Bounties.MaxClaimPoints)}";
+            TimeUntilMaxClaimText.text = $"Full in <color=orange>{App.DataContainers.Bounties.TimeUntilMaxUnclaimedHours.Format()}</color>";
+            ClaimAmountText.text = $"{Format.Number(App.DataContainers.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.DataContainers.Bounties.MaxClaimPoints)}";
 
-            ClaimSlider.value = App.GMData.Bounties.ClaimPercentFilled;
+            ClaimSlider.value = App.DataContainers.Bounties.ClaimPercentFilled;
             ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);
         }
 
@@ -147,7 +147,7 @@ namespace GM.Bounties.UI
                 slot.SetSelected(false);
             }
 
-            else if (activeBountyIds.Count < App.GMData.Bounties.MaxActiveBounties)
+            else if (activeBountyIds.Count < App.DataContainers.Bounties.MaxActiveBounties)
             {
                 activeBountyIds.Add(bountyId);
                 slot.SetSelected(true);
@@ -166,7 +166,7 @@ namespace GM.Bounties.UI
 
         public void OnConfirmButton()
         {
-            App.GMData.Bounties.SetActiveBounties(activeBountyIds, (success, resp) =>
+            App.DataContainers.Bounties.SetActiveBounties(activeBountyIds, (success, resp) =>
             {
                 if (success)
                 {
@@ -179,7 +179,7 @@ namespace GM.Bounties.UI
 
         public void OnClaimButton()
         {
-            App.GMData.Bounties.ClaimPoints((success, resp) => {
+            App.DataContainers.Bounties.ClaimPoints((success, resp) => {
                 UpdateClaimUI();
             });
         }

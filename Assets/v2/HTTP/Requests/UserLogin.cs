@@ -1,4 +1,4 @@
-﻿using GM.Common.Models;
+﻿using GM.Models;
 using Newtonsoft.Json;
 
 namespace GM.HTTP.Requests

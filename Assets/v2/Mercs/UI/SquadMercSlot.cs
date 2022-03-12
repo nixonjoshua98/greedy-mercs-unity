@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnitID = GM.Common.Enums.UnitID;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.UI
 {
@@ -25,7 +25,7 @@ namespace GM.Mercs.UI
         int _buyAmount;
         protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, Common.Constants.MAX_MERC_LEVEL);
 
-        public void Assign(UnitID merc, GM.UI.AmountSelector selector)
+        public void Assign(MercID merc, GM.UI.AmountSelector selector)
         {
             _buyAmount = selector.Current;
 
@@ -64,7 +64,7 @@ namespace GM.Mercs.UI
                 UpgradeButton.SetText($"x{BuyAmount}", Format.Number(AssignedMerc.UpgradeCost(BuyAmount)));
             }
 
-            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.GMData.Inv.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
+            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.DataContainers.Inv.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
         }
 
         string GetBonusText() => $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
@@ -75,13 +75,13 @@ namespace GM.Mercs.UI
             BigDouble upgradeCost = App.GMCache.MercUpgradeCost(AssignedMerc, BuyAmount);
 
             bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > Common.Constants.MAX_MERC_LEVEL;
-            bool canAffordUpgrade = App.GMData.Inv.Gold >= upgradeCost;
+            bool canAffordUpgrade = App.DataContainers.Inv.Gold >= upgradeCost;
 
             if (!willExceedMaxLevel && canAffordUpgrade)
             {
                 AssignedMerc.CurrentLevel += BuyAmount;
 
-                App.GMData.Inv.Gold -= upgradeCost;
+                App.DataContainers.Inv.Gold -= upgradeCost;
 
                 App.Events.GoldChanged.Invoke(upgradeCost * -1);
             }

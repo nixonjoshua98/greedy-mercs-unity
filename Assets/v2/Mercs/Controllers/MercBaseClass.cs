@@ -4,7 +4,7 @@ namespace GM.Mercs
 {
     public abstract class MercBaseClass : GM.Units.UnitBaseClass
     {
-        public UnitID Id;
+        public MercID Id;
 
         protected MercSetupPayload SetupPayload;
 

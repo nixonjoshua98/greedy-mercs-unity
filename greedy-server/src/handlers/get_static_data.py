@@ -30,6 +30,7 @@ class GetStaticDataHandler(BaseHandler):
             "bounties": self.static_files.load_bounties(),
             "armoury": self.static_files.load_armoury(),
             "mercs": self.static_files.load_mercs(),
+            "quests": self.static_files.load_quests()
         }
 
         return StaticDataResponse(data=data)

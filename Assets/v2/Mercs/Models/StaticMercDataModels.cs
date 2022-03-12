@@ -38,7 +38,7 @@ namespace GM.Mercs
     public class StaticMercData
     {
         [JsonProperty(PropertyName = "mercId", Required = Required.Always)]
-        public UnitID ID;
+        public MercID ID;
 
         [JsonProperty(Required = Required.Always)]
         public double BaseDamage;

@@ -12,7 +12,8 @@ from src.mongo.artefacts import ArtefactsRepository, artefacts_repository
 from src.mongo.bounties import BountiesRepository, bounties_repository
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrencyRepository, currency_repository
-from src.mongo.units import CharacterUnitsRepository, units_repository
+from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
+from src.mongo.quests import QuestsRepository, get_quests_repo
 from src.static_models.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 
 
@@ -27,7 +28,8 @@ class GetUserDataHandler(BaseHandler):
         ctx: RequestContext = Depends(),
 
         # = Repositories = #
-        units_repo=Depends(units_repository),
+        quests=Depends(get_quests_repo),
+        units_repo=Depends(get_unlocked_mercs_repo),
         bountyshop=Depends(dynamic_bounty_shop),
         armoury_repo=Depends(armoury_repository),
         bounties_repo=Depends(bounties_repository),
@@ -37,10 +39,11 @@ class GetUserDataHandler(BaseHandler):
     ):
         self.ctx: RequestContext = ctx
 
+        self._quests: QuestsRepository = quests
         self.bountyshop: DynamicBountyShop = bountyshop
         self.armoury_repo: ArmouryRepository = armoury_repo
         self.currency_repo: CurrencyRepository = currency_repo
-        self.units_repo: CharacterUnitsRepository = units_repo
+        self.units_repo: UnlockedMercsRepository = units_repo
         self.bounties_repo: BountiesRepository = bounties_repo
         self.artefacts_repo: ArtefactsRepository = artefacts_repo
         self.bountyshop_repo: BountyShopRepository = bountyshop_repo
@@ -67,7 +70,10 @@ class GetUserDataHandler(BaseHandler):
                 "purchases": bshop_purchases,
                 "shopItems": self.bountyshop.dict(),
             },
-            "unlockedUnits": await self.units_repo.get_units(uid)
+            "unlockedMercs": await self.units_repo.get_user_mercs(uid),
+            "quests": {
+                "completedMercQuests": [q.quest_id for q in await self._quests.get_completed_merc_quests(uid)]
+            }
         }
 
         return GetUserDataResponse(data=data)

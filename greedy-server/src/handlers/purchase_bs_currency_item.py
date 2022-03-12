@@ -6,7 +6,7 @@ from bson import ObjectId
 from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
-from src.common.enums import CurrencyType
+from src.common.types import CurrencyType
 from src.handlers.abc import HandlerException
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository

@@ -1,7 +1,7 @@
 ﻿
 namespace GM.Common.Enums
 {
-    public enum UnitID
+    public enum MercID
     {
         NONE = -1,
 

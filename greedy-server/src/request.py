@@ -20,12 +20,12 @@ class ServerRequest(_Request):
         if not hasattr(self, "_json"):
             body = await self.body()
 
-            self._json: dict = self._decrpt_body(body)
+            self._json: dict = self._get_body(body)
 
         return self._json
 
     @staticmethod
-    def _decrpt_body(body: bytes) -> dict:
+    def _get_body(body: bytes) -> dict:
         decoded = urllib.parse.unquote(body.decode("UTF-8"))
 
         return humps.decamelize(json.loads(decoded))

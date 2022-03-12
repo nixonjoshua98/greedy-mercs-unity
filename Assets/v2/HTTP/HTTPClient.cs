@@ -1,14 +1,12 @@
+using GM.Artefacts.Models;
 using GM.HTTP.Requests;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
-using GM.Artefacts.UI;
-using GM.Artefacts;
-using GM.Artefacts.Models;
 
 namespace GM.HTTP
 {
@@ -17,7 +15,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "localhost"
+            Address = "109.154.100.101"
         };
 
         IServerAuthentication Authentication;
@@ -26,7 +24,7 @@ namespace GM.HTTP
         {
             var www = UnityWebRequest.Get(ResolveURL("artefact/unlock"));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback)
@@ -38,7 +36,7 @@ namespace GM.HTTP
 
             var www = UnityWebRequest.Post(ResolveURL("artefact/bulk-upgrade"), SerializeRequest(req));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback)
@@ -46,14 +44,14 @@ namespace GM.HTTP
             var req = new UpgradeArmouryItemRequest(item);
             var www = UnityWebRequest.Post(ResolveURL("armoury/upgrade"), SerializeRequest(req));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void ClaimBounties(Action<BountyClaimResponse> callback)
         {
             var www = UnityWebRequest.Get(ResolveURL("bounty/claim"));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback)
@@ -61,14 +59,14 @@ namespace GM.HTTP
             var req = new UpdateActiveBountiesRequest(bounties);
             var www = UnityWebRequest.Post(ResolveURL("bounty/setactive"), SerializeRequest(req));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void FetchStaticData(Action<FetchGameDataResponse> callback)
         {
             var www = UnityWebRequest.Get(ResolveURL("static"));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void Login(Action<LoginResponse> callback)
@@ -76,7 +74,7 @@ namespace GM.HTTP
             var req = new LoginRequest(SystemInfo.deviceUniqueIdentifier);
             var www = UnityWebRequest.Post(ResolveURL("login"), SerializeRequest(req));
 
-            SendPublicRequest<LoginResponse>(www, (response) =>
+            SendRequest<LoginResponse>(www, (response) =>
             {
                 Authentication = null;
 
@@ -93,7 +91,7 @@ namespace GM.HTTP
         {
             var www = UnityWebRequest.Post(ResolveURL("prestige"), SerializeRequest(request));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback)
@@ -101,7 +99,7 @@ namespace GM.HTTP
             var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
             var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/armouryitem"), SerializeRequest(req));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         public void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback)
@@ -109,26 +107,19 @@ namespace GM.HTTP
             var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
             var www = UnityWebRequest.Post(ResolveURL("bountyshop/purchase/currency"), SerializeRequest(req));
 
-            SendAuthenticatedRequest(www, callback);
+            SendRequest(www, callback);
         }
 
         string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
 
-        void SendPublicRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
+        void SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
-            StartCoroutine(SendRequest(www, callback));
+            StartCoroutine(_SendRequest(www, callback));
         }
 
-        void SendAuthenticatedRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
+        IEnumerator _SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
         {
-            SetAuthenticationHeader(ref www);
-
-            StartCoroutine(SendRequest(www, callback));
-        }
-
-        IEnumerator SendRequest<T>(UnityWebRequest www, Action<T> callback) where T : IServerResponse, new()
-        {
-            SetRequiredHeaders(ref www);
+            SetRequestHeaders(www);
 
             using (www)
             {
@@ -142,15 +133,15 @@ namespace GM.HTTP
             }
         }
 
-        void SetAuthenticationHeader(ref UnityWebRequest www)
-        {
-            www.SetRequestHeader("Authentication", Authentication.Session);
-        }
-
-        void SetRequiredHeaders(ref UnityWebRequest www)
+        void SetRequestHeaders(UnityWebRequest www)
         {
             www.SetRequestHeader("Content-Type", "application/json");
             www.SetRequestHeader("DeviceId", SystemInfo.deviceUniqueIdentifier);
+
+            if (Authentication is not null)
+            {
+                www.SetRequestHeader("Authentication", Authentication.Session);
+            }
         }
 
         T DeserializeResponse<T>(UnityWebRequest www, bool encrpted) where T : IServerResponse, new()

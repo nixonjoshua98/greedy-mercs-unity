@@ -1,5 +1,4 @@
 from fastapi import Depends
-from pydantic import Field
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.handlers.artefacts import (BulkUpgradeArtefactsHandler,
@@ -15,7 +14,7 @@ router = APIRouter(prefix="/api/artefact")
 
 
 class ArtefactBulkUpgradeModel(BaseModel):
-    artefacts: list[ArtefactUpgradeModel] = Field(..., alias="artefacts")
+    artefacts: list[ArtefactUpgradeModel]
 
 
 @router.post("/bulk-upgrade")

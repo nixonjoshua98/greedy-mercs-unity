@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GM.Mercs.UI
 {
-    public class MercManagePopup : GM.UI.Common.PopupPanelBase
+    public class MercManagePopup : GM.UI.PopupPanelBase
     {
         [Header("Prefab Objects")]
         public GameObject MercSlot;

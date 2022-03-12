@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace GM.UI.Common
+namespace GM.UI
 {
     public abstract class PopupPanelBase : GM.Core.GMMonoBehaviour
     {

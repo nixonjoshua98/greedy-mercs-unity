@@ -1,13 +1,13 @@
 from typing import Any
 
-from fastapi.responses import JSONResponse as _JSONResponse
+from fastapi.responses import JSONResponse as _Response
 from pydantic import BaseModel
 
 from src import utils
 from src.common import aes
 
 
-class ServerResponse(_JSONResponse):
+class ServerResponse(_Response):
     def __init__(self, content: Any, *args, **kwargs):
         super(ServerResponse, self).__init__(content, *args, **kwargs)
 
@@ -29,4 +29,9 @@ class EncryptedServerResponse(ServerResponse):
         super(EncryptedServerResponse, self).__init__(content, *args, headers=headers, **kwargs)
 
     def render(self, content: Any) -> bytes:
-        return aes.encrypt(self.prepare_json(content)).encode("utf-8")
+        return self._encrypt_body(content)
+
+    def _encrypt_body(self, content: Any):
+        json: str = self.prepare_json(content)
+
+        return aes.encrypt(json).encode("utf-8")

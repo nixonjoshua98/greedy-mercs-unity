@@ -1,12 +1,12 @@
 import base64
 import datetime as dt
 import gzip
+import json
 import os
 from typing import Any, Iterable, Optional, Sequence, TypeVar, Union
 
 import bson
 import pyjson5
-import ujson
 import yaml
 from fastapi.encoders import jsonable_encoder as _jsonable_encoder
 from pydantic import BaseModel
@@ -35,7 +35,7 @@ def decompress(d: str) -> dict:
     :return:
         Python dict
     """
-    return ujson.loads(gzip.decompress(base64.b64decode(d)).decode("utf-8"))
+    return json.loads(gzip.decompress(base64.b64decode(d)).decode("utf-8"))
 
 
 def get(ls: Iterable[T], **attrs: Any) -> Optional[T]:
@@ -78,7 +78,7 @@ def json_load(fp: str) -> Union[dict, list]:
         Loaded json file
     """
     with open(fp) as fh:
-        load_ = pyjson5.load if fp.endswith("json5") else ujson.load
+        load_ = pyjson5.load if fp.endswith("json5") else json.load
 
         return load_(fh)
 
@@ -94,8 +94,7 @@ def json_dumps(d: Union[dict, list], *, default: Any = None) -> str:
         String representation of the data structure
     """
     encoder = default_json_encoder if default is None else default
-
-    return ujson.dumps(d, ensure_ascii=False, allow_nan=False, default=encoder)
+    return json.dumps(d, indent=2, ensure_ascii=False, allow_nan=False, default=encoder)
 
 
 def default_json_encoder(value: Any) -> Any:

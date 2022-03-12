@@ -1,10 +1,10 @@
-using TMPro;
+using GM.Bounties.Data;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 using StopWatch = System.Diagnostics.Stopwatch;
-using GM.Bounties.Data;
 
 namespace GM.Bounties.UI
 {

@@ -1,7 +1,7 @@
-﻿using GM.Units;
+﻿using GM.Bounties.Models;
+using GM.Units;
 using System.Collections.Generic;
 using UnityEngine;
-using GM.Bounties.Models;
 
 namespace GM
 {

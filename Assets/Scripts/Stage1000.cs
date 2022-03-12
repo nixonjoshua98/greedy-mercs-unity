@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace GM._Old
+﻿namespace GM._Old
 {
     public class Stage1000 : Core.GMMonoBehaviour
     {

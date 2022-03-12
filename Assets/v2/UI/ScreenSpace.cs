@@ -31,13 +31,6 @@ namespace GM.UI
             }
         }
 
-        void Start()
-        {
-            FetchWidth();
-
-            Destroy(gameObject);
-        }
-
         static void FetchWidth()
         {
             Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();

@@ -10,7 +10,7 @@ namespace GM.LocalFiles
 
         // Serialized Fields
         [JsonProperty]
-        public HashSet<MercID> SquadMercIDs = new HashSet<MercID>();
+        public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
         // ...
 
         /// <summary>

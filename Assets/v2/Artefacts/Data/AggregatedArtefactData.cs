@@ -8,8 +8,8 @@ namespace GM.Artefacts.Data
     {
         public readonly int Id;
 
-        ArtefactGameDataModel Game => App.DataContainers.Artefacts.GetGameArtefact(Id);
-        ArtefactUserDataModel User => App.DataContainers.Artefacts.GetUserArtefact(Id);
+        ArtefactGameDataModel Game => App.Artefacts.GetGameArtefact(Id);
+        ArtefactUserDataModel User => App.Artefacts.GetUserArtefact(Id);
 
         public AggregatedArtefactData(int artefactId)
         {

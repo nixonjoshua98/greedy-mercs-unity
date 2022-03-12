@@ -21,10 +21,10 @@ namespace GM.UI
 
         void FixedUpdate()
         {
-            GoldText.text = Format.Number(App.DataContainers.Inv.Gold);
-            BountyPointsText.text = Format.Number(App.DataContainers.Inv.BountyPoints);
-            ArmouryPointsText.text = Format.Number(App.DataContainers.Inv.ArmouryPoints);
-            PrestigePointsText.text = Format.Number(App.DataContainers.Inv.PrestigePoints);
+            GoldText.text = Format.Number(App.Inventory.Gold);
+            BountyPointsText.text = Format.Number(App.Inventory.BountyPoints);
+            ArmouryPointsText.text = Format.Number(App.Inventory.ArmouryPoints);
+            PrestigePointsText.text = Format.Number(App.Inventory.PrestigePoints);
         }
 
         void Start()

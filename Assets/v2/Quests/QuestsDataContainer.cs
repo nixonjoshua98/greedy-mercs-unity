@@ -59,7 +59,7 @@ namespace GM.Quests
                 {
                     SetQuestComplete(QuestType.Merc, quest.ID);
 
-                    App.DataContainers.Mercs.AddNewUnlockedMerc(resp.UnlockedMerc);
+                    App.Mercs.AddNewUnlockedMerc(resp.UnlockedMerc);
                 }
 
                 callback.Invoke(resp.StatusCode == 200);

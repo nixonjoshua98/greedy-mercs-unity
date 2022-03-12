@@ -16,6 +16,6 @@ namespace GM.Mercs.UI
 
         protected virtual void OnAssigned() { }
 
-        public Data.AggregatedMercData AssignedMerc => App.DataContainers.Mercs.GetMerc(AssignedId);
+        public Data.AggregatedMercData AssignedMerc => App.Mercs.GetMerc(AssignedId);
     }
 }

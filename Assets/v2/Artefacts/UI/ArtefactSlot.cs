@@ -74,7 +74,7 @@ namespace GM.Artefacts.UI
             LevelText.text = FormatLevel(AssignedArtefact.CurrentLevel);
             BonusText.text = GetBonusText();
 
-            UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.DataContainers.Inv.PrestigePoints;
+            UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Inventory.PrestigePoints;
         }
 
 

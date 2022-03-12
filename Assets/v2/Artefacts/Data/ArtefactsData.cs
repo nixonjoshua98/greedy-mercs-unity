@@ -16,7 +16,7 @@ namespace GM.Artefacts.Data
 
         Dictionary<int, AggregatedArtefactData> Artefacts = new Dictionary<int, AggregatedArtefactData>();
 
-        public ArtefactsData(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
+        public void Set(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
         {
             Update(userArtefacts);
             Update(gameArtefacts);
@@ -88,7 +88,7 @@ namespace GM.Artefacts.Data
                 {
                     Update(resp.Artefacts);
 
-                    App.DataContainers.Inv.PrestigePoints = resp.PrestigePoints;
+                    App.Inventory.PrestigePoints = resp.PrestigePoints;
                 }
 
                 call.Invoke(resp.StatusCode == HTTPCodes.Success);
@@ -103,7 +103,7 @@ namespace GM.Artefacts.Data
                 {
                     Update(resp.Artefact);
 
-                    App.DataContainers.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.Inventory.UpdateCurrencies(resp.CurrencyItems);
 
                     App.Events.PrestigePointsChanged.Invoke(resp.UnlockCost * -1);
                 }

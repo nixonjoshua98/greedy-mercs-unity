@@ -13,7 +13,7 @@ namespace GM.BountyShop.Data
         Dictionary<string, BountyShopArmouryItem> armouryItems = new Dictionary<string, BountyShopArmouryItem>();
         Dictionary<string, BountyShopCurrencyItemModel> currencyItems = new Dictionary<string, BountyShopCurrencyItemModel>();
 
-        public BountyShopData(CompleteBountyShopDataModel data)
+        public void Set(CompleteBountyShopDataModel data)
         {
             Update(data.ShopItems);
             UpdateItemPurchases(data.Purchases);
@@ -59,7 +59,7 @@ namespace GM.BountyShop.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    App.DataContainers.Armoury.Update(resp.ArmouryItem);
+                    App.Armoury.Update(resp.ArmouryItem);
 
                     OnAnySuccessfullPurchase(itemId, resp);
                 }
@@ -92,7 +92,7 @@ namespace GM.BountyShop.Data
         {
             itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
 
-            App.DataContainers.Inv.UpdateCurrencies(resp.CurrencyItems);
+            App.Inventory.UpdateCurrencies(resp.CurrencyItems);
 
             App.Events.BountyPointsChanged.Invoke(resp.PurchaseCost * -1);
         }

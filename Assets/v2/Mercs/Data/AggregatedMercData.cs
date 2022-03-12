@@ -51,15 +51,6 @@ namespace GM.Mercs.Data
         public BigDouble BaseDamage => Game.BaseDamage;
         public BigDouble DamagePerAttack => App.GMCache.MercDamagePerAttack(this);
         public BigDouble UpgradeCost(int numLevels) => App.GMCache.MercUpgradeCost(this, numLevels);
-        public List<MercPassiveReference> UnlockedPassives
-        {
-            get
-            {
-                var temp = this; // Linq weirdness
-
-                return Game.Passives.Where(p => temp.IsPassiveUnlocked(p)).ToList();
-            }
-        }
         public bool IsPassiveUnlocked(MercPassiveReference passive) => User.Level >= passive.UnlockLevel;
     }
 }

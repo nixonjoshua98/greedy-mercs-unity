@@ -33,7 +33,7 @@ namespace GM.BountyShop.UI
 
         void UpdateUI()
         {
-            if (App.DataContainers.Armoury.TryGetOwnedItem(AssignedItem.ArmouryItemId, out Armoury.Data.ArmouryItemData result))
+            if (App.Armoury.TryGetOwnedItem(AssignedItem.ArmouryItemId, out Armoury.Data.ArmouryItemData result))
             {
                 OwnedText.text = $"Owned <color=orange>{result.NumOwned}</color>";
                 LevelText.text = $"Level <color=orange>{result.CurrentLevel}</color>";
@@ -47,7 +47,7 @@ namespace GM.BountyShop.UI
 
         public void OnPurchaseButton()
         {
-            App.DataContainers.BountyShop.PurchaseArmouryItem(AssignedItem.Id, (success) =>
+            App.BountyShop.PurchaseArmouryItem(AssignedItem.Id, (success) =>
             {
                 UpdateUI();
 

@@ -32,7 +32,7 @@ namespace GM.Upgrades
         {
             get
             {
-                HasHitGoldTarget = HasHitGoldTarget || App.DataContainers.Inv.Gold >= GoldRequired;
+                HasHitGoldTarget = HasHitGoldTarget || App.Inventory.Gold >= GoldRequired;
 
                 return HasHitGoldTarget;
             }

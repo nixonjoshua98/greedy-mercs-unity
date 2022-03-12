@@ -12,7 +12,7 @@ namespace GM
             {
                 DamageType.Normal => Constants.Colors.Red,
                 DamageType.EnergyOvercharge => Constants.Colors.SoftBlue,
-                DamageType.CriticalHit => Constants.Colors.Orange,
+                DamageType.CriticalHit => Constants.Colors.Yellow,
                 _ => Constants.Colors.Red
             };
         }

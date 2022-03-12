@@ -21,13 +21,13 @@ namespace GM.BountyShop.UI
 
         void InstantiateItemSlots()
         {
-            App.DataContainers.BountyShop.CurrencyItems.ForEach(item => Instantiate<BountyShopCurrencyTypeSlot>(CurrencyItemSlotObject, ItemsParent).Assign(item));
-            App.DataContainers.BountyShop.ArmouryItems.ForEach(item => Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item));
+            App.BountyShop.CurrencyItems.ForEach(item => Instantiate<BountyShopCurrencyTypeSlot>(CurrencyItemSlotObject, ItemsParent).Assign(item));
+            App.BountyShop.ArmouryItems.ForEach(item => Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item));
         }
 
         void FixedUpdate()
         {
-            RefreshText.text = $"Daily Shop | <color=orange>{(App.DataContainers.NextDailyReset - DateTime.UtcNow).Format()}</color>";
+            RefreshText.text = $"Daily Shop | <color=orange>{(App.NextDailyReset - DateTime.UtcNow).Format()}</color>";
         }
     }
 }

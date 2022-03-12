@@ -33,7 +33,7 @@ namespace GM.Armoury.UI
 
         public void OnUpgradeButton()
         {
-            App.DataContainers.Armoury.UpgradeItem(AssignedItem.Id, (success, resp) =>
+            App.Armoury.UpgradeItem(AssignedItem.Id, (success, resp) =>
             {
                 if (success)
                 {

@@ -51,7 +51,7 @@ namespace GM.Mercs.UI
 
         void InstantiateSlots()
         {
-            foreach (var unlockedMerc in App.DataContainers.Mercs.UnlockedMercs)
+            foreach (var unlockedMerc in App.Mercs.UnlockedMercs)
             {
                 MercManageSlot slot = Instantiate<MercManageSlot>(ManageMercSlot, null);
 
@@ -92,7 +92,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        Sprite GetMercIconSprite(MercID unit) => App.DataContainers.Mercs.GetGameMerc(unit).Icon;
+        Sprite GetMercIconSprite(MercID unit) => App.Mercs.GetGameMerc(unit).Icon;
 
         public void UpdateMerc(MercID unit)
         {
@@ -109,7 +109,7 @@ namespace GM.Mercs.UI
         {
             List<MercID> newSquadMercIds = Slots.Where(x => x.Value.InSquad).Select(x => x.Key).ToList();
 
-            foreach (MercID merc in App.DataContainers.Mercs.MercsInSquad)
+            foreach (MercID merc in App.Mercs.MercsInSquad)
             {
                 MercSquad.RemoveFromSquad(merc);
             }

@@ -14,7 +14,7 @@ namespace GM.Armoury.Data
         Dictionary<int, ArmouryItemUserDataModel> UserItemsDict;
         Dictionary<int, ArmouryItemGameDataModel> GameItemsDict;
 
-        public ArmouryData(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> gameData)
+        public void Set(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> gameData)
         {
             SetUserData(userItems);
             SetStaticData(gameData);
@@ -82,7 +82,7 @@ namespace GM.Armoury.Data
                 {
                     Update(resp.Item);
 
-                    App.DataContainers.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.Inventory.UpdateCurrencies(resp.CurrencyItems);
                 }
 
                 call(resp.StatusCode == HTTP.HTTPCodes.Success, resp);

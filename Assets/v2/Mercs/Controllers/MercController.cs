@@ -35,7 +35,7 @@ namespace GM.Mercs.Controllers
         public bool HasEnergy => EnergyRemaining > 0 && !IsEnergyDepleted;
 
         // ...
-        public GM.Mercs.Data.AggregatedMercData MercDataValues => App.DataContainers.Mercs.GetMerc(Id);
+        public GM.Mercs.Data.AggregatedMercData MercDataValues => App.Mercs.GetMerc(Id);
 
         void Awake()
         {

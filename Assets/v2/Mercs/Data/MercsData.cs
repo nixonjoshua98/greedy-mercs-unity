@@ -1,4 +1,5 @@
 using GM.Common.Enums;
+using GM.LocalFiles;
 using GM.Mercs.ScriptableObjects;
 using GM.Models;
 using System.Collections.Generic;
@@ -14,12 +15,7 @@ namespace GM.Mercs.Data
 
         public int MaxSquadSize { get; private set; } = 5;
 
-        public MercsData(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
-        {
-            Update(userData, staticData, local);
-        }
-
-        public void Update(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
+        public void Set(IServerUserData userData, IStaticGameData staticData, LocalStateFile local)
         {
             SetDefaultMercStates(userData);
 
@@ -28,11 +24,20 @@ namespace GM.Mercs.Data
                 SetStatesFromSaveFile(local);
 
             SetStaticData(staticData);
+            UpdatePersistantLocalFile(App.PersistantLocalFile);
         }
 
         public void DeleteLocalStateData()
         {
             UserMercs.Clear();
+        }
+
+        void UpdatePersistantLocalFile(LocalPersistantFile file)
+        {
+            file.SquadMercIDs.RemoveWhere(id => !UserMercs.ContainsKey(id));
+
+            if (IsSquadFull) 
+                file.SquadMercIDs.Clear();
         }
 
         void SetStatesFromSaveFile(LocalStateFile model)
@@ -42,10 +47,6 @@ namespace GM.Mercs.Data
                 if (UserMercs.ContainsKey(merc.ID))
                 {
                     UserMercs[merc.ID] = merc;
-                }
-                else
-                {
-                    GMLogger.Editor($"Merc '{merc.ID}' state found but is currently locked");
                 }
             }
         }
@@ -124,7 +125,8 @@ namespace GM.Mercs.Data
 
         public HashSet<MercID> SquadMercs => App.PersistantLocalFile.SquadMercIDs;
 
-        public bool IsSquadFull => SquadMercs.Count < MaxSquadSize;
+        public bool IsSquadFull => SquadMercs.Count >= MaxSquadSize;
+
 
         /// <summary>
         /// Fetch the aggregated dataclass for the unit

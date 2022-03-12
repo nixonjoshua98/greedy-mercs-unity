@@ -13,7 +13,7 @@ namespace GM.Artefacts.UI
 
         protected virtual void OnAssigned() { }
 
-        protected Data.AggregatedArtefactData AssignedArtefact => App.DataContainers.Artefacts.GetArtefact(AssignedArtefactId);
+        protected Data.AggregatedArtefactData AssignedArtefact => App.Artefacts.GetArtefact(AssignedArtefactId);
 
         protected string GetBonusText() => Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
     }

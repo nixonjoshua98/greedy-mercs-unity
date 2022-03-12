@@ -1,9 +1,5 @@
 ﻿using GM.Common.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GM.Quests
 {
@@ -15,8 +11,8 @@ namespace GM.Quests
         public int RequiredStage;
         public MercID RewardMercID;
 
-        public bool IsCompleted => App.DataContainers.Quests.IsMercQuestCompleted(ID);
-        public float CurrentProgress => Math.Min(1.0f, App.DataContainers.GameState.Stage / (float)RequiredStage);
+        public bool IsCompleted => App.Quests.IsMercQuestCompleted(ID);
+        public float CurrentProgress => Math.Min(1.0f, App.GameState.Stage / (float)RequiredStage);
 
 
 

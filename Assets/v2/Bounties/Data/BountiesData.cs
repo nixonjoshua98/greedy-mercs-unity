@@ -14,7 +14,7 @@ namespace GM.Bounties.Data
         Models.CompleteBountyDataModel UserData;
         Models.CompleteBountyGameDataModel GameData;
 
-        public BountiesData(Models.CompleteBountyDataModel userData, Models.CompleteBountyGameDataModel gameData)
+        public void Set (Models.CompleteBountyDataModel userData, Models.CompleteBountyGameDataModel gameData)
         {
             UpdateUserData(userData);
             UpdateStaticData(gameData);
@@ -181,7 +181,7 @@ namespace GM.Bounties.Data
                 {
                     UserData.LastClaimTime = resp.ClaimTime;
 
-                    App.DataContainers.Inv.UpdateCurrencies(resp.CurrencyItems);
+                    App.Inventory.UpdateCurrencies(resp.CurrencyItems);
 
                     App.Events.BountyPointsChanged.Invoke(resp.PointsClaimed);
                 }

@@ -22,18 +22,20 @@ namespace GM.Mercs.UI
 
         void Start()
         {
+            SubscribeToEvents();
             UpdateSlotsUI();
         }
 
-        public override void OnShown()
+        void SubscribeToEvents()
         {
-            base.OnShown();
-            UpdateSlotsUI();
+            ISquadController squad = this.GetComponentInScene<ISquadController>();
+
+            squad.E_MercAddedToSquad.AddListener(() => UpdateSlotsUI());
         }
 
         void UpdateSlotsUI()
         {
-            foreach (var merc in App.DataContainers.Mercs.UnlockedMercs)
+            foreach (var merc in App.Mercs.UnlockedMercs)
             {
                 // Merc has been removed from squad
                 if (MercSlots.ContainsKey(merc.ID) && !merc.InSquad)

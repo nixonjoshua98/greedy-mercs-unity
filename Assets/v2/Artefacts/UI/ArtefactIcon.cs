@@ -24,7 +24,7 @@ namespace GM.Artefacts.UI
 
         public void Set(AggregatedArtefactData artefact)
         {
-            Set(App.DataContainers.Artefacts.GetGameArtefact(artefact.Id));
+            Set(App.Artefacts.GetGameArtefact(artefact.Id));
         }
     }
 }

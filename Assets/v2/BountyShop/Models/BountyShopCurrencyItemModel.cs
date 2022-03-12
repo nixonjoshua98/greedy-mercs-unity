@@ -12,6 +12,6 @@ namespace GM.BountyShop.Models
         public long QuantityPerPurchase;
 
         [JsonIgnore]
-        public CurrencyItemScriptableObject Item => App.DataContainers.Items.GetItem(CurrencyType);
+        public CurrencyItemScriptableObject Item => App.Items.GetItem(CurrencyType);
     }
 }

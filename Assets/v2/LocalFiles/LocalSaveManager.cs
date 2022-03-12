@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GM
 {
-    public class LocalSaveManager : Common.MonoClass<LocalSaveManager>
+    public class LocalSaveManager : Common.MonoBehaviourLazySingleton<LocalSaveManager>
     {
         public const string STATIC_FILE = "staticdata";
         public const string LOCAL_FILE = "localsave";
@@ -34,7 +34,7 @@ namespace GM
         public void Save()
         {
             // = Models = //
-            var savefile = App.DataContainers.CreateLocalStateFile();
+            var savefile = App.CreateLocalStateFile();
 
             // = Write to File = //
             FileUtils.WriteModel(LOCAL_FILE, savefile);

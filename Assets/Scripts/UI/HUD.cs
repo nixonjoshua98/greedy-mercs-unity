@@ -18,7 +18,7 @@ namespace GM
 
         void FixedUpdate()
         {
-            CurrentStageText.text = $"Stage {App.DataContainers.GameState.Stage}\n{App.DataContainers.GameState.EnemiesDefeated}/{App.DataContainers.GameState.EnemiesPerStage}";
+            CurrentStageText.text = $"Stage {App.GameState.Stage}\n{App.GameState.EnemiesDefeated}/{App.GameState.EnemiesPerStage}";
         }
 
         void WaveManager_BossSpawned(UnitFactoryInstantiatedBossUnit boss)

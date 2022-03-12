@@ -7,6 +7,8 @@ namespace GM.Mercs
 {
     public interface ISquadController
     {
+        UnityEvent E_MercAddedToSquad { get; }
+
         bool TryGetUnit(out MercBaseClass unit);
         void RemoveFromQueue(MercBaseClass unit);
         void RemoveFromSquad(MercID mercId);
@@ -21,13 +23,14 @@ namespace GM.Mercs
         List<MercBaseClass> UnitQueue = new List<MercBaseClass>();
         List<MercID> UnitIDs = new List<MercID>();
 
+        public UnityEvent E_MercAddedToSquad { get; private set; } = new UnityEvent();
         public UnityEvent<MercBaseClass> E_UnitSpawned { get; set; } = new UnityEvent<MercBaseClass>();
 
         void Awake()
         {
             SubscribeToEvents();
 
-            App.DataContainers.Mercs.MercsInSquad.ForEach(merc => AddToSquad(merc));
+            App.Mercs.MercsInSquad.ForEach(merc => AddToSquad(merc));
         }
 
         void SubscribeToEvents()
@@ -44,9 +47,9 @@ namespace GM.Mercs
         {
             float ts = Time.fixedDeltaTime;
 
-            foreach (MercID unit in App.DataContainers.Mercs.MercsInSquad)
+            foreach (MercID unit in App.Mercs.MercsInSquad)
             {
-                var merc = App.DataContainers.Mercs.GetMerc(unit);
+                var merc = App.Mercs.GetMerc(unit);
 
                 float energyGained = merc.EnergyGainedPerSecond * ts;
 
@@ -104,7 +107,7 @@ namespace GM.Mercs
         {
             Vector2 pos = new Vector2(Camera.main.MinBounds().x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
 
-            StaticMercData data = App.DataContainers.Mercs.GetGameMerc(unitId);
+            StaticMercData data = App.Mercs.GetGameMerc(unitId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
@@ -124,19 +127,21 @@ namespace GM.Mercs
 
         public void AddToSquad(MercID mercId)
         {
-            App.PersistantLocalFile.SquadMercIDs.Add(mercId);
+            App.Mercs.SquadMercs.Add(mercId);
+
+            E_MercAddedToSquad.Invoke();
         }
 
         public void RemoveFromSquad(MercID mercId)
         {
-            App.PersistantLocalFile.SquadMercIDs.Remove(mercId);
+            App.Mercs.SquadMercs.Remove(mercId);
         }
 
         // Event Listeners //
 
         void GMApplication_OnMercUnlocked(MercID mercId)
         {
-            if (!App.DataContainers.Mercs.IsSquadFull)
+            if (!App.Mercs.IsSquadFull)
             {
                 AddToSquad(mercId);
             }

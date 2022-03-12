@@ -29,7 +29,7 @@ namespace GM.Mercs.UI
         {
             Manager = manager;
             Unit = unit;
-            MercData = App.DataContainers.Mercs.GetMerc(unit);
+            MercData = App.Mercs.GetMerc(unit);
             InSquad = MercData.InSquad;
 
             NameText.text = MercData.Name;

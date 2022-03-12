@@ -21,7 +21,7 @@ namespace GM.Quests.UI
 
         void InstantiateMercQuests()
         {
-            var quests = App.DataContainers.Quests.MercQuests;
+            var quests = App.Quests.MercQuests;
 
             for (int i = 0; i < quests.Count; i++)
             {
@@ -37,7 +37,7 @@ namespace GM.Quests.UI
 
         public void ClaimMercQuest(MercQuestSlot slot)
         {
-            App.DataContainers.Quests.SendCompleteMercQuest(slot.Quest, (success) =>
+            App.Quests.SendCompleteMercQuest(slot.Quest, (success) =>
             {
                 slot.OnClaimResponse(success);
             });

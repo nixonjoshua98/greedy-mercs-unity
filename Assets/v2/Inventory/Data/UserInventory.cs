@@ -11,7 +11,7 @@ namespace GM.Inventory.Data
 
         public BigDouble Gold;
 
-        public UserInventory(Models.UserCurrenciesModel currencies)
+        public void Set(Models.UserCurrenciesModel currencies)
         {
             Gold = BigDouble.HighValue;
 

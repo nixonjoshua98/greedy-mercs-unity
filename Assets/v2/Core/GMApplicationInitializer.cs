@@ -61,18 +61,13 @@ namespace GM.Core
 
         void Initialize()
         {
-            LocalPersistantFile.LoadFromFile(out LocalPersistantFile persistFile);
             LocalStateFile.LoadFromFile(out LocalStateFile localStateFile);
 
-            LocalSaveManager saveManager = LocalSaveManager.Create();
+            GMApplication app = GMApplication.Create();
 
-            saveManager.WriteStaticData(Data.StaticData);
+            app.SaveManager.WriteStaticData(Data.StaticData);
 
-            GMData dataContainer = new GMData();
-
-            new GMApplication(persistFile, dataContainer, saveManager).SetInstance();
-
-            dataContainer.Set(Data.UserData, Data.StaticData, localStateFile);
+            app.UpdateDataContainers(Data.UserData, Data.StaticData, localStateFile);
 
             SceneManager.LoadSceneAsync("GameScene");
         }

@@ -1,7 +1,7 @@
 ﻿using GM.Common.Enums;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GM.Quests
 {

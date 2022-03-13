@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 8422179402188947215}
   - component: {fileID: 8422179402188945408}
   m_Layer: 5
-  m_Name: gold_upgrade_slot
+  m_Name: gold_tap_upgrade_slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

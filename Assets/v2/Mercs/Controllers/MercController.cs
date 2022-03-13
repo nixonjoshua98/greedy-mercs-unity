@@ -139,15 +139,10 @@ namespace GM.Mercs.Controllers
 
             BigDouble damage = MercDataValues.DamagePerAttack;
 
-            // Energy overcharge
-            if (SetupPayload.EnergyPercentUsedToInstantiate > 1.0f)
-            {
-                // Only set this damage type for 150%+ otherwise it will near always be energy overcharge
-                if (SetupPayload.EnergyPercentUsedToInstantiate > 1.5)
-                    damageType = DamageType.EnergyOvercharge;
+            if (SetupPayload.EnergyPercentUsedToInstantiate == 2.0f)
+                damageType = DamageType.EnergyOvercharge;
 
-                damage *= SetupPayload.EnergyPercentUsedToInstantiate;
-            }
+            damage *= SetupPayload.EnergyPercentUsedToInstantiate;
 
             // Critical hit
             if (MathUtils.PercentChance(App.GMCache.CriticalHitChance))

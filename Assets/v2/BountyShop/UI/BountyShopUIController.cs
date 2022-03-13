@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop.UI
 {
-    public class BountyShopUIController : GM.UI.Panels.Panel
+    public class BountyShopUIController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         public GameObject ItemSlotObject;

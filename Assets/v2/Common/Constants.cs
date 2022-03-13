@@ -18,8 +18,10 @@ namespace GM.Common
 
         public static class Colors
         {
+            public static Color Orange = Color255(216, 128, 8);
             public static Color Red = Color255(255, 0, 0);
             public static Color SoftBlue = Color255(0, 128, 255);
+            public static Color Grey = Color255(128, 128, 128);
             public static Color Yellow { get; set; } = Color255(255, 165, 0);
 
             static Color Color255(float r, float g, float b) => new Color(r / 255, g / 255, b / 255);

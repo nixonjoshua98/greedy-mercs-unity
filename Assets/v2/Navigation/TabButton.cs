@@ -6,10 +6,10 @@ using UnityEngine.UI;
 namespace GM.Navigation
 {
     [System.Serializable]
-    struct TabStateSprites
+    class TabStateSprites
     {
-        public Color Selected;
-        public Color Unselected;
+        public Color Selected = GM.Common.Constants.Colors.Orange;
+        public Color Unselected = GM.Common.Constants.Colors.Grey;
     }
 
     public class TabButton : MonoBehaviour, IPointerClickHandler

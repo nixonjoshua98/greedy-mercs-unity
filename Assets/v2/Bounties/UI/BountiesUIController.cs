@@ -8,7 +8,7 @@ using StopWatch = System.Diagnostics.Stopwatch;
 
 namespace GM.Bounties.UI
 {
-    public class BountiesUIController : GM.UI.Panels.Panel
+    public class BountiesUIController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         public GameObject BountySlotObject;
@@ -57,11 +57,6 @@ namespace GM.Bounties.UI
 
                 sliderUpdateTimer.Restart();
             }
-        }
-
-        public override void OnShown()
-        {
-            UpdateBountySlots();
         }
 
         void UpdateBountySlots()

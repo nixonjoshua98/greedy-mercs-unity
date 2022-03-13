@@ -1,5 +1,6 @@
 ﻿using GM.Common.Enums;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace GM.Quests
@@ -16,6 +17,10 @@ namespace GM.Quests
         }
 
         public bool IsMercQuestCompleted(int questId) => UserQuests.CompletedMercQuests.Contains(questId);
+
+        public int NumQuestsReadyToClaim => NumMercQuestsReadyToComplete;
+
+        public int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
 
         void SetQuestComplete(QuestType questType, int questId)
         {

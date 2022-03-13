@@ -7,8 +7,7 @@ from src.common.types import MercID, QuestID, QuestType
 from src.dependencies import get_static_quests
 from src.exceptions import ServerException
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
-from src.mongo.quests import (CompletedQuestModel, QuestsRepository,
-                              get_quests_repo)
+from src.mongo.quests import MercQuestModel, QuestsRepository, get_quests_repo
 from src.pymodels import BaseModel
 from src.static_models.quests import MercQuest, StaticQuests
 
@@ -41,22 +40,17 @@ class CompleteMercQuestHandler:
         if quest_data is None:
             raise ServerException(500, "Quest not found")
 
-        quest_completed = await self._quests.persistant_quest_completed(uid, quest_id, QuestType.MERC_QUEST)
+        merc_quest = await self._quests.get_merc_quest(uid, quest_id)
         merc_unlocked = await self._mercs.merc_unlocked(uid, quest_data.reward_merc)
 
-        if quest_completed:
+        if merc_quest is not None:
             raise ServerException(400, "Quest already completed")
         elif merc_unlocked:
             raise ServerException(400, "Merc already unlocked")
 
-        model = CompletedQuestModel(
-            user_id=uid,
-            quest_id=quest_id,
-            completed_at=date,
-            quest_type=QuestType.MERC_QUEST
-        )
+        model = MercQuestModel(user_id=uid, quest_id=quest_id, completed_at=date)
 
-        await self._quests.add_completed_quest(model)
+        await self._quests.add_merc_quest(model)
         await self._mercs.insert_units(uid, [quest_data.reward_merc])
 
         return CompleteMercQuestResponse(unlocked_merc=quest_data.reward_merc)

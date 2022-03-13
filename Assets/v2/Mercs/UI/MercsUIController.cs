@@ -4,7 +4,7 @@ using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.UI
 {
-    public class MercsUIController : GM.UI.Panels.PanelController
+    public class MercsUIController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         public GameObject SquadMercSlotObject;
@@ -13,7 +13,6 @@ namespace GM.Mercs.UI
         [Header("References")]
         public GM.UI.AmountSelector UpgradeAmountSelector;
         [Space]
-        public Transform AvailMercSlotsParent;
         public Transform SquadMercSlotsParent;
         [Space]
 

@@ -8,7 +8,7 @@ using AmountSelector = GM.UI.AmountSelector;
 
 namespace GM.Artefacts.UI
 {
-    public class ArtefactsUIController : GM.UI.Panels.TogglablePanel
+    public class ArtefactsUIController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         public GameObject ArtefactSlotObject;

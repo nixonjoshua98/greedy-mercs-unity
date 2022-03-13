@@ -1,7 +1,7 @@
+using GM.Bounties.Models;
 using GM.Bounties.ScripableObjects;
 using GM.HTTP.Requests;
 using System;
-using GM.Bounties.Models;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace GM.Bounties.Data
         Models.CompleteBountyDataModel UserData;
         Models.CompleteBountyGameDataModel GameData;
 
-        public void Set (Models.CompleteBountyDataModel userData, Models.CompleteBountyGameDataModel gameData)
+        public void Set(Models.CompleteBountyDataModel userData, Models.CompleteBountyGameDataModel gameData)
         {
             UpdateUserData(userData);
             UpdateStaticData(gameData);
@@ -42,7 +42,7 @@ namespace GM.Bounties.Data
                 if (ts.TotalHours > GameData.MaxUnclaimedHours)
                 {
                     return new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600));
-                } 
+                }
                 else if (ts.TotalHours < 0)
                 {
                     return new TimeSpan();
@@ -159,7 +159,8 @@ namespace GM.Bounties.Data
         /// </summary>
         public void SetActiveBounties(List<int> ids, UnityAction<bool, UpdateActiveBountiesResponse> action)
         {
-            App.HTTP.SetActiveBounties(ids, (resp) => {
+            App.HTTP.SetActiveBounties(ids, (resp) =>
+            {
 
                 if (resp.StatusCode == 200)
                 {

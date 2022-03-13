@@ -1,6 +1,6 @@
 ﻿namespace GM.Common
 {
-    public abstract class LazySingleton<T> : Core.GMClass where T: new()
+    public abstract class LazySingleton<T> : Core.GMClass where T : new()
     {
         static T s_Instance;
 

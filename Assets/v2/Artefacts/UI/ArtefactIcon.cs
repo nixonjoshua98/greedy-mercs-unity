@@ -1,8 +1,8 @@
+using GM.Artefacts.Data;
 using GM.Artefacts.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using GM.Artefacts.Data;
 
 namespace GM.Artefacts.UI
 {

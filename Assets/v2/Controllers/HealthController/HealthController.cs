@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace GM.Controllers
 {
-    public abstract class AbstractHealthController: MonoBehaviour
+    public abstract class AbstractHealthController : MonoBehaviour
     {
         // Events
         public UnityEvent E_OnZeroHealth { get; private set; } = new UnityEvent();

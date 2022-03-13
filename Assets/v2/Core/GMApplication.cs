@@ -13,21 +13,21 @@ namespace GM.Core
         public static GMApplication Instance { get; private set; }
 
         // Data Containers
-        public GM.Quests.QuestsContainer Quests             = new();
-        public GM.Mercs.Data.MercDataContainer Mercs                = new();
-        public GoldUpgradesContainer GoldUpgrades               = new();
-        public GM.CurrencyItems.Data.ItemsData Items        = new();
-        public GM.Inventory.Data.UserInventory Inventory    = new();
-        public GM.Artefacts.Data.ArtefactsData Artefacts    = new();
-        public GM.Armoury.Data.ArmouryData Armoury          = new();
-        public GM.Bounties.Data.BountiesData Bounties       = new();
+        public GM.Quests.QuestsContainer Quests = new();
+        public GM.Mercs.Data.MercDataContainer Mercs = new();
+        public GoldUpgradesContainer GoldUpgrades = new();
+        public GM.CurrencyItems.Data.ItemsData Items = new();
+        public GM.Inventory.Data.UserInventory Inventory = new();
+        public GM.Artefacts.Data.ArtefactsData Artefacts = new();
+        public GM.Armoury.Data.ArmouryData Armoury = new();
+        public GM.Bounties.Data.BountiesData Bounties = new();
         public GM.BountyShop.Data.BountyShopData BountyShop = new();
         public CurrentPrestigeState GameState;
 
         public DateTime NextDailyReset;
 
-        public GMCache GMCache      = new GMCache();
-        public EventHandler Events  = new EventHandler();
+        public GMCache GMCache = new GMCache();
+        public EventHandler Events = new EventHandler();
 
         public LocalSaveManager SaveManager;
         public LocalPersistantFile PersistantLocalFile;
@@ -95,7 +95,7 @@ namespace GM.Core
 
         public void InvalidateClient()
         {
-            
+
         }
     }
 }

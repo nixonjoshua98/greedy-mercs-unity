@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace GM.UI.Panels
+﻿namespace GM.UI.Panels
 {
     public abstract class Panel : Core.GMMonoBehaviour
     {

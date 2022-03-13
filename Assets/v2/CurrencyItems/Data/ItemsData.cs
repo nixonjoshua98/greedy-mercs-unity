@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using GM.Common.Enums;
 using GM.CurrencyItems.ScriptableObjects;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GM.CurrencyItems.Data

@@ -62,7 +62,7 @@ namespace GM.Units.Controllers
         public void OnDefeatAnimation()
         {
             UnitAvatar.Animator.enabled = false;
-            
+
             ProcessLoot();
             InstantiateDefeatPS();
 

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace GM.Bounties.UI
 {
@@ -50,7 +50,8 @@ namespace GM.Bounties.UI
             SetSelected(AssignedBounty.IsActive);
 
             Icon.Button.onClick.RemoveAllListeners();
-            Icon.Button.onClick.AddListener(() => {
+            Icon.Button.onClick.AddListener(() =>
+            {
                 callback.Invoke(this);
             });
         }

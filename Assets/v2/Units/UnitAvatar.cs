@@ -16,7 +16,7 @@ namespace GM.Units
         [HideInInspector] public UnityEvent E_Anim_OnDefeat = new UnityEvent();
         [HideInInspector] public UnityEvent E_Anim_OnHurt = new UnityEvent();
 
-        public Bounds Bounds {  get { return Collider.bounds; } }
+        public Bounds Bounds { get { return Collider.bounds; } }
 
         public void PlayAnimation(string anim)
         {

@@ -18,7 +18,7 @@ namespace GM
 
         public static void DeleteFile(string path) => File.Delete(ResolvePath(path));
 
-        public static FileStatus LoadModel<T>(string path, out T result) where T: new()
+        public static FileStatus LoadModel<T>(string path, out T result) where T : new()
         {
             result = new T();
 

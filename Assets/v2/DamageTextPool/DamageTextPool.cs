@@ -1,6 +1,6 @@
-using UnityEngine;
-using GM.Units;
 using GM.Common.Enums;
+using GM.Units;
+using UnityEngine;
 
 namespace GM.DamageTextPool
 {

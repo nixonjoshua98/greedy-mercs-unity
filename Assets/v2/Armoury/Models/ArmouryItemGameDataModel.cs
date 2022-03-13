@@ -1,6 +1,6 @@
-using UnityEngine;
-using Newtonsoft.Json;
 using GM.Common.Enums;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace GM.Armoury.Models
 {

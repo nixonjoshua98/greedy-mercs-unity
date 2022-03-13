@@ -1,5 +1,5 @@
-using UnityEngine;
 using GM.DamageTextPool;
+using UnityEngine;
 
 namespace GM.Controllers
 {

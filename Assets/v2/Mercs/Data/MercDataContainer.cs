@@ -1,7 +1,6 @@
 using GM.Common.Enums;
 using GM.LocalFiles;
 using GM.Mercs.ScriptableObjects;
-using GM.Models;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -46,7 +45,7 @@ namespace GM.Mercs.Data
         {
             file.SquadMercIDs.RemoveWhere(id => !UserMercs.ContainsKey(id));
 
-            if (IsSquadFull) 
+            if (IsSquadFull)
                 file.SquadMercIDs.Clear();
         }
 

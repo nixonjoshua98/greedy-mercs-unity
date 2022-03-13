@@ -1,6 +1,6 @@
-﻿using GM.DamageTextPool;
+﻿using GM.Controllers;
+using GM.DamageTextPool;
 using GM.Units;
-using GM.Controllers;
 
 namespace GM
 {

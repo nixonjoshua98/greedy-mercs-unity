@@ -1,5 +1,5 @@
-using UnityEngine;
 using GM.Common.Enums;
+using UnityEngine;
 
 namespace GM.Armoury.Data
 {

@@ -34,7 +34,7 @@ namespace GM.Bounties.UI
         Dictionary<int, BountySlot> slots = new Dictionary<int, BountySlot>();
 
         List<int> activeBountyIds = new List<int>();
-        
+
 
         void Awake()
         {
@@ -179,7 +179,8 @@ namespace GM.Bounties.UI
 
         public void OnClaimButton()
         {
-            App.Bounties.ClaimPoints((success, resp) => {
+            App.Bounties.ClaimPoints((success, resp) =>
+            {
                 UpdateClaimUI();
             });
         }

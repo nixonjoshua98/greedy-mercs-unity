@@ -4,7 +4,6 @@ using GM.Bounties.Models;
 using GM.BountyShop.Models;
 using GM.Inventory.Models;
 using GM.Mercs;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace GM.Models

@@ -29,7 +29,7 @@ namespace GM.Mercs.UI
         {
             _buyAmount = selector.Current;
 
-            Assign(merc); 
+            Assign(merc);
 
             selector.E_OnChange.AddListener((val) => _buyAmount = val);
         }
@@ -50,9 +50,9 @@ namespace GM.Mercs.UI
         void UpdateUI()
         {
             // Energy
-            EnergyPercentageText.text   = Format.Percentage(AssignedMerc.CurrentSpawnEnergyPercentage, 0);
-            EnergySlider.value          = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage, 0, 1);
-            ExcessEnergySlider.value    = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage - 1, 0, 1);
+            EnergyPercentageText.text = Format.Percentage(AssignedMerc.CurrentSpawnEnergyPercentage, 0);
+            EnergySlider.value = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage, 0, 1);
+            ExcessEnergySlider.value = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage - 1, 0, 1);
 
             LevelText.text = FormatLevel(AssignedMerc.CurrentLevel);
             DamageText.text = GetBonusText();

@@ -1,5 +1,4 @@
 using UnityEngine;
-using GM.Artefacts.Data;
 
 namespace GM.Artefacts.Scriptables
 {

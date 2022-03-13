@@ -23,7 +23,7 @@ namespace GM.Armoury.Data
         public List<ArmouryItemData> UserItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).Select(x => GetItem(x.Id)).ToList();
         public List<ArmouryItemGameDataModel> GameItems => GameItemsDict.Values.OrderBy(ele => ele.Id).ToList();
 
-        public void UpdateAllData(List<ArmouryItemUserDataModel>  userItems, List<ArmouryItemGameDataModel> staticItems)
+        public void UpdateAllData(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> staticItems)
         {
             SetUserData(userItems);
             SetStaticData(staticItems);

@@ -58,7 +58,7 @@ namespace GM.Mercs.UI
             slot.Assign(merc, UpgradeAmountSelector);
 
             MercSlots.Add(merc, slot);
-            
+
         }
 
         void DestroySlot(MercID mercId)
@@ -74,7 +74,8 @@ namespace GM.Mercs.UI
 
         public void ShowAvailableMercs()
         {
-            InstantiateUI<MercManagePopup>(ManageMercsObject).AssignCallback(() => {
+            InstantiateUI<MercManagePopup>(ManageMercsObject).AssignCallback(() =>
+            {
                 UpdateSlotsUI();
             });
         }

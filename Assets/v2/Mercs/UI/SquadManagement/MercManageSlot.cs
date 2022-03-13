@@ -1,8 +1,8 @@
 using GM.Common.Enums;
 using GM.Mercs.Data;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace GM.Mercs.UI
 {

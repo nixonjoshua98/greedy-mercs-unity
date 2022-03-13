@@ -22,7 +22,7 @@ namespace GM.Navigation
                 {
                     if (SelectedButton is not null)
                         GMLogger.Editor($"TabGroup '{name}' has multiple initally selected tabs");
-                    
+
                     OnTabSelected(button);
                 }
             });

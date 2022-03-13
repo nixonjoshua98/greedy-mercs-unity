@@ -1,6 +1,6 @@
 using GM.Common;
-using System.Collections.Generic;
 using GM.Units;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -64,8 +64,8 @@ namespace GM
             UnitFactoryInstantiatedBossUnit enemy = UnitManager.InstantiateEnemyBossUnit();
 
             // Components
-            GM.Controllers.HealthController health  = enemy.GameObject.GetComponent<GM.Controllers.HealthController>();
-            GM.Units.UnitBaseClass unitClass        = enemy.GameObject.GetComponent<GM.Units.UnitBaseClass>();
+            GM.Controllers.HealthController health = enemy.GameObject.GetComponent<GM.Controllers.HealthController>();
+            GM.Units.UnitBaseClass unitClass = enemy.GameObject.GetComponent<GM.Units.UnitBaseClass>();
 
             // Setup
             health.Init(val: App.GMCache.StageBossHealthAtStage(CurrentGameState.Stage));

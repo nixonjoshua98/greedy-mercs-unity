@@ -11,7 +11,7 @@ namespace GM.UI
         {
             SetSprite(Item);
         }
-        
+
         public void Set(CurrencyType item)
         {
             SetSprite(item);

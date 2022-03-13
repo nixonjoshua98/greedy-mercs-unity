@@ -9,7 +9,7 @@ namespace GM.Mercs.Controllers
         [Header("Components (AttackController)")]
         [SerializeField] protected MercController Controller;
 
-        /* Scene Components */ 
+        /* Scene Components */
         protected IEnemyUnitQueue EnemyUnits;
 
         [SerializeField]
@@ -26,7 +26,7 @@ namespace GM.Mercs.Controllers
         {
             EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
         }
-       
+
         public virtual bool CanStartAttack(UnitBaseClass unit)
         {
             return !IsOnCooldown && !IsAttacking && IsWithinAttackDistance(unit);

@@ -7,7 +7,7 @@ namespace GM.Common
     {
         public readonly GameObject GameObject;
 
-        float lastUsedTime;        
+        float lastUsedTime;
 
         public ObjectPoolObject(GameObject obj)
         {
@@ -48,7 +48,7 @@ namespace GM.Common
             return go;
         }
 
-        public T Spawn<T>() where T: Object => Spawn().GetComponent<T>();
+        public T Spawn<T>() where T : Object => Spawn().GetComponent<T>();
 
         bool TryGetAvailablePooledObject(out ObjectPoolObject obj)
         {

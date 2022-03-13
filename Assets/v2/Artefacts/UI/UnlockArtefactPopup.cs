@@ -1,11 +1,11 @@
 using GM.Artefacts.Data;
+using GM.Artefacts.Models;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Numerics;
 using TMPro;
 using UnityEngine;
-using System.Numerics;
-using GM.Artefacts.Models;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace GM.Artefacts.UI

@@ -10,7 +10,7 @@ namespace GM.Artefacts
         public Dictionary<int, int> Upgrades = new Dictionary<int, int>();
     }
 
-    public class BulkUpgradeController: GM.Core.GMClass
+    public class BulkUpgradeController : GM.Core.GMClass
     {
         DateTime FirstUpdateTime;
         Action<bool> UpgradeCallback;
@@ -53,9 +53,9 @@ namespace GM.Artefacts
         {
             if (RequestIsReady)
             {
-                WaitingForResponse  = true;
-                RequestChanges      = UnprocessedChanges;
-                UnprocessedChanges  = null;
+                WaitingForResponse = true;
+                RequestChanges = UnprocessedChanges;
+                UnprocessedChanges = null;
 
                 App.Artefacts.BulkUpgradeArtefact(RequestChanges.Upgrades, OnResponseReceived, UpgradeCallback);
             }

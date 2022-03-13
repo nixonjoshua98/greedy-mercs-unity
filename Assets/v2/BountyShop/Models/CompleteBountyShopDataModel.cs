@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using GM.BountyShop.Data;
+﻿using GM.BountyShop.Data;
+using System.Collections.Generic;
 
 namespace GM.BountyShop.Models
 {

@@ -13,7 +13,7 @@ namespace GM.Mercs.Controllers
 
         [Header("Components (MeleeAttackController)")]
         [SerializeField] protected MovementController MoveController;
-        
+
         [Header("Properties")]
         [SerializeField] float AttackRange = 1.0f;
 

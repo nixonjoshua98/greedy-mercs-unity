@@ -1,7 +1,7 @@
 ﻿using GM.BountyShop.Data;
 using GM.Common.Enums;
-using Newtonsoft.Json;
 using GM.CurrencyItems.ScriptableObjects;
+using Newtonsoft.Json;
 
 namespace GM.BountyShop.Models
 {

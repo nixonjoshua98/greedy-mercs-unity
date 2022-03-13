@@ -1,7 +1,7 @@
+using GM.Armoury.Data;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using GM.Armoury.Data;
 
 namespace GM.Armoury.UI
 {

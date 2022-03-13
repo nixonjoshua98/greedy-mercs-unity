@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace GM
 {
@@ -16,11 +16,11 @@ namespace GM
             if (obj == null && ((Application.isEditor && editorOnly) || !editorOnly))
             {
                 Debug.Log(msg);
-            }           
+            }
         }
 
         public static void Exception(string msg, Exception e, bool editorOnly = false)
-        { 
+        {
             if ((Application.isEditor && editorOnly) || !editorOnly)
                 Debug.LogError($"{msg}\n{e.Message}");
         }

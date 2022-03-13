@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace GM.UI.Panels
 {
     [RequireComponent(typeof(Toggle))]
-    public class PanelToggle: MonoBehaviour
+    public class PanelToggle : MonoBehaviour
     {
         public TogglablePanel targetPanel;
 

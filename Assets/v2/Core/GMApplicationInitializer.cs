@@ -49,7 +49,7 @@ namespace GM.Core
                 switch (resp.StatusCode)
                 {
                     case HTTPCodes.Success:
-                        Initialize(); 
+                        Initialize();
                         break;
 
                     default:

@@ -1,5 +1,5 @@
-using MercID = GM.Common.Enums.MercID;
 using GM.UI;
+using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs.UI
 {

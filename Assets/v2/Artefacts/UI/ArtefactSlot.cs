@@ -32,7 +32,8 @@ namespace GM.Artefacts.UI
             upgradeCallback = callback;
 
             // Set the callback for when the user changes the buy amount
-            selector.E_OnChange.AddListener(val => {
+            selector.E_OnChange.AddListener(val =>
+            {
                 _BuyAmount = val;
 
                 UpdateUI();

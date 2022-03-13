@@ -1,6 +1,6 @@
-﻿using BigInteger = System.Numerics.BigInteger;
-using GM.Common.Json;
+﻿using GM.Common.Json;
 using Newtonsoft.Json;
+using BigInteger = System.Numerics.BigInteger;
 namespace GM.HTTP.Requests
 {
     public class UpgradeArtefactRequest : IServerRequest

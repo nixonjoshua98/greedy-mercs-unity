@@ -16,7 +16,7 @@ namespace GM.Mercs.Controllers
         [SerializeField] MercController Controller;
         [SerializeField] MovementController Movement;
 
-        /* Scene Components */ 
+        /* Scene Components */
         IEnemyUnitQueue EnemyUnits;
 
         bool HasPerformedAttack;
@@ -88,7 +88,7 @@ namespace GM.Mercs.Controllers
                     Movement.MoveDirection(moveDir, MoveSpeed, playAnimation: false);
                 }
             }
-            
+
             RemoveControl();
         }
 

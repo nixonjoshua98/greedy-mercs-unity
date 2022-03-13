@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GM.Common.Enums;
 using System;
-using GM.HTTP.Requests;
-using GM.Common.Enums;
+using System.Collections.Generic;
 
 namespace GM.Quests
 {

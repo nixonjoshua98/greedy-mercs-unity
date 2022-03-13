@@ -11,7 +11,7 @@ namespace GM.Core
 {
     public class GMCache : GMClass
     {
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => App.Upgrades.Upgrades.Values.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.Value));
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => new List<KeyValuePair<BonusType, BigDouble>> { new KeyValuePair<BonusType, BigDouble>(BonusType.FLAT_TAP_DMG, TapUpgradeDamage) };
         List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
         {
             get
@@ -91,14 +91,9 @@ namespace GM.Core
         }
         #endregion
 
-        #region Minor Tap Upgrade
-        public BigDouble MinorTapUpgradeCost(int levels) => GameFormulas.MinorTapUpgradeCost(App.Upgrades.MinorTapUpgrade.Level, levels);
-        public BigDouble MinorTapUpgradeDamage => GameFormulas.MinorTapUpgradeBonusValue(App.Upgrades.MinorTapUpgrade.Level);
-        #endregion
-
-        #region Major Tap Upgrade
-        public BigDouble MajorTapUpgradeCost(int levels) => GameFormulas.MajorTapUpgradeCost(App.Upgrades.MajorTapUpgrade.Level, levels);
-        public BigDouble MajorTapUpgradeDamage => GameFormulas.MajorTapUpgradeBonusValue(App.Upgrades.MajorTapUpgrade.Level);
+        #region Tap Upgrade
+        public BigDouble TapUpgradeCost(int levels) => GameFormulas.TapUpgradeUpgradeCost(App.GoldUpgrades.TapUpgrade.Level, levels);
+        public BigDouble TapUpgradeDamage => GameFormulas.TapUpgradeDamage(App.GoldUpgrades.TapUpgrade.Level);
         #endregion
 
         #region Artefacts

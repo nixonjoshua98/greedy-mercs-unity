@@ -7,12 +7,12 @@ namespace GM.Common
     public static class GameFormulas
     {
         #region Minor Tap Upgrade
-        public static BigDouble MinorTapUpgradeBonusValue(int currentLevel)
+        public static BigDouble TapUpgradeDamage(int currentLevel)
         {
             return currentLevel * BigDouble.Pow(2.0f, (currentLevel - 1) / 25.0f);
         }
 
-        public static BigDouble MinorTapUpgradeCost(int currentLevel, int levels)
+        public static BigDouble TapUpgradeUpgradeCost(int currentLevel, int levels)
         {
             return BigMath.SumGeometricSeries(levels, 5, 1.09f, (currentLevel - 1));
         }

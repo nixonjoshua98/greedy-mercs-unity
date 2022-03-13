@@ -23,7 +23,7 @@ namespace GM.Mercs.UI
         public GM.UI.VStackedButton UpgradeButton;
 
         int _buyAmount;
-        protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, Common.Constants.MAX_MERC_LEVEL);
+        protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
 
         public void Assign(MercID merc, GM.UI.AmountSelector selector)
         {
@@ -74,7 +74,7 @@ namespace GM.Mercs.UI
         {
             BigDouble upgradeCost = App.GMCache.MercUpgradeCost(AssignedMerc, BuyAmount);
 
-            bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > Common.Constants.MAX_MERC_LEVEL;
+            bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > AssignedMerc.MaxLevel;
             bool canAffordUpgrade = App.Inventory.Gold >= upgradeCost;
 
             if (!willExceedMaxLevel && canAffordUpgrade)

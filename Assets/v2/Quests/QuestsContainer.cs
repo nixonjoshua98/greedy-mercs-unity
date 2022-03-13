@@ -5,7 +5,7 @@ using GM.Common.Enums;
 
 namespace GM.Quests
 {
-    public class QuestsDataContainer : GM.Core.GMClass
+    public class QuestsContainer : GM.Core.GMClass
     {
         StaticQuestsModel StaticQuests;
         UserQuestsModel UserQuests;

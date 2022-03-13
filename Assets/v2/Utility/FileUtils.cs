@@ -29,8 +29,8 @@ namespace GM
                 if (!File.Exists(path))
                     return FileStatus.NOT_EXISTS;
 
-                //result = JsonConvert.DeserializeObject<T>(AES.Decrypt(ReadFromFile(path)));
-                result = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+                result = JsonConvert.DeserializeObject<T>(AES.Decrypt(ReadFromFile(path)));
+                //result = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
 
                 if (result == null)
                 {
@@ -52,8 +52,7 @@ namespace GM
         {
             path = ResolvePath(path);
 
-            File.WriteAllText(path, JsonConvert.SerializeObject(model));
-            return;
+            //File.WriteAllText(path, JsonConvert.SerializeObject(model));
 
             string json = JsonConvert.SerializeObject(model);
             string encrypted = AES.Encrypt(json);

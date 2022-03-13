@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GM.Mercs
 {
-    public class StaticMercsDataResponse
+    public class StaticMercsModel
     {
         public List<MercPassive> Passives;
         public List<StaticMercData> Mercs;

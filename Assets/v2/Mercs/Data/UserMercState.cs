@@ -11,9 +11,6 @@ namespace GM.Mercs.Data
         [JsonProperty]
         public int Level = 1;
 
-        [JsonIgnore]
-        public bool InSquad { get => App.PersistantLocalFile.SquadMercIDs.Contains(ID); }
-
         [JsonProperty]
         public float CurrentSpawnEnergy = 0.0f;
 

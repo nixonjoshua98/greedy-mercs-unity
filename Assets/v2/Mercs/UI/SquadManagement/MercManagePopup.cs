@@ -20,7 +20,7 @@ namespace GM.Mercs.UI
         // Scene
         MercSquadController MercSquad;
 
-        public bool SquadFull => SquadMercs.Count >= GM.Common.Constants.MAX_SQUAD_SIZE;
+        public bool SquadFull => SquadMercs.Count >= App.Mercs.MaxSquadSize;
 
         Dictionary<MercID, MercManageSlot> Slots = new Dictionary<MercID, MercManageSlot>();
         List<MercManageIcon> Icons = new List<MercManageIcon>();
@@ -67,7 +67,7 @@ namespace GM.Mercs.UI
 
         void CreateIcons()
         {
-            for (int i = 0; i < GM.Common.Constants.MAX_SQUAD_SIZE; ++i)
+            for (int i = 0; i < App.Mercs.MaxSquadSize; ++i)
             {
                 MercManageIcon slot = Instantiate<MercManageIcon>(ManageMercIconObject, SquadIconsParent);
 

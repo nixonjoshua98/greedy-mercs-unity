@@ -1,4 +1,5 @@
 using GM.Common.Enums;
+using GM.GoldUpgrades;
 using GM.HTTP;
 using GM.LocalFiles;
 using GM.Models;
@@ -12,9 +13,9 @@ namespace GM.Core
         public static GMApplication Instance { get; private set; }
 
         // Data Containers
-        public GM.Quests.QuestsDataContainer Quests         = new();
-        public GM.Mercs.Data.MercsData Mercs                = new();
-        public GM.Upgrades.Data.PlayerUpgrades Upgrades     = new();
+        public GM.Quests.QuestsContainer Quests             = new();
+        public GM.Mercs.Data.MercDataContainer Mercs                = new();
+        public GoldUpgradesContainer GoldUpgrades               = new();
         public GM.CurrencyItems.Data.ItemsData Items        = new();
         public GM.Inventory.Data.UserInventory Inventory    = new();
         public GM.Artefacts.Data.ArtefactsData Artefacts    = new();
@@ -65,7 +66,7 @@ namespace GM.Core
 
             BountyShop.Set(userData.BountyShop);
             Quests.Set(staticData.Quests, userData.Quests);
-            Mercs.Set(userData, staticData, stateFile);
+            Mercs.Set(userData.UnlockedMercs, staticData.Mercs, stateFile);
             Armoury.Set(userData.ArmouryItems, staticData.Armoury);
             Bounties.Set(userData.BountyData, staticData.Bounties);
             Inventory.Set(userData.CurrencyItems);
@@ -88,7 +89,7 @@ namespace GM.Core
 
             Mercs.DeleteLocalStateData();
 
-            Upgrades.DeleteLocalStateData();
+            GoldUpgrades.DeleteLocalStateData();
             Inventory.DeleteLocalStateData();
         }
 

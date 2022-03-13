@@ -16,7 +16,7 @@ def get_unlocked_mercs_repo(request: ServerRequest) -> UnlockedMercsRepository:
 
 class Fields:
     user_id = "userId"
-    merc_id = "unitId"
+    merc_id = "mercId"
     unlocked_at = "unlockedAt"
 
 

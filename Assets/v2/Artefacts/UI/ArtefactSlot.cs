@@ -61,14 +61,12 @@ namespace GM.Artefacts.UI
 
         void UpdateUI()
         {
-            BigInteger ugradeCost;
+            BigInteger ugradeCost = AssignedArtefact.UpgradeCost(BuyAmount);
 
             UpgradeButton.SetText("MAX LEVEL", "");
 
             if (!AssignedArtefact.IsMaxLevel)
             {
-                ugradeCost = App.GMCache.ArtefactUpgradeCost(AssignedArtefact, BuyAmount);
-
                 UpgradeButton.SetText($"x{BuyAmount}", Format.Number(ugradeCost));
             }
 

@@ -1,8 +1,9 @@
 from fastapi import HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 
-from src.handlers.abc import HandlerException
+from src.exceptions import HandlerException
 from src.loggers import logger
+from src.pymodels import BaseModel
 from src.request import ServerRequest
 from src.response import ServerResponse
 
@@ -20,6 +21,6 @@ async def handle_validation_exception(_request: Request, exc: RequestValidationE
 
 
 async def handle_handler_exception(_request: Request, exc: HandlerException):
-    logger.debug(exc.message)
+    logger.debug(exc.detail)
 
-    return ServerResponse({"code": exc.status_code, "error": exc.message}, status_code=exc.status_code)
+    return ServerResponse({"code": exc.status_code, "error": exc.detail}, status_code=exc.status_code)

@@ -1,4 +1,4 @@
-import dataclasses
+
 import datetime as dt
 import math
 
@@ -7,23 +7,23 @@ from fastapi import Depends
 from src import utils
 from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_bounties
-from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
+from src.exceptions import HandlerException
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
                                 get_bounties_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
+from src.pymodels import BaseModel
 from src.static_models.bounties import StaticBounties
 
 
-@dataclasses.dataclass()
-class BountyClaimResponse(BaseResponse):
+class BountyClaimResponse(BaseModel):
     claim_time: dt.datetime
     claim_amount: int
     currencies: CurrenciesModel
 
 
-class ClaimBountiesHandler(BaseHandler):
+class ClaimBountiesHandler:
     def __init__(
         self,
         bounties_data: StaticBounties = Depends(get_static_bounties),

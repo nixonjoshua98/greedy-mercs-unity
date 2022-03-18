@@ -1,22 +1,22 @@
-import dataclasses
+
 
 from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_bounties
-from src.handlers.abc import BaseHandler, HandlerException
+from src.exceptions import HandlerException
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
                                 get_bounties_repository)
 from src.mongo.currency import CurrencyRepository, get_currency_repository
+from src.pymodels import BaseModel
 from src.static_models.bounties import StaticBounties
 
 
-@dataclasses.dataclass()
-class UpdateBountiesResponse:
+class UpdateBountiesResponse(BaseModel):
     bounties: UserBountiesDataModel
 
 
-class UpdateBountiesHandler(BaseHandler):
+class UpdateBountiesHandler:
     def __init__(
         self,
         # Static Data #

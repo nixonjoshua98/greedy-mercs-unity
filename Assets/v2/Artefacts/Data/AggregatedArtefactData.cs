@@ -1,6 +1,7 @@
 using GM.Artefacts.Models;
 using UnityEngine;
 using BonusType = GM.Common.Enums.BonusType;
+using System.Numerics;
 
 namespace GM.Artefacts.Data
 {
@@ -30,6 +31,7 @@ namespace GM.Artefacts.Data
         public float CostExpo => Game.CostExpo;
         public float CostCoeff => Game.CostCoeff;
         public BigDouble Effect => App.GMCache.ArtefactEffect(this);
-        public bool IsMaxLevel => User.Level >= Game.MaxLevel;
+        public bool IsMaxLevel => CurrentLevel >= Game.MaxLevel;
+        public BigInteger UpgradeCost(int levels) => App.GMCache.ArtefactUpgradeCost(this, levels);
     }
 }

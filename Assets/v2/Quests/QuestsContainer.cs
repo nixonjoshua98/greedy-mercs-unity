@@ -57,7 +57,7 @@ namespace GM.Quests
 
         public void SendCompleteMercQuest(AggregatedUserMercQuest quest, Action<bool> callback)
         {
-            App.HTTP.CompleteMercRequest(quest.ID, (resp) =>
+            App.HTTP.CompleteMercQuest(quest.ID, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

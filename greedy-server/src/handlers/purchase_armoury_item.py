@@ -1,17 +1,18 @@
-import dataclasses
+
 import datetime as dt
 
 from bson import ObjectId
 from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
-from src.handlers.abc import HandlerException
+from src.exceptions import HandlerException
 from src.mongo.armoury import (ArmouryItemModel, ArmouryRepository,
                                get_armoury_repository)
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyRepoFields
 from src.mongo.currency import get_currency_repository
+from src.pymodels import BaseModel
 from src.static_models.bountyshop import (BountyShopArmouryItem,
                                           DynamicBountyShop,
                                           dynamic_bounty_shop)
@@ -19,8 +20,7 @@ from src.static_models.bountyshop import (BountyShopArmouryItem,
 from .basepurchasehandler import BaseBountyShopPurchaseHandler
 
 
-@dataclasses.dataclass()
-class PurchaseArmouryItemResponse:
+class PurchaseArmouryItemResponse(BaseModel):
     currencies: CurrenciesModel
     purchase_cost: int
     item: ArmouryItemModel

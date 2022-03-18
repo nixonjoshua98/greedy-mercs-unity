@@ -1,4 +1,4 @@
-import dataclasses
+
 from typing import Optional
 
 from fastapi import Depends
@@ -7,7 +7,7 @@ from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common import formulas
 from src.common.types import BonusType
 from src.dependencies import get_static_artefacts_dict, get_static_bounties
-from src.handlers.abc import BaseHandler, BaseResponse
+from src.exceptions import HandlerException
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
@@ -15,18 +15,18 @@ from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
 from src.mongo.currency import CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
+from src.pymodels import BaseModel
 from src.request_models import PrestigeData
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties
 
 
-@dataclasses.dataclass()
-class PrestigeResponse(BaseResponse):
+class PrestigeResponse(BaseModel):
     prestige_points: int
     unlocked_bounties: list[int]
 
 
-class PrestigeHandler(BaseHandler):
+class PrestigeHandler:
     def __init__(
         self,
         ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),

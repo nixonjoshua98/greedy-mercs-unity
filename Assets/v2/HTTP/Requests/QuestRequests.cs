@@ -4,7 +4,6 @@ namespace GM.HTTP.Requests
 {
     public class CompleteQuestRequest : IServerRequest
     {
-        public QuestType QuestType;
         public int QuestID;
     }
 

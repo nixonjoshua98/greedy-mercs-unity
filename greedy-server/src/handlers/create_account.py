@@ -1,26 +1,25 @@
-import dataclasses
+
 
 import multipledispatch as md
 from bson import ObjectId
 from fastapi import Depends
 
-from src.handlers.abc import BaseHandler, BaseResponse
+from src.exceptions import HandlerException
 from src.mongo.accounts import (AccountModel, AccountsRepository,
                                 accounts_repository)
+from src.pymodels import BaseModel
 from src.request_models import LoginData
 
 
-@dataclasses.dataclass()
 class AccountCreationRequest:
     device_id: str
 
 
-@dataclasses.dataclass()
-class AccountCreationResponse(BaseResponse):
+class AccountCreationResponse(BaseModel):
     user_id: ObjectId
 
 
-class CreateAccountHandler(BaseHandler):
+class CreateAccountHandler:
     def __init__(self, acc_repo: AccountsRepository = Depends(accounts_repository)):
         self.accounts_repo: AccountsRepository = acc_repo
 

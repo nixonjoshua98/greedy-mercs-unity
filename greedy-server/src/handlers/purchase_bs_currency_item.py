@@ -1,4 +1,4 @@
-import dataclasses
+
 import datetime as dt
 from typing import Optional
 
@@ -7,11 +7,12 @@ from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common.types import CurrencyType
-from src.handlers.abc import HandlerException
+from src.exceptions import HandlerException
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyRepoFields
 from src.mongo.currency import get_currency_repository
+from src.pymodels import BaseModel
 from src.static_models.bountyshop import (BountyShopCurrencyItem,
                                           DynamicBountyShop,
                                           dynamic_bounty_shop)
@@ -19,8 +20,7 @@ from src.static_models.bountyshop import (BountyShopCurrencyItem,
 from .basepurchasehandler import BaseBountyShopPurchaseHandler
 
 
-@dataclasses.dataclass()
-class PurchaseCurrencyResponse:
+class PurchaseCurrencyResponse(BaseModel):
     currencies: CurrenciesModel
     purchase_cost: int
     currency_gained: int

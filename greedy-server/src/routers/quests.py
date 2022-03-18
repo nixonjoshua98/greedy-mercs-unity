@@ -2,8 +2,7 @@ from fastapi import Depends
 
 from src.auth.handler import (AuthenticatedRequestContext,
                               get_authenticated_context)
-from src.common.types import QuestID, QuestType
-from src.exceptions import ServerException
+from src.common.types import QuestID
 from src.handlers.quests import CompleteMercQuestHandler
 from src.pymodels import BaseModel
 from src.response import ServerResponse
@@ -13,22 +12,16 @@ router = APIRouter(prefix="/api/quests")
 
 
 class QuestCompleteModel(BaseModel):
-    quest_type: QuestType
     quest_id: QuestID
 
 
-@router.post("/complete")
-async def complete(
+@router.post("/merc/complete")
+async def complete_merc_quest(
     model: QuestCompleteModel,
     ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
-    # Quest Handlers #
-    _merc_handler: CompleteMercQuestHandler = Depends(),
+    _handler: CompleteMercQuestHandler = Depends(),
 ):
-    if model.quest_type == QuestType.MERC_QUEST:
-        resp = await _merc_handler.handle(ctx.user_id, ctx.datetime, model.quest_id)
-
-    else:
-        raise ServerException(400)
+    resp = await _handler.handle(ctx.user_id, ctx.datetime, model.quest_id)
 
     return ServerResponse(resp)
 

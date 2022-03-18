@@ -1,5 +1,4 @@
 using GM.Artefacts.Models;
-using GM.Common.Enums;
 using GM.HTTP.Requests;
 using Newtonsoft.Json;
 using System;
@@ -16,7 +15,7 @@ namespace GM.HTTP
         void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback);
         void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback);
         void ClaimBounties(Action<BountyClaimResponse> callback);
-        void CompleteMercRequest(int questId, Action<CompleteMercQuestResponse> action);
+        void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
         void Login(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
@@ -36,10 +35,11 @@ namespace GM.HTTP
 
         string Authentication = null;
 
-        public void CompleteMercRequest(int questId, Action<CompleteMercQuestResponse> action)
+        public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
         {
-            CompleteQuestRequest req = new() { QuestType = QuestType.Merc, QuestID = questId };
-            SendRequest("POST", "quests/complete", req, encrypt: false, action);
+            var req = new CompleteQuestRequest() { QuestID = questId };
+
+            SendRequest("POST", "quests/merc/complete", req, encrypt: false, action);
         }
 
         public void FetchStaticData(Action<FetchGameDataResponse> callback)

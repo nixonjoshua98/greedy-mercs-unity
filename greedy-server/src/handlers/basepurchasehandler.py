@@ -2,12 +2,13 @@ import datetime as dt
 
 from bson import ObjectId
 
-from src.handlers.abc import BaseHandler
+from src.exceptions import HandlerException
 from src.mongo.bountyshop import BountyShopRepository
+from src.pymodels import BaseModel
 from src.static_models.bountyshop.models import PurchasableBountyShopItem
 
 
-class BaseBountyShopPurchaseHandler(BaseHandler):
+class BaseBountyShopPurchaseHandler:
     shop_repo: BountyShopRepository
     prev_reset: dt.datetime
 

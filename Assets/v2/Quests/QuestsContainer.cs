@@ -1,5 +1,4 @@
-﻿using GM.Common.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,19 +20,6 @@ namespace GM.Quests
         public int NumQuestsReadyToClaim => NumMercQuestsReadyToComplete;
 
         public int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
-
-        void SetQuestComplete(QuestType questType, int questId)
-        {
-            switch (questType)
-            {
-                case QuestType.Merc:
-                    UserQuests.CompletedMercQuests.Add(questId);
-                    break;
-
-                default:
-                    throw new Exception();
-            }
-        }
 
         public List<AggregatedUserMercQuest> MercQuests
         {
@@ -61,7 +47,7 @@ namespace GM.Quests
             {
                 if (resp.StatusCode == 200)
                 {
-                    SetQuestComplete(QuestType.Merc, quest.ID);
+                    UserQuests.CompletedMercQuests.Add(quest.ID);
 
                     App.Mercs.AddNewUnlockedMerc(resp.UnlockedMerc);
                 }

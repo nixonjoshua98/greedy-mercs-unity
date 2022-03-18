@@ -48,15 +48,17 @@ class UnlockArtefactHandler:
 
         new_art_id = self.get_new_artefact(u_artefacts)
 
-        currencies: CurrenciesModel = await self._currencies.incr(
-            user.user_id, CurrencyFields.prestige_points, -unlock_cost
+        currencies: CurrenciesModel = await self._currencies.decr(
+            user.user_id, CurrencyFields.prestige_points, unlock_cost
         )
 
-        u_new_artefact: ArtefactModel = await self._artefacts.add_new_artefact(
-            user.user_id, new_art_id
-        )
+        u_new_artefact: ArtefactModel = await self._artefacts.add_new_artefact(user.user_id, new_art_id)
 
-        return UnlockArtefactResponse(u_new_artefact, currencies, unlock_cost)
+        return UnlockArtefactResponse(
+            artefact=u_new_artefact,
+            currencies=currencies,
+            unlock_cost=unlock_cost
+        )
 
     def unlocked_all_artefacts(self, u_artefacts: list[ArtefactModel]) -> bool:
         return len(u_artefacts) >= len(self.artefacts_data)

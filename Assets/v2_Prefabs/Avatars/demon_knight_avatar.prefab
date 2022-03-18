@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 9074879715128293675}
   - component: {fileID: 8918899929678941075}
   m_Layer: 0
-  m_Name: DemonKnightAvatar
+  m_Name: demon_knight_avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

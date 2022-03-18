@@ -17,7 +17,6 @@ namespace GM.Artefacts.Data
             Id = artefactId;
         }
 
-        // Can be used to pre-upgrade an artefact before the server replies
         public int LocalLevelChange = 0;
 
         public int CurrentLevel => User.Level + LocalLevelChange;

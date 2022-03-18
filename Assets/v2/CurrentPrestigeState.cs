@@ -2,7 +2,7 @@
 
 namespace GM
 {
-    public class CurrentPrestigeState : ILocalStateFileSerializer
+    public class CurrentPrestigeState
     {
         public readonly int EnemiesPerStage = 3;
 
@@ -10,11 +10,6 @@ namespace GM
         public int EnemiesDefeated = 0;
 
         public int EnemiesRemaining => Math.Max(0, EnemiesPerStage - EnemiesDefeated);
-
-        public static CurrentPrestigeState Deserialize(LocalStateFile model)
-        {
-            return model.GameState;
-        }
 
         public void UpdateLocalSaveFile(ref LocalStateFile model)
         {

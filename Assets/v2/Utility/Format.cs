@@ -6,9 +6,9 @@ namespace GM
 {
     public static class Format
     {
-        public static readonly Dictionary<int, string> UnitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
+        static readonly Dictionary<int, string> UnitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
 
-        static Common.TTLCache FormatCache = new Common.TTLCache();
+        static Common.TTLCache FormatCache = new();
 
         public static string Percentage(BigDouble val, int dp = 2) => $"{Number(val * 100, dp)}%";
 

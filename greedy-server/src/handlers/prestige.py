@@ -9,12 +9,12 @@ from src.common.types import BonusType
 from src.dependencies import get_static_artefacts_dict, get_static_bounties
 from src.handlers.abc import BaseHandler, BaseResponse
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
-                                 artefacts_repository)
+                                 get_artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
-                                bounties_repository)
+                                get_bounties_repository)
 from src.mongo.currency import CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
-from src.mongo.currency import currency_repository
+from src.mongo.currency import get_currency_repository
 from src.request_models import PrestigeData
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties
@@ -34,9 +34,9 @@ class PrestigeHandler(BaseHandler):
         s_artefacts=Depends(get_static_artefacts_dict),
         s_bounties=Depends(get_static_bounties),
         # Repositories
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
-        currency_repo: CurrencyRepository = Depends(currency_repository),
-        bounties_repo: BountiesRepository = Depends(bounties_repository)
+        artefacts_repo: ArtefactsRepository = Depends(get_artefacts_repository),
+        currency_repo: CurrencyRepository = Depends(get_currency_repository),
+        bounties_repo: BountiesRepository = Depends(get_bounties_repository)
     ):
         self.ctx = ctx
 
@@ -64,7 +64,7 @@ class PrestigeHandler(BaseHandler):
         if new_bounties:
             await self.bounties_repo.insert_new_bounties(self.ctx.user_id, new_bounties)
 
-        await self.currency_repo.inc_value(self.ctx.user_id, CurrencyFields.PRESTIGE_POINTS, points)
+        await self.currency_repo.incr(self.ctx.user_id, CurrencyFields.prestige_points, points)
 
         return PrestigeResponse(
             prestige_points=points,

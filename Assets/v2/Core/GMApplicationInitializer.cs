@@ -32,9 +32,6 @@ namespace GM.Core
                     case HTTPCodes.Success:
                         FetchGameDataFromServer();
                         break;
-
-                    case HTTPCodes.NoServerResponse:
-                        break;
                 }
             });
         }
@@ -44,7 +41,7 @@ namespace GM.Core
         {
             HTTPClient.Instance.FetchStaticData((resp) =>
             {
-                Data.StaticData = resp.StaticData;
+                Data.StaticData = resp;
 
                 switch (resp.StatusCode)
                 {

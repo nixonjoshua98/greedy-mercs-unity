@@ -6,8 +6,8 @@ from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_bounties
 from src.handlers.abc import BaseHandler, HandlerException
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
-                                bounties_repository)
-from src.mongo.currency import CurrencyRepository, currency_repository
+                                get_bounties_repository)
+from src.mongo.currency import CurrencyRepository, get_currency_repository
 from src.static_models.bounties import StaticBounties
 
 
@@ -22,8 +22,8 @@ class UpdateBountiesHandler(BaseHandler):
         # Static Data #
         static_bounties=Depends(get_static_bounties),
         # Repositories #
-        bounties_repo: BountiesRepository = Depends(bounties_repository),
-        currency_repo: CurrencyRepository = Depends(currency_repository),
+        bounties_repo: BountiesRepository = Depends(get_bounties_repository),
+        currency_repo: CurrencyRepository = Depends(get_currency_repository),
     ):
         self.bounties_data: StaticBounties = static_bounties
         self.bounties_repo = bounties_repo

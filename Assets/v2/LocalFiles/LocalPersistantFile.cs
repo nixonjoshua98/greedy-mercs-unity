@@ -9,8 +9,7 @@ namespace GM.LocalFiles
         const string FilePath = "PersistantLocalFile";
 
         // Serialized Fields
-        [JsonProperty]
-        public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
+        [JsonProperty] public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
         // ...
 
         /// <summary>

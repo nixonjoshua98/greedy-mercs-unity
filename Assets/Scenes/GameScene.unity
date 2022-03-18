@@ -2517,7 +2517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8867924, g: 0.75588965, b: 0.33045566, a: 1}
+  m_Color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2760,7 +2760,7 @@ MonoBehaviour:
   InitiallySelected: 0
   Background: {fileID: 925970507}
   Colours:
-    Selected: {r: 0.078431375, g: 0.3137255, b: 0.5019608, a: 1}
+    Selected: {r: 0.84705883, g: 0.5019608, b: 0, a: 1}
     Unselected: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   OnSelected:
     m_PersistentCalls:
@@ -3166,6 +3166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestsPopupObject: {fileID: 2718779818251557578, guid: e3899ae976c1ea64490c5f8b8178cb71,
     type: 3}
+  UpgradeAmountSelector: {fileID: 581473470}
+  TapUpgradeSlot: {fileID: 1686580475}
 --- !u!1 &485130410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3290,7 +3292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8584906, g: 0.39464453, b: 0.125534, a: 1}
+  m_Color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3785,6 +3787,41 @@ PrefabInstance:
       propertyPath: ButtonsGroup
       value: 
       objectReference: {fileID: 581473469}
+    - target: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+        type: 3}
+      propertyPath: E_OnChange.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+        type: 3}
+      propertyPath: E_OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+        type: 3}
+      propertyPath: E_OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1686580475}
+    - target: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+        type: 3}
+      propertyPath: E_OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+        type: 3}
+      propertyPath: E_OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AmountSelector_ValueChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+        type: 3}
+      propertyPath: E_OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GM.GoldUpgrades.UI.TapDamageGoldUpgradeSlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+        type: 3}
+      propertyPath: E_OnChange.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 659503263704893189, guid: 7527dd77c19074243a8ab38710509b7a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3843,6 +3880,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &581473470 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 659503263417451539, guid: 7527dd77c19074243a8ab38710509b7a,
+    type: 3}
+  m_PrefabInstance: {fileID: 581473467}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ba6a6e0b458ca4a833cd7cc8296cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &605796774
@@ -8848,7 +8897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.13318795, g: 0.6886792, b: 0.3555331, a: 1}
+  m_Color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9017,7 +9066,7 @@ MonoBehaviour:
   InitiallySelected: 1
   Background: {fileID: 1623862372}
   Colours:
-    Selected: {r: 0.36862746, g: 0, b: 0, a: 1}
+    Selected: {r: 0.84705883, g: 0.5019608, b: 0, a: 1}
     Unselected: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   OnSelected:
     m_PersistentCalls:
@@ -9492,7 +9541,7 @@ MonoBehaviour:
   InitiallySelected: 0
   Background: {fileID: 1935395246}
   Colours:
-    Selected: {r: 0.36862746, g: 0.2509804, b: 0.1254902, a: 1}
+    Selected: {r: 0.84705883, g: 0.5019608, b: 0, a: 1}
     Unselected: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   OnSelected:
     m_PersistentCalls:
@@ -10055,7 +10104,7 @@ MonoBehaviour:
   InitiallySelected: 0
   Background: {fileID: 1188228947}
   Colours:
-    Selected: {r: 0.6431373, g: 0.2509804, b: 0.1254902, a: 1}
+    Selected: {r: 0.84705883, g: 0.5019608, b: 0, a: 1}
     Unselected: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   OnSelected:
     m_PersistentCalls:
@@ -10855,7 +10904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.18405126, g: 0.8301887, b: 0.8301887, a: 1}
+  m_Color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11682,6 +11731,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1686580473}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1686580475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5418274092731494435, guid: e7a49f8dab3c69442b139d05e4aaadfc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1686580473}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c67a1b35811bc4384a34761fe4665d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1706829176
 GameObject:
   m_ObjectHideFlags: 0
@@ -13437,7 +13498,7 @@ MonoBehaviour:
   InitiallySelected: 0
   Background: {fileID: 1201499073}
   Colours:
-    Selected: {r: 0.078431375, g: 0.43137255, b: 0.078431375, a: 1}
+    Selected: {r: 0.84705883, g: 0.5019608, b: 0, a: 1}
     Unselected: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   OnSelected:
     m_PersistentCalls:
@@ -14686,7 +14747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8679245, g: 0.058878876, b: 0.045033824, a: 1}
+  m_Color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

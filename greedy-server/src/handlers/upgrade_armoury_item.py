@@ -7,10 +7,10 @@ from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_armoury
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.armoury import (ArmouryItemModel, ArmouryRepository,
-                               armoury_repository)
+                               get_armoury_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
-from src.mongo.currency import currency_repository
+from src.mongo.currency import get_currency_repository
 from src.static_models.armoury import ArmouryItemID, StaticArmouryItem
 
 
@@ -25,8 +25,8 @@ class UpgradeArmouryItemHandler(BaseHandler):
     def __init__(
         self,
         static_data=Depends(get_static_armoury),
-        armoury_repo=Depends(armoury_repository),
-        currency_repo=Depends(currency_repository),
+        armoury_repo=Depends(get_armoury_repository),
+        currency_repo=Depends(get_currency_repository),
     ):
         self.static_data: list[StaticArmouryItem]= static_data
 
@@ -53,8 +53,8 @@ class UpgradeArmouryItemHandler(BaseHandler):
             raise HandlerException(400, "Cannot afford upgrade cost")
 
         # Deduct the upgrade cost and return all user items AFTER the update
-        u_currencies = await self.currency_repo.inc_value(
-            user.user_id, CurrencyFields.ARMOURY_POINTS, -upgrade_cost
+        u_currencies = await self.currency_repo.incr(
+            user.user_id, CurrencyFields.armoury_points, -upgrade_cost
         )
 
         # Update the requested item here

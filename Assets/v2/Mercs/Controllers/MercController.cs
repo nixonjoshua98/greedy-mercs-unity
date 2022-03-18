@@ -32,7 +32,6 @@ namespace GM.Mercs.Controllers
 
         // Properties
         bool HasControl => !ActionControllers.Any(x => x.HasControl);
-        public bool HasEnergy => EnergyRemaining > 0 && !IsEnergyDepleted;
 
         // ...
         public GM.Mercs.Data.AggregatedMercData MercDataValues => App.Mercs.GetMerc(Id);
@@ -58,10 +57,6 @@ namespace GM.Mercs.Controllers
             if (!IsEnergyDepleted)
             {
                 UpdateMercWithEnergy();
-            }
-            else
-            {
-
             }
         }
 
@@ -164,7 +159,7 @@ namespace GM.Mercs.Controllers
             Vector3 originalScale = transform.localScale;
 
             // Scale down the unit eventually to zero
-            Enumerators.Lerp01(this, 3, (value) => { transform.localScale = originalScale * (1 - value); });
+            Enumerators.Lerp01(this, 3, (value) => { transform.localScale = originalScale * (1 - (value * 0.5f)); });
 
             // Move down slightly
             yield return Movement.MoveTowardsEnumerator(transform.position - new Vector3(0, 1.5f));
@@ -187,7 +182,17 @@ namespace GM.Mercs.Controllers
 
                     SquadController.RemoveFromQueue(this);
 
-                    StartCoroutine(EnergyExhaustedAnimation());
+                    for (int i = 0; i < ActionControllers.Count; i++)
+                    {
+                        var action = ActionControllers[i];
+
+                        if (action.HasControl)
+                        {
+                            action.RemoveControl();
+                        }
+                    }
+
+                    Enumerators.InvokeAfter(this, 0.25f, () => StartCoroutine(EnergyExhaustedAnimation()));
                 }
             }
         }

@@ -12,8 +12,7 @@ namespace GM.Mercs.Controllers
         /* Scene Components */
         protected IEnemyUnitQueue EnemyUnits;
 
-        [SerializeField]
-        float CooldownTimer = 1.0f;
+        [SerializeField] protected float CooldownTimer = 1.0f;
 
         protected UnitBaseClass CurrentTarget;
 

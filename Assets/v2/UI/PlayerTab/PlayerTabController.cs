@@ -1,3 +1,4 @@
+using GM.GoldUpgrades.UI;
 using UnityEngine;
 
 namespace GM.UI
@@ -6,6 +7,19 @@ namespace GM.UI
     {
         [Header("Prefabs")]
         [SerializeField] GameObject QuestsPopupObject;
+
+        [Header("References")]
+        [SerializeField] AmountSelector UpgradeAmountSelector;
+        [Space]
+        [SerializeField] TapDamageGoldUpgradeSlot TapUpgradeSlot;
+
+
+        void Start()
+        {
+            UpgradeAmountSelector.E_OnChange.AddListener(TapUpgradeSlot.AmountSelector_ValueChanged);
+
+            UpgradeAmountSelector.InvokeChangeEvent();
+        }
 
         public void OpenQuestsPopup()
         {

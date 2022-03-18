@@ -12,7 +12,7 @@ from src.request import ServerRequest
 from src.static_models.bounties import BountyID
 
 
-def bounties_repository(request: ServerRequest) -> BountiesRepository:
+def get_bounties_repository(request: ServerRequest) -> BountiesRepository:
     return BountiesRepository(request.app.state.mongo)
 
 
@@ -68,9 +68,7 @@ class BountiesRepository:
         requests = [UpdateMany({FieldNames.user_id: uid}, {"$set": {FieldNames.is_active: False}})]
 
         for bounty_id in ids:
-            r = UpdateOne(self._unique_bounty(uid, bounty_id), {"$set": {FieldNames.is_active: True}})
-
-            requests.append(r)
+            requests.append(UpdateOne(self._unique_bounty(uid, bounty_id), {"$set": {FieldNames.is_active: True}}))
 
         await self.bounties.bulk_write(requests)
 
@@ -80,7 +78,9 @@ class BountiesRepository:
     async def _find_metadata(self, uid: ObjectId) -> dict:
         return await self.metadata.find_one_and_update(
             {FieldNames.user_id: uid},
-            {"$setOnInsert": {FieldNames.last_claim_time: dt.datetime.utcnow()}},
+            {"$setOnInsert": {
+                FieldNames.last_claim_time: dt.datetime.utcnow()
+            }},
             return_document=ReturnDocument.AFTER,
             upsert=True,
         )

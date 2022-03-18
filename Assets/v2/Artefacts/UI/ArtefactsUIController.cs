@@ -100,21 +100,21 @@ namespace GM.Artefacts.UI
                 UpdateArtefactSlots();
                 UpdateUnlockArtefactText();
 
-                UpgradeAmountSelector.ReInvoke(); // Force a UI update
+                UpgradeAmountSelector.InvokeChangeEvent(); // Force a UI update
             });
         }
 
 
         void BulkUpgradeController_OnBulkUpgrade(bool success)
         {
-            UpgradeAmountSelector.ReInvoke();
+            UpgradeAmountSelector.InvokeChangeEvent();
         }
 
         void ArtefactSlot_OnUpgradeButton(int artefactId, int levels)
         {
             BulkUpgrades.Add(artefactId, levels);
 
-            UpgradeAmountSelector.ReInvoke();
+            UpgradeAmountSelector.InvokeChangeEvent();
         }
     }
 }

@@ -59,6 +59,7 @@ namespace GM.Mercs.Controllers
         {
             HasControl = true;
             IsAttacking = false;
+
             StartCoroutine(UpdateLoop());
         }
 
@@ -67,6 +68,7 @@ namespace GM.Mercs.Controllers
             if (HasControl)
             {
                 HasControl = false;
+                IsAttacking = false;
                 CurrentTarget = null;
             }
         }
@@ -76,7 +78,10 @@ namespace GM.Mercs.Controllers
             while (HasControl && EnemyUnits.TryGetUnit(ref CurrentTarget))
             {
                 if (!IsAttacking && !IsWithinAttackDistance(CurrentTarget))
+                {
+                    RemoveControl();
                     break;
+                }
 
                 // Start an attack (assuming we can)
                 else if (CanStartAttack(CurrentTarget))
@@ -91,16 +96,14 @@ namespace GM.Mercs.Controllers
 
                 yield return new WaitForEndOfFrame();
             }
-
-            RemoveControl();
         }
 
 
         // == Callbacks == //
         public void Animation_AttackImpact()
         {
-            Controller.DealDamageToTarget(CurrentTarget);
             InstantiateAttackImpactObject();
+            Controller.DealDamageToTarget(CurrentTarget);
         }
 
         public void Animation_AttackFinished()

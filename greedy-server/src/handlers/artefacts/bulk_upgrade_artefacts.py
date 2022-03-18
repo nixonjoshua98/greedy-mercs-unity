@@ -4,10 +4,10 @@ from fastapi import Depends, HTTPException
 from src.common.formulas import calculate_artefact_upgrade_cost
 from src.dependencies import get_static_artefacts_dict
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
-                                 artefacts_repository)
+                                 get_artefacts_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
-from src.mongo.currency import currency_repository
+from src.mongo.currency import get_currency_repository
 from src.pymodels import BaseModel
 from src.request_models import ArtefactUpgradeModel
 from src.static_models.artefacts import ArtefactID, StaticArtefact
@@ -22,8 +22,8 @@ class BulkUpgradeArtefactsResponse(BaseModel):
 class BulkUpgradeArtefactsHandler:
     def __init__(
         self,
-        currencies_repo=Depends(currency_repository),
-        artefacts_repo=Depends(artefacts_repository),
+        currencies_repo=Depends(get_currency_repository),
+        artefacts_repo=Depends(get_artefacts_repository),
         artefacts_data=Depends(get_static_artefacts_dict),
     ):
         self._artefacts_data: dict[ArtefactID, StaticArtefact] = artefacts_data
@@ -53,7 +53,7 @@ class BulkUpgradeArtefactsHandler:
 
         await self._artefacts.bulk_upgrade(uid, {ele.artefact_id: ele.upgrade_levels for ele in to_upgrade})
 
-        user_currencies = await self._currencies.decr(uid, CurrencyFields.PRESTIGE_POINTS, total_cost)
+        user_currencies = await self._currencies.decr(uid, CurrencyFields.prestige_points, total_cost)
         user_artefacts = await self._artefacts.get_user_artefacts(uid)
 
         return BulkUpgradeArtefactsResponse(

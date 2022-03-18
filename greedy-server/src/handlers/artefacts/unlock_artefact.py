@@ -8,10 +8,10 @@ from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_artefacts_dict
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
-                                 artefacts_repository)
+                                 get_artefacts_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
-from src.mongo.currency import currency_repository
+from src.mongo.currency import get_currency_repository
 from src.static_models.artefacts import StaticArtefact
 
 
@@ -26,8 +26,8 @@ class UnlockArtefactHandler(BaseHandler):
     def __init__(
         self,
         artefacts_data=Depends(get_static_artefacts_dict),
-        artefacts_repo: ArtefactsRepository = Depends(artefacts_repository),
-        currency_repo: CurrencyRepository = Depends(currency_repository),
+        artefacts_repo: ArtefactsRepository = Depends(get_artefacts_repository),
+        currency_repo: CurrencyRepository = Depends(get_currency_repository),
     ):
         self.artefacts_data: dict[int, StaticArtefact] = artefacts_data
         self.artefacts_repo = artefacts_repo
@@ -48,8 +48,8 @@ class UnlockArtefactHandler(BaseHandler):
 
         new_art_id = self.get_new_artefact(u_artefacts)
 
-        currencies: CurrenciesModel = await self.currency_repo.inc_value(
-            user.user_id, CurrencyFields.PRESTIGE_POINTS, -unlock_cost
+        currencies: CurrenciesModel = await self.currency_repo.incr(
+            user.user_id, CurrencyFields.prestige_points, -unlock_cost
         )
 
         u_new_artefact: ArtefactModel = await self.artefacts_repo.add_new_artefact(

@@ -612,6 +612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelText: {fileID: 8422179402188945537}
   DamageText: {fileID: 8422179402188946192}
+  UpgradeButton: {fileID: 385092758210636074}
 --- !u!222 &8422179402188947215
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1371,6 +1372,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7354b49bc7b5fc448886453e7b76daa3, type: 3}
+--- !u!114 &385092758210636074 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8489018742281765473, guid: 7354b49bc7b5fc448886453e7b76daa3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8112973332769336139}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beaf94e66ad57ad48bbf8808d7aee747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &884534108496427028 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8994090150515151711, guid: 7354b49bc7b5fc448886453e7b76daa3,

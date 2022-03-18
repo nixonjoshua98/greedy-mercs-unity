@@ -42,9 +42,15 @@ namespace GM.HTTP
             SendRequest("POST", "quests/complete", req, encrypt: false, action);
         }
 
-        public void FetchStaticData(Action<FetchGameDataResponse> callback) => SendRequest("GET", "static", ServerRequest.Empty, false, callback);
+        public void FetchStaticData(Action<FetchGameDataResponse> callback)
+        {
+            SendRequest("GET", "static", ServerRequest.Empty, false, callback);
+        }
 
-        public void UnlockArtefact(Action<UnlockArtefactResponse> callback) => SendRequest("GET", "artefact/unlock", ServerRequest.Empty, false, callback);
+        public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
+        {
+            SendRequest("GET", "artefact/unlock", ServerRequest.Empty, false, callback);
+        }
 
         public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback)
         {
@@ -60,7 +66,10 @@ namespace GM.HTTP
             SendRequest("POST", "armoury/upgrade", req, false, callback);
         }
 
-        public void ClaimBounties(Action<BountyClaimResponse> callback) => SendRequest("GET", "bounty/claim", ServerRequest.Empty, false, callback);
+        public void ClaimBounties(Action<BountyClaimResponse> callback)
+        {
+            SendRequest("GET", "bounty/claim", ServerRequest.Empty, false, callback);
+        }
 
         public void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback)
         {
@@ -86,7 +95,10 @@ namespace GM.HTTP
             });
         }
 
-        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback) => SendRequest("POST", "prestige", request, false, callback);
+        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
+        {
+            SendRequest("POST", "prestige", request, false, callback);
+        }
 
         public void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback)
         {
@@ -163,12 +175,16 @@ namespace GM.HTTP
 
                 if (model == null)
                 {
+                    GMLogger.WhenNull(model, "Failed to deserialize server response");
+
                     model = new T() { ErrorMessage = "Failed to deserialize server response" };
                 }
 
             }
             catch (Exception e)
             {
+                GMLogger.Exception("Failed to parse response", e);
+
                 model = new T() { ErrorMessage = e.Message };
             }
 
@@ -191,11 +207,11 @@ namespace GM.HTTP
             {
                 case HTTPCodes.InvalidiateClient:
                     Response_InvalidateClient();
-                    return;
+                    break;
 
                 case HTTPCodes.Unauthorized:
                     Response_Unauthorized();
-                    return;
+                    break;
             }
 
             TResponse resp = DeserializeResponse<TResponse>(www, isEncrypted);

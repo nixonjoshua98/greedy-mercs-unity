@@ -27,5 +27,5 @@ async def index(
         "prestigePoints": resp.prestige_points,
         "unlockedBounties": resp.unlocked_bounties,
         "userData": u_data_resp.data,
-        "staticData": s_data_resp.data
+        "staticData": s_data_resp
     })

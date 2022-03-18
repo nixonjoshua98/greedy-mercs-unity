@@ -1,6 +1,5 @@
 using GM.HTTP;
 using GM.HTTP.Requests;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GM.Managers
@@ -35,12 +34,10 @@ namespace GM.Managers
             App.SaveManager.DeleteLocalFile();
         }
 
-        void OnPrestigeFailed(PrestigeResponse resp)
+        void OnPrestigeFailed()
         {
             App.SaveManager.Paused = false;
             App.SaveManager.Save();
-
-            Debug.Log("Prestige failed");
         }
 
         void OnPrestigeSuccess(PrestigeResponse resp)
@@ -51,7 +48,7 @@ namespace GM.Managers
 
             App.SaveManager.Save();
 
-            SceneManager.LoadSceneAsync("GameScene");
+            SceneManager.LoadScene("GameScene");
         }
 
         // = Server Callbacks = //
@@ -64,7 +61,7 @@ namespace GM.Managers
             }
             else
             {
-                OnPrestigeFailed(resp);
+                OnPrestigeFailed();
             }
         }
 

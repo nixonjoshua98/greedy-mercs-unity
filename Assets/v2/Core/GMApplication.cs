@@ -26,8 +26,8 @@ namespace GM.Core
 
         public DateTime NextDailyReset;
 
-        public GMCache GMCache = new GMCache();
-        public EventHandler Events = new EventHandler();
+        public GMCache GMCache = new();
+        public EventHandler Events = new();
 
         public LocalSaveManager SaveManager;
         public LocalPersistantFile PersistantLocalFile;
@@ -52,17 +52,11 @@ namespace GM.Core
             return Instance;
         }
 
-        public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData)
-        {
-            UpdateDataContainers(userData, staticData, null);
-            DeleteLocalStateData();
-        }
-
-        public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile)
+        public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
         {
             NextDailyReset = staticData.NextDailyReset;
 
-            GameState = CurrentPrestigeState.Deserialize(stateFile);
+            GameState = stateFile == null ? new() : stateFile.GameState;
 
             BountyShop.Set(userData.BountyShop);
             Quests.Set(staticData.Quests, userData.Quests);
@@ -75,7 +69,7 @@ namespace GM.Core
 
         public LocalStateFile CreateLocalStateFile()
         {
-            LocalStateFile savefile = new LocalStateFile();
+            LocalStateFile savefile = new();
 
             GameState.UpdateLocalSaveFile(ref savefile);
             Mercs.UpdateLocalSaveFile(ref savefile);

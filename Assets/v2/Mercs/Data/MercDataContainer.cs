@@ -40,7 +40,6 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Perform some checks on the persistant file to avoid invalid data
         /// </summary>
-        /// <param name="file"></param>
         void UpdatePersistantLocalFile(LocalPersistantFile file)
         {
             file.SquadMercIDs.RemoveWhere(id => !UserMercs.ContainsKey(id));
@@ -52,7 +51,6 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Update the merc states (level etc.) from the local save file
         /// </summary>
-        /// <param name="model"></param>
         void SetStatesFromSaveFile(LocalStateFile model)
         {
             foreach (var merc in model.Mercs)
@@ -88,7 +86,6 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Temp
         /// </summary>
-        /// <param name="model"></param>
         public void UpdateLocalSaveFile(ref LocalStateFile model)
         {
             model.Mercs = UserMercs.Values.ToList();

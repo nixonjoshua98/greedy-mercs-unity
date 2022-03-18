@@ -46,7 +46,7 @@ namespace GM.UI
             HideOptions();
         }
 
-        public void ReInvoke()
+        public void InvokeChangeEvent()
         {
             E_OnChange.Invoke(Current);
         }
@@ -70,7 +70,6 @@ namespace GM.UI
         /// </summary>
         void AssignCallback(Button t, int index)
         {
-            t.onClick.RemoveAllListeners();
             t.onClick.AddListener(() => { OnOptionButtonDown(t, index); });
         }
 

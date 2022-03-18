@@ -2,7 +2,7 @@ namespace GM.GoldUpgrades
 {
     public class GoldUpgradesContainer
     {
-        public GoldUpgradeState TapUpgrade = new() { Level = 1 };
+        public TapDamageGoldUpgrade TapUpgrade = new() { Level = 1 };
 
         public void DeleteLocalStateData()
         {

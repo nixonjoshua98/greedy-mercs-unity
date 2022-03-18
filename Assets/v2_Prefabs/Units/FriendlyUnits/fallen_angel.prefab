@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.28, y: -1.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3856378086143880268}
   m_Father: {fileID: 0}
@@ -82,7 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Priority: 4
   Controller: {fileID: 3858409953258592749}
-  CooldownTimer: 1
+  CooldownTimer: 0.5
   Avatar: {fileID: 7990702041426216414}
   AttackImpactObject: {fileID: 100000, guid: 3156817f64ec68948ad6bb26569b9ef5, type: 3}
   MoveController: {fileID: 3858409953258592751}
@@ -100,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 7990702041426216414}
-  MoveSpeed: 7
+  MoveSpeed: 8
 --- !u!1001 &3858409952586444576
 PrefabInstance:
   m_ObjectHideFlags: 0

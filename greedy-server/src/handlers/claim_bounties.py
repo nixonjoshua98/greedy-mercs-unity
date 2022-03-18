@@ -9,10 +9,10 @@ from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_bounties
 from src.handlers.abc import BaseHandler, BaseResponse, HandlerException
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
-                                bounties_repository)
+                                get_bounties_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
-from src.mongo.currency import currency_repository
+from src.mongo.currency import get_currency_repository
 from src.static_models.bounties import StaticBounties
 
 
@@ -27,8 +27,8 @@ class ClaimBountiesHandler(BaseHandler):
     def __init__(
         self,
         bounties_data: StaticBounties = Depends(get_static_bounties),
-        bounties_repo: BountiesRepository = Depends(bounties_repository),
-        currency_repo: CurrencyRepository = Depends(currency_repository),
+        bounties_repo: BountiesRepository = Depends(get_bounties_repository),
+        currency_repo: CurrencyRepository = Depends(get_currency_repository),
     ):
         self.bounties_data = bounties_data
         self.bounties_repo = bounties_repo
@@ -50,7 +50,7 @@ class ClaimBountiesHandler(BaseHandler):
         await self.bounties_repo.set_claim_time(ctx.user_id, claim_time)
 
         # Increment the currency and fetch the updated document
-        currencies = await self.currency_repo.inc_value(ctx.user_id, CurrencyFields.BOUNTY_POINTS, points)
+        currencies = await self.currency_repo.incr(ctx.user_id, CurrencyFields.bounty_points, points)
 
         return BountyClaimResponse(claim_time=claim_time, claim_amount=points, currencies=currencies)
 

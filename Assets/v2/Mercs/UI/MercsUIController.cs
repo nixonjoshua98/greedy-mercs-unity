@@ -19,9 +19,13 @@ namespace GM.Mercs.UI
         // ...
         Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
 
-        void Start()
+        void Awake()
         {
             SubscribeToEvents();
+        }
+
+        void Start()
+        {
             UpdateSlotsUI();
         }
 

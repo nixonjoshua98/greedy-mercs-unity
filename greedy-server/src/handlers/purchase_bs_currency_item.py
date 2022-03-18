@@ -11,7 +11,7 @@ from src.handlers.abc import HandlerException
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyRepoFields
-from src.mongo.currency import currency_repository
+from src.mongo.currency import get_currency_repository
 from src.static_models.bountyshop import (BountyShopCurrencyItem,
                                           DynamicBountyShop,
                                           dynamic_bounty_shop)
@@ -30,7 +30,7 @@ class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
     def __init__(
         self,
         ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
-        currency_repo: CurrencyRepository = Depends(currency_repository),
+        currency_repo: CurrencyRepository = Depends(get_currency_repository),
         bountyshop_repo: BountyShopRepository = Depends(bountyshop_repository),
         bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),
     ):
@@ -63,7 +63,7 @@ class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
 
         try:
             currencies = await self.currency_repo.inc_values(uid, {
-                CurrencyRepoFields.BOUNTY_POINTS: -item.purchase_cost,
+                CurrencyRepoFields.bounty_points: -item.purchase_cost,
                 item_field: item.purchase_quantity
             })
 
@@ -79,5 +79,5 @@ class PurchaseCurrencyHandler(BaseBountyShopPurchaseHandler):
     @staticmethod
     def _id_to_field(currency: int) -> Optional[str]:
         return {
-            CurrencyType.ARMOURY_POINTS: CurrencyRepoFields.ARMOURY_POINTS
+            CurrencyType.ARMOURY_POINTS: CurrencyRepoFields.armoury_points
         }.get(currency)

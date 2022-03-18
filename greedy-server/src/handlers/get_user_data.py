@@ -7,11 +7,11 @@ from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, RequestContext
 from src.handlers.abc import BaseHandler, BaseResponse
-from src.mongo.armoury import ArmouryRepository, armoury_repository
-from src.mongo.artefacts import ArtefactsRepository, artefacts_repository
-from src.mongo.bounties import BountiesRepository, bounties_repository
+from src.mongo.armoury import ArmouryRepository, get_armoury_repository
+from src.mongo.artefacts import ArtefactsRepository, get_artefacts_repository
+from src.mongo.bounties import BountiesRepository, get_bounties_repository
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
-from src.mongo.currency import CurrencyRepository, currency_repository
+from src.mongo.currency import CurrencyRepository, get_currency_repository
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
 from src.mongo.quests import QuestsRepository, get_quests_repo
 from src.static_models.bountyshop import DynamicBountyShop, dynamic_bounty_shop
@@ -31,10 +31,10 @@ class GetUserDataHandler(BaseHandler):
         quests=Depends(get_quests_repo),
         units_repo=Depends(get_unlocked_mercs_repo),
         bountyshop=Depends(dynamic_bounty_shop),
-        armoury_repo=Depends(armoury_repository),
-        bounties_repo=Depends(bounties_repository),
-        currency_repo=Depends(currency_repository),
-        artefacts_repo=Depends(artefacts_repository),
+        armoury_repo=Depends(get_armoury_repository),
+        bounties_repo=Depends(get_bounties_repository),
+        currency_repo=Depends(get_currency_repository),
+        artefacts_repo=Depends(get_artefacts_repository),
         bountyshop_repo=Depends(bountyshop_repository)
     ):
         self.ctx: RequestContext = ctx

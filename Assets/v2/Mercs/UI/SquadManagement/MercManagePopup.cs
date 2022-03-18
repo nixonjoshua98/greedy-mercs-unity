@@ -24,7 +24,7 @@ namespace GM.Mercs.UI
 
         Dictionary<MercID, MercManageSlot> Slots = new Dictionary<MercID, MercManageSlot>();
         List<MercManageIcon> Icons = new List<MercManageIcon>();
-        List<MercManageSlot> SquadMercs => Slots.Values.Where(x => x.InSquad).ToList();
+        List<MercManageSlot> SquadMercs => Slots.Values.Where(x => x.InSquad).OrderBy(x => x.MercID).ToList();
 
 
         Action OnSavedChanges;
@@ -85,7 +85,7 @@ namespace GM.Mercs.UI
                 {
                     MercManageSlot slot = SquadMercs[i];
 
-                    icon.SetIcon(GetMercIconSprite(slot.Unit));
+                    icon.SetIcon(GetMercIconSprite(slot.MercID));
                 }
 
                 icon.gameObject.SetActive(SquadMercs.Count > i);

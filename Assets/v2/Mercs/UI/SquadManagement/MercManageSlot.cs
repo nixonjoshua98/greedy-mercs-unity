@@ -18,7 +18,7 @@ namespace GM.Mercs.UI
         public TMP_Text NameText;
         [SerializeField] TMP_Text EnergyText;
 
-        public MercID Unit { get; private set; }
+        public MercID MercID { get; private set; }
 
         MercManagePopup Manager;
         AggregatedMercData MercData;
@@ -28,7 +28,7 @@ namespace GM.Mercs.UI
         public void Set(MercManagePopup manager, MercID unit)
         {
             Manager = manager;
-            Unit = unit;
+            MercID = unit;
             MercData = App.Mercs.GetMerc(unit);
             InSquad = MercData.InSquad;
 

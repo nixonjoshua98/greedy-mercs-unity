@@ -65,14 +65,17 @@ namespace GM.Mercs.Controllers
 
             Avatar.PlayAnimation(Avatar.Animations.MoveAttack);
 
-            while (HasControl && Controller.HasEnergy)
+            while (HasControl)
             {
                 yield return new WaitForFixedUpdate();
 
                 if (EnemyUnits.TryGetUnit(ref target))
                 {
                     if (!CanDefeatTargetOneHit(target))
+                    {
+                        RemoveControl();
                         break;
+                    }
 
                     moveDir = GetMoveDirection(target);
 
@@ -88,8 +91,6 @@ namespace GM.Mercs.Controllers
                     Movement.MoveDirection(moveDir, MoveSpeed, playAnimation: false);
                 }
             }
-
-            RemoveControl();
         }
 
         bool CanDefeatTargetOneHit(UnitBaseClass unit)

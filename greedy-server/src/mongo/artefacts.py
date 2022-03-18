@@ -12,7 +12,7 @@ from src.request import ServerRequest
 from src.static_models.artefacts import ArtefactID
 
 
-def artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
+def get_artefacts_repository(request: ServerRequest) -> ArtefactsRepository:
     return ArtefactsRepository(request.app.state.mongo)
 
 

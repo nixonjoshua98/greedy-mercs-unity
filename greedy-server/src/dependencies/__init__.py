@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from fastapi import Depends, Header, HTTPException
 
+from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.mongo.quests import MercQuestsRepository
 from src.request import ServerRequest
 from src.static_file_cache import StaticFilesCache
@@ -11,7 +12,11 @@ from src.static_models.bounties import StaticBounties
 from src.static_models.quests import StaticQuests
 
 
-def get_merc_quests_repo(request: ServerRequest) -> MercQuestsRepository:
+def get_lifetime_stats_repo(request: ServerRequest):
+    return LifetimeStatsRepository(request.app.state.mongo)
+
+
+def get_merc_quests_repo(request: ServerRequest):
     return MercQuestsRepository(request.app.state.mongo)
 
 

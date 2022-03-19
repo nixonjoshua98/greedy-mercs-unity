@@ -33,8 +33,6 @@ namespace GM.Controllers
             ClickObject inst = ParticlePool.Spawn<ClickObject>();
 
             inst.SetScreenPosition(new Vector3(pos.x, pos.y, 0));
-
-            inst.PS.Play();
         }
     }
 }

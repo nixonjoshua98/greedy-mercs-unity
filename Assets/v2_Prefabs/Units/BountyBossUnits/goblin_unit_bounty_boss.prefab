@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 6.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6178279748580105544}
   m_RootOrder: 1
@@ -40,9 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6178279748580105544}
   - component: {fileID: 7820712332477194511}
-  - component: {fileID: 2913041219829694322}
   - component: {fileID: 4047665690431601571}
   - component: {fileID: 7547229782699089455}
+  - component: {fileID: 3346922273578494449}
   m_Layer: 0
   m_Name: goblin_unit_bounty_boss
   m_TagString: Enemy
@@ -60,6 +61,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9, y: 1.93, z: 0}
   m_LocalScale: {x: -0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6173378309871618395}
   - {fileID: 9091818931984367353}
@@ -86,19 +88,7 @@ MonoBehaviour:
     type: 3}
   HealthBarTargetTransform: {fileID: 9091818931984367353}
   UnitAvatar: {fileID: 8074528182442453802}
-  HealthController: {fileID: 2913041219829694322}
---- !u!114 &2913041219829694322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6178279748580105543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdd53a83ed0e8bd46b58ebc95e8e1670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  HealthController: {fileID: 3346922273578494449}
 --- !u!114 &4047665690431601571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +113,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13d0defddd3dbcf4fbaf02f593c57696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3346922273578494449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178279748580105543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5377b1e7546b2934584431dce09ebc7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6178279750540259271

@@ -1,9 +1,13 @@
 from enum import IntEnum
 from typing import NewType, Union
 
-Number = Union[float, int]
+NumberType = Union[float, int]
 QuestID = NewType("QuestID", int)
 MercID = NewType("MercID", int)
+
+
+class QuestActionType(IntEnum):
+    PRESTIGE = 0
 
 
 class BonusType:
@@ -39,3 +43,4 @@ class AttackType:
 
 class QuestType(IntEnum):
     MERC_QUEST = 0
+    DAILY_QUEST = 1

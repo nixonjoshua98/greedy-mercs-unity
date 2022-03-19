@@ -5,6 +5,7 @@ using GM.BountyShop.Models;
 using GM.Inventory.Models;
 using GM.Mercs;
 using System.Collections.Generic;
+using GM.PlayerStats;
 
 namespace GM.Models
 {
@@ -17,6 +18,7 @@ namespace GM.Models
         List<ArtefactUserDataModel> Artefacts { get; set; }
         CompleteBountyShopDataModel BountyShop { get; set; }
         Quests.UserQuestsModel Quests { get; set; }
+        LifetimeStatsModel LifetimeStats { get; set; }
     }
 
     public class ServerUserDataModel : IServerUserData
@@ -28,5 +30,6 @@ namespace GM.Models
         public List<ArtefactUserDataModel> Artefacts { get; set; }
         public CompleteBountyShopDataModel BountyShop { get; set; }
         public Quests.UserQuestsModel Quests { get; set; }
+        public LifetimeStatsModel LifetimeStats { get; set; }
     }
 }

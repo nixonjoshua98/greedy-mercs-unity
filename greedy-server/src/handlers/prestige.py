@@ -1,12 +1,14 @@
 
 from typing import Optional
 
+from bson import ObjectId
 from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common import formulas
 from src.common.types import BonusType
-from src.dependencies import get_static_artefacts_dict, get_static_bounties
+from src.dependencies import (get_lifetime_stats_repo,
+                              get_static_artefacts_dict, get_static_bounties)
 from src.exceptions import HandlerException
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
@@ -15,6 +17,9 @@ from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
 from src.mongo.currency import CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
+from src.mongo.lifetimestats import FieldNames as LifetimeStatsFields
+from src.mongo.lifetimestats import (LifetimeStatsRepository,
+                                     UserLifetimeStatsModel)
 from src.pymodels import BaseModel
 from src.request_models import PrestigeData
 from src.static_models.artefacts import StaticArtefact
@@ -36,12 +41,16 @@ class PrestigeHandler:
         # Repositories
         artefacts_repo: ArtefactsRepository = Depends(get_artefacts_repository),
         currency_repo: CurrencyRepository = Depends(get_currency_repository),
-        bounties_repo: BountiesRepository = Depends(get_bounties_repository)
+        bounties_repo: BountiesRepository = Depends(get_bounties_repository),
+        lifetime_stats=Depends(get_lifetime_stats_repo)
     ):
         self.ctx = ctx
+        self.user_id: ObjectId = self.ctx.user_id
 
         self.s_artefacts: dict[int, StaticArtefact] = s_artefacts
         self.s_bounties: StaticBounties = s_bounties
+
+        self._lifetime_stats: LifetimeStatsRepository = lifetime_stats
 
         self.artefacts_repo = artefacts_repo
         self.currency_repo = currency_repo
@@ -50,12 +59,14 @@ class PrestigeHandler:
         self.artefacts: list[ArtefactModel] = []
         self.bounties: Optional[UserBountiesDataModel] = None
 
-    async def fetch_user_data(self):
-        self.artefacts = await self.artefacts_repo.get_user_artefacts(self.ctx.user_id)
-        self.bounties = await self.bounties_repo.get_user_bounties(self.ctx.user_id)
+    async def update_lifetime_stats(self, model: PrestigeData):
+        await self._lifetime_stats.incr(self.user_id, LifetimeStatsFields.num_prestiges, 1)
+        await self._lifetime_stats.max(self.user_id, LifetimeStatsFields.highest_stage, model.prestige_stage)
 
     async def handle(self, data: PrestigeData) -> PrestigeResponse:
-        await self.fetch_user_data()
+        # Fetch user data
+        self.artefacts = await self.artefacts_repo.get_user_artefacts(self.ctx.user_id)
+        self.bounties = await self.bounties_repo.get_user_bounties(self.ctx.user_id)
 
         # Prestige rewards
         points: int = self.calculate_prestige_points(data.prestige_stage)
@@ -64,7 +75,14 @@ class PrestigeHandler:
         if new_bounties:
             await self.bounties_repo.insert_new_bounties(self.ctx.user_id, new_bounties)
 
+        # Add currencies rewarded
         await self.currency_repo.incr(self.ctx.user_id, CurrencyFields.prestige_points, points)
+
+        # Log prestige
+        # TODO
+
+        # Update lifetime stats
+        await self.update_lifetime_stats(data)
 
         return PrestigeResponse(
             prestige_points=points,

@@ -28,10 +28,10 @@ async def dynamic_bounty_shop(
 
 class DynamicBountyShop:
     def __init__(
-            self,
-            s_armoury: list[StaticArmouryItem],
-            prev_reset: dt.datetime,
-            config: FullBountyShopConfig,
+        self,
+        s_armoury: list[StaticArmouryItem],
+        prev_reset: dt.datetime,
+        config: FullBountyShopConfig,
     ):
         self.prev_reset: dt.datetime = prev_reset
         self.config: BountyShopLevelConfig = self._get_shop_config(config)

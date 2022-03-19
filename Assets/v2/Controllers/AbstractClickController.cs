@@ -9,7 +9,7 @@ namespace GM.Controllers
 
         Stopwatch ClickStopWatch;
 
-        public float ClickIntervalMilliseconds;
+        float ClickIntervalMilliseconds;
 
         void Awake()
         {

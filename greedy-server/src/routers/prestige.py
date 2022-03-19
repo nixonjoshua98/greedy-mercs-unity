@@ -21,7 +21,7 @@ async def index(
     resp: PrestigeResponse = await handler.handle(data)
 
     s_data_resp = await static_data.handle()
-    u_data_resp = await user_data.handle(ctx)
+    u_data_resp = await user_data.handle(ctx.user_id)
 
     return ServerResponse({
         "prestigePoints": resp.prestige_points,

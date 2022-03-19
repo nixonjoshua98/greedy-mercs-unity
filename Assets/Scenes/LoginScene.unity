@@ -623,8 +623,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1695799912}
-  - component: {fileID: 1695799911}
   - component: {fileID: 1695799913}
+  - component: {fileID: 1695799914}
   m_Layer: 0
   m_Name: ClickAnimationController
   m_TagString: Untagged
@@ -632,22 +632,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1695799911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695799910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d791f6d46b074114b841893f6809589a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxClicksPerSeconds: 20
-  ClickIntervalMilliseconds: 0
-  ClickPS: {fileID: 4753086767240118771, guid: c320183d952ef6e46afac2c00753d600, type: 3}
-  ParticlePool: {fileID: 1695799913}
 --- !u!4 &1695799912
 Transform:
   m_ObjectHideFlags: 0
@@ -678,6 +662,21 @@ MonoBehaviour:
   PooledObject: {fileID: 4753086767240118771, guid: c320183d952ef6e46afac2c00753d600,
     type: 3}
   ObjectParent: {fileID: 1695799912}
+--- !u!114 &1695799914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695799910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13f3845425bb004b80b760152914f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxClicksPerSeconds: 20
+  ClickPS: {fileID: 4753086767240118771, guid: c320183d952ef6e46afac2c00753d600, type: 3}
+  ParticlePool: {fileID: 1695799913}
 --- !u!1 &2092377065
 GameObject:
   m_ObjectHideFlags: 0

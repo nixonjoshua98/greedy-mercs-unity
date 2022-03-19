@@ -4,7 +4,7 @@ from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument
 
-from src.common.types import Number
+from src.common.types import NumberType
 from src.pymodels import BaseModel
 from src.request import ServerRequest
 
@@ -35,13 +35,13 @@ class CurrencyRepository:
         r = await self._items.find_one(default := {Fields.user_id: uid})
         return CurrenciesModel.parse_obj(r or default)
 
-    async def decr(self, uid: ObjectId, field: str, value: Number) -> CurrenciesModel:
+    async def decr(self, uid: ObjectId, field: str, value: NumberType) -> CurrenciesModel:
         return await self.incr(uid, field, -value)
 
-    async def incr(self, uid: ObjectId, field: str, value: Number) -> CurrenciesModel:
+    async def incr(self, uid: ObjectId, field: str, value: NumberType) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": {field: value}})
 
-    async def inc_values(self, uid: ObjectId, fields: dict[str, Number]) -> CurrenciesModel:
+    async def inc_values(self, uid: ObjectId, fields: dict[str, NumberType]) -> CurrenciesModel:
         return await self.update_one(uid, {"$inc": fields})
 
     async def update_one(self, uid, update: dict) -> CurrenciesModel:

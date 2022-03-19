@@ -21,11 +21,32 @@ namespace GM.Quests
 
         public int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
 
-        public List<AggregatedUserMercQuest> MercQuests
+        public List<AggregatedDailyQuest> DailyQuests
         {
             get
             {
-                List<AggregatedUserMercQuest> ls = new();
+                List<AggregatedDailyQuest> ls = new();
+
+                StaticQuests.DailyQuests.ForEach(quest =>
+                {
+                    ls.Add(new()
+                    {
+                        ID = quest.QuestID,
+                        ActionType = quest.ActionType,
+                        DiamondsRewarded = quest.DiamondsRewarded,
+                        NumPrestiges = quest.NumPrestiges
+                    });
+                });
+
+                return ls;
+            }
+        }
+
+        public List<AggregatedMercQuest> MercQuests
+        {
+            get
+            {
+                List<AggregatedMercQuest> ls = new();
 
                 StaticQuests.MercQuests.ForEach(quest =>
                 {
@@ -41,7 +62,7 @@ namespace GM.Quests
             }
         }
 
-        public void SendCompleteMercQuest(AggregatedUserMercQuest quest, Action<bool> callback)
+        public void SendCompleteMercQuest(IAggregatedQuest quest, Action<bool> callback)
         {
             App.HTTP.CompleteMercQuest(quest.ID, (resp) =>
             {

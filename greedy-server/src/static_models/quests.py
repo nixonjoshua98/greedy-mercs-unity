@@ -15,11 +15,10 @@ class MercQuest(BaseModel):
 
 class DailyQuest(BaseModel):
     quest_id: QuestID = Field(..., alias="questId")
-    action_type: QuestActionType = Field(..., alias="questActionType")
-    diamonds_reward: int = Field(..., alias="diamondsRewarded")
+    action_type: QuestActionType = Field(..., alias="actionType")
+    diamonds_rewarded: int = Field(..., alias="diamondsRewarded")
 
-    # QuestActionType.PRESTIGE
-    num_prestiges: Optional[int] = Field(None, alias="numPrestiges")
+    num_prestiges: Optional[int] = Field(None, alias="numPrestiges")  # QuestActionType.PRESTIGE
 
 
 class StaticQuests(BaseModel):

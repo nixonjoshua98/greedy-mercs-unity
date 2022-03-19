@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace GM.Quests.UI
 {
@@ -6,26 +7,27 @@ namespace GM.Quests.UI
     {
         [Space]
         [SerializeField] GameObject MercQuestSlotObject;
+        [SerializeField] GameObject DailyQuestSlotObject;
 
         [Header("References")]
         [SerializeField] Transform MercQuestsParent;
+        [SerializeField] Transform DailyQuestsParent;
 
         void Awake()
         {
-            InstantiateMercQuests();
+            InstantiateQuests(App.Quests.MercQuests, MercQuestSlotObject, MercQuestsParent);
+            InstantiateQuests(App.Quests.DailyQuests, DailyQuestSlotObject, DailyQuestsParent);
 
             ShowInnerPanel();
         }
 
-        void InstantiateMercQuests()
+        void InstantiateQuests<T>(List<T> quests, GameObject slotObject, Transform parent) where T: IAggregatedQuest
         {
-            var quests = App.Quests.MercQuests;
-
             for (int i = 0; i < quests.Count; i++)
             {
                 var quest = quests[i];
 
-                MercQuestSlot slot = Instantiate<MercQuestSlot>(MercQuestSlotObject, MercQuestsParent);
+                AbstractQuestSlot slot = Instantiate<AbstractQuestSlot>(slotObject, parent);
 
                 slot.Init(this, quest);
             }
@@ -39,6 +41,11 @@ namespace GM.Quests.UI
             {
                 slot.OnClaimResponse(success);
             });
+        }
+
+        public void ClaimDailyQuest(DailyQuestSlot slot)
+        {
+            slot.OnClaimResponse(true);
         }
     }
 }

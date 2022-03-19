@@ -18,6 +18,7 @@ namespace GM.Common
 
         public static class Colors
         {
+            public static Color Green = Color255(32, 200, 0);
             public static Color Orange = Color255(216, 128, 8);
             public static Color Red = Color255(255, 0, 0);
             public static Color SoftBlue = Color255(0, 128, 255);

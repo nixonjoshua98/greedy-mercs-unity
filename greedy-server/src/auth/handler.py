@@ -27,16 +27,14 @@ class AuthenticationHandler:
 
     async def handle(self, auth_key: str, device_id: str) -> AuthenticatedRequestContext:
 
-        # Potentially malicious request
         if auth_key is None or device_id is None:
             raise ServerException(401, "Unauthorized")
 
         account: Optional[AccountModel] = await self._accounts.get_user_by_session(auth_key)
 
-        if account is None:  # Session is invalid. Could be malicious or a server issue
+        if account is None:
             raise ServerException(StatusCodes.INVALIDATE_CLIENT, "Unauthorized")
 
-        # Same session but different device. We should invalidate the client
         elif device_id != account.session.device_id:
             raise ServerException(StatusCodes.INVALIDATE_CLIENT, "Unauthorized")
 

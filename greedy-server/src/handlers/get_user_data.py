@@ -13,7 +13,7 @@ from src.mongo.currency import CurrencyRepository, get_currency_repository
 from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
 from src.mongo.quests import MercQuestsRepository
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.static_models.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 
 

@@ -4,7 +4,7 @@ from bson import ObjectId
 from pydantic import Field
 
 from src.common.types import NumberType
-from src.pymodels import BaseModel
+from src.models import BaseModel
 
 
 class FieldNames:

@@ -8,7 +8,7 @@ from src.dependencies import get_auth_sessions_repo, get_device_id_header
 from src.mongo.accounts import (AccountModel, AccountsRepository,
                                 get_accounts_repository)
 from src.mongo.sessions import SessionModel, SessionRepository
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.request_models import LoginData
 
 

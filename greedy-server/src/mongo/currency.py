@@ -5,7 +5,7 @@ from pydantic import Field
 from pymongo import ReturnDocument
 
 from src.common.types import NumberType
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.request import ServerRequest
 
 

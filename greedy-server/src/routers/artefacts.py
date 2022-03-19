@@ -5,7 +5,7 @@ from src.handlers.artefacts import (BulkUpgradeArtefactsHandler,
                                     BulkUpgradeArtefactsResponse,
                                     UnlockArtefactHandler,
                                     UnlockArtefactResponse)
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.request_models import ArtefactUpgradeModel
 from src.response import EncryptedServerResponse, ServerResponse
 from src.router import APIRouter

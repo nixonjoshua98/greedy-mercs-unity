@@ -8,7 +8,7 @@ from pymongo import ReturnDocument
 
 from src.classes import DateRange
 from src.common.types import NumberType
-from src.pymodels import BaseDocument, BaseModel
+from src.models import BaseDocument, BaseModel
 from src.request import ServerRequest
 
 

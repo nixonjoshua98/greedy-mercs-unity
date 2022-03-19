@@ -5,7 +5,7 @@ from typing import Optional
 from bson import ObjectId
 from pymongo import ReturnDocument
 
-from src.pymodels import BaseDocument, Field
+from src.models import BaseDocument, Field
 from src.request import ServerRequest
 from src.static_models.armoury import ArmouryItemID
 

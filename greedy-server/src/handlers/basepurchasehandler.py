@@ -4,7 +4,7 @@ from bson import ObjectId
 
 from src.exceptions import HandlerException
 from src.mongo.bountyshop import BountyShopRepository
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.static_models.bountyshop.models import PurchasableBountyShopItem
 
 

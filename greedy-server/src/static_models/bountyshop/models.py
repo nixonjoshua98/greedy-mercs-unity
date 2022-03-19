@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from src.pymodels import BaseModel, Field
+from src.models import BaseModel, Field
 
 
 class PurchasableBountyShopItem(BaseModel):

@@ -5,7 +5,7 @@ from pydantic import Field
 
 from src import utils
 from src.common.types import MercID, QuestActionType, QuestID, QuestType
-from src.pymodels import BaseModel
+from src.models import BaseModel
 
 
 class MercQuest(BaseModel):

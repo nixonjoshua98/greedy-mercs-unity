@@ -1,4 +1,4 @@
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.static_models.artefacts import ArtefactID
 
 

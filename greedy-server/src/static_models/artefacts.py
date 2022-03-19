@@ -4,7 +4,7 @@ from typing import NewType
 
 from pydantic import Field
 
-from src.pymodels import BaseModel
+from src.models import BaseModel
 
 ArtefactID = NewType("ArtefactID", int)
 

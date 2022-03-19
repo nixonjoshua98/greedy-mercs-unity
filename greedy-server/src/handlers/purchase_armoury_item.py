@@ -12,7 +12,7 @@ from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyRepoFields
 from src.mongo.currency import get_currency_repository
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.static_models.bountyshop import (BountyShopArmouryItem,
                                           DynamicBountyShop,
                                           dynamic_bounty_shop)

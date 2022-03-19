@@ -4,7 +4,7 @@ from src.auth.handler import (AuthenticatedRequestContext,
                               get_authenticated_context)
 from src.common.types import QuestID
 from src.handlers.quests import CompleteMercQuestHandler
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.response import ServerResponse
 from src.router import APIRouter
 

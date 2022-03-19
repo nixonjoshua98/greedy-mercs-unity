@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import NewType
 
-from src.pymodels import BaseModel, Field
+from src.models import BaseModel, Field
 
 BountyID = NewType("BountyID", int)
 

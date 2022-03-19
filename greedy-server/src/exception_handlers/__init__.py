@@ -3,7 +3,7 @@ from fastapi.exceptions import RequestValidationError
 
 from src.exceptions import HandlerException
 from src.loggers import logger
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.request import ServerRequest
 from src.response import ServerResponse
 

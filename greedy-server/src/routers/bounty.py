@@ -3,7 +3,7 @@ from fastapi import Depends
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.handlers import (BountyClaimResponse, ClaimBountiesHandler,
                           UpdateBountiesHandler, UpdateBountiesResponse)
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.response import ServerResponse
 from src.router import APIRouter
 

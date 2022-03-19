@@ -12,7 +12,7 @@ from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.static_models.artefacts import StaticArtefact
 
 

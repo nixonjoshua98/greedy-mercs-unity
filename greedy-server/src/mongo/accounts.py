@@ -4,7 +4,7 @@ from typing import Optional
 
 from bson import ObjectId
 
-from src.pymodels import BaseDocument
+from src.models import BaseDocument
 from src.request import ServerRequest
 
 

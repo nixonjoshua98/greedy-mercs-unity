@@ -8,7 +8,7 @@ from pydantic import Field
 from src.classes import DateRange
 from src.mongo.prestige_logs import (PrestigeLogsRepository,
                                      get_prestige_logs_repo)
-from src.pymodels import BaseModel
+from src.models import BaseModel
 
 
 class GetUserDailyStatsResponse(BaseModel):

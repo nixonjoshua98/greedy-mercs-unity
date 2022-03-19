@@ -1,6 +1,4 @@
-import base64
 import datetime as dt
-import gzip
 import json
 import os
 from typing import Any, Iterable, Optional, Sequence, TypeVar, Union
@@ -12,30 +10,6 @@ from fastapi.encoders import jsonable_encoder as _jsonable_encoder
 from pydantic import BaseModel
 
 T = TypeVar("T")
-
-
-def compress(d: dict) -> str:
-    """
-    Compress (may end up being longer than the dict) a python dict to a gzipped base64 string
-
-    :param d: Dict object
-
-    :return:
-        Compressed string
-    """
-    return base64.b64encode(gzip.compress(json_dumps(d).encode("utf-8"))).decode("utf-8")
-
-
-def decompress(d: str) -> dict:
-    """
-    Uncompress a string (made by .compress()) to a dict
-
-    :param d: Compressed string
-
-    :return:
-        Python dict
-    """
-    return json.loads(gzip.decompress(base64.b64decode(d)).decode("utf-8"))
 
 
 def get(ls: Iterable[T], **attrs: Any) -> Optional[T]:

@@ -8,7 +8,7 @@ from src.exceptions import HandlerException
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
                                 get_bounties_repository)
 from src.mongo.currency import CurrencyRepository, get_currency_repository
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.static_models.bounties import StaticBounties
 
 

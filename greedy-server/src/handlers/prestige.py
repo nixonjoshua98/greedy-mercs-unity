@@ -21,7 +21,7 @@ from src.mongo.lifetimestats import FieldNames as LifetimeStatsFields
 from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.mongo.prestige_logs import (PrestigeLogModel, PrestigeLogsRepository,
                                      get_prestige_logs_repo)
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.request_models import PrestigeData
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties

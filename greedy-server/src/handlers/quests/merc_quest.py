@@ -8,7 +8,7 @@ from src.dependencies import get_merc_quests_repo, get_static_quests
 from src.exceptions import HandlerException
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
 from src.mongo.quests import MercQuestModel, MercQuestsRepository
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.static_models.quests import MercQuest, StaticQuests
 
 

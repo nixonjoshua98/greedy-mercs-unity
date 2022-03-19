@@ -7,7 +7,7 @@ from bson import ObjectId
 from pydantic import Field
 
 from src.common.types import QuestID
-from src.pymodels import BaseModel
+from src.models import BaseModel
 
 """
     Merc Quests

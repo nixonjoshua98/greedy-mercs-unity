@@ -7,7 +7,7 @@ from bson import ObjectId
 from pydantic import Field
 from pymongo import InsertOne, ReturnDocument, UpdateMany, UpdateOne
 
-from src.pymodels import BaseModel
+from src.models import BaseModel
 from src.request import ServerRequest
 from src.static_models.bounties import BountyID
 

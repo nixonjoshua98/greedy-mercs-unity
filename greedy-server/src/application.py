@@ -4,7 +4,7 @@ from typing import Union
 from fastapi import FastAPI
 
 from src import utils
-from src.pymodels import ApplicationConfig
+from src.models import ApplicationConfig
 
 
 class Application(FastAPI):

@@ -5,7 +5,7 @@ import datetime as dt
 from bson import ObjectId
 from pydantic import Field
 
-from src.pymodels import BaseDocument
+from src.models import BaseDocument
 from src.request import ServerRequest
 
 

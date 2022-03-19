@@ -4,6 +4,7 @@ from fastapi import Depends, Header, HTTPException
 
 from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.mongo.quests import MercQuestsRepository
+from src.mongo.sessions import SessionRepository
 from src.request import ServerRequest
 from src.static_file_cache import StaticFilesCache
 from src.static_models.armoury import StaticArmouryItem
@@ -14,6 +15,10 @@ from src.static_models.quests import StaticQuests
 
 def get_lifetime_stats_repo(request: ServerRequest):
     return LifetimeStatsRepository(request.app.state.mongo)
+
+
+def get_auth_sessions_repo(request: ServerRequest):
+    return SessionRepository(request.app.state.mongo)
 
 
 def get_merc_quests_repo(request: ServerRequest):

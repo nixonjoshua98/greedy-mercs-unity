@@ -4,7 +4,6 @@ from fastapi import Depends
 
 from src.auth import RequestContext
 from src.dependencies import get_static_files_cache
-from src.exceptions import HandlerException
 from src.pymodels import BaseModel
 from src.static_file_cache import StaticFilesCache
 

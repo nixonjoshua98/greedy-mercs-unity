@@ -4,12 +4,19 @@ import datetime as dt
 
 from bson import ObjectId
 
+from src.classes import DateRange
+
 
 class RequestContext:
     def __init__(self,):
         self.datetime: dt.datetime = dt.datetime.utcnow()
         self.prev_daily_reset: dt.datetime = _prev_daily_reset_datetime(self.datetime)
         self.next_daily_reset: dt.datetime = self.prev_daily_reset + dt.timedelta(days=1)
+
+        self.daily_reset = DateRange(
+            from_=(dr_from := _prev_daily_reset_datetime(self.datetime)),
+            to_=dr_from + dt.timedelta(days=1)
+        )
 
 
 class AuthenticatedRequestContext(RequestContext):

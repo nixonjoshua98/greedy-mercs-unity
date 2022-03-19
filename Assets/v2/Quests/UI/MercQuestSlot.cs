@@ -1,9 +1,6 @@
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace GM.Quests.UI
 {
-    public class MercQuestSlot : AbstractQuestSlot
+    public class MercQuestSlot : AbstractQuestSlot<AggregatedMercQuest>
     {     
         public override void ClaimButton_OnClick()
         {

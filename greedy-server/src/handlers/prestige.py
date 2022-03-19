@@ -9,7 +9,7 @@ from src.common import formulas
 from src.common.types import BonusType
 from src.dependencies import (get_lifetime_stats_repo,
                               get_static_artefacts_dict, get_static_bounties)
-from src.exceptions import HandlerException
+from src.exceptions import ServerException
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
@@ -18,8 +18,9 @@ from src.mongo.currency import CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
 from src.mongo.lifetimestats import FieldNames as LifetimeStatsFields
-from src.mongo.lifetimestats import (LifetimeStatsRepository,
-                                     UserLifetimeStatsModel)
+from src.mongo.lifetimestats import LifetimeStatsRepository
+from src.mongo.prestige_logs import (PrestigeLogModel, PrestigeLogsRepository,
+                                     get_prestige_logs_repo)
 from src.pymodels import BaseModel
 from src.request_models import PrestigeData
 from src.static_models.artefacts import StaticArtefact
@@ -39,9 +40,10 @@ class PrestigeHandler:
         s_artefacts=Depends(get_static_artefacts_dict),
         s_bounties=Depends(get_static_bounties),
         # Repositories
-        artefacts_repo: ArtefactsRepository = Depends(get_artefacts_repository),
-        currency_repo: CurrencyRepository = Depends(get_currency_repository),
-        bounties_repo: BountiesRepository = Depends(get_bounties_repository),
+        prestige_logs=Depends(get_prestige_logs_repo),
+        artefacts_repo=Depends(get_artefacts_repository),
+        currency_repo=Depends(get_currency_repository),
+        bounties_repo=Depends(get_bounties_repository),
         lifetime_stats=Depends(get_lifetime_stats_repo)
     ):
         self.ctx = ctx
@@ -50,11 +52,12 @@ class PrestigeHandler:
         self.s_artefacts: dict[int, StaticArtefact] = s_artefacts
         self.s_bounties: StaticBounties = s_bounties
 
+        # = Repositories = #
         self._lifetime_stats: LifetimeStatsRepository = lifetime_stats
-
-        self.artefacts_repo = artefacts_repo
-        self.currency_repo = currency_repo
-        self.bounties_repo = bounties_repo
+        self._prestige_logs: PrestigeLogsRepository = prestige_logs
+        self._artefacts: ArtefactsRepository = artefacts_repo
+        self._currencies: CurrencyRepository = currency_repo
+        self._bounties: BountiesRepository = bounties_repo
 
         self.artefacts: list[ArtefactModel] = []
         self.bounties: Optional[UserBountiesDataModel] = None
@@ -65,21 +68,21 @@ class PrestigeHandler:
 
     async def handle(self, data: PrestigeData) -> PrestigeResponse:
         # Fetch user data
-        self.artefacts = await self.artefacts_repo.get_user_artefacts(self.ctx.user_id)
-        self.bounties = await self.bounties_repo.get_user_bounties(self.ctx.user_id)
+        self.artefacts = await self._artefacts.get_user_artefacts(self.ctx.user_id)
+        self.bounties = await self._bounties.get_user_bounties(self.ctx.user_id)
 
         # Prestige rewards
         points: int = self.calculate_prestige_points(data.prestige_stage)
         new_bounties: list[int] = self.calculate_unlocked_bounties(data.prestige_stage)
 
+        # Log prestige
+        await self.log_prestige(data)
+
         if new_bounties:
-            await self.bounties_repo.insert_new_bounties(self.ctx.user_id, new_bounties)
+            await self._bounties.insert_new_bounties(self.ctx.user_id, new_bounties)
 
         # Add currencies rewarded
-        await self.currency_repo.incr(self.ctx.user_id, CurrencyFields.prestige_points, points)
-
-        # Log prestige
-        # TODO
+        await self._currencies.incr(self.ctx.user_id, CurrencyFields.prestige_points, points)
 
         # Update lifetime stats
         await self.update_lifetime_stats(data)
@@ -88,6 +91,14 @@ class PrestigeHandler:
             prestige_points=points,
             unlocked_bounties=new_bounties
         )
+
+    async def log_prestige(self, body: PrestigeData):
+        model = PrestigeLogModel(
+            user_id=self.ctx.user_id,
+            date=self.ctx.datetime,
+            stage=body.prestige_stage
+        )
+        await self._prestige_logs.insert_prestige_log(model)
 
     def calculate_prestige_points(self, stage: int) -> int:
         base_points: int = formulas.base_points_at_stage(stage)

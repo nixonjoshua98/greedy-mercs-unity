@@ -1,9 +1,7 @@
 using GM.Common.Enums;
-using GM.GoldUpgrades;
 using GM.HTTP;
 using GM.LocalFiles;
 using GM.Models;
-using GM.PlayerStats;
 using System;
 using UnityEngine.Events;
 
@@ -23,7 +21,7 @@ namespace GM.Core
         public GM.Armoury.Data.ArmouryData Armoury = new();
         public GM.Bounties.Data.BountiesData Bounties = new();
         public GM.BountyShop.Data.BountyShopData BountyShop = new();
-        public GM.PlayerStats.StatsDataContainer LifetimeStats = new();
+        public GM.PlayerStats.StatsDataContainer Stats = new();
 
         public CurrentPrestigeState GameState;
 
@@ -61,7 +59,7 @@ namespace GM.Core
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 
-            LifetimeStats.Set(userData.LifetimeStats);
+            Stats.Set(userData.UserStats);
             BountyShop.Set(userData.BountyShop);
             Quests.Set(staticData.Quests, userData.Quests);
             Mercs.Set(userData.UnlockedMercs, staticData.Mercs, stateFile);

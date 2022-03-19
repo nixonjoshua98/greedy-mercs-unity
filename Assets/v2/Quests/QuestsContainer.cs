@@ -17,9 +17,9 @@ namespace GM.Quests
 
         public bool IsMercQuestCompleted(int questId) => UserQuests.CompletedMercQuests.Contains(questId);
 
-        public int NumQuestsReadyToClaim => NumMercQuestsReadyToComplete;
-
-        public int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
+        public int NumQuestsReadyToClaim => NumMercQuestsReadyToComplete + NumDailyQuestsReadyToComplete;
+        int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
+        int NumDailyQuestsReadyToComplete => DailyQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
 
         public List<AggregatedDailyQuest> DailyQuests
         {

@@ -4,6 +4,7 @@ from fastapi import Depends
 
 from src.auth import RequestContext
 from src.dependencies import get_lifetime_stats_repo, get_merc_quests_repo
+from src.handlers import GetUserDailyStatsHandler
 from src.mongo.armoury import ArmouryRepository, get_armoury_repository
 from src.mongo.artefacts import ArtefactsRepository, get_artefacts_repository
 from src.mongo.bounties import BountiesRepository, get_bounties_repository
@@ -25,6 +26,9 @@ class GetUserDataHandler:
         self,
         ctx: RequestContext = Depends(),
 
+        # = Handlers = #
+        daily_stats: GetUserDailyStatsHandler = Depends(),
+
         # = Repositories = #
         quests=Depends(get_merc_quests_repo),
         units_repo=Depends(get_unlocked_mercs_repo),
@@ -40,6 +44,9 @@ class GetUserDataHandler:
 
         # = Dynamic/Static Data = #
         self._bountyshop_data: DynamicBountyShop = bountyshop
+
+        # = Handlers = #
+        self._daily_stats = daily_stats
 
         # = Repositories = #
         self._lifetime_stats: LifetimeStatsRepository = lifetime_stats
@@ -65,7 +72,10 @@ class GetUserDataHandler:
             "quests": {
                 "completedMercQuests": [q.quest_id for q in await self._quests.get_all_quests(uid)]
             },
-            "lifetimeStats": await self._lifetime_stats.get_user_stats(uid)
+            "userStats": {
+                "lifetime": await self._lifetime_stats.get_user_stats(uid),
+                "daily": await self._daily_stats.handle(uid, self.ctx.daily_reset)
+            }
         }
 
         return GetUserDataResponse(data=data)

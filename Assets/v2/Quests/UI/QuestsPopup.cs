@@ -27,7 +27,7 @@ namespace GM.Quests.UI
             {
                 var quest = quests[i];
 
-                AbstractQuestSlot slot = Instantiate<AbstractQuestSlot>(slotObject, parent);
+                var slot = Instantiate<AbstractQuestSlot<T>>(slotObject, parent);
 
                 slot.Init(this, quest);
             }

@@ -4,8 +4,9 @@ using GM.Bounties.Models;
 using GM.BountyShop.Models;
 using GM.Inventory.Models;
 using GM.Mercs;
-using System.Collections.Generic;
 using GM.PlayerStats;
+using GM.Quests;
+using System.Collections.Generic;
 
 namespace GM.Models
 {
@@ -17,8 +18,8 @@ namespace GM.Models
         List<ArmouryItemUserDataModel> ArmouryItems { get; set; }
         List<ArtefactUserDataModel> Artefacts { get; set; }
         CompleteBountyShopDataModel BountyShop { get; set; }
-        Quests.UserQuestsModel Quests { get; set; }
-        LifetimeStatsModel LifetimeStats { get; set; }
+        UserQuestsModel Quests { get; set; }
+        UserStatsModel UserStats { get; set; }
     }
 
     public class ServerUserDataModel : IServerUserData
@@ -29,7 +30,7 @@ namespace GM.Models
         public List<ArmouryItemUserDataModel> ArmouryItems { get; set; }
         public List<ArtefactUserDataModel> Artefacts { get; set; }
         public CompleteBountyShopDataModel BountyShop { get; set; }
-        public Quests.UserQuestsModel Quests { get; set; }
-        public LifetimeStatsModel LifetimeStats { get; set; }
+        public UserQuestsModel Quests { get; set; }
+        public UserStatsModel UserStats { get; set; }
     }
 }

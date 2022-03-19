@@ -4,9 +4,10 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends, HTTPException
 
-from src.dependencies import get_device_id_header
-from src.mongo.accounts import (AccountModel, AccountsRepository, SessionModel,
+from src.dependencies import get_auth_sessions_repo, get_device_id_header
+from src.mongo.accounts import (AccountModel, AccountsRepository,
                                 accounts_repository)
+from src.mongo.sessions import SessionModel, SessionRepository
 from src.pymodels import BaseModel
 from src.request_models import LoginData
 
@@ -20,10 +21,11 @@ class LoginHandler:
     def __init__(
         self,
         device_id: str = Depends(get_device_id_header),
-        accounts=Depends(accounts_repository)
+        accounts=Depends(accounts_repository),
+        sessions=Depends(get_auth_sessions_repo)
     ):
         self.device_id: str = device_id
-
+        self._sessions: SessionRepository = sessions
         self._accounts: AccountsRepository = accounts
 
     async def handle(self, model: LoginData) -> LoginResponse:
@@ -32,8 +34,14 @@ class LoginHandler:
         if account is None:
             raise HTTPException(500, "Login failed - Account not found")
 
-        session = SessionModel(id=secrets.token_urlsafe(128).upper(), device_id=self.device_id)
+        session = SessionModel(
+            session_id=secrets.token_urlsafe(128).upper(),
+            device_id=self.device_id,
+            user_id=account.id,
+            is_valid=True
+        )
 
-        await self._accounts.update_user_session(account.id, session)
+        await self._sessions.invalidate_all_user_sessions(account.id)
+        await self._sessions.insert_session(session)
 
-        return LoginResponse(user_id=account.id, session_id=session.id)
+        return LoginResponse(user_id=account.id, session_id=session.session_id)

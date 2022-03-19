@@ -3,9 +3,8 @@ from __future__ import annotations
 from typing import Optional
 
 from bson import ObjectId
-from pydantic import Field
 
-from src.pymodels import BaseDocument, BaseModel
+from src.pymodels import BaseDocument
 from src.request import ServerRequest
 
 
@@ -15,29 +14,15 @@ def accounts_repository(request: ServerRequest) -> AccountsRepository:
 
 class FieldNames:
     user_id = "_id"
-    session = "currentSession"
-    session_id = "sessionId"
-
-
-class SessionModel(BaseModel):
-    id: str = Field(..., alias="sessionId")
-    device_id: str = Field(..., alias="deviceId")
 
 
 class AccountModel(BaseDocument):
-    session: SessionModel = Field(None, alias=FieldNames.session)
+    ...
 
 
 class AccountsRepository:
     def __init__(self, client):
         self._col = client.database["userAccounts"]
-
-    async def update_user_session(self, uid: ObjectId, session: SessionModel):
-        await self._col.update_one({FieldNames.user_id: uid}, {"$set": {FieldNames.session: session.dict()}})
-
-    async def get_user_by_session(self, session_id: str) -> Optional[AccountModel]:
-        r = await self._col.find_one({f"{FieldNames.session}.{FieldNames.session_id}": session_id})
-        return AccountModel.parse_obj(r) if r else None
 
     async def get_user(self, uid: ObjectId) -> Optional[AccountModel]:
         r = await self._col.find_one({FieldNames.user_id: uid})

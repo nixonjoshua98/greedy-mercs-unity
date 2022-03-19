@@ -62,11 +62,8 @@ class PrestigeHandler:
         self.artefacts: list[ArtefactModel] = []
         self.bounties: Optional[UserBountiesDataModel] = None
 
-    async def update_lifetime_stats(self, model: PrestigeData):
-        await self._lifetime_stats.incr(self.user_id, LifetimeStatsFields.num_prestiges, 1)
-        await self._lifetime_stats.max(self.user_id, LifetimeStatsFields.highest_stage, model.prestige_stage)
-
     async def handle(self, data: PrestigeData) -> PrestigeResponse:
+
         # Fetch user data
         self.artefacts = await self._artefacts.get_user_artefacts(self.ctx.user_id)
         self.bounties = await self._bounties.get_user_bounties(self.ctx.user_id)
@@ -91,6 +88,10 @@ class PrestigeHandler:
             prestige_points=points,
             unlocked_bounties=new_bounties
         )
+
+    async def update_lifetime_stats(self, model: PrestigeData):
+        await self._lifetime_stats.incr(self.user_id, LifetimeStatsFields.num_prestiges, 1)
+        await self._lifetime_stats.max(self.user_id, LifetimeStatsFields.highest_stage, model.prestige_stage)
 
     async def log_prestige(self, body: PrestigeData):
         model = PrestigeLogModel(

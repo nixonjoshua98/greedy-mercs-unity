@@ -6,7 +6,7 @@ from fastapi import Depends
 
 from src.exceptions import HandlerException
 from src.mongo.accounts import (AccountModel, AccountsRepository,
-                                accounts_repository)
+                                get_accounts_repository)
 from src.pymodels import BaseModel
 from src.request_models import LoginData
 
@@ -20,7 +20,7 @@ class AccountCreationResponse(BaseModel):
 
 
 class CreateAccountHandler:
-    def __init__(self, acc_repo: AccountsRepository = Depends(accounts_repository)):
+    def __init__(self, acc_repo: AccountsRepository = Depends(get_accounts_repository)):
         self.accounts_repo: AccountsRepository = acc_repo
 
     @md.dispatch(LoginData)

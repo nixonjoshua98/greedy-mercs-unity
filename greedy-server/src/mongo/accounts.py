@@ -8,12 +8,13 @@ from src.pymodels import BaseDocument
 from src.request import ServerRequest
 
 
-def accounts_repository(request: ServerRequest) -> AccountsRepository:
+def get_accounts_repository(request: ServerRequest) -> AccountsRepository:
     return AccountsRepository(request.app.state.mongo)
 
 
 class FieldNames:
     user_id = "_id"
+    device_id = "deviceId"
 
 
 class AccountModel(BaseDocument):
@@ -29,11 +30,11 @@ class AccountsRepository:
         return AccountModel.parse_obj(r) if r else None
 
     async def get_user_by_device_id(self, device_id: str) -> Optional[AccountModel]:
-        r = await self._col.find_one({"deviceId": device_id})
+        r = await self._col.find_one({FieldNames.device_id: device_id})
 
         return AccountModel.parse_obj(r) if r else None
 
     async def insert_new_user(self, device_id: str) -> AccountModel:
-        r = await self._col.insert_one({"deviceId": device_id})
+        r = await self._col.insert_one({FieldNames.device_id: device_id})
 
         return await self.get_user(r.inserted_id)

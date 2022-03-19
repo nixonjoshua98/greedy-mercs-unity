@@ -3,7 +3,7 @@ from fastapi import Depends
 from src.handlers import (CreateAccountHandler, GetUserDataHandler,
                           LoginHandler, LoginResponse)
 from src.mongo.accounts import (AccountModel, AccountsRepository,
-                                accounts_repository)
+                                get_accounts_repository)
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
 from src.request_models import LoginData
 from src.response import ServerResponse
@@ -20,7 +20,7 @@ async def index(
     _user_data: GetUserDataHandler = Depends(),
     _create_account: CreateAccountHandler = Depends(),
     # Repositories =
-    _accounts: AccountsRepository = Depends(accounts_repository),
+    _accounts: AccountsRepository = Depends(get_accounts_repository),
     _units_repo: UnlockedMercsRepository = Depends(get_unlocked_mercs_repo)
 
 ):

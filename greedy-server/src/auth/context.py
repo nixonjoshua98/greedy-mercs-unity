@@ -14,8 +14,7 @@ class RequestContext:
         self.next_daily_reset: dt.datetime = self.prev_daily_reset + dt.timedelta(days=1)
 
         self.daily_reset = DateRange(
-            from_=(dr_from := _prev_daily_reset_datetime(self.datetime)),
-            to_=dr_from + dt.timedelta(days=1)
+            from_=(dr_from := _prev_daily_reset_datetime(self.datetime)), to_=dr_from + dt.timedelta(days=1)
         )
 
 

@@ -12,8 +12,8 @@ from .context import AuthenticatedRequestContext
 
 
 async def get_authenticated_context(
-    device_id: str = Depends(get_device_id_header),
-    auth_key: str = Depends(get_auth_token_header),
+    device_id=Depends(get_device_id_header),
+    auth_key=Depends(get_auth_token_header),
     sessions=Depends(get_auth_sessions_repo)
 ):
     handler = AuthenticationHandler(sessions)

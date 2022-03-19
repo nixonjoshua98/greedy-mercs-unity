@@ -6,7 +6,7 @@ from fastapi import Depends, HTTPException
 
 from src.dependencies import get_auth_sessions_repo, get_device_id_header
 from src.mongo.accounts import (AccountModel, AccountsRepository,
-                                accounts_repository)
+                                get_accounts_repository)
 from src.mongo.sessions import SessionModel, SessionRepository
 from src.pymodels import BaseModel
 from src.request_models import LoginData
@@ -21,7 +21,7 @@ class LoginHandler:
     def __init__(
         self,
         device_id: str = Depends(get_device_id_header),
-        accounts=Depends(accounts_repository),
+        accounts=Depends(get_accounts_repository),
         sessions=Depends(get_auth_sessions_repo)
     ):
         self.device_id: str = device_id

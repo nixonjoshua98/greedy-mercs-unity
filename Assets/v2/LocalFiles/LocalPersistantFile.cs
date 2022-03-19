@@ -17,9 +17,7 @@ namespace GM.LocalFiles
         /// </summary>
         public static FileStatus LoadFromFile(out LocalPersistantFile file)
         {
-            FileStatus status = FileUtils.LoadModel(FilePath, out file);
-
-            return status;
+            return FileUtils.LoadModel(FilePath, out file);
         }
 
         /// <summary>

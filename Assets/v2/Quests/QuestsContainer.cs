@@ -25,7 +25,7 @@ namespace GM.Quests
         {
             get
             {
-                List<AggregatedUserMercQuest> ls = new List<AggregatedUserMercQuest>();
+                List<AggregatedUserMercQuest> ls = new();
 
                 StaticQuests.MercQuests.ForEach(quest =>
                 {

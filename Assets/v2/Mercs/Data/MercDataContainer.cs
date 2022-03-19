@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GM.Mercs.Data
 {
-    public class MercDataContainer : Core.GMClass, ILocalStateFileSerializer
+    public class MercDataContainer : Core.GMClass
     {
         Dictionary<MercID, UserMercState> UserMercs = new Dictionary<MercID, UserMercState>();
         Dictionary<MercID, StaticMercData> StaticMercs = new Dictionary<MercID, StaticMercData>();

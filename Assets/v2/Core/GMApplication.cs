@@ -71,14 +71,14 @@ namespace GM.Core
             Artefacts.Set(userData.Artefacts, staticData.Artefacts);
         }
 
-        public LocalStateFile CreateLocalStateFile()
+        public void SaveLocalStateFile()
         {
             LocalStateFile savefile = new();
 
             GameState.UpdateLocalSaveFile(ref savefile);
             Mercs.UpdateLocalSaveFile(ref savefile);
 
-            return savefile;
+            savefile.WriteToFile();
         }
 
         public void DeleteLocalStateData()

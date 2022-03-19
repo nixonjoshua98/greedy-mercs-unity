@@ -1,14 +1,8 @@
-﻿using UnityEngine;
-
-namespace GM.PlayerStats
+﻿namespace GM.PlayerStats
 {
     public class StatsDataContainer : GM.Core.GMClass
     {
-        LifetimeStatsModel Lifetime;
-
-        // = Lifetime Properties = //
-        public int LifetimePrestiges => Lifetime.NumPrestiges;
-        public int LifetimeHighestStage => Mathf.Max(App.GameState.Stage, Lifetime.HighestStage);
+        public LifetimeStatsModel Lifetime;
 
         public void Set(LifetimeStatsModel userData)
         {

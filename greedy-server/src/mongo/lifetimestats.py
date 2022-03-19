@@ -13,7 +13,7 @@ from src.request import ServerRequest
 
 class FieldNames:
     user_id = "userId"
-    num_prestiges = "numPrestiges"
+    num_prestiges = "totalPrestiges"
     highest_stage = "highestPrestigeStageReached"
 
 

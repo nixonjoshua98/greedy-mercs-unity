@@ -3,13 +3,13 @@ from fastapi import Depends, HTTPException
 
 from src.common.formulas import calculate_artefact_upgrade_cost
 from src.dependencies import get_static_artefacts_dict
+from src.models import BaseModel
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
-from src.models import BaseModel
-from src.request_models import ArtefactUpgradeModel
+from src.request_models import ArtefactUpgradeRequestModel
 from src.static_models.artefacts import ArtefactID, StaticArtefact
 
 
@@ -31,7 +31,7 @@ class BulkUpgradeArtefactsHandler:
         self._artefacts: ArtefactsRepository = artefacts_repo
         self._currencies: CurrencyRepository = currencies_repo
 
-    async def handle(self, uid: ObjectId, to_upgrade: list[ArtefactUpgradeModel]):
+    async def handle(self, uid: ObjectId, to_upgrade: list[ArtefactUpgradeRequestModel]):
         user_artefacts: list[ArtefactModel] = await self._artefacts.get_user_artefacts(uid)
 
         if len(to_upgrade) == 0:
@@ -63,7 +63,7 @@ class BulkUpgradeArtefactsHandler:
         )
 
     @classmethod
-    def _validate_artefact_uniqueness(cls, to_upgrade: list[ArtefactUpgradeModel]):
+    def _validate_artefact_uniqueness(cls, to_upgrade: list[ArtefactUpgradeRequestModel]):
         """
         Check that the artefacts provided all have unique ids
 
@@ -76,7 +76,7 @@ class BulkUpgradeArtefactsHandler:
 
         return len(upgrade_ids) == len(set(upgrade_ids))
 
-    def _validate_artefact_ids(self, unlocked: list[ArtefactModel], to_upgrade: list[ArtefactUpgradeModel]) -> bool:
+    def _validate_artefact_ids(self, unlocked: list[ArtefactModel], to_upgrade: list[ArtefactUpgradeRequestModel]) -> bool:
         """
         Check that the artefacts we have requested to upgrade both exist and are already unlocked
 
@@ -94,7 +94,7 @@ class BulkUpgradeArtefactsHandler:
     def _create_upgrade_cost_dict(
         self,
         unlocked: list[ArtefactModel],
-        to_upgrade: list[ArtefactUpgradeModel]
+        to_upgrade: list[ArtefactUpgradeRequestModel]
     ) -> dict[ArtefactID, int]:
         """
         Create a dict lookup of all the artefact upgrade costs

@@ -40,7 +40,7 @@ namespace GM.Quests
 
         public int NumPrestiges; // QuestActionType.Prestige
 
-        public override bool IsCompleted => false;
+        public override bool IsCompleted => App.Quests.IsDailyQuestCompleted(ID);
         public override float CurrentProgress
         {
             get

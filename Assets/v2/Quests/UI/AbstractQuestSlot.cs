@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace GM.Quests.UI
 {
@@ -23,13 +24,14 @@ namespace GM.Quests.UI
         public Image CompleteButtonImage;
         public GameObject CompletedOverlay;
 
-        protected QuestsPopup Popup;
         [HideInInspector] public T Quest;
 
-        public void Init(QuestsPopup popup, T quest)
+        Action<AbstractQuestSlot<T>> ClaimQuestFunction;
+
+        public void Init(Action<AbstractQuestSlot<T>> claimQuestFunc, T quest)
         {
             Quest = quest;
-            Popup = popup;
+            ClaimQuestFunction = claimQuestFunc;
 
             SetStaticUI();
             UpdateUI();
@@ -63,14 +65,6 @@ namespace GM.Quests.UI
             CompleteButtonImage.color = Quest.CurrentProgress >= 1.0f ? ButtonColours.ReadyToComplete : ButtonColours.InProgress;
         }
 
-        public void OnClaimResponse(bool success)
-        {
-            if (success)
-            {
-                UpdateWhenCompleted();
-            }
-        }
-
         void UpdateWhenCompleted()
         {
             ProgressSlider.value = 1.0f;
@@ -80,6 +74,17 @@ namespace GM.Quests.UI
 
         // Callbacks //
 
-        public abstract void ClaimButton_OnClick();
+        public void OnClaimResponse(bool success)
+        {
+            if (success)
+            {
+                UpdateWhenCompleted();
+            }
+        }
+
+        public void ClaimButton_OnClick()
+        {
+            ClaimQuestFunction.Invoke(this);
+        }
     }
 }

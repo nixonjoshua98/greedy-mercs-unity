@@ -5,10 +5,10 @@ from bson import ObjectId
 from fastapi import Depends
 
 from src.exceptions import HandlerException
+from src.models import BaseModel
 from src.mongo.accounts import (AccountModel, AccountsRepository,
                                 get_accounts_repository)
-from src.models import BaseModel
-from src.request_models import LoginData
+from src.request_models import LoginRequestModel
 
 
 class AccountCreationRequest:
@@ -23,8 +23,8 @@ class CreateAccountHandler:
     def __init__(self, acc_repo: AccountsRepository = Depends(get_accounts_repository)):
         self.accounts_repo: AccountsRepository = acc_repo
 
-    @md.dispatch(LoginData)
-    async def handle(self, data: LoginData):
+    @md.dispatch(LoginRequestModel)
+    async def handle(self, data: LoginRequestModel):
         user: AccountModel = await self.accounts_repo.insert_new_user(data.device_id)
 
         return AccountCreationResponse(user_id=user.id)

@@ -3,12 +3,13 @@ import datetime as dt
 from bson import ObjectId
 from fastapi import Depends
 
-from src.common.types import MercID, QuestID, QuestType
+from src.common.types import MercID, QuestType
 from src.dependencies import get_merc_quests_repo, get_static_quests
 from src.exceptions import HandlerException
+from src.models import BaseModel
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
 from src.mongo.quests import MercQuestModel, MercQuestsRepository
-from src.models import BaseModel
+from src.request_models import CompleteMercQuestRequestModel
 from src.static_models.quests import MercQuest, StaticQuests
 
 
@@ -32,27 +33,25 @@ class CompleteMercQuestHandler:
         self,
         uid: ObjectId,
         date: dt.datetime,
-        quest_id: QuestID
+        model: CompleteMercQuestRequestModel
     ) -> CompleteMercQuestResponse:
 
-        quest_data: MercQuest = self._quests_data.get_quest(QuestType.MERC_QUEST, quest_id)
+        quest_data: MercQuest = self._quests_data.get_quest(QuestType.MERC_QUEST, model.quest_id)
 
         if quest_data is None:
             raise HandlerException(500, "Quest not found")
 
-        merc_quest = await self._quests.get_quest(uid, quest_id)
+        merc_quest = await self._quests.get_quest(uid, model.quest_id)
         merc_unlocked = await self._mercs.merc_unlocked(uid, quest_data.reward_merc)
 
         if merc_quest is not None:
             raise HandlerException(400, "Quest already completed")
         elif merc_unlocked:
             raise HandlerException(400, "Merc already unlocked")
+        elif quest_data.required_stage < quest_data.required_stage:
+            raise HandlerException(400, "Unlock conditions not met")
 
-        model = MercQuestModel(
-            user_id=uid,
-            quest_id=quest_id,
-            completed_at=date
-        )
+        model = MercQuestModel(user_id=uid, quest_id=model.quest_id, completed_at=date)
 
         await self._quests.add_quest(model)
         await self._mercs.insert_units(uid, [quest_data.reward_merc])

@@ -6,18 +6,16 @@ from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.exceptions import HandlerException
+from src.models import BaseModel
 from src.mongo.armoury import (ArmouryItemModel, ArmouryRepository,
                                get_armoury_repository)
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyRepoFields
 from src.mongo.currency import get_currency_repository
-from src.models import BaseModel
 from src.static_models.bountyshop import (BountyShopArmouryItem,
                                           DynamicBountyShop,
                                           dynamic_bounty_shop)
-
-from .basepurchasehandler import BaseBountyShopPurchaseHandler
 
 
 class PurchaseArmouryItemResponse(BaseModel):
@@ -26,7 +24,7 @@ class PurchaseArmouryItemResponse(BaseModel):
     item: ArmouryItemModel
 
 
-class PurchaseArmouryItemHandler(BaseBountyShopPurchaseHandler):
+class PurchaseArmouryItemHandler:
     def __init__(
         self,
         ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
@@ -42,6 +40,14 @@ class PurchaseArmouryItemHandler(BaseBountyShopPurchaseHandler):
         self.shop_repo = bountyshop_repo
         self.currency_repo = currency_repo
         self.armoury_repo = armoury_repo
+
+    async def log_purchase(self, uid: ObjectId, item):
+        await self.shop_repo.add_purchase(uid, item.id, self.prev_reset, item.purchase_cost)
+
+    async def get_item_purchase_count(self, uid: ObjectId, item_id: str, prev_reset: dt.datetime) -> int:
+        purchases = await self.shop_repo.get_daily_item_purchases(uid, item_id, prev_reset)
+
+        return len(purchases)
 
     async def handle(self, uid: ObjectId, item_id: str) -> PurchaseArmouryItemResponse:
         item: BountyShopArmouryItem = self.shop.get_item(item_id)

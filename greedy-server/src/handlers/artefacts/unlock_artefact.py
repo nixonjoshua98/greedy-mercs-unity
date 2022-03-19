@@ -7,12 +7,12 @@ from fastapi import Depends
 from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_artefacts_dict
 from src.exceptions import HandlerException
+from src.models import BaseModel
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
-from src.models import BaseModel
 from src.static_models.artefacts import StaticArtefact
 
 

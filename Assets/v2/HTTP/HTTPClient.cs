@@ -15,6 +15,7 @@ namespace GM.HTTP
         void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback);
         void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback);
         void ClaimBounties(Action<BountyClaimResponse> callback);
+        void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action);
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
         void Login(Action<LoginResponse> callback);
@@ -37,9 +38,16 @@ namespace GM.HTTP
 
         public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
         {
-            var req = new CompleteQuestRequest() { QuestID = questId };
+            var req = new CompleteMercQuestRequest() { QuestID = questId, HighestStageReached = App.Stats.HighestStageReached };
 
             SendRequest("POST", "quests/merc/complete", req, encrypt: false, action);
+        }
+
+        public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)
+        {
+            var req = new CompleteDailyQuestRequest() { QuestID = questId };
+
+            SendRequest("POST", "quests/daily/complete", req, encrypt: false, action);
         }
 
         public void FetchStaticData(Action<FetchGameDataResponse> callback)

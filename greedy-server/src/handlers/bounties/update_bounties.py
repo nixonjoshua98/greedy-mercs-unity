@@ -1,14 +1,12 @@
-
-
 from fastapi import Depends
 
 from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_bounties
 from src.exceptions import HandlerException
+from src.models import BaseModel
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
                                 get_bounties_repository)
 from src.mongo.currency import CurrencyRepository, get_currency_repository
-from src.models import BaseModel
 from src.static_models.bounties import StaticBounties
 
 
@@ -45,11 +43,7 @@ class UpdateBountiesHandler:
         # Enable (or disable) the relevant bounties
         await self.bounties_repo.update_active_bounties(user.user_id, bounty_ids)
 
-        bounties: UserBountiesDataModel = await self.bounties_repo.get_user_bounties(
-            user.user_id
-        )
-
-        return UpdateBountiesResponse(bounties=bounties)
+        return UpdateBountiesResponse(bounties=await self.bounties_repo.get_user_bounties(user.user_id))
 
     def is_bounties_valid(self, bounty_ids: list[int], user_data: UserBountiesDataModel) -> bool:
         u_bounty_ids: list[int] = [b.bounty_id for b in user_data.bounties]

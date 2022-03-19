@@ -1,4 +1,3 @@
-from .claim_bounties import BountyClaimResponse, ClaimBountiesHandler
 from .create_account import (AccountCreationRequest, AccountCreationResponse,
                              CreateAccountHandler)
 from .get_daily_stats import (GetUserDailyStatsHandler,
@@ -11,6 +10,5 @@ from .purchase_armoury_item import (PurchaseArmouryItemHandler,
                                     PurchaseArmouryItemResponse)
 from .purchase_bs_currency_item import (PurchaseCurrencyHandler,
                                         PurchaseCurrencyResponse)
-from .update_bounties import UpdateBountiesHandler, UpdateBountiesResponse
 from .upgrade_armoury_item import (UpgradeArmouryItemHandler,
                                    UpgradeItemResponse)

@@ -13,7 +13,7 @@ namespace GM.Core
 
     public class GMApplicationInitializer : MonoBehaviour
     {
-        InitialisationData Data = new InitialisationData();
+        InitialisationData Data = new();
 
         void Start()
         {

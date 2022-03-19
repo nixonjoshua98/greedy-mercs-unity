@@ -34,5 +34,8 @@ class GetStaticDataHandler:
             bounties=self.static_files.load_bounties(),
             armoury=self.static_files.load_armoury(),
             mercs=self.static_files.load_mercs(),
-            quests=self.static_files.load_quests()
+            quests={
+                "LastDailyRefresh": self.ctx.prev_daily_reset,
+                **self.static_files.load_quests()
+            }
         )

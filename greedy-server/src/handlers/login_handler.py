@@ -5,11 +5,11 @@ from bson import ObjectId
 from fastapi import Depends, HTTPException
 
 from src.dependencies import get_auth_sessions_repo, get_device_id_header
+from src.models import BaseModel
 from src.mongo.accounts import (AccountModel, AccountsRepository,
                                 get_accounts_repository)
 from src.mongo.sessions import SessionModel, SessionRepository
-from src.models import BaseModel
-from src.request_models import LoginData
+from src.request_models import LoginRequestModel
 
 
 class LoginResponse(BaseModel):
@@ -28,7 +28,7 @@ class LoginHandler:
         self._sessions: SessionRepository = sessions
         self._accounts: AccountsRepository = accounts
 
-    async def handle(self, model: LoginData) -> LoginResponse:
+    async def handle(self, model: LoginRequestModel) -> LoginResponse:
         account: Optional[AccountModel] = await self._accounts.get_user_by_device_id(model.device_id)
 
         if account is None:

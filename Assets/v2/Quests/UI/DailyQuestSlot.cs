@@ -11,10 +11,5 @@ namespace GM.Quests.UI
             base.SetStaticUI();
             ClaimRewardText.text = Quest.DiamondsRewarded.ToString();
         }
-
-        public override void ClaimButton_OnClick()
-        {
-            Popup.ClaimDailyQuest(this);
-        }
     }
 }

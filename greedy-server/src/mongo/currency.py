@@ -15,6 +15,7 @@ def get_currency_repository(request: ServerRequest) -> CurrencyRepository:
 
 class Fields:
     user_id = "userId"
+    diamonds = "diamonds"
     bounty_points = "bountyPoints"
     armoury_points = "armouryPoints"
     prestige_points = "prestigePoints"
@@ -22,6 +23,7 @@ class Fields:
 
 class CurrenciesModel(BaseModel):
     user_id: ObjectId = Field(..., alias=Fields.user_id)
+    diamonds: int = Field(0, alias=Fields.diamonds)
     prestige_points: int = Field(0, alias=Fields.prestige_points)
     bounty_points: int = Field(0, alias=Fields.bounty_points)
     armoury_points: int = Field(0, alias=Fields.armoury_points)

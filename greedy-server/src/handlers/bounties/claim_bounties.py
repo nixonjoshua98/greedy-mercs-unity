@@ -7,13 +7,12 @@ from fastapi import Depends
 from src import utils
 from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_bounties
-from src.exceptions import HandlerException
+from src.models import BaseModel
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
                                 get_bounties_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
-from src.models import BaseModel
 from src.static_models.bounties import StaticBounties
 
 
@@ -42,9 +41,6 @@ class ClaimBountiesHandler:
 
         # Calculate the total unclaimed points
         points = self.unclaimed_points(claim_time, user_bounties)
-
-        if points <= 0:
-            raise HandlerException(400, "Claim points cannot be zero")
 
         # Update the users' claim time
         await self.bounties_repo.set_claim_time(ctx.user_id, claim_time)

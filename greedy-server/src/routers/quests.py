@@ -2,26 +2,33 @@ from fastapi import Depends
 
 from src.auth.handler import (AuthenticatedRequestContext,
                               get_authenticated_context)
-from src.common.types import QuestID
-from src.handlers.quests import CompleteMercQuestHandler
-from src.models import BaseModel
-from src.response import ServerResponse
+from src.handlers.quests import (CompleteDailyQuestHandler,
+                                 CompleteMercQuestHandler)
+from src.request_models import (CompleteDailyQuestRequestModel,
+                                CompleteMercQuestRequestModel)
+from src.response import EncryptedServerResponse
 from src.router import APIRouter
 
 router = APIRouter(prefix="/api/quests")
 
 
-class QuestCompleteModel(BaseModel):
-    quest_id: QuestID
-
-
 @router.post("/merc/complete")
 async def complete_merc_quest(
-    model: QuestCompleteModel,
+    model: CompleteMercQuestRequestModel,
     ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
     _handler: CompleteMercQuestHandler = Depends(),
 ):
-    resp = await _handler.handle(ctx.user_id, ctx.datetime, model.quest_id)
+    resp = await _handler.handle(ctx.user_id, ctx.datetime, model)
 
-    return ServerResponse(resp)
+    return EncryptedServerResponse(resp)
 
+
+@router.post("/daily/complete")
+async def complete_merc_quest(
+    model: CompleteDailyQuestRequestModel,
+    ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
+    _handler: CompleteDailyQuestHandler = Depends(),
+):
+    resp = await _handler.handle(ctx.user_id, model)
+
+    return EncryptedServerResponse(resp)

@@ -6,9 +6,9 @@ from fastapi import Depends
 from pydantic import Field
 
 from src.classes import DateRange
-from src.mongo.prestige_logs import (PrestigeLogsRepository,
-                                     get_prestige_logs_repo)
 from src.models import BaseModel
+from src.mongo.prestigelogs import (PrestigeLogsRepository,
+                                    get_prestige_logs_repo)
 
 
 class GetUserDailyStatsResponse(BaseModel):

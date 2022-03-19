@@ -10,6 +10,7 @@ from src.common.types import BonusType
 from src.dependencies import (get_lifetime_stats_repo,
                               get_static_artefacts_dict, get_static_bounties)
 from src.exceptions import ServerException
+from src.models import BaseModel
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
@@ -19,10 +20,9 @@ from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
 from src.mongo.lifetimestats import FieldNames as LifetimeStatsFields
 from src.mongo.lifetimestats import LifetimeStatsRepository
-from src.mongo.prestige_logs import (PrestigeLogModel, PrestigeLogsRepository,
-                                     get_prestige_logs_repo)
-from src.models import BaseModel
-from src.request_models import PrestigeData
+from src.mongo.prestigelogs import (PrestigeLogModel, PrestigeLogsRepository,
+                                    get_prestige_logs_repo)
+from src.request_models import PrestigeRequestModel
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties
 
@@ -62,7 +62,7 @@ class PrestigeHandler:
         self.artefacts: list[ArtefactModel] = []
         self.bounties: Optional[UserBountiesDataModel] = None
 
-    async def handle(self, data: PrestigeData) -> PrestigeResponse:
+    async def handle(self, data: PrestigeRequestModel) -> PrestigeResponse:
 
         # Fetch user data
         self.artefacts = await self._artefacts.get_user_artefacts(self.ctx.user_id)
@@ -89,11 +89,11 @@ class PrestigeHandler:
             unlocked_bounties=new_bounties
         )
 
-    async def update_lifetime_stats(self, model: PrestigeData):
+    async def update_lifetime_stats(self, model: PrestigeRequestModel):
         await self._lifetime_stats.incr(self.user_id, LifetimeStatsFields.num_prestiges, 1)
         await self._lifetime_stats.max(self.user_id, LifetimeStatsFields.highest_stage, model.prestige_stage)
 
-    async def log_prestige(self, body: PrestigeData):
+    async def log_prestige(self, body: PrestigeRequestModel):
         model = PrestigeLogModel(
             user_id=self.ctx.user_id,
             date=self.ctx.datetime,

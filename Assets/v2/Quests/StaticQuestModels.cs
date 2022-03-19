@@ -21,7 +21,6 @@ namespace GM.Quests
         public QuestActionType ActionType;
         public int DiamondsRewarded;
 
-        // Optionals
         public int NumPrestiges; // QuestActionType.Prestige
     }
 

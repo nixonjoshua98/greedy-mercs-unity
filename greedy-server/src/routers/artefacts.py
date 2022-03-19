@@ -6,7 +6,7 @@ from src.handlers.artefacts import (BulkUpgradeArtefactsHandler,
                                     UnlockArtefactHandler,
                                     UnlockArtefactResponse)
 from src.models import BaseModel
-from src.request_models import ArtefactUpgradeModel
+from src.request_models import ArtefactUpgradeRequestModel
 from src.response import EncryptedServerResponse, ServerResponse
 from src.router import APIRouter
 
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/api/artefact")
 
 
 class ArtefactBulkUpgradeModel(BaseModel):
-    artefacts: list[ArtefactUpgradeModel]
+    artefacts: list[ArtefactUpgradeRequestModel]
 
 
 @router.post("/bulk-upgrade")

@@ -11,6 +11,7 @@ from src.models import BaseModel
 class MercQuest(BaseModel):
     quest_id: QuestID = Field(..., alias="questId")
     reward_merc: MercID = Field(..., alias="rewardMercId")
+    required_stage: int = Field(..., alias="requiredStage")
 
 
 class DailyQuest(BaseModel):

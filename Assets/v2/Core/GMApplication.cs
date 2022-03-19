@@ -40,7 +40,7 @@ namespace GM.Core
 
         private GMApplication()
         {
-            SaveManager = LocalSaveManager.Instance; // Force lazy load
+            SaveManager = LocalSaveManager.Instance;    // Force lazy load
 
             LocalPersistantFile.LoadFromFile(out PersistantLocalFile);
         }

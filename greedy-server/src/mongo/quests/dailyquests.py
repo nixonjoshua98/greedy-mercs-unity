@@ -11,8 +11,8 @@ from src.models import BaseModel
 from src.request import ServerRequest
 
 
-def get_merc_quests_repo(request: ServerRequest):
-    return MercQuestsRepository(request.app.state.mongo)
+def get_daily_quests_repo(request: ServerRequest):
+    return DailyQuestsRepository(request.app.state.mongo)
 
 
 class Fields:
@@ -21,24 +21,24 @@ class Fields:
     completed_at = "completedAt"
 
 
-class MercQuestModel(BaseModel):
+class DailyQuestModel(BaseModel):
     user_id: ObjectId = Field(..., alias=Fields.user_id)
     quest_id: QuestID = Field(..., alias=Fields.quest_id)
     completed_at: dt.datetime = Field(..., alias=Fields.completed_at)
 
 
-class MercQuestsRepository:
+class DailyQuestsRepository:
     def __init__(self, client):
-        self._quests = client.database["completedMercQuests"]
+        self._quests = client.database["completedDailyQuests"]
 
-    async def get_all_quests(self, uid: ObjectId) -> list[MercQuestModel]:
+    async def get_all_quests(self, uid: ObjectId) -> list[DailyQuestModel]:
         ls = await self._quests.find({Fields.user_id: uid}).to_list(length=None)
 
-        return [MercQuestModel.parse_obj(doc) for doc in ls]
+        return [DailyQuestModel.parse_obj(doc) for doc in ls]
 
-    async def get_quest(self, uid: ObjectId, questid: QuestID) -> Optional[MercQuestModel]:
+    async def get_quest(self, uid: ObjectId, questid: QuestID) -> Optional[DailyQuestModel]:
         doc = await self._quests.find_one({Fields.user_id: uid, Fields.quest_id: questid})
-        return MercQuestModel.parse_obj(doc) if doc else None
+        return DailyQuestModel.parse_obj(doc) if doc else None
 
-    async def add_quest(self, model: MercQuestModel):
+    async def add_quest(self, model: DailyQuestModel):
         await self._quests.insert_one(model.dict())

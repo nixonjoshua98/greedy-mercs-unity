@@ -626,7 +626,7 @@ GameObject:
   - component: {fileID: 1695799913}
   - component: {fileID: 1695799914}
   m_Layer: 0
-  m_Name: ClickAnimationController
+  m_Name: Click
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

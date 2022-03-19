@@ -5,7 +5,7 @@ from src.handlers import (CreateAccountHandler, GetUserDataHandler,
 from src.mongo.accounts import (AccountModel, AccountsRepository,
                                 get_accounts_repository)
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
-from src.request_models import LoginData
+from src.request_models import LoginRequestModel
 from src.response import ServerResponse
 from src.router import APIRouter
 
@@ -14,12 +14,12 @@ router = APIRouter(prefix="/api/login")
 
 @router.post("")
 async def index(
-    model: LoginData,
+    model: LoginRequestModel,
     # Handlers #
     _login: LoginHandler = Depends(),
     _user_data: GetUserDataHandler = Depends(),
     _create_account: CreateAccountHandler = Depends(),
-    # Repositories =
+    # Repositories #
     _accounts: AccountsRepository = Depends(get_accounts_repository),
     _units_repo: UnlockedMercsRepository = Depends(get_unlocked_mercs_repo)
 

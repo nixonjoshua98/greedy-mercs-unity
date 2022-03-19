@@ -1,6 +1,9 @@
-﻿namespace GM.PlayerStats
-{
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 
+namespace GM.PlayerStats
+{
     public class UserStatsModel
     {
         public LifetimeStatsModel Lifetime;
@@ -15,6 +18,10 @@
 
     public class DailyStatsModel
     {
-        public int TotalPrestiges;
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonProperty(PropertyName = "fromDate")]
+        public DateTime LastDailyRefresh { get; set; }
+
+        public int TotalPrestiges = 0;
     }
 }

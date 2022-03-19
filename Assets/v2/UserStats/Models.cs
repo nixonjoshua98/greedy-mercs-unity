@@ -20,7 +20,7 @@ namespace GM.PlayerStats
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
         [JsonProperty(PropertyName = "fromDate")]
-        public DateTime LastDailyRefresh { get; set; }
+        public DateTime LastRefresh { get; set; }
 
         public int TotalPrestiges = 0;
     }

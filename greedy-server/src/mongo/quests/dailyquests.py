@@ -31,13 +31,17 @@ class DailyQuestsRepository:
     def __init__(self, client):
         self._quests = client.database["completedDailyQuests"]
 
-    async def get_all_quests(self, uid: ObjectId) -> list[DailyQuestModel]:
-        ls = await self._quests.find({Fields.user_id: uid}).to_list(length=None)
+    async def get_quests_since(self, uid: ObjectId, last_refresh: dt.datetime) -> list[DailyQuestModel]:
+        ls = await self._quests.find(
+            {Fields.user_id: uid, Fields.completed_at: {"$gt": last_refresh}}
+        ).to_list(length=None)
 
         return [DailyQuestModel.parse_obj(doc) for doc in ls]
 
-    async def get_quest(self, uid: ObjectId, questid: QuestID) -> Optional[DailyQuestModel]:
-        doc = await self._quests.find_one({Fields.user_id: uid, Fields.quest_id: questid})
+    async def get_quest(self, uid: ObjectId, questid: QuestID, last_refresh: dt.datetime) -> Optional[DailyQuestModel]:
+        doc = await self._quests.find_one(
+            {Fields.user_id: uid, Fields.quest_id: questid, Fields.completed_at: {"$gt": last_refresh}}
+        )
         return DailyQuestModel.parse_obj(doc) if doc else None
 
     async def add_quest(self, model: DailyQuestModel):

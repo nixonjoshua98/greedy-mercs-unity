@@ -1,5 +1,6 @@
 using GM.Artefacts.Models;
 using GM.HTTP.Requests;
+using GM.Quests;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace GM.HTTP
         void ClaimBounties(Action<BountyClaimResponse> callback);
         void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action);
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
+        void FetchQuests(Action<GetQuestsResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
         void Login(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
@@ -36,18 +38,23 @@ namespace GM.HTTP
 
         string Authentication = null;
 
+        public void FetchQuests(Action<GM.Quests.GetQuestsResponse> action)
+        {
+            SendRequest("GET", "quests", ServerRequest.Empty, encrypt: false, action);
+        }
+
         public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
         {
             var req = new CompleteMercQuestRequest() { QuestID = questId, HighestStageReached = App.Stats.HighestStageReached };
 
-            SendRequest("POST", "quests/merc/complete", req, encrypt: false, action);
+            SendRequest("POST", "quests/merc", req, encrypt: false, action);
         }
 
         public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)
         {
             var req = new CompleteDailyQuestRequest() { QuestID = questId };
 
-            SendRequest("POST", "quests/daily/complete", req, encrypt: false, action);
+            SendRequest("POST", "quests/daily", req, encrypt: false, action);
         }
 
         public void FetchStaticData(Action<FetchGameDataResponse> callback)

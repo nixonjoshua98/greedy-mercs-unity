@@ -1,4 +1,7 @@
 ﻿using GM.Common.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 
 namespace GM.Quests
@@ -28,5 +31,19 @@ namespace GM.Quests
     {
         public List<StaticMercQuest> MercQuests;
         public List<StaticDailyQuest> DailyQuests;
+    }
+
+    public class GetQuestsResponse : GM.HTTP.ServerResponse
+    {
+
+    }
+
+    public class UserQuestsModel
+    {
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime NextDailyQuestsRefresh { get; set; }
+
+        public List<int> CompletedMercQuests;
+        public List<int> CompletedDailyQuests;
     }
 }

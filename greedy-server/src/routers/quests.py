@@ -12,7 +12,14 @@ from src.router import APIRouter
 router = APIRouter(prefix="/api/quests")
 
 
-@router.post("/merc/complete")
+@router.get("")
+async def index(
+    ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
+):
+    return EncryptedServerResponse({})
+
+
+@router.post("/merc")
 async def complete_merc_quest(
     model: CompleteMercQuestRequestModel,
     ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
@@ -23,7 +30,7 @@ async def complete_merc_quest(
     return EncryptedServerResponse(resp)
 
 
-@router.post("/daily/complete")
+@router.post("/daily")
 async def complete_merc_quest(
     model: CompleteDailyQuestRequestModel,
     ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),

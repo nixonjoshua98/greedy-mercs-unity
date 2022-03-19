@@ -44,7 +44,7 @@ class CompleteDailyQuestHandler:
         if quest_data is None:
             raise HandlerException(400, "Quest not found")
 
-        if await self._quests.get_quest(uid, model.quest_id) is not None:
+        if await self._quests.get_quest(uid, model.quest_id, self.ctx.prev_daily_reset) is not None:
             raise HandlerException(400, "Quest already completed")
 
         daily_stats = await self._daily_stats.handle(uid, self.ctx.daily_reset)

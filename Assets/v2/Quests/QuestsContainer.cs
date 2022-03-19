@@ -15,7 +15,9 @@ namespace GM.Quests
             UserQuests = userQuests;
         }
 
-        public TimeSpan TimeUntilQuestsShouldRefresh => (UserQuests.LastQuestsRefresh + TimeSpan.FromDays(1)) - DateTime.UtcNow;
+        public bool IsDailyQuestsValid => (UserQuests.NextDailyQuestsRefresh - TimeSpan.FromSeconds(5)) > DateTime.UtcNow;
+
+        public TimeSpan TimeUntilQuestsShouldRefresh => UserQuests.NextDailyQuestsRefresh - DateTime.UtcNow;
         public bool IsMercQuestCompleted(int questId) => UserQuests.CompletedMercQuests.Contains(questId);
         public bool IsDailyQuestCompleted(int questId) => UserQuests.CompletedDailyQuests.Contains(questId);
 
@@ -89,6 +91,19 @@ namespace GM.Quests
                 }
 
                 callback.Invoke(resp.StatusCode == HTTP.HTTPCodes.Success);
+            });
+        }
+
+        public void FetchQuests(Action<bool> action)
+        {
+            App.HTTP.FetchQuests(resp =>
+            {
+                if (resp.StatusCode == HTTP.HTTPCodes.Success)
+                {
+
+                };
+
+                action.Invoke(resp.StatusCode == HTTP.HTTPCodes.Success);
             });
         }
     }

@@ -62,6 +62,8 @@ class GetUserDataHandler:
         self._bountyshop: BountyShopRepository = bountyshop_repo
 
     async def handle(self, uid: ObjectId):
+        completed_daily_quests = await self._daily_quests.get_quests_since(uid, self.ctx.prev_daily_reset)
+
         data = {
             "currencyItems": await self._currencies.get_user(uid),
             "bountyData": await self._bounties.get_user_bounties(uid),
@@ -73,9 +75,9 @@ class GetUserDataHandler:
             },
             "unlockedMercs": await self._units.get_user_mercs(uid),
             "quests": {
-                "lastQuestsRefresh": self.ctx.daily_reset.from_,
+                "nextDailyQuestsRefresh": self.ctx.daily_reset.to_,
                 "completedMercQuests": [q.quest_id for q in await self._merc_quests.get_all_quests(uid)],
-                "completedDailyQuests": [q.quest_id for q in await self._daily_quests.get_all_quests(uid)]
+                "completedDailyQuests": [q.quest_id for q in completed_daily_quests]
             },
             "userStats": {
                 "lifetime": await self._lifetime_stats.get_user_stats(uid),

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import datetime as dt
 
 from bson import ObjectId
@@ -8,6 +6,7 @@ from bson import ObjectId
 class RequestContext:
     def __init__(self,):
         self.datetime: dt.datetime = dt.datetime.utcnow()
+
         self.prev_daily_refresh: dt.datetime = _prev_daily_reset_datetime(self.datetime)
         self.next_daily_refresh: dt.datetime = self.prev_daily_refresh + dt.timedelta(days=1)
 

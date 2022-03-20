@@ -5,7 +5,6 @@ from src.exceptions import HandlerException
 from src.loggers import logger
 from src.request import ServerRequest
 from src.response import ServerResponse
-from src.shared_models import BaseModel
 
 
 async def handle_http_exception(_request: ServerRequest, exc: HTTPException):
@@ -21,6 +20,4 @@ async def handle_validation_exception(_request: Request, exc: RequestValidationE
 
 
 async def handle_handler_exception(_request: Request, exc: HandlerException):
-    logger.debug(exc.detail)
-
     return ServerResponse({"code": exc.status_code, "error": exc.detail}, status_code=exc.status_code)

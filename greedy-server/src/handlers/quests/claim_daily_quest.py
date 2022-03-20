@@ -1,9 +1,9 @@
 from bson import ObjectId
 from fastapi import Depends
 
+from src import utils
 from src.auth import RequestContext
-from src.common.types import QuestActionType, QuestID, QuestType
-from src.dependencies import get_static_quests
+from src.common.types import QuestActionType, QuestID
 from src.exceptions import HandlerException
 from src.handlers import GetUserDailyStatsHandler, GetUserDailyStatsResponse
 from src.mongo.currency import CurrencyRepository
@@ -13,7 +13,9 @@ from src.mongo.quests import (DailyQuestModel, DailyQuestsRepository,
                               get_daily_quests_repo)
 from src.request_models import CompleteDailyQuestRequestModel
 from src.shared_models import BaseModel
-from src.static_models.quests import DailyQuest, StaticQuests
+from src.static_models.quests import DailyQuest
+
+from .create_quests import CreateQuestsHandler, CreateQuestsResponse
 
 
 class CompleteDailyQuestResponse(BaseModel):
@@ -25,39 +27,44 @@ class CompleteDailyQuestHandler:
         self,
         ctx: RequestContext = Depends(),
         daily_stats: GetUserDailyStatsHandler = Depends(),
+        create_quests: CreateQuestsHandler = Depends(),
         currencies=Depends(get_currency_repository),
-        quests=Depends(get_daily_quests_repo),
-        quests_data=Depends(get_static_quests)
+        quests=Depends(get_daily_quests_repo)
     ):
         self.ctx = ctx
+
+        self._create_quests = create_quests
 
         self._daily_stats: GetUserDailyStatsHandler = daily_stats
         self._currencies: CurrencyRepository = currencies
         self._quests: DailyQuestsRepository = quests
 
-        self._quests_data: StaticQuests = quests_data
-
     async def handle(self, uid: ObjectId, model: CompleteDailyQuestRequestModel) -> CompleteDailyQuestResponse:
 
-        quest_data: DailyQuest = self._quests_data.get_quest(QuestType.DAILY_QUEST, model.quest_id)
+        # Generate the quests for the user
+        user_quests: CreateQuestsResponse = await self._create_quests.handle(uid, self.ctx)
 
-        if quest_data is None:
+        # Look for the unique aily quest
+        quest_data: DailyQuest = utils.get(user_quests.daily_quests, quest_id=model.quest_id)
+
+        if quest_data is None:  # Quest does not exist (perhaps outdated)
             raise HandlerException(400, "Quest not found")
 
+        # Quest has already been completed, and the client is not up-to-date
         if await self._quests.get_quest(uid, model.quest_id, self.ctx.prev_daily_refresh) is not None:
             raise HandlerException(400, "Quest already completed")
 
-        daily_stats = await self._daily_stats.handle(
-            uid,
-            self.ctx.prev_daily_refresh,
-            self.ctx.next_daily_refresh
-        )
+        # Fetch the confirmed daily stats, ready to check for quest progress
+        daily_stats = await self._daily_stats.handle(uid, self.ctx)
 
+        # Check if the quest has been completed, if it hasn't then return an error
         if not await self.is_quest_completed(quest_data, daily_stats):
             raise HandlerException(400, "Quest is not completed")
 
+        # Run what we need to after the quest had been confirmed to be cleared
         await self.handle_completed_quest(uid, model.quest_id, quest_data)
 
+        # Return a response back to the caller
         return CompleteDailyQuestResponse(
             diamonds_rewarded=quest_data.diamonds_rewarded
         )

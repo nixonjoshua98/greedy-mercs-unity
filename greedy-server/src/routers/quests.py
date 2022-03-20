@@ -34,7 +34,7 @@ async def complete_merc_quest(
 
 
 @router.post("/daily")
-async def complete_merc_quest(
+async def complete_daily_quest(
         model: CompleteDailyQuestRequestModel,
         ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
         handler: CompleteDailyQuestHandler = Depends(),

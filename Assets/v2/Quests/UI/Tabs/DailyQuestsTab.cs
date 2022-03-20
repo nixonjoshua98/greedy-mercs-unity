@@ -23,7 +23,6 @@ namespace GM.Quests.UI
             InstantiateQuests();
         }
 
-
         void FixedUpdate()
         {
             bool isShowingQuests = !LoadingOverlay.activeInHierarchy && App.Quests.IsDailyQuestsValid && App.Stats.IsDailyStatsValid;
@@ -34,12 +33,11 @@ namespace GM.Quests.UI
             {
                 var ts = App.Quests.NextDailyRefresh - DateTime.UtcNow;
 
-                InfoText.text = ts.TotalSeconds <= 0.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
+                InfoText.text = ts.TotalSeconds <= 1.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
 
                 Slots.ForEach(s => s.UpdateUI());
             }
         }
-
 
         void InstantiateQuests()
         {
@@ -52,7 +50,6 @@ namespace GM.Quests.UI
                 Slots.Add(slot);
             }
         }
-
 
         public void ClaimDailyQuest(DailyQuestSlot slot)
         {

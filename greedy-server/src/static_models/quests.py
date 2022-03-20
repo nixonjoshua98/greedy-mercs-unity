@@ -3,8 +3,7 @@ from typing import Optional
 
 from pydantic import Field
 
-from src import utils
-from src.common.types import MercID, QuestActionType, QuestID, QuestType
+from src.common.types import MercID, QuestActionType, QuestID
 from src.shared_models import BaseModel
 
 
@@ -25,12 +24,3 @@ class DailyQuest(BaseModel):
 class StaticQuests(BaseModel):
     merc_quests: list[MercQuest] = Field(..., alias="mercQuests")
     daily_quests: list[DailyQuest] = Field(..., alias="dailyQuests")
-
-    def get_quest(self, quest_type: QuestType, quest_id: QuestID):
-        if quest_type == QuestType.MERC_QUEST:
-            return utils.get(self.merc_quests, quest_id=quest_id)
-
-        elif quest_type == QuestType.DAILY_QUEST:
-            return utils.get(self.daily_quests, quest_id=quest_id)
-
-        raise Exception("Invalid quest type discovered")

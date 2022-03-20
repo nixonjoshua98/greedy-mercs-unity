@@ -6,6 +6,7 @@ QuestID = NewType("QuestID", int)
 MercID = NewType("MercID", int)
 ArtefactID = NewType("ArtefactID", int)
 
+
 class QuestActionType(IntEnum):
     PRESTIGE = 0
 

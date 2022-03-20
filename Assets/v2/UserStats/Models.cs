@@ -16,11 +16,10 @@ namespace GM.PlayerStats
         public int HighestPrestigeStageReached;
     }
 
-    public class DailyStatsModel
+    public class DailyStatsModel : GM.HTTP.ServerResponse
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        [JsonProperty(PropertyName = "fromDate")]
-        public DateTime LastRefresh { get; set; }
+        public DateTime NextRefresh { get; set; }
 
         public int TotalPrestiges = 0;
     }

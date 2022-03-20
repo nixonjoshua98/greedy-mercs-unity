@@ -32,9 +32,9 @@ class PrestigeLogsRepository:
     def __init__(self, client):
         self._logs = client.database["userPrestigeLogs"]
 
-    async def count_prestiges_between(self, uid: ObjectId, range_: DateRange) -> int:
+    async def count_prestiges_between(self, uid: ObjectId, from_date: dt.datetime, to_date: dt.datetime) -> int:
         return await self._logs.count_documents(
-            {FieldNames.user_id: uid, FieldNames.date: {"$gt": range_.from_, "$lt": range_.to_}}
+            {FieldNames.user_id: uid, FieldNames.date: {"$gt": from_date, "$lt": to_date}}
         )
 
     async def insert_prestige_log(self, model: PrestigeLogModel):

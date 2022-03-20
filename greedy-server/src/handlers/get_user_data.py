@@ -65,14 +65,14 @@ class GetUserDataHandler:
             "armouryItems": await self._armoury.get_user_items(uid),
             "artefacts": await self._artefacts.get_user_artefacts(uid),
             "bountyShop": {
-                "purchases": await self._bountyshop.get_daily_purchases(uid, self.ctx.prev_daily_reset),
+                "purchases": await self._bountyshop.get_daily_purchases(uid, self.ctx.prev_daily_refresh),
                 "shopItems": self._bountyshop_data.dict(),
             },
             "unlockedMercs": await self._units.get_user_mercs(uid),
             "quests": await self._get_quests.handle(uid, self.ctx),
             "userStats": {
                 "lifetime": await self._lifetime_stats.get_user_stats(uid),
-                "daily": await self._daily_stats.handle(uid, self.ctx.daily_reset)
+                "daily": await self._daily_stats.handle(uid, self.ctx.prev_daily_refresh, self.ctx.next_daily_refresh)
             }
         }
 

@@ -26,8 +26,6 @@ namespace GM.Quests
             CompletedMercQuests = model.CompletedMercQuests;
         }
 
-        public UnityEvent E_QuestsUpdated = new();
-
         public bool IsDailyQuestsValid => NextDailyRefresh > DateTime.UtcNow;
         public TimeSpan TimeUntilQuestsShouldRefresh => NextDailyRefresh - DateTime.UtcNow;
         public bool IsMercQuestCompleted(int questId) => CompletedMercQuests.Contains(questId);
@@ -113,8 +111,6 @@ namespace GM.Quests
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
                     Set(resp);
-
-                    E_QuestsUpdated.Invoke();
                 };
 
                 action.Invoke(resp.StatusCode == HTTP.HTTPCodes.Success);

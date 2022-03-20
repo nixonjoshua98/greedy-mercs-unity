@@ -34,7 +34,7 @@ class PurchaseArmouryItemHandler:
         bounty_shop: DynamicBountyShop = Depends(dynamic_bounty_shop),
     ):
         self.datetime: dt.datetime = ctx.datetime
-        self.prev_reset: dt.datetime = ctx.prev_daily_reset
+        self.prev_reset: dt.datetime = ctx.prev_daily_refresh
 
         self.shop = bounty_shop
         self.shop_repo = bountyshop_repo

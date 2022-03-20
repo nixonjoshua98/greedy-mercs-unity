@@ -23,7 +23,7 @@ async def dynamic_bounty_shop(
     shop_config: FullBountyShopConfig = Depends(bounty_shop_config),
 ) -> DynamicBountyShop:
 
-    return DynamicBountyShop(static_data, ctx.prev_daily_reset, shop_config)
+    return DynamicBountyShop(static_data, ctx.prev_daily_refresh, shop_config)
 
 
 class DynamicBountyShop:

@@ -1,5 +1,6 @@
 using GM.Artefacts.Models;
 using GM.HTTP.Requests;
+using GM.PlayerStats;
 using GM.Quests;
 using Newtonsoft.Json;
 using System;
@@ -18,6 +19,7 @@ namespace GM.HTTP
         void ClaimBounties(Action<BountyClaimResponse> callback);
         void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action);
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
+        void FetchDailyStats(Action<DailyStatsModel> action);
         void FetchQuests(Action<QuestsDataResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
         void Login(Action<LoginResponse> callback);
@@ -37,6 +39,11 @@ namespace GM.HTTP
         };
 
         string Authentication = null;
+
+        public void FetchDailyStats(Action<DailyStatsModel> action)
+        {
+            SendRequest("GET", "stats/daily", ServerRequest.Empty, encrypt: false, action);
+        }
 
         public void FetchQuests(Action<GM.Quests.QuestsDataResponse> action)
         {

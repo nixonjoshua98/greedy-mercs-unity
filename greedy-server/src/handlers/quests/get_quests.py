@@ -37,13 +37,13 @@ class GetQuestsHandler:
 
     @md.dispatch(ObjectId, RequestContext)
     async def handle(self, uid: ObjectId, ctx: RequestContext) -> GetQuestsResponse:
-        completed_daily_quests = await self.daily_quests.get_quests_since(uid, ctx.prev_daily_reset)
+        completed_daily_quests = await self.daily_quests.get_quests_since(uid, ctx.prev_daily_refresh)
         completed_merc_quests = await self.merc_quests.get_all_quests(uid)
 
         quests: CreateQuestsResponse = await self._create_quests.handle(uid, ctx)
 
         return GetQuestsResponse(
-            next_daily_refresh=ctx.next_daily_reset,
+            next_daily_refresh=ctx.next_daily_refresh,
             merc_quests=quests.merc_quests,
             daily_quests=quests.daily_quests,
             completed_daily_quests=[q.quest_id for q in completed_daily_quests],

@@ -10,27 +10,29 @@ namespace GM.Quests.UI
         [SerializeField] GameObject QuestSlotObject;
 
         [Header("References")]
+        [SerializeField] GameObject LoadingOverlay;
+        [Space]
         [SerializeField] TMP_Text InfoText;
         [SerializeField] Transform QuestParent;
 
         void Awake()
         {
-            App.Quests.E_QuestsUpdated.AddListener(() =>
-            {
-                QuestParent.DestroyChildren();
-                InstantiateQuests();
-            });
-
-            if (App.Quests.IsDailyQuestsValid)
-                InstantiateQuests();
+            InstantiateQuests();
         }
 
 
         void FixedUpdate()
         {
-            var ts = App.Quests.NextDailyRefresh - DateTime.UtcNow;
+            bool isShowingQuests = !LoadingOverlay.activeInHierarchy && App.Quests.IsDailyQuestsValid && App.Stats.IsDailyStatsValid;
 
-            InfoText.text = ts.TotalSeconds <= 0.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
+            LoadingOverlay.SetActive(!isShowingQuests);
+
+            if (isShowingQuests)
+            {
+                var ts = App.Quests.NextDailyRefresh - DateTime.UtcNow;
+
+                InfoText.text = ts.TotalSeconds <= 0.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
+            }
         }
 
 

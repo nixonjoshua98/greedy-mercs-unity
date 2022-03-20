@@ -28,7 +28,7 @@ class GetStaticDataHandler:
     async def handle(self) -> StaticDataResponse:
 
         return StaticDataResponse(
-            next_daily_reset=self.ctx.next_daily_reset,
+            next_daily_reset=self.ctx.next_daily_refresh,
             artefacts=self.static_files.load_artefacts(),
             bounties=self.static_files.load_bounties(),
             armoury=self.static_files.load_armoury(),

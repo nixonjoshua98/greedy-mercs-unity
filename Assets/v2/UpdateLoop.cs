@@ -13,6 +13,7 @@ namespace GM
         static UpdateLoop Instance = null;
 
         bool isUpdatingQuests;
+        bool isFetchingDailyStats;
 
         void Awake()
         {
@@ -45,7 +46,27 @@ namespace GM
                 {
                     FetchQuests();
                 }
+
+                if (!isFetchingDailyStats && !App.Stats.IsDailyStatsValid)
+                {
+                    FetchDailyStats();
+                }
             }
+        }
+
+        void FetchDailyStats()
+        {
+            isFetchingDailyStats = true;
+
+            App.Stats.FetchDailyStats(success =>
+            {
+                if (!App.Stats.IsDailyStatsValid)
+                {
+                    Invoke("FetchDailyStats", 1.0f);
+                }
+
+                isFetchingDailyStats = !App.Stats.IsDailyStatsValid;
+            });
         }
 
         void FetchQuests()
@@ -54,12 +75,12 @@ namespace GM
 
             App.Quests.FetchQuests(success =>
             {
-                if (!success)
+                if (!App.Quests.IsDailyQuestsValid)
                 {
                     Invoke("FetchQuests", 1.0f);
                 }
 
-                isUpdatingQuests = !success;
+                isUpdatingQuests = !App.Quests.IsDailyQuestsValid;
             });
         }
     }

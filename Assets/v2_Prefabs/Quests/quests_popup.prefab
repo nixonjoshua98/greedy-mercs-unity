@@ -473,9 +473,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestSlotObject: {fileID: 4177565925401569321, guid: 07a4762f2a771664ea43b835ae522ef5,
     type: 3}
+  LoadingOverlay: {fileID: 4365440767481524846}
   InfoText: {fileID: 3781134303515246629}
   QuestParent: {fileID: 4841346128851477294}
-  RefreshOverlay: {fileID: 4365440767481524846}
 --- !u!1 &3088677653354253277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,6 +1801,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3077828023251715676}
+  - component: {fileID: 5978902066875084552}
   - component: {fileID: 3500934615123837942}
   - component: {fileID: 5465207926400251174}
   m_Layer: 5
@@ -1830,6 +1831,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5978902066875084552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789833474483154617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9300d158f3e3e8f48b28e50e60133be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextToDisplay: Refreshing...
+  MsPerChar: 250
+  Loop: 1
+  Text: {fileID: 5465207926400251174}
 --- !u!222 &3500934615123837942
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1858,7 +1875,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Refreshing
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d83a2d1c974da674f91de9eb336819ae, type: 2}
   m_sharedMaterial: {fileID: 1861299339541508876, guid: d83a2d1c974da674f91de9eb336819ae,

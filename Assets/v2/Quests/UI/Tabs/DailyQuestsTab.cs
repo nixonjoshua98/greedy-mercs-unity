@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace GM.Quests.UI
         [Space]
         [SerializeField] TMP_Text InfoText;
         [SerializeField] Transform QuestParent;
+
+        List<DailyQuestSlot> Slots = new();
 
         void Awake()
         {
@@ -32,6 +35,8 @@ namespace GM.Quests.UI
                 var ts = App.Quests.NextDailyRefresh - DateTime.UtcNow;
 
                 InfoText.text = ts.TotalSeconds <= 0.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
+
+                Slots.ForEach(s => s.UpdateUI());
             }
         }
 
@@ -40,14 +45,16 @@ namespace GM.Quests.UI
         {
             foreach (var quest in App.Quests.DailyQuests)
             {
-                var slot = Instantiate<AbstractQuestSlot<AggregatedDailyQuest>>(QuestSlotObject, QuestParent);
+                var slot = Instantiate<DailyQuestSlot>(QuestSlotObject, QuestParent);
 
                 slot.Init(ClaimDailyQuest, quest);
+
+                Slots.Add(slot);
             }
         }
 
 
-        public void ClaimDailyQuest(AbstractQuestSlot<AggregatedDailyQuest> slot)
+        public void ClaimDailyQuest(DailyQuestSlot slot)
         {
             App.Quests.SendCompleteDailyQuest(slot.Quest, success =>
             {

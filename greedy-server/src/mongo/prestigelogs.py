@@ -4,12 +4,9 @@ import datetime as dt
 
 from bson import ObjectId
 from pydantic import Field
-from pymongo import ReturnDocument
 
-from src.classes import DateRange
-from src.common.types import NumberType
 from src.request import ServerRequest
-from src.shared_models import BaseDocument, BaseModel
+from src.shared_models import BaseModel
 
 
 def get_prestige_logs_repo(request: ServerRequest):

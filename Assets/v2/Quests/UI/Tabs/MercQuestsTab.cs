@@ -28,13 +28,13 @@ namespace GM.Quests.UI
         {
             foreach (var quest in App.Quests.MercQuests)
             {
-                var slot = Instantiate<AbstractQuestSlot<AggregatedMercQuest>>(QuestSlotObject, QuestParent);
+                var slot = Instantiate<MercQuestSlot>(QuestSlotObject, QuestParent);
 
                 slot.Init(ClaimDailyQuest, quest);
             }
         }
 
-        public void ClaimDailyQuest(AbstractQuestSlot<AggregatedMercQuest> slot)
+        public void ClaimDailyQuest(MercQuestSlot slot)
         {
             App.Quests.SendCompleteMercQuest(slot.Quest, success =>
             {

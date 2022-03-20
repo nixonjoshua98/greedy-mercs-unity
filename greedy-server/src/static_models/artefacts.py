@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-from typing import NewType
-
 from pydantic import Field
 
-from src.models import BaseModel
-
-ArtefactID = NewType("ArtefactID", int)
+from src.common.types import ArtefactID
+from src.shared_models import BaseModel
 
 
 class StaticArtefact(BaseModel):

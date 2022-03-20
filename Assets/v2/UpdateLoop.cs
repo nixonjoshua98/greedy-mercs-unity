@@ -12,7 +12,7 @@ namespace GM
     {
         static UpdateLoop Instance = null;
 
-        bool isUpdatingDailyQuests;
+        bool isUpdatingQuests;
 
         void Awake()
         {
@@ -38,25 +38,28 @@ namespace GM
             {
                 yield return new WaitForFixedUpdate();
 
-                if (!isUpdatingDailyQuests && !App.Quests.IsDailyQuestsValid)
+                if (App is null)
+                    continue;
+
+                if (!isUpdatingQuests && !App.Quests.IsDailyQuestsValid)
                 {
-                    FetchDailyQuests();
+                    FetchQuests();
                 }
             }
         }
 
-        void FetchDailyQuests()
+        void FetchQuests()
         {
-            isUpdatingDailyQuests = true;
+            isUpdatingQuests = true;
 
             App.Quests.FetchQuests(success =>
             {
                 if (!success)
                 {
-                    Invoke("UpdateDailyQuests", 1.0f);
+                    Invoke("FetchQuests", 1.0f);
                 }
 
-                isUpdatingDailyQuests = !success;
+                isUpdatingQuests = !success;
             });
         }
     }

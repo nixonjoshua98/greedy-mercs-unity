@@ -61,7 +61,7 @@ namespace GM.Core
 
             Stats.Set(userData.UserStats);
             BountyShop.Set(userData.BountyShop);
-            Quests.Set(staticData.Quests, userData.Quests);
+            Quests.Set(userData.Quests);
             Mercs.Set(userData.UnlockedMercs, staticData.Mercs, stateFile);
             Armoury.Set(userData.ArmouryItems, staticData.Armoury);
             Bounties.Set(userData.BountyData, staticData.Bounties);

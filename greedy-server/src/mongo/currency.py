@@ -5,8 +5,8 @@ from pydantic import Field
 from pymongo import ReturnDocument
 
 from src.common.types import NumberType
-from src.models import BaseModel
 from src.request import ServerRequest
+from src.shared_models import BaseModel
 
 
 def get_currency_repository(request: ServerRequest) -> CurrencyRepository:

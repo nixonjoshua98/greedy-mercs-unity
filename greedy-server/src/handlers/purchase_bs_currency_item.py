@@ -8,11 +8,11 @@ from fastapi import Depends
 from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common.types import CurrencyType
 from src.exceptions import HandlerException
-from src.models import BaseModel
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyRepoFields
 from src.mongo.currency import get_currency_repository
+from src.shared_models import BaseModel
 from src.static_models.bountyshop import (BountyShopCurrencyItem,
                                           DynamicBountyShop,
                                           dynamic_bounty_shop)

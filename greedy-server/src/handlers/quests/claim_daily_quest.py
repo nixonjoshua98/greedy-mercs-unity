@@ -6,13 +6,13 @@ from src.common.types import QuestActionType, QuestID, QuestType
 from src.dependencies import get_static_quests
 from src.exceptions import HandlerException
 from src.handlers import GetUserDailyStatsHandler, GetUserDailyStatsResponse
-from src.models import BaseModel
 from src.mongo.currency import CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFieldNames
 from src.mongo.currency import get_currency_repository
 from src.mongo.quests import (DailyQuestModel, DailyQuestsRepository,
                               get_daily_quests_repo)
 from src.request_models import CompleteDailyQuestRequestModel
+from src.shared_models import BaseModel
 from src.static_models.quests import DailyQuest, StaticQuests
 
 

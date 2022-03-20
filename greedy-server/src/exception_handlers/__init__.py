@@ -3,9 +3,9 @@ from fastapi.exceptions import RequestValidationError
 
 from src.exceptions import HandlerException
 from src.loggers import logger
-from src.models import BaseModel
 from src.request import ServerRequest
 from src.response import ServerResponse
+from src.shared_models import BaseModel
 
 
 async def handle_http_exception(_request: ServerRequest, exc: HTTPException):

@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from fastapi import Depends, Header, HTTPException
 
+from src.file_cache import StaticFilesCache
 from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.mongo.quests import MercQuestsRepository
 from src.mongo.sessions import SessionRepository
 from src.request import ServerRequest
-from src.static_file_cache import StaticFilesCache
 from src.static_models.armoury import StaticArmouryItem
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties

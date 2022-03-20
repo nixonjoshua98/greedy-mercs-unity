@@ -4,7 +4,7 @@ from typing import NewType, Union
 NumberType = Union[float, int]
 QuestID = NewType("QuestID", int)
 MercID = NewType("MercID", int)
-
+ArtefactID = NewType("ArtefactID", int)
 
 class QuestActionType(IntEnum):
     PRESTIGE = 0

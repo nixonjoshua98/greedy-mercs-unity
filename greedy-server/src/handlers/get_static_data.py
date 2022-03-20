@@ -4,8 +4,8 @@ from fastapi import Depends
 
 from src.auth import RequestContext
 from src.dependencies import get_static_files_cache
-from src.models import BaseModel
-from src.static_file_cache import StaticFilesCache
+from src.file_cache import StaticFilesCache
+from src.shared_models import BaseModel
 
 
 class StaticDataResponse(BaseModel):
@@ -14,7 +14,6 @@ class StaticDataResponse(BaseModel):
     artefacts: list
     bounties: dict
     mercs: dict
-    quests: dict
 
 
 class GetStaticDataHandler:
@@ -33,9 +32,5 @@ class GetStaticDataHandler:
             artefacts=self.static_files.load_artefacts(),
             bounties=self.static_files.load_bounties(),
             armoury=self.static_files.load_armoury(),
-            mercs=self.static_files.load_mercs(),
-            quests={
-                "LastDailyRefresh": self.ctx.prev_daily_reset,
-                **self.static_files.load_quests()
-            }
+            mercs=self.static_files.load_mercs()
         )

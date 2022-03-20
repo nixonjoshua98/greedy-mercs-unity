@@ -5,8 +5,8 @@ from typing import Optional
 from bson import ObjectId
 from pymongo import ReturnDocument
 
-from src.models import BaseDocument, Field
 from src.request import ServerRequest
+from src.shared_models import BaseDocument, Field
 from src.static_models.armoury import ArmouryItemID
 
 

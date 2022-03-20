@@ -10,7 +10,6 @@ from src.common.types import BonusType
 from src.dependencies import (get_lifetime_stats_repo,
                               get_static_artefacts_dict, get_static_bounties)
 from src.exceptions import ServerException
-from src.models import BaseModel
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
@@ -23,6 +22,7 @@ from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.mongo.prestigelogs import (PrestigeLogModel, PrestigeLogsRepository,
                                     get_prestige_logs_repo)
 from src.request_models import PrestigeRequestModel
+from src.shared_models import BaseModel
 from src.static_models.artefacts import StaticArtefact
 from src.static_models.bounties import StaticBounties
 

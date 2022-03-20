@@ -4,8 +4,8 @@ from typing import Optional
 
 from bson import ObjectId
 
-from src.models import BaseDocument
 from src.request import ServerRequest
+from src.shared_models import BaseDocument
 
 
 def get_accounts_repository(request: ServerRequest) -> AccountsRepository:

@@ -5,10 +5,10 @@ from src.handlers.artefacts import (BulkUpgradeArtefactsHandler,
                                     BulkUpgradeArtefactsResponse,
                                     UnlockArtefactHandler,
                                     UnlockArtefactResponse)
-from src.models import BaseModel
 from src.request_models import ArtefactUpgradeRequestModel
 from src.response import EncryptedServerResponse, ServerResponse
 from src.router import APIRouter
+from src.shared_models import BaseModel
 
 router = APIRouter(prefix="/api/artefact")
 

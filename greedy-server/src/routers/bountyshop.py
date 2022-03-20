@@ -4,9 +4,9 @@ from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.handlers import (PurchaseArmouryItemHandler,
                           PurchaseArmouryItemResponse, PurchaseCurrencyHandler,
                           PurchaseCurrencyResponse)
-from src.models import BaseModel
 from src.response import ServerResponse
 from src.router import APIRouter
+from src.shared_models import BaseModel
 
 router = APIRouter()
 

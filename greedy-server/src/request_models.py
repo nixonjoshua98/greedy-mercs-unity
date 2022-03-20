@@ -1,5 +1,5 @@
 from src.common.types import QuestID
-from src.models import BaseModel
+from src.shared_models import BaseModel
 from src.static_models.artefacts import ArtefactID
 
 

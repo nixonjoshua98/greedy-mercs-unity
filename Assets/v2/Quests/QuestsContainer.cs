@@ -1,25 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Events;
 
 namespace GM.Quests
 {
     public class QuestsContainer : GM.Core.GMClass
     {
-        StaticQuestsModel StaticQuests;
-        UserQuestsModel UserQuests;
+        public DateTime NextDailyRefresh { get; set; }
 
-        public void Set(StaticQuestsModel staticQuests, UserQuestsModel userQuests)
+        List<StaticMercQuest> MercQuestsModels;
+        List<StaticDailyQuest> DailyQuestsModels;
+
+        List<int> CompletedMercQuests;
+        List<int> CompletedDailyQuests;
+
+        public void Set(QuestsDataResponse model)
         {
-            StaticQuests = staticQuests;
-            UserQuests = userQuests;
+            NextDailyRefresh = model.NextDailyRefresh;
+
+            MercQuestsModels = model.MercQuests;
+            DailyQuestsModels = model.DailyQuests;
+
+            CompletedDailyQuests = model.CompletedDailyQuests;
+            CompletedMercQuests = model.CompletedMercQuests;
         }
 
-        public bool IsDailyQuestsValid => (UserQuests.NextDailyQuestsRefresh - TimeSpan.FromSeconds(5)) > DateTime.UtcNow;
+        public UnityEvent E_QuestsUpdated = new();
 
-        public TimeSpan TimeUntilQuestsShouldRefresh => UserQuests.NextDailyQuestsRefresh - DateTime.UtcNow;
-        public bool IsMercQuestCompleted(int questId) => UserQuests.CompletedMercQuests.Contains(questId);
-        public bool IsDailyQuestCompleted(int questId) => UserQuests.CompletedDailyQuests.Contains(questId);
+        public bool IsDailyQuestsValid => NextDailyRefresh > DateTime.UtcNow;
+        public TimeSpan TimeUntilQuestsShouldRefresh => NextDailyRefresh - DateTime.UtcNow;
+        public bool IsMercQuestCompleted(int questId) => CompletedMercQuests.Contains(questId);
+        public bool IsDailyQuestCompleted(int questId) => CompletedDailyQuests.Contains(questId);
 
         public int NumQuestsReadyToClaim => NumMercQuestsReadyToComplete + NumDailyQuestsReadyToComplete;
         int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
@@ -31,7 +43,7 @@ namespace GM.Quests
             {
                 List<AggregatedDailyQuest> ls = new();
 
-                StaticQuests.DailyQuests.ForEach(quest =>
+                DailyQuestsModels.ForEach(quest =>
                 {
                     ls.Add(new()
                     {
@@ -52,7 +64,7 @@ namespace GM.Quests
             {
                 List<AggregatedMercQuest> ls = new();
 
-                StaticQuests.MercQuests.ForEach(quest =>
+                MercQuestsModels.ForEach(quest =>
                 {
                     ls.Add(new()
                     {
@@ -70,14 +82,14 @@ namespace GM.Quests
         {
             App.HTTP.CompleteMercQuest(quest.ID, (resp) =>
             {
-                if (resp.StatusCode == 200)
+                if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
-                    UserQuests.CompletedMercQuests.Add(quest.ID);
+                    CompletedMercQuests.Add(quest.ID);
 
                     App.Mercs.AddNewUnlockedMerc(resp.UnlockedMerc);
                 }
 
-                callback.Invoke(resp.StatusCode == 200);
+                callback.Invoke(resp.StatusCode == HTTP.HTTPCodes.Success);
             });
         }
 
@@ -87,7 +99,7 @@ namespace GM.Quests
             {
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
-                    UserQuests.CompletedDailyQuests.Add(quest.ID);
+                    CompletedDailyQuests.Add(quest.ID);
                 }
 
                 callback.Invoke(resp.StatusCode == HTTP.HTTPCodes.Success);
@@ -100,7 +112,9 @@ namespace GM.Quests
             {
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
+                    Set(resp);
 
+                    E_QuestsUpdated.Invoke();
                 };
 
                 action.Invoke(resp.StatusCode == HTTP.HTTPCodes.Success);

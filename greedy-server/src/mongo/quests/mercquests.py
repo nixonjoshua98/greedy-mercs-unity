@@ -7,8 +7,8 @@ from bson import ObjectId
 from pydantic import Field
 
 from src.common.types import QuestID
-from src.models import BaseModel
 from src.request import ServerRequest
+from src.shared_models import BaseModel
 
 
 def get_merc_quests_repo(request: ServerRequest):

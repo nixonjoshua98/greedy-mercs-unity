@@ -8,8 +8,8 @@ from pymongo import ReturnDocument
 
 from src.classes import DateRange
 from src.common.types import NumberType
-from src.models import BaseDocument, BaseModel
 from src.request import ServerRequest
+from src.shared_models import BaseDocument, BaseModel
 
 
 def get_prestige_logs_repo(request: ServerRequest):

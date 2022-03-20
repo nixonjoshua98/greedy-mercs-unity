@@ -27,21 +27,13 @@ namespace GM.Quests
         public int NumPrestiges; // QuestActionType.Prestige
     }
 
-    public class StaticQuestsModel
-    {
-        public List<StaticMercQuest> MercQuests;
-        public List<StaticDailyQuest> DailyQuests;
-    }
-
-    public class GetQuestsResponse : GM.HTTP.ServerResponse
-    {
-
-    }
-
-    public class UserQuestsModel
+    public class QuestsDataResponse : GM.HTTP.ServerResponse
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime NextDailyQuestsRefresh { get; set; }
+        public DateTime NextDailyRefresh { get; set; }
+
+        public List<StaticMercQuest> MercQuests;
+        public List<StaticDailyQuest> DailyQuests;
 
         public List<int> CompletedMercQuests;
         public List<int> CompletedDailyQuests;

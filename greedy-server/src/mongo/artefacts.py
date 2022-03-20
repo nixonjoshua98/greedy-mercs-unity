@@ -7,8 +7,8 @@ from bson import ObjectId
 from pydantic import Field
 from pymongo import ReturnDocument, UpdateOne
 
-from src.models import BaseModel
 from src.request import ServerRequest
+from src.shared_models import BaseModel
 from src.static_models.artefacts import ArtefactID
 
 

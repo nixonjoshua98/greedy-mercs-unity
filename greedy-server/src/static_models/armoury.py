@@ -4,7 +4,7 @@ from typing import NewType
 
 from pydantic import Field
 
-from src.models import BaseModel
+from src.shared_models import BaseModel
 
 ArmouryItemID = NewType("ArmouryItemID", int)
 

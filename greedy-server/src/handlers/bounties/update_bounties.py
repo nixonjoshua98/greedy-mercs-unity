@@ -3,10 +3,10 @@ from fastapi import Depends
 from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_bounties
 from src.exceptions import HandlerException
-from src.models import BaseModel
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
                                 get_bounties_repository)
 from src.mongo.currency import CurrencyRepository, get_currency_repository
+from src.shared_models import BaseModel
 from src.static_models.bounties import StaticBounties
 
 

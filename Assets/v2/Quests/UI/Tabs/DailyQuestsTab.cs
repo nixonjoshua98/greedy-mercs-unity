@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -11,24 +12,27 @@ namespace GM.Quests.UI
         [Header("References")]
         [SerializeField] TMP_Text InfoText;
         [SerializeField] Transform QuestParent;
-        [SerializeField] GameObject RefreshOverlay;
 
         void Awake()
         {
-            InstantiateQuests();
+            App.Quests.E_QuestsUpdated.AddListener(() =>
+            {
+                QuestParent.DestroyChildren();
+                InstantiateQuests();
+            });
+
+            if (App.Quests.IsDailyQuestsValid)
+                InstantiateQuests();
         }
+
 
         void FixedUpdate()
         {
-            var ts = App.Quests.TimeUntilQuestsShouldRefresh;
+            var ts = App.Quests.NextDailyRefresh - DateTime.UtcNow;
 
             InfoText.text = ts.TotalSeconds <= 0.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
-
-            if (ts.TotalSeconds <= 3.0f)
-            {
-                RefreshOverlay.SetActive(true);
-            }
         }
+
 
         void InstantiateQuests()
         {
@@ -39,6 +43,7 @@ namespace GM.Quests.UI
                 slot.Init(ClaimDailyQuest, quest);
             }
         }
+
 
         public void ClaimDailyQuest(AbstractQuestSlot<AggregatedDailyQuest> slot)
         {

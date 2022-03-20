@@ -6,12 +6,12 @@ from src import utils
 from src.auth import AuthenticatedRequestContext
 from src.dependencies import get_static_armoury
 from src.exceptions import HandlerException
-from src.models import BaseModel
 from src.mongo.armoury import (ArmouryItemModel, ArmouryRepository,
                                get_armoury_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyFields
 from src.mongo.currency import get_currency_repository
+from src.shared_models import BaseModel
 from src.static_models.armoury import ArmouryItemID, StaticArmouryItem
 
 

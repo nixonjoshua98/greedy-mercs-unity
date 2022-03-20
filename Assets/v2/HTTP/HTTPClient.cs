@@ -18,7 +18,7 @@ namespace GM.HTTP
         void ClaimBounties(Action<BountyClaimResponse> callback);
         void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action);
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
-        void FetchQuests(Action<GetQuestsResponse> action);
+        void FetchQuests(Action<QuestsDataResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
         void Login(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
@@ -38,7 +38,7 @@ namespace GM.HTTP
 
         string Authentication = null;
 
-        public void FetchQuests(Action<GM.Quests.GetQuestsResponse> action)
+        public void FetchQuests(Action<GM.Quests.QuestsDataResponse> action)
         {
             SendRequest("GET", "quests", ServerRequest.Empty, encrypt: false, action);
         }
@@ -89,6 +89,7 @@ namespace GM.HTTP
         public void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback)
         {
             var req = new UpdateActiveBountiesRequest(bounties);
+
             SendRequest("POST", "bounty/setactive", req, false, callback);
         }
 

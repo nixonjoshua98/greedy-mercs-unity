@@ -10,7 +10,6 @@ namespace GM.HTTP.Requests
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime NextDailyReset { get; set; }
-        public GM.Quests.StaticQuestsModel Quests { get; set; }
         public List<GM.Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         public GM.Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
         public List<Armoury.Models.ArmouryItemGameDataModel> Armoury { get; set; }

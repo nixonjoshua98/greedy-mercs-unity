@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from src.models import BaseModel, Field
 from src.request import ServerRequest
+from src.shared_models import BaseModel, Field
 
 
 def bounty_shop_config(request: ServerRequest):

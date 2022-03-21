@@ -21,7 +21,7 @@ namespace GM.HTTP
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
         void FetchQuests(Action<QuestsDataResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
-        void FetchStats(Action<UserStatsResponse> action);
+        void FetchStats(Action<PlayerStatsResponse> action);
         void Login(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
         void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
@@ -40,7 +40,7 @@ namespace GM.HTTP
 
         string Authentication = null;
 
-        public void FetchStats(Action<UserStatsResponse> action)
+        public void FetchStats(Action<PlayerStatsResponse> action)
         {
             SendRequest("GET", "stats", ServerRequest.Empty, encrypt: false, action);
         }

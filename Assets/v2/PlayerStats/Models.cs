@@ -4,7 +4,7 @@ using System;
 
 namespace GM.PlayerStats
 {
-    public class UserStatsResponse : GM.HTTP.ServerResponse
+    public class PlayerStatsResponse : GM.HTTP.ServerResponse
     {
         public LifetimeStatsModel Lifetime;
         public DailyStatsModel Daily;

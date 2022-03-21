@@ -1,3 +1,4 @@
+using GM.Common;
 using TMPro;
 using UnityEngine;
 using BigInteger = System.Numerics.BigInteger;
@@ -44,7 +45,7 @@ namespace GM.UI
             Reset();
 
             Text.text = Format.Number(val);
-            Text.color = val > 0 ? GM.Common.Colors.Gold : GM.Common.Colors.Red;
+            Text.color = val > 0 ? Constants.Colors.Gold : Constants.Colors.Red;
         }
 
         public void Set(BigDouble val)
@@ -52,7 +53,7 @@ namespace GM.UI
             Reset();
 
             Text.text = Format.Number(val);
-            Text.color = val > 0 ? GM.Common.Colors.Gold : GM.Common.Colors.Red;
+            Text.color = val > 0 ? Constants.Colors.Gold : Constants.Colors.Red;
         }
 
         protected void Reset()

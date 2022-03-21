@@ -1,4 +1,5 @@
 using GM.Bounties.Data;
+using GM.Common;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -91,7 +92,7 @@ namespace GM.Bounties.UI
             ClaimAmountText.text = $"{Format.Number(App.Bounties.TotalUnclaimedPoints)}/{Format.Number(App.Bounties.MaxClaimPoints)}";
 
             ClaimSlider.value = App.Bounties.ClaimPercentFilled;
-            ClaimSliderFill.color = Color.Lerp(Common.Colors.Red, Common.Colors.Green, ClaimSlider.value);
+            ClaimSliderFill.color = Color.Lerp(Constants.Colors.Red, Constants.Colors.Green, ClaimSlider.value);
         }
 
         void SetActiveButtons(bool isEditMode)

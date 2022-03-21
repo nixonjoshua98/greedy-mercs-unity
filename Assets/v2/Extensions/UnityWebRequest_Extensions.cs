@@ -11,9 +11,7 @@ namespace GM
 
         static bool ResponseHeaderExists(UnityWebRequest www, string name)
         {
-            var headers = www.GetResponseHeaders();
-
-            return headers == null ? false : headers.ContainsKey(name);
+            return (www.GetResponseHeaders() ?? new()).ContainsKey(name);
         }
     }
 }

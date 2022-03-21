@@ -71,7 +71,7 @@ namespace GM.UI
             {
                 lifetimeTimer -= Time.deltaTime;
 
-                transform.position += MoveVector.ToVector3() * Time.deltaTime;
+                transform.position += new Vector3(MoveVector.x, MoveVector.y) * Time.deltaTime;
 
                 if (lifetimeTimer <= 0.0f)
                 {

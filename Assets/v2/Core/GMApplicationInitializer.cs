@@ -2,6 +2,7 @@ using GM.HTTP;
 using GM.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace GM.Core
 {
@@ -60,8 +61,6 @@ namespace GM.Core
             LocalStateFile.LoadFromFile(out LocalStateFile localStateFile);
 
             GMApplication app = GMApplication.Create();
-
-            app.SaveManager.WriteStaticData(Data.StaticData);
 
             app.UpdateDataContainers(Data.UserData, Data.StaticData, localStateFile);
 

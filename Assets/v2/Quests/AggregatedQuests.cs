@@ -14,7 +14,6 @@ namespace GM.Quests
     public abstract class AbstractAggregatedQuest: GM.Core.GMClass, IAggregatedQuest
     {
         public int ID { get; set; }
-
         public abstract string Title { get; }
         public abstract bool IsCompleted { get; }
         public abstract float CurrentProgress { get; }

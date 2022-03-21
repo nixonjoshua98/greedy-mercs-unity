@@ -31,7 +31,7 @@ namespace GM.Quests.UI
 
             if (isShowingQuests)
             {
-                var ts = App.Quests.NextDailyRefresh - DateTime.UtcNow;
+                var ts = App.DailyRefresh.TimeUntilNext;
 
                 InfoText.text = ts.TotalSeconds <= 1.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
 

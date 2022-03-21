@@ -5,11 +5,11 @@ from src.handlers.get_static_data import (GetStaticDataHandler,
 from src.response import ServerResponse
 from src.router import APIRouter
 
-router = APIRouter()
+router = APIRouter(prefix="/api")
 
 
-@router.get("")
-async def index(handler: GetStaticDataHandler = Depends()):
+@router.get("/static")
+async def static(handler: GetStaticDataHandler = Depends()):
     resp: StaticDataResponse = await handler.handle()
 
     return ServerResponse(resp)

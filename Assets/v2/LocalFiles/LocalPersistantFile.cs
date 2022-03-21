@@ -6,7 +6,7 @@ using System;
 
 namespace GM.LocalFiles
 {
-    public sealed class LocalPersistantFile
+    public sealed class LocalPersistantFile : GM.Core.GMClass
     {
         const string FilePath = "PersistantLocalFile";
 
@@ -25,9 +25,7 @@ namespace GM.LocalFiles
 
                 else if (DateTime.UtcNow >= _LocalDailyStats.NextRefresh)
                 {
-                    GMLogger.JSON(_LocalDailyStats);
-                    // Calculate an estimate time for now
-                    _LocalDailyStats = new() { NextRefresh = CommonUtils.GetEstimateNextDailyRefresh(_LocalDailyStats.NextRefresh) };
+                    _LocalDailyStats = new() { NextRefresh = App.DailyRefresh.Next };
                 }
 
                 return _LocalDailyStats;

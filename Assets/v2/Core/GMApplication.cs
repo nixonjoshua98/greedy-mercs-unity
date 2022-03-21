@@ -25,8 +25,6 @@ namespace GM.Core
 
         public CurrentPrestigeState GameState;
 
-        public DateTime NextDailyRefresh { get; set; }
-
         public GMCache GMCache = new();
         public EventHandler Events = new();
 
@@ -38,6 +36,9 @@ namespace GM.Core
         // Global Events
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
+        // Server Refresh
+        public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromSeconds(10) };
+
         private GMApplication()
         {
             SaveManager = LocalSaveManager.Instance;    // Force lazy load
@@ -47,6 +48,8 @@ namespace GM.Core
 
         public static GMApplication Create()
         {
+            GMLogger.Editor(UnityEngine.Application.persistentDataPath);
+
             if (Instance == null)
                 Instance = new GMApplication();
 
@@ -55,9 +58,7 @@ namespace GM.Core
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
         {
-            NextDailyRefresh = staticData.NextDailyRefresh;
-
-            PersistantLocalFile.LocalDailyStats.NextRefresh = staticData.NextDailyRefresh;
+            PersistantLocalFile.LocalDailyStats.NextRefresh = DailyRefresh.Next;
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 

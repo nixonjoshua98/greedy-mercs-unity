@@ -157,7 +157,10 @@ namespace GM.HTTP
 
             SetRequestHeaders(www);
 
-            StartCoroutine(SendRequest(www, () => ResponseHandler(www, action)));
+            StartCoroutine(SendRequest(www, () =>
+            {
+                ResponseHandler(www, action);
+            }));
         }
 
         IEnumerator SendRequest(UnityWebRequest www, Action action)

@@ -9,7 +9,7 @@ namespace GM.HTTP.Requests
     public class FetchGameDataResponse : ServerResponse, IStaticGameData
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime NextDailyReset { get; set; }
+        public DateTime NextDailyRefresh { get; set; }
         public List<GM.Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         public GM.Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
         public List<Armoury.Models.ArmouryItemGameDataModel> Armoury { get; set; }

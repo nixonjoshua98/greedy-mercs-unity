@@ -7,11 +7,8 @@
   ],
   "dailyQuestsPerDay": 5,
   "availableDailyQuests": [
-    {"questId": 0, "actionType": 0, "numPrestiges": 3, "diamondsRewarded": 25}, // Prestige x amount of times
-    {"questId": 1, "actionType": 0, "numPrestiges": 4, "diamondsRewarded": 25}, // Prestige x amount of times
-    {"questId": 2, "actionType": 0, "numPrestiges": 5, "diamondsRewarded": 25}, // Prestige x amount of times
-    {"questId": 3, "actionType": 0, "numPrestiges": 6, "diamondsRewarded": 25}, // Prestige x amount of times
-    {"questId": 4, "actionType": 0, "numPrestiges": 7, "diamondsRewarded": 25}, // Prestige x amount of times
-    {"questId": 5, "actionType": 0, "numPrestiges": 8, "diamondsRewarded": 25}, // Prestige x amount of times
+    {"questId": 0, "actionType": 0, "longValue": 3, "diamondsRewarded": 25},    // Prestige x times
+    {"questId": 1, "actionType": 1, "longValue": 100, "diamondsRewarded": 25},   // Defeat x enemies
+    {"questId": 2, "actionType": 2, "longValue": 25, "diamondsRewarded": 25},   // Defeat x Bosses
   ]
 }

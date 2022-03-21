@@ -1,32 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
-using System.Collections;
 
 namespace GM
 {
     public class UpdateLoop : GM.Core.GMMonoBehaviour
     {
-        static UpdateLoop Instance = null;
-
         bool isUpdatingQuests;
         bool isFetchingDailyStats;
-
-        void Awake()
-        {
-            if (Instance is not null)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-        }
 
         void Start()
         {
@@ -38,9 +18,6 @@ namespace GM
             while (true)
             {
                 yield return new WaitForFixedUpdate();
-
-                if (App is null)
-                    continue;
 
                 if (!isUpdatingQuests && !App.Quests.IsDailyQuestsValid)
                 {
@@ -58,7 +35,7 @@ namespace GM
         {
             isFetchingDailyStats = true;
 
-            App.Stats.FetchDailyStats(success =>
+            App.Stats.FetchStats(success =>
             {
                 if (!App.Stats.IsDailyStatsValid)
                 {

@@ -2,18 +2,22 @@ from fastapi import Depends
 
 from src.auth.handler import (AuthenticatedRequestContext,
                               get_authenticated_context)
+from src.dependencies import get_lifetime_stats_repo
 from src.handlers import GetUserDailyStatsHandler
+from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.response import ServerResponse
 from src.router import APIRouter
 
 router = APIRouter(prefix="/api/stats")
 
 
-@router.get("/daily")
-async def get_daily_stats(
+@router.get("")
+async def index(
         ctx: AuthenticatedRequestContext = Depends(get_authenticated_context),
-        handler: GetUserDailyStatsHandler = Depends()
+        daily_stats: GetUserDailyStatsHandler = Depends(),
+        lifetime: LifetimeStatsRepository = Depends(get_lifetime_stats_repo)
 ):
-    resp = await handler.handle(ctx)
-
-    return ServerResponse(resp)
+    return ServerResponse({
+        "daily": await daily_stats.handle(ctx),
+        "lifetime": await lifetime.get_user_stats(ctx.user_id)
+    })

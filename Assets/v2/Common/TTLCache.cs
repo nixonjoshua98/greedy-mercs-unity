@@ -35,7 +35,7 @@ namespace GM.Common
             }
             catch (Exception e)
             {
-                Debug.LogError($"{key} failed to case to type {typeof(T)}");
+                Debug.LogError($"{key} failed to cast to type {typeof(T)}");
 
                 throw e;
             }

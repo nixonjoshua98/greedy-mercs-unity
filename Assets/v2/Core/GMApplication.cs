@@ -21,11 +21,11 @@ namespace GM.Core
         public GM.Armoury.Data.ArmouryData Armoury = new();
         public GM.Bounties.Data.BountiesData Bounties = new();
         public GM.BountyShop.Data.BountyShopData BountyShop = new();
-        public GM.PlayerStats.StatsDataContainer Stats = new();
+        public GM.PlayerStats.PlayerStatsContainer Stats = new();
 
         public CurrentPrestigeState GameState;
 
-        public DateTime NextDailyReset;
+        public DateTime NextDailyRefresh { get; set; }
 
         public GMCache GMCache = new();
         public EventHandler Events = new();
@@ -55,7 +55,9 @@ namespace GM.Core
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
         {
-            NextDailyReset = staticData.NextDailyReset;
+            NextDailyRefresh = staticData.NextDailyRefresh;
+
+            PersistantLocalFile.LocalDailyStats.NextRefresh = staticData.NextDailyRefresh;
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 

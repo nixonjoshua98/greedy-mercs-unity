@@ -1,4 +1,5 @@
 ﻿using GM.Common.Enums;
+using GM.PlayerStats;
 
 namespace GM.HTTP.Requests
 {
@@ -16,6 +17,7 @@ namespace GM.HTTP.Requests
     public class CompleteDailyQuestRequest : IServerRequest
     {
         public int QuestID;
+        public DailyStatsModel LocalDailyStats;
     }
 
     public class CompleteDailyQuestResponse : ServerResponse

@@ -35,8 +35,6 @@ class CreateQuestsHandler:
 
         random_sorted = sorted(self._static_quests.available_daily_quests, key=lambda x: rnd.random())
 
-        quests: list[DailyQuest] = random_sorted[:self._static_quests.daily_quests_per_day]
-
-        return sorted(quests, key=lambda q: q.quest_id)
+        return random_sorted[:self._static_quests.daily_quests_per_day]
 
 

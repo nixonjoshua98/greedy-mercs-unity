@@ -8,23 +8,25 @@ namespace GM.Quests
 {
     public enum QuestActionType
     {
-        Prestige = 0
+        Prestige = 0,
+        EnemiesDefeated = 1,
+        BossesDefeated = 2
     }
 
-    public class StaticMercQuest
+    public class MercQuest
     {
         public int QuestID;
         public int RequiredStage;
         public MercID RewardMercID;
     }
 
-    public class StaticDailyQuest
+    public class DailyQuest
     {
         public int QuestID;
         public QuestActionType ActionType;
         public int DiamondsRewarded;
 
-        public int NumPrestiges; // QuestActionType.Prestige
+        public long LongValue;
     }
 
     public class QuestsDataResponse : GM.HTTP.ServerResponse
@@ -32,8 +34,8 @@ namespace GM.Quests
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime NextDailyRefresh { get; set; }
 
-        public List<StaticMercQuest> MercQuests;
-        public List<StaticDailyQuest> DailyQuests;
+        public List<MercQuest> MercQuests;
+        public List<DailyQuest> DailyQuests;
 
         public List<int> CompletedMercQuests;
         public List<int> CompletedDailyQuests;

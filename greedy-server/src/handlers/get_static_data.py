@@ -9,7 +9,7 @@ from src.shared_models import BaseModel
 
 
 class StaticDataResponse(BaseModel):
-    next_daily_reset: dt.datetime
+    next_daily_refresh: dt.datetime
     armoury: list
     artefacts: list
     bounties: dict
@@ -28,7 +28,7 @@ class GetStaticDataHandler:
     async def handle(self) -> StaticDataResponse:
 
         return StaticDataResponse(
-            next_daily_reset=self.ctx.next_daily_refresh,
+            next_daily_refresh=self.ctx.next_daily_refresh,
             artefacts=self.static_files.load_artefacts(),
             bounties=self.static_files.load_bounties(),
             armoury=self.static_files.load_armoury(),

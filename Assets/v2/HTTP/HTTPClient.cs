@@ -19,9 +19,9 @@ namespace GM.HTTP
         void ClaimBounties(Action<BountyClaimResponse> callback);
         void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action);
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
-        void FetchDailyStats(Action<DailyStatsModel> action);
         void FetchQuests(Action<QuestsDataResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
+        void FetchStats(Action<UserStatsResponse> action);
         void Login(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
         void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
@@ -40,9 +40,9 @@ namespace GM.HTTP
 
         string Authentication = null;
 
-        public void FetchDailyStats(Action<DailyStatsModel> action)
+        public void FetchStats(Action<UserStatsResponse> action)
         {
-            SendRequest("GET", "stats/daily", ServerRequest.Empty, encrypt: false, action);
+            SendRequest("GET", "stats", ServerRequest.Empty, encrypt: false, action);
         }
 
         public void FetchQuests(Action<GM.Quests.QuestsDataResponse> action)
@@ -59,7 +59,7 @@ namespace GM.HTTP
 
         public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)
         {
-            var req = new CompleteDailyQuestRequest() { QuestID = questId };
+            var req = new CompleteDailyQuestRequest() { QuestID = questId, LocalDailyStats = App.Stats.LocalDailyStats };
 
             SendRequest("POST", "quests/daily", req, encrypt: false, action);
         }

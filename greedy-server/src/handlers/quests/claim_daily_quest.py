@@ -12,7 +12,7 @@ from src.mongo.currency import get_currency_repository
 from src.mongo.quests import (DailyQuestModel, DailyQuestsRepository,
                               get_daily_quests_repo)
 from src.request_models import CompleteDailyQuestRequestModel
-from src.shared_models import BaseModel
+from src.shared_models import BaseModel, PlayerStats
 from src.static_models.quests import DailyQuest
 
 from .create_quests import CreateQuestsHandler, CreateQuestsResponse
@@ -57,8 +57,8 @@ class CompleteDailyQuestHandler:
         # Fetch the confirmed daily stats, ready to check for quest progress
         daily_stats = await self._daily_stats.handle(uid, self.ctx)
 
-        # Check if the quest has been completed, if it hasn't then return an error
-        if not await self.is_quest_completed(quest_data, daily_stats):
+        # Check if the quest has been completed, if it hasnt then return an error
+        if not await self.is_quest_completed(quest_data, model.local_daily_stats, daily_stats):
             raise HandlerException(400, "Quest is not completed")
 
         # Run what we need to after the quest had been confirmed to be cleared
@@ -79,8 +79,19 @@ class CompleteDailyQuestHandler:
         await self._currencies.incr(uid, CurrencyFieldNames.diamonds, quest.diamonds_rewarded)
 
     @classmethod
-    async def is_quest_completed(cls, quest: DailyQuest, dailystats: GetUserDailyStatsResponse) -> bool:
+    async def is_quest_completed(
+            cls,
+            quest: DailyQuest,
+            local_stats: PlayerStats,
+            daily_stats: GetUserDailyStatsResponse
+    ) -> bool:
         if quest.action_type == QuestActionType.PRESTIGE:
-            return dailystats.total_prestiges >= quest.num_prestiges
+            return daily_stats.total_prestiges >= quest.long_value
+
+        elif quest.action_type == QuestActionType.ENEMIES_DEFEATED:
+            return local_stats.total_enemies_defeated >= quest.long_value
+
+        elif quest.action_type == QuestActionType.BOSSES_DEFEATED:
+            return local_stats.total_bosses_defeated >= quest.long_value
 
         raise Exception()

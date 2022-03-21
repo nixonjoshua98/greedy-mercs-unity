@@ -7,7 +7,7 @@ namespace GM.Models
 {
     public interface IStaticGameData
     {
-        DateTime NextDailyReset { get; set; }
+        DateTime NextDailyRefresh { get; set; }
         List<Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
         List<Armoury.Models.ArmouryItemGameDataModel> Armoury { get; set; }
@@ -17,7 +17,7 @@ namespace GM.Models
     public class StaticGameDataModel : IStaticGameData
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime NextDailyReset { get; set; }
+        public DateTime NextDailyRefresh { get; set; }
         public List<GM.Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         public GM.Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
         public List<Armoury.Models.ArmouryItemGameDataModel> Armoury { get; set; }

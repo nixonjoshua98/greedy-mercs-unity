@@ -1,6 +1,8 @@
 ﻿using GM.Common.Enums;
+using GM.PlayerStats;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System;
 
 namespace GM.LocalFiles
 {
@@ -8,9 +10,30 @@ namespace GM.LocalFiles
     {
         const string FilePath = "PersistantLocalFile";
 
-        // Serialized Fields
-        [JsonProperty] public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
-        // ...
+        [JsonProperty]
+        private DailyStatsModel _LocalDailyStats;
+
+        [JsonProperty]
+        public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
+
+        [JsonIgnore]
+        public DailyStatsModel LocalDailyStats {
+            get
+            {
+                if (_LocalDailyStats is null)
+                    _LocalDailyStats = new();
+
+                else if (DateTime.UtcNow >= _LocalDailyStats.NextRefresh)
+                {
+                    GMLogger.JSON(_LocalDailyStats);
+                    // Calculate an estimate time for now
+                    _LocalDailyStats = new() { NextRefresh = CommonUtils.GetEstimateNextDailyRefresh(_LocalDailyStats.NextRefresh) };
+                }
+
+                return _LocalDailyStats;
+            }
+            set => _LocalDailyStats = value;
+        }
 
         /// <summary>
         /// Static constructor (preferred usage)

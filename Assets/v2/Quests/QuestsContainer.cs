@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Events;
 
 namespace GM.Quests
 {
@@ -9,8 +8,8 @@ namespace GM.Quests
     {
         public DateTime NextDailyRefresh { get; set; }
 
-        List<StaticMercQuest> MercQuestsModels;
-        List<StaticDailyQuest> DailyQuestsModels;
+        List<MercQuest> MercQuestsModels;
+        List<DailyQuest> DailyQuestsModels;
 
         List<int> CompletedMercQuests;
         List<int> CompletedDailyQuests;
@@ -27,7 +26,6 @@ namespace GM.Quests
         }
 
         public bool IsDailyQuestsValid => NextDailyRefresh > DateTime.UtcNow;
-        public TimeSpan TimeUntilQuestsShouldRefresh => NextDailyRefresh - DateTime.UtcNow;
         public bool IsMercQuestCompleted(int questId) => CompletedMercQuests.Contains(questId);
         public bool IsDailyQuestCompleted(int questId) => CompletedDailyQuests.Contains(questId);
 
@@ -48,7 +46,7 @@ namespace GM.Quests
                         ID = quest.QuestID,
                         ActionType = quest.ActionType,
                         DiamondsRewarded = quest.DiamondsRewarded,
-                        NumPrestiges = quest.NumPrestiges
+                        LongValue = quest.LongValue
                     });
                 });
 

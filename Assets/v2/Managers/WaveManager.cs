@@ -12,9 +12,10 @@ namespace GM
         IEnemyUnitQueue Enemies;
         IEnemyUnitFactory UnitManager;
 
-        [HideInInspector] public UnityEvent<UnitFactoryInstantiatedBossUnit> E_BossSpawn { get; private set; } = new UnityEvent<UnitFactoryInstantiatedBossUnit>();
-        [HideInInspector] public UnityEvent E_BossDefeated { get; private set; } = new UnityEvent();
-        [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveStart { get; private set; } = new UnityEvent<List<Units.UnitBaseClass>>();
+        [HideInInspector] public UnityEvent<UnitFactoryInstantiatedBossUnit> E_BossSpawn { get; private set; } = new();
+        [HideInInspector] public UnityEvent E_BossDefeated { get; private set; } = new();
+        [HideInInspector] public UnityEvent E_EnemyDefeated { get; private set; } = new();
+        [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveStart { get; private set; } = new();
 
         CurrentPrestigeState CurrentGameState => App.GameState;
 
@@ -85,6 +86,8 @@ namespace GM
         void OnEnemyZeroHealth()
         {
             CurrentGameState.EnemiesDefeated++;
+
+            E_EnemyDefeated.Invoke();
 
             // All wave enemies have been defeated
             if (Enemies.NumUnits == 0)

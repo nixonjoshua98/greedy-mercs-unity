@@ -18,7 +18,8 @@ class DailyQuest(BaseModel):
     action_type: QuestActionType = Field(..., alias="actionType")
     diamonds_rewarded: int = Field(..., alias="diamondsRewarded")
 
-    num_prestiges: Optional[int] = Field(None, alias="numPrestiges")  # QuestActionType.PRESTIGE
+    # Optional
+    long_value: Optional[int] = Field(None, alias="longValue")
 
 
 class StaticQuests(BaseModel):

@@ -1,5 +1,7 @@
+from pydantic import Field
+
 from src.common.types import QuestID
-from src.shared_models import BaseModel
+from src.shared_models import BaseModel, PlayerStats
 from src.static_models.artefacts import ArtefactID
 
 
@@ -23,3 +25,4 @@ class CompleteMercQuestRequestModel(BaseModel):
 
 class CompleteDailyQuestRequestModel(BaseModel):
     quest_id: QuestID
+    local_daily_stats: PlayerStats

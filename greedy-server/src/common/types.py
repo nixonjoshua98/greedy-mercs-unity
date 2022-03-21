@@ -9,6 +9,8 @@ ArtefactID = NewType("ArtefactID", int)
 
 class QuestActionType(IntEnum):
     PRESTIGE = 0
+    ENEMIES_DEFEATED = 1
+    BOSSES_DEFEATED = 2
 
 
 class BonusType:
@@ -40,8 +42,3 @@ class CurrencyType:
 class AttackType:
     MELEE = 0
     RANGED = 1
-
-
-class QuestType(IntEnum):
-    MERC_QUEST = 0
-    DAILY_QUEST = 1

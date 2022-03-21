@@ -33,7 +33,9 @@ namespace GM.Quests
     {
         public QuestActionType ActionType;
         public int DiamondsRewarded;
-        public int NumPrestiges; // QuestActionType.Prestige
+
+        public long LongValue;
+
         public override bool IsCompleted => App.Quests.IsDailyQuestCompleted(ID);
         public override float CurrentProgress
         {
@@ -41,7 +43,9 @@ namespace GM.Quests
             {
                 return ActionType switch
                 {
-                    QuestActionType.Prestige => Math.Min(1.0f, App.Stats.Daily.TotalPrestiges / (float)NumPrestiges)
+                    QuestActionType.Prestige => App.Stats.ConfirmedDailyStats.TotalPrestiges / (float)LongValue,
+                    QuestActionType.EnemiesDefeated => App.Stats.LocalDailyStats.TotalEnemiesDefeated / (float)LongValue,
+                    QuestActionType.BossesDefeated => App.Stats.LocalDailyStats.TotalBossesDefeated / (float)LongValue
                 };
             }
         }
@@ -52,7 +56,9 @@ namespace GM.Quests
             {
                 return ActionType switch
                 {
-                    QuestActionType.Prestige => $"Perform <color=orange>{NumPrestiges}</color> Prestiges",
+                    QuestActionType.Prestige => $"Perform <color=orange>{LongValue}</color> Prestiges",
+                    QuestActionType.EnemiesDefeated => $"Defeat <color=orange>{LongValue}</color> Enemies",
+                    QuestActionType.BossesDefeated => $"Defeat <color=orange>{LongValue}</color> Stage Bosses"
                 };
             }
         }

@@ -4,23 +4,31 @@ using System;
 
 namespace GM.PlayerStats
 {
-    public class UserStatsModel
+    public class UserStatsResponse : GM.HTTP.ServerResponse
     {
         public LifetimeStatsModel Lifetime;
         public DailyStatsModel Daily;
     }
 
-    public class LifetimeStatsModel
+
+    public class PlayerStats
     {
         public int TotalPrestiges;
+        public int TotalEnemiesDefeated;
+        public int TotalBossesDefeated;
         public int HighestPrestigeStageReached;
     }
 
-    public class DailyStatsModel : GM.HTTP.ServerResponse
+
+    public class LifetimeStatsModel : PlayerStats
+    {
+
+    }
+
+
+    public class DailyStatsModel : PlayerStats
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime NextRefresh { get; set; }
-
-        public int TotalPrestiges = 0;
     }
 }

@@ -23,4 +23,5 @@ class DailyQuest(BaseModel):
 
 class StaticQuests(BaseModel):
     merc_quests: list[MercQuest] = Field(..., alias="mercQuests")
-    daily_quests: list[DailyQuest] = Field(..., alias="dailyQuests")
+    daily_quests_per_day: int = Field(..., alias="dailyQuestsPerDay")
+    available_daily_quests: list[DailyQuest] = Field(..., alias="availableDailyQuests")

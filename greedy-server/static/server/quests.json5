@@ -1,0 +1,17 @@
+{
+  "mercQuests": [
+    {"questId": 0, "requiredStage": 0, "rewardMercId": 0},
+    {"questId": 1, "requiredStage": 5, "rewardMercId": 1},
+    {"questId": 2, "requiredStage": 25, "rewardMercId": 2},
+    {"questId": 3, "requiredStage": 50, "rewardMercId": 3}
+  ],
+  "dailyQuestsPerDay": 5,
+  "availableDailyQuests": [
+    {"questId": 0, "actionType": 0, "numPrestiges": 3, "diamondsRewarded": 25}, // Prestige x amount of times
+    {"questId": 1, "actionType": 0, "numPrestiges": 4, "diamondsRewarded": 25}, // Prestige x amount of times
+    {"questId": 2, "actionType": 0, "numPrestiges": 5, "diamondsRewarded": 25}, // Prestige x amount of times
+    {"questId": 3, "actionType": 0, "numPrestiges": 6, "diamondsRewarded": 25}, // Prestige x amount of times
+    {"questId": 4, "actionType": 0, "numPrestiges": 7, "diamondsRewarded": 25}, // Prestige x amount of times
+    {"questId": 5, "actionType": 0, "numPrestiges": 8, "diamondsRewarded": 25}, // Prestige x amount of times
+  ]
+}

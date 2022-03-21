@@ -3,6 +3,11 @@ from dataclasses import dataclass
 from typing import Union
 
 from src import utils
+from src.request import ServerRequest
+
+
+def get_static_files_cache(request: ServerRequest):
+    return request.app.state.static_files_cache
 
 
 @dataclass()
@@ -18,8 +23,10 @@ class StaticFilesCache:
     def __init__(self):
         self._cache: dict[str, StaticFileCacheObject] = dict()
 
-    # = Preferred load methods = #
-    def load_quests(self) -> dict: return self._cached_or_reload("quests.json5")
+    def load_file(self, fp: str) -> Union[dict, list]:
+        return self._cached_or_reload(fp)
+
+    def load_quests(self) -> dict: return self._cached_or_reload("server/quests.json5")
     def load_mercs(self) -> dict: return self._cached_or_reload("mercs.json5")
     def load_artefacts(self) -> list: return self._cached_or_reload("artefacts.json")
     def load_bounties(self) -> dict: return self._cached_or_reload("bounties.json")

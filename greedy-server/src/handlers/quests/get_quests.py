@@ -37,11 +37,17 @@ class GetQuestsHandler:
 
     @md.dispatch(ObjectId, RequestContext)
     async def handle(self, uid: ObjectId, ctx: RequestContext) -> GetQuestsResponse:
+
+        # Get daily quests progress since the last daily refresh
         completed_daily_quests = await self.daily_quests.get_quests_since(uid, ctx.prev_daily_refresh)
+
+        # Fetch the completed merc quests
         completed_merc_quests = await self.merc_quests.get_all_quests(uid)
 
+        # Generate the quests for the user
         quests: CreateQuestsResponse = await self._create_quests.handle(uid, ctx)
 
+        # Create and return an aggregated response for quest progress and generated quests
         return GetQuestsResponse(
             next_daily_refresh=ctx.next_daily_refresh,
             merc_quests=quests.merc_quests,

@@ -9,7 +9,6 @@ from src.common import formulas
 from src.common.types import BonusType
 from src.dependencies import (get_lifetime_stats_repo,
                               get_static_artefacts_dict, get_static_bounties)
-from src.exceptions import ServerException
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,

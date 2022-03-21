@@ -34,7 +34,7 @@ class GetUserDailyStatsHandler:
             total_prestiges=await self._prestige_logs.count_prestiges_between(user_id, from_date, to_date)
         )
 
-    @md.dispatch(AuthenticatedRequestContext)
+    @md.dispatch(ObjectId, RequestContext)
     async def handle(self, uid: ObjectId, ctx: RequestContext):
         return await self.handle(uid, ctx.prev_daily_refresh, ctx.next_daily_refresh)
 

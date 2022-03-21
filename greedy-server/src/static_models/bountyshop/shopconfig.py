@@ -1,11 +1,11 @@
-from __future__ import annotations
+from fastapi import Depends
 
-from src.request import ServerRequest
+from src.file_cache import StaticFilesCache, get_static_files_cache
 from src.shared_models import BaseModel, Field
 
 
-def bounty_shop_config(request: ServerRequest):
-    return FullBountyShopConfig.parse_obj(request.app.get_static_file("server/bountyshop.json5"))
+def bounty_shop_config(cache: StaticFilesCache = Depends(get_static_files_cache)):
+    return FullBountyShopConfig.parse_obj(cache.load_file("server/bountyshop.json5"))
 
 
 # = Armoury Items = #

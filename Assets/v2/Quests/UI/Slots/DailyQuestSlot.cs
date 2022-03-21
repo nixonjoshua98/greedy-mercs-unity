@@ -35,9 +35,12 @@ namespace GM.Quests.UI
 
         public void UpdateUI()
         {
-            ProgressSlider.value        = Quest.CurrentProgress;
-            CompleteButton.interactable = Quest.CurrentProgress >= 1.0f && !Quest.IsCompleted;
-            CompleteButtonImage.color   = Quest.CurrentProgress >= 1.0f ? ButtonColours.ReadyToComplete : ButtonColours.InProgress;
+            if (!Quest.IsCompleted)
+            {
+                ProgressSlider.value = Quest.CurrentProgress;
+                CompleteButton.interactable = Quest.CurrentProgress >= 1.0f && !Quest.IsCompleted;
+                CompleteButtonImage.color = Quest.CurrentProgress >= 1.0f ? ButtonColours.ReadyToComplete : ButtonColours.InProgress;
+            }
         }
 
         void UpdateWhenCompleted()

@@ -96,9 +96,4 @@ def default_json_encoder(value: Any) -> Any:
 
 
 def load_static_data_file(fp: str) -> Union[dict, list]:
-    """
-    Load a file from the /static root folder
-
-    :param fp: File name
-    """
     return json_load(os.path.join(os.getcwd(), "static", fp))

@@ -1,5 +1,4 @@
 import os
-from typing import Union
 
 from fastapi import FastAPI
 
@@ -17,6 +16,3 @@ class Application(FastAPI):
     @staticmethod
     def _load_config() -> ApplicationConfig:
         return ApplicationConfig.parse_obj(utils.yaml_load(os.path.join(os.getcwd(), "config.yml")))
-
-    def get_static_file(self, f: str) -> Union[dict, list]:
-        return utils.load_static_data_file(f)

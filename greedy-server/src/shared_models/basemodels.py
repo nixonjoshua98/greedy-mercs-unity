@@ -15,7 +15,8 @@ class BaseModel(_BaseModel):
         return hash((type(self),) + tuple(self.__dict__.values()))
 
     def dict(self, *args, **kwargs):
-        return humps.camelize(super().dict(by_alias=True))
+        kwargs["by_alias"] = True
+        return humps.camelize(super().dict(*args, **kwargs))
 
 
 class BaseDocument(BaseModel):

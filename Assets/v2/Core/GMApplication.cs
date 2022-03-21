@@ -33,11 +33,8 @@ namespace GM.Core
 
         public IHTTPClient HTTP => HTTPClient.Instance;
 
-        // Global Events
-        public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
-
         // Server Refresh
-        public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromSeconds(10) };
+        public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromDays(1) };
 
         private GMApplication()
         {

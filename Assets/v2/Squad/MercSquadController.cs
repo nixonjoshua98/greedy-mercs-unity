@@ -35,7 +35,7 @@ namespace GM.Mercs
 
         void SubscribeToEvents()
         {
-            App.E_OnMercUnlocked.AddListener(GMApplication_OnMercUnlocked);
+            App.Mercs.E_OnMercUnlocked.AddListener(GMApplication_OnMercUnlocked);
         }
 
         void FixedUpdate()

@@ -4,6 +4,7 @@ using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GM.Mercs.Data
 {
@@ -11,6 +12,8 @@ namespace GM.Mercs.Data
     {
         Dictionary<MercID, UserMercState> UserMercs = new Dictionary<MercID, UserMercState>();
         Dictionary<MercID, StaticMercData> StaticMercs = new Dictionary<MercID, StaticMercData>();
+
+        public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
         public int MaxSquadSize { get; private set; } = 5;
 
@@ -80,7 +83,7 @@ namespace GM.Mercs.Data
         {
             UserMercs.Add(mercId, new(mercId));
 
-            App.E_OnMercUnlocked.Invoke(mercId);
+            E_OnMercUnlocked.Invoke(mercId);
         }
 
         /// <summary>

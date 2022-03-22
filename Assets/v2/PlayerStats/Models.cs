@@ -4,13 +4,6 @@ using System;
 
 namespace GM.PlayerStats
 {
-    public class PlayerStatsResponse : GM.HTTP.ServerResponse
-    {
-        public LifetimeStatsModel Lifetime;
-        public TimedPlayerStatsModel Daily;
-    }
-
-
     public class PlayerStats
     {
         public int TotalPrestiges;

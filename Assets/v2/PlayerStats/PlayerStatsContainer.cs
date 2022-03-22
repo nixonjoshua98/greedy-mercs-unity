@@ -1,12 +1,14 @@
 ﻿using System;
+using GM.HTTP;
 
 namespace GM.PlayerStats
 {
     public class PlayerStatsContainer : GM.Core.GMClass
     {
         public LifetimeStatsModel ConfirmedLifetimeStats;
-        public TimedPlayerStatsModel ConfirmedDailyStats;
+        public LifetimeStatsModel LocalLifetimeStats { get => App.PersistantLocalFile.LocalLifetimeStats; set => App.PersistantLocalFile.LocalLifetimeStats = value; }
 
+        public TimedPlayerStatsModel ConfirmedDailyStats;
         public TimedPlayerStatsModel LocalDailyStats { get => App.PersistantLocalFile.LocalDailyStats; }
 
         public bool IsDailyStatsValid { get => ConfirmedDailyStats.CreatedTime.IsBetween(App.DailyRefresh.PreviousNextReset); }
@@ -29,6 +31,21 @@ namespace GM.PlayerStats
                 }
 
                 action.Invoke(resp.StatusCode == GM.HTTP.HTTPCodes.Success);
+            });
+        }
+
+        public void UpdateLifetimeStats(Action<bool> action)
+        {
+            App.HTTP.UpdateLifetimeStats(resp =>
+            {
+                if (resp.StatusCode == HTTPCodes.Success)
+                {
+                    ConfirmedLifetimeStats = resp.LifetimeStats;
+
+                    LocalLifetimeStats = new();
+                }
+
+                action.Invoke(resp.StatusCode == HTTPCodes.Success);
             });
         }
     }

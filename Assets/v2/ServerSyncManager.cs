@@ -1,12 +1,23 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace GM
 {
     public class ServerSyncManager : GM.Core.GMMonoBehaviour
     {
+        const float StatsSyncInterval = 1_000 * 30; // 30 Seconds
+
         bool isUpdatingQuests;
         bool isFetchingDailyStats;
+        bool isUpdatingLifetimeStats;
+
+        Stopwatch dailyStatsSyncStopwatch;
+
+        void Awake()
+        {
+            dailyStatsSyncStopwatch = Stopwatch.StartNew();
+        }
 
         void Start()
         {
@@ -28,7 +39,20 @@ namespace GM
                 {
                     FetchDailyStats();
                 }
+
+                if (!isUpdatingLifetimeStats && dailyStatsSyncStopwatch.ElapsedMilliseconds >= StatsSyncInterval)
+                {
+                    dailyStatsSyncStopwatch.Restart();
+                    SyncStatsWithServer();
+                }
             }
+        }
+
+        void SyncStatsWithServer()
+        {
+            isUpdatingLifetimeStats = true;
+
+            App.Stats.UpdateLifetimeStats(success => isUpdatingLifetimeStats = false);
         }
 
         void FetchDailyStats()

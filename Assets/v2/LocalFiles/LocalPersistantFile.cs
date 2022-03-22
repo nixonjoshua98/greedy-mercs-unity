@@ -14,7 +14,7 @@ namespace GM.LocalFiles
         private TimedPlayerStatsModel _LocalDailyStats;
 
         [JsonProperty]
-        public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
+        public HashSet<MercID> SquadMercIDs { get; set; } = new();
 
         [JsonIgnore]
         public TimedPlayerStatsModel LocalDailyStats
@@ -26,7 +26,6 @@ namespace GM.LocalFiles
 
                 else if (!_LocalDailyStats.CreatedTime.IsBetween(App.DailyRefresh.PreviousNextReset))
                 {
-                    GMLogger.Editor("Reset LocalDailyStats");
                     _LocalDailyStats = new() { CreatedTime = DateTime.UtcNow };
                 }
 
@@ -34,6 +33,9 @@ namespace GM.LocalFiles
             }
             set => _LocalDailyStats = value;
         }
+
+        [JsonProperty]
+        public LifetimeStatsModel LocalLifetimeStats { get; set; } = new();
 
         /// <summary>
         /// Static constructor (preferred usage)

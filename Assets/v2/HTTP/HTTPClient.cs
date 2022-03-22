@@ -27,6 +27,7 @@ namespace GM.HTTP
         void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
         void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback);
         void UnlockArtefact(Action<UnlockArtefactResponse> callback);
+        void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action);
         void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback);
     }
 
@@ -39,6 +40,13 @@ namespace GM.HTTP
         };
 
         string Authentication = null;
+
+        public void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action)
+        {
+            UpdateLifetimeStatsRequest req = new() { StatChanges = App.Stats.LocalLifetimeStats };
+
+            SendRequest("POST", "stats/lifetime", req, false, action);
+        }
 
         public void FetchStats(Action<PlayerStatsResponse> action)
         {
@@ -153,23 +161,35 @@ namespace GM.HTTP
 
         void SendRequest<TRequest, TResponse>(string method, string url, TRequest request, bool encrypt, Action<TResponse> action) where TRequest : IServerRequest where TResponse : IServerResponse, new()
         {
-            UnityWebRequest www = CreateWebRequest(method, url, request, encrypt: encrypt);
-
-            SetRequestHeaders(www);
-
-            StartCoroutine(SendRequest(www, () =>
+            try
             {
-                ResponseHandler(www, action);
-            }));
+                UnityWebRequest www = CreateWebRequest(method, url, request, encrypt);
+
+                SetRequestHeaders(www);
+
+                StartCoroutine(SendRequest(www, () =>
+                {
+                    ResponseHandler(www, action);
+                }));
+            }
+            catch (Exception e)
+            {
+                GMLogger.Exception(url, e);
+            }
         }
 
         IEnumerator SendRequest(UnityWebRequest www, Action action)
         {
             using (www)
             {
-                yield return www.SendWebRequest();
-
-                action.Invoke();
+                try
+                {
+                    yield return www.SendWebRequest();
+                }
+                finally
+                {
+                    action.Invoke();
+                }
             }
         }
 

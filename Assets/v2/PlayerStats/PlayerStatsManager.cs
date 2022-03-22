@@ -17,16 +17,19 @@ namespace GM.PlayerStats
 
         void WaveManager_OnEnemyDefeated()
         {
+            App.Stats.LocalLifetimeStats.TotalEnemiesDefeated++;
             App.Stats.LocalDailyStats.TotalEnemiesDefeated++;
         }
 
         void WaveManager_OnBossDefeated()
         {
+            App.Stats.LocalLifetimeStats.TotalBossesDefeated++;
             App.Stats.LocalDailyStats.TotalBossesDefeated++;
         }
 
         void TapController_OnTop()
         {
+            App.Stats.LocalLifetimeStats.TotalTaps++;
             App.Stats.LocalDailyStats.TotalTaps++;
         }
     }

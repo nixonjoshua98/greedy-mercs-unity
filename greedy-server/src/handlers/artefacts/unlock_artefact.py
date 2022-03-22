@@ -4,9 +4,10 @@ import random
 
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_static_artefacts_dict
 from src.exceptions import HandlerException
+from src.handlers.auth_handler import get_authenticated_context
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository

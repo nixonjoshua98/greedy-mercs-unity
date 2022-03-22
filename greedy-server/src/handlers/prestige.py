@@ -4,11 +4,12 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common import formulas
 from src.common.types import BonusType
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import (get_lifetime_stats_repo,
                               get_static_artefacts_dict, get_static_bounties)
+from src.handlers.auth_handler import get_authenticated_context
 from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
                                  get_artefacts_repository)
 from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,

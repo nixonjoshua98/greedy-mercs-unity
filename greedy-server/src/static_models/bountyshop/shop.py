@@ -6,7 +6,7 @@ from random import Random
 from fastapi import Depends
 
 from src import utils
-from src.auth import RequestContext
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_static_armoury
 from src.static_models.armoury import StaticArmouryItem
 

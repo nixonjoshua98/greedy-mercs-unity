@@ -2,8 +2,8 @@ from bson import ObjectId
 from fastapi import Depends
 
 from src import utils
-from src.auth import RequestContext
 from src.common.types import MercID
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_merc_quests_repo
 from src.exceptions import HandlerException
 from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo

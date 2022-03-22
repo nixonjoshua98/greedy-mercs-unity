@@ -1,8 +1,9 @@
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.handlers import (GetStaticDataHandler, GetUserDataHandler,
                           PrestigeHandler, PrestigeResponse)
+from src.handlers.auth_handler import get_authenticated_context
 from src.request_models import PrestigeRequestModel
 from src.response import ServerResponse
 from src.router import APIRouter

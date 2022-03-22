@@ -4,8 +4,8 @@ import multipledispatch as md
 from bson import ObjectId
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, RequestContext
 from src.common.types import QuestID
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_merc_quests_repo
 from src.mongo.quests import (DailyQuestsRepository, MercQuestsRepository,
                               get_daily_quests_repo)

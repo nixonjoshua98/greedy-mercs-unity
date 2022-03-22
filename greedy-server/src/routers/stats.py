@@ -1,9 +1,9 @@
 from fastapi import Depends
 
-from src.auth.handler import (AuthenticatedRequestContext,
-                              get_authenticated_context)
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_lifetime_stats_repo
 from src.handlers import GetUserDailyStatsHandler
+from src.handlers.auth_handler import get_authenticated_context
 from src.mongo.lifetimestats import LifetimeStatsRepository
 from src.response import ServerResponse
 from src.router import APIRouter

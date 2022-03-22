@@ -3,9 +3,10 @@
 from fastapi import Depends
 
 from src import utils
-from src.auth import AuthenticatedRequestContext
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_static_armoury
 from src.exceptions import HandlerException
+from src.handlers.auth_handler import get_authenticated_context
 from src.mongo.armoury import (ArmouryItemModel, ArmouryRepository,
                                get_armoury_repository)
 from src.mongo.currency import CurrenciesModel, CurrencyRepository

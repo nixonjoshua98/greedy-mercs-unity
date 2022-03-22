@@ -4,7 +4,7 @@ import multipledispatch as md
 from bson import ObjectId
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, RequestContext
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_static_quests
 from src.shared_models import BaseModel
 from src.static_models.quests import DailyQuest, MercQuest, StaticQuests

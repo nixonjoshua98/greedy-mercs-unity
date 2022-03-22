@@ -1,9 +1,10 @@
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.handlers import (PurchaseArmouryItemHandler,
                           PurchaseArmouryItemResponse, PurchaseCurrencyHandler,
                           PurchaseCurrencyResponse)
+from src.handlers.auth_handler import get_authenticated_context
 from src.response import ServerResponse
 from src.router import APIRouter
 from src.shared_models import BaseModel

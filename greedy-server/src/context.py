@@ -8,12 +8,9 @@ from src.application import Application
 
 class RequestContext:
     def __init__(self, app: Application = Depends()):
-        self.datetime: dt.datetime = dt.datetime.utcnow()
+        self.datetime: dt.datetime = (now := dt.datetime.utcnow())
 
-        prev_daily, next_daily = app.daily_refresh.refresh_from_date(self.datetime)
-
-        self.prev_daily_refresh: dt.datetime = prev_daily
-        self.next_daily_refresh: dt.datetime = next_daily
+        self.prev_daily_refresh, self.next_daily_refresh = app.daily_refresh.refresh_from_date(now)
 
 
 class AuthenticatedRequestContext(RequestContext):

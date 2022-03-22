@@ -2,8 +2,8 @@ from bson import ObjectId
 from fastapi import Depends
 
 from src import utils
-from src.auth import RequestContext
 from src.common.types import QuestActionType, QuestID
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.exceptions import HandlerException
 from src.handlers import GetUserDailyStatsHandler, GetUserDailyStatsResponse
 from src.mongo.currency import CurrencyRepository

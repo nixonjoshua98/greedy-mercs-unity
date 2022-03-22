@@ -5,9 +5,10 @@ from typing import Optional
 from bson import ObjectId
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.common.types import CurrencyType
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.exceptions import HandlerException
+from src.handlers.auth_handler import get_authenticated_context
 from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
 from src.mongo.currency import CurrenciesModel, CurrencyRepository
 from src.mongo.currency import Fields as CurrencyRepoFields

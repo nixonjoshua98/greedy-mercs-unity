@@ -1,6 +1,7 @@
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
+from src.context import AuthenticatedRequestContext, RequestContext
+from src.handlers.auth_handler import get_authenticated_context
 from src.handlers.bounties import (BountyClaimResponse, ClaimBountiesHandler,
                                    UpdateBountiesHandler)
 from src.response import ServerResponse

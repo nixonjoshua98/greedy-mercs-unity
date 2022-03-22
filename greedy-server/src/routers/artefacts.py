@@ -1,10 +1,11 @@
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.handlers.artefacts import (BulkUpgradeArtefactsHandler,
                                     BulkUpgradeArtefactsResponse,
                                     UnlockArtefactHandler,
                                     UnlockArtefactResponse)
+from src.handlers.auth_handler import get_authenticated_context
 from src.request_models import ArtefactUpgradeRequestModel
 from src.response import EncryptedServerResponse, ServerResponse
 from src.router import APIRouter

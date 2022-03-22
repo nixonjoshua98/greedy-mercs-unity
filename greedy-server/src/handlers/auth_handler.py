@@ -4,12 +4,11 @@ from fastapi import Depends
 
 from src.application import Application
 from src.common.constants import StatusCodes
+from src.context import AuthenticatedRequestContext
 from src.dependencies import (get_application, get_auth_sessions_repo,
                               get_auth_token_header, get_device_id_header)
 from src.exceptions import ServerException
 from src.mongo.sessions import SessionModel, SessionRepository
-
-from .context import AuthenticatedRequestContext
 
 
 async def get_authenticated_context(

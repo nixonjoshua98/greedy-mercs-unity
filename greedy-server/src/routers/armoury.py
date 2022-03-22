@@ -1,7 +1,8 @@
 from fastapi import Depends
 
-from src.auth import AuthenticatedRequestContext, get_authenticated_context
 from src.handlers import UpgradeArmouryItemHandler, UpgradeItemResponse
+from src.handlers.auth_handler import (AuthenticatedRequestContext,
+                                       get_authenticated_context)
 from src.response import ServerResponse
 from src.router import APIRouter
 from src.shared_models import BaseModel

@@ -1,6 +1,6 @@
 from fastapi import Depends
 
-from src.auth import RequestContext
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_static_files_cache
 from src.file_cache import StaticFilesCache
 from src.shared_models import BaseModel

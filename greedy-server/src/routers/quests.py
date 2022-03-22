@@ -1,7 +1,7 @@
 from fastapi import Depends
 
-from src.auth.handler import (AuthenticatedRequestContext,
-                              get_authenticated_context)
+from src.context import AuthenticatedRequestContext, RequestContext
+from src.handlers.auth_handler import get_authenticated_context
 from src.handlers.quests import (CompleteDailyQuestHandler,
                                  CompleteMercQuestHandler, GetQuestsHandler)
 from src.request_models import (CompleteDailyQuestRequestModel,

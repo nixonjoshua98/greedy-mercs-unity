@@ -2,7 +2,7 @@
 from bson import ObjectId
 from fastapi import Depends
 
-from src.auth import RequestContext
+from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_lifetime_stats_repo
 from src.handlers import GetUserDailyStatsHandler
 from src.handlers.quests import GetQuestsHandler

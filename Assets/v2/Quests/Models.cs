@@ -29,16 +29,4 @@ namespace GM.Quests
 
         public long LongValue;
     }
-
-    public class QuestsDataResponse : GM.HTTP.ServerResponse
-    {
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime QuestsCreatedAt { get; set; }
-
-        public List<MercQuest> MercQuests;
-        public List<DailyQuest> DailyQuests;
-
-        public List<int> CompletedMercQuests;
-        public List<int> CompletedDailyQuests;
-    }
 }

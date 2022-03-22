@@ -5,9 +5,9 @@ namespace GM.PlayerStats
     public class PlayerStatsContainer : GM.Core.GMClass
     {
         public LifetimeStatsModel ConfirmedLifetimeStats;
-        public TimedStatsModel ConfirmedDailyStats;
+        public TimedPlayerStatsModel ConfirmedDailyStats;
 
-        public TimedStatsModel LocalDailyStats { get => App.PersistantLocalFile.LocalDailyStats; }
+        public TimedPlayerStatsModel LocalDailyStats { get => App.PersistantLocalFile.LocalDailyStats; }
 
         public bool IsDailyStatsValid { get => ConfirmedDailyStats.CreatedTime.IsBetween(App.DailyRefresh.PreviousNextReset); }
         public int HighestStageReached { get => Math.Max(App.GameState.Stage, ConfirmedLifetimeStats.HighestPrestigeStage); }

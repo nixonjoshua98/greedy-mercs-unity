@@ -1,13 +1,10 @@
-﻿using GM.Models;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace GM
 {
     public class LocalSaveManager : Common.MonoBehaviourLazySingleton<LocalSaveManager>
     {
-        public const string STATIC_FILE = "staticdata";
-
         public bool Paused { get; set; } = false;
 
         void Awake()
@@ -29,7 +26,5 @@ namespace GM
                 App.PersistantLocalFile.WriteToFile();
             }
         }
-
-        public void WriteStaticData(IStaticGameData model) => FileUtils.WriteModel(STATIC_FILE, model);
     }
 }

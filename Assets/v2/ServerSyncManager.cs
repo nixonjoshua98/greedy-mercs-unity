@@ -12,11 +12,11 @@ namespace GM
         bool isFetchingDailyStats;
         bool isUpdatingLifetimeStats;
 
-        Stopwatch dailyStatsSyncStopwatch;
+        Stopwatch syncStatsWatch;
 
         void Awake()
         {
-            dailyStatsSyncStopwatch = Stopwatch.StartNew();
+            syncStatsWatch = Stopwatch.StartNew();
         }
 
         void Start()
@@ -40,9 +40,10 @@ namespace GM
                     FetchDailyStats();
                 }
 
-                if (!isUpdatingLifetimeStats && dailyStatsSyncStopwatch.ElapsedMilliseconds >= StatsSyncInterval)
+                if (!isUpdatingLifetimeStats && syncStatsWatch.ElapsedMilliseconds >= StatsSyncInterval)
                 {
-                    dailyStatsSyncStopwatch.Restart();
+                    syncStatsWatch.Restart();
+
                     SyncStatsWithServer();
                 }
             }

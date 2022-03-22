@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GM
 {
-    public class UpdateLoop : GM.Core.GMMonoBehaviour
+    public class ServerSyncManager : GM.Core.GMMonoBehaviour
     {
         bool isUpdatingQuests;
         bool isFetchingDailyStats;
@@ -17,7 +17,7 @@ namespace GM
         {
             while (true)
             {
-                yield return new WaitForFixedUpdate();
+                yield return new WaitForSecondsRealtime(1);
 
                 if (!isUpdatingQuests && !App.Quests.IsDailyQuestsValid)
                 {

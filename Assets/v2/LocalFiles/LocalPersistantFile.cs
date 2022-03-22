@@ -11,13 +11,13 @@ namespace GM.LocalFiles
         const string FilePath = "PersistantLocalFile";
 
         [JsonProperty]
-        private DailyStatsModel _LocalDailyStats;
+        private TimedStatsModel _LocalDailyStats;
 
         [JsonProperty]
         public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
 
         [JsonIgnore]
-        public DailyStatsModel LocalDailyStats {
+        public TimedStatsModel LocalDailyStats {
             get
             {
                 if (_LocalDailyStats is null)

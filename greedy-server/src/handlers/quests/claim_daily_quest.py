@@ -47,7 +47,7 @@ class CompleteDailyQuestHandler:
         # Look for the unique aily quest
         quest_data: DailyQuest = utils.get(user_quests.daily_quests, quest_id=model.quest_id)
 
-        if quest_data is None:  # Quest does not exist (perhaps outdated)
+        if quest_data is None:  # Quest does not exist
             raise HandlerException(400, "Quest not found")
 
         # Quest has already been completed, and the client is not up-to-date

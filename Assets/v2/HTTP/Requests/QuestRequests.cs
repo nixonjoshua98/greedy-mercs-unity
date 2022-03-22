@@ -17,7 +17,7 @@ namespace GM.HTTP.Requests
     public class CompleteDailyQuestRequest : IServerRequest
     {
         public int QuestID;
-        public DailyStatsModel LocalDailyStats;
+        public TimedStatsModel LocalDailyStats;
     }
 
     public class CompleteDailyQuestResponse : ServerResponse

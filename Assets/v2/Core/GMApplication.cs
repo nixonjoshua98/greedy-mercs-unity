@@ -53,7 +53,8 @@ namespace GM.Core
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
         {
-            PersistantLocalFile.LocalDailyStats.CreatedTime = DailyRefresh.Next;
+            // Property has a date check, so if the data is old then it will recreate a new instance
+            PersistantLocalFile.LocalDailyStats.CreatedTime = DateTime.UtcNow;
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 

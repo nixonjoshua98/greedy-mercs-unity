@@ -7,7 +7,7 @@ namespace GM.PlayerStats
     public class PlayerStatsResponse : GM.HTTP.ServerResponse
     {
         public LifetimeStatsModel Lifetime;
-        public DailyStatsModel Daily;
+        public TimedStatsModel Daily;
     }
 
 
@@ -27,7 +27,7 @@ namespace GM.PlayerStats
     }
 
 
-    public class DailyStatsModel : PlayerStats
+    public class TimedStatsModel : PlayerStats
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime CreatedTime { get; set; }

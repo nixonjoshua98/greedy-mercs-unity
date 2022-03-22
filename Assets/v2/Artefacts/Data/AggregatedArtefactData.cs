@@ -1,7 +1,7 @@
 using GM.Artefacts.Models;
+using System.Numerics;
 using UnityEngine;
 using BonusType = GM.Common.Enums.BonusType;
-using System.Numerics;
 
 namespace GM.Artefacts.Data
 {

@@ -25,7 +25,7 @@ namespace GM.Models
 
                 return (refreshTime, refreshTime + TimeSpan.FromDays(7));
             }
-            
+
             // Month date
             if (MonthDate > -1)
             {

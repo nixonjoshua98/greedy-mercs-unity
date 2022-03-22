@@ -2,7 +2,6 @@ using GM.HTTP;
 using GM.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
 
 namespace GM.Core
 {

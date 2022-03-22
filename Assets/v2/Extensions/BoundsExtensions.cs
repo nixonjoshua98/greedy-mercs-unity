@@ -2,7 +2,7 @@
 
 namespace GM
 {
-    public static class Bounds_Extensions
+    public static class BoundsExtensions
     {
         public static Vector3 RandomCenterPosition(this Bounds source)
         {

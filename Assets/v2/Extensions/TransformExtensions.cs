@@ -2,7 +2,7 @@
 
 namespace GM
 {
-    public static class Transform_Extensions
+    public static class TransformExtensions
     {
         public static void DestroyChildren(this Transform trans)
         {

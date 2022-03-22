@@ -2,7 +2,7 @@
 
 namespace GM
 {
-    public static class UnityWebRequest_Extensions
+    public static class UnityWebRequestExtensions
     {
         public static bool GetBoolResponseHeader(this UnityWebRequest www, string name, bool defaultValue)
         {

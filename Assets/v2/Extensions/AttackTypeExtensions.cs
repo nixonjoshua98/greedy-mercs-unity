@@ -2,7 +2,7 @@ using GM.Common.Enums;
 
 namespace GM
 {
-    public static class AttackType_Extensions
+    public static class AttackTypeExtensions
     {
         public static BonusType Bonus(this AttackType val)
         {

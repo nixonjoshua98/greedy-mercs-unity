@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace GM
 {
-    public static class MonoBehaviour_Extensions
+    public static class MonoBehaviourExtensions
     {
         public static T GetComponentInScene<T>(this MonoBehaviour source)
         {

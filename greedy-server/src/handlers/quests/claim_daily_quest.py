@@ -80,11 +80,12 @@ class CompleteDailyQuestHandler:
 
     @classmethod
     async def is_quest_completed(
-            cls,
-            quest: DailyQuest,
-            local_stats: PlayerStatsModel,
-            daily_stats: GetUserDailyStatsResponse
+        cls,
+        quest: DailyQuest,
+        local_stats: PlayerStatsModel,
+        daily_stats: GetUserDailyStatsResponse
     ) -> bool:
+
         if quest.action_type == QuestActionType.PRESTIGE:
             return daily_stats.total_prestiges >= quest.long_value
 
@@ -97,4 +98,4 @@ class CompleteDailyQuestHandler:
         elif quest.action_type == QuestActionType.TAPS:
             return local_stats.total_taps >= quest.long_value
 
-        raise Exception()
+        raise HandlerException(500, "Quest type not found")

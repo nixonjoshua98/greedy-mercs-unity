@@ -1,7 +1,4 @@
 ﻿using GM.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
 using System.Collections.Generic;
 
 namespace GM.HTTP.Requests

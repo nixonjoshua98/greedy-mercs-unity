@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GM
 {
-    public static class DamageType_Extensions
+    public static class DamageTypeExtensions
     {
         public static Color TextColor(this DamageType dmg)
         {

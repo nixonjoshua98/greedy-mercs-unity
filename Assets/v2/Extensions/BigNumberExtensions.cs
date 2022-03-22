@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace GM
 {
-    public static class BigNumber_Extensions
+    public static class BigNumberExtensions
     {
         public static BigDouble ToBigDouble(this BigInteger source)
         {

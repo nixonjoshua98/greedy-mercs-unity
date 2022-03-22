@@ -8,7 +8,7 @@ namespace GM.Controllers
 {
     [RequireComponent(typeof(RectTransform))]
     public class TapController : GM.Core.GMMonoBehaviour, IPointerDownHandler
-    { 
+    {
         public int MaxTapsPerSecond = 20;
         float ClickInterval { get => 1.0f / MaxTapsPerSecond; }
 

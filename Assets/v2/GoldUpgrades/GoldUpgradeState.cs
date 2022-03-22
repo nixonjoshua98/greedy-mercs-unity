@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace GM.GoldUpgrades
+﻿namespace GM.GoldUpgrades
 {
     public class GoldUpgradeState
     {

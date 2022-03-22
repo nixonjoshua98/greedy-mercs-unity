@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace GM
 {
-    public static class Dictionary_Extensions
+    public static class DictionaryExtensions
     {
         public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> source, TKey key, TValue defaultValue)
         {

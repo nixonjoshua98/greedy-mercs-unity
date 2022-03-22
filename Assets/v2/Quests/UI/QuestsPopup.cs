@@ -5,6 +5,6 @@ namespace GM.Quests.UI
         void Start()
         {
             ShowInnerPanel();
-        }     
+        }
     }
 }

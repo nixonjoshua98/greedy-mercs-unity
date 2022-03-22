@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace GM
 {
-    public static class IEnumerable_Extensions
+    public static class IEnumerableExtensions
     {
         public static BigDouble Sum(this IEnumerable<BigDouble> source)
         {

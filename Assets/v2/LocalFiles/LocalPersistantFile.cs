@@ -1,8 +1,8 @@
 ﻿using GM.Common.Enums;
 using GM.PlayerStats;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace GM.LocalFiles
 {
@@ -17,7 +17,8 @@ namespace GM.LocalFiles
         public HashSet<MercID> SquadMercIDs { get; set; } = new HashSet<MercID>();
 
         [JsonIgnore]
-        public TimedStatsModel LocalDailyStats {
+        public TimedStatsModel LocalDailyStats
+        {
             get
             {
                 if (_LocalDailyStats is null)

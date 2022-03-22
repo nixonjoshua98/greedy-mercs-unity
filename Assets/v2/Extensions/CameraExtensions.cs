@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GM
 {
-    public static class Camera_Extensions
+    public static class CameraExtensions
     {
         public static bool IsVisible(this Camera cam, Vector2 pos)
         {

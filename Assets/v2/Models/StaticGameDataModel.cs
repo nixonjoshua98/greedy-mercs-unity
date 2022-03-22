@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GM.Models
 {
     public interface IStaticGameData
     {
-       List<Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
+        List<Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
         List<Armoury.Models.ArmouryItemGameDataModel> Armoury { get; set; }
         GM.Mercs.StaticMercsModel Mercs { get; set; }

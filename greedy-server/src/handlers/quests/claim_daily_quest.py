@@ -3,16 +3,16 @@ from fastapi import Depends
 
 from src import utils
 from src.common.types import QuestActionType, QuestID
-from src.context import AuthenticatedRequestContext, RequestContext
+from src.context import RequestContext
 from src.exceptions import HandlerException
 from src.handlers import GetUserDailyStatsHandler, GetUserDailyStatsResponse
-from src.mongo.currency import CurrencyRepository
-from src.mongo.currency import Fields as CurrencyFieldNames
-from src.mongo.currency import get_currency_repository
-from src.mongo.quests import (DailyQuestModel, DailyQuestsRepository,
-                              get_daily_quests_repo)
+from src.repositories.currency import CurrencyRepository
+from src.repositories.currency import Fields as CurrencyFieldNames
+from src.repositories.currency import get_currency_repository
+from src.repositories.quests import (DailyQuestModel, DailyQuestsRepository,
+                                     get_daily_quests_repo)
 from src.request_models import CompleteDailyQuestRequestModel
-from src.shared_models import BaseModel, PlayerStats
+from src.shared_models import BaseModel, PlayerStatsModel
 from src.static_models.quests import DailyQuest
 
 from .create_quests import CreateQuestsHandler, CreateQuestsResponse
@@ -82,7 +82,7 @@ class CompleteDailyQuestHandler:
     async def is_quest_completed(
             cls,
             quest: DailyQuest,
-            local_stats: PlayerStats,
+            local_stats: PlayerStatsModel,
             daily_stats: GetUserDailyStatsResponse
     ) -> bool:
         if quest.action_type == QuestActionType.PRESTIGE:
@@ -93,5 +93,8 @@ class CompleteDailyQuestHandler:
 
         elif quest.action_type == QuestActionType.BOSSES_DEFEATED:
             return local_stats.total_bosses_defeated >= quest.long_value
+
+        elif quest.action_type == QuestActionType.TAPS:
+            return local_stats.total_taps >= quest.long_value
 
         raise Exception()

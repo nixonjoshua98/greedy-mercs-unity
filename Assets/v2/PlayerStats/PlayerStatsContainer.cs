@@ -9,9 +9,8 @@ namespace GM.PlayerStats
 
         public DailyStatsModel LocalDailyStats { get => App.PersistantLocalFile.LocalDailyStats; }
 
-        public bool IsDailyStatsValid => DateTime.UtcNow < ConfirmedDailyStats.NextRefresh;
-
-        public int HighestStageReached { get => Math.Max(App.GameState.Stage, ConfirmedLifetimeStats.HighestPrestigeStageReached); }
+        public bool IsDailyStatsValid { get => ConfirmedDailyStats.CreatedTime.IsBetween(App.DailyRefresh.PreviousNextReset); }
+        public int HighestStageReached { get => Math.Max(App.GameState.Stage, ConfirmedLifetimeStats.HighestPrestigeStage); }
 
         public void Set(PlayerStatsResponse userData)
         {

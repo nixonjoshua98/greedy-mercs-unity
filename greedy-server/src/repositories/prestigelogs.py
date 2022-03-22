@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 
+import multipledispatch as md
 from bson import ObjectId
 from pydantic import Field
 
@@ -29,10 +30,19 @@ class PrestigeLogsRepository:
     def __init__(self, client):
         self._logs = client.database["userPrestigeLogs"]
 
-    async def count_prestiges_between(self, uid: ObjectId, from_date: dt.datetime, to_date: dt.datetime) -> int:
+    @md.dispatch(ObjectId)
+    async def count_user_prestiges(self, uid: ObjectId) -> int:
+        return await self._logs.count_documents({FieldNames.user_id: uid})
+
+    @md.dispatch(ObjectId, dt.datetime, dt.datetime)
+    async def count_user_prestiges(self, uid: ObjectId, from_date: dt.datetime, to_date: dt.datetime) -> int:
         return await self._logs.count_documents(
             {FieldNames.user_id: uid, FieldNames.date: {"$gt": from_date, "$lt": to_date}}
         )
+
+    async def highest_prestige_stage(self, uid: ObjectId) -> int:
+        doc = await self._logs.find_one({FieldNames.user_id: uid}, sort=[(FieldNames.stage, 1)])
+        return (doc or {}).get(FieldNames.stage, 0)
 
     async def insert_prestige_log(self, model: PrestigeLogModel):
         await self._logs.insert_one(model.dict())

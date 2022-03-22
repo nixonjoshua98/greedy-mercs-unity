@@ -10,7 +10,8 @@ namespace GM.Quests
     {
         Prestige = 0,
         EnemiesDefeated = 1,
-        BossesDefeated = 2
+        BossesDefeated = 2,
+        Taps = 3
     }
 
     public class MercQuest
@@ -32,7 +33,7 @@ namespace GM.Quests
     public class QuestsDataResponse : GM.HTTP.ServerResponse
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime NextDailyRefresh { get; set; }
+        public DateTime QuestsCreatedAt { get; set; }
 
         public List<MercQuest> MercQuests;
         public List<DailyQuest> DailyQuests;

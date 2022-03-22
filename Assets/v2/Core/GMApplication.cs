@@ -53,7 +53,7 @@ namespace GM.Core
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
         {
-            PersistantLocalFile.LocalDailyStats.NextRefresh = DailyRefresh.Next;
+            PersistantLocalFile.LocalDailyStats.CreatedTime = DailyRefresh.Next;
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 

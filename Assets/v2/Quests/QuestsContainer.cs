@@ -6,7 +6,7 @@ namespace GM.Quests
 {
     public class QuestsContainer : GM.Core.GMClass
     {
-        public DateTime NextDailyRefresh { get; set; }
+        public DateTime QuestsCreatedAt { get; set; }
 
         List<MercQuest> MercQuestsModels;
         List<DailyQuest> DailyQuestsModels;
@@ -16,7 +16,7 @@ namespace GM.Quests
 
         public void Set(QuestsDataResponse model)
         {
-            NextDailyRefresh = model.NextDailyRefresh;
+            QuestsCreatedAt = model.QuestsCreatedAt;
 
             MercQuestsModels = model.MercQuests;
             DailyQuestsModels = model.DailyQuests;
@@ -25,7 +25,7 @@ namespace GM.Quests
             CompletedMercQuests = model.CompletedMercQuests;
         }
 
-        public bool IsDailyQuestsValid => NextDailyRefresh > DateTime.UtcNow;
+        public bool IsDailyQuestsValid => QuestsCreatedAt.IsBetween(App.DailyRefresh.PreviousNextReset);
         public bool IsMercQuestCompleted(int questId) => CompletedMercQuests.Contains(questId);
         public bool IsDailyQuestCompleted(int questId) => CompletedDailyQuests.Contains(questId);
 

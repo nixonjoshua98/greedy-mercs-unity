@@ -5,8 +5,8 @@ from bson import ObjectId
 from fastapi import Depends
 
 from src.exceptions import HandlerException
-from src.mongo.accounts import (AccountModel, AccountsRepository,
-                                get_accounts_repository)
+from src.repositories.accounts import (AccountModel, AccountsRepository,
+                                       get_accounts_repository)
 from src.request_models import LoginRequestModel
 from src.shared_models import BaseModel
 

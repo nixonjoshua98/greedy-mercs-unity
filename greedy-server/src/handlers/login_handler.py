@@ -5,9 +5,9 @@ from bson import ObjectId
 from fastapi import Depends, HTTPException
 
 from src.dependencies import get_auth_sessions_repo, get_device_id_header
-from src.mongo.accounts import (AccountModel, AccountsRepository,
-                                get_accounts_repository)
-from src.mongo.sessions import SessionModel, SessionRepository
+from src.repositories.accounts import (AccountModel, AccountsRepository,
+                                       get_accounts_repository)
+from src.repositories.sessions import SessionModel, SessionRepository
 from src.request_models import LoginRequestModel
 from src.shared_models import BaseModel
 

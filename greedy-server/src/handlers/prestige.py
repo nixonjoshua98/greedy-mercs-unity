@@ -6,21 +6,22 @@ from fastapi import Depends
 
 from src.common import formulas
 from src.common.types import BonusType
-from src.context import AuthenticatedRequestContext, RequestContext
+from src.context import AuthenticatedRequestContext
 from src.dependencies import (get_lifetime_stats_repo,
                               get_static_artefacts_dict, get_static_bounties)
 from src.handlers.auth_handler import get_authenticated_context
-from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
-                                 get_artefacts_repository)
-from src.mongo.bounties import (BountiesRepository, UserBountiesDataModel,
-                                get_bounties_repository)
-from src.mongo.currency import CurrencyRepository
-from src.mongo.currency import Fields as CurrencyFields
-from src.mongo.currency import get_currency_repository
-from src.mongo.lifetimestats import FieldNames as LifetimeStatsFields
-from src.mongo.lifetimestats import LifetimeStatsRepository
-from src.mongo.prestigelogs import (PrestigeLogModel, PrestigeLogsRepository,
-                                    get_prestige_logs_repo)
+from src.repositories.artefacts import (ArtefactModel, ArtefactsRepository,
+                                        get_artefacts_repository)
+from src.repositories.bounties import (BountiesRepository,
+                                       UserBountiesDataModel,
+                                       get_bounties_repository)
+from src.repositories.currency import CurrencyRepository
+from src.repositories.currency import Fields as CurrencyFields
+from src.repositories.currency import get_currency_repository
+from src.repositories.lifetimestats import LifetimeStatsRepository
+from src.repositories.prestigelogs import (PrestigeLogModel,
+                                           PrestigeLogsRepository,
+                                           get_prestige_logs_repo)
 from src.request_models import PrestigeRequestModel
 from src.shared_models import BaseModel
 from src.static_models.artefacts import StaticArtefact
@@ -81,17 +82,10 @@ class PrestigeHandler:
         # Add currencies rewarded
         await self._currencies.incr(self.ctx.user_id, CurrencyFields.prestige_points, points)
 
-        # Update lifetime stats
-        await self.update_lifetime_stats(data)
-
         return PrestigeResponse(
             prestige_points=points,
             unlocked_bounties=new_bounties
         )
-
-    async def update_lifetime_stats(self, model: PrestigeRequestModel):
-        await self._lifetime_stats.incr(self.user_id, LifetimeStatsFields.num_prestiges, 1)
-        await self._lifetime_stats.max(self.user_id, LifetimeStatsFields.highest_stage, model.prestige_stage)
 
     async def log_prestige(self, body: PrestigeRequestModel):
         model = PrestigeLogModel(

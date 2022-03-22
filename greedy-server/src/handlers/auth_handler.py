@@ -8,7 +8,7 @@ from src.context import AuthenticatedRequestContext
 from src.dependencies import (get_application, get_auth_sessions_repo,
                               get_auth_token_header, get_device_id_header)
 from src.exceptions import ServerException
-from src.mongo.sessions import SessionModel, SessionRepository
+from src.repositories.sessions import SessionModel, SessionRepository
 
 
 async def get_authenticated_context(

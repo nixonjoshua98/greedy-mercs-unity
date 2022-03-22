@@ -6,8 +6,9 @@ from src.common.types import MercID
 from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_merc_quests_repo
 from src.exceptions import HandlerException
-from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
-from src.mongo.quests import MercQuestModel, MercQuestsRepository
+from src.repositories.mercs import (UnlockedMercsRepository,
+                                    get_unlocked_mercs_repo)
+from src.repositories.quests import MercQuestModel, MercQuestsRepository
 from src.request_models import CompleteMercQuestRequestModel
 from src.shared_models import BaseModel
 from src.static_models.quests import MercQuest

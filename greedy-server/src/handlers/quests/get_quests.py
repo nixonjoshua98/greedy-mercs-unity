@@ -7,8 +7,9 @@ from fastapi import Depends
 from src.common.types import QuestID
 from src.context import AuthenticatedRequestContext, RequestContext
 from src.dependencies import get_merc_quests_repo
-from src.mongo.quests import (DailyQuestsRepository, MercQuestsRepository,
-                              get_daily_quests_repo)
+from src.repositories.quests import (DailyQuestsRepository,
+                                     MercQuestsRepository,
+                                     get_daily_quests_repo)
 from src.shared_models import BaseModel
 from src.static_models.quests import DailyQuest, MercQuest
 
@@ -16,7 +17,7 @@ from .create_quests import CreateQuestsHandler, CreateQuestsResponse
 
 
 class GetQuestsResponse(BaseModel):
-    next_daily_refresh: dt.datetime
+    quests_created_at: dt.datetime
     merc_quests: list[MercQuest]
     daily_quests: list[DailyQuest]
     completed_merc_quests: list[QuestID]
@@ -49,9 +50,9 @@ class GetQuestsHandler:
 
         # Create and return an aggregated response for quest progress and generated quests
         return GetQuestsResponse(
-            next_daily_refresh=ctx.next_daily_refresh,
             merc_quests=quests.merc_quests,
             daily_quests=quests.daily_quests,
+            quests_created_at=ctx.datetime,
             completed_daily_quests=[q.quest_id for q in completed_daily_quests],
             completed_merc_quests=[q.quest_id for q in completed_merc_quests]
         )

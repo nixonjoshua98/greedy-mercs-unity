@@ -10,6 +10,6 @@
     {"questId": 0, "actionType": 0, "longValue": 3, "diamondsRewarded": 25},    // Prestige x times
     {"questId": 1, "actionType": 1, "longValue": 100, "diamondsRewarded": 25},  // Defeat x enemies
     {"questId": 2, "actionType": 2, "longValue": 25, "diamondsRewarded": 25},   // Defeat x Bosses
-    //{"questId": 3, "actionType": 3, "longValue": 100, "diamondsRewarded": 25}   // Tap x times
+    {"questId": 3, "actionType": 3, "longValue": 100, "diamondsRewarded": 25}   // Tap x times
   ]
 }

@@ -2,17 +2,20 @@
 from bson import ObjectId
 from fastapi import Depends
 
-from src.context import AuthenticatedRequestContext, RequestContext
-from src.dependencies import get_lifetime_stats_repo
+from src.context import RequestContext
 from src.handlers import GetUserDailyStatsHandler
+from src.handlers.player_stats import GetLifetimeStatsHandler
 from src.handlers.quests import GetQuestsHandler
-from src.mongo import ArtefactsRepository, get_artefacts_repository
-from src.mongo.armoury import ArmouryRepository, get_armoury_repository
-from src.mongo.bounties import BountiesRepository, get_bounties_repository
-from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
-from src.mongo.currency import CurrencyRepository, get_currency_repository
-from src.mongo.lifetimestats import LifetimeStatsRepository
-from src.mongo.mercs import UnlockedMercsRepository, get_unlocked_mercs_repo
+from src.repositories import ArtefactsRepository, get_artefacts_repository
+from src.repositories.armoury import ArmouryRepository, get_armoury_repository
+from src.repositories.bounties import (BountiesRepository,
+                                       get_bounties_repository)
+from src.repositories.bountyshop import (BountyShopRepository,
+                                         bountyshop_repository)
+from src.repositories.currency import (CurrencyRepository,
+                                       get_currency_repository)
+from src.repositories.mercs import (UnlockedMercsRepository,
+                                    get_unlocked_mercs_repo)
 from src.shared_models import BaseModel
 from src.static_models.bountyshop import DynamicBountyShop, dynamic_bounty_shop
 
@@ -29,6 +32,7 @@ class GetUserDataHandler:
         # = Handlers = #
         daily_stats: GetUserDailyStatsHandler = Depends(),
         get_quests: GetQuestsHandler = Depends(),
+        lifetime_stats: GetLifetimeStatsHandler = Depends(),
 
         # = Repositories = #
         units_repo=Depends(get_unlocked_mercs_repo),
@@ -38,7 +42,6 @@ class GetUserDataHandler:
         currency_repo=Depends(get_currency_repository),
         artefacts_repo=Depends(get_artefacts_repository),
         bountyshop_repo=Depends(bountyshop_repository),
-        lifetime_stats=Depends(get_lifetime_stats_repo)
     ):
         self.ctx: RequestContext = ctx
 
@@ -48,9 +51,9 @@ class GetUserDataHandler:
         # = Handlers = #
         self._get_quests = get_quests
         self._daily_stats = daily_stats
+        self._lifetime_stats = lifetime_stats
 
         # = Repositories = #
-        self._lifetime_stats: LifetimeStatsRepository = lifetime_stats
         self._armoury: ArmouryRepository = armoury_repo
         self._currencies: CurrencyRepository = currency_repo
         self._units: UnlockedMercsRepository = units_repo
@@ -71,8 +74,8 @@ class GetUserDataHandler:
             "unlockedMercs": await self._units.get_user_mercs(uid),
             "quests": await self._get_quests.handle(uid, self.ctx),
             "userStats": {
-                "lifetime": await self._lifetime_stats.get_user_stats(uid),
-                "daily": await self._daily_stats.handle(uid, self.ctx.prev_daily_refresh, self.ctx.next_daily_refresh)
+                "lifetime": await self._lifetime_stats.handle(uid),
+                "daily": await self._daily_stats.handle(uid, self.ctx)
             }
         }
 

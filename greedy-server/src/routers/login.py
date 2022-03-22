@@ -2,8 +2,8 @@ from fastapi import Depends
 
 from src.handlers import (CreateAccountHandler, GetUserDataHandler,
                           LoginHandler, LoginResponse)
-from src.mongo.accounts import (AccountModel, AccountsRepository,
-                                get_accounts_repository)
+from src.repositories.accounts import (AccountModel, AccountsRepository,
+                                       get_accounts_repository)
 from src.request_models import LoginRequestModel
 from src.response import ServerResponse
 from src.router import APIRouter

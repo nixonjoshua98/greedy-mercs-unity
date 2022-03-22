@@ -23,9 +23,10 @@ namespace GM.LocalFiles
                 if (_LocalDailyStats is null)
                     _LocalDailyStats = new();
 
-                else if (DateTime.UtcNow >= _LocalDailyStats.NextRefresh)
+                else if (!_LocalDailyStats.CreatedTime.IsBetween(App.DailyRefresh.PreviousNextReset))
                 {
-                    _LocalDailyStats = new() { NextRefresh = App.DailyRefresh.Next };
+                    GMLogger.Editor("Reset LocalDailyStats");
+                    _LocalDailyStats = new() { CreatedTime = DateTime.UtcNow };
                 }
 
                 return _LocalDailyStats;

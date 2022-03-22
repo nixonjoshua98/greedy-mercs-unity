@@ -3,11 +3,11 @@ from fastapi import Depends, HTTPException
 
 from src.common.formulas import calculate_artefact_upgrade_cost
 from src.dependencies import get_static_artefacts_dict
-from src.mongo.artefacts import (ArtefactModel, ArtefactsRepository,
-                                 get_artefacts_repository)
-from src.mongo.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.currency import Fields as CurrencyFields
-from src.mongo.currency import get_currency_repository
+from src.repositories.artefacts import (ArtefactModel, ArtefactsRepository,
+                                        get_artefacts_repository)
+from src.repositories.currency import CurrenciesModel, CurrencyRepository
+from src.repositories.currency import Fields as CurrencyFields
+from src.repositories.currency import get_currency_repository
 from src.request_models import ArtefactUpgradeRequestModel
 from src.shared_models import BaseModel
 from src.static_models.artefacts import ArtefactID, StaticArtefact

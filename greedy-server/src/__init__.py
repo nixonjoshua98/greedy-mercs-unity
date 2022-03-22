@@ -7,7 +7,7 @@ from src import exception_handlers, utils
 from src.application import Application
 from src.exceptions import HandlerException
 from src.file_cache import StaticFilesCache
-from src.mongo.motorclient import MotorClient
+from src.repositories.motorclient import MotorClient
 
 
 async def _on_app_start(app: Application):

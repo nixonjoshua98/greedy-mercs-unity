@@ -17,7 +17,7 @@ namespace GM.PlayerStats
         public int TotalEnemiesDefeated;
         public int TotalTaps;
         public int TotalBossesDefeated;
-        public int HighestPrestigeStageReached;
+        public int HighestPrestigeStage;
     }
 
 
@@ -30,6 +30,6 @@ namespace GM.PlayerStats
     public class DailyStatsModel : PlayerStats
     {
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime NextRefresh { get; set; }
+        public DateTime CreatedTime { get; set; }
     }
 }

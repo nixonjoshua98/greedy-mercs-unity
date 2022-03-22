@@ -2,7 +2,7 @@ import math
 
 from src import utils
 from src.common.types import BonusType
-from src.mongo.artefacts import ArtefactModel
+from src.repositories.artefacts import ArtefactModel
 from src.static_models.artefacts import StaticArtefact
 
 

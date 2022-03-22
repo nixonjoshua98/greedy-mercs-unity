@@ -13,7 +13,7 @@ namespace GM.Models
         public int Minute;
         public int Second;
 
-        public DateTime NextRefreshAfter(DateTime dt)
+        (DateTime, DateTime) RefreshPairFromDate(DateTime dt)
         {
             DateTime refreshTime = new DateTime(dt.Year, dt.Month, dt.Day, Hour, Minute, Second);
 
@@ -23,8 +23,7 @@ namespace GM.Models
                 while (refreshTime.DayOfWeek != (DayOfWeek)WeekDay)
                     refreshTime -= TimeSpan.FromDays(1);
 
-                return refreshTime + TimeSpan.FromDays(7);
-
+                return (refreshTime, refreshTime + TimeSpan.FromDays(7));
             }
             
             // Month date
@@ -33,19 +32,32 @@ namespace GM.Models
                 while (refreshTime.Day != MonthDate)
                     refreshTime -= TimeSpan.FromDays(1);
 
-                return new DateTime(refreshTime.Year, refreshTime.Month + 1, refreshTime.Day, refreshTime.Hour, refreshTime.Minute, refreshTime.Second);
+                DateTime nextRefresh = new DateTime(refreshTime.Year, refreshTime.Month + 1, refreshTime.Day, refreshTime.Hour, refreshTime.Minute, refreshTime.Second);
+
+                return (refreshTime, nextRefresh);
             }
 
             // General Interval (1 hour, 3 days etc)
-            while (refreshTime < dt)
+            if (refreshTime > dt)
             {
-                refreshTime += Interval;
-            }
+                while (refreshTime > dt)
+                    refreshTime -= Interval;
 
-            return refreshTime;
+                return (refreshTime, refreshTime + Interval);
+            }
+            else
+            {
+                while (dt > refreshTime)
+                    refreshTime += Interval;
+
+                return (refreshTime - Interval, refreshTime);
+            }
         }
 
-        public DateTime Next => NextRefreshAfter(DateTime.UtcNow);
+        public DateTime Next => RefreshPairFromDate(DateTime.UtcNow).Item2;
+        public DateTime Previous => RefreshPairFromDate(DateTime.UtcNow).Item1;
+        public (DateTime, DateTime) PreviousNextReset => RefreshPairFromDate(DateTime.UtcNow);
         public TimeSpan TimeUntilNext => Next - DateTime.UtcNow;
+        public TimeSpan TimeSincePrevious => DateTime.UtcNow - Previous;
     }
 }

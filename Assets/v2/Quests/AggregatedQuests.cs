@@ -44,7 +44,8 @@ namespace GM.Quests
                 {
                     QuestActionType.Prestige => App.Stats.ConfirmedDailyStats.TotalPrestiges / (float)LongValue,
                     QuestActionType.EnemiesDefeated => App.Stats.LocalDailyStats.TotalEnemiesDefeated / (float)LongValue,
-                    QuestActionType.BossesDefeated => App.Stats.LocalDailyStats.TotalBossesDefeated / (float)LongValue
+                    QuestActionType.BossesDefeated => App.Stats.LocalDailyStats.TotalBossesDefeated / (float)LongValue,
+                    QuestActionType.Taps => App.Stats.LocalDailyStats.TotalTaps / (float)LongValue
                 };
             }
         }
@@ -57,7 +58,8 @@ namespace GM.Quests
                 {
                     QuestActionType.Prestige => $"Perform <color=orange>{LongValue}</color> Prestiges",
                     QuestActionType.EnemiesDefeated => $"Defeat <color=orange>{LongValue}</color> Enemies",
-                    QuestActionType.BossesDefeated => $"Defeat <color=orange>{LongValue}</color> Stage Bosses"
+                    QuestActionType.BossesDefeated => $"Defeat <color=orange>{LongValue}</color> Stage Bosses",
+                    QuestActionType.Taps => $"Deal Tap Damage <color=orange>{LongValue}</color> Times"
                 };
             }
         }

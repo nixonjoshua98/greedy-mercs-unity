@@ -50,8 +50,15 @@ class ServerRefreshInterval(BaseModel):
             return now, now + relativedelta(months=1)
 
         # Generic interval between refreshes (ex. daily)
-        while now < date:
-            now += self.interval
+        if now > date:
+            # Go back to find the previous refresh time
+            while now > date:
+                now -= self.interval
+            return now, now + self.interval
 
-        return now - self.interval, now
+        else:
+            # Go forward to find the next refresh time
+            while date > now:
+                now += self.interval
+            return now - self.interval, now
 

@@ -7,12 +7,13 @@ from fastapi import Depends
 from src.context import AuthenticatedRequestContext, RequestContext
 from src.exceptions import HandlerException
 from src.handlers.auth_handler import get_authenticated_context
-from src.mongo.armoury import (ArmouryItemModel, ArmouryRepository,
-                               get_armoury_repository)
-from src.mongo.bountyshop import BountyShopRepository, bountyshop_repository
-from src.mongo.currency import CurrenciesModel, CurrencyRepository
-from src.mongo.currency import Fields as CurrencyRepoFields
-from src.mongo.currency import get_currency_repository
+from src.repositories.armoury import (ArmouryItemModel, ArmouryRepository,
+                                      get_armoury_repository)
+from src.repositories.bountyshop import (BountyShopRepository,
+                                         bountyshop_repository)
+from src.repositories.currency import CurrenciesModel, CurrencyRepository
+from src.repositories.currency import Fields as CurrencyRepoFields
+from src.repositories.currency import get_currency_repository
 from src.shared_models import BaseModel
 from src.static_models.bountyshop import (BountyShopArmouryItem,
                                           DynamicBountyShop,

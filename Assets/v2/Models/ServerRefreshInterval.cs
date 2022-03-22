@@ -21,9 +21,7 @@ namespace GM.Models
             if (WeekDay > -1)
             {
                 while (refreshTime.DayOfWeek != (DayOfWeek)WeekDay)
-                {
                     refreshTime -= TimeSpan.FromDays(1);
-                }
 
                 return refreshTime + TimeSpan.FromDays(7);
 
@@ -33,9 +31,7 @@ namespace GM.Models
             if (MonthDate > -1)
             {
                 while (refreshTime.Day != MonthDate)
-                {
                     refreshTime -= TimeSpan.FromDays(1);
-                }
 
                 return new DateTime(refreshTime.Year, refreshTime.Month + 1, refreshTime.Day, refreshTime.Hour, refreshTime.Minute, refreshTime.Second);
             }

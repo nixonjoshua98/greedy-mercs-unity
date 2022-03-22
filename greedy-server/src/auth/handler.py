@@ -2,9 +2,10 @@ from typing import Optional
 
 from fastapi import Depends
 
+from src.application import Application
 from src.common.constants import StatusCodes
-from src.dependencies import (get_auth_sessions_repo, get_auth_token_header,
-                              get_device_id_header)
+from src.dependencies import (get_application, get_auth_sessions_repo,
+                              get_auth_token_header, get_device_id_header)
 from src.exceptions import ServerException
 from src.mongo.sessions import SessionModel, SessionRepository
 
@@ -12,18 +13,20 @@ from .context import AuthenticatedRequestContext
 
 
 async def get_authenticated_context(
+    app: Application = Depends(get_application),
     device_id=Depends(get_device_id_header),
     auth_key=Depends(get_auth_token_header),
     sessions=Depends(get_auth_sessions_repo)
 ):
-    handler = AuthenticationHandler(sessions)
+    handler = AuthenticationHandler(sessions=sessions, app=app)
 
     return await handler.handle(auth_key, device_id)
 
 
 class AuthenticationHandler:
-    def __init__(self, sessions: SessionRepository):
+    def __init__(self, sessions: SessionRepository, app: Application):
         self._sessions = sessions
+        self._app = app
 
     async def handle(self, session_id: str, device_id: str) -> AuthenticatedRequestContext:
 
@@ -39,4 +42,4 @@ class AuthenticationHandler:
             await self._sessions.invalidate_all_user_sessions(session.user_id)
             raise ServerException(StatusCodes.INVALIDATE_CLIENT, "Unauthorized")
 
-        return AuthenticatedRequestContext(uid=session.user_id)
+        return AuthenticatedRequestContext(app=self._app, uid=session.user_id)

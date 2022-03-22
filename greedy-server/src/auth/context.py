@@ -1,24 +1,23 @@
 import datetime as dt
 
 from bson import ObjectId
+from fastapi import Depends
+
+from src.application import Application
 
 
 class RequestContext:
-    def __init__(self,):
+    def __init__(self, app: Application = Depends()):
         self.datetime: dt.datetime = dt.datetime.utcnow()
 
-        self.prev_daily_refresh: dt.datetime = _prev_daily_reset_datetime(self.datetime)
-        self.next_daily_refresh: dt.datetime = self.prev_daily_refresh + dt.timedelta(days=1)
+        prev_daily, next_daily = app.daily_refresh.refresh_from_date(self.datetime)
+
+        self.prev_daily_refresh: dt.datetime = prev_daily
+        self.next_daily_refresh: dt.datetime = next_daily
 
 
 class AuthenticatedRequestContext(RequestContext):
-    def __init__(self, uid: ObjectId):
-        super(AuthenticatedRequestContext, self).__init__()
+    def __init__(self, app: Application, uid: ObjectId):
+        super(AuthenticatedRequestContext, self).__init__(app=app)
 
         self.user_id: ObjectId = uid
-
-
-def _prev_daily_reset_datetime(now: dt.datetime) -> dt.datetime:
-    reset_time = now.replace(hour=20, minute=0, second=0, microsecond=0)
-
-    return reset_time - dt.timedelta(days=1) if now <= reset_time else reset_time

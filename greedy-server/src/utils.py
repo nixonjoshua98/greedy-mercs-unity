@@ -82,13 +82,12 @@ def default_json_encoder(value: Any) -> Any:
     """
     if isinstance(value, bson.ObjectId):
         return str(value)
-
     elif isinstance(value, dt.datetime):
         return int(value.timestamp())
-
+    elif isinstance(value, dt.timedelta):
+        return value.total_seconds()
     elif isinstance(value, BaseModel):
         return value.dict()
-
     elif isinstance(value, Sequence):
         return [default_json_encoder(ele) for ele in value]
 

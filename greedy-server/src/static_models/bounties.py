@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-from typing import NewType
-
+from src.common.types import BountyID
 from src.shared_models import BaseModel, Field
-
-BountyID = NewType("BountyID", int)
 
 
 class StaticBounty(BaseModel):

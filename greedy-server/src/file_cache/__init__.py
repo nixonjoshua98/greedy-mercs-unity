@@ -17,8 +17,11 @@ class StaticFileCacheObject:
     data: Union[dict, list]
 
 
+M15 = 60 * 15  # Reload in 15 minute intervals
+
+
 class StaticFilesCache:
-    refresh_interval: int = 60 * 15
+    _default_interval: int = M15
 
     def __init__(self):
         self._cache: dict[str, StaticFileCacheObject] = dict()
@@ -50,7 +53,7 @@ class StaticFilesCache:
         obj.last_loaded = dt.datetime.utcnow()
         obj.data = utils.load_static_data_file(obj.file_name)
 
-    def _is_item_outdated(self, obj: StaticFileCacheObject) -> bool:
+    def _is_item_outdated(self, obj: StaticFileCacheObject, *, interval: float = None) -> bool:
         """
         Check if the item is out of date and should be re-loaded from disk.
 
@@ -62,7 +65,9 @@ class StaticFilesCache:
         :return:
             Boolean on if the cached item is valid
         """
-        current_interval = int(dt.datetime.utcnow().timestamp() / self.refresh_interval)
-        last_load_interval = int(obj.last_loaded.timestamp() / self.refresh_interval)
+        interval = interval or self._default_interval
+
+        current_interval = int(dt.datetime.utcnow().timestamp() / interval)
+        last_load_interval = int(obj.last_loaded.timestamp() / interval)
 
         return current_interval != last_load_interval

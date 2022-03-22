@@ -5,12 +5,18 @@ NumberType = Union[float, int]
 QuestID = NewType("QuestID", int)
 MercID = NewType("MercID", int)
 ArtefactID = NewType("ArtefactID", int)
+BountyID = NewType("BountyID", int)
+
+
+class StatusCodes:
+    INVALIDATE_CLIENT = 419
 
 
 class QuestActionType(IntEnum):
     PRESTIGE = 0
     ENEMIES_DEFEATED = 1
     BOSSES_DEFEATED = 2
+    TAPS = 3
 
 
 class BonusType:

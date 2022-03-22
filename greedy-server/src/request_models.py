@@ -1,5 +1,3 @@
-from pydantic import Field
-
 from src.common.types import QuestID
 from src.shared_models import BaseModel, PlayerStats
 from src.static_models.artefacts import ArtefactID

@@ -15,6 +15,7 @@ namespace GM.PlayerStats
     {
         public int TotalPrestiges;
         public int TotalEnemiesDefeated;
+        public int TotalTaps;
         public int TotalBossesDefeated;
         public int HighestPrestigeStageReached;
     }

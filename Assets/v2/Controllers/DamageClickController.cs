@@ -1,10 +1,11 @@
 using GM.DamageTextPool;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace GM.Controllers
 {
     [RequireComponent(typeof(RectTransform))]
-    public class DamageClickController : AbstractClickController
+    public class DamageClickController : AbstractClickController, IPointerClickHandler
     {
         GameManager GameManager;
         IDamageTextPool DamageNumberManager;
@@ -12,6 +13,11 @@ namespace GM.Controllers
         // Bounds
         Vector2 topLeftViewportPosition;
         Vector2 btmRightViewportPosition;
+
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+        {
+            GMLogger.Editor("Here");
+        }
 
         void Start()
         {

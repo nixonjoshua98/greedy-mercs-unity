@@ -18,7 +18,6 @@ class DailyQuest(BaseModel):
     action_type: QuestActionType = Field(..., alias="actionType")
     diamonds_rewarded: int = Field(..., alias="diamondsRewarded")
 
-    # Optional
     long_value: Optional[int] = Field(None, alias="longValue")
 
 

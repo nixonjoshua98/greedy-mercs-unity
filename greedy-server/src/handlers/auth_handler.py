@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import Depends
 
 from src.application import Application
-from src.common.constants import StatusCodes
+from src.common.types import StatusCodes
 from src.context import AuthenticatedRequestContext
 from src.dependencies import (get_application, get_auth_sessions_repo,
                               get_auth_token_header, get_device_id_header)

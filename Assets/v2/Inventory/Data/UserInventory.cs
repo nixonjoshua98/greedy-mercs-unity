@@ -11,14 +11,14 @@ namespace GM.Inventory.Data
 
         public BigDouble Gold;
 
-        public void Set(Models.UserCurrenciesModel currencies)
+        public void Set(Models.UserCurrencies currencies)
         {
             Gold = BigDouble.HighValue;
 
             UpdateCurrencies(currencies);
         }
 
-        public void UpdateCurrencies(Models.UserCurrenciesModel model)
+        public void UpdateCurrencies(Models.UserCurrencies model)
         {
             BountyPoints = model.BountyPoints;
             ArmouryPoints = model.ArmouryPoints;

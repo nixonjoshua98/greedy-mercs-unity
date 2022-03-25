@@ -16,10 +16,10 @@ namespace GM.Quests
 
         public void Set(QuestsDataResponse model)
         {
-            QuestsCreatedAt = model.QuestsCreatedAt;
+            QuestsCreatedAt = model.DateTime;
 
-            MercQuestsModels = model.MercQuests;
-            DailyQuestsModels = model.DailyQuests;
+            MercQuestsModels = model.Quests.MercQuests;
+            DailyQuestsModels = model.Quests.DailyQuests;
 
             CompletedDailyQuests = model.CompletedDailyQuests;
             CompletedMercQuests = model.CompletedMercQuests;

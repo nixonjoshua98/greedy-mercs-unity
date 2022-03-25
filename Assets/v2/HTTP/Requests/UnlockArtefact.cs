@@ -5,7 +5,7 @@ namespace GM.HTTP.Requests
 {
     public class UnlockArtefactResponse : ServerResponse
     {
-        public Inventory.Models.UserCurrenciesModel CurrencyItems;
+        public Inventory.Models.UserCurrencies CurrencyItems;
         public Artefacts.Models.ArtefactUserDataModel Artefact;
 
         [JsonConverter(typeof(Common.Json.BigIntegerConverter))]

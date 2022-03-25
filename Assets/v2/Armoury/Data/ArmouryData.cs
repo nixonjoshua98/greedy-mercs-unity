@@ -12,18 +12,18 @@ namespace GM.Armoury.Data
     {
 
         Dictionary<int, ArmouryItemUserDataModel> UserItemsDict;
-        Dictionary<int, ArmouryItemGameDataModel> GameItemsDict;
+        Dictionary<int, ArmouryItem> GameItemsDict;
 
-        public void Set(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> gameData)
+        public void Set(List<ArmouryItemUserDataModel> userItems, List<ArmouryItem> gameData)
         {
             SetUserData(userItems);
             SetStaticData(gameData);
         }
 
         public List<ArmouryItemData> UserItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).Select(x => GetItem(x.Id)).ToList();
-        public List<ArmouryItemGameDataModel> GameItems => GameItemsDict.Values.OrderBy(ele => ele.Id).ToList();
+        public List<ArmouryItem> GameItems => GameItemsDict.Values.OrderBy(ele => ele.ID).ToList();
 
-        public void UpdateAllData(List<ArmouryItemUserDataModel> userItems, List<ArmouryItemGameDataModel> staticItems)
+        public void UpdateAllData(List<ArmouryItemUserDataModel> userItems, List<ArmouryItem> staticItems)
         {
             SetUserData(userItems);
             SetStaticData(staticItems);
@@ -33,25 +33,25 @@ namespace GM.Armoury.Data
         public void Update(ArmouryItemUserDataModel item) => UserItemsDict[item.Id] = item;
 
         /// <summary>Update all cached game data</summary>
-        void SetStaticData(List<ArmouryItemGameDataModel> data)
+        void SetStaticData(List<ArmouryItem> data)
         {
             var localItemsDict = LoadLocalData();
 
             data.ForEach(item =>
             {
-                var local = localItemsDict[item.Id];
+                var local = localItemsDict[item.ID];
 
                 item.Name = local.Name;
                 item.Icon = local.Icon;
             });
 
-            GameItemsDict = data.ToDictionary(ele => ele.Id, ele => ele);
+            GameItemsDict = data.ToDictionary(ele => ele.ID, ele => ele);
         }
 
         /// <summary>Update user items data</summary>
         void SetUserData(List<ArmouryItemUserDataModel> userItems) => UserItemsDict = userItems.ToDictionary(ele => ele.Id, ele => ele);
 
-        public ArmouryItemGameDataModel GetGameItem(int key) => GameItemsDict[key];
+        public ArmouryItem GetGameItem(int key) => GameItemsDict[key];
 
         public bool TryGetOwnedItem(int itemId, out ArmouryItemData result)
         {

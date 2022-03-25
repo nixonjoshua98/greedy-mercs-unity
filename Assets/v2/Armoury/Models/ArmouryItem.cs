@@ -4,18 +4,15 @@ using UnityEngine;
 
 namespace GM.Armoury.Models
 {
-    public class ArmouryItemGameDataModel
+    public class ArmouryItem
     {
-        [JsonProperty(PropertyName = "itemId", Required = Required.Always)]
-        public int Id;
+        [JsonProperty(PropertyName = "ItemID")]
+        public int ID;
 
-        [JsonProperty(Required = Required.Always)]
         public BonusType BonusType;
 
-        [JsonProperty(Required = Required.Always)]
         public float BaseEffect;
 
-        [JsonProperty(Required = Required.Always)]
         public float LevelEffect;
 
         [JsonIgnore]

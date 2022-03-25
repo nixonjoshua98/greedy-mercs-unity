@@ -28,13 +28,13 @@ namespace GM.BountyShop.UI
             IconImage.sprite = AssignedItem.Item.Icon;
 
             NameText.text = AssignedItem.Item.DisplayName;
-            QuantityText.text = $"x{AssignedItem.QuantityPerPurchase}";
+            QuantityText.text = $"x{AssignedItem.Quantity}";
         }
 
 
         public void OnPurchaseButton()
         {
-            App.BountyShop.PurchaseCurrencyItem(AssignedItem.Id, (success) =>
+            App.BountyShop.PurchaseCurrencyItem(AssignedItem.ID, (success) =>
             {
                 purchaseCallback?.Invoke();
 

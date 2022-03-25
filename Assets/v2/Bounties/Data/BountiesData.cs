@@ -11,10 +11,10 @@ namespace GM.Bounties.Data
 {
     public class BountiesData : Core.GMClass
     {
-        Models.CompleteBountyDataModel UserData;
+        Models.UserBounties UserData;
         Models.CompleteBountyGameDataModel GameData;
 
-        public void Set(Models.CompleteBountyDataModel userData, Models.CompleteBountyGameDataModel gameData)
+        public void Set(Models.UserBounties userData, Models.CompleteBountyGameDataModel gameData)
         {
             UpdateUserData(userData);
             UpdateStaticData(gameData);
@@ -23,12 +23,14 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Fetch the data for all unlocked bounties
         /// </summary>
-        public List<UnlockedBountyData> UnlockedBountiesList => UserData.Bounties.Select(ele => GetUnlockedBounty(ele.BountyId)).ToList();
+        public List<AggregatedBounty> UnlockedBountiesList => UserData.UnlockedBounties.Select(ele => GetUnlockedBounty(ele.BountyID)).ToList();
 
         /// <summary>
         /// Get only the active bounties
         /// </summary>
-        public List<UnlockedBountyData> ActiveBountiesList => UnlockedBountiesList.Where(ele => ele.IsActive).ToList();
+        public List<AggregatedBounty> ActiveBountiesList => UnlockedBountiesList.Where(ele => ele.IsActive).ToList();
+
+        public bool IsBountyActive(int bounty) => UserData.ActiveBounties.Contains(bounty);
 
         /// <summary>
         /// Time since the last claim
@@ -70,18 +72,12 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Update the complete user bounty data
         /// </summary>
-        void UpdateUserData(CompleteBountyDataModel data) => UserData = data;
+        void UpdateUserData(UserBounties data) => UserData = data;
 
         /// <summary>
         /// Update only the user bounties
         /// </summary>
-        void Update(List<BountyUserDataModel> bounties) => UserData.Bounties = bounties;
-
-        public void UpdateAllData(CompleteBountyDataModel userData, CompleteBountyGameDataModel staticData)
-        {
-            UpdateUserData(userData);
-            UpdateStaticData(staticData);
-        }
+        void Update(List<UserBounty> bounties) => UserData.UnlockedBounties = bounties;
 
         /// <summary>
         /// Load local data stored as scriptable objects
@@ -91,7 +87,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Fetch the bounty user data
         /// </summary>
-        BountyUserDataModel GetUserBountyData(int key) => UserData.Bounties.Where(ele => ele.BountyId == key).FirstOrDefault();
+        UserBounty GetUserBountyData(int key) => UserData.UnlockedBounties.Where(ele => ele.BountyID == key).FirstOrDefault();
 
         /// <summary>
         /// Calculate the total hourly income from all active bounties
@@ -106,7 +102,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Fetch data for an unlocked bounty
         /// </summary>
-        public UnlockedBountyData GetUnlockedBounty(int key) => new UnlockedBountyData(GetGameBounty(key), GetUserBountyData(key));
+        public AggregatedBounty GetUnlockedBounty(int key) => new AggregatedBounty(GetGameBounty(key), GetUserBountyData(key));
 
         /// <summary>
         /// Forward the 'MaxActiveBounties' attribute from the game data

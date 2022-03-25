@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace GM.Inventory.Models
 {
-    public class UserCurrenciesModel
+    public class UserCurrencies
     {
         [JsonConverter(typeof(BigIntegerConverter))]
         public BigInteger PrestigePoints;

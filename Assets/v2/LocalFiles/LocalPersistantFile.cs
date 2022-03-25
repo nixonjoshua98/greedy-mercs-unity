@@ -24,9 +24,9 @@ namespace GM.LocalFiles
                 if (_LocalDailyStats is null)
                     _LocalDailyStats = new();
 
-                else if (!_LocalDailyStats.CreatedTime.IsBetween(App.DailyRefresh.PreviousNextReset))
+                else if (!_LocalDailyStats.DateTime.IsBetween(App.DailyRefresh.PreviousNextReset))
                 {
-                    _LocalDailyStats = new() { CreatedTime = DateTime.UtcNow };
+                    _LocalDailyStats = new() { DateTime = DateTime.UtcNow };
                 }
 
                 return _LocalDailyStats;

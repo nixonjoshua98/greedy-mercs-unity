@@ -5,16 +5,16 @@ namespace GM.Armoury.Data
 {
     public class ArmouryItemData : Core.GMClass
     {
-        Models.ArmouryItemGameDataModel Game;
+        Models.ArmouryItem Game;
         Models.ArmouryItemUserDataModel User;
 
-        public ArmouryItemData(Models.ArmouryItemGameDataModel game, Models.ArmouryItemUserDataModel user)
+        public ArmouryItemData(Models.ArmouryItem game, Models.ArmouryItemUserDataModel user)
         {
             Game = game;
             User = user;
         }
 
-        public int Id => Game.Id;
+        public int Id => Game.ID;
 
         public Sprite Icon => Game.Icon;
         public string ItemName => Game.Name;

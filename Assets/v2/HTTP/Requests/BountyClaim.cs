@@ -11,6 +11,6 @@ namespace GM.HTTP.Requests
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime ClaimTime { get; set; } // Server time when claimed may be slightly different from the client time
 
-        public Inventory.Models.UserCurrenciesModel CurrencyItems { get; set; }
+        public Inventory.Models.UserCurrencies CurrencyItems { get; set; }
     }
 }

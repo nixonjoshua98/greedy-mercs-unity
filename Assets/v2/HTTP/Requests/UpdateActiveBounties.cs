@@ -16,6 +16,6 @@ namespace GM.HTTP.Requests
 
     public class UpdateActiveBountiesResponse : ServerResponse
     {
-        public List<Bounties.Models.BountyUserDataModel> Bounties;
+        public List<Bounties.Models.UserBounty> Bounties;
     }
 }

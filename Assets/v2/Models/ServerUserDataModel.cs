@@ -13,8 +13,8 @@ namespace GM.Models
     public interface IServerUserData
     {
         List<UserMercDataModel> UnlockedMercs { get; set; }
-        UserCurrenciesModel CurrencyItems { get; set; }
-        CompleteBountyDataModel BountyData { get; set; }
+        UserCurrencies Currencies { get; set; }
+        UserBounties Bounties { get; set; }
         List<ArmouryItemUserDataModel> ArmouryItems { get; set; }
         List<ArtefactUserDataModel> Artefacts { get; set; }
         CompleteBountyShopDataModel BountyShop { get; set; }
@@ -25,8 +25,8 @@ namespace GM.Models
     public class ServerUserDataModel : IServerUserData
     {
         public List<UserMercDataModel> UnlockedMercs { get; set; }
-        public UserCurrenciesModel CurrencyItems { get; set; }
-        public CompleteBountyDataModel BountyData { get; set; }
+        public UserCurrencies Currencies { get; set; }
+        public UserBounties Bounties { get; set; }
         public List<ArmouryItemUserDataModel> ArmouryItems { get; set; }
         public List<ArtefactUserDataModel> Artefacts { get; set; }
         public CompleteBountyShopDataModel BountyShop { get; set; }

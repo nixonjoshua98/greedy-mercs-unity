@@ -11,7 +11,7 @@ namespace GM.PlayerStats
         public TimedPlayerStatsModel ConfirmedDailyStats;
         public TimedPlayerStatsModel LocalDailyStats { get => App.PersistantLocalFile.LocalDailyStats; }
 
-        public bool IsDailyStatsValid { get => ConfirmedDailyStats.CreatedTime.IsBetween(App.DailyRefresh.PreviousNextReset); }
+        public bool IsDailyStatsValid { get => ConfirmedDailyStats.DateTime.IsBetween(App.DailyRefresh.PreviousNextReset); }
         public int HighestStageReached { get => Math.Max(App.GameState.Stage, ConfirmedLifetimeStats.HighestPrestigeStage); }
 
         public void Set(PlayerStatsResponse userData)

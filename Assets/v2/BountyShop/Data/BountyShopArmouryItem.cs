@@ -5,7 +5,7 @@ namespace GM.BountyShop.Data
 {
     public class BountyShopArmouryItem : BountyShopItem
     {
-        public int ArmouryItemId;
+        public int ItemID;
 
         [JsonIgnore]
         public Sprite Icon => Item.Icon;
@@ -14,6 +14,6 @@ namespace GM.BountyShop.Data
         public string ItemName => Item.Name;
 
         [JsonIgnore]
-        public Armoury.Models.ArmouryItemGameDataModel Item => App.Armoury.GetGameItem(ArmouryItemId);
+        public Armoury.Models.ArmouryItem Item => App.Armoury.GetGameItem(ItemID);
     }
 }

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
+﻿using System;
 
 namespace GM.PlayerStats
 {
@@ -22,7 +20,7 @@ namespace GM.PlayerStats
 
     public class TimedPlayerStatsModel : PlayerStats
     {
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime CreatedTime { get; set; }
+        public DateTime DateTime;
+
     }
 }

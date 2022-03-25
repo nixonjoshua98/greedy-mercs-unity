@@ -20,7 +20,7 @@ namespace GM.HTTP.Requests
         [JsonConverter(typeof(BigIntegerConverter))]
         public BigInteger UpgradeCost;
 
-        public Inventory.Models.UserCurrenciesModel CurrencyItems;
+        public Inventory.Models.UserCurrencies CurrencyItems;
         public Artefacts.Models.ArtefactUserDataModel Artefact;
     }
 }

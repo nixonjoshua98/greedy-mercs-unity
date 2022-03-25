@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace GM.BountyShop.Data
 {
-    public class BountyShopData : Core.GMClass
+    public class BountyShopDataContainer : Core.GMClass
     {
         Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
 
@@ -39,8 +39,8 @@ namespace GM.BountyShop.Data
         /// </summary>
         void Update(BountyShopItemsModel items)
         {
-            armouryItems = items.ArmouryItems.ToDictionary(ele => ele.Id, ele => ele);
-            currencyItems = items.CurrencyItems.ToDictionary(ele => ele.Id, ele => ele);
+            armouryItems = items.ArmouryItems.ToDictionary(ele => ele.ID, ele => ele);
+            currencyItems = items.CurrencyItems.ToDictionary(ele => ele.ID, ele => ele);
         }
 
         /// <summary>

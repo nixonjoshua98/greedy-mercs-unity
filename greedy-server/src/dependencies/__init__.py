@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from fastapi import Depends, Header, HTTPException
 
-from src.application import Application
 from src.file_cache import StaticFilesCache
 from src.repositories.lifetimestats import LifetimeStatsRepository
 from src.repositories.quests import MercQuestsRepository

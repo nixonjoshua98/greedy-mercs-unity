@@ -2,29 +2,28 @@
   "maxSquadSize": 5,
 
   "passives": [
-    { // 1.1x Enemy Gold
+    {
       "passiveId": 0,
       "bonusType": 802,
       "bonusValue": 1.1
     },
-    { // 1.25x All Damage
+    {
       "passiveId": 1,
       "bonusType": 600,
       "bonusValue": 1.25
     },
-    { // 2.0x Tap Damage
+    {
       "passiveId": 2,
       "bonusType": 700,
       "bonusValue": 2
     },
     {
-      // 1.5x Crit Damage
+
       "passiveId": 3,
       "bonusType": 400,
       "bonusValue": 1.5
     },
     {
-      // 1.2x All Gold
       "passiveId": 4,
       "bonusType": 800,
       "bonusValue": 1.2

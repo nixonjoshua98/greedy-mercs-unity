@@ -38,7 +38,6 @@ class AuthenticationHandler:
             raise ServerException(401, "Unauthorized")
 
         elif (not session.is_valid) or (device_id != session.device_id):
-            await self._sessions.invalidate_all_user_sessions(session.user_id)
             raise ServerException(StatusCodes.INVALIDATE_CLIENT, "Unauthorized")
 
         return AuthenticatedRequestContext(app=self._app, uid=session.user_id)

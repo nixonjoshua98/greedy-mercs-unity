@@ -178,7 +178,7 @@ namespace GM.Bounties.Data
                 {
                     UserData.LastClaimTime = resp.ClaimTime;
 
-                    App.Inventory.UpdateCurrencies(resp.CurrencyItems);
+                    App.Inventory.UpdateCurrencies(resp.Currencies);
 
                     App.Events.BountyPointsChanged.Invoke(resp.PointsClaimed);
                 }

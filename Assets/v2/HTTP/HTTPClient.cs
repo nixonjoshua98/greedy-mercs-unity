@@ -1,4 +1,5 @@
 using GM.Artefacts.Models;
+using GM.Bounties.Models;
 using GM.HTTP.Requests;
 using GM.PlayerStats;
 using GM.Quests;
@@ -22,7 +23,7 @@ namespace GM.HTTP
         void FetchQuests(Action<QuestsDataResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
         void FetchStats(Action<PlayerStatsResponse> action);
-        void Login(Action<LoginResponse> callback);
+        void DeviceLogin(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
         void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
         void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback);
@@ -286,7 +287,7 @@ namespace GM.HTTP
             Address = "localhost"
         };
 
-        string Authentication = null;
+        string Token = null;
 
         public void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action)
         {
@@ -319,6 +320,9 @@ namespace GM.HTTP
             SendRequest("POST", "quests/daily", req, encrypt: false, action);
         }
 
+        /// <summary>
+        /// Fetch the datafiles stored on the server
+        /// </summary>
         public void FetchStaticData(Action<FetchGameDataResponse> callback)
         {
             SendRequest("GET", "DataFile", ServerRequest.Empty, false, callback);
@@ -343,9 +347,12 @@ namespace GM.HTTP
             SendRequest("POST", "armoury/upgrade", req, false, callback);
         }
 
+        /// <summary>
+        /// Claim the earned points which have cumulated since the last claim
+        /// </summary>
         public void ClaimBounties(Action<BountyClaimResponse> callback)
         {
-            SendRequest("GET", "bounty/claim", ServerRequest.Empty, false, callback);
+            SendRequest("GET", "Bounties/Claim", ServerRequest.Empty, false, callback);
         }
 
         public void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback)
@@ -355,17 +362,21 @@ namespace GM.HTTP
             SendRequest("POST", "bounty/setactive", req, false, callback);
         }
 
-        public void Login(Action<LoginResponse> callback)
+        /// <summary>
+        /// Attempt a login via device id
+        /// </summary>
+        /// <param name="callback"></param>
+        public void DeviceLogin(Action<LoginResponse> callback)
         {
             var req = new LoginRequest(SystemInfo.deviceUniqueIdentifier);
 
             SendRequest<LoginRequest, LoginResponse>("GET", "Login/Device", req, false, (resp) =>
             {
-                Authentication = null;
+                Token = null;
 
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    Authentication = resp.Token;
+                    Token = resp.Token;
                 }
 
                 callback.Invoke(resp);
@@ -446,9 +457,9 @@ namespace GM.HTTP
             www.SetRequestHeader("Content-Type", "application/json");
             www.SetRequestHeader("DeviceId", SystemInfo.deviceUniqueIdentifier);
 
-            if (Authentication is not null)
+            if (Token is not null)
             {
-                www.SetRequestHeader("Authentication", Authentication);
+                www.SetRequestHeader("Authorization", $"Bearer {Token}");
             }
         }
 
@@ -514,12 +525,12 @@ namespace GM.HTTP
         // = Special Response Callbacks = //
         void Response_Unauthorized()
         {
-            Authentication = null;
+            Token = null;
         }
 
         void Response_InvalidateClient()
         {
-            Authentication = null;
+            Token = null;
 
             App.InvalidateClient();
         }

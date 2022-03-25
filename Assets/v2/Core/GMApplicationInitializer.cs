@@ -23,7 +23,7 @@ namespace GM.Core
 
         void LoginRequest()
         {
-            DotNetHTTPClient.Instance.Login((resp) =>
+            DotNetHTTPClient.Instance.DeviceLogin((resp) =>
             {
                 Data.UserData = resp.UserData;
 

@@ -162,7 +162,7 @@ namespace GM.Bounties.UI
 
         public void OnConfirmButton()
         {
-            App.Bounties.SetActiveBounties(activeBountyIds, (success, resp) =>
+            App.Bounties.SetActiveBounties(activeBountyIds, success =>
             {
                 if (success)
                 {

@@ -1,4 +1,5 @@
 using GM.Bounties.Models;
+using GM.Bounties.Requests;
 using GM.Bounties.ScripableObjects;
 using GM.HTTP.Requests;
 using System;
@@ -75,11 +76,6 @@ namespace GM.Bounties.Data
         void UpdateUserData(UserBounties data) => UserData = data;
 
         /// <summary>
-        /// Update only the user bounties
-        /// </summary>
-        void Update(List<UserBounty> bounties) => UserData.UnlockedBounties = bounties;
-
-        /// <summary>
         /// Load local data stored as scriptable objects
         /// </summary>
         Dictionary<int, BountyLocalGameData> LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Scriptables/Bounties").ToDictionary(ele => ele.Id, ele => ele);
@@ -153,17 +149,16 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Send the request to update the active bounties
         /// </summary>
-        public void SetActiveBounties(List<int> ids, UnityAction<bool, UpdateActiveBountiesResponse> action)
+        public void SetActiveBounties(List<int> ids, UnityAction<bool> action)
         {
-            App.HTTP.SetActiveBounties(ids, (resp) =>
+            App.HTTP.SetActiveBounties(ids, resp =>
             {
-
                 if (resp.StatusCode == 200)
                 {
-                    Update(resp.Bounties);
+                    UserData.ActiveBounties = ids;
                 }
 
-                action(resp.StatusCode == 200, resp);
+                action(resp.StatusCode == 200);
             });
         }
 

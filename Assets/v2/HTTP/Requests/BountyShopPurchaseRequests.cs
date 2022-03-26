@@ -17,7 +17,7 @@
     public abstract class BountyShopPurchaseResponse : ServerResponse
     {
         public long PurchaseCost { get; set; }
-        public Inventory.Models.UserCurrencies CurrencyItems { set; get; }
+        public Inventory.UserCurrencies CurrencyItems { set; get; }
     }
 
     public class PurchaseArmouryItemResponse : BountyShopPurchaseResponse

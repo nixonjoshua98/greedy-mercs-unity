@@ -1,5 +1,6 @@
+using GM.Artefacts;
 using GM.Artefacts.Models;
-using GM.Bounties.Models;
+using GM.Bounties.Requests;
 using GM.HTTP.Requests;
 using GM.PlayerStats;
 using GM.Quests;
@@ -15,7 +16,7 @@ namespace GM.HTTP
 {
     public interface IHTTPClient
     {
-        void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback);
+        void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback);
         void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback);
         void ClaimBounties(Action<BountyClaimResponse> callback);
         void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action);
@@ -26,7 +27,7 @@ namespace GM.HTTP
         void DeviceLogin(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
         void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
-        void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback);
+        void SetActiveBounties(List<int> bounties, Action<ServerResponse> callback);
         void UnlockArtefact(Action<UnlockArtefactResponse> callback);
         void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action);
         void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback);
@@ -328,16 +329,20 @@ namespace GM.HTTP
             SendRequest("GET", "DataFile", ServerRequest.Empty, false, callback);
         }
 
+        /// <summary>
+        /// Unlock a random new artefact
+        /// </summary>
+        /// <param name="callback"></param>
         public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
         {
-            SendRequest("GET", "artefact/unlock", ServerRequest.Empty, false, callback);
+            SendRequest("GET", "Artefacts/Unlock", ServerRequest.Empty, false, callback);
         }
 
-        public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkUpgradeResponse> callback)
+        public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback)
         {
-            var req = new BulkUpgradeRequest() { Artefacts = artefacts.Select(x => new BulkArtefactUpgrade(x.Key, x.Value)).ToList() };
+            BulkArtefactUpgradeRequest req = new() { Artefacts = artefacts.Select(x => new BulkArtefactUpgrade() { ArtefactID = x.Key, Levels = x.Value }).ToList() };
 
-            SendRequest("POST", "artefact/bulk-upgrade", req, false, callback);
+            SendRequest("PUT", "Artefacts/BulkUpgrade", req, false, callback);
         }
 
         public void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback)
@@ -348,24 +353,26 @@ namespace GM.HTTP
         }
 
         /// <summary>
-        /// Claim the earned points which have cumulated since the last claim
+        /// Claim the earned points which have accumulated since the last claim
         /// </summary>
         public void ClaimBounties(Action<BountyClaimResponse> callback)
         {
             SendRequest("GET", "Bounties/Claim", ServerRequest.Empty, false, callback);
         }
 
-        public void SetActiveBounties(List<int> bounties, Action<UpdateActiveBountiesResponse> callback)
+        /// <summary>
+        /// Set the active bounties used to generate points
+        /// </summary>
+        public void SetActiveBounties(List<int> bounties, Action<ServerResponse> callback)
         {
-            var req = new UpdateActiveBountiesRequest(bounties);
+            var req = new SetActiveBountiesRequest(bounties);
 
-            SendRequest("POST", "bounty/setactive", req, false, callback);
+            SendRequest("PUT", "Bounties/Update", req, false, callback);
         }
 
         /// <summary>
         /// Attempt a login via device id
         /// </summary>
-        /// <param name="callback"></param>
         public void DeviceLogin(Action<LoginResponse> callback)
         {
             var req = new LoginRequest(SystemInfo.deviceUniqueIdentifier);
@@ -410,6 +417,7 @@ namespace GM.HTTP
             {
                 "GET" => UnityWebRequest.Get(url),
                 "POST" => UnityWebRequest.Post(url, SerializeRequest(request, encrypt)),
+                "PUT" => UnityWebRequest.Put(url, SerializeRequest(request, encrypt)),
                 _ => throw new Exception()
             };
 
@@ -455,7 +463,7 @@ namespace GM.HTTP
         void SetRequestHeaders(UnityWebRequest www)
         {
             www.SetRequestHeader("Content-Type", "application/json");
-            www.SetRequestHeader("DeviceId", SystemInfo.deviceUniqueIdentifier);
+            www.SetRequestHeader("DeviceID", SystemInfo.deviceUniqueIdentifier);
 
             if (Token is not null)
             {

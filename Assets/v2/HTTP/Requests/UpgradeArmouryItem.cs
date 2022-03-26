@@ -13,7 +13,7 @@
 
     public class UpgradeArmouryItemResponse : ServerResponse
     {
-        public Inventory.Models.UserCurrencies CurrencyItems;
+        public Inventory.UserCurrencies CurrencyItems;
         public Armoury.Models.ArmouryItemUserDataModel Item;
 
         public int UpgradeCost;

@@ -6,7 +6,7 @@ namespace GM.Artefacts
 {
     class BulkUpgradeChanges
     {
-        public BigInteger UpgradeCost = 0;
+        public double UpgradeCost = 0;
         public Dictionary<int, int> Upgrades = new Dictionary<int, int>();
     }
 

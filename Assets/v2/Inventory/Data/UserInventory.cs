@@ -4,8 +4,8 @@
     {
         public double PrestigePoints;
 
-        public long BountyPoints { get; private set; }
-        public long ArmouryPoints { get; private set; }
+        public long BountyPoints { get; set; }
+        public long ArmouryPoints { get; set; }
 
         public BigDouble Gold;
 

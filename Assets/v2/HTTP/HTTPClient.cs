@@ -26,7 +26,7 @@ namespace GM.HTTP
         void FetchStats(Action<PlayerStatsResponse> action);
         void DeviceLogin(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
-        void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
+        void BuyBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
         void SetActiveBounties(List<int> bounties, Action<ServerResponse> callback);
         void UnlockArtefact(Action<UnlockArtefactResponse> callback);
         void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action);
@@ -280,7 +280,7 @@ namespace GM.HTTP
     //    }
     //}
 
-    public class DotNetHTTPClient : Common.MonoBehaviourLazySingleton<DotNetHTTPClient>, IHTTPClient
+    public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>, IHTTPClient
     {
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
@@ -290,35 +290,51 @@ namespace GM.HTTP
 
         string Token = null;
 
+        /// <summary>
+        /// Send local stat changes to the server to sync
+        /// </summary>
+        /// <param name="action"></param>
         public void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action)
         {
-            UpdateLifetimeStatsRequest req = new() { StatChanges = App.Stats.LocalLifetimeStats };
+            UpdateLifetimeStatsRequest req = new() { Changes = App.Stats.LocalLifetimeStats };
 
-            SendRequest("POST", "stats/lifetime", req, false, action);
+            SendRequest("PUT", "User/LifetimeStats", req, false, action);
         }
 
+        /// <summary>
+        /// Fetch all account stats (saily + lifetime)
+        /// </summary>
         public void FetchStats(Action<PlayerStatsResponse> action)
         {
-            SendRequest("GET", "stats", ServerRequest.Empty, encrypt: false, action);
+            SendRequest("GET", "User/AccountStats", ServerRequest.Empty, encrypt: false, action);
         }
 
-        public void FetchQuests(Action<GM.Quests.QuestsDataResponse> action)
+        /// <summary>
+        /// Fetch all user quests and quest progress
+        /// </summary>
+        public void FetchQuests(Action<QuestsDataResponse> action)
         {
-            SendRequest("GET", "quests", ServerRequest.Empty, encrypt: false, action);
+            SendRequest("GET", "Quests", ServerRequest.Empty, encrypt: false, action);
         }
 
+        /// <summary>
+        /// Complete a merc quest
+        /// </summary>
         public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
         {
-            var req = new CompleteMercQuestRequest() { QuestID = questId, HighestStageReached = App.Stats.HighestStageReached };
+            CompleteMercQuestRequest req = new() { QuestID = questId, HighestStageReached = App.Stats.HighestStageReached };
 
-            SendRequest("POST", "quests/merc", req, encrypt: false, action);
+            SendRequest("PUT", "Quests/Merc", req, encrypt: false, action);
         }
 
+        /// <summary>
+        /// Complete a daily quest
+        /// </summary>
         public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)
         {
-            var req = new CompleteDailyQuestRequest() { QuestID = questId, LocalDailyStats = App.Stats.LocalDailyStats };
+            CompleteDailyQuestRequest req = new() { QuestID = questId, LocalDailyStats = App.Stats.LocalDailyStats };
 
-            SendRequest("POST", "quests/daily", req, encrypt: false, action);
+            SendRequest("PUT", "Quests/Daily", req, encrypt: false, action);
         }
 
         /// <summary>
@@ -332,12 +348,14 @@ namespace GM.HTTP
         /// <summary>
         /// Unlock a random new artefact
         /// </summary>
-        /// <param name="callback"></param>
         public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
         {
             SendRequest("GET", "Artefacts/Unlock", ServerRequest.Empty, false, callback);
         }
 
+        /// <summary>
+        /// Bulk upgrade multiple artefacts in the same request
+        /// </summary>
         public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback)
         {
             BulkArtefactUpgradeRequest req = new() { Artefacts = artefacts.Select(x => new BulkArtefactUpgrade() { ArtefactID = x.Key, Levels = x.Value }).ToList() };
@@ -345,11 +363,14 @@ namespace GM.HTTP
             SendRequest("PUT", "Artefacts/BulkUpgrade", req, false, callback);
         }
 
+        /// <summary>
+        /// Upgrade a single armoury item
+        /// </summary>
         public void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback)
         {
-            var req = new UpgradeArmouryItemRequest(item);
+            UpgradeArmouryItemRequest req = new() { ItemID = item };
 
-            SendRequest("POST", "armoury/upgrade", req, false, callback);
+            SendRequest("PUT", "Armoury/Upgrade", req, false, callback);
         }
 
         /// <summary>
@@ -402,7 +423,7 @@ namespace GM.HTTP
             SendRequest("POST", "bountyshop/purchase/armouryitem", req, false, callback);
         }
 
-        public void PurchaseBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback)
+        public void BuyBountyShopCurrencyType(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback)
         {
             var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
 

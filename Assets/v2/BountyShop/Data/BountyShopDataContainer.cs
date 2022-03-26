@@ -70,7 +70,7 @@ namespace GM.BountyShop.Data
 
         public void PurchaseCurrencyItem(string itemId, UnityAction<bool> action)
         {
-            App.HTTP.PurchaseBountyShopCurrencyType(itemId, (resp) =>
+            App.HTTP.BuyBountyShopCurrencyType(itemId, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {

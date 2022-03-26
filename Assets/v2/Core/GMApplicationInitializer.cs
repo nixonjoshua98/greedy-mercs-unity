@@ -23,7 +23,7 @@ namespace GM.Core
 
         void LoginRequest()
         {
-            DotNetHTTPClient.Instance.DeviceLogin((resp) =>
+            HTTPClient.Instance.DeviceLogin((resp) =>
             {
                 Data.UserData = resp.UserData;
 
@@ -39,7 +39,7 @@ namespace GM.Core
 
         void FetchGameDataFromServer()
         {
-            DotNetHTTPClient.Instance.FetchStaticData((resp) =>
+            HTTPClient.Instance.FetchStaticData((resp) =>
             {
                 Data.StaticData = resp;
 

@@ -29,7 +29,7 @@ namespace GM.Core
         public LocalSaveManager SaveManager;
         public LocalPersistantFile PersistantLocalFile;
 
-        public IHTTPClient HTTP => DotNetHTTPClient.Instance;
+        public IHTTPClient HTTP => HTTPClient.Instance;
 
         // Server Refresh
         public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromDays(1) };

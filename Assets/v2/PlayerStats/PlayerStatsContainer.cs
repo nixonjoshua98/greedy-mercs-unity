@@ -16,8 +16,8 @@ namespace GM.PlayerStats
 
         public void Set(PlayerStatsResponse userData)
         {
-            ConfirmedLifetimeStats = userData.Lifetime;
-            ConfirmedDailyStats = userData.Daily;
+            ConfirmedLifetimeStats = userData.LifetimeStats;
+            ConfirmedDailyStats = userData.DailyStats;
         }
 
         public void FetchStats(Action<bool> action)
@@ -26,8 +26,8 @@ namespace GM.PlayerStats
             {
                 if (resp.StatusCode == GM.HTTP.HTTPCodes.Success)
                 {
-                    ConfirmedDailyStats = resp.Daily;
-                    ConfirmedLifetimeStats = resp.Lifetime;
+                    ConfirmedDailyStats = resp.DailyStats;
+                    ConfirmedLifetimeStats = resp.LifetimeStats;
                 }
 
                 action.Invoke(resp.StatusCode == GM.HTTP.HTTPCodes.Success);

@@ -82,7 +82,7 @@ namespace GM.Armoury.Data
                 {
                     Update(resp.Item);
 
-                    App.Inventory.UpdateCurrencies(resp.CurrencyItems);
+                    App.Inventory.ArmouryPoints -= resp.UpgradeCost;
                 }
 
                 call(resp.StatusCode == HTTP.HTTPCodes.Success, resp);

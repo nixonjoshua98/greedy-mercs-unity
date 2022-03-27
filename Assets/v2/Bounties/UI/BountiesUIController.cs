@@ -62,11 +62,11 @@ namespace GM.Bounties.UI
 
         void UpdateBountySlots()
         {
-            List<UnlockedBountyData> bounties = App.Bounties.UnlockedBountiesList.OrderBy(b => b.IsActive ? 0 : 1).ThenBy(b => b.Id).ToList();
+            List<AggregatedBounty> bounties = App.Bounties.UnlockedBountiesList.OrderBy(b => b.IsActive ? 0 : 1).ThenBy(b => b.Id).ToList();
 
             for (int i = 0; i < bounties.Count; ++i)
             {
-                UnlockedBountyData bounty = bounties[i];
+                AggregatedBounty bounty = bounties[i];
 
                 if (!slots.TryGetValue(bounty.Id, out BountySlot slot))
                 {
@@ -162,7 +162,7 @@ namespace GM.Bounties.UI
 
         public void OnConfirmButton()
         {
-            App.Bounties.SetActiveBounties(activeBountyIds, (success, resp) =>
+            App.Bounties.SetActiveBounties(activeBountyIds, success =>
             {
                 if (success)
                 {

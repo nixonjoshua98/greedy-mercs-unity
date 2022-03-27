@@ -9,13 +9,13 @@ namespace GM.PlayerStats
 {
     public class PlayerStatsResponse : GM.HTTP.ServerResponse
     {
-        public LifetimeStatsModel Lifetime;
-        public TimedPlayerStatsModel Daily;
+        public LifetimeStatsModel LifetimeStats;
+        public TimedPlayerStatsModel DailyStats;
     }
 
     public class UpdateLifetimeStatsRequest: GM.HTTP.IServerRequest
     {
-        public LifetimeStatsModel StatChanges;
+        public LifetimeStatsModel Changes;
     }
 
     public class UpdateLifetimeStatsResponse : GM.HTTP.ServerResponse

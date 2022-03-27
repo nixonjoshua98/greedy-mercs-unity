@@ -107,14 +107,14 @@ namespace GM.Core
             return ArtefactBaseEffect(art);
         }
 
-        public BigInteger ArtefactUnlockCost(int owned) => GameFormulas.ArtefactUnlockCost(owned);
+        public double ArtefactUnlockCost(int owned) => GameFormulas.ArtefactUnlockCost(owned);
 
-        public BigInteger ArtefactUpgradeCost(int artefactId, int levels)
+        public double ArtefactUpgradeCost(int artefactId, int levels)
         {
             return ArtefactUpgradeCost(App.Artefacts.GetArtefact(artefactId), levels);
         }
 
-        public BigInteger ArtefactUpgradeCost(GM.Artefacts.Data.AggregatedArtefactData data, int levels)
+        public double ArtefactUpgradeCost(GM.Artefacts.Data.AggregatedArtefactData data, int levels)
         {
             return GameFormulas.ArtefactUpgradeCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff);
         }

@@ -1,32 +1,27 @@
-﻿namespace GM.HTTP.Requests.BountyShop
+﻿using GM.Inventory;
+
+namespace GM.HTTP.Requests.BountyShop
 {
     // = Requests = //
 
     public class PurchaseBountyShopItem : IServerRequest
     {
-        public string ItemId { get; set; }
-
-        public PurchaseBountyShopItem(string item)
-        {
-            ItemId = item;
-        }
+        public string ItemID { get; set; }
     }
 
     // = Responses = //
 
-    public abstract class BountyShopPurchaseResponse : ServerResponse
+    public class PurchaseArmouryItemResponse : ServerResponse
     {
-        public long PurchaseCost { get; set; }
-        public Inventory.Models.UserCurrenciesModel CurrencyItems { set; get; }
+        public long PurchaseCost;
+        public UserCurrencies Currencies;
+        public Armoury.Models.ArmouryItemUserDataModel ArmouryItem;
     }
 
-    public class PurchaseArmouryItemResponse : BountyShopPurchaseResponse
+    public class PurchaseCurrencyResponse : ServerResponse
     {
-        public Armoury.Models.ArmouryItemUserDataModel ArmouryItem { get; set; }
-    }
-
-    public class PurchaseCurrencyResponse : BountyShopPurchaseResponse
-    {
+        public long PurchaseCost;
+        public UserCurrencies Currencies;
         public int CurrencyGained;
     }
 }

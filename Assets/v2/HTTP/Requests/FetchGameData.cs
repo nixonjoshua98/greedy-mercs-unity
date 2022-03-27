@@ -7,7 +7,7 @@ namespace GM.HTTP.Requests
     {
         public List<GM.Artefacts.Models.ArtefactGameDataModel> Artefacts { get; set; }
         public GM.Bounties.Models.CompleteBountyGameDataModel Bounties { get; set; }
-        public List<Armoury.Models.ArmouryItemGameDataModel> Armoury { get; set; }
+        public List<Armoury.Models.ArmouryItem> ArmouryItems { get; set; }
         public GM.Mercs.StaticMercsModel Mercs { get; set; }
     }
 }

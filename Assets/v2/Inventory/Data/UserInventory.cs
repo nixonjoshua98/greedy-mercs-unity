@@ -1,24 +1,22 @@
-﻿using BigInteger = System.Numerics.BigInteger;
-
-namespace GM.Inventory.Data
+﻿namespace GM.Inventory.Data
 {
     public class UserInventory
     {
-        public BigInteger PrestigePoints;
+        public double PrestigePoints;
 
-        public long BountyPoints { get; private set; }
-        public long ArmouryPoints { get; private set; }
+        public long BountyPoints { get; set; }
+        public long ArmouryPoints { get; set; }
 
         public BigDouble Gold;
 
-        public void Set(Models.UserCurrenciesModel currencies)
+        public void Set(UserCurrencies currencies)
         {
             Gold = BigDouble.HighValue;
 
             UpdateCurrencies(currencies);
         }
 
-        public void UpdateCurrencies(Models.UserCurrenciesModel model)
+        public void UpdateCurrencies(UserCurrencies model)
         {
             BountyPoints = model.BountyPoints;
             ArmouryPoints = model.ArmouryPoints;

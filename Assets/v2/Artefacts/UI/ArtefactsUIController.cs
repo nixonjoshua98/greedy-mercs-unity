@@ -79,7 +79,7 @@ namespace GM.Artefacts.UI
 
         void UpdateUnlockArtefactText()
         {
-            BigInteger unlockCost = App.GMCache.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
+            double unlockCost = App.GMCache.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
 
             UnlockArtefactButton.interactable = !App.Artefacts.UserUnlockedAll && App.Inventory.PrestigePoints >= unlockCost;
 

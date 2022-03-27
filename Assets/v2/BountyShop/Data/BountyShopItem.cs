@@ -5,8 +5,8 @@ namespace GM.BountyShop.Data
     /// <summary>Interface for each bounty item</summary>
     public interface IBountyShopItem
     {
-        string Id { get; set; }
-        int purchaseLimit { get; set; }
+        string ID { get; set; }
+        int PurchaseLimit { get; set; }
         int PurchaseCost { get; set; }
         public bool InStock { get; }
     }
@@ -14,12 +14,11 @@ namespace GM.BountyShop.Data
     /// <summary>Base implementation of the interface</summary>
     public class BountyShopItem : Core.GMClass, IBountyShopItem
     {
-        [JsonProperty(PropertyName = "itemId", Required = Required.Always)]
-        public string Id { get; set; }
-        public int purchaseLimit { get; set; }
+        public string ID { get; set; }
+        public int PurchaseLimit { get; set; } = 1;
         public int PurchaseCost { get; set; }
 
         [JsonIgnore]
-        public bool InStock => purchaseLimit > App.BountyShop.GetItemPurchaseData(Id);
+        public bool InStock => PurchaseLimit > App.BountyShop.GetItemPurchaseData(ID);
     }
 }

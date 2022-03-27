@@ -29,4 +29,10 @@ namespace GM.Quests
 
         public long LongValue;
     }
+
+    public class Quests
+    {
+        public List<MercQuest> MercQuests;
+        public List<DailyQuest> DailyQuests;
+    }
 }

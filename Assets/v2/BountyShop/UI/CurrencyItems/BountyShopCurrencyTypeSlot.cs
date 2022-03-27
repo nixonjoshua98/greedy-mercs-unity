@@ -18,7 +18,7 @@ namespace GM.BountyShop.UI
         protected override void OnAssignedItem()
         {
             PurchaseCostText.text = AssignedItem.PurchaseCost.ToString();
-            QuantityText.text = $"x{AssignedItem.QuantityPerPurchase}";
+            QuantityText.text = $"x{AssignedItem.Quantity}";
 
             IconImage.sprite = AssignedItem.Item.Icon;
 

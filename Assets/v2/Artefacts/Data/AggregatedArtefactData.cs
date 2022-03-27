@@ -31,6 +31,6 @@ namespace GM.Artefacts.Data
         public float CostCoeff => Game.CostCoeff;
         public BigDouble Effect => App.GMCache.ArtefactEffect(this);
         public bool IsMaxLevel => CurrentLevel >= Game.MaxLevel;
-        public BigInteger UpgradeCost(int levels) => App.GMCache.ArtefactUpgradeCost(this, levels);
+        public double UpgradeCost(int levels) => App.GMCache.ArtefactUpgradeCost(this, levels);
     }
 }

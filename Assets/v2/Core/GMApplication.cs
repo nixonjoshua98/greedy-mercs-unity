@@ -18,7 +18,7 @@ namespace GM.Core
         public GM.Artefacts.Data.ArtefactsData Artefacts = new();
         public GM.Armoury.Data.ArmouryData Armoury = new();
         public GM.Bounties.Data.BountiesData Bounties = new();
-        public GM.BountyShop.Data.BountyShopData BountyShop = new();
+        public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();
         public GM.PlayerStats.PlayerStatsContainer Stats = new();
 
         public CurrentPrestigeState GameState;
@@ -54,7 +54,7 @@ namespace GM.Core
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
         {
             // Property has a date check, so if the data is old then it will recreate a new instance
-            PersistantLocalFile.LocalDailyStats.CreatedTime = DateTime.UtcNow;
+            PersistantLocalFile.LocalDailyStats.DateTime = DateTime.UtcNow;
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 
@@ -62,9 +62,9 @@ namespace GM.Core
             BountyShop.Set(userData.BountyShop);
             Quests.Set(userData.Quests);
             Mercs.Set(userData.UnlockedMercs, staticData.Mercs, stateFile);
-            Armoury.Set(userData.ArmouryItems, staticData.Armoury);
-            Bounties.Set(userData.BountyData, staticData.Bounties);
-            Inventory.Set(userData.CurrencyItems);
+            Armoury.Set(userData.ArmouryItems, staticData.ArmouryItems);
+            Bounties.Set(userData.Bounties, staticData.Bounties);
+            Inventory.Set(userData.Currencies);
             Artefacts.Set(userData.Artefacts, staticData.Artefacts);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 using UnityEngine;
 
@@ -31,9 +32,9 @@ namespace GM.Common
         #endregion
 
         #region Artefacts
-        public static BigInteger ArtefactUnlockCost(int owned)
+        public static double ArtefactUnlockCost(int owned)
         {
-            return (Mathf.Max(1, owned - 2) * BigDouble.Pow(1.35, owned)).CeilToBigInteger();
+            return Mathf.Max(1, owned - 2) * Math.Pow(1.35, owned);
         }
 
         public static BigDouble ArtefactBonusValue(int currentLevel, double baseEffect, double levelEffect)
@@ -41,9 +42,9 @@ namespace GM.Common
             return baseEffect + (levelEffect * (currentLevel - 1));
         }
 
-        public static BigInteger ArtefactUpgradeCost(int currentLevel, int levels, float expo, float coeff)
+        public static double ArtefactUpgradeCost(int currentLevel, int levels, float expo, float coeff)
         {
-            return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).CeilToBigInteger();
+            return (coeff * SumNonIntegerPowerSeq(currentLevel, levels, expo)).ToDouble();
         }
         #endregion
 

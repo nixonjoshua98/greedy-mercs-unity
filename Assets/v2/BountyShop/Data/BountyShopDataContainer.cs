@@ -55,46 +55,33 @@ namespace GM.BountyShop.Data
         /// <summary>Send the server request for purchasing an armoury item</summary>
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
         {
-            App.HTTP.BuyBountyShopArmouryItem(itemId, (resp) =>
-            {
-                if (resp.StatusCode == 200)
-                {
-                    App.Armoury.Update(resp.ArmouryItem);
+            //App.HTTP.BuyBountyShopArmouryItem(itemId, (resp) =>
+            //{
+            //    if (resp.StatusCode == 200)
+            //    {
+            //        App.Armoury.Update(resp.ArmouryItem);
 
-                    OnAnySuccessfullPurchase(itemId, resp);
-                }
+            //        OnAnySuccessfullPurchase(itemId, resp);
+            //    }
 
-                action.Invoke(resp.StatusCode == 200);
-            });
+            //    action.Invoke(resp.StatusCode == 200);
+            //});
         }
 
         public void PurchaseCurrencyItem(string itemId, UnityAction<bool> action)
         {
-            App.HTTP.BuyBountyShopCurrencyType(itemId, (resp) =>
+            App.HTTP.PurchaseBountyShopCurrency(itemId, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
-                    OnAnySuccessfullPurchase(itemId, resp);
+                    // Update purchase count
+                    itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
 
-                    switch (currencyItems[itemId].Item.Item)
-                    {
-                        case CurrencyType.ARMOURY_POINTS:
-                            App.Events.ArmouryPointsChanged.Invoke(resp.CurrencyGained);
-                            break;
-                    };
+                    App.Inventory.UpdateCurrencies(resp.Currencies);
                 }
 
                 action.Invoke(resp.StatusCode == 200);
             });
-        }
-
-        void OnAnySuccessfullPurchase(string itemId, GM.HTTP.Requests.BountyShop.BountyShopPurchaseResponse resp)
-        {
-            itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
-
-            App.Inventory.UpdateCurrencies(resp.CurrencyItems);
-
-            App.Events.BountyPointsChanged.Invoke(resp.PurchaseCost * -1);
         }
     }
 }

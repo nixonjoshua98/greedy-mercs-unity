@@ -44,7 +44,7 @@ namespace GM.Managers
         {
             App.DeleteLocalStateData();
 
-            App.UpdateDataContainers(resp.UserData, resp.StaticData);
+            App.UpdateDataContainers(resp.UserData, resp.DataFiles);
 
             App.SaveLocalStateFile();
 

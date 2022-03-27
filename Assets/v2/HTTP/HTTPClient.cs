@@ -164,9 +164,12 @@ namespace GM.HTTP
             });
         }
 
+        /// <summary>
+        /// Send the prestige request
+        /// </summary>
         public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
         {
-            SendRequest("POST", "prestige", request, false, callback);
+            SendRequest("PUT", "Prestige", request, false, callback);
         }
 
         /// <summary>

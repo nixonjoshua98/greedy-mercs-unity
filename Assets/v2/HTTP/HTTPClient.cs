@@ -123,7 +123,7 @@ namespace GM.HTTP
         {
             UpgradeArmouryItemRequest req = new() { ItemID = item };
 
-            SendRequest("PUT", "Armoury/Upgrade", req, false, callback);
+            SendRequest("PUT", "Armoury/Upgrade", req, true, callback);
         }
 
         /// <summary>
@@ -289,41 +289,21 @@ namespace GM.HTTP
 
         string SerializeRequest<T>(T request, bool encrypt = false) where T : IServerRequest
         {
-            return JsonConvert.SerializeObject(request);
-        }
+            string str = JsonConvert.SerializeObject(request);
 
+            if (encrypt)
+                str = AES.Encrypt(str);
+
+            return str;
+        }
 
         void ResponseHandler<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
             bool isEncrypted = www.GetBoolResponseHeader("Response-Encrypted", false);
 
-            switch (www.responseCode)
-            {
-                case HTTPCodes.InvalidiateClient:
-                    Response_InvalidateClient();
-                    break;
-
-                case HTTPCodes.Unauthorized:
-                    Response_Unauthorized();
-                    break;
-            }
-
             TResponse resp = DeserializeResponse<TResponse>(www, isEncrypted);
 
             action.Invoke(resp);
-        }
-
-        // = Special Response Callbacks = //
-        void Response_Unauthorized()
-        {
-            Token = null;
-        }
-
-        void Response_InvalidateClient()
-        {
-            Token = null;
-
-            App.InvalidateClient();
         }
     }
 

@@ -18,7 +18,7 @@ namespace GM.HTTP
     public interface IHTTPClient
     {
         void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback);
-        void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback);
+        void PurchaseBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback);
         void ClaimBounties(Action<BountyClaimResponse> callback);
         void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action);
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
@@ -169,11 +169,14 @@ namespace GM.HTTP
             SendRequest("POST", "prestige", request, false, callback);
         }
 
-        public void BuyBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback)
+        /// <summary>
+        /// Purchase an armoury item from the shop
+        /// </summary>
+        public void PurchaseBountyShopArmouryItem(string item, Action<Requests.BountyShop.PurchaseArmouryItemResponse> callback)
         {
-            //var req = new Requests.BountyShop.PurchaseBountyShopItem(item);
+            PurchaseBountyShopItem req = new() { ItemID = item };
 
-            //SendRequest("POST", "BountyShop/purchase/armouryitem", req, false, callback);
+            SendRequest("PUT", "BountyShop/Purchase/ArmouryItem", req, false, callback);
         }
 
         /// <summary>

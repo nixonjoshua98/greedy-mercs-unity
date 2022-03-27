@@ -11,11 +11,11 @@ namespace GM.HTTP.Requests.BountyShop
 
     // = Responses = //
 
-    public class PurchaseArmouryItemResponse
+    public class PurchaseArmouryItemResponse : ServerResponse
     {
-        public long PurchaseCost { get; set; }
-        public UserCurrencies CurrencyItems { set; get; }
-        public Armoury.Models.ArmouryItemUserDataModel ArmouryItem { get; set; }
+        public long PurchaseCost;
+        public UserCurrencies Currencies;
+        public Armoury.Models.ArmouryItemUserDataModel ArmouryItem;
     }
 
     public class PurchaseCurrencyResponse : ServerResponse

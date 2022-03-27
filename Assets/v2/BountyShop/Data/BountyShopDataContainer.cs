@@ -1,5 +1,4 @@
 ﻿using GM.BountyShop.Models;
-using GM.Common.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
@@ -52,20 +51,25 @@ namespace GM.BountyShop.Data
             Update(model.ShopItems);
         }
 
-        /// <summary>Send the server request for purchasing an armoury item</summary>
+        /// <summary>
+        /// Send the server request for purchasing an armoury item
+        /// </summary>
         public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
         {
-            //App.HTTP.BuyBountyShopArmouryItem(itemId, (resp) =>
-            //{
-            //    if (resp.StatusCode == 200)
-            //    {
-            //        App.Armoury.Update(resp.ArmouryItem);
+            App.HTTP.PurchaseBountyShopArmouryItem(itemId, (resp) =>
+            {
+                if (resp.StatusCode == 200)
+                {
+                    // Update purchase count
+                    itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
 
-            //        OnAnySuccessfullPurchase(itemId, resp);
-            //    }
+                    App.Armoury.Update(resp.ArmouryItem);
 
-            //    action.Invoke(resp.StatusCode == 200);
-            //});
+                    App.Inventory.UpdateCurrencies(resp.Currencies);
+                }
+
+                action.Invoke(resp.StatusCode == 200);
+            });
         }
 
         public void PurchaseCurrencyItem(string itemId, UnityAction<bool> action)

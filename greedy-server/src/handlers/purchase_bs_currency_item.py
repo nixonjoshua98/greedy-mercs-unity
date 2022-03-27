@@ -6,7 +6,7 @@ from bson import ObjectId
 from fastapi import Depends
 
 from src.common.types import CurrencyType
-from src.context import AuthenticatedRequestContext, RequestContext
+from src.context import AuthenticatedRequestContext
 from src.exceptions import HandlerException
 from src.handlers.auth_handler import get_authenticated_context
 from src.repositories.bountyshop import (BountyShopRepository,

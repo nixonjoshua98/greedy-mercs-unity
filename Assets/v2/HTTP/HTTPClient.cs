@@ -38,7 +38,7 @@ namespace GM.HTTP
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "localhost"
+            Address = "109.148.134.150"
         };
 
         string Token = null;

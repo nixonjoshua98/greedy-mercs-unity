@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 1956468972685746163}
   - component: {fileID: 1236559514035774652}
   - component: {fileID: 1956468972685746125}
-  - component: {fileID: 1956468972685746124}
+  - component: {fileID: 6715093032315483147}
   m_Layer: 5
   m_Name: squad_merc_slot
   m_TagString: Untagged
@@ -398,7 +398,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956468972685746162}
   m_CullTransparentMesh: 1
---- !u!114 &1956468972685746124
+--- !u!114 &6715093032315483147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

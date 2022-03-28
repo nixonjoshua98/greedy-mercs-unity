@@ -1,9 +1,9 @@
 using GM.Artefacts.Data;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using AmountSelector = GM.UI.AmountSelector;
 
 namespace GM.Artefacts.UI
@@ -18,7 +18,9 @@ namespace GM.Artefacts.UI
         public Transform ArtefactsContent;
         public AmountSelector UpgradeAmountSelector;
         public TMP_Text UnlockedArtefactsText;
-        public GM.UI.VStackedButton UnlockArtefactButton;
+        [SerializeField] TMP_Text UnlockArtefactCostText;
+        [SerializeField] Button UnlockArtefactButton;
+        [SerializeField] GameObject UnlockArtefactRow;
 
         Dictionary<int, ArtefactSlot> ArtefactSlots = new Dictionary<int, ArtefactSlot>();
 
@@ -72,25 +74,25 @@ namespace GM.Artefacts.UI
                     slot.Setup(art.Id, UpgradeAmountSelector, ArtefactSlot_OnUpgradeButton);
                 }
 
-                slot.transform.SetSiblingIndex(i);
+                slot.transform.SetSiblingIndex(i + 1);
             }
         }
 
 
         void UpdateUnlockArtefactText()
         {
+            if (App.Artefacts.UserUnlockedAll)
+            {
+                if (UnlockArtefactRow is not null)
+                    Destroy(UnlockArtefactRow);
+                return;
+            } 
+
             double unlockCost = App.GMCache.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
 
             UnlockArtefactButton.interactable = !App.Artefacts.UserUnlockedAll && App.Inventory.PrestigePoints >= unlockCost;
 
-            if (!App.Artefacts.UserUnlockedAll)
-            {
-                UnlockArtefactButton.SetText("Unlock", Format.Number(unlockCost));
-            }
-            else
-            {
-                UnlockArtefactButton.SetText("Unlocked", "");
-            }
+            UnlockArtefactCostText.text = Format.Number(unlockCost);
         }
 
         public void OnUnlockArtefactButton()

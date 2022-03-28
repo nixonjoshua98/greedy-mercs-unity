@@ -52,8 +52,10 @@ namespace GM.Mercs.UI
 
             if (SummaryPopup != null)
             {
-                // Group up the damage dealt per merc
-                var dmg = damageValues.GroupBy(m => m.MercId).Select(x => new KeyValuePair<MercID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum())).OrderByDescending(x => x.Value);
+                IEnumerable<KeyValuePair<MercID, BigDouble>> dmg = damageValues.GroupBy(m => m.MercId).Select(x =>
+                {
+                    return new KeyValuePair<MercID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum());
+                }).OrderByDescending(x => x.Value);
 
                 SummaryPopup.UpdateDamageNumbers(dmg.ToList());
             }

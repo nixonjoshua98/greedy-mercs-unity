@@ -7,17 +7,23 @@ namespace GM.Mercs.UI
 {
     public class MercBattleSummaryPopup : MonoBehaviour
     {
-        [SerializeField] List<MercDamageSummarySlot> DamageSlots;
+        [SerializeField] GameObject MercSummarySlotObject;
+        [SerializeField] Transform MercSlotsParent;
+        
+        List<MercDamageSummarySlot> MercSlots = new List<MercDamageSummarySlot>();
 
         public void UpdateDamageNumbers(List<KeyValuePair<MercID, BigDouble>> dmg)
         {
-            DamageSlots.ForEach(slot => slot.SetEmpty());
+            MercSlots.ForEach(slot => slot.SetEmpty());
 
             BigDouble totalDamage = BigDouble.Max(1, dmg.Select(x => x.Value).Sum());
 
-            for (int i = 0; i < Mathf.Min(dmg.Count, DamageSlots.Count); ++i)
+            for (int i = 0; i < Mathf.Max(dmg.Count, MercSlots.Count); ++i)
             {
-                MercDamageSummarySlot slot = DamageSlots[i];
+                if (i >= MercSlots.Count)
+                    InstantiateMercSummarySlot();
+
+                MercDamageSummarySlot slot = MercSlots[i];
 
                 MercID mercId = dmg[i].Key;
                 BigDouble damageDealt = dmg[i].Value;
@@ -26,6 +32,15 @@ namespace GM.Mercs.UI
 
                 slot.UpdateValues(mercId, damageDealt, percent);
             }
+        }
+
+        void InstantiateMercSummarySlot()
+        {
+            GameObject go = Instantiate(MercSummarySlotObject, MercSlotsParent);
+
+            MercDamageSummarySlot slot = go.GetComponent<MercDamageSummarySlot>();
+
+            MercSlots.Add(slot);
         }
     }
 }

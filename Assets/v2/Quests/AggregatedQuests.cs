@@ -42,7 +42,7 @@ namespace GM.Quests
             {
                 return ActionType switch
                 {
-                    QuestActionType.Prestige => App.Stats.ConfirmedDailyStats.TotalPrestiges / (float)LongValue,
+                    QuestActionType.Prestige => App.Stats.LocalDailyStats.TotalPrestiges / (float)LongValue,
                     QuestActionType.EnemiesDefeated => App.Stats.LocalDailyStats.TotalEnemiesDefeated / (float)LongValue,
                     QuestActionType.BossesDefeated => App.Stats.LocalDailyStats.TotalBossesDefeated / (float)LongValue,
                     QuestActionType.Taps => App.Stats.LocalDailyStats.TotalTaps / (float)LongValue

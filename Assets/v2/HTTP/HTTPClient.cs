@@ -24,7 +24,6 @@ namespace GM.HTTP
         void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action);
         void FetchQuests(Action<QuestsDataResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
-        void FetchStats(Action<PlayerStatsResponse> action);
         void DeviceLogin(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
         void PurchaseBountyShopCurrency(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
@@ -38,7 +37,7 @@ namespace GM.HTTP
     {
         HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
-            Port = 5000,
+            Port = 2122,
             Address = "localhost"
         };
 
@@ -52,14 +51,6 @@ namespace GM.HTTP
             UpdateLifetimeStatsRequest req = new() { Changes = App.Stats.LocalLifetimeStats };
 
             SendRequest("PUT", "User/LifetimeStats", req, false, action);
-        }
-
-        /// <summary>
-        /// Fetch all account stats (daily + lifetime)
-        /// </summary>
-        public void FetchStats(Action<PlayerStatsResponse> action)
-        {
-            SendRequest("GET", "User/AccountStats", ServerRequest.Empty, encrypt: false, action);
         }
 
         /// <summary>

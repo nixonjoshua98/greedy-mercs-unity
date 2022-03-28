@@ -9,7 +9,6 @@ namespace GM
         const float StatsSyncInterval = 1_000 * 30; // 30 Seconds
 
         bool isUpdatingQuests;
-        bool isFetchingAccountStats;
         bool isUpdatingLifetimeStats;
 
         Stopwatch syncStatsWatch;
@@ -35,11 +34,6 @@ namespace GM
                     FetchQuests();
                 }
 
-                if (!isFetchingAccountStats && !App.Stats.IsDailyStatsValid)
-                {
-                    FetchAccountStats();
-                }
-
                 if (!isUpdatingLifetimeStats && syncStatsWatch.ElapsedMilliseconds >= StatsSyncInterval)
                 {
                     syncStatsWatch.Restart();
@@ -54,21 +48,6 @@ namespace GM
             isUpdatingLifetimeStats = true;
 
             App.Stats.UpdateLifetimeStats(success => isUpdatingLifetimeStats = false);
-        }
-
-        void FetchAccountStats()
-        {
-            isFetchingAccountStats = true;
-
-            App.Stats.FetchStats(success =>
-            {
-                if (!App.Stats.IsDailyStatsValid)
-                {
-                    Invoke("FetchAccountStats", 1.0f);
-                }
-
-                isFetchingAccountStats = !App.Stats.IsDailyStatsValid;
-            });
         }
 
         void FetchQuests()

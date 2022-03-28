@@ -42,6 +42,8 @@ namespace GM.Managers
 
         void OnPrestigeSuccess(PrestigeResponse resp)
         {
+            App.Stats.LocalDailyStats.TotalPrestiges++;
+
             App.DeleteLocalStateData();
 
             App.UpdateDataContainers(resp.UserData, resp.DataFiles);

@@ -11,7 +11,7 @@ namespace GM
 
         public static string Encrypt(string plainText)
         {
-            using (Rijndael algo = Rijndael.Create())
+            using (Aes algo = Aes.Create())
             {
                 algo.Key = key;
 
@@ -40,7 +40,7 @@ namespace GM
 
         public static string Decrypt(string cipherText)
         {
-            using (Rijndael algo = Rijndael.Create())
+            using (Aes algo = Aes.Create())
             {
                 algo.Key = key;
 

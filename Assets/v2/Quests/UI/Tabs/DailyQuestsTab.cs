@@ -24,7 +24,7 @@ namespace GM.Quests.UI
 
         void FixedUpdate()
         {
-            bool isShowingQuests = !LoadingOverlay.activeInHierarchy && App.Quests.IsDailyQuestsValid && App.Stats.IsDailyStatsValid;
+            bool isShowingQuests = !LoadingOverlay.activeInHierarchy && App.Quests.IsDailyQuestsValid;
 
             LoadingOverlay.SetActive(!isShowingQuests);
 

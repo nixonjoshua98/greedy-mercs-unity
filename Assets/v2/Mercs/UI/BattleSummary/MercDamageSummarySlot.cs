@@ -10,25 +10,28 @@ namespace GM.Mercs.UI
         [SerializeField] Sprite DefaultIcon;
         [Space]
         [SerializeField] Image MercIconImage;
-        [SerializeField] TMP_Text DamagePercentText;
         [SerializeField] Slider DamageSlider;
         [SerializeField] TMP_Text DamageText;
+        [SerializeField] TMP_Text NameText;
 
         public void SetEmpty()
         {
             MercIconImage.sprite = DefaultIcon;
 
-            DamagePercentText.text = "0%";
-            DamageText.text = "0";
+            NameText.text = "";
+            DamageText.text = "0.0K (0.0%)";
             DamageSlider.value = 0;
         }
 
         public void UpdateValues(MercID mercId, BigDouble val, float percent)
         {
-            MercIconImage.sprite = App.Mercs.GetGameMerc(mercId).Icon;
+            var mercData = App.Mercs.GetGameMerc(mercId);
 
-            DamagePercentText.text = Format.Percentage(percent);
-            DamageText.text = Format.Number(val);
+            MercIconImage.sprite = mercData.Icon;
+            NameText.text = mercData.Name;
+
+            DamageText.text = $"{Format.Number(val)} ({Format.Percentage(percent)})";
+
             DamageSlider.value = percent;
         }
     }

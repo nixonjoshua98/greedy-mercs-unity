@@ -21,7 +21,7 @@ namespace GM.GoldUpgrades.UI
             UpdateButton();
 
             LevelText.text = $"Lvl. <color=orange>{Upgrade.Level}</color>";
-            DamageText.text = $"<color=orange>{Format.Number(App.GMCache.TapUpgradeDamage)}</color> DMG";
+            DamageText.text = $"<color=orange>{Format.Number(App.GMCache.TotalTapDamage)}</color> DMG";
         }
 
         void UpdateButton()

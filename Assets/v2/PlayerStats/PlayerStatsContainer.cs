@@ -12,9 +12,9 @@ namespace GM.PlayerStats
 
         public int HighestStageReached { get => Math.Max(App.GameState.Stage, ConfirmedLifetimeStats.HighestPrestigeStage); }
 
-        public void Set(PlayerStatsResponse userData)
+        public void Set(LifetimeStatsModel userData)
         {
-            ConfirmedLifetimeStats = userData.LifetimeStats;
+            ConfirmedLifetimeStats = userData;
         }
 
         public void UpdateLifetimeStats(Action<bool> action)

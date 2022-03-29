@@ -21,7 +21,6 @@ namespace GM.Common.Enums
 
         // Tap Damage
         MULTIPLY_TAP_DMG = 700,
-        FLAT_TAP_DMG = 701,
 
         // Gold
         MULTIPLY_ALL_GOLD = 800,

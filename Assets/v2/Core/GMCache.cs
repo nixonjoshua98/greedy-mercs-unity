@@ -11,7 +11,6 @@ namespace GM.Core
 {
     public class GMCache : GMClass
     {
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> UpgradeBonuses => new List<KeyValuePair<BonusType, BigDouble>> { new KeyValuePair<BonusType, BigDouble>(BonusType.FLAT_TAP_DMG, TapUpgradeDamage) };
         List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
         {
             get
@@ -39,7 +38,6 @@ namespace GM.Core
             {
                 var ls = MercPassiveBonuses
                     .Concat(ArtefactBonuses)
-                    .Concat(UpgradeBonuses)
                     .Concat(ArmouryBonuses);
 
                 return CreateBonusDictionary(ls);
@@ -155,7 +153,7 @@ namespace GM.Core
         {
             get
             {
-                return CombinedBonuses.Get(BonusType.FLAT_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1);
+                return TapUpgradeDamage * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1);
             }
         }
 
@@ -177,7 +175,6 @@ namespace GM.Core
                     result[bonus] = bonus switch
                     {
                         BonusType.FLAT_CRIT_CHANCE => totalValue + value,
-                        BonusType.FLAT_TAP_DMG => totalValue + value,
 
                         _ => totalValue * value
                     };

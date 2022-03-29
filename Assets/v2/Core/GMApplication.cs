@@ -58,7 +58,7 @@ namespace GM.Core
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 
-            Stats.Set(userData.UserStats);
+            Stats.Set(userData.LifetimeStats);
             BountyShop.Set(userData.BountyShop);
             Quests.Set(userData.Quests);
             Mercs.Set(userData.UnlockedMercs, staticData.Mercs, stateFile);

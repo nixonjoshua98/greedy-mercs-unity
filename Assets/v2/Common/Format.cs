@@ -37,7 +37,6 @@ namespace GM
         {
             return bonus switch
             {
-                BonusType.FLAT_TAP_DMG => Number(val),
                 _ => Percentage(val.ToDouble())
             };
         }

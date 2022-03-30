@@ -26,7 +26,7 @@ namespace GM.Bounties.UI
         public Slider ClaimSlider;
         public Image ClaimSliderFill;
         public Transform BountySlotParent;
-        public GM.UI.Layouts.ExpandableGridLayout BountiesLayout;
+        public GM.UI.Layouts.ExpandHorizontalGridLayout BountiesLayout;
 
         bool isEditing = false;
 

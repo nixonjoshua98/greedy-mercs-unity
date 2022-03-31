@@ -114,7 +114,7 @@ namespace GM.HTTP
         {
             UpgradeArmouryItemRequest req = new() { ItemID = item };
 
-            SendRequest("PUT", "Armoury/Upgrade", req, true, callback);
+            SendRequest("PUT", "Armoury/Upgrade", req, false, callback);
         }
 
         /// <summary>

@@ -1,7 +1,5 @@
-using GM.Bounties.Data;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,11 +42,11 @@ namespace GM.Bounties.UI
 
         void UpdateBountySlots()
         {
-            List<AggregatedBounty> bounties = App.Bounties.UnlockedBountiesList.OrderBy(b => b.IsActive ? 0 : 1).ThenBy(b => b.Id).ToList();
+            var unlockedBounties = App.Bounties.UnlockedBountiesList;
 
-            for (int i = 0; i < bounties.Count; ++i)
+            for (int i = 0; i < unlockedBounties.Count; i++)
             {
-                AggregatedBounty bounty = bounties[i];
+                var bounty = unlockedBounties[i];
 
                 if (!slots.TryGetValue(bounty.Id, out BountySlot slot))
                 {

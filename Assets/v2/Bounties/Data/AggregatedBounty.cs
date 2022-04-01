@@ -15,7 +15,6 @@ namespace GM.Bounties.Data
         }
 
         public int Id => _UserData.BountyID;
-        public bool IsActive => App.Bounties.IsBountyActive(_UserData.BountyID);
         public string Name => _GameData.Name;
         public Sprite Icon => _GameData.Icon;
         public long Income => _GameData.HourlyIncome;

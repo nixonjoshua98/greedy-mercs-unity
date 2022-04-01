@@ -26,12 +26,6 @@ namespace GM.Bounties.Data
         /// </summary>
         public List<AggregatedBounty> UnlockedBountiesList => UserData.UnlockedBounties.Select(ele => GetUnlockedBounty(ele.BountyID)).ToList();
 
-        /// <summary>
-        /// Get only the active bounties
-        /// </summary>
-        public List<AggregatedBounty> ActiveBountiesList => UnlockedBountiesList.Where(ele => ele.IsActive).ToList();
-
-        public bool IsBountyActive(int bounty) => UserData.ActiveBounties.Contains(bounty);
 
         /// <summary>
         /// Time since the last claim
@@ -88,7 +82,7 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Calculate the total hourly income from all active bounties
         /// </summary>
-        public long TotalHourlyIncome => ActiveBountiesList.Sum(ele => ele.Income);
+        public long TotalHourlyIncome => UnlockedBountiesList.Sum(ele => ele.Income);
 
         /// <summary>
         /// Maximum points which can be claimed at once
@@ -101,14 +95,9 @@ namespace GM.Bounties.Data
         public AggregatedBounty GetUnlockedBounty(int key) => new AggregatedBounty(GetGameBounty(key), GetUserBountyData(key));
 
         /// <summary>
-        /// Forward the 'MaxActiveBounties' attribute from the game data
-        /// </summary>
-        public int MaxActiveBounties => GameData.MaxActiveBounties;
-
-        /// <summary>
         /// Get data for a single bounty
         /// </summary>
-        public Models.BountyGameData GetGameBounty(int key) => GameData.Bounties.Where(ele => ele.Id == key).FirstOrDefault();
+        public Models.BountyGameData GetGameBounty(int key) => GameData.Bounties.Where(ele => ele.ID == key).FirstOrDefault();
 
         /// <summary>
         /// Update the complete bounty data model
@@ -121,9 +110,8 @@ namespace GM.Bounties.Data
 
             foreach (var bounty in GameData.Bounties)
             {
-                var localBounty = allLocalBounties[bounty.Id];
+                var localBounty = allLocalBounties[bounty.ID];
 
-                bounty.Name = localBounty.Name;
                 bounty.Icon = localBounty.Icon;
 
                 bounty.Prefab = localBounty.Prefab;
@@ -144,22 +132,6 @@ namespace GM.Bounties.Data
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Send the request to update the active bounties
-        /// </summary>
-        public void SetActiveBounties(List<int> ids, UnityAction<bool> action)
-        {
-            App.HTTP.SetActiveBounties(ids, resp =>
-            {
-                if (resp.StatusCode == 200)
-                {
-                    UserData.ActiveBounties = ids;
-                }
-
-                action(resp.StatusCode == 200);
-            });
         }
 
         /// <summary>

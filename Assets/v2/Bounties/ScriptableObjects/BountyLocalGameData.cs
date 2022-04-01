@@ -11,8 +11,6 @@ namespace GM.Bounties.ScripableObjects
 
         [Space]
 
-        public string Name;
-
         public Sprite Icon;
 
         [Header("Objects")]

@@ -42,7 +42,7 @@ namespace GM.Bounties.UI
 
         void UpdateBountySlots()
         {
-            var unlockedBounties = App.Bounties.UnlockedBountiesList;
+            var unlockedBounties = App.Bounties.UnlockedBounties;
 
             for (int i = 0; i < unlockedBounties.Count; i++)
             {

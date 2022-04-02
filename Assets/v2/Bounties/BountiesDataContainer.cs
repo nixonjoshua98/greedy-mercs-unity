@@ -22,7 +22,7 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Fetch the data for all unlocked bounties
         /// </summary>
-        public List<AggregatedBounty> UnlockedBountiesList => UserData.UnlockedBounties.Select(ele => GetUnlockedBounty(ele.BountyID)).ToList();
+        public List<AggregatedBounty> UnlockedBounties => UserData.UnlockedBounties.Select(ele => GetUnlockedBounty(ele.BountyID)).ToList();
 
         /// <summary>
         /// Time since the last claim
@@ -82,7 +82,7 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Calculate the total hourly income from all active bounties
         /// </summary>
-        public long TotalHourlyIncome => UnlockedBountiesList.Sum(ele => ele.Income);
+        public long TotalHourlyIncome => UnlockedBounties.Sum(ele => ele.Income);
 
         /// <summary>
         /// Maximum points which can be claimed at once

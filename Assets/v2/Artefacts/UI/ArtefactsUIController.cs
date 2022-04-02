@@ -56,7 +56,7 @@ namespace GM.Artefacts.UI
 
         void UpdateUI()
         {
-            UnlockedArtefactsText.text = $"<color=white>{App.Artefacts.NumUnlockedArtefacts} of {App.Artefacts.MaxArtefacts}</color> Artefacts unlocked";
+            UnlockedArtefactsText.text = $"<color=white>{App.Artefacts.NumUnlockedArtefacts} of {App.Artefacts.MaxArtefacts}</color> Artefacts Unlocked";
         }
 
         void UpdateArtefactSlots()

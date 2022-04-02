@@ -10,7 +10,6 @@ namespace GM.Bounties.UI
         public TMP_Text NameText;
         public TMP_Text IncomeText;
         public TMP_Text BonusText;
-        public TMP_Text LevelText;
         public Image IconImage;
         [Space]
         public GameObject UpgradeButton;
@@ -30,7 +29,6 @@ namespace GM.Bounties.UI
             NameText.text = Bounty.Name;
             IconImage.sprite = Bounty.Icon;
 
-            LevelText.text = $"Lvl <color=orange>{(Bounty.IsMaxLevel ? "MAX" : Bounty.Level)}</color>";
             BonusText.text = $"<color=orange>{Format.Number(Bounty.BonusValue, Bounty.BonusType)}</color> {Format.Bonus(Bounty.BonusType)}";
             IncomeText.text = Format.Number(Bounty.Income);
 

@@ -1,3 +1,4 @@
+using GM.Bounties.Models;
 using GM.HTTP;
 using System;
 using System.Collections.Generic;
@@ -16,15 +17,15 @@ namespace GM.Bounties.Requests
         public Inventory.UserCurrencies Currencies;
     }
 
-    // Update Active Bounties
+    // Level Up Bounty
 
-    public class SetActiveBountiesRequest : IServerRequest
+    public class UpgradeBountyRequest : IServerRequest
     {
-        public HashSet<int> BountyIds;
+        public int BountyID;
+    }
 
-        public SetActiveBountiesRequest(List<int> bounties)
-        {
-            BountyIds = bounties.ToHashSet();
-        }
+    public class UpgradeBountyResponse : ServerResponse
+    {
+        public UserBounty Bounty;
     }
 }

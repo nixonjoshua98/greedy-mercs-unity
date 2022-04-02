@@ -27,10 +27,10 @@ namespace GM.HTTP
         void DeviceLogin(Action<LoginResponse> callback);
         void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
         void PurchaseBountyShopCurrency(string item, Action<Requests.BountyShop.PurchaseCurrencyResponse> callback);
-        void SetActiveBounties(List<int> bounties, Action<ServerResponse> callback);
         void UnlockArtefact(Action<UnlockArtefactResponse> callback);
         void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action);
         void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback);
+        void UpgradeBounty(int bountyId, Action<UpgradeBountyResponse> callback);
     }
 
     public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>, IHTTPClient
@@ -125,14 +125,11 @@ namespace GM.HTTP
             SendRequest("GET", "Bounties/Claim", ServerRequest.Empty, false, callback);
         }
 
-        /// <summary>
-        /// Set the active bounties used to generate points
-        /// </summary>
-        public void SetActiveBounties(List<int> bounties, Action<ServerResponse> callback)
+        public void UpgradeBounty(int bountyId, Action<UpgradeBountyResponse> callback)
         {
-            var req = new SetActiveBountiesRequest(bounties);
+            UpgradeBountyRequest req = new() { BountyID = bountyId };
 
-            SendRequest("PUT", "Bounties/Update", req, false, callback);
+            SendRequest("PUT", "Bounties/Upgrade", req, false, callback);
         }
 
         /// <summary>

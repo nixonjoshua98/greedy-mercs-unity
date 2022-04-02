@@ -1,21 +1,19 @@
-using GM.Bounties.Models;
 using GM.Bounties.Requests;
 using GM.Bounties.ScripableObjects;
-using GM.HTTP.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.Bounties.Data
+namespace GM.Bounties.Models
 {
-    public class BountiesData : Core.GMClass
+    public class BountiesDataContainer : Core.GMClass
     {
         Models.UserBounties UserData;
-        Models.CompleteBountyGameDataModel GameData;
+        Models.BountiesDataModel GameData;
 
-        public void Set(Models.UserBounties userData, Models.CompleteBountyGameDataModel gameData)
+        public void Set(Models.UserBounties userData, Models.BountiesDataModel gameData)
         {
             UpdateUserData(userData);
             UpdateStaticData(gameData);
@@ -25,7 +23,6 @@ namespace GM.Bounties.Data
         /// Fetch the data for all unlocked bounties
         /// </summary>
         public List<AggregatedBounty> UnlockedBountiesList => UserData.UnlockedBounties.Select(ele => GetUnlockedBounty(ele.BountyID)).ToList();
-
 
         /// <summary>
         /// Time since the last claim
@@ -37,13 +34,10 @@ namespace GM.Bounties.Data
                 TimeSpan ts = DateTime.UtcNow - UserData.LastClaimTime;
 
                 if (ts.TotalHours > GameData.MaxUnclaimedHours)
-                {
                     return new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600));
-                }
+
                 else if (ts.TotalHours < 0)
-                {
                     return new TimeSpan();
-                }
 
                 return ts;
             }
@@ -68,6 +62,12 @@ namespace GM.Bounties.Data
         /// Update the complete user bounty data
         /// </summary>
         void UpdateUserData(UserBounties data) => UserData = data;
+
+        void UpdateUserBounty(UserBounty bounty)
+        {
+            UserData.UnlockedBounties.RemoveAll(b => b.BountyID == bounty.BountyID);
+            UserData.UnlockedBounties.Add(bounty);
+        }
 
         /// <summary>
         /// Load local data stored as scriptable objects
@@ -97,12 +97,12 @@ namespace GM.Bounties.Data
         /// <summary>
         /// Get data for a single bounty
         /// </summary>
-        public Models.BountyGameData GetGameBounty(int key) => GameData.Bounties.Where(ele => ele.ID == key).FirstOrDefault();
+        public Models.Bounty GetGameBounty(int key) => GameData.Bounties.Where(ele => ele.ID == key).FirstOrDefault();
 
         /// <summary>
         /// Update the complete bounty data model
         /// </summary>
-        void UpdateStaticData(CompleteBountyGameDataModel data)
+        void UpdateStaticData(BountiesDataModel data)
         {
             GameData = data;
 
@@ -118,11 +118,11 @@ namespace GM.Bounties.Data
             }
         }
 
-        public bool TryGetStageBounty(int stage, out Models.BountyGameData result)
+        public bool TryGetStageBounty(int stage, out Models.Bounty result)
         {
             result = default;
 
-            foreach (Models.BountyGameData bounty in GameData.Bounties)
+            foreach (Models.Bounty bounty in GameData.Bounties)
             {
                 if (bounty.UnlockStage == stage)
                 {
@@ -151,6 +151,21 @@ namespace GM.Bounties.Data
                 }
 
                 action(resp.StatusCode == 200, resp);
+            });
+        }
+
+        public void UpgradeBounty(int bountyId, UnityAction<bool, UpgradeBountyResponse> action)
+        {
+            App.HTTP.UpgradeBounty(bountyId, resp =>
+            {
+                bool success = resp.StatusCode == HTTP.HTTPCodes.Success;
+
+                if (success)
+                {
+                    UpdateUserBounty(resp.Bounty);
+                }
+
+                action.Invoke(success, resp);
             });
         }
     }

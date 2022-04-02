@@ -48,11 +48,11 @@ namespace GM.Bounties.UI
             {
                 var bounty = unlockedBounties[i];
 
-                if (!slots.TryGetValue(bounty.Id, out BountySlot slot))
+                if (!slots.TryGetValue(bounty.ID, out BountySlot slot))
                 {
-                    slot = slots[bounty.Id] = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
+                    slot = slots[bounty.ID] = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
 
-                    slot.Assign(bounty.Id);
+                    slot.Assign(bounty.ID);
                 }
 
                 slot.transform.SetSiblingIndex(i);

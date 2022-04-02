@@ -7,6 +7,6 @@ namespace GM
         public string Name;
         public bool IsBounty;
         public GameObject GameObject;
-        public GM.Bounties.Models.BountyGameData BountyData;
+        public GM.Bounties.Models.Bounty BountyData;
     }
 }

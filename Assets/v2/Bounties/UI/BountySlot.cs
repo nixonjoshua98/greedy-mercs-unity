@@ -9,10 +9,14 @@ namespace GM.Bounties.UI
         [Header("References")]
         public TMP_Text NameText;
         public TMP_Text IncomeText;
+        public TMP_Text BonusText;
+        public TMP_Text LevelText;
         public Image IconImage;
+        [Space]
+        public GameObject UpgradeButton;
 
         int AssignedBountyId = -1;
-        public Data.AggregatedBounty AssignedBounty { get => App.Bounties.GetUnlockedBounty(AssignedBountyId); }
+        public Models.AggregatedBounty Bounty { get => App.Bounties.GetUnlockedBounty(AssignedBountyId); }
 
         public virtual void Assign(int bountyId)
         {
@@ -23,9 +27,24 @@ namespace GM.Bounties.UI
 
         public void UpdateUI()
         {
-            NameText.text = AssignedBounty.Name;
-            IconImage.sprite = AssignedBounty.Icon;
-            IncomeText.text = $"Produces <color=white>{Format.Number(AssignedBounty.Income)}</color>";
+            NameText.text = Bounty.Name;
+            IconImage.sprite = Bounty.Icon;
+
+            LevelText.text = $"Lvl <color=orange>{(Bounty.IsMaxLevel ? "MAX" : Bounty.Level)}</color>";
+            BonusText.text = $"<color=orange>{Format.Number(Bounty.BonusValue, Bounty.BonusType)}</color> {Format.Bonus(Bounty.BonusType)}";
+            IncomeText.text = Format.Number(Bounty.Income);
+
+            UpgradeButton.SetActive(Bounty.CanLevelUp);
+        }
+
+        // UI Events //
+
+        public void Button_LevelUpBounty()
+        {
+            App.Bounties.UpgradeBounty(AssignedBountyId, (success, resp) =>
+            {
+                UpdateUI();
+            });
         }
     }
 }

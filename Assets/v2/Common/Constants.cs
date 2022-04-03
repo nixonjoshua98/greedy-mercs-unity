@@ -14,6 +14,7 @@ namespace GM.Common
         public static class Tags
         {
             public static string EnemyBossUnitHealthBar = "EnemyBossUnitHealthBar";
+            public const string MainCanvas = "MainCanvas";
         }
 
         public static class Colors

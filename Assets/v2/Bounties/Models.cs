@@ -38,6 +38,7 @@ namespace GM.Bounties.Models
         public string Name;
         public int HourlyIncome;
         public BonusType BonusType;
+        public string Description;
         public int UnlockStage;
         public List<BountyLevel> Levels = new();
 

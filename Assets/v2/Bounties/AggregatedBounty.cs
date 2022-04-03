@@ -20,6 +20,7 @@ namespace GM.Bounties.Models
 
         // User Values //
         public int Level => _userBounty.Level;
+        public int NumDefeats => _userBounty.NumDefeats;
         public float BonusValue => CurrentLevelValues?.BonusValue ?? 0.0f;
         public bool CanLevelUp
         {
@@ -33,6 +34,8 @@ namespace GM.Bounties.Models
         public bool IsMaxLevel => _userBounty.Level >= _bounty.Levels.Count;
 
         // Bounty Values //
+        public string Description => _bounty.Description;
+        public List<BountyLevel> Levels => _bounty.Levels;
         public BonusType BonusType => _bounty.BonusType;
         public int Income => _bounty.HourlyIncome;
         public string Name => _bounty.Name;

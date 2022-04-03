@@ -640,7 +640,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7542407501936474327}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1354086238849535987}
+        m_TargetAssemblyTypeName: GM.Bounties.UI.BountySlot, Assembly-CSharp
+        m_MethodName: Button_ShowInfoPopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &606441045545304532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,6 +1591,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c108fa24e326c4694d101bff2ca04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InfoPopupObject: {fileID: 6985751710723588338, guid: 321643f1a8c65c744b5dc7901ce3441e,
+    type: 3}
   NameText: {fileID: 605160757960419575}
   IncomeText: {fileID: 1890653361207537348}
   BonusText: {fileID: 7333870179877762513}

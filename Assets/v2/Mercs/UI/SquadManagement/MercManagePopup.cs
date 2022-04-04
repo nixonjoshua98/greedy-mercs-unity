@@ -18,24 +18,23 @@ namespace GM.Mercs.UI
         public Transform AvailableMercsParent;
 
         // Scene
-        MercSquadController MercSquad;
+        private MercSquadController MercSquad;
 
         public bool SquadFull => SquadMercs.Count >= App.Mercs.MaxSquadSize;
 
-        Dictionary<MercID, MercManageSlot> Slots = new Dictionary<MercID, MercManageSlot>();
-        List<MercManageIcon> Icons = new List<MercManageIcon>();
-        List<MercManageSlot> SquadMercs => Slots.Values.Where(x => x.InSquad).OrderBy(x => x.MercID).ToList();
+        private readonly Dictionary<MercID, MercManageSlot> Slots = new Dictionary<MercID, MercManageSlot>();
+        private readonly List<MercManageIcon> Icons = new List<MercManageIcon>();
 
+        private List<MercManageSlot> SquadMercs => Slots.Values.Where(x => x.InSquad).OrderBy(x => x.MercID).ToList();
 
-        Action OnSavedChanges;
+        private Action OnSavedChanges;
 
         public void AssignCallback(Action callback)
         {
             OnSavedChanges = callback;
         }
 
-
-        void Awake()
+        private void Awake()
         {
             MercSquad = this.GetComponentInScene<MercSquadController>();
 
@@ -44,12 +43,12 @@ namespace GM.Mercs.UI
             UpdateSquadIcons();
         }
 
-        void Start()
+        private void Start()
         {
             ShowInnerPanel();
         }
 
-        void InstantiateSlots()
+        private void InstantiateSlots()
         {
             foreach (var unlockedMerc in App.Mercs.UnlockedMercs)
             {
@@ -65,7 +64,7 @@ namespace GM.Mercs.UI
             Slots.Values.ToList().ForEach(slot => slot.UpdateActiveUI());
         }
 
-        void CreateIcons()
+        private void CreateIcons()
         {
             for (int i = 0; i < App.Mercs.MaxSquadSize; ++i)
             {
@@ -75,7 +74,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        void UpdateSquadIcons()
+        private void UpdateSquadIcons()
         {
             for (int i = 0; i < Icons.Count; i++)
             {
@@ -92,7 +91,10 @@ namespace GM.Mercs.UI
             }
         }
 
-        Sprite GetMercIconSprite(MercID unit) => App.Mercs.GetGameMerc(unit).Icon;
+        private Sprite GetMercIconSprite(MercID unit)
+        {
+            return App.Mercs.GetGameMerc(unit).Icon;
+        }
 
         public void UpdateMerc(MercID unit)
         {

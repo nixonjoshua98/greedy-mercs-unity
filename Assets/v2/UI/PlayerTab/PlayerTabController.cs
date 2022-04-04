@@ -6,15 +6,14 @@ namespace GM.UI
     public class PlayerTabController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject QuestsPopupObject;
+        [SerializeField] private GameObject QuestsPopupObject;
 
         [Header("References")]
-        [SerializeField] AmountSelector UpgradeAmountSelector;
+        [SerializeField] private AmountSelector UpgradeAmountSelector;
         [Space]
-        [SerializeField] TapDamageGoldUpgradeSlot TapUpgradeSlot;
+        [SerializeField] private TapDamageGoldUpgradeSlot TapUpgradeSlot;
 
-
-        void Start()
+        private void Start()
         {
             UpgradeAmountSelector.E_OnChange.AddListener(TapUpgradeSlot.AmountSelector_ValueChanged);
 

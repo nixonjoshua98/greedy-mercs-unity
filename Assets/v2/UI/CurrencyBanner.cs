@@ -11,7 +11,7 @@ namespace GM.UI
         public GameObject ItemTextPopup;
 
         [Header("References")]
-        [SerializeField] ObjectPool TextPool;
+        [SerializeField] private ObjectPool TextPool;
         public Transform PopupParent;
         [Space]
         public TMP_Text GoldText;
@@ -19,7 +19,7 @@ namespace GM.UI
         public TMP_Text ArmouryPointsText;
         public TMP_Text PrestigePointsText;
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             GoldText.text = Format.Number(App.Inventory.Gold);
             BountyPointsText.text = Format.Number(App.Inventory.BountyPoints);
@@ -27,7 +27,7 @@ namespace GM.UI
             PrestigePointsText.text = Format.Number(App.Inventory.PrestigePoints);
         }
 
-        void Start()
+        private void Start()
         {
             App.Events.BountyPointsChanged.AddListener((change) => { ShowText(BountyPointsText, change); });
             App.Events.PrestigePointsChanged.AddListener((change) => { ShowText(PrestigePointsText, change); });
@@ -35,7 +35,7 @@ namespace GM.UI
             App.Events.ArmouryPointsChanged.AddListener((change) => { ShowText(ArmouryPointsText, change); });
         }
 
-        void ShowText(TMP_Text txt, BigInteger value)
+        private void ShowText(TMP_Text txt, BigInteger value)
         {
             TextPopup o = TextPool.Spawn<TextPopup>();
 
@@ -44,7 +44,7 @@ namespace GM.UI
             o.Set(value);
         }
 
-        void ShowText(TMP_Text txt, BigDouble value)
+        private void ShowText(TMP_Text txt, BigDouble value)
         {
             TextPopup o = TextPool.Spawn<TextPopup>();
 

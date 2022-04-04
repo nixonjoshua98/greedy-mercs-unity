@@ -6,14 +6,24 @@ namespace GM
 {
     public static class Format
     {
-        static readonly Dictionary<int, string> UnitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
+        private static readonly Dictionary<int, string> UnitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
+        private static readonly Common.TTLCache FormatCache = new();
 
-        static Common.TTLCache FormatCache = new();
+        public static string Percentage(BigDouble val, int dp = 2)
+        {
+            return $"{Number(val * 100, dp)}%";
+        }
 
-        public static string Percentage(BigDouble val, int dp = 2) => $"{Number(val * 100, dp)}%";
+        public static string Bonus(BonusType bonusType, BigDouble value)
+        {
+            return $"{Number(value, bonusType)} {Bonus(bonusType)}";
+        }
 
-        public static string Bonus(BonusType bonusType, BigDouble value) => $"{Number(value, bonusType)} {Bonus(bonusType)}";
-        public static string Bonus(BonusType bonusType, BigDouble value, string colour) => $"<color={colour}>{Number(value, bonusType)}</color> {Bonus(bonusType)}";
+        public static string Bonus(BonusType bonusType, BigDouble value, string colour)
+        {
+            return $"<color={colour}>{Number(value, bonusType)}</color> {Bonus(bonusType)}";
+        }
+
         public static string Bonus(BonusType type)
         {
             return type switch
@@ -41,7 +51,10 @@ namespace GM
             };
         }
 
-        public static string Number(long val) => Number(new BigInteger(val));
+        public static string Number(long val)
+        {
+            return Number(new BigInteger(val));
+        }
 
         public static string Number(BigDouble val, int dp = 2)
         {
@@ -77,12 +90,12 @@ namespace GM
             });
         }
 
-        static string BigInteger_Exponent(BigInteger val)
+        private static string BigInteger_Exponent(BigInteger val)
         {
             return $"{(val < 0 ? "-" : string.Empty)}{val.ToString("E2").Replace("+", "").Replace("E", "e")}";
         }
 
-        static string BigInteger_Units(BigInteger val)
+        private static string BigInteger_Units(BigInteger val)
         {
             BigInteger absVal = BigInteger.Abs(val);
 
@@ -93,7 +106,7 @@ namespace GM
             return $"{(val < 0 ? "-" : string.Empty)}{m.ToString("F2") + UnitsTable[n]}";
         }
 
-        static string BigDouble_Units(BigDouble val, int dp = 2)
+        private static string BigDouble_Units(BigDouble val, int dp = 2)
         {
             BigDouble absVal = BigDouble.Abs(val);
 
@@ -104,7 +117,7 @@ namespace GM
             return $"{(val < 0 ? "-" : string.Empty)}{m.ToString($"F{dp}") + UnitsTable[n]}";
         }
 
-        static string BigDouble_Exponent(BigDouble val)
+        private static string BigDouble_Exponent(BigDouble val)
         {
             return $"{(val < 0 ? "-" : string.Empty)}{val.ToString("E2").Replace("+", "").Replace("E", "e")}";
         }

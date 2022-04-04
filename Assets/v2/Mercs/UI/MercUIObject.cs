@@ -5,7 +5,7 @@ namespace GM.Mercs.UI
 {
     public abstract class MercUIObject : SlotObject
     {
-        MercID AssignedId;
+        private MercID AssignedId;
 
         public void Assign(MercID id)
         {

@@ -9,7 +9,7 @@
     {
         protected int spawnedStage;
 
-        void Awake()
+        private void Awake()
         {
             spawnedStage = App.GameState.Stage;
         }

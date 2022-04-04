@@ -15,9 +15,9 @@ namespace GM.Mercs.Controllers
         [SerializeField] protected MovementController MoveController;
 
         [Header("Properties")]
-        [SerializeField] float AttackRange = 1.0f;
+        [SerializeField] private float AttackRange = 1.0f;
 
-        void Awake()
+        private void Awake()
         {
             SubscribeToEvents();
             GetRequiredComponents();
@@ -42,7 +42,7 @@ namespace GM.Mercs.Controllers
             return dist <= AttackRange;
         }
 
-        void InstantiateAttackImpactObject()
+        private void InstantiateAttackImpactObject()
         {
             Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition(), Quaternion.identity);
         }
@@ -73,7 +73,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        IEnumerator UpdateLoop()
+        private IEnumerator UpdateLoop()
         {
             while (HasControl && EnemyUnits.TryGetUnit(ref CurrentTarget))
             {

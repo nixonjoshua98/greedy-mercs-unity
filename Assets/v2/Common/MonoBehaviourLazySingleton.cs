@@ -4,9 +4,8 @@ namespace GM.Common
 {
     public abstract class MonoBehaviourLazySingleton<T> : Core.GMMonoBehaviour where T : Component
     {
-        static object s_Lock = new object();
-
-        static T s_Instance;
+        private static readonly object s_Lock = new object();
+        private static T s_Instance;
 
         public static T Instance
         {

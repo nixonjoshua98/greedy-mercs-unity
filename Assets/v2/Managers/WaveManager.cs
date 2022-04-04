@@ -9,17 +9,17 @@ namespace GM
     public class WaveManager : GM.Core.GMMonoBehaviour
     {
         /* Scene Components */
-        IEnemyUnitQueue Enemies;
-        IEnemyUnitFactory UnitManager;
+        private IEnemyUnitQueue Enemies;
+        private IEnemyUnitFactory UnitManager;
 
         [HideInInspector] public UnityEvent<UnitFactoryInstantiatedBossUnit> E_BossSpawn { get; private set; } = new();
         [HideInInspector] public UnityEvent E_BossDefeated { get; private set; } = new();
         [HideInInspector] public UnityEvent E_EnemyDefeated { get; private set; } = new();
         [HideInInspector] public UnityEvent<List<GM.Units.UnitBaseClass>> E_OnWaveStart { get; private set; } = new();
 
-        CurrentPrestigeState CurrentGameState => App.GameState;
+        private CurrentPrestigeState CurrentGameState => App.GameState;
 
-        void Awake()
+        private void Awake()
         {
             Enemies = this.GetComponentInScene<IEnemyUnitQueue>();
             UnitManager = this.GetComponentInScene<IEnemyUnitFactory>();
@@ -37,7 +37,7 @@ namespace GM
             }
         }
 
-        void SetupWave()
+        private void SetupWave()
         {
             List<GM.Units.UnitBaseClass> enemies = new List<Units.UnitBaseClass>();
 
@@ -60,7 +60,7 @@ namespace GM
             E_OnWaveStart.Invoke(enemies);
         }
 
-        void StartStageBoss()
+        private void StartStageBoss()
         {
             UnitFactoryInstantiatedBossUnit enemy = UnitManager.InstantiateEnemyBossUnit();
 
@@ -83,7 +83,7 @@ namespace GM
 
         // = Event Callbacks = //
 
-        void OnEnemyZeroHealth()
+        private void OnEnemyZeroHealth()
         {
             CurrentGameState.EnemiesDefeated++;
 
@@ -96,7 +96,7 @@ namespace GM
             }
         }
 
-        void OnBossZeroHealth()
+        private void OnBossZeroHealth()
         {
             CurrentGameState.Stage++;
             CurrentGameState.EnemiesDefeated = 0;

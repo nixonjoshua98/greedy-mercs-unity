@@ -8,9 +8,9 @@ namespace GM.PlayerStats
         public LifetimeStatsModel ConfirmedLifetimeStats;
         public LifetimeStatsModel LocalLifetimeStats { get => App.PersistantLocalFile.LocalLifetimeStats; set => App.PersistantLocalFile.LocalLifetimeStats = value; }
 
-        public TimedPlayerStatsModel LocalDailyStats { get => App.PersistantLocalFile.LocalDailyStats; }
+        public TimedPlayerStatsModel LocalDailyStats => App.PersistantLocalFile.LocalDailyStats;
 
-        public int HighestStageReached { get => Math.Max(App.GameState.Stage, ConfirmedLifetimeStats.HighestPrestigeStage); }
+        public int HighestStageReached => Math.Max(App.GameState.Stage, ConfirmedLifetimeStats.HighestPrestigeStage);
 
         public void Set(LifetimeStatsModel userData)
         {

@@ -14,9 +14,15 @@ namespace GM
 
     public static class FileUtils
     {
-        public static string ResolvePath(string name) => $"{Application.persistentDataPath}/{name}";
+        public static string ResolvePath(string name)
+        {
+            return $"{Application.persistentDataPath}/{name}";
+        }
 
-        public static void DeleteFile(string path) => File.Delete(ResolvePath(path));
+        public static void DeleteFile(string path)
+        {
+            File.Delete(ResolvePath(path));
+        }
 
         public static FileStatus LoadModel<T>(string path, out T result) where T : new()
         {
@@ -60,7 +66,7 @@ namespace GM
             WriteToFile(path, encrypted);
         }
 
-        static void WriteToFile(string path, string text)
+        private static void WriteToFile(string path, string text)
         {
             BinaryFormatter bf = new BinaryFormatter();
 
@@ -72,7 +78,7 @@ namespace GM
             }
         }
 
-        static string ReadFromFile(string path)
+        private static string ReadFromFile(string path)
         {
             BinaryFormatter bf = new BinaryFormatter();
 

@@ -6,7 +6,7 @@ namespace GM.Controllers
 {
     public class ClickAnimationController : AbstractClickController
     {
-        static ClickAnimationController Instance = null;
+        private static ClickAnimationController Instance = null;
 
         [Header("References")]
         public GameObject ClickPS;
@@ -14,7 +14,7 @@ namespace GM.Controllers
         [Space]
         public ObjectPool ParticlePool;
 
-        void Start()
+        private void Start()
         {
             if (Instance == null)
             {

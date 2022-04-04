@@ -4,8 +4,8 @@ namespace GM.Mercs.Controllers
 {
     public abstract class AbstractUnitActionController : MonoBehaviour, IUnitActionController
     {
-        [SerializeField] int _Priority;
-        bool _HasControl;
+        [SerializeField] private int _Priority;
+        private bool _HasControl;
 
         // Public accessors
         public int Priority { get => _Priority; protected set => _Priority = value; }

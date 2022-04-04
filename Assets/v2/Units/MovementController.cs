@@ -47,12 +47,12 @@ namespace GM.Units
             }
         }
 
-        void LookAtDirection(Vector3 dir)
+        private void LookAtDirection(Vector3 dir)
         {
             LookAt(transform.position + (dir * 100));
         }
 
-        void LookAt(Vector3 pos)
+        private void LookAt(Vector3 pos)
         {
             bool isTargetRight = pos.x > transform.position.x;
             bool isFacingRight = Avatar.transform.localScale.x >= 0.0f;

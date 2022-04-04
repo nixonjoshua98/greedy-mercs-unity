@@ -7,7 +7,7 @@ namespace GM.UI
     {
         public CurrencyType Item;
 
-        void Awake()
+        private void Awake()
         {
             SetSprite(Item);
         }
@@ -17,7 +17,7 @@ namespace GM.UI
             SetSprite(item);
         }
 
-        void SetSprite(CurrencyType item)
+        private void SetSprite(CurrencyType item)
         {
             GetComponent<Image>().sprite = App.Items.GetItem(item).Icon;
         }

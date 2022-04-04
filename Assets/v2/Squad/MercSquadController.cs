@@ -20,30 +20,30 @@ namespace GM.Mercs
 
     public class MercSquadController : Core.GMMonoBehaviour, ISquadController
     {
-        List<MercBaseClass> UnitQueue = new List<MercBaseClass>();
-        List<MercID> UnitIDs = new List<MercID>();
+        private readonly List<MercBaseClass> UnitQueue = new List<MercBaseClass>();
+        private readonly List<MercID> UnitIDs = new List<MercID>();
 
         public UnityEvent E_MercAddedToSquad { get; private set; } = new UnityEvent();
         public UnityEvent<MercBaseClass> E_UnitSpawned { get; set; } = new UnityEvent<MercBaseClass>();
 
-        void Awake()
+        private void Awake()
         {
             SubscribeToEvents();
 
             App.Mercs.MercsInSquad.ForEach(merc => AddToSquad(merc));
         }
 
-        void SubscribeToEvents()
+        private void SubscribeToEvents()
         {
             App.Mercs.E_OnMercUnlocked.AddListener(GMApplication_OnMercUnlocked);
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             UpdateMercsEnergy();
         }
 
-        void UpdateMercsEnergy()
+        private void UpdateMercsEnergy()
         {
             float ts = Time.fixedDeltaTime;
 
@@ -81,7 +81,7 @@ namespace GM.Mercs
             UnitIDs.Remove(unit.Id);
         }
 
-        void AddMercToQueue(MercID unitId, MercSetupPayload payload)
+        private void AddMercToQueue(MercID unitId, MercSetupPayload payload)
         {
             MercBaseClass unit = InstantiateMerc(unitId, payload);
 
@@ -91,7 +91,10 @@ namespace GM.Mercs
             E_UnitSpawned.Invoke(unit);
         }
 
-        bool UnitExistsInQueue(MercID unit) => UnitIDs.Contains(unit);
+        private bool UnitExistsInQueue(MercID unit)
+        {
+            return UnitIDs.Contains(unit);
+        }
 
         public bool TryGetUnit(out MercBaseClass unit)
         {
@@ -99,11 +102,17 @@ namespace GM.Mercs
             return unit != null;
         }
 
-        public MercBaseClass GetUnitAtQueuePosition(int idx) => UnitQueue[idx];
+        public MercBaseClass GetUnitAtQueuePosition(int idx)
+        {
+            return UnitQueue[idx];
+        }
 
-        public int GetQueuePosition(MercBaseClass unit) => UnitQueue.FindIndex((u) => u == unit);
+        public int GetQueuePosition(MercBaseClass unit)
+        {
+            return UnitQueue.FindIndex((u) => u == unit);
+        }
 
-        MercBaseClass InstantiateMerc(MercID unitId)
+        private MercBaseClass InstantiateMerc(MercID unitId)
         {
             Vector2 pos = new Vector2(Camera.main.MinBounds().x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
 
@@ -116,7 +125,7 @@ namespace GM.Mercs
             return mercBase;
         }
 
-        MercBaseClass InstantiateMerc(MercID unitId, MercSetupPayload payload)
+        private MercBaseClass InstantiateMerc(MercID unitId, MercSetupPayload payload)
         {
             MercBaseClass mercBase = InstantiateMerc(unitId);
 
@@ -139,7 +148,7 @@ namespace GM.Mercs
 
         // Event Listeners //
 
-        void GMApplication_OnMercUnlocked(MercID mercId)
+        private void GMApplication_OnMercUnlocked(MercID mercId)
         {
             if (!App.Mercs.IsSquadFull)
             {

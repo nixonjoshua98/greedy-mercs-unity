@@ -6,10 +6,9 @@ namespace GM.UI
     public class DestroyButton : MonoBehaviour
     {
         public GameObject TargetObject;
+        private Button Button;
 
-        Button Button;
-
-        void Awake()
+        private void Awake()
         {
             Button = GetComponent<Button>();
 
@@ -22,7 +21,7 @@ namespace GM.UI
             set => Button.interactable = value;
         }
 
-        void OnClick()
+        private void OnClick()
         {
             Destroy(TargetObject);
             Destroy(gameObject);

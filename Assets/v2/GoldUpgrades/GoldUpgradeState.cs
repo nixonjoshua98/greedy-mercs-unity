@@ -13,6 +13,9 @@
         public const int MaxLevel_ = 1_000;
         public bool IsMaxLevel => Level >= MaxLevel_;
 
-        public BigDouble UpgradeCost(int levels) => App.GMCache.TapUpgradeCost(levels);
+        public BigDouble UpgradeCost(int levels)
+        {
+            return App.GMCache.TapUpgradeCost(levels);
+        }
     }
 }

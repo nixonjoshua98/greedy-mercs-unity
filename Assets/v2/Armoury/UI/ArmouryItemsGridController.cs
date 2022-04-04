@@ -16,8 +16,7 @@ namespace GM.Armoury.UI
 
         [Header("Properties")]
         public int NumColumns = 3;
-
-        Dictionary<int, ArmouryItemSlot> ItemSlots = new Dictionary<int, ArmouryItemSlot>();
+        private readonly Dictionary<int, ArmouryItemSlot> ItemSlots = new Dictionary<int, ArmouryItemSlot>();
 
         public void Populate(List<ArmouryItemData> items)
         {
@@ -35,7 +34,7 @@ namespace GM.Armoury.UI
             ItemsGridLayout.UpdateCellSize();
         }
 
-        ArmouryItemSlot GetItemSlot(int itemId)
+        private ArmouryItemSlot GetItemSlot(int itemId)
         {
             if (!ItemSlots.TryGetValue(itemId, out ArmouryItemSlot slot))
             {

@@ -7,12 +7,12 @@ namespace GM.UI
     [RequireComponent(typeof(RectTransform))]
     public class PanelPopupAnimation : MonoBehaviour
     {
-        void OnEnable()
+        private void OnEnable()
         {
             StartCoroutine(Animation());
         }
 
-        IEnumerator Animation()
+        private IEnumerator Animation()
         {
             RectTransform rt = GetComponent<RectTransform>();
 

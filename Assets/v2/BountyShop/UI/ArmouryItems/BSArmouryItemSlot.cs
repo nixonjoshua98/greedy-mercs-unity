@@ -23,7 +23,7 @@ namespace GM.BountyShop.UI
             CheckAvailability();
         }
 
-        void CheckAvailability()
+        private void CheckAvailability()
         {
             OutStockObject.SetActive(!AssignedItem.InStock);
         }

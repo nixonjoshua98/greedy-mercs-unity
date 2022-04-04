@@ -2,7 +2,7 @@ namespace GM.Artefacts.UI
 {
     public abstract class ArtefactUIObject : GM.UI.SlotObject
     {
-        int AssignedArtefactId = -1;
+        private int AssignedArtefactId = -1;
 
         public virtual void AssignArtefact(int artefactId)
         {
@@ -15,6 +15,9 @@ namespace GM.Artefacts.UI
 
         protected Data.AggregatedArtefactData AssignedArtefact => App.Artefacts.GetArtefact(AssignedArtefactId);
 
-        protected string GetBonusText() => Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
+        protected string GetBonusText()
+        {
+            return Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
+        }
     }
 }

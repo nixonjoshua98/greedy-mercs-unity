@@ -14,21 +14,19 @@ namespace GM.Scenes
 
     public class SceneTransition : MonoBehaviour
     {
-        [SerializeField] Image image;
+        [SerializeField] private Image image;
 
-        [SerializeField] SceneTransitionType transition;
-
-        float TransitionSpeed = 1;
+        [SerializeField] private SceneTransitionType transition;
+        private readonly float TransitionSpeed = 1;
 
         public UnityEvent E_OnFinished { get; private set; } = new UnityEvent();
 
-        void Awake()
+        private void Awake()
         {
             image.fillAmount = transition == SceneTransitionType.INTRO ? 1 : 0;
         }
 
-
-        void Update()
+        private void Update()
         {
             float ts = Mathf.Min(1 / 60.0f, Time.unscaledDeltaTime);
 

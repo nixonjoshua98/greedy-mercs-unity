@@ -9,8 +9,7 @@ namespace GM.Quests.UI
         public TMP_Text ClaimRewardText;
 
         [HideInInspector] public AggregatedDailyQuest Quest;
-
-        Action<DailyQuestSlot> ClaimQuestFunction;
+        private Action<DailyQuestSlot> ClaimQuestFunction;
 
         public void Init(Action<DailyQuestSlot> claimQuestFunc, AggregatedDailyQuest quest)
         {
@@ -26,7 +25,7 @@ namespace GM.Quests.UI
             }
         }
 
-        void SetStaticUI()
+        private void SetStaticUI()
         {
             ClaimRewardText.text = Quest.DiamondsRewarded.ToString();
 
@@ -43,7 +42,7 @@ namespace GM.Quests.UI
             }
         }
 
-        void UpdateWhenCompleted()
+        private void UpdateWhenCompleted()
         {
             ProgressSlider.value = 1.0f;
             Destroy(CompleteButton.gameObject);

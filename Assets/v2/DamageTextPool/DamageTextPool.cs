@@ -15,7 +15,7 @@ namespace GM.DamageTextPool
 
     public class DamageTextPool : MonoBehaviour, IDamageTextPool
     {
-        [SerializeField] GM.Common.ObjectPool Pool;
+        [SerializeField] private GM.Common.ObjectPool Pool;
 
         public void Spawn(Vector3 position, string value)
         {
@@ -36,7 +36,7 @@ namespace GM.DamageTextPool
             Spawn(unit.Avatar.Bounds.RandomCenterPosition(), Format.Number(value), damageType.TextColor());
         }
 
-        void Spawn(Vector3 position, string value, Color color)
+        private void Spawn(Vector3 position, string value, Color color)
         {
             GM.UI.DamageNumberTextPopup popup = Pool.Spawn<GM.UI.DamageNumberTextPopup>();
 

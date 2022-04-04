@@ -27,7 +27,7 @@ namespace GM.Mercs.UI
             SetUI();
         }
 
-        void SetUI()
+        private void SetUI()
         {
             NameText.text = $"{AssignedMerc.Name} Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>";
             EnergyText.text = AssignedMerc.SpawnEnergyRequired.ToString();

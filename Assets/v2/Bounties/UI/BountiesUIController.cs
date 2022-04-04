@@ -17,20 +17,19 @@ namespace GM.Bounties.UI
         public Slider ClaimSlider;
         public Image ClaimSliderFill;
         public Transform BountySlotParent;
+        private readonly Dictionary<int, BountySlot> slots = new Dictionary<int, BountySlot>();
 
-        Dictionary<int, BountySlot> slots = new Dictionary<int, BountySlot>();
-
-        void Awake()
+        private void Awake()
         {
             UpdateBountySlots();
         }
 
-        void Start()
+        private void Start()
         {
             StartCoroutine(_InternalLoop());
         }
 
-        IEnumerator _InternalLoop()
+        private IEnumerator _InternalLoop()
         {
             while (true)
             {
@@ -40,7 +39,7 @@ namespace GM.Bounties.UI
             }
         }
 
-        void UpdateBountySlots()
+        private void UpdateBountySlots()
         {
             var unlockedBounties = App.Bounties.UnlockedBounties;
 
@@ -59,7 +58,7 @@ namespace GM.Bounties.UI
             }
         }
 
-        void UpdateClaimUI()
+        private void UpdateClaimUI()
         {
             ClaimAmountText.text = $"{App.Bounties.TotalUnclaimedPoints}/{App.Bounties.MaxClaimPoints}";
             ClaimSlider.value = App.Bounties.ClaimPercentFilled;

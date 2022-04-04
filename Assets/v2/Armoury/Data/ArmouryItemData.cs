@@ -5,8 +5,8 @@ namespace GM.Armoury.Data
 {
     public class ArmouryItemData : Core.GMClass
     {
-        Models.ArmouryItem Game;
-        Models.ArmouryItemUserDataModel User;
+        private readonly Models.ArmouryItem Game;
+        private readonly Models.ArmouryItemUserDataModel User;
 
         public ArmouryItemData(Models.ArmouryItem game, Models.ArmouryItemUserDataModel user)
         {
@@ -26,6 +26,9 @@ namespace GM.Armoury.Data
         public int CurrentLevel => User.Level;
 
         public double BonusValue => App.GMCache.ArmouryItemBonusValue(this);
-        public int UpgradeCost() => App.GMCache.ArmouryItemUpgradeCost(this);
+        public int UpgradeCost()
+        {
+            return App.GMCache.ArmouryItemUpgradeCost(this);
+        }
     }
 }

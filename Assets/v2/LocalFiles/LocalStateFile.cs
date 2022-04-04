@@ -5,7 +5,7 @@ namespace GM
 {
     public class LocalStateFile
     {
-        const string FilePath = "LocalStateFile";
+        private const string FilePath = "LocalStateFile";
 
         public CurrentPrestigeState GameState = new CurrentPrestigeState();
         public List<UserMercState> Mercs = new List<UserMercState>();

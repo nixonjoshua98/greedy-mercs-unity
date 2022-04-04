@@ -7,8 +7,8 @@ namespace GM.Mercs.Data
 {
     public class AggregatedMercData : Core.GMClass
     {
-        StaticMercData Game;
-        UserMercState User;
+        private readonly StaticMercData Game;
+        private readonly UserMercState User;
 
         public AggregatedMercData(StaticMercData gameData, UserMercState userData)
         {
@@ -46,7 +46,14 @@ namespace GM.Mercs.Data
         public List<MercPassiveReference> Passives => Game.Passives;
         public BigDouble BaseDamage => Game.BaseDamage;
         public BigDouble DamagePerAttack => App.GMCache.MercDamagePerAttack(this);
-        public BigDouble UpgradeCost(int numLevels) => App.GMCache.MercUpgradeCost(this, numLevels);
-        public bool IsPassiveUnlocked(MercPassiveReference passive) => User.Level >= passive.UnlockLevel;
+        public BigDouble UpgradeCost(int numLevels)
+        {
+            return App.GMCache.MercUpgradeCost(this, numLevels);
+        }
+
+        public bool IsPassiveUnlocked(MercPassiveReference passive)
+        {
+            return User.Level >= passive.UnlockLevel;
+        }
     }
 }

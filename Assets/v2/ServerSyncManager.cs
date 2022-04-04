@@ -6,24 +6,23 @@ namespace GM
 {
     public class ServerSyncManager : GM.Core.GMMonoBehaviour
     {
-        const float StatsSyncInterval = 1_000 * 30; // 30 Seconds
+        private const float StatsSyncInterval = 1_000 * 30; // 30 Seconds
 
-        bool isUpdatingQuests;
-        bool isUpdatingLifetimeStats;
+        private bool isUpdatingQuests;
+        private bool isUpdatingLifetimeStats;
+        private Stopwatch syncStatsWatch;
 
-        Stopwatch syncStatsWatch;
-
-        void Awake()
+        private void Awake()
         {
             syncStatsWatch = Stopwatch.StartNew();
         }
 
-        void Start()
+        private void Start()
         {
             StartCoroutine(_UpdateLoop());
         }
 
-        IEnumerator _UpdateLoop()
+        private IEnumerator _UpdateLoop()
         {
             while (true)
             {
@@ -43,14 +42,14 @@ namespace GM
             }
         }
 
-        void SyncStatsWithServer()
+        private void SyncStatsWithServer()
         {
             isUpdatingLifetimeStats = true;
 
             App.Stats.UpdateLifetimeStats(success => isUpdatingLifetimeStats = false);
         }
 
-        void FetchQuests()
+        private void FetchQuests()
         {
             isUpdatingQuests = true;
 

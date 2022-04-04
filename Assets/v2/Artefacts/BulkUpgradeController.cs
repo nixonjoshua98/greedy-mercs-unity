@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GM.Artefacts
 {
-    class BulkUpgradeChanges
+    internal class BulkUpgradeChanges
     {
         public double UpgradeCost = 0;
         public Dictionary<int, int> Upgrades = new Dictionary<int, int>();
@@ -11,13 +11,12 @@ namespace GM.Artefacts
 
     public class BulkUpgradeController : GM.Core.GMClass
     {
-        DateTime FirstUpdateTime;
-        Action<bool> UpgradeCallback;
-        float RequestInterval;
-        bool WaitingForResponse;
-
-        BulkUpgradeChanges UnprocessedChanges;
-        BulkUpgradeChanges RequestChanges;
+        private DateTime FirstUpdateTime;
+        private readonly Action<bool> UpgradeCallback;
+        private readonly float RequestInterval;
+        private bool WaitingForResponse;
+        private BulkUpgradeChanges UnprocessedChanges;
+        private BulkUpgradeChanges RequestChanges;
 
         public BulkUpgradeController(Action<bool> success, float interval = 3.0f)
         {
@@ -60,7 +59,7 @@ namespace GM.Artefacts
             }
         }
 
-        void OnResponseReceived()
+        private void OnResponseReceived()
         {
             WaitingForResponse = false;
 

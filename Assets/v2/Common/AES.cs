@@ -7,7 +7,7 @@ namespace GM
 {
     public static class AES
     {
-        private static byte[] key = Encoding.UTF8.GetBytes("1234567895645451");
+        private static readonly byte[] key = Encoding.UTF8.GetBytes("1234567895645451");
 
         public static string Encrypt(string plainText)
         {

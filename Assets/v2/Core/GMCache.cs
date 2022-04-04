@@ -11,7 +11,7 @@ namespace GM.Core
 {
     public class GMCache : GMClass
     {
-        List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
+        private List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
         {
             get
             {
@@ -29,16 +29,17 @@ namespace GM.Core
                 return ls;
             }
         }
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArtefactBonuses =>
+
+        private IEnumerable<KeyValuePair<BonusType, BigDouble>> ArtefactBonuses =>
             App.Artefacts.UserOwnedArtefacts.Select(s => new KeyValuePair<BonusType, BigDouble>(s.Bonus, s.Effect));
 
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArmouryBonuses =>
+        private IEnumerable<KeyValuePair<BonusType, BigDouble>> ArmouryBonuses =>
             App.Armoury.UserItems.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue));
 
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> BonusesFromBounties =>
+        private IEnumerable<KeyValuePair<BonusType, BigDouble>> BonusesFromBounties =>
             App.Bounties.UnlockedBounties.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue));
 
-        Dictionary<BonusType, BigDouble> CombinedBonuses
+        private Dictionary<BonusType, BigDouble> CombinedBonuses
         {
             get
             {
@@ -79,25 +80,17 @@ namespace GM.Core
         }
 
         #region Critical Hit
-        public float CriticalHitChance
-        {
-            get
-            {
-                return (float)(Constants.BASE_CRIT_CHANCE + CombinedBonuses.Get(BonusType.FLAT_CRIT_CHANCE, 0)).ToDouble();
-            }
-        }
+        public float CriticalHitChance => (float)(Constants.BASE_CRIT_CHANCE + CombinedBonuses.Get(BonusType.FLAT_CRIT_CHANCE, 0)).ToDouble();
 
-        public BigDouble CriticalHitMultiplier
-        {
-            get
-            {
-                return Constants.BASE_CRIT_MULTIPLIER + CombinedBonuses.Get(BonusType.MULTIPLY_CRIT_DMG, 1);
-            }
-        }
+        public BigDouble CriticalHitMultiplier => Constants.BASE_CRIT_MULTIPLIER + CombinedBonuses.Get(BonusType.MULTIPLY_CRIT_DMG, 1);
         #endregion
 
         #region Tap Upgrade
-        public BigDouble TapUpgradeCost(int levels) => GameFormulas.TapUpgradeUpgradeCost(App.GoldUpgrades.TapUpgrade.Level, levels);
+        public BigDouble TapUpgradeCost(int levels)
+        {
+            return GameFormulas.TapUpgradeUpgradeCost(App.GoldUpgrades.TapUpgrade.Level, levels);
+        }
+
         public BigDouble TapUpgradeDamage => GameFormulas.TapUpgradeDamage(App.GoldUpgrades.TapUpgrade.Level);
         #endregion
 
@@ -112,7 +105,10 @@ namespace GM.Core
             return ArtefactBaseEffect(art);
         }
 
-        public double ArtefactUnlockCost(int owned) => GameFormulas.ArtefactUnlockCost(owned);
+        public double ArtefactUnlockCost(int owned)
+        {
+            return GameFormulas.ArtefactUnlockCost(owned);
+        }
 
         public double ArtefactUpgradeCost(int artefactId, int levels)
         {
@@ -156,13 +152,7 @@ namespace GM.Core
         }
         #endregion
 
-        public BigDouble TotalTapDamage
-        {
-            get
-            {
-                return TapUpgradeDamage * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1);
-            }
-        }
+        public BigDouble TotalTapDamage => TapUpgradeDamage * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1);
 
         private Dictionary<BonusType, BigDouble> CreateBonusDictionary(IEnumerable<KeyValuePair<BonusType, BigDouble>> ls)
         {

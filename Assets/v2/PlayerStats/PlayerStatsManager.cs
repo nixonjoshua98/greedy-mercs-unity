@@ -4,7 +4,7 @@ namespace GM.PlayerStats
 {
     public class PlayerStatsManager : GM.Core.GMMonoBehaviour
     {
-        void Awake()
+        private void Awake()
         {
             WaveManager wave = this.GetComponentInScene<WaveManager>();
             TapController click = this.GetComponentInScene<TapController>();
@@ -15,19 +15,19 @@ namespace GM.PlayerStats
             click.E_OnTap.AddListener(TapController_OnTop);
         }
 
-        void WaveManager_OnEnemyDefeated()
+        private void WaveManager_OnEnemyDefeated()
         {
             App.Stats.LocalLifetimeStats.TotalEnemiesDefeated++;
             App.Stats.LocalDailyStats.TotalEnemiesDefeated++;
         }
 
-        void WaveManager_OnBossDefeated()
+        private void WaveManager_OnBossDefeated()
         {
             App.Stats.LocalLifetimeStats.TotalBossesDefeated++;
             App.Stats.LocalDailyStats.TotalBossesDefeated++;
         }
 
-        void TapController_OnTop()
+        private void TapController_OnTop()
         {
             App.Stats.LocalLifetimeStats.TotalTaps++;
             App.Stats.LocalDailyStats.TotalTaps++;

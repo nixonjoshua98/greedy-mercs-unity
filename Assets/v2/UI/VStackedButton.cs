@@ -8,9 +8,9 @@ namespace GM.UI
     {
         public TMP_Text TopText;
         public TMP_Text BtmText;
+        private Button _Button;
 
-        Button _Button;
-        Button Button
+        private Button Button
         {
             get
             {

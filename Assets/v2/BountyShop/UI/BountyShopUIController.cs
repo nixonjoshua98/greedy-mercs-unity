@@ -14,18 +14,18 @@ namespace GM.BountyShop.UI
         public Text RefreshText;
         public Transform ItemsParent;
 
-        void Awake()
+        private void Awake()
         {
             InstantiateItemSlots();
         }
 
-        void InstantiateItemSlots()
+        private void InstantiateItemSlots()
         {
             App.BountyShop.CurrencyItems.ForEach(item => Instantiate<BountyShopCurrencyTypeSlot>(CurrencyItemSlotObject, ItemsParent).Assign(item));
             App.BountyShop.ArmouryItems.ForEach(item => Instantiate<BSArmouryItemSlot>(ItemSlotObject, ItemsParent).Assign(item));
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             RefreshText.text = $"Daily Shop | <color=orange>{(App.DailyRefresh.Next - DateTime.UtcNow).Format()}</color>";
         }

@@ -13,30 +13,29 @@ namespace GM.Mercs.Controllers
     public class MercController : MercBaseClass
     {
         [Header("Components")]
-        [SerializeField] MovementController Movement;
-        List<IUnitActionController> ActionControllers;
-
-        UnitBaseClass CurrentTarget;
+        [SerializeField] private MovementController Movement;
+        private List<IUnitActionController> ActionControllers;
+        private UnitBaseClass CurrentTarget;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
 
         // Managers
-        IDamageTextPool DamageTextPool;
-        GameManager GameManager;
-        ISquadController SquadController;
+        private IDamageTextPool DamageTextPool;
+        private GameManager GameManager;
+        private ISquadController SquadController;
 
         // Energy
-        bool IsEnergyDepleted;
-        float EnergyRemaining;
+        private bool IsEnergyDepleted;
+        private float EnergyRemaining;
 
         // Properties
-        bool HasControl => !ActionControllers.Any(x => x.HasControl);
+        private bool HasControl => !ActionControllers.Any(x => x.HasControl);
 
         // ...
         public GM.Mercs.Data.AggregatedMercData MercDataValues => App.Mercs.GetMerc(Id);
 
-        void Awake()
+        private void Awake()
         {
             GetRequiredComponents();
 
@@ -52,7 +51,7 @@ namespace GM.Mercs.Controllers
             SquadController = this.GetComponentInScene<ISquadController>();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (!IsEnergyDepleted)
             {
@@ -60,7 +59,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        void UpdateMercWithEnergy()
+        private void UpdateMercWithEnergy()
         {
             int idx = SquadController.GetQueuePosition(this);
 
@@ -82,8 +81,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-
-        void ProcessActions()
+        private void ProcessActions()
         {
             for (int i = 0; i < ActionControllers.Count; i++)
             {
@@ -103,7 +101,7 @@ namespace GM.Mercs.Controllers
         /// <summary>
         /// Move forward in the merc queue
         /// </summary>
-        void FollowUnitInFront(int queueIndex)
+        private void FollowUnitInFront(int queueIndex)
         {
             UnitBaseClass unit = SquadController.GetUnitAtQueuePosition(queueIndex - 1);
 
@@ -128,7 +126,7 @@ namespace GM.Mercs.Controllers
             DealDamageToTarget();
         }
 
-        void DealDamageToTarget()
+        private void DealDamageToTarget()
         {
             DamageType damageType = DamageType.Normal;
 
@@ -154,7 +152,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        IEnumerator EnergyExhaustedAnimation()
+        private IEnumerator EnergyExhaustedAnimation()
         {
             Vector3 originalScale = transform.localScale;
 
@@ -170,7 +168,7 @@ namespace GM.Mercs.Controllers
             Destroy(gameObject);
         }
 
-        void ReduceEnergy(float value)
+        private void ReduceEnergy(float value)
         {
             if (EnergyRemaining > 0)
             {

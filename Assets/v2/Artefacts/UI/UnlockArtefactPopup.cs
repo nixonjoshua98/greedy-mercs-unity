@@ -17,15 +17,14 @@ namespace GM.Artefacts.UI
         public GM.UI.DestroyButton DestroyButton;
         public Button UnlockButton;
         public TMP_Text UnlockButtonText;
-
-        Action<AggregatedArtefactData> OnArtefactUnlocked;
+        private Action<AggregatedArtefactData> OnArtefactUnlocked;
 
         public void Init(Action<AggregatedArtefactData> action)
         {
             OnArtefactUnlocked = action;
         }
 
-        IEnumerator ArtefactRotationAnimation(AggregatedArtefactData unlockedArtefact, Action finishedAction)
+        private IEnumerator ArtefactRotationAnimation(AggregatedArtefactData unlockedArtefact, Action finishedAction)
         {
             // Fetch a random animation duration
             float animationTimer = UnityEngine.Random.Range(2.5f, 4.0f);
@@ -62,7 +61,7 @@ namespace GM.Artefacts.UI
             finishedAction.Invoke();
         }
 
-        void UpdateUnlockButtonText()
+        private void UpdateUnlockButtonText()
         {
             UnlockButton.interactable = true;
 

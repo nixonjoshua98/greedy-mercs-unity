@@ -36,33 +36,21 @@ namespace GM.Quests
         public long LongValue;
 
         public override bool IsCompleted => App.Quests.IsDailyQuestCompleted(ID);
-        public override float CurrentProgress
+        public override float CurrentProgress => ActionType switch
         {
-            get
-            {
-                return ActionType switch
-                {
-                    QuestActionType.Prestige => App.Stats.LocalDailyStats.TotalPrestiges / (float)LongValue,
-                    QuestActionType.EnemiesDefeated => App.Stats.LocalDailyStats.TotalEnemiesDefeated / (float)LongValue,
-                    QuestActionType.BossesDefeated => App.Stats.LocalDailyStats.TotalBossesDefeated / (float)LongValue,
-                    QuestActionType.Taps => App.Stats.LocalDailyStats.TotalTaps / (float)LongValue
-                };
-            }
-        }
+            QuestActionType.Prestige => App.Stats.LocalDailyStats.TotalPrestiges / (float)LongValue,
+            QuestActionType.EnemiesDefeated => App.Stats.LocalDailyStats.TotalEnemiesDefeated / (float)LongValue,
+            QuestActionType.BossesDefeated => App.Stats.LocalDailyStats.TotalBossesDefeated / (float)LongValue,
+            QuestActionType.Taps => App.Stats.LocalDailyStats.TotalTaps / (float)LongValue
+        };
 
-        public override string Title
+        public override string Title => ActionType switch
         {
-            get
-            {
-                return ActionType switch
-                {
-                    QuestActionType.Prestige => $"Perform <color=orange>{LongValue}</color> Prestiges",
-                    QuestActionType.EnemiesDefeated => $"Defeat <color=orange>{LongValue}</color> Enemies",
-                    QuestActionType.BossesDefeated => $"Defeat <color=orange>{LongValue}</color> Stage Bosses",
-                    QuestActionType.Taps => $"Deal Tap Damage <color=orange>{LongValue}</color> Times"
-                };
-            }
-        }
+            QuestActionType.Prestige => $"Perform <color=orange>{LongValue}</color> Prestiges",
+            QuestActionType.EnemiesDefeated => $"Defeat <color=orange>{LongValue}</color> Enemies",
+            QuestActionType.BossesDefeated => $"Defeat <color=orange>{LongValue}</color> Stage Bosses",
+            QuestActionType.Taps => $"Deal Tap Damage <color=orange>{LongValue}</color> Times"
+        };
 
     }
 }

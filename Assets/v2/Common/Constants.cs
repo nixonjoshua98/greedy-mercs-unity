@@ -19,21 +19,24 @@ namespace GM.Common
 
         public static class Tags
         {
-            public static string EnemyBossUnitHealthBar = "EnemyBossUnitHealthBar";
+            public const string BossUnitHealthBar = "EnemyBossUnitHealthBar";
             public const string MainCanvas = "MainCanvas";
         }
 
         public static class Colors
         {
-            public static Color Green = Color255(32, 200, 0);
-            public static Color Orange = Color255(216, 128, 8);
-            public static Color Red = Color255(255, 0, 0);
-            public static Color SoftBlue = Color255(0, 128, 255);
-            public static Color Grey = Color255(128, 128, 128);
-            public static Color Gold = Color255(212, 175, 55);
-            public static Color Yellow = Color255(255, 165, 0);
+            public static readonly Color Green = Color255(32, 200, 0);
+            public static readonly Color Orange = Color255(216, 128, 8);
+            public static readonly Color Red = Color255(255, 0, 0);
+            public static readonly Color SoftBlue = Color255(0, 128, 255);
+            public static readonly Color Grey = Color255(128, 128, 128);
+            public static readonly Color Gold = Color255(212, 175, 55);
+            public static readonly Color Yellow = Color255(255, 165, 0);
 
-            static Color Color255(float r, float g, float b) => new Color(r / 255, g / 255, b / 255);
+            private static Color Color255(float r, float g, float b)
+            {
+                return new(r / 255, g / 255, b / 255);
+            }
         }
     }
 }

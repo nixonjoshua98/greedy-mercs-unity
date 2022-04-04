@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.UI
 {
-    enum OptionsViewState { SHOWN, HIDDEN }
+    internal enum OptionsViewState { SHOWN, HIDDEN }
 
     public class AmountSelector : MonoBehaviour
     {
@@ -17,16 +17,14 @@ namespace GM.UI
         [Space]
         public List<Button> Options;
         public int[] OptionValues;
-
-        OptionsViewState optionsState = OptionsViewState.HIDDEN;
+        private OptionsViewState optionsState = OptionsViewState.HIDDEN;
 
         [HideInInspector] public UnityEvent<int> E_OnChange = new UnityEvent<int>();
-
-        int currentButtonIndex = 0; // Current index for button selected
+        private int currentButtonIndex = 0; // Current index for button selected
 
         public int Current => OptionValues[currentButtonIndex];
 
-        void Awake()
+        private void Awake()
         {
             HideOptions();
             AssignOptionCallbacks();
@@ -35,7 +33,7 @@ namespace GM.UI
         /// <summary>
         /// Set some default values after creation
         /// </summary>
-        void Start()
+        private void Start()
         {
             Button btn = Options[0];
 
@@ -55,7 +53,7 @@ namespace GM.UI
         /// <summary>
         /// Assign all callbacks to each button
         /// </summary>
-        void AssignOptionCallbacks()
+        private void AssignOptionCallbacks()
         {
             for (int i = 0; i < Options.Count; ++i)
             {
@@ -68,7 +66,7 @@ namespace GM.UI
         /// <summary>
         /// Assign the callback to the button and remove all other listeners
         /// </summary>
-        void AssignCallback(Button t, int index)
+        private void AssignCallback(Button t, int index)
         {
             t.onClick.AddListener(() => { OnOptionButtonDown(t, index); });
         }
@@ -87,7 +85,7 @@ namespace GM.UI
         /// <summary>
         /// Callback for when an option button is clicked (e.g 1x, 10x, 100x...)
         /// </summary>
-        void OnOptionButtonDown(Button btn, int index)
+        private void OnOptionButtonDown(Button btn, int index)
         {
             TMP_Text txt = btn.GetComponentInChildren<TMP_Text>();
 
@@ -100,7 +98,7 @@ namespace GM.UI
             E_OnChange.Invoke(Current);
         }
 
-        void HideOptions()
+        private void HideOptions()
         {
             SelectButton.gameObject.SetActive(true);
 
@@ -109,7 +107,7 @@ namespace GM.UI
             optionsState = OptionsViewState.HIDDEN;
         }
 
-        void ShowOptions()
+        private void ShowOptions()
         {
             SelectButton.gameObject.SetActive(false);
 

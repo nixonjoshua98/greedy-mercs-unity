@@ -7,7 +7,7 @@ namespace GM.Bounties.UI
     public class BountySlot : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject InfoPopupObject;
+        [SerializeField] private GameObject InfoPopupObject;
 
         [Header("References")]
         public TMP_Text NameText;
@@ -16,9 +16,8 @@ namespace GM.Bounties.UI
         public Image IconImage;
         [Space]
         public GameObject UpgradeButton;
-
-        int _bountyId = -1;
-        public Models.AggregatedBounty Bounty { get => App.Bounties.GetUnlockedBounty(_bountyId); }
+        private int _bountyId = -1;
+        public Models.AggregatedBounty Bounty => App.Bounties.GetUnlockedBounty(_bountyId);
 
         public virtual void Assign(int bountyId)
         {

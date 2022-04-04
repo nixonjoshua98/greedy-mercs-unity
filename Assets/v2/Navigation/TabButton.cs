@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace GM.Navigation
 {
     [System.Serializable]
-    class TabStateSprites
+    internal class TabStateSprites
     {
         public Color Selected = GM.Common.Constants.Colors.Orange;
         public Color Unselected = GM.Common.Constants.Colors.Grey;
@@ -18,13 +18,13 @@ namespace GM.Navigation
         public bool InitiallySelected;
 
         [Space]
-        [SerializeField] Image Background;
-        [SerializeField] TabStateSprites Colours;
+        [SerializeField] private Image Background;
+        [SerializeField] private TabStateSprites Colours;
 
         public UnityEvent OnSelected;
         public UnityEvent OnDeselected;
 
-        void Awake()
+        private void Awake()
         {
             Group.Subscribe(this);
         }

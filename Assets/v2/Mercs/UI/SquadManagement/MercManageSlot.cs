@@ -16,12 +16,12 @@ namespace GM.Mercs.UI
         public Image MercIconImage;
         public TMP_Text LevelText;
         public TMP_Text NameText;
-        [SerializeField] TMP_Text EnergyText;
+        [SerializeField] private TMP_Text EnergyText;
 
         public MercID MercID { get; private set; }
 
-        MercManagePopup Manager;
-        AggregatedMercData MercData;
+        private MercManagePopup Manager;
+        private AggregatedMercData MercData;
 
         public bool InSquad { get; private set; } = false;
 

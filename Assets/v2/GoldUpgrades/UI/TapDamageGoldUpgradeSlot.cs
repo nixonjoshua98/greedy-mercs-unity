@@ -10,13 +10,12 @@ namespace GM.GoldUpgrades.UI
         public TMP_Text DamageText;
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
-
-        int _buyAmount;
+        private int _buyAmount;
         protected int BuyAmount => MathUtils.NextMultipleMax(Upgrade.Level, _buyAmount, 1_000);
 
-        TapDamageGoldUpgrade Upgrade => App.GoldUpgrades.TapUpgrade;
+        private TapDamageGoldUpgrade Upgrade => App.GoldUpgrades.TapUpgrade;
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             UpdateButton();
 
@@ -24,7 +23,7 @@ namespace GM.GoldUpgrades.UI
             DamageText.text = $"<color=orange>{Format.Number(App.GMCache.TotalTapDamage)}</color> DMG";
         }
 
-        void UpdateButton()
+        private void UpdateButton()
         {
             UpgradeButton.SetText("MAX LEVEL", "");
 

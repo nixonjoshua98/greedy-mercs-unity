@@ -13,7 +13,7 @@ namespace GM.Models
         public int Minute;
         public int Second;
 
-        (DateTime, DateTime) RefreshPairFromDate(DateTime dt)
+        private (DateTime, DateTime) RefreshPairFromDate(DateTime dt)
         {
             DateTime refreshTime = new DateTime(dt.Year, dt.Month, dt.Day, Hour, Minute, Second);
 

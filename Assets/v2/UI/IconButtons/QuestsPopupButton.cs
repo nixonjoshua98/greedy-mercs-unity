@@ -5,14 +5,14 @@ namespace GM.UI.IconButtons
 {
     public class QuestsPopupButton : GM.Core.GMMonoBehaviour
     {
-        [SerializeField] PillBadge Pill;
+        [SerializeField] private PillBadge Pill;
 
-        void Awake()
+        private void Awake()
         {
             StartCoroutine(_InternalLoop());
         }
 
-        IEnumerator _InternalLoop()
+        private IEnumerator _InternalLoop()
         {
             while (true)
             {

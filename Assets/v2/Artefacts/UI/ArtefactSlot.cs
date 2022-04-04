@@ -20,11 +20,10 @@ namespace GM.Artefacts.UI
         public TMP_Text BonusText;
         [Space]
         public VStackedButton UpgradeButton;
+        private Action<int, int> upgradeCallback;
+        private int _BuyAmount; // Raw value. We should use BuyAmount for most cases
 
-        Action<int, int> upgradeCallback;
-        int _BuyAmount; // Raw value. We should use BuyAmount for most cases
-
-        int BuyAmount => MathUtils.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
+        private int BuyAmount => MathUtils.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
 
         public void Setup(int artefactId, AmountSelector selector, Action<int, int> callback)
         {
@@ -50,7 +49,7 @@ namespace GM.Artefacts.UI
             UpdateUI();
         }
 
-        void SetStaticUI()
+        private void SetStaticUI()
         {
             NameText.text = AssignedArtefact.Name;
             IconImage.sprite = AssignedArtefact.Icon;
@@ -58,7 +57,7 @@ namespace GM.Artefacts.UI
             if (AssignedArtefact.IconBackground != null) IconBackgroundImage.sprite = AssignedArtefact.IconBackground;
         }
 
-        void UpdateUI()
+        private void UpdateUI()
         {
             double ugradeCost = AssignedArtefact.UpgradeCost(BuyAmount);
 

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GM.Mercs.UI
 {
-    struct MercDamageValue
+    internal struct MercDamageValue
     {
         public MercID MercId;
         public DateTime Time;
@@ -24,12 +24,10 @@ namespace GM.Mercs.UI
     {
         [Header("Prefabs")]
         public GameObject PopupObject;
+        private List<MercDamageValue> damageValues = new List<MercDamageValue>();
+        private MercBattleSummaryPopup SummaryPopup;
 
-        List<MercDamageValue> damageValues = new List<MercDamageValue>();
-
-        MercBattleSummaryPopup SummaryPopup;
-
-        void Awake()
+        private void Awake()
         {
             MercSquadController squad = this.GetComponentInScene<MercSquadController>();
 
@@ -46,7 +44,7 @@ namespace GM.Mercs.UI
             InvokeRepeating("UpdateSummaryPopup", 0, 3);
         }
 
-        void UpdateSummaryPopup()
+        private void UpdateSummaryPopup()
         {
             damageValues = damageValues.Where(x => (DateTime.UtcNow - x.Time).TotalSeconds < 60).ToList();
 

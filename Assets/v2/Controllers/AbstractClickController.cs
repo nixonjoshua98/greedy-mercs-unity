@@ -6,18 +6,16 @@ namespace GM.Controllers
     public abstract class AbstractClickController : Core.GMMonoBehaviour
     {
         public int MaxClicksPerSeconds = 20;
+        private Stopwatch ClickStopWatch;
+        private float ClickIntervalMilliseconds;
 
-        Stopwatch ClickStopWatch;
-
-        float ClickIntervalMilliseconds;
-
-        void Awake()
+        private void Awake()
         {
             ClickStopWatch = Stopwatch.StartNew();
             ClickIntervalMilliseconds = 1.0f / MaxClicksPerSeconds;
         }
 
-        void Update()
+        private void Update()
         {
 #if UNITY_EDITOR
             Editor_MouseEvents();
@@ -26,7 +24,7 @@ namespace GM.Controllers
 #endif
         }
 
-        void Editor_MouseEvents()
+        private void Editor_MouseEvents()
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -34,7 +32,7 @@ namespace GM.Controllers
             }
         }
 
-        void Mobile_TouchEvents()
+        private void Mobile_TouchEvents()
         {
             for (int i = 0; i < Input.touchCount; ++i)
             {
@@ -47,7 +45,7 @@ namespace GM.Controllers
             }
         }
 
-        void AttemptClick(Vector2 screenPosition)
+        private void AttemptClick(Vector2 screenPosition)
         {
             float msSinceLastClick = ClickStopWatch.ElapsedMilliseconds;
 

@@ -6,23 +6,23 @@ namespace GM.Quests.UI
     public class MercQuestsTab : GM.Core.GMMonoBehaviour
     {
         [Space]
-        [SerializeField] GameObject QuestSlotObject;
+        [SerializeField] private GameObject QuestSlotObject;
 
         [Header("References")]
-        [SerializeField] TMP_Text InfoText;
-        [SerializeField] Transform QuestParent;
+        [SerializeField] private TMP_Text InfoText;
+        [SerializeField] private Transform QuestParent;
 
-        void Awake()
+        private void Awake()
         {
             InstantiateQuests();
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             InfoText.text = "Unlock new mercenaries";
         }
 
-        void InstantiateQuests()
+        private void InstantiateQuests()
         {
             foreach (var quest in App.Quests.MercQuests)
             {

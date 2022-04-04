@@ -36,13 +36,12 @@ namespace GM.HTTP
 
     public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>, IHTTPClient
     {
-        HTTPServerConfig ServerConfig = new HTTPServerConfig
+        private HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
             Address = "109.148.134.150"
         };
-
-        string Token = null;
+        private string Token = null;
 
         /// <summary>
         /// Send local stat changes to the server to sync
@@ -181,7 +180,7 @@ namespace GM.HTTP
             SendRequest("PUT", "BountyShop/Purchase/Currency", req, false, callback);
         }
 
-        UnityWebRequest CreateWebRequest<TRequest>(string method, string url, TRequest request, bool encrypt = false) where TRequest : IServerRequest
+        private UnityWebRequest CreateWebRequest<TRequest>(string method, string url, TRequest request, bool encrypt = false) where TRequest : IServerRequest
         {
             url = ResolveURL(url);
 
@@ -196,7 +195,7 @@ namespace GM.HTTP
             return www;
         }
 
-        void SendRequest<TRequest, TResponse>(string method, string url, TRequest request, bool encrypt, Action<TResponse> action) where TRequest : IServerRequest where TResponse : IServerResponse, new()
+        private void SendRequest<TRequest, TResponse>(string method, string url, TRequest request, bool encrypt, Action<TResponse> action) where TRequest : IServerRequest where TResponse : IServerResponse, new()
         {
             try
             {
@@ -215,7 +214,7 @@ namespace GM.HTTP
             }
         }
 
-        IEnumerator SendRequest(UnityWebRequest www, Action action)
+        private IEnumerator SendRequest(UnityWebRequest www, Action action)
         {
             using (www)
             {
@@ -230,9 +229,12 @@ namespace GM.HTTP
             }
         }
 
-        string ResolveURL(string endpoint) => $"{ServerConfig.Url}/{endpoint}";
+        private string ResolveURL(string endpoint)
+        {
+            return $"{ServerConfig.Url}/{endpoint}";
+        }
 
-        void SetRequestHeaders(UnityWebRequest www)
+        private void SetRequestHeaders(UnityWebRequest www)
         {
             www.SetRequestHeader("Content-Type", "application/json");
             www.SetRequestHeader("DeviceID", SystemInfo.deviceUniqueIdentifier);
@@ -243,7 +245,7 @@ namespace GM.HTTP
             }
         }
 
-        T DeserializeResponse<T>(UnityWebRequest www, bool encrpted) where T : IServerResponse, new()
+        private T DeserializeResponse<T>(UnityWebRequest www, bool encrpted) where T : IServerResponse, new()
         {
             string text = www.downloadHandler.text;
 
@@ -268,7 +270,7 @@ namespace GM.HTTP
             return model;
         }
 
-        string SerializeRequest<T>(T request, bool encrypt = false) where T : IServerRequest
+        private string SerializeRequest<T>(T request, bool encrypt = false) where T : IServerRequest
         {
             string str = JsonConvert.SerializeObject(request);
 
@@ -278,7 +280,7 @@ namespace GM.HTTP
             return str;
         }
 
-        void ResponseHandler<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
+        private void ResponseHandler<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
             bool isEncrypted = www.GetBoolResponseHeader(Constants.Headers.ResponseEncrypted, false);
 

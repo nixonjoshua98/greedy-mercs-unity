@@ -15,28 +15,29 @@ namespace GM.Mercs.UI
         [Space]
         public Transform SquadMercSlotsParent;
         [Space]
+        private readonly
 
         // ...
         Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
 
-        void Awake()
+        private void Awake()
         {
             SubscribeToEvents();
         }
 
-        void Start()
+        private void Start()
         {
             UpdateSlotsUI();
         }
 
-        void SubscribeToEvents()
+        private void SubscribeToEvents()
         {
             ISquadController squad = this.GetComponentInScene<ISquadController>();
 
             squad.E_MercAddedToSquad.AddListener(() => UpdateSlotsUI());
         }
 
-        void UpdateSlotsUI()
+        private void UpdateSlotsUI()
         {
             foreach (var merc in App.Mercs.UnlockedMercs)
             {
@@ -54,7 +55,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        void InstantiateSlot(MercID merc)
+        private void InstantiateSlot(MercID merc)
         {
             SquadMercSlot slot = Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
 
@@ -64,7 +65,7 @@ namespace GM.Mercs.UI
 
         }
 
-        void DestroySlot(MercID mercId)
+        private void DestroySlot(MercID mercId)
         {
             if (MercSlots.TryGetValue(mercId, out MercUIObject slot))
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GM.Mercs.UI
 {
     [System.Serializable]
-    struct IconBackgroundSprites
+    internal struct IconBackgroundSprites
     {
         public Sprite UnlockedSprite;
         public Sprite LockedSprite;
@@ -12,13 +12,12 @@ namespace GM.Mercs.UI
 
     public class MercPassiveSlot : MonoBehaviour
     {
-        [SerializeField] IconBackgroundSprites BackgroundSprites;
+        [SerializeField] private IconBackgroundSprites BackgroundSprites;
 
         [Header("References")]
         public TMP_Text UnlockLevelText;
         public TMP_Text BonusText;
-
-        MercPassiveReference AssignedPassive;
+        private MercPassiveReference AssignedPassive;
 
         public void Assign(MercPassiveReference passive, bool isUnlocked)
         {
@@ -27,7 +26,7 @@ namespace GM.Mercs.UI
             Toggle(isUnlocked);
         }
 
-        void Toggle(bool isUnlocked)
+        private void Toggle(bool isUnlocked)
         {
             UnlockLevelText.text = $"Level <color=orange>{AssignedPassive.UnlockLevel}</color>";
             BonusText.text = Format.Bonus(AssignedPassive.Values.Type, AssignedPassive.Values.Value);

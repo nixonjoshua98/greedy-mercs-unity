@@ -12,22 +12,20 @@ namespace GM.UI
         public TMP_Text Text;
 
         [Header("Properties")]
-        [SerializeField] Vector2 MinMoveVector = new Vector2(0, 125);
-        [SerializeField] Vector2 MaxMoveVector = new Vector2(0, 125);
+        [SerializeField] private Vector2 MinMoveVector = new Vector2(0, 125);
+        [SerializeField] private Vector2 MaxMoveVector = new Vector2(0, 125);
         [Space]
         public float Lifetime = 0.5f;
         public float FadeDuration = 0.5f;
 
         // ...
-        Vector2 MoveVector;
-        Color OriginalColour;
+        private Vector2 MoveVector;
+        private Color OriginalColour;
+        private float fadeTimer;
+        private float lifetimeTimer;
+        private bool isSet = false;
 
-        float fadeTimer;
-        float lifetimeTimer;
-
-        bool isSet = false;
-
-        void Awake()
+        private void Awake()
         {
             OriginalColour = Text.color;
         }
@@ -66,7 +64,7 @@ namespace GM.UI
             MoveVector = new Vector2(Random.Range(MinMoveVector.x, MaxMoveVector.x), Random.Range(MinMoveVector.y, MaxMoveVector.y));
         }
 
-        void Update()
+        private void Update()
         {
             if (isSet)
             {

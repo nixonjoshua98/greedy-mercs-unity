@@ -8,20 +8,19 @@ namespace GM.Mercs.Controllers
     public class MovingMeleeAttackController : AbstractUnitActionController, IUnitActionController
     {
         [Header("Properties")]
-        [SerializeField] float MoveSpeed = 10.0f;
-        [SerializeField] float AttackRange = 0.5f;
+        [SerializeField] private float MoveSpeed = 10.0f;
+        [SerializeField] private float AttackRange = 0.5f;
 
         [Header("Components")]
-        [SerializeField] UnitAvatar Avatar;
-        [SerializeField] MercController Controller;
-        [SerializeField] MovementController Movement;
+        [SerializeField] private UnitAvatar Avatar;
+        [SerializeField] private MercController Controller;
+        [SerializeField] private MovementController Movement;
 
         /* Scene Components */
-        IEnemyUnitQueue EnemyUnits;
+        private IEnemyUnitQueue EnemyUnits;
+        private bool HasPerformedAttack;
 
-        bool HasPerformedAttack;
-
-        void Awake()
+        private void Awake()
         {
             EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
         }
@@ -58,7 +57,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        IEnumerator MovingAttack()
+        private IEnumerator MovingAttack()
         {
             UnitBaseClass target = null;
             Vector3 moveDir = Vector3.zero;
@@ -93,14 +92,14 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        bool CanDefeatTargetOneHit(UnitBaseClass unit)
+        private bool CanDefeatTargetOneHit(UnitBaseClass unit)
         {
             HealthController health = unit.GetCachedComponent<HealthController>();
 
             return health.MaxHealth < Controller.MercDataValues.DamagePerAttack;
         }
 
-        Vector3 GetMoveDirection(UnitBaseClass unit)
+        private Vector3 GetMoveDirection(UnitBaseClass unit)
         {
             return (unit.transform.position - transform.position).normalized;
         }

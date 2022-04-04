@@ -2,7 +2,7 @@
 {
     public abstract class LazySingleton<T> : Core.GMClass where T : new()
     {
-        static T s_Instance;
+        private static T s_Instance;
 
         public static T Instance
         {

@@ -13,8 +13,7 @@ namespace GM.BountyShop.UI
         public TMP_Text OwnedText;
         [Space]
         public Image IconImage;
-
-        Action purchaseCallback; // Can be null
+        private Action purchaseCallback; // Can be null
 
         public void Assign(Data.BountyShopArmouryItem item, Action _purchaseCallback)
         {
@@ -31,7 +30,7 @@ namespace GM.BountyShop.UI
             UpdateUI();
         }
 
-        void UpdateUI()
+        private void UpdateUI()
         {
             if (App.Armoury.TryGetOwnedItem(AssignedItem.ItemID, out Armoury.Data.ArmouryItemData result))
             {

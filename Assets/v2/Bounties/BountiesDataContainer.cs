@@ -10,8 +10,8 @@ namespace GM.Bounties.Models
 {
     public class BountiesDataContainer : Core.GMClass
     {
-        UserBounties UserData;
-        BountiesDataModel GameData;
+        private UserBounties UserData;
+        private BountiesDataModel GameData;
 
         public void Set(UserBounties userData, BountiesDataModel gameData)
         {
@@ -27,7 +27,7 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Time since the last claim
         /// </summary>
-        TimeSpan TimeSinceClaim
+        private TimeSpan TimeSinceClaim
         {
             get
             {
@@ -51,12 +51,15 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Update the complete user bounty data
         /// </summary>
-        void UpdateUserData(UserBounties data) => UserData = data;
+        private void UpdateUserData(UserBounties data)
+        {
+            UserData = data;
+        }
 
         /// <summary>
         /// Update a single bounty (delete and re-add the bounty)
         /// </summary>
-        void UpdateUserBounty(UserBounty bounty)
+        private void UpdateUserBounty(UserBounty bounty)
         {
             UserData.UnlockedBounties.RemoveAll(b => b.BountyID == bounty.BountyID);
             UserData.UnlockedBounties.Add(bounty);
@@ -65,12 +68,18 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Load local data stored as scriptable objects
         /// </summary>
-        Dictionary<int, BountyLocalGameData> LoadLocalData() => Resources.LoadAll<BountyLocalGameData>("Scriptables/Bounties").ToDictionary(ele => ele.Id, ele => ele);
+        private Dictionary<int, BountyLocalGameData> LoadLocalData()
+        {
+            return Resources.LoadAll<BountyLocalGameData>("Scriptables/Bounties").ToDictionary(ele => ele.Id, ele => ele);
+        }
 
         /// <summary>
         /// Fetch the bounty user data
         /// </summary>
-        UserBounty GetUserBountyData(int key) => UserData.UnlockedBounties.Where(ele => ele.BountyID == key).FirstOrDefault();
+        private UserBounty GetUserBountyData(int key)
+        {
+            return UserData.UnlockedBounties.Where(ele => ele.BountyID == key).FirstOrDefault();
+        }
 
         /// <summary>
         /// Calculate the total hourly income from all active bounties
@@ -85,17 +94,23 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Fetch data for an unlocked bounty
         /// </summary>
-        public AggregatedBounty GetUnlockedBounty(int key) => new AggregatedBounty(GetGameBounty(key), GetUserBountyData(key));
+        public AggregatedBounty GetUnlockedBounty(int key)
+        {
+            return new AggregatedBounty(GetGameBounty(key), GetUserBountyData(key));
+        }
 
         /// <summary>
         /// Get data for a single bounty
         /// </summary>
-        public Models.Bounty GetGameBounty(int key) => GameData.Bounties.Where(ele => ele.ID == key).FirstOrDefault();
+        public Models.Bounty GetGameBounty(int key)
+        {
+            return GameData.Bounties.Where(ele => ele.ID == key).FirstOrDefault();
+        }
 
         /// <summary>
         /// Update the complete bounty data model
         /// </summary>
-        void UpdateStaticData(BountiesDataModel data)
+        private void UpdateStaticData(BountiesDataModel data)
         {
             GameData = data;
 

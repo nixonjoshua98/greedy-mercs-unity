@@ -8,8 +8,9 @@ namespace GM.Artefacts.Data
     {
         public readonly int Id;
 
-        ArtefactGameDataModel Game => App.Artefacts.GetGameArtefact(Id);
-        ArtefactUserDataModel User => App.Artefacts.GetUserArtefact(Id);
+        private ArtefactGameDataModel Game => App.Artefacts.GetGameArtefact(Id);
+
+        private ArtefactUserDataModel User => App.Artefacts.GetUserArtefact(Id);
 
         public AggregatedArtefactData(int artefactId)
         {
@@ -30,6 +31,9 @@ namespace GM.Artefacts.Data
         public float CostCoeff => Game.CostCoeff;
         public BigDouble Effect => App.GMCache.ArtefactEffect(this);
         public bool IsMaxLevel => CurrentLevel >= Game.MaxLevel;
-        public double UpgradeCost(int levels) => App.GMCache.ArtefactUpgradeCost(this, levels);
+        public double UpgradeCost(int levels)
+        {
+            return App.GMCache.ArtefactUpgradeCost(this, levels);
+        }
     }
 }

@@ -10,39 +10,40 @@ namespace GM.UI
     [RequireComponent(typeof(RectTransform))]
     public class AdjustGridLayoutCellSize : MonoBehaviour
     {
-        enum Axis { X, Y };
-        enum RatioMode { Free, Fixed };
+        private enum Axis { X, Y };
 
-        RectTransform RectTrans;
-        GridLayoutGroup Grid;
+        private enum RatioMode { Free, Fixed };
 
-        [SerializeField] Axis ExpandDirection;
-        [SerializeField] RatioMode ratioMode;
+        private RectTransform RectTrans;
+        private GridLayoutGroup Grid;
+
+        [SerializeField] private Axis ExpandDirection;
+        [SerializeField] private RatioMode ratioMode;
 
         [ShowIf("ratioMode", RatioMode.Fixed)]
-        [SerializeField] float cellRatio = 1;
+        [SerializeField] private float cellRatio = 1;
 
-        void Awake()
+        private void Awake()
         {
             Grid = GetComponent<GridLayoutGroup>();
             RectTrans = GetComponent<RectTransform>();
         }
 
-        void OnRectTransformDimensionsChange()
+        private void OnRectTransformDimensionsChange()
         {
             if (Grid is not null)
                 UpdateCellSize();
         }
 
 #if UNITY_EDITOR
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (Grid is not null)
                 UpdateCellSize();
         }
 #endif
 
-        void UpdateCellSize()
+        private void UpdateCellSize()
         {
             var count = Grid.constraintCount;
 

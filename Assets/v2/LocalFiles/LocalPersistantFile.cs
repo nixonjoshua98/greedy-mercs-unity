@@ -8,7 +8,7 @@ namespace GM.LocalFiles
 {
     public sealed class LocalPersistantFile : GM.Core.GMClass
     {
-        const string FilePath = "PersistantLocalFile";
+        private const string FilePath = "PersistantLocalFile";
 
         [JsonProperty]
         private TimedPlayerStatsModel _LocalDailyStats;

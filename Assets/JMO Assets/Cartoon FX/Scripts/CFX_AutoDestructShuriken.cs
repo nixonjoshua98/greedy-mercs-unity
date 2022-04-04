@@ -13,12 +13,12 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
     // If true, deactivate the object instead of destroying it
     public bool OnlyDeactivate;
 
-    void OnEnable()
+    private void OnEnable()
     {
         StartCoroutine("CheckIfAlive");
     }
 
-    IEnumerator CheckIfAlive()
+    private IEnumerator CheckIfAlive()
     {
         ParticleSystem ps = this.GetComponent<ParticleSystem>();
 

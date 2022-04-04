@@ -8,13 +8,13 @@ namespace GM.Bounties.UI
     public class BountyPopup : GM.UI.PopupPanelBase
     {
         [Header("References")]
-        [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text IncomeText;
-        [SerializeField] TMP_Text BonusText;
-        [SerializeField] TMP_Text DescriptionText;
+        [SerializeField] private TMP_Text NameText;
+        [SerializeField] private TMP_Text IncomeText;
+        [SerializeField] private TMP_Text BonusText;
+        [SerializeField] private TMP_Text DescriptionText;
         [Space]
-        [SerializeField] Slider LevelProgressSlider;
-        [SerializeField] Image IconImage;
+        [SerializeField] private Slider LevelProgressSlider;
+        [SerializeField] private Image IconImage;
 
         public void Set(AggregatedBounty bounty)
         {

@@ -48,8 +48,7 @@ namespace GM.Mercs.Controllers
             StartCoroutine(CooldownTask(secs));
         }
 
-
-        IEnumerator CooldownTask(float seconds)
+        private IEnumerator CooldownTask(float seconds)
         {
             IsOnCooldown = true;
             yield return new WaitForSeconds(seconds);

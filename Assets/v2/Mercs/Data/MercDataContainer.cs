@@ -10,8 +10,8 @@ namespace GM.Mercs.Data
 {
     public class MercDataContainer : Core.GMClass
     {
-        Dictionary<MercID, UserMercState> UserMercs = new Dictionary<MercID, UserMercState>();
-        Dictionary<MercID, StaticMercData> StaticMercs = new Dictionary<MercID, StaticMercData>();
+        private readonly Dictionary<MercID, UserMercState> UserMercs = new Dictionary<MercID, UserMercState>();
+        private readonly Dictionary<MercID, StaticMercData> StaticMercs = new Dictionary<MercID, StaticMercData>();
 
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
@@ -43,7 +43,7 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Perform some checks on the persistant file to avoid invalid data
         /// </summary>
-        void UpdatePersistantLocalFile(LocalPersistantFile file)
+        private void UpdatePersistantLocalFile(LocalPersistantFile file)
         {
             file.SquadMercIDs.RemoveWhere(id => !UserMercs.ContainsKey(id));
 
@@ -54,7 +54,7 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Update the merc states (level etc.) from the local save file
         /// </summary>
-        void SetStatesFromSaveFile(LocalStateFile model)
+        private void SetStatesFromSaveFile(LocalStateFile model)
         {
             foreach (var merc in model.Mercs)
             {
@@ -68,7 +68,7 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Sets default state for all unlocked mercs
         /// </summary>
-        void SetDefaultMercStates(List<UserMercDataModel> mercs)
+        private void SetDefaultMercStates(List<UserMercDataModel> mercs)
         {
             foreach (var merc in mercs)
             {
@@ -97,7 +97,7 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Update the internal static game data we have
         /// </summary>
-        void SetStaticData(StaticMercsModel model)
+        private void SetStaticData(StaticMercsModel model)
         {
             Dictionary<int, MercPassive> passives = model.Passives.ToDictionary(x => x.ID, x => x);
 
@@ -125,7 +125,7 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Set the merc passives using the static data
         /// </summary>
-        void UpdateMercPassivesFromReferences(ref StaticMercData merc, in Dictionary<int, MercPassive> passives)
+        private void UpdateMercPassivesFromReferences(ref StaticMercData merc, in Dictionary<int, MercPassive> passives)
         {
             foreach (MercPassiveReference reference in merc.Passives)
             {
@@ -141,12 +141,18 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Load local merc data and convert to a lookup dictionary
         /// </summary>
-        Dictionary<MercID, MercScriptableObject> LoadLocalData() => Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
+        private Dictionary<MercID, MercScriptableObject> LoadLocalData()
+        {
+            return Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
+        }
 
         /// <summary>
         /// Fetch the data about a merc
         /// </summary>
-        public StaticMercData GetGameMerc(MercID key) => StaticMercs[key];
+        public StaticMercData GetGameMerc(MercID key)
+        {
+            return StaticMercs[key];
+        }
 
         /// <summary>
         /// Fetch the squad mercs (stored in the PersistantLocalFile)
@@ -161,7 +167,10 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Fetch the aggregated dataclass for the unit
         /// </summary>
-        public AggregatedMercData GetMerc(MercID key) => new AggregatedMercData(StaticMercs[key], UserMercs[key]);
+        public AggregatedMercData GetMerc(MercID key)
+        {
+            return new AggregatedMercData(StaticMercs[key], UserMercs[key]);
+        }
 
         /// <summary> 
         /// Fetch the full data for all user unlocked mercs

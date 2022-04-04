@@ -9,7 +9,7 @@ namespace GM
             return ResponseHeaderExists(www, name) ? www.GetResponseHeader(name) == "true" : defaultValue;
         }
 
-        static bool ResponseHeaderExists(UnityWebRequest www, string name)
+        private static bool ResponseHeaderExists(UnityWebRequest www, string name)
         {
             return (www.GetResponseHeaders() ?? new()).ContainsKey(name);
         }

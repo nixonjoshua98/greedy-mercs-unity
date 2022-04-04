@@ -7,8 +7,8 @@ namespace GM.Bounties.Models
 {
     public class AggregatedBounty : GM.Core.GMClass
     {
-        Bounty _bounty;
-        UserBounty _userBounty;
+        private readonly Bounty _bounty;
+        private readonly UserBounty _userBounty;
 
         public AggregatedBounty(Bounty gameBounty, UserBounty userBounty)
         {

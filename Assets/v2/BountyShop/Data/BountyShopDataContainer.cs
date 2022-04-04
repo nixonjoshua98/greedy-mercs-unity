@@ -7,10 +7,9 @@ namespace GM.BountyShop.Data
 {
     public class BountyShopDataContainer : Core.GMClass
     {
-        Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
-
-        Dictionary<string, BountyShopArmouryItem> armouryItems = new Dictionary<string, BountyShopArmouryItem>();
-        Dictionary<string, BountyShopCurrencyItemModel> currencyItems = new Dictionary<string, BountyShopCurrencyItemModel>();
+        private readonly Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
+        private Dictionary<string, BountyShopArmouryItem> armouryItems = new Dictionary<string, BountyShopArmouryItem>();
+        private Dictionary<string, BountyShopCurrencyItemModel> currencyItems = new Dictionary<string, BountyShopCurrencyItemModel>();
 
         public void Set(CompleteBountyShopDataModel data)
         {
@@ -18,9 +17,12 @@ namespace GM.BountyShop.Data
             UpdateItemPurchases(data.Purchases);
         }
 
-        public int GetItemPurchaseData(string id) => itemPurchases.Get(id, 0);
+        public int GetItemPurchaseData(string id)
+        {
+            return itemPurchases.Get(id, 0);
+        }
 
-        void UpdateItemPurchases(List<BountyShopPurchaseModel> purchaseList)
+        private void UpdateItemPurchases(List<BountyShopPurchaseModel> purchaseList)
         {
             itemPurchases.Clear();
 
@@ -36,7 +38,7 @@ namespace GM.BountyShop.Data
         /// <summary>
         /// Update all items
         /// </summary>
-        void Update(BountyShopItemsModel items)
+        private void Update(BountyShopItemsModel items)
         {
             armouryItems = items.ArmouryItems.ToDictionary(ele => ele.ID, ele => ele);
             currencyItems = items.CurrencyItems.ToDictionary(ele => ele.ID, ele => ele);

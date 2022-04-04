@@ -13,7 +13,7 @@ namespace GM.UI
             StartCoroutine(IShowInnerPanel());
         }
 
-        IEnumerator IShowInnerPanel()
+        private IEnumerator IShowInnerPanel()
         {
             yield return new WaitForEndOfFrame();
 

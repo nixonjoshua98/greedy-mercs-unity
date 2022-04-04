@@ -3,11 +3,10 @@ using UnityEngine;
 
 namespace GM.Common
 {
-    class ObjectPoolObject
+    internal class ObjectPoolObject
     {
         public readonly GameObject GameObject;
-
-        float lastUsedTime;
+        private float lastUsedTime;
 
         public ObjectPoolObject(GameObject obj)
         {
@@ -19,17 +18,19 @@ namespace GM.Common
             lastUsedTime = Time.time;
         }
 
-        public bool Expired(float expireTimer = 30.0f) => (Time.time - lastUsedTime) >= expireTimer;
+        public bool Expired(float expireTimer = 30.0f)
+        {
+            return (Time.time - lastUsedTime) >= expireTimer;
+        }
     }
 
     public class ObjectPool : Core.GMMonoBehaviour
     {
-        [SerializeField] GameObject PooledObject;
-        [SerializeField] Transform ObjectParent = null;
+        [SerializeField] private GameObject PooledObject;
+        [SerializeField] private Transform ObjectParent = null;
+        private readonly List<ObjectPoolObject> Objects = new List<ObjectPoolObject>();
 
-        List<ObjectPoolObject> Objects = new List<ObjectPoolObject>();
-
-        GameObject Spawn()
+        private GameObject Spawn()
         {
             DestroyExpiredObjects();
 
@@ -48,9 +49,12 @@ namespace GM.Common
             return go;
         }
 
-        public T Spawn<T>() where T : Object => Spawn().GetComponent<T>();
+        public T Spawn<T>() where T : Object
+        {
+            return Spawn().GetComponent<T>();
+        }
 
-        bool TryGetAvailablePooledObject(out ObjectPoolObject obj)
+        private bool TryGetAvailablePooledObject(out ObjectPoolObject obj)
         {
             obj = null;
 
@@ -67,7 +71,7 @@ namespace GM.Common
             return false;
         }
 
-        void DestroyExpiredObjects()
+        private void DestroyExpiredObjects()
         {
             for (int i = 0; i < Objects.Count; ++i)
             {

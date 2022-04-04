@@ -31,7 +31,7 @@ namespace GM.UI
             }
         }
 
-        static void FetchWidth()
+        private static void FetchWidth()
         {
             Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
 

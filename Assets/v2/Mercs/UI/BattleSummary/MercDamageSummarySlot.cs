@@ -7,12 +7,12 @@ namespace GM.Mercs.UI
 {
     public class MercDamageSummarySlot : Core.GMMonoBehaviour
     {
-        [SerializeField] Sprite DefaultIcon;
+        [SerializeField] private Sprite DefaultIcon;
         [Space]
-        [SerializeField] Image MercIconImage;
-        [SerializeField] Slider DamageSlider;
-        [SerializeField] TMP_Text DamageText;
-        [SerializeField] TMP_Text NameText;
+        [SerializeField] private Image MercIconImage;
+        [SerializeField] private Slider DamageSlider;
+        [SerializeField] private TMP_Text DamageText;
+        [SerializeField] private TMP_Text NameText;
 
         public void SetEmpty()
         {

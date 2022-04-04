@@ -8,11 +8,10 @@ namespace GM.Quests
     {
         public DateTime QuestsCreatedAt { get; set; }
 
-        List<MercQuest> MercQuestsModels;
-        List<DailyQuest> DailyQuestsModels;
-
-        List<int> CompletedMercQuests;
-        List<int> CompletedDailyQuests;
+        private List<MercQuest> MercQuestsModels;
+        private List<DailyQuest> DailyQuestsModels;
+        private List<int> CompletedMercQuests;
+        private List<int> CompletedDailyQuests;
 
         public void Set(QuestsDataResponse model)
         {
@@ -26,12 +25,21 @@ namespace GM.Quests
         }
 
         public bool IsDailyQuestsValid => QuestsCreatedAt.IsBetween(App.DailyRefresh.PreviousNextReset);
-        public bool IsMercQuestCompleted(int questId) => CompletedMercQuests.Contains(questId);
-        public bool IsDailyQuestCompleted(int questId) => CompletedDailyQuests.Contains(questId);
+        public bool IsMercQuestCompleted(int questId)
+        {
+            return CompletedMercQuests.Contains(questId);
+        }
+
+        public bool IsDailyQuestCompleted(int questId)
+        {
+            return CompletedDailyQuests.Contains(questId);
+        }
 
         public int NumQuestsReadyToClaim => NumMercQuestsReadyToComplete + NumDailyQuestsReadyToComplete;
-        int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
-        int NumDailyQuestsReadyToComplete => DailyQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
+
+        private int NumMercQuestsReadyToComplete => MercQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
+
+        private int NumDailyQuestsReadyToComplete => DailyQuests.Where(x => !x.IsCompleted && x.CurrentProgress >= 1.0f).Count();
 
         public List<AggregatedDailyQuest> DailyQuests
         {

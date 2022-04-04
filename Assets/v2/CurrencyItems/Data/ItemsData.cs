@@ -8,7 +8,7 @@ namespace GM.CurrencyItems.Data
 {
     public class ItemsData
     {
-        Dictionary<CurrencyType, CurrencyItemScriptableObject> Items = new Dictionary<CurrencyType, CurrencyItemScriptableObject>();
+        private Dictionary<CurrencyType, CurrencyItemScriptableObject> Items = new Dictionary<CurrencyType, CurrencyItemScriptableObject>();
 
         public ItemsData()
         {
@@ -20,11 +20,14 @@ namespace GM.CurrencyItems.Data
             return Items[item];
         }
 
-        void Update()
+        private void Update()
         {
             Items = LoadLocalData();
         }
 
-        static Dictionary<CurrencyType, CurrencyItemScriptableObject> LoadLocalData() => Resources.LoadAll<CurrencyItemScriptableObject>("Scriptables/CurrencyItems").ToDictionary(x => x.Item, x => x);
+        private static Dictionary<CurrencyType, CurrencyItemScriptableObject> LoadLocalData()
+        {
+            return Resources.LoadAll<CurrencyItemScriptableObject>("Scriptables/CurrencyItems").ToDictionary(x => x.Item, x => x);
+        }
     }
 }

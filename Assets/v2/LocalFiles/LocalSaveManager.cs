@@ -7,12 +7,12 @@ namespace GM
     {
         public bool Paused { get; set; } = false;
 
-        void Awake()
+        private void Awake()
         {
             StartCoroutine(SaveLoop());
         }
 
-        IEnumerator SaveLoop()
+        private IEnumerator SaveLoop()
         {
             while (true)
             {

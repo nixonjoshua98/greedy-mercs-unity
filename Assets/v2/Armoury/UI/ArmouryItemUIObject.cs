@@ -4,7 +4,7 @@ namespace GM.Armoury.UI
 {
     public abstract class ArmouryItemUIObject : GM.UI.SlotObject
     {
-        int AssignedItemId = -1;
+        private int AssignedItemId = -1;
 
         public virtual void AssignItem(int itemId)
         {
@@ -17,6 +17,9 @@ namespace GM.Armoury.UI
 
         protected ArmouryItemData AssignedItem => App.Armoury.GetItem(AssignedItemId);
 
-        protected string GetBonusText() => Format.Bonus(AssignedItem.BonusType, AssignedItem.BonusValue, "orange");
+        protected string GetBonusText()
+        {
+            return Format.Bonus(AssignedItem.BonusType, AssignedItem.BonusValue, "orange");
+        }
     }
 }

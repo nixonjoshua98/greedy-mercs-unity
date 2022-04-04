@@ -6,12 +6,11 @@ namespace GM
 {
     public class GameManager : Core.GMMonoBehaviour
     {
-        IEnemyUnitQueue EnemyUnits;
+        private IEnemyUnitQueue EnemyUnits;
+        private WaveManager WaveManager;
+        private IDamageTextPool DamageNumberManager;
 
-        WaveManager WaveManager;
-        IDamageTextPool DamageNumberManager;
-
-        void Awake()
+        private void Awake()
         {
             EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
 
@@ -19,7 +18,7 @@ namespace GM
             DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
         }
 
-        void Start()
+        private void Start()
         {
             WaveManager.Run();
         }

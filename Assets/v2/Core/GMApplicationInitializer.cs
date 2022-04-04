@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace GM.Core
 {
-    struct InitialisationData
+    internal struct InitialisationData
     {
         public IServerUserData UserData;
         public IStaticGameData StaticData;
@@ -13,15 +13,14 @@ namespace GM.Core
 
     public class GMApplicationInitializer : MonoBehaviour
     {
-        InitialisationData Data = new();
+        private InitialisationData Data = new();
 
-        void Start()
+        private void Start()
         {
             LoginRequest();
         }
 
-
-        void LoginRequest()
+        private void LoginRequest()
         {
             HTTPClient.Instance.DeviceLogin((resp) =>
             {
@@ -36,8 +35,7 @@ namespace GM.Core
             });
         }
 
-
-        void FetchGameDataFromServer()
+        private void FetchGameDataFromServer()
         {
             HTTPClient.Instance.FetchStaticData((resp) =>
             {
@@ -55,7 +53,7 @@ namespace GM.Core
             });
         }
 
-        void Initialize()
+        private void Initialize()
         {
             LocalStateFile.LoadFromFile(out LocalStateFile localStateFile);
 

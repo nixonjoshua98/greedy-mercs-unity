@@ -13,8 +13,7 @@ namespace GM.BountyShop.UI
         public TMP_Text QuantityText;
         [Space]
         public Image IconImage;
-
-        Action purchaseCallback; // Can be null
+        private Action purchaseCallback; // Can be null
 
         public void Assign(BountyShopCurrencyItemModel item, Action _purchaseCallback)
         {

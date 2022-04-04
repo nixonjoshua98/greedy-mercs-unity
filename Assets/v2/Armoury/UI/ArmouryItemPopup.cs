@@ -18,13 +18,13 @@ namespace GM.Armoury.UI
             SetStaticUIElements();
         }
 
-        void SetStaticUIElements()
+        private void SetStaticUIElements()
         {
             IconImage.sprite = AssignedItem.Icon;
             NameText.text = AssignedItem.ItemName;
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             LevelOwnedText.text = $"{FormatLevel(AssignedItem.CurrentLevel)} | Owned <color=white>{AssignedItem.NumOwned}</color>";
             DamageText.text = GetBonusText();

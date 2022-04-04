@@ -5,16 +5,15 @@ namespace GM.Navigation
 {
     public class TabGroup : MonoBehaviour
     {
-        List<TabButton> Buttons = new List<TabButton>();
-
-        TabButton SelectedButton = null;
+        private readonly List<TabButton> Buttons = new List<TabButton>();
+        private TabButton SelectedButton = null;
 
         public void Subscribe(TabButton button)
         {
             Buttons.Add(button);
         }
 
-        void Start()
+        private void Start()
         {
             Buttons.ForEach(button =>
             {
@@ -38,7 +37,7 @@ namespace GM.Navigation
             SelectedButton = button;
         }
 
-        void InvokeEvents(in TabButton newlySelected)
+        private void InvokeEvents(in TabButton newlySelected)
         {
             for (int i = 0; i < Buttons.Count; i++)
             {

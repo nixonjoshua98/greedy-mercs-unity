@@ -6,7 +6,7 @@ namespace GM.Core
 {
     public abstract class GMMonoBehaviour : MonoBehaviour
     {
-        Dictionary<Type, object> _CachedComponents = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> _CachedComponents = new Dictionary<Type, object>();
 
         protected GMApplication App => GMApplication.Instance;
 
@@ -28,7 +28,14 @@ namespace GM.Core
 
 
         private GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
-        public T Instantiate<T>(GameObject obj, Transform parent) => Instantiate(obj, parent).GetComponent<T>();
-        public T InstantiateUI<T>(GameObject obj) where T : Component => Instantiate(obj, MainCanvas.transform).GetComponent<T>();
+        public T Instantiate<T>(GameObject obj, Transform parent)
+        {
+            return Instantiate(obj, parent).GetComponent<T>();
+        }
+
+        public T InstantiateUI<T>(GameObject obj) where T : Component
+        {
+            return Instantiate(obj, MainCanvas.transform).GetComponent<T>();
+        }
     }
 }

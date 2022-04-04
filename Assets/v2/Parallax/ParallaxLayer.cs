@@ -6,11 +6,10 @@ namespace GM.Background
 {
     public class ParallaxLayer : MonoBehaviour
     {
-        float length;
+        private float length;
+        private SpriteRenderer[] renderers;
 
-        SpriteRenderer[] renderers;
-
-        void Start()
+        private void Start()
         {
             renderers = GetComponentsInChildren<SpriteRenderer>();
 
@@ -40,7 +39,8 @@ namespace GM.Background
             }
         }
 
-        SpriteRenderer LeftRenderer => renderers.OrderBy(r => r.transform.position.x).First();
-        SpriteRenderer RightRenderer => renderers.OrderBy(r => r.transform.position.x).Last();
+        private SpriteRenderer LeftRenderer => renderers.OrderBy(r => r.transform.position.x).First();
+
+        private SpriteRenderer RightRenderer => renderers.OrderBy(r => r.transform.position.x).Last();
     }
 }

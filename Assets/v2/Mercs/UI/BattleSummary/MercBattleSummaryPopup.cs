@@ -7,10 +7,9 @@ namespace GM.Mercs.UI
 {
     public class MercBattleSummaryPopup : MonoBehaviour
     {
-        [SerializeField] GameObject MercSummarySlotObject;
-        [SerializeField] Transform MercSlotsParent;
-
-        List<MercDamageSummarySlot> MercSlots = new List<MercDamageSummarySlot>();
+        [SerializeField] private GameObject MercSummarySlotObject;
+        [SerializeField] private Transform MercSlotsParent;
+        private readonly List<MercDamageSummarySlot> MercSlots = new List<MercDamageSummarySlot>();
 
         public void UpdateDamageNumbers(List<KeyValuePair<MercID, BigDouble>> dmg)
         {
@@ -34,7 +33,7 @@ namespace GM.Mercs.UI
             }
         }
 
-        void InstantiateMercSummarySlot()
+        private void InstantiateMercSummarySlot()
         {
             GameObject go = Instantiate(MercSummarySlotObject, MercSlotsParent);
 

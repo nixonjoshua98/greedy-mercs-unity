@@ -7,8 +7,8 @@ namespace GM.UI
     public class HealthBarController : MonoBehaviour
     {
         [Header("Components")]
-        [SerializeField] TMP_Text HealthValueText;
-        [SerializeField] Slider Slider;
+        [SerializeField] private TMP_Text HealthValueText;
+        [SerializeField] private Slider Slider;
 
         protected GM.Controllers.HealthController Health;
         protected Transform FollowTransformTarget;
@@ -36,18 +36,18 @@ namespace GM.UI
             gameObject.SetActive(true);
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             UpdatePosition();
         }
 
-        void UpdateHealthUI()
+        private void UpdateHealthUI()
         {
             HealthValueText.text = Format.Number(Health.CurrentHealth);
             Slider.value = Health.Percent;
         }
 
-        void UpdatePosition()
+        private void UpdatePosition()
         {
             if (FollowTransformTarget != null)
             {
@@ -57,7 +57,7 @@ namespace GM.UI
 
         // = Event Callbacks = // 
 
-        void OnHealthChange(BigDouble damage)
+        private void OnHealthChange(BigDouble damage)
         {
             UpdateHealthUI();
         }

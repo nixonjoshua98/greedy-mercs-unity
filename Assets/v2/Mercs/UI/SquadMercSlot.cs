@@ -16,13 +16,12 @@ namespace GM.Mercs.UI
         public TMP_Text LevelText;
         public TMP_Text DamageText;
 
-        [SerializeField] TMP_Text EnergyPercentageText;
-        [SerializeField] Slider EnergySlider;
-        [SerializeField] Slider ExcessEnergySlider;
+        [SerializeField] private TMP_Text EnergyPercentageText;
+        [SerializeField] private Slider EnergySlider;
+        [SerializeField] private Slider ExcessEnergySlider;
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
-
-        int _buyAmount;
+        private int _buyAmount;
         protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
 
         public void Assign(MercID merc, GM.UI.AmountSelector selector)
@@ -42,12 +41,12 @@ namespace GM.Mercs.UI
             UpdateUI();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             UpdateUI();
         }
 
-        void UpdateUI()
+        private void UpdateUI()
         {
             // Energy
             EnergyPercentageText.text = Format.Percentage(AssignedMerc.CurrentSpawnEnergyPercentage, 0);
@@ -67,8 +66,10 @@ namespace GM.Mercs.UI
             UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Inventory.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
         }
 
-        string GetBonusText() => $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
-
+        private string GetBonusText()
+        {
+            return $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
+        }
 
         public void OnUpgradeButton()
         {

@@ -23,12 +23,12 @@ namespace GM.Units.Controllers
         [Space]
         [SerializeField] protected HealthController HealthController;
 
-        void Awake()
+        private void Awake()
         {
             SubscribeToEvents();
         }
 
-        void Start()
+        private void Start()
         {
             LinkHealthBar();
         }
@@ -40,7 +40,7 @@ namespace GM.Units.Controllers
             controller.AssignHealthController(HealthController, HealthBarTargetTransform);
         }
 
-        void SubscribeToEvents()
+        private void SubscribeToEvents()
         {
             UnitAvatar.E_Anim_OnDefeat.AddListener(OnDefeatAnimation);
 
@@ -69,7 +69,7 @@ namespace GM.Units.Controllers
             FadeOut(0.5f, () => Destroy(gameObject));
         }
 
-        void ProcessLoot()
+        private void ProcessLoot()
         {
             if (TryGetComponent(out GM.Enemies.ILootDrop loot))
             {
@@ -82,7 +82,7 @@ namespace GM.Units.Controllers
             StartCoroutine(FadeEnumerator(duration, action));
         }
 
-        IEnumerator FadeEnumerator(float duration, Action action)
+        private IEnumerator FadeEnumerator(float duration, Action action)
         {
             SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
 
@@ -107,7 +107,14 @@ namespace GM.Units.Controllers
             action.Invoke();
         }
 
-        void InstantiateDefeatPS() => Instantiate(DefeatPS, transform.position, Quaternion.identity, null);
-        void InstantiateCoinDropPS() => Instantiate(CoinDropPS, Avatar.Bounds.center, Quaternion.identity, null);
+        private void InstantiateDefeatPS()
+        {
+            Instantiate(DefeatPS, transform.position, Quaternion.identity, null);
+        }
+
+        private void InstantiateCoinDropPS()
+        {
+            Instantiate(CoinDropPS, Avatar.Bounds.center, Quaternion.identity, null);
+        }
     }
 }

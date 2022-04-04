@@ -6,9 +6,9 @@ namespace GM.Managers
 {
     public class PrestigeManager : Core.GMMonoBehaviour
     {
-        static PrestigeManager Instance = null;
+        private static PrestigeManager Instance = null;
 
-        void Awake()
+        private void Awake()
         {
             if (Instance == null)
                 Instance = this;
@@ -16,7 +16,7 @@ namespace GM.Managers
                 Destroy(gameObject);
         }
 
-        void PerformPrestige()
+        private void PerformPrestige()
         {
             PrestigeRequest request = new()
             {
@@ -28,19 +28,19 @@ namespace GM.Managers
 
         // = Callbacks = //
 
-        void OnPrePrestige()
+        private void OnPrePrestige()
         {
             App.SaveManager.Paused = true;
             LocalStateFile.DeleteFile();
         }
 
-        void OnPrestigeFailed()
+        private void OnPrestigeFailed()
         {
             App.SaveManager.Paused = false;
             App.SaveLocalStateFile();
         }
 
-        void OnPrestigeSuccess(PrestigeResponse resp)
+        private void OnPrestigeSuccess(PrestigeResponse resp)
         {
             App.Stats.LocalDailyStats.TotalPrestiges++;
 
@@ -55,7 +55,7 @@ namespace GM.Managers
 
         // = Server Callbacks = //
 
-        void Server_OnPrestige(PrestigeResponse resp)
+        private void Server_OnPrestige(PrestigeResponse resp)
         {
             if (resp.StatusCode == HTTPCodes.Success)
             {

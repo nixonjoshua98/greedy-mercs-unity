@@ -7,8 +7,7 @@ namespace GM.Quests.UI
     public class MercQuestSlot : AbstractQuestSlot
     {
         [HideInInspector] public AggregatedMercQuest Quest;
-
-        Action<MercQuestSlot> ClaimQuestFunction;
+        private Action<MercQuestSlot> ClaimQuestFunction;
 
         public void Init(Action<MercQuestSlot> claimQuestFunc, AggregatedMercQuest quest)
         {
@@ -28,7 +27,7 @@ namespace GM.Quests.UI
             }
         }
 
-        IEnumerator _Update()
+        private IEnumerator _Update()
         {
             while (!Quest.IsCompleted && Quest.CurrentProgress < 1.0f)
             {
@@ -38,19 +37,19 @@ namespace GM.Quests.UI
             }
         }
 
-        void SetStaticUI()
+        private void SetStaticUI()
         {
             Title.text = Quest.Title;
         }
 
-        void UpdateUI()
+        private void UpdateUI()
         {
             ProgressSlider.value = Quest.CurrentProgress;
             CompleteButton.interactable = Quest.CurrentProgress >= 1.0f && !Quest.IsCompleted;
             CompleteButtonImage.color = Quest.CurrentProgress >= 1.0f ? ButtonColours.ReadyToComplete : ButtonColours.InProgress;
         }
 
-        void UpdateWhenCompleted()
+        private void UpdateWhenCompleted()
         {
             ProgressSlider.value = 1.0f;
             Destroy(CompleteButton.gameObject);

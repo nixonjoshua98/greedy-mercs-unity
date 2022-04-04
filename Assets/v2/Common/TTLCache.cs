@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GM.Common
 {
-    struct CachedValue
+    internal struct CachedValue
     {
         public DateTime ExpireAt;
         public object Value;
@@ -12,7 +12,7 @@ namespace GM.Common
 
     public class TTLCache
     {
-        Dictionary<string, CachedValue> cacheDict = new Dictionary<string, CachedValue>();
+        private readonly Dictionary<string, CachedValue> cacheDict = new Dictionary<string, CachedValue>();
 
         public void Remove(string key)
         {
@@ -41,12 +41,12 @@ namespace GM.Common
             }
         }
 
-        void CacheValue(string key, int timer, object obj)
+        private void CacheValue(string key, int timer, object obj)
         {
             cacheDict[key] = new CachedValue { ExpireAt = DateTime.UtcNow + new TimeSpan(0, 0, timer), Value = obj };
         }
 
-        bool ContainsKey(string key)
+        private bool ContainsKey(string key)
         {
             if (cacheDict.TryGetValue(key, out var result))
             {

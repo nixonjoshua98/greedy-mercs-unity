@@ -4,7 +4,7 @@ namespace GM.UI
 {
     public class LargeHealthBarController : HealthBarController
     {
-        [SerializeField] GameObject InnerObjectParent;
+        [SerializeField] private GameObject InnerObjectParent;
 
         public void AssignHealthController(GM.Controllers.HealthController health)
         {

@@ -8,9 +8,9 @@ namespace GM.UI
 {
     public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
     {
-        GraphicRaycaster CanvasRaycaster;
+        private GraphicRaycaster CanvasRaycaster;
 
-        void Awake()
+        private void Awake()
         {
             GameObject canvas = GameObject.FindGameObjectWithTag(Constants.Tags.MainCanvas);
 
@@ -31,7 +31,7 @@ namespace GM.UI
             }
         }
 
-        void Destroy()
+        private void Destroy()
         {
             Destroy(gameObject);
         }

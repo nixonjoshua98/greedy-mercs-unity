@@ -23,8 +23,8 @@ public struct BigDouble : IFormattable, IComparable, IComparable<BigDouble>, IEq
     //The smallest exponent that can appear in a Double, though not all mantissas are valid here.
     private const long DoubleExpMin = -324;
 
-    private double mantissa;
-    private long exponent;
+    private readonly double mantissa;
+    private readonly long exponent;
 
     // This constructor is used to prevent non-normalized values to be created via constructor.
     // ReSharper disable once UnusedParameter.Local

@@ -7,7 +7,7 @@ namespace GM.Armoury.UI
         [Header("References")]
         public ArmouryItemsGridController ItemGrid;
 
-        void Awake()
+        private void Awake()
         {
             ItemGrid.Populate(App.Armoury.UserItems);
         }

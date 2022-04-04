@@ -5,17 +5,15 @@ namespace GM
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] float MoveSpeed = 10.0f;
+        [SerializeField] private float MoveSpeed = 10.0f;
+        private ISquadController MercSquad;
 
-        ISquadController MercSquad;
-
-        void Awake()
+        private void Awake()
         {
             MercSquad = this.GetComponentInScene<ISquadController>();
         }
 
-
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (MercSquad.TryGetUnit(out MercBaseClass unit))
             {
@@ -23,7 +21,7 @@ namespace GM
             }
         }
 
-        void SetCameraPosition(float xPos)
+        private void SetCameraPosition(float xPos)
         {
             Vector3 to = new Vector3(Mathf.Max(transform.position.x, xPos), transform.position.y, transform.position.z);
 

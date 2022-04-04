@@ -4,9 +4,8 @@ namespace GM
 {
     public class ClickObject : MonoBehaviour
     {
-        [SerializeField] ParticleSystem PS;
-
-        Vector3? TargetScreenPosition = null;
+        [SerializeField] private ParticleSystem PS;
+        private Vector3? TargetScreenPosition = null;
 
         public void SetScreenPosition(Vector3 pos)
         {

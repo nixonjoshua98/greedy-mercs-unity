@@ -7,22 +7,21 @@ namespace GM.Quests.UI
     public class DailyQuestsTab : GM.Core.GMMonoBehaviour
     {
         [Space]
-        [SerializeField] GameObject QuestSlotObject;
+        [SerializeField] private GameObject QuestSlotObject;
 
         [Header("References")]
-        [SerializeField] GameObject LoadingOverlay;
+        [SerializeField] private GameObject LoadingOverlay;
         [Space]
-        [SerializeField] TMP_Text InfoText;
-        [SerializeField] Transform QuestParent;
+        [SerializeField] private TMP_Text InfoText;
+        [SerializeField] private Transform QuestParent;
+        private readonly List<DailyQuestSlot> Slots = new();
 
-        List<DailyQuestSlot> Slots = new();
-
-        void Awake()
+        private void Awake()
         {
             InstantiateQuests();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             bool isShowingQuests = !LoadingOverlay.activeInHierarchy && App.Quests.IsDailyQuestsValid;
 
@@ -38,7 +37,7 @@ namespace GM.Quests.UI
             }
         }
 
-        void InstantiateQuests()
+        private void InstantiateQuests()
         {
             foreach (var quest in App.Quests.DailyQuests)
             {

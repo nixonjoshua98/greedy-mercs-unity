@@ -10,17 +10,17 @@ namespace GM.Controllers
     public class TapController : GM.Core.GMMonoBehaviour, IPointerDownHandler
     {
         public int MaxTapsPerSecond = 20;
-        float ClickInterval { get => 1.0f / MaxTapsPerSecond; }
 
-        Stopwatch stopWatch;
+        private float ClickInterval => 1.0f / MaxTapsPerSecond;
 
-        GameManager GameManager;
-        IDamageTextPool DamageNumberManager;
+        private Stopwatch stopWatch;
+        private GameManager GameManager;
+        private IDamageTextPool DamageNumberManager;
 
         // Events
         public UnityEvent E_OnTap = new();
 
-        void Start()
+        private void Start()
         {
             stopWatch = Stopwatch.StartNew();
 

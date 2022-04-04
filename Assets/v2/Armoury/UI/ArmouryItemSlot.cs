@@ -23,13 +23,13 @@ namespace GM.Armoury.UI
             SetStaticElements();
         }
 
-        void SetStaticElements()
+        private void SetStaticElements()
         {
             IconImage.sprite = AssignedItem.Icon;
             NameText.text = AssignedItem.ItemName;
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             LevelText.text = FormatLevel(AssignedItem.CurrentLevel);
             BonusText.text = Format.Bonus(AssignedItem.BonusType, AssignedItem.BonusValue);

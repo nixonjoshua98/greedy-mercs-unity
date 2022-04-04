@@ -10,7 +10,10 @@ namespace GM
     public static class TimeSpanExtensions
     {
         // = Private = //
-        static string Pad(int val) => $"{Math.Max(val, 0)}".PadLeft(2, '0');
+        private static string Pad(int val)
+        {
+            return $"{Math.Max(val, 0)}".PadLeft(2, '0');
+        }
 
         // = Extensions = //
         public static string Format(this TimeSpan ts, TimeSpanFormat format)
@@ -28,6 +31,9 @@ namespace GM
             return "";
         }
 
-        public static string Format(this TimeSpan ts) => $"{Pad(ts.Hours)}h {Pad(ts.Minutes)}m {Pad(ts.Seconds)}s";
+        public static string Format(this TimeSpan ts)
+        {
+            return $"{Pad(ts.Hours)}h {Pad(ts.Minutes)}m {Pad(ts.Seconds)}s";
+        }
     }
 }

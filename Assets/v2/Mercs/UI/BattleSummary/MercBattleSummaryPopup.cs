@@ -9,7 +9,7 @@ namespace GM.Mercs.UI
     {
         [SerializeField] GameObject MercSummarySlotObject;
         [SerializeField] Transform MercSlotsParent;
-        
+
         List<MercDamageSummarySlot> MercSlots = new List<MercDamageSummarySlot>();
 
         public void UpdateDamageNumbers(List<KeyValuePair<MercID, BigDouble>> dmg)

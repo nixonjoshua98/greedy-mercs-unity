@@ -31,22 +31,12 @@ namespace GM.Bounties.Models
         {
             get
             {
-                TimeSpan ts = DateTime.UtcNow - UserData.LastClaimTime;
+                double secs = (DateTime.UtcNow - UserData.LastClaimTime).TotalSeconds;
 
-                if (ts.TotalHours > GameData.MaxUnclaimedHours)
-                    return new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600));
-
-                else if (ts.TotalHours < 0)
-                    return new TimeSpan();
-
-                return ts;
+                return TimeSpan.FromSeconds(Math.Clamp(secs, 0, GameData.MaxUnclaimedHours * 3_600));
             }
         }
 
-        /// <summary>
-        /// Time until the user has reached the cap for idle collection time
-        /// </summary>
-        public TimeSpan TimeUntilMaxUnclaimedHours => new TimeSpan(0, 0, Mathf.FloorToInt(GameData.MaxUnclaimedHours * 3_600)) - TimeSinceClaim;
 
         /// <summary>
         /// Percentage
@@ -56,7 +46,7 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Total unclaimed points ready to claim
         /// </summary>
-        public long TotalUnclaimedPoints => (long)(TimeSinceClaim.TotalHours * TotalHourlyIncome);
+        public long TotalUnclaimedPoints => (long)Math.Floor(TimeSinceClaim.TotalHours * TotalHourlyIncome);
 
         /// <summary>
         /// Update the complete user bounty data

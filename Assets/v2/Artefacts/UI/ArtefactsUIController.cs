@@ -86,7 +86,7 @@ namespace GM.Artefacts.UI
                 if (UnlockArtefactRow is not null)
                     Destroy(UnlockArtefactRow);
                 return;
-            } 
+            }
 
             double unlockCost = App.GMCache.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
 

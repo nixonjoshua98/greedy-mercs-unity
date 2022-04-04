@@ -1,5 +1,5 @@
-﻿using System;
-using GM.HTTP;
+﻿using GM.HTTP;
+using System;
 
 namespace GM.PlayerStats
 {

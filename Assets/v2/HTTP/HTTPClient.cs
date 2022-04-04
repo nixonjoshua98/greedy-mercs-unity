@@ -1,6 +1,7 @@
 using GM.Artefacts;
 using GM.Artefacts.Models;
 using GM.Bounties.Requests;
+using GM.Common;
 using GM.HTTP.Requests;
 using GM.HTTP.Requests.BountyShop;
 using GM.PlayerStats;
@@ -204,7 +205,7 @@ namespace GM.HTTP
                 SetRequestHeaders(www);
 
                 StartCoroutine(SendRequest(www, () =>
-                { 
+                {
                     ResponseHandler(www, action);
                 }));
             }
@@ -246,29 +247,21 @@ namespace GM.HTTP
         {
             string text = www.downloadHandler.text;
 
-            T model;
+            if (encrpted)
+                text = AES.Decrypt(text);
 
-            try
+            if (!Serialization.TryDeserialize(in text, out T model))
             {
-                if (encrpted)
-                    text = AES.Decrypt(text);
+                model = new T() { Message = "Failed to deserialize response" };
 
-                model = JsonConvert.DeserializeObject<T>(text);
-
-                if (model == null)
+                if (Serialization.TryDeserialize(in text, out ServerResponse resp))
                 {
-                    GMLogger.WhenNull(model, "Failed to deserialize server response");
-
-                    model = new T() { ErrorMessage = "Failed to deserialize server response" };
+                    model.Message = resp.Message;
                 }
-
             }
-            catch (Exception e)
-            {
-                GMLogger.Exception("Failed to parse response", e);
 
-                model = new T() { ErrorMessage = e.Message };
-            }
+            if (model.Message == string.Empty)
+                model.Message = "Failed to deserialize response";
 
             model.StatusCode = www.responseCode;
 
@@ -287,12 +280,27 @@ namespace GM.HTTP
 
         void ResponseHandler<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
-            bool isEncrypted = www.GetBoolResponseHeader("Response-Encrypted", false);
+            bool isEncrypted = www.GetBoolResponseHeader(Constants.Headers.ResponseEncrypted, false);
 
             TResponse resp = DeserializeResponse<TResponse>(www, isEncrypted);
 
-            action.Invoke(resp);
+            if (www.responseCode == HTTPCodes.Unauthorised)
+            {
+                if (www.GetBoolResponseHeader(Constants.Headers.InvalidToken, false))
+                {
+                    Debug.LogError("Session has been invalidated and you should re-login");
+                }
+                else
+                {
+                    Debug.LogError("Session has expired and you should re-login");
+                }
+            }
+            else
+            {
+                GMLogger.Editor($"{www.url} - {resp.StatusCode} - {resp.Message}");
+
+                action.Invoke(resp);
+            }
         }
     }
-
 }

@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 namespace GM.UI.Layouts
 {
@@ -12,7 +12,7 @@ namespace GM.UI.Layouts
             if (constraint == Constraint.FixedColumnCount)
             {
                 // X Spacing
-                float cellWidth = (ScreenSpace.Width- (m_Spacing.x * (constraintCount - 1))) / constraintCount;
+                float cellWidth = (ScreenSpace.Width - (m_Spacing.x * (constraintCount - 1))) / constraintCount;
 
                 // Left + right padding
                 cellWidth -= (m_Padding.left + m_Padding.right) / constraintCount;

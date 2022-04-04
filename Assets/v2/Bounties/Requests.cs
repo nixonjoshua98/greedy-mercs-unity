@@ -1,8 +1,6 @@
 using GM.Bounties.Models;
 using GM.HTTP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace GM.Bounties.Requests
 {

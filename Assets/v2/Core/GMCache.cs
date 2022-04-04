@@ -29,13 +29,13 @@ namespace GM.Core
                 return ls;
             }
         }
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArtefactBonuses => 
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArtefactBonuses =>
             App.Artefacts.UserOwnedArtefacts.Select(s => new KeyValuePair<BonusType, BigDouble>(s.Bonus, s.Effect));
 
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArmouryBonuses => 
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> ArmouryBonuses =>
             App.Armoury.UserItems.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue));
 
-        IEnumerable<KeyValuePair<BonusType, BigDouble>> BonusesFromBounties => 
+        IEnumerable<KeyValuePair<BonusType, BigDouble>> BonusesFromBounties =>
             App.Bounties.UnlockedBounties.Where(x => x.Level > 0).Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue));
 
         Dictionary<BonusType, BigDouble> CombinedBonuses

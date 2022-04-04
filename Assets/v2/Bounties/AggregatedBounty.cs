@@ -42,6 +42,6 @@ namespace GM.Bounties.Models
         public Sprite Icon => _bounty.Icon;
 
         // Private //
-        private BountyLevel CurrentLevelValues =>  (Level > 0 && Level <= _bounty.Levels.Count) ? _bounty.Levels[Level - 1] : null;
+        private BountyLevel CurrentLevelValues => (Level > 0 && Level <= _bounty.Levels.Count) ? _bounty.Levels[Level - 1] : null;
     }
 }

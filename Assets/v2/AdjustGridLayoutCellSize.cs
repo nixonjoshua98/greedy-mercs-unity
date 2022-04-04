@@ -1,60 +1,65 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GM.UI
 {
     [ExecuteInEditMode]
+    [ExecuteAlways]
     [RequireComponent(typeof(GridLayoutGroup))]
+    [RequireComponent(typeof(RectTransform))]
     public class AdjustGridLayoutCellSize : MonoBehaviour
     {
-        public enum Axis { X, Y };
+        enum Axis { X, Y };
+        enum RatioMode { Free, Fixed };
 
-        [SerializeField] Axis expand;
+        RectTransform RectTrans;
+        GridLayoutGroup Grid;
 
-        [SerializeField] RectTransform RectTransform;
-        [SerializeField] GridLayoutGroup Grid;
+        [SerializeField] Axis ExpandDirection;
+        [SerializeField] RatioMode ratioMode;
 
-        void Start()
+        [ShowIf("ratioMode", RatioMode.Fixed)]
+        [SerializeField] float cellRatio = 1;
+
+        void Awake()
         {
-            UpdateCellSize();
+            Grid = GetComponent<GridLayoutGroup>();
+            RectTrans = GetComponent<RectTransform>();
         }
 
         void OnRectTransformDimensionsChange()
         {
-            UpdateCellSize();
+            if (Grid is not null)
+                UpdateCellSize();
         }
 
 #if UNITY_EDITOR
-        [ExecuteAlways]
-        void Update()
+        void FixedUpdate()
         {
-            UpdateCellSize();
+            if (Grid is not null)
+                UpdateCellSize();
         }
 #endif
-
-        void OnValidate()
-        {
-            UpdateCellSize();
-        }
 
         void UpdateCellSize()
         {
             var count = Grid.constraintCount;
 
-            if (expand == Axis.X)
+            if (ExpandDirection == Axis.X)
             {
                 float spacing = (count - 1) * Grid.spacing.x;
-                float contentSize = RectTransform.rect.width - Grid.padding.left - Grid.padding.right - spacing;
+                float contentSize = RectTrans.rect.width - Grid.padding.left - Grid.padding.right - spacing;
                 float sizePerCell = contentSize / count;
-                Grid.cellSize = new Vector2(sizePerCell, Grid.cellSize.y);
-            }
+                Grid.cellSize = new Vector2(sizePerCell, ratioMode == RatioMode.Free ? Grid.cellSize.y : sizePerCell * cellRatio);
 
-            else if (expand == Axis.Y)
+            }
+            else if (ExpandDirection == Axis.Y)
             {
                 float spacing = (count - 1) * Grid.spacing.y;
-                float contentSize = RectTransform.rect.height - Grid.padding.top - Grid.padding.bottom - spacing;
+                float contentSize = RectTrans.rect.height - Grid.padding.top - Grid.padding.bottom - spacing;
                 float sizePerCell = contentSize / count;
-                Grid.cellSize = new Vector2(Grid.cellSize.x, sizePerCell);
+                Grid.cellSize = new Vector2(ratioMode == RatioMode.Free ? Grid.cellSize.x : sizePerCell * cellRatio, sizePerCell);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace GM.PlayerStats
 {
-    public class UpdateLifetimeStatsRequest: GM.HTTP.IServerRequest
+    public class UpdateLifetimeStatsRequest : GM.HTTP.IServerRequest
     {
         public LifetimeStatsModel Changes;
     }

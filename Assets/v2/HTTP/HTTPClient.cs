@@ -262,9 +262,6 @@ namespace GM.HTTP
                 }
             }
 
-            if (model.Message == string.Empty)
-                model.Message = "Failed to deserialize response";
-
             model.StatusCode = www.responseCode;
 
             return model;
@@ -299,8 +296,6 @@ namespace GM.HTTP
             }
             else
             {
-                GMLogger.Editor($"{www.url} - {resp.StatusCode} - {resp.Message}");
-
                 action.Invoke(resp);
             }
         }

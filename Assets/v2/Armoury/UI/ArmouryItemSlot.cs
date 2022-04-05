@@ -1,3 +1,4 @@
+using GM.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

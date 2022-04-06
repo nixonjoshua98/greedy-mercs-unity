@@ -1,3 +1,4 @@
+using GM.Armoury;
 using GM.Armoury.Data;
 using GM.Common;
 using GM.Common.Enums;
@@ -122,12 +123,12 @@ namespace GM.Core
         #endregion
 
         #region Armoury
-        public double ArmouryItemBonusValue(ArmouryItemData item)
+        public double ArmouryItemBonusValue(AggregatedArmouryItem item)
         {
             return GameFormulas.ArmouryItemBonusValue(item.CurrentLevel, item.NumOwned, item.BaseEffect, item.LevelEffect);
         }
 
-        public int ArmouryItemUpgradeCost(ArmouryItemData item)
+        public int ArmouryItemUpgradeCost(AggregatedArmouryItem item)
         {
             return GameFormulas.ArmouryItemUpgradeCost(item.CurrentLevel);
         }

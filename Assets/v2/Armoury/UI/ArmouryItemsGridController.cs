@@ -18,7 +18,7 @@ namespace GM.Armoury.UI
         public int NumColumns = 3;
         private readonly Dictionary<int, ArmouryItemSlot> ItemSlots = new Dictionary<int, ArmouryItemSlot>();
 
-        public void Populate(List<ArmouryItemData> items)
+        public void Populate(List<AggregatedArmouryItem> items)
         {
             ItemSlots.Values.ToList().ForEach(obj => obj.gameObject.SetActive(false));
 
@@ -26,7 +26,7 @@ namespace GM.Armoury.UI
             {
                 var currentItem = items[i];
 
-                ArmouryItemSlot slot = GetItemSlot(currentItem.Id);
+                ArmouryItemSlot slot = GetItemSlot(currentItem.ID);
 
                 slot.gameObject.SetActive(true);
             }

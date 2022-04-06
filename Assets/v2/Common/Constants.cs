@@ -19,7 +19,7 @@ namespace GM.Common
 
         public static class Tags
         {
-            public const string BossUnitHealthBar = "EnemyBossUnitHealthBar";
+            public const string BossHealthBar = "EnemyBossUnitHealthBar";
             public const string MainCanvas = "MainCanvas";
         }
 

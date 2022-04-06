@@ -16,7 +16,7 @@ namespace GM.Core
         public GM.CurrencyItems.Data.ItemsData Items = new();
         public GM.Inventory.Data.UserInventory Inventory = new();
         public GM.Artefacts.Data.ArtefactsData Artefacts = new();
-        public GM.Armoury.Data.ArmouryData Armoury = new();
+        public GM.Armoury.Data.ArmouryDataContainer Armoury = new();
         public GM.Bounties.Models.BountiesDataContainer Bounties = new();
         public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();
         public GM.PlayerStats.PlayerStatsContainer Stats = new();
@@ -86,11 +86,6 @@ namespace GM.Core
 
             GoldUpgrades.DeleteLocalStateData();
             Inventory.DeleteLocalStateData();
-        }
-
-        public void InvalidateClient()
-        {
-
         }
     }
 }

@@ -27,7 +27,7 @@ namespace GM.Armoury.UI
         private void SetStaticElements()
         {
             IconImage.sprite = AssignedItem.Icon;
-            NameText.text = AssignedItem.ItemName;
+            NameText.text = AssignedItem.Name;
         }
 
         private void FixedUpdate()
@@ -38,7 +38,7 @@ namespace GM.Armoury.UI
 
         public void OnPopupButton()
         {
-            InstantiateUI<ArmouryItemPopup>(PopupObject).AssignItem(AssignedItem.Id);
+            InstantiateUI<ArmouryItemPopup>(PopupObject).AssignItem(AssignedItem.ID);
         }
     }
 }

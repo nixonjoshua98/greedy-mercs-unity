@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9089f1e096b884d8ac1af2f09d5351, type: 3}
   m_Name: Common
   m_EditorClassIdentifier: 
-  Name: Common
   Grade: 10
+  Name: Common
+  BackgroundSprite: {fileID: 21300000, guid: c49e3554a0acc074595cbdacdf2a4eca, type: 3}

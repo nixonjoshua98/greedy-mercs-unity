@@ -1,4 +1,5 @@
 using GM.Common.Enums;
+using GMCommon.Enums;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace GM.Armoury.Models
         public int ID;
 
         public BonusType BonusType;
+        public ItemGrade Grade = ItemGrade.Common;
 
         public float BaseEffect;
 

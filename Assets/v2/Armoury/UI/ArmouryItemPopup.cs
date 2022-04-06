@@ -21,7 +21,7 @@ namespace GM.Armoury.UI
         private void SetStaticUIElements()
         {
             IconImage.sprite = AssignedItem.Icon;
-            NameText.text = AssignedItem.ItemName;
+            NameText.text = AssignedItem.Name;
         }
 
         private void FixedUpdate()
@@ -33,7 +33,7 @@ namespace GM.Armoury.UI
 
         public void OnUpgradeButton()
         {
-            App.Armoury.UpgradeItem(AssignedItem.Id, (success, resp) =>
+            App.Armoury.UpgradeItem(AssignedItem.ID, (success, resp) =>
             {
                 if (success)
                 {

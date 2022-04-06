@@ -6,7 +6,7 @@ namespace GM.Units.Controllers
     {
         protected override void LinkHealthBar()
         {
-            GameObject obj = GameObject.FindGameObjectWithTag(GM.Common.Constants.Tags.BossUnitHealthBar);
+            GameObject obj = GameObject.FindGameObjectWithTag(GM.Common.Constants.Tags.BossHealthBar);
 
             if (obj != null && obj.TryGetComponent(out GM.UI.LargeHealthBarController healthbar))
             {
@@ -14,7 +14,7 @@ namespace GM.Units.Controllers
             }
             else
             {
-                GMLogger.WhenNull(obj, $"'{GM.Common.Constants.Tags.BossUnitHealthBar}' object with tag not found in scene");
+                GMLogger.WhenNull(obj, $"'{GM.Common.Constants.Tags.BossHealthBar}' object with tag not found in scene");
 
                 base.LinkHealthBar();
             }

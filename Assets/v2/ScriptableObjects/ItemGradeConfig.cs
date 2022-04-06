@@ -2,6 +2,7 @@ using GMCommon.Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GM.ScriptableObjects
 {
@@ -10,5 +11,8 @@ namespace GM.ScriptableObjects
     {
         public ItemGrade Grade;
         public string Name;
+
+        [Header("Appearance")]
+        public Sprite BackgroundSprite;
     }
 }

@@ -15,7 +15,7 @@ namespace GM.Armoury.UI
 
         protected virtual void OnAssigned() { }
 
-        protected ArmouryItemData AssignedItem => App.Armoury.GetItem(AssignedItemId);
+        protected AggregatedArmouryItem AssignedItem => App.Armoury.GetItem(AssignedItemId);
 
         protected string GetBonusText()
         {

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 4_Club02
   m_EditorClassIdentifier: 
   Name: Baseball Bat
-  Icon: {fileID: 21300000, guid: c99ad5667dfa7294e94034864b5e2a9d, type: 3}
+  Icon: {fileID: 21300000, guid: af1ab293b56645c99b019d3fb2781b0b, type: 3}

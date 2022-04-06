@@ -35,11 +35,11 @@ namespace GM.Armoury
             GradeConfig = SOContainer.GetItemGradeConfig(Grade);
         }
 
-        ArmouryItemUserDataModel UserModel
+        ArmouryItemUserData UserModel
         {
             get
             {
-                if (!App.Armoury.TryGetOwnedItem(ID, out ArmouryItemUserDataModel model))
+                if (!App.Armoury.TryGetOwnedItem(ID, out ArmouryItemUserData model))
                     Debug.LogError($"Armoury item '{ID}' not found but attempted to access.");
 
                 return model;

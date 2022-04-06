@@ -17,8 +17,7 @@ namespace GM.Armoury.Models
 
         public float LevelEffect;
 
-        [JsonIgnore]
-        public string Name;
+        public string Name = "No Name";
 
         [JsonIgnore]
         public Sprite Icon;

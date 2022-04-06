@@ -15,7 +15,7 @@ namespace GM.HTTP.Requests.BountyShop
     {
         public long PurchaseCost;
         public UserCurrencies Currencies;
-        public Armoury.Models.ArmouryItemUserDataModel ArmouryItem;
+        public Armoury.Models.ArmouryItemUserData ArmouryItem;
     }
 
     public class PurchaseCurrencyResponse : ServerResponse

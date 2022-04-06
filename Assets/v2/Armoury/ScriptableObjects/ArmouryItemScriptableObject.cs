@@ -8,10 +8,6 @@ namespace GM.Armoury.ScriptableObjects
     {
         public int Id => int.Parse(name.Split('_')[0]);
 
-        [Space]
-
-        public string Name = "<Missing Name>";
-
         public Sprite Icon;
     }
 }

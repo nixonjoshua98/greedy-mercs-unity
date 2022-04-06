@@ -8,7 +8,7 @@
 
     public class UpgradeArmouryItemResponse : ServerResponse
     {
-        public Armoury.Models.ArmouryItemUserDataModel Item;
+        public Armoury.Models.ArmouryItemUserData Item;
 
         public int UpgradeCost;
     }

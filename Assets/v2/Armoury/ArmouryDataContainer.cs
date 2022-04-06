@@ -10,41 +10,36 @@ namespace GM.Armoury.Data
 {
     public class ArmouryDataContainer : Core.GMClass
     {
-        private Dictionary<int, ArmouryItemUserDataModel> UserItemsDict;
+        private Dictionary<int, ArmouryItemUserData> UserModels;
         private Dictionary<int, ArmouryItem> GameItemsDict;
 
-        public void Set(List<ArmouryItemUserDataModel> userItems, List<ArmouryItem> gameData)
+        public void Set(List<ArmouryItemUserData> userItems, List<ArmouryItem> gameData)
         {
-            SetUserData(userItems);
+            UserModels = userItems.ToDictionary(ele => ele.Id, ele => ele);
+
             SetStaticData(gameData);
         }
 
-        public List<AggregatedArmouryItem> UserItems => UserItemsDict.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).Select(x => GetItem(x.Id)).ToList();
-        public List<ArmouryItem> GameItems => GameItemsDict.Values.OrderBy(ele => ele.ID).ToList();
+        public List<AggregatedArmouryItem> UserItems => UserModels.Values.Where(ele => DoesUserOwnItem(ele.Id)).OrderBy(ele => ele.Id).Select(x => GetItem(x.Id)).ToList();
 
-        public void UpdateAllData(List<ArmouryItemUserDataModel> userItems, List<ArmouryItem> staticItems)
+        /// <summary>
+        /// Update the cached user data for a single item
+        /// </summary>
+        public void Update(ArmouryItemUserData item)
         {
-            SetUserData(userItems);
-            SetStaticData(staticItems);
+            UserModels[item.Id] = item;
         }
 
-        /// <summary>Update the cached user data for a single item</summary>
-        public void Update(ArmouryItemUserDataModel item)
-        {
-            UserItemsDict[item.Id] = item;
-        }
-
-        /// <summary>Update all cached game data</summary>
+        /// <summary>
+        /// Update all cached game data
+        /// </summary>
         private void SetStaticData(List<ArmouryItem> data)
         {
             var localItemsDict = LoadLocalData();
 
             data.ForEach(item =>
             {
-                var local = localItemsDict[item.ID];
-
-                item.Name = local.Name;
-                item.Icon = local.Icon;
+                item.Icon = localItemsDict[item.ID].Icon;
             });
 
             GameItemsDict = data.ToDictionary(ele => ele.ID, ele => ele);
@@ -52,42 +47,24 @@ namespace GM.Armoury.Data
 
         public ArmouryItem GetGameItem(int key) => GameItemsDict[key];
 
-        /// <summary>Update user items data</summary>
-        private void SetUserData(List<ArmouryItemUserDataModel> userItems)
-        {
-            UserItemsDict = userItems.ToDictionary(ele => ele.Id, ele => ele);
-        }
+        public bool TryGetOwnedItem(int itemId, out ArmouryItemUserData result) => UserModels.TryGetValue(itemId, out result);
 
-        public bool TryGetOwnedItem(int itemId, out ArmouryItemUserDataModel result)
-        {
-            return UserItemsDict.TryGetValue(itemId, out result);
-        }
+        /// <summary>
+        /// Check if the user owns the item
+        /// </summary>
+        public bool DoesUserOwnItem(int itemId) => UserModels.TryGetValue(itemId, out var result) && result.NumOwned > 0;
 
-        public bool TryGetOwnedItem(int itemId, out AggregatedArmouryItem result)
-        {
-            result = default;
-
-            if (DoesUserOwnItem(itemId))
-            {
-                result = GetItem(itemId);
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>Check if the user owns the item</summary>
-        public bool DoesUserOwnItem(int itemId)
-        {
-            return UserItemsDict.TryGetValue(itemId, out var result) && result.NumOwned > 0;
-        }
-
-        /// <summary>Load local scriptable objects and return them as a dictionary</summary>
+        /// <summary>
+        /// Load local scriptable objects and return them as a dictionary
+        /// </summary>
         private Dictionary<int, ArmouryItemScriptableObject> LoadLocalData()
         {
             return Resources.LoadAll<ArmouryItemScriptableObject>("Scriptables/Armoury").ToDictionary(ele => ele.Id, ele => ele);
         }
 
-        /// <summary>Get a combined class of user data and game data for a single item</summary>
+        /// <summary>
+        /// Get a combined class of user data and game data for a single item
+        /// </summary>
         public AggregatedArmouryItem GetItem(int itemId)
         {
             if (!GameItemsDict.ContainsKey(itemId))

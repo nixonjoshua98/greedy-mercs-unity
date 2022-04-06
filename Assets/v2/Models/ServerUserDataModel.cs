@@ -15,7 +15,7 @@ namespace GM.Models
         List<UserMercDataModel> UnlockedMercs { get; set; }
         UserCurrencies Currencies { get; set; }
         UserBounties Bounties { get; set; }
-        List<ArmouryItemUserDataModel> ArmouryItems { get; set; }
+        List<ArmouryItemUserData> ArmouryItems { get; set; }
         List<ArtefactUserDataModel> Artefacts { get; set; }
         CompleteBountyShopDataModel BountyShop { get; set; }
         LifetimeStatsModel LifetimeStats { get; set; }
@@ -27,7 +27,7 @@ namespace GM.Models
         public List<UserMercDataModel> UnlockedMercs { get; set; }
         public UserCurrencies Currencies { get; set; }
         public UserBounties Bounties { get; set; }
-        public List<ArmouryItemUserDataModel> ArmouryItems { get; set; }
+        public List<ArmouryItemUserData> ArmouryItems { get; set; }
         public List<ArtefactUserDataModel> Artefacts { get; set; }
         public CompleteBountyShopDataModel BountyShop { get; set; }
         public LifetimeStatsModel LifetimeStats { get; set; }

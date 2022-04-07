@@ -192,6 +192,8 @@ namespace GM.HTTP
                 _ => throw new Exception()
             };
 
+            www.timeout = 3;
+
             return www;
         }
 

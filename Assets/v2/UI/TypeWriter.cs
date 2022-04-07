@@ -7,17 +7,19 @@ namespace GM
 {
     public class TypeWriter : MonoBehaviour
     {
-        [SerializeField] private string TextToDisplay;
-        [SerializeField] private float MsPerChar = 250;
-        [SerializeField] private bool Loop;
+        [SerializeField] string TextToDisplay;
+        [SerializeField] float MsPerChar = 250;
+        [SerializeField] bool Loop;
         [Space]
-        [SerializeField] private TMP_Text Text;
+        [SerializeField] TMP_Text Text;
+
         private Stopwatch stopWatch;
         private int numCharactersShown = 1;
 
-        private void Awake()
+        private void OnEnable()
         {
             Text.text = "";
+            numCharactersShown = 1;
             stopWatch = Stopwatch.StartNew();
         }
 

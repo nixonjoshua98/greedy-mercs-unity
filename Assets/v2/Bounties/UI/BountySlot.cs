@@ -49,6 +49,11 @@ namespace GM.Bounties.UI
             App.Bounties.UpgradeBounty(_bountyId, (success, resp) =>
             {
                 UpdateUI();
+
+                if (!success)
+                {
+                    Modals.ShowServerError(resp);
+                }
             });
         }
     }

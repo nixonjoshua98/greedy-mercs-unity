@@ -29,9 +29,14 @@ namespace GM.Core
         public LocalSaveManager SaveManager;
         public LocalPersistantFile PersistantLocalFile;
 
+        /// <summary>
+        /// Main HTTP client for communicating with the server
+        /// </summary>
         public IHTTPClient HTTP => HTTPClient.Instance;
 
-        // Server Refresh
+        /// <summary>
+        /// Daily refresh config (ensures data is valid within the refresh period)
+        /// </summary>
         public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromDays(1) };
 
         private GMApplication()

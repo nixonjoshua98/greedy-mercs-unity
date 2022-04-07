@@ -1,4 +1,5 @@
 ﻿using GM.BountyShop.Models;
+using GM.HTTP.Requests.BountyShop;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
@@ -56,7 +57,7 @@ namespace GM.BountyShop.Data
         /// <summary>
         /// Send the server request for purchasing an armoury item
         /// </summary>
-        public void PurchaseArmouryItem(string itemId, UnityAction<bool> action)
+        public void PurchaseArmouryItem(string itemId, UnityAction<bool, PurchaseArmouryItemResponse> action)
         {
             App.HTTP.PurchaseBountyShopArmouryItem(itemId, (resp) =>
             {
@@ -70,7 +71,7 @@ namespace GM.BountyShop.Data
                     App.Inventory.UpdateCurrencies(resp.Currencies);
                 }
 
-                action.Invoke(resp.StatusCode == 200);
+                action.Invoke(resp.StatusCode == 200, resp);
             });
         }
 

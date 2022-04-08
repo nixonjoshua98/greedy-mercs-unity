@@ -14,20 +14,15 @@ namespace GM.Artefacts.Models
 
         public int MaxLevel = 1_000;
 
-        [JsonRequired]
+        public string Name;
+
         public float CostExpo;
 
-        [JsonRequired]
         public float CostCoeff;
 
-        [JsonRequired]
         public float BaseEffect;
 
-        [JsonRequired]
         public float LevelEffect;
-
-        [JsonIgnore]
-        public string Name;
 
         [JsonIgnore]
         public Sprite Icon;

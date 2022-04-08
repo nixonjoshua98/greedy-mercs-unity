@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Grade: 10
   Name: Common
-  BackgroundSprite: {fileID: 21300000, guid: c49e3554a0acc074595cbdacdf2a4eca, type: 3}
+  BackgroundSprite: {fileID: 21300000, guid: 407123b69c6ad85469da2466fe776a87, type: 3}
+  FrameColour: {r: 0.3764706, g: 0.20392157, b: 0.08627451, a: 1}

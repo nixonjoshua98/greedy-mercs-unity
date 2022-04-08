@@ -16,7 +16,7 @@ namespace GM.Core
         {
             get
             {
-                List<KeyValuePair<BonusType, BigDouble>> ls = new List<KeyValuePair<BonusType, BigDouble>>();
+                List<KeyValuePair<BonusType, BigDouble>> ls = new();
 
                 App.Mercs.MercsInSquad.ForEach(mercId =>
                 {

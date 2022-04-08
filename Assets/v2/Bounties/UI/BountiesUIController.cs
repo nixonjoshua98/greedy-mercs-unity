@@ -1,6 +1,8 @@
+using GM.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using GM.Common.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +25,6 @@ namespace GM.Bounties.UI
         [SerializeField] Image ClaimSliderFill;
         [SerializeField] Transform BountySlotParent;
 
-
         private readonly Dictionary<int, BountySlot> slots = new();
 
         // Backing Fields
@@ -44,11 +45,17 @@ namespace GM.Bounties.UI
             StartCoroutine(_InternalLoop());
         }
 
+        /// <summary>
+        /// Internal update loop to reduce number of unneeded UI updates
+        /// </summary>
         private IEnumerator _InternalLoop()
         {
             while (true)
             {
-                UpdateClaimUI();
+                if (gameObject.activeInHierarchy)
+                {
+                    UpdateClaimUI();
+                }
 
                 yield return new WaitForSecondsRealtime(0.25f);
             }
@@ -98,7 +105,11 @@ namespace GM.Bounties.UI
 
                 UpdateClaimUI();
 
-                if (!success)
+                if (success)
+                {
+
+                }
+                else
                 {
                     Modals.ShowServerError(resp);
                 }

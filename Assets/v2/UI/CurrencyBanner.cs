@@ -1,4 +1,5 @@
 using GM.Common;
+using GM.Common.Enums;
 using TMPro;
 using UnityEngine;
 using BigInteger = System.Numerics.BigInteger;
@@ -29,7 +30,7 @@ namespace GM.UI
 
         private void Start()
         {
-            App.Events.BountyPointsChanged.AddListener((change) => { ShowText(BountyPointsText, change); });
+            App.Inventory.BountyPointsChanged.AddListener((change) => { ShowText(BountyPointsText, change); });
             App.Events.PrestigePointsChanged.AddListener((change) => { ShowText(PrestigePointsText, change); });
             App.Events.GoldChanged.AddListener((change) => { ShowText(GoldText, change); });
             App.Events.ArmouryPointsChanged.AddListener((change) => { ShowText(ArmouryPointsText, change); });

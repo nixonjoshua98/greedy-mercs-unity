@@ -14,5 +14,6 @@ namespace GM.ScriptableObjects
 
         [Header("Appearance")]
         public Sprite BackgroundSprite;
+        public Color FrameColour;
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace GM.Inventory.Data
+﻿using System.Numerics;
+using UnityEngine.Events;
+
+namespace GM.Inventory.Data
 {
     public class UserInventory
     {
@@ -8,6 +11,8 @@
         public long ArmouryPoints { get; set; }
 
         public BigDouble Gold;
+
+        public UnityEvent<BigInteger> BountyPointsChanged { get; } = new();
 
         public void Set(UserCurrencies currencies)
         {

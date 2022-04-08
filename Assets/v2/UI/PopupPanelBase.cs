@@ -15,7 +15,7 @@ namespace GM.UI
 
         private IEnumerator IShowInnerPanel()
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForFixedUpdate();
 
             InnerPanel.SetActive(true);
         }

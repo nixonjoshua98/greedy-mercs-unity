@@ -15,7 +15,7 @@ namespace GM.Core
         public GM.GoldUpgrades.GoldUpgradesContainer GoldUpgrades = new();
         public GM.CurrencyItems.Data.ItemsData Items = new();
         public GM.Inventory.Data.UserInventory Inventory = new();
-        public GM.Artefacts.Data.ArtefactsData Artefacts = new();
+        public GM.Artefacts.Data.ArtefactsDataContainer Artefacts = new();
         public GM.Armoury.Data.ArmouryDataContainer Armoury = new();
         public GM.Bounties.Models.BountiesDataContainer Bounties = new();
         public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();

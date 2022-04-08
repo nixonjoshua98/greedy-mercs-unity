@@ -9,7 +9,7 @@ using HTTPCodes = GM.HTTP.HTTPCodes;
 
 namespace GM.Artefacts.Data
 {
-    public class ArtefactsData : Core.GMClass
+    public class ArtefactsDataContainer : Core.GMClass
     {
         private Dictionary<int, ArtefactGameDataModel> StaticModels;
         private Dictionary<int, ArtefactUserDataModel> StateModels;
@@ -71,7 +71,6 @@ namespace GM.Artefacts.Data
             {
                 ArtefactScriptableObject scriptable = scriptables[art.Id];
 
-                art.Name = scriptable.Name;
                 art.Icon = scriptable.Icon;
                 art.IconBackground = scriptable.IconBackground;
             });

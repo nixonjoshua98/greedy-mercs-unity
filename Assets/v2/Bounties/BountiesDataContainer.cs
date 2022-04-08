@@ -155,7 +155,7 @@ namespace GM.Bounties.Models
 
                     App.Inventory.UpdateCurrencies(resp.Currencies);
 
-                    App.Events.BountyPointsChanged.Invoke(resp.PointsClaimed);
+                    App.Inventory.BountyPointsChanged.Invoke(resp.PointsClaimed);
                 }
 
                 action(resp.StatusCode == 200, resp);

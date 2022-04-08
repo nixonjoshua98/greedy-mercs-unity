@@ -40,7 +40,7 @@ namespace GM.Armoury
             get
             {
                 if (!App.Armoury.TryGetOwnedItem(ID, out ArmouryItemUserData model))
-                    Debug.LogError($"Armoury item '{ID}' not found but attempted to access.");
+                    Debug.LogError($"Armoury item '{ID}' not unlocked but attempted to access");
 
                 return model;
             }

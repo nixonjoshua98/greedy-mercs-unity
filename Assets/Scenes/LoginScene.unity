@@ -580,7 +580,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1250931048
 MonoBehaviour:
@@ -594,7 +594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d1983fbc3253a438897bf0b5b084f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfoPopupManager: {fileID: 1250931049}
 --- !u!114 &1250931049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,66 +688,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1388807364}
   m_CullTransparentMesh: 0
---- !u!1 &1695799910
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1695799912}
-  - component: {fileID: 1695799913}
-  - component: {fileID: 1695799914}
-  m_Layer: 0
-  m_Name: ClickController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1695799912
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695799910}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1695799913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695799910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe31a0095a16b54595087496667dd18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PooledObject: {fileID: 4753086767240118771, guid: c320183d952ef6e46afac2c00753d600,
-    type: 3}
-  ObjectParent: {fileID: 1695799912}
---- !u!114 &1695799914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695799910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13f3845425bb004b80b760152914f0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxClicksPerSeconds: 20
-  ClickPS: {fileID: 4753086767240118771, guid: c320183d952ef6e46afac2c00753d600, type: 3}
-  ParticlePool: {fileID: 1695799913}

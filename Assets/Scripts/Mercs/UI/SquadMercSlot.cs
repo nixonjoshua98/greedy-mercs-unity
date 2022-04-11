@@ -1,3 +1,4 @@
+using GM.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +23,7 @@ namespace GM.Mercs.UI
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
         private int _buyAmount;
-        protected int BuyAmount => MathUtils.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
+        protected int BuyAmount => Utility.Maths.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
 
         public void Assign(MercID merc, GM.UI.AmountSelector selector)
         {

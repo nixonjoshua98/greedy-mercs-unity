@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using GM.Common.Enums;
+using UnityEngine.Events;
 
 namespace GM.Inventory.Data
 {
@@ -6,6 +7,7 @@ namespace GM.Inventory.Data
     {
         public double PrestigePoints;
 
+        public int Diamonds;
         public long BountyPoints { get; set; }
         public long ArmouryPoints { get; set; }
 
@@ -21,6 +23,18 @@ namespace GM.Inventory.Data
             Gold = BigDouble.HighValue;
 
             UpdateCurrencies(currencies);
+        }
+
+        public string GetCurrencyString(CurrencyType type)
+        {
+            return Format.Number(type switch
+            {
+                CurrencyType.ARMOURY_POINTS => ArmouryPoints,
+                CurrencyType.BOUNTY_POINTS => BountyPoints,
+                CurrencyType.DIAMONDS => Diamonds,
+                CurrencyType.GOLD => Gold,
+                CurrencyType.PRESTIGE_POINTS => PrestigePoints
+            });
         }
 
         public void UpdateCurrencies(UserCurrencies model)

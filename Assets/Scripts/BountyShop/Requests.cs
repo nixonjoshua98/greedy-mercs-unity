@@ -24,6 +24,5 @@ namespace GM.BountyShop.Requests
     {
         public long PurchaseCost;
         public UserCurrencies Currencies;
-        public int CurrencyGained;
     }
 }

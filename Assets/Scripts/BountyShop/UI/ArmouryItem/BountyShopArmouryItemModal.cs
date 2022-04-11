@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop.UI
 {
-    public class BountyShopArmouryItemModal : GM.UI.PopupPanelBase
+    public class BountyShopArmouryItemModal : AbstractBountyShopItemModal
     {
         [Header("Components")]
         [SerializeField] TMP_Text NameText;
@@ -29,9 +29,6 @@ namespace GM.BountyShop.UI
         BountyShopArmouryItem ShopItem;
         Action<bool, PurchaseArmouryItemResponse> PurchaseCallback;
 
-        bool _IsSendingRequest;
-        bool IsSendingRequest { get => _IsSendingRequest; set { _IsSendingRequest = value; UpdatePurchaseUI(); } }
-
         public void Set(BountyShopArmouryItem item, Action<bool, PurchaseArmouryItemResponse> purchaseCallback)
         {
             ShopItem = item;
@@ -49,7 +46,7 @@ namespace GM.BountyShop.UI
             ShowInnerPanel();
         }
 
-        void UpdatePurchaseUI()
+        protected override void UpdatePurchaseUI()
         {
             CancelButton.interactable = !IsSendingRequest;
             PurchaseButton.interactable = !IsSendingRequest;
@@ -58,11 +55,6 @@ namespace GM.BountyShop.UI
 
             if (!IsSendingRequest)
                 CostText.text = ShopItem.PurchaseCost.ToString();
-        }
-
-        public void Close()
-        {
-            Destroy(gameObject);
         }
 
         public void Purchase()

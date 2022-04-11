@@ -13,7 +13,6 @@ namespace GM.Core
         public GM.Quests.QuestsContainer Quests = new();
         public GM.Mercs.Data.MercDataContainer Mercs = new();
         public GM.GoldUpgrades.GoldUpgradesContainer GoldUpgrades = new();
-        public GM.CurrencyItems.Data.ItemsData Items = new();
         public GM.Inventory.Data.UserInventory Inventory = new();
         public GM.Artefacts.Data.ArtefactsDataContainer Artefacts = new();
         public GM.Armoury.Data.ArmouryDataContainer Armoury = new();

@@ -6,10 +6,9 @@ namespace GM.BountyShop.UI
     {
         [Header("Prefabs")]
         public GameObject ArmouryItemSlotObject;
-        //public GameObject CurrencyItemSlotObject;
+        public GameObject CurrencyItemSlotObject;
 
         [Header("References")]
-        //public Text RefreshText;
         public Transform ItemsParent;
 
         private void Awake()
@@ -19,16 +18,25 @@ namespace GM.BountyShop.UI
 
         private void InstantiateItemSlots()
         {
-            //App.BountyShop.CurrencyItems.ForEach(item => Instantiate<BountyShopCurrencyTypeSlot>(CurrencyItemSlotObject, ItemsParent).Assign(item));
+            App.BountyShop.CurrencyItems.ForEach(item =>
+            {
+                Instantiate<BountyShopCurrencyItemSlot>(CurrencyItemSlotObject, ItemsParent).Set(item);
+            });
+
             App.BountyShop.ArmouryItems.ForEach(item =>
             {
                 Instantiate<BountyShopArmouryItemSlot>(ArmouryItemSlotObject, ItemsParent).Set(item);
             });
-        }
 
-        private void FixedUpdate()
-        {
-            //RefreshText.text = $"Daily Shop | <color=orange>{(App.DailyRefresh.Next - DateTime.UtcNow).Format()}</color>";
+            var rnd = GM.Common.Utility.SeededRandom(App.DailyRefresh.Previous.ToString());
+
+            for (int i = 0; i < ItemsParent.childCount; i++)
+            {
+                int val = rnd.Next(0, ItemsParent.childCount);
+
+                ItemsParent.GetChild(i).SetSiblingIndex(val);
+            }
+
         }
     }
 }

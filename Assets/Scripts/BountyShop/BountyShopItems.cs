@@ -1,5 +1,5 @@
 using GM.Common.Enums;
-using GM.CurrencyItems.ScriptableObjects;
+using GM.ScriptableObjects;
 using Newtonsoft.Json;
 
 namespace GM.BountyShop.Data
@@ -20,7 +20,7 @@ namespace GM.BountyShop.Data
         public int Quantity;
 
         [JsonIgnore]
-        public CurrencyItemScriptableObject Item => App.Items.GetItem(CurrencyType);
+        public CurrencyConfig Item => SOContainer.GetCurrencyConfig(CurrencyType);
     }
 
     public class BountyShopArmouryItem : BountyShopItem

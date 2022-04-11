@@ -1426,10 +1426,10 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 360, y: 360}
+  m_CellSize: {x: 406.25, y: 406.25}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
-  m_ConstraintCount: 4
+  m_ConstraintCount: 5
 --- !u!114 &364922240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4055,7 +4055,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 730, y: 175}
+  m_CellSize: {x: 822.5, y: 175}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 2
@@ -4870,7 +4870,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.55
+  m_fontSize: 42
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5326,6 +5326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ArmouryItemSlotObject: {fileID: 3484135325347033891, guid: 85819cbf76434c342ab722477cb47e22,
+    type: 3}
+  CurrencyItemSlotObject: {fileID: 5478971055689866581, guid: f212bc27bda78e34590efde11190a2ca,
     type: 3}
   ItemsParent: {fileID: 364922236}
 --- !u!1 &973335412

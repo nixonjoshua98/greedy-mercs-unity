@@ -1,3 +1,4 @@
+using GM.Common.Enums;
 using GMCommon.Enums;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace GM.ScriptableObjects
         static SOContainer _instance = null;
 
         [SerializeField] List<ItemGradeConfig> _itemGradesConfig;
+        [SerializeField] List<CurrencyConfig> _currencyItemsConfig;
 
-        public static ItemGradeConfig GetItemGradeConfig(ItemGrade grade)
-        {
-            return _instance._itemGradesConfig.FirstOrDefault(x => x.Grade == grade);
-        }
+        public static ItemGradeConfig GetItemGradeConfig(ItemGrade grade) => _instance._itemGradesConfig.FirstOrDefault(x => x.Grade == grade);
+        public static CurrencyConfig GetCurrencyConfig(CurrencyType type) => _instance._currencyItemsConfig.FirstOrDefault(x => x.Type == type);
+
 
         public void Awake()
         {

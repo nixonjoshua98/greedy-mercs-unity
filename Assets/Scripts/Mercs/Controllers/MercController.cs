@@ -1,3 +1,4 @@
+using GM.Common;
 using GM.Common.Enums;
 using GM.DamageTextPool;
 using GM.Units;
@@ -138,7 +139,7 @@ namespace GM.Mercs.Controllers
             damage *= SetupPayload.EnergyPercentUsedToInstantiate;
 
             // Critical hit
-            if (MathUtils.PercentChance(App.GMCache.CriticalHitChance))
+            if (Utility.Maths.PercentChance(App.GMCache.CriticalHitChance))
             {
                 damageType = DamageType.CriticalHit;
                 damage *= App.GMCache.CriticalHitMultiplier;

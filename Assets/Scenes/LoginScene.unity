@@ -567,6 +567,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemGradesConfig:
   - {fileID: 11400000, guid: a03b8d9e4fc415d4eb1ec7e3ecafaced, type: 2}
+  _currencyItemsConfig:
+  - {fileID: 11400000, guid: 1be471224c83ee940b97dbac8e7fd5e8, type: 2}
 --- !u!4 &1250931047
 Transform:
   m_ObjectHideFlags: 0
@@ -606,8 +608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d29f646df91fe44685e01e563f7c5a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfoPopupObject: {fileID: 5478631087898126208, guid: db51481a5b189d04d95a5e926d6f3192,
-    type: 3}
 --- !u!1 &1388807364
 GameObject:
   m_ObjectHideFlags: 0

@@ -74,7 +74,7 @@ namespace GM.BountyShop.Data
             });
         }
 
-        public void PurchaseCurrencyItem(string itemId, UnityAction<bool> action)
+        public void PurchaseCurrencyItem(string itemId, UnityAction<bool, PurchaseCurrencyResponse> action)
         {
             App.HTTP.PurchaseBountyShopCurrency(itemId, (resp) =>
             {
@@ -86,7 +86,7 @@ namespace GM.BountyShop.Data
                     App.Inventory.UpdateCurrencies(resp.Currencies);
                 }
 
-                action.Invoke(resp.StatusCode == 200);
+                action.Invoke(resp.StatusCode == 200, resp);
             });
         }
     }

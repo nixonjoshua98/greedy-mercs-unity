@@ -56,7 +56,7 @@ namespace GM.Models
 
         public DateTime Next => RefreshPairFromDate(DateTime.UtcNow).Item2;
         public DateTime Previous => RefreshPairFromDate(DateTime.UtcNow).Item1;
-        public (DateTime, DateTime) PreviousNextReset => RefreshPairFromDate(DateTime.UtcNow);
+        public (DateTime Previous, DateTime Next) PreviousNextReset => RefreshPairFromDate(DateTime.UtcNow);
         public TimeSpan TimeUntilNext => Next - DateTime.UtcNow;
         public TimeSpan TimeSincePrevious => DateTime.UtcNow - Previous;
     }

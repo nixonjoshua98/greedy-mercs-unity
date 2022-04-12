@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace GM.UI
@@ -10,14 +9,9 @@ namespace GM.UI
 
         protected void ShowInnerPanel()
         {
-            StartCoroutine(IShowInnerPanel());
-        }
-
-        private IEnumerator IShowInnerPanel()
-        {
-            yield return new WaitForFixedUpdate();
-
             InnerPanel.SetActive(true);
+
+            Canvas.ForceUpdateCanvases();
         }
     }
 }

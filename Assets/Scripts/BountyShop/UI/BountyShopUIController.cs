@@ -1,4 +1,8 @@
 using UnityEngine;
+using TMPro;
+using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace GM.BountyShop.UI
 {
@@ -10,10 +14,26 @@ namespace GM.BountyShop.UI
 
         [Header("References")]
         public Transform ItemsParent;
+        [SerializeField] TMP_Text RefreshText;
 
         private void Awake()
         {
             InstantiateItemSlots();
+        }
+
+        void Start()
+        {
+            StartCoroutine(_InternalLoop());
+        }
+
+        IEnumerator _InternalLoop()
+        {
+            while (true)
+            {
+                RefreshText.text = $"items refresh in <color=orange>{ App.DailyRefresh.TimeUntilNext.Format() }</color>";
+
+                yield return new WaitForSecondsRealtime(0.25f);
+            }
         }
 
         private void InstantiateItemSlots()

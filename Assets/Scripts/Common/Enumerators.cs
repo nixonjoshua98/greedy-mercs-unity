@@ -30,7 +30,7 @@ namespace GM
             }
         }
 
-        private static IEnumerator LerpFromToCoroutine(float from, float to, float duration, Action<float> action)
+        public static IEnumerator LerpFromTo(float from, float to, float duration, Action<float> action)
         {
             float progress = 0;
 
@@ -46,9 +46,14 @@ namespace GM
             action.Invoke(to);
         }
 
+        public static IEnumerator Lerp01(float duration, Action<float> action)
+        {
+            return LerpFromTo(0, 1, duration, action);
+        }
+
         public static void Lerp01(MonoBehaviour mono, float duration, Action<float> action)
         {
-            mono.StartCoroutine(LerpFromToCoroutine(0, 1, duration, action));
+            mono.StartCoroutine(LerpFromTo(0, 1, duration, action));
         }
 
         public static void InvokeAfter(MonoBehaviour mono, Func<bool> predicate, Action callback)

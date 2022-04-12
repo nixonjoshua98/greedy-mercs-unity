@@ -4,19 +4,14 @@ namespace GM
 {
     public enum TimeSpanFormat
     {
-        Largest = 0
+        Default,
+        Largest
     }
 
     public static class TimeSpanExtensions
     {
-        // = Private = //
-        private static string Pad(int val)
-        {
-            return $"{Math.Max(val, 0)}".PadLeft(2, '0');
-        }
-
         // = Extensions = //
-        public static string Format(this TimeSpan ts, TimeSpanFormat format)
+        public static string Format(this TimeSpan ts, TimeSpanFormat format = TimeSpanFormat.Default)
         {
             switch (format)
             {
@@ -26,14 +21,10 @@ namespace GM
                     if (ts.Minutes > 0) return $"{ts.Minutes} minutes";
                     if (ts.Seconds > 0) return $"{ts.Seconds} seconds";
                     return "a few seconds";
+
+                default:
+                    return $"{ts.Hours}h {ts.Minutes}m {ts.Seconds}s";
             }
-
-            return "";
-        }
-
-        public static string Format(this TimeSpan ts)
-        {
-            return $"{Pad(ts.Hours)}h {Pad(ts.Minutes)}m {Pad(ts.Seconds)}s";
         }
     }
 }

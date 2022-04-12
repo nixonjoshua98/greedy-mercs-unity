@@ -265,7 +265,6 @@ GameObject:
   - component: {fileID: 484404306810385849}
   - component: {fileID: 5249425809758600465}
   - component: {fileID: 931482839208624355}
-  - component: {fileID: 4161342457341865090}
   m_Layer: 5
   m_Name: BountyShopArmouryItemModal
   m_TagString: Untagged
@@ -332,18 +331,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.5
---- !u!114 &4161342457341865090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4548845335846812700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dcbaa7f9a6913c4aa314799808ec554, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4555981927491649482
 GameObject:
   m_ObjectHideFlags: 0

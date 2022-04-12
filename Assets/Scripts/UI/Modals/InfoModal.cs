@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GM.UI.InfoPopups
 {
-    public class InfoModal : MonoBehaviour
+    public class InfoModal : GM.UI.PopupPanelBase
     {
         [Header("Components")]
         [SerializeField] TMP_Text Title;
@@ -13,6 +13,8 @@ namespace GM.UI.InfoPopups
         {
             Title.text = title;
             Message.text = message;
+
+            ShowInnerPanel();
         }
 
         public void ButtonUI_OnOkButton()

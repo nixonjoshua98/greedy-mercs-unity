@@ -15,6 +15,7 @@ namespace GM.BountyShop.UI
         [SerializeField] Image ItemImage;
         [Space]
         [SerializeField] TMP_Text CostText;
+        [SerializeField] TMP_Text QuantityText;
         [Space]
         [SerializeField] Button Button;
 
@@ -25,6 +26,7 @@ namespace GM.BountyShop.UI
             ShopItem = item;
 
             CostText.text = item.PurchaseCost.ToString();
+            QuantityText.text = $"{item.Quantity}x";
 
             ItemImage.sprite = item.Item.Icon;
         }

@@ -18,7 +18,7 @@ namespace GM.BountyShop.UI
         [Space]
         [SerializeField] TMP_Text CostText;
         [Space]
-        [SerializeField] GameObject SoldOverlay;
+        [SerializeField] Button Button;
 
         BountyShopArmouryItem ShopItem;
 
@@ -26,18 +26,22 @@ namespace GM.BountyShop.UI
         {
             ShopItem = item;
 
-            CostText.text = item.PurchaseCost.ToString();
-
             ItemImage.sprite = item.Item.Icon;
             IconFrame.color = item.Item.GradeConfig.FrameColour;
             BackgroundImage.sprite = item.Item.GradeConfig.BackgroundSprite;
 
-            SoldOverlay.SetActive(!item.InStock);
+            UpdateDynamicUI();
+        }
+
+        void UpdateDynamicUI()
+        {
+            Button.interactable = ShopItem.InStock;
+            CostText.text = ShopItem.InStock ? ShopItem.PurchaseCost.ToString() : "SOLD";
         }
 
         void OnItemPurchased(bool success, PurchaseArmouryItemResponse response)
         {
-            SoldOverlay.SetActive(!ShopItem.InStock);
+            UpdateDynamicUI();
         }
 
         public void Button_OnClick()

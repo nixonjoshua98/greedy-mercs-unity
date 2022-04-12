@@ -7,9 +7,12 @@ namespace GM.BountyShop.Data
 {
     public class BountyShopDataContainer : Core.GMClass
     {
-        private readonly Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
-        private Dictionary<string, BountyShopArmouryItem> armouryItems = new Dictionary<string, BountyShopArmouryItem>();
-        private Dictionary<string, BountyShopCurrencyItem> currencyItems = new Dictionary<string, BountyShopCurrencyItem>();
+        private Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
+
+        private Dictionary<string, BountyShopArmouryItem> armouryItems;
+        private Dictionary<string, BountyShopCurrencyItem> currencyItems;
+
+        public bool IsValid => false;
 
         public void Set(UserBountyShop data)
         {
@@ -24,7 +27,7 @@ namespace GM.BountyShop.Data
 
         private void UpdateItemPurchases(List<BountyShopPurchaseModel> purchaseList)
         {
-            itemPurchases.Clear();
+            itemPurchases = new();
 
             foreach (var group in purchaseList.GroupBy(x => x.ItemID))
             {

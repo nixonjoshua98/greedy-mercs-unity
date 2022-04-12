@@ -1,7 +1,5 @@
 using GM.BountyShop.Data;
 using GM.BountyShop.Requests;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +16,7 @@ namespace GM.BountyShop.UI
         [Space]
         [SerializeField] TMP_Text CostText;
         [Space]
-        [SerializeField] GameObject SoldOverlay;
+        [SerializeField] Button Button;
 
         BountyShopCurrencyItem ShopItem;
 
@@ -29,13 +27,17 @@ namespace GM.BountyShop.UI
             CostText.text = item.PurchaseCost.ToString();
 
             ItemImage.sprite = item.Item.Icon;
+        }
 
-            SoldOverlay.SetActive(!item.InStock);
+        void UpdateDynamicUI()
+        {
+            Button.interactable = ShopItem.InStock;
+            CostText.text = ShopItem.InStock ? ShopItem.PurchaseCost.ToString() : "SOLD";
         }
 
         void OnItemPurchased(bool success, PurchaseCurrencyResponse response)
         {
-            SoldOverlay.SetActive(!ShopItem.InStock);
+            UpdateDynamicUI();
         }
 
         public void Button_OnClick()

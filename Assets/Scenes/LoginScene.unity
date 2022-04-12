@@ -544,8 +544,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1250931047}
   - component: {fileID: 1250931046}
-  - component: {fileID: 1250931049}
   - component: {fileID: 1250931048}
+  - component: {fileID: 1250931049}
   m_Layer: 0
   m_Name: Scene Managers
   m_TagString: Untagged
@@ -605,9 +605,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1250931045}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d29f646df91fe44685e01e563f7c5a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 78b8a3b817753b249b1de618c856b5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InfoPopupObject: {fileID: 5478631087898126208, guid: db51481a5b189d04d95a5e926d6f3192,
+    type: 3}
 --- !u!1 &1388807364
 GameObject:
   m_ObjectHideFlags: 0

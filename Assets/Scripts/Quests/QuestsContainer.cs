@@ -24,7 +24,8 @@ namespace GM.Quests
             CompletedMercQuests = model.CompletedMercQuests;
         }
 
-        public bool IsDailyQuestsValid => QuestsCreatedAt.IsBetween(App.DailyRefresh.PreviousNextReset);
+        public bool IsDailyQuestsValid => App.DailyRefresh.Current.IsBetween(QuestsCreatedAt);
+
         public bool IsMercQuestCompleted(int questId)
         {
             return CompletedMercQuests.Contains(questId);

@@ -12,10 +12,4 @@ namespace GM.BountyShop.Data
         public List<BountyShopArmouryItem> ArmouryItems;
         public List<BountyShopCurrencyItem> CurrencyItems;
     }
-
-    public class UserBountyShop
-    {
-        public List<BountyShopPurchaseModel> Purchases;
-        public BountyShopItems ShopItems;
-    }
 }

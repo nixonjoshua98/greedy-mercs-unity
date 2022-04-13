@@ -2,6 +2,24 @@
 
 namespace GM.Models
 {
+    public class CurrentServerRefresh
+    {
+        public DateTime Previous;
+        public DateTime Next;
+
+        public CurrentServerRefresh(DateTime prev, DateTime next)
+        {
+            Previous = prev;
+            Next = next;
+        }
+
+        public bool IsBetween(DateTime dt)
+        {
+            return Previous < dt && Next > dt;
+        }
+    }
+
+
     public class ServerRefreshInterval
     {
         public TimeSpan Interval;
@@ -13,9 +31,11 @@ namespace GM.Models
         public int Minute;
         public int Second;
 
-        private (DateTime, DateTime) RefreshPairFromDate(DateTime dt)
+        public CurrentServerRefresh Current => RefreshPairFromDate(DateTime.UtcNow);
+
+        private CurrentServerRefresh RefreshPairFromDate(DateTime dt)
         {
-            DateTime refreshTime = new DateTime(dt.Year, dt.Month, dt.Day, Hour, Minute, Second);
+            DateTime refreshTime = new DateTime(dt.Year, dt.Month, dt.Day, Hour, Minute, Second, DateTimeKind.Utc);
 
             // Week Day (Mon, Tue etc.)
             if (WeekDay > -1)
@@ -23,7 +43,7 @@ namespace GM.Models
                 while (refreshTime.DayOfWeek != (DayOfWeek)WeekDay)
                     refreshTime -= TimeSpan.FromDays(1);
 
-                return (refreshTime, refreshTime + TimeSpan.FromDays(7));
+                return new(refreshTime, refreshTime + TimeSpan.FromDays(7));
             }
 
             // Month date
@@ -32,9 +52,9 @@ namespace GM.Models
                 while (refreshTime.Day != MonthDate)
                     refreshTime -= TimeSpan.FromDays(1);
 
-                DateTime nextRefresh = new DateTime(refreshTime.Year, refreshTime.Month + 1, refreshTime.Day, refreshTime.Hour, refreshTime.Minute, refreshTime.Second);
+                DateTime nextRefresh = new(refreshTime.Year, refreshTime.Month + 1, refreshTime.Day, refreshTime.Hour, refreshTime.Minute, refreshTime.Second);
 
-                return (refreshTime, nextRefresh);
+                return new(refreshTime, nextRefresh);
             }
 
             // General Interval (1 hour, 3 days etc)
@@ -43,21 +63,19 @@ namespace GM.Models
                 while (refreshTime > dt)
                     refreshTime -= Interval;
 
-                return (refreshTime, refreshTime + Interval);
+                return new(refreshTime, refreshTime + Interval);
             }
             else
             {
                 while (dt > refreshTime)
                     refreshTime += Interval;
 
-                return (refreshTime - Interval, refreshTime);
+                return new(refreshTime - Interval, refreshTime);
             }
         }
 
-        public DateTime Next => RefreshPairFromDate(DateTime.UtcNow).Item2;
-        public DateTime Previous => RefreshPairFromDate(DateTime.UtcNow).Item1;
-        public (DateTime Previous, DateTime Next) PreviousNextReset => RefreshPairFromDate(DateTime.UtcNow);
+        public DateTime Next => RefreshPairFromDate(DateTime.UtcNow).Next;
+        public DateTime Previous => RefreshPairFromDate(DateTime.UtcNow).Previous;
         public TimeSpan TimeUntilNext => Next - DateTime.UtcNow;
-        public TimeSpan TimeSincePrevious => DateTime.UtcNow - Previous;
     }
 }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace GM.BountyShop.UI
 {
     public abstract class AbstractBountyShopItemModal : GM.UI.PopupPanelBase

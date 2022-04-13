@@ -4,6 +4,8 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using GM.UI;
+using GM.Common;
 
 namespace GM.BountyShop.UI
 {

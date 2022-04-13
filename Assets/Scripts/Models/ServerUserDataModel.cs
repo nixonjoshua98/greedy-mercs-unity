@@ -17,7 +17,6 @@ namespace GM.Models
         UserBounties Bounties { get; set; }
         List<UserArmouryItem> ArmouryItems { get; set; }
         List<ArtefactUserDataModel> Artefacts { get; set; }
-        UserBountyShop BountyShop { get; set; }
         LifetimeStatsModel LifetimeStats { get; set; }
         QuestsDataResponse Quests { get; }
     }
@@ -29,7 +28,6 @@ namespace GM.Models
         public UserBounties Bounties { get; set; }
         public List<UserArmouryItem> ArmouryItems { get; set; }
         public List<ArtefactUserDataModel> Artefacts { get; set; }
-        public UserBountyShop BountyShop { get; set; }
         public LifetimeStatsModel LifetimeStats { get; set; }
         public QuestsDataResponse Quests { get; set; }
     }

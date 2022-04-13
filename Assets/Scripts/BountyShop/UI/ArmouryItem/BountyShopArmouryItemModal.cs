@@ -3,6 +3,7 @@ using GM.BountyShop.Requests;
 using System;
 using TMPro;
 using UnityEngine;
+using GM.UI;
 using UnityEngine.UI;
 
 namespace GM.BountyShop.UI

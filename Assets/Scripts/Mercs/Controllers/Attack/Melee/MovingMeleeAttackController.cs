@@ -34,7 +34,7 @@ namespace GM.Mercs.Controllers
                 return false;
             }
 
-            HealthController health = current.GetCachedComponent<HealthController>();
+            HealthController health = current.GetComponent<HealthController>();
 
             return health.Percent >= 1.0 && CanDefeatTargetOneHit(current);
         }
@@ -94,7 +94,7 @@ namespace GM.Mercs.Controllers
 
         private bool CanDefeatTargetOneHit(UnitBaseClass unit)
         {
-            HealthController health = unit.GetCachedComponent<HealthController>();
+            HealthController health = unit.GetComponent<HealthController>();
 
             return health.MaxHealth < Controller.MercDataValues.DamagePerAttack;
         }

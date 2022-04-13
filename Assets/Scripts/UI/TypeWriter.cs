@@ -3,10 +3,11 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace GM
+namespace GM.UI
 {
     public class TypeWriter : MonoBehaviour
     {
+        public string Template;
         [SerializeField] string TextToDisplay;
         [SerializeField] float MsPerChar = 250;
         [SerializeField] bool Loop;
@@ -15,6 +16,12 @@ namespace GM
 
         private Stopwatch stopWatch;
         private int numCharactersShown = 1;
+
+        void Awake()
+        {
+            if (Template == null || Template == string.Empty)
+                Template = "%TEXT%";
+        }
 
         private void OnEnable()
         {
@@ -41,7 +48,7 @@ namespace GM
                 }
             }
 
-            Text.text = TextToDisplay.Substring(0, numCharactersShown);
+            Text.text = Template.Replace("%TEXT%", TextToDisplay.Substring(0, numCharactersShown));
         }
     }
 }

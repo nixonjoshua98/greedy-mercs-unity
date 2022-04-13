@@ -24,9 +24,10 @@ namespace GM.LocalFiles
                 if (_LocalDailyStats is null)
                     _LocalDailyStats = new();
 
-                else if (!_LocalDailyStats.DateTime.IsBetween(App.DailyRefresh.PreviousNextReset))
+                // Data is not valid so we need to clear and reset it
+                else if (!App.DailyRefresh.Current.IsBetween(_LocalDailyStats.LastUpdated))
                 {
-                    _LocalDailyStats = new() { DateTime = DateTime.UtcNow };
+                    _LocalDailyStats = new() { LastUpdated = DateTime.UtcNow };
                 }
 
                 return _LocalDailyStats;

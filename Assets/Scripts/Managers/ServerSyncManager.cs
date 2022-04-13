@@ -12,6 +12,8 @@ namespace GM
         private bool isUpdatingLifetimeStats;
         private Stopwatch syncStatsWatch;
 
+        bool isUpdatingBountyShop;
+
         private void Awake()
         {
             syncStatsWatch = Stopwatch.StartNew();
@@ -28,6 +30,9 @@ namespace GM
             {
                 yield return new WaitForSecondsRealtime(1);
 
+                if (!isUpdatingBountyShop && !App.BountyShop.IsValid)
+                    FetchBountyShop();
+
                 if (!isUpdatingQuests && !App.Quests.IsDailyQuestsValid)
                 {
                     FetchQuests();
@@ -40,6 +45,21 @@ namespace GM
                     SyncStatsWithServer();
                 }
             }
+        }
+
+        void FetchBountyShop()
+        {
+            isUpdatingBountyShop = true;
+
+            App.BountyShop.FetchShop(() =>
+            {
+                if (!App.BountyShop.IsValid)
+                {
+                    Invoke("FetchBountyShop", 1.0f);
+                }
+
+                isUpdatingBountyShop = !App.BountyShop.IsValid;
+            });
         }
 
         private void SyncStatsWithServer()

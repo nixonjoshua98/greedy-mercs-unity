@@ -50,7 +50,7 @@ namespace GM
 
             foreach (GM.Units.UnitBaseClass unit in enemies)
             {
-                GM.Controllers.HealthController health = unit.GetCachedComponent<GM.Controllers.HealthController>();
+                GM.Controllers.HealthController health = unit.GetComponent<GM.Controllers.HealthController>();
 
                 health.Init(combinedHealth);
 

@@ -19,6 +19,8 @@ namespace GM.HTTP
 {
     public interface IHTTPClient
     {
+        bool IsOffline { get; }
+
         void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback);
         void PurchaseBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback);
         void ClaimBounties(Action<BountyClaimResponse> callback);
@@ -33,16 +35,20 @@ namespace GM.HTTP
         void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action);
         void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback);
         void UpgradeBounty(int bountyId, Action<UpgradeBountyResponse> callback);
+        void FetchBountyShop(Action<GetBountyShopResponse> callback);
     }
 
-    public class HTTPClient : Common.MonoBehaviourLazySingleton<HTTPClient>, IHTTPClient
+    public class HTTPClient : MonoBehaviourLazySingleton<HTTPClient>, IHTTPClient
     {
         private HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
             Address = "109.154.214.49"
         };
+
         private string Token = null;
+
+        public bool IsOffline { get; private set; }
 
         /// <summary>
         /// Send local stat changes to the server to sync
@@ -171,6 +177,11 @@ namespace GM.HTTP
             SendRequest("PUT", "BountyShop/Purchase/ArmouryItem", req, false, callback);
         }
 
+        public void FetchBountyShop(Action<GetBountyShopResponse> callback)
+        {
+            SendRequest("GET", "BountyShop", ServerRequest.Empty, false, callback);
+        }
+
         /// <summary>
         /// Purchase a currency item from the bounty shop
         /// </summary>
@@ -188,10 +199,10 @@ namespace GM.HTTP
             UnityWebRequest www = method switch
             {
                 "GET" => UnityWebRequest.Get(url),
-                "POST" => UnityWebRequest.Post(url, SerializeRequest(request, encrypt)),
                 "PUT" => UnityWebRequest.Put(url, SerializeRequest(request, encrypt)),
                 _ => throw new Exception()
             };
+
 
             www.timeout = 3;
 
@@ -200,21 +211,23 @@ namespace GM.HTTP
 
         private void SendRequest<TRequest, TResponse>(string method, string url, TRequest request, bool encrypt, Action<TResponse> action) where TRequest : IServerRequest where TResponse : IServerResponse, new()
         {
-            try
+            if (IsOffline)
             {
-                UnityWebRequest www = CreateWebRequest(method, url, request, encrypt);
+                TResponse resp = new TResponse() { Message = "Client is offline. Re-login to continue", StatusCode = 0 };
 
-                SetRequestHeaders(www);
+                action.Invoke(resp);
 
-                StartCoroutine(SendRequest(www, () =>
-                {
-                    ResponseHandler(www, action);
-                }));
+                return;
             }
-            catch (Exception e)
+
+            UnityWebRequest www = CreateWebRequest(method, url, request, encrypt);
+
+            SetRequestHeaders(www);
+
+            StartCoroutine(SendRequest(www, () =>
             {
-                GMLogger.Exception(url, e);
-            }
+                ResponseHandler(www, action);
+            }));
         }
 
         private IEnumerator SendRequest(UnityWebRequest www, Action action)
@@ -282,6 +295,8 @@ namespace GM.HTTP
 
         private void ResponseHandler<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
+            IsOffline = IsOffline || www.responseCode == 0;
+
             bool isEncrypted = www.GetBoolResponseHeader(Constants.Headers.ResponseEncrypted, false);
 
             TResponse resp = DeserializeResponse<TResponse>(www, isEncrypted);

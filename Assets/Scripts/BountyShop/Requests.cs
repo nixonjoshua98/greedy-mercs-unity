@@ -1,6 +1,9 @@
 ﻿using GM.Armoury.Data;
+using GM.BountyShop.Data;
 using GM.HTTP;
 using GM.Inventory;
+using System;
+using System.Collections.Generic;
 
 namespace GM.BountyShop.Requests
 {
@@ -24,5 +27,14 @@ namespace GM.BountyShop.Requests
     {
         public long PurchaseCost;
         public UserCurrencies Currencies;
+    }
+
+    // = Get Bounty Shop = //
+
+    public class GetBountyShopResponse : ServerResponse
+    {
+        public DateTime ShopCreationTime;
+        public List<BountyShopPurchaseModel> Purchases;
+        public BountyShopItems ShopItems;
     }
 }

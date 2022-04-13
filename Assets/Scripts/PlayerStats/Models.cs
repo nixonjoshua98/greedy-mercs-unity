@@ -20,7 +20,7 @@ namespace GM.PlayerStats
 
     public class TimedPlayerStatsModel : PlayerStats
     {
-        public DateTime DateTime;
+        public DateTime LastUpdated;
 
     }
 }

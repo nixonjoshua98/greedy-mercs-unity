@@ -57,12 +57,11 @@ namespace GM.Core
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
         {
             // Property has a date check, so if the data is old then it will recreate a new instance
-            PersistantLocalFile.LocalDailyStats.DateTime = DateTime.UtcNow;
+            PersistantLocalFile.LocalDailyStats.LastUpdated = DateTime.UtcNow;
 
             GameState = stateFile == null ? new() : stateFile.GameState;
 
             Stats.Set(userData.LifetimeStats);
-            BountyShop.Set(userData.BountyShop);
             Quests.Set(userData.Quests);
             Mercs.Set(userData.UnlockedMercs, staticData.Mercs, stateFile);
             Armoury.Set(userData.ArmouryItems, staticData.ArmouryItems);

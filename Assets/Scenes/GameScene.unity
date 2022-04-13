@@ -4957,7 +4957,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.45
+  m_fontSize: 42
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5418,6 +5418,7 @@ MonoBehaviour:
     type: 3}
   ItemsParent: {fileID: 364922236}
   RefreshText: {fileID: 1730018487}
+  LoadingTypeWriter: {fileID: 1730018489}
 --- !u!1 &973335412
 GameObject:
   m_ObjectHideFlags: 0
@@ -10228,6 +10229,7 @@ GameObject:
   - component: {fileID: 1730018486}
   - component: {fileID: 1730018488}
   - component: {fileID: 1730018487}
+  - component: {fileID: 1730018489}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -10353,6 +10355,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730018485}
   m_CullTransparentMesh: 1
+--- !u!114 &1730018489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730018485}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9300d158f3e3e8f48b28e50e60133be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Template: Shop Loading%TEXT%
+  TextToDisplay: ...
+  MsPerChar: 500
+  Loop: 1
+  Text: {fileID: 1730018487}
 --- !u!1 &1752542948
 GameObject:
   m_ObjectHideFlags: 0
@@ -14331,6 +14350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9300d158f3e3e8f48b28e50e60133be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Template: 
   TextToDisplay: ...
   MsPerChar: 200
   Loop: 1

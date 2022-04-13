@@ -6,11 +6,8 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop.UI
 {
-    public class BountyShopCurrencyItemSlot : GM.Core.GMMonoBehaviour
+    public class BountyShopCurrencyItemSlot : AbstractBountyShopItemSlot
     {
-        [Header("Prefabs")]
-        [SerializeField] GameObject PurchaseModalObject;
-
         [Header("Components")]
         [SerializeField] Image ItemImage;
         [Space]
@@ -44,7 +41,9 @@ namespace GM.BountyShop.UI
 
         public void Button_OnClick()
         {
-            InstantiateUI<BountyShopCurrencyItemModal>(PurchaseModalObject).Set(ShopItem, OnItemPurchased);
+            var modal = InstantiateModal<BountyShopCurrencyItemModal>(PurchaseModalObject);
+
+            modal.Set(ShopItem, OnItemPurchased);
         }
     }
 }

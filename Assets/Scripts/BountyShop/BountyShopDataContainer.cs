@@ -1,4 +1,5 @@
 ﻿using GM.BountyShop.Requests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
@@ -12,18 +13,14 @@ namespace GM.BountyShop.Data
         private Dictionary<string, BountyShopArmouryItem> armouryItems;
         private Dictionary<string, BountyShopCurrencyItem> currencyItems;
 
-        public bool IsValid => false;
+        DateTime ShopCreatedAt;
 
-        public void Set(UserBountyShop data)
-        {
-            Update(data.ShopItems);
-            UpdateItemPurchases(data.Purchases);
-        }
+        // = Events = //
+        public UnityEvent E_ShopUpdated = new();
 
-        public int GetItemPurchaseData(string id)
-        {
-            return itemPurchases.Get(id, 0);
-        }
+        public bool IsValid => armouryItems is not null && currencyItems is not null && App.DailyRefresh.Current.IsBetween(ShopCreatedAt);
+
+        public int GetItemPurchaseData(string id) => itemPurchases.Get(id, 0);
 
         private void UpdateItemPurchases(List<BountyShopPurchaseModel> purchaseList)
         {
@@ -41,19 +38,28 @@ namespace GM.BountyShop.Data
         /// <summary>
         /// Update all items
         /// </summary>
-        private void Update(BountyShopItems items)
+        private void UpdateShopItems(BountyShopItems items)
         {
             armouryItems = items.ArmouryItems.ToDictionary(ele => ele.ID, ele => ele);
             currencyItems = items.CurrencyItems.ToDictionary(ele => ele.ID, ele => ele);
         }
 
-        /// <summary>
-        /// Update all bounty shop related data
-        /// </summary>
-        public void UpdateShop(UserBountyShop model)
+        public void FetchShop(UnityAction action)
         {
-            UpdateItemPurchases(model.Purchases);
-            Update(model.ShopItems);
+            App.HTTP.FetchBountyShop(resp =>
+            {
+                if (resp.StatusCode == HTTP.HTTPCodes.Success)
+                {
+                    ShopCreatedAt = resp.ShopCreationTime;
+
+                    UpdateItemPurchases(resp.Purchases);
+                    UpdateShopItems(resp.ShopItems);
+
+                    E_ShopUpdated.Invoke();
+                }
+
+                action.Invoke();
+            });
         }
 
         /// <summary>

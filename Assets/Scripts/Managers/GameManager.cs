@@ -31,7 +31,7 @@ namespace GM
             if (!EnemyUnits.TryGetUnit(ref unit))
                 return false;
 
-            HealthController health = unit.GetCachedComponent<HealthController>();
+            HealthController health = unit.GetComponent<HealthController>();
 
             if (!health.CanTakeDamage)
                 return false;

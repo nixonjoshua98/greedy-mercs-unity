@@ -11,7 +11,8 @@ namespace GM.Armoury.Data
         public int ID;
 
         public BonusType BonusType;
-        public ItemGrade Grade = ItemGrade.Common;
+
+        public ItemGrade Grade;
 
         public float BaseEffect;
 
@@ -29,10 +30,8 @@ namespace GM.Armoury.Data
         public int ID;
 
         [JsonProperty(PropertyName = "Owned")]
-        public int NumOwned = 0;
+        public int NumOwned;
 
-        public int MergeLevel = 0;
-
-        public int Level = 0;
+        public int Level;
     }
 }

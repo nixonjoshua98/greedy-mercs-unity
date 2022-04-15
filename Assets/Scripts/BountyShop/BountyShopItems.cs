@@ -20,7 +20,7 @@ namespace GM.BountyShop.Data
         public int Quantity;
 
         [JsonIgnore]
-        public CurrencyConfig Item => SOContainer.GetCurrencyConfig(CurrencyType);
+        public CurrencyConfig Item => App.LocalGameData.GetCurrencyConfig(CurrencyType);
     }
 
     public class BountyShopArmouryItem : BountyShopItem

@@ -1,6 +1,7 @@
 using GM.HTTP;
 using GM.LocalFiles;
 using GM.Models;
+using GM.ScriptableObjects;
 using System;
 
 namespace GM.Core
@@ -20,6 +21,8 @@ namespace GM.Core
         public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();
         public GM.PlayerStats.PlayerStatsContainer Stats = new();
 
+        public LocalGameDataContainer LocalGameData;
+
         public CurrentPrestigeState GameState;
 
         public GMCache GMCache = new();
@@ -37,21 +40,19 @@ namespace GM.Core
         /// </summary>
         public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromDays(1) };
 
-        private GMApplication()
+        private GMApplication(LocalGameDataContainer localDataContainer)
         {
+            LocalGameData = localDataContainer;
             SaveManager = LocalSaveManager.Instance;    // Force lazy load
 
             LocalPersistantFile.LoadFromFile(out PersistantLocalFile);
         }
 
-        public static GMApplication Create()
+        public static GMApplication Create(LocalGameDataContainer localDataContainer)
         {
             GMLogger.Editor(UnityEngine.Application.persistentDataPath);
 
-            if (Instance == null)
-                Instance = new GMApplication();
-
-            return Instance;
+            return Instance ?? (Instance = new(localDataContainer));
         }
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)

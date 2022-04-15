@@ -12,8 +12,6 @@ namespace GM.BountyShop.UI
     {
         [Header("Components")]
         [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text OwnedText;
-        [SerializeField] TMP_Text LevelText;
         [SerializeField] TMP_Text CostText;
         [Space]
         [SerializeField] Image Icon;
@@ -36,8 +34,6 @@ namespace GM.BountyShop.UI
             PurchaseCallback = purchaseCallback;
 
             NameText.text = item.Item.Name;
-            OwnedText.text = $"Owned <color=white>{(item.Item.UserOwnsItem ? item.Item.NumOwned : "None")}</color>";
-            LevelText.text = $"Level <color=white>{(item.Item.UserOwnsItem ? item.Item.CurrentLevel : "0")}</color>";
             CostText.text = item.PurchaseCost.ToString();
 
             Icon.sprite = item.Item.Icon;

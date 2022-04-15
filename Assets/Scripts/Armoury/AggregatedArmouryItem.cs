@@ -32,7 +32,7 @@ namespace GM.Armoury
             BaseEffect = gameItem.BaseEffect;
             LevelEffect = gameItem.LevelEffect;
 
-            GradeConfig = SOContainer.GetItemGradeConfig(Grade);
+            GradeConfig = App.LocalGameData.GetItemGradeConfig(Grade);
         }
 
         UserArmouryItem UserModel
@@ -45,8 +45,6 @@ namespace GM.Armoury
                 return model;
             }
         }
-
-        public bool UserOwnsItem => App.Armoury.DoesUserOwnItem(ID);
 
         public int NumOwned => UserModel.NumOwned;
         public int CurrentLevel => UserModel.Level;

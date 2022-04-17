@@ -46,6 +46,7 @@ namespace GM.BountyShop.UI
                     RefreshText.text = "Bounty Shop Offline";
 
                     ItemSlotObjects.ForEach(x => Destroy(x));
+                    break;
                 }
                 else if (App.BountyShop.IsValid)
                 {

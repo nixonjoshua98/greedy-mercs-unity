@@ -12,8 +12,7 @@ namespace GM.BountyShop.UI
     public class BountyShopCurrencyItemModal : AbstractBountyShopItemModal
     {
         [Header("Components")]
-        [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text OwnedText;
+        [SerializeField] TMP_Text TitleText;
         [SerializeField] TMP_Text CostText;
         [Space]
         [SerializeField] Image Icon;
@@ -33,8 +32,7 @@ namespace GM.BountyShop.UI
             ShopItem = item;
             PurchaseCallback = purchaseCallback;
 
-            NameText.text = item.Item.DisplayName;
-            OwnedText.text = $"Owned <color=white>{App.Inventory.GetCurrencyString(item.CurrencyType)}</color>";
+            TitleText.text = $"<color=orange>{item.Quantity}x</color> {item.Item.DisplayName}";
             CostText.text = item.PurchaseCost.ToString();
 
             Icon.sprite = item.Item.Icon;

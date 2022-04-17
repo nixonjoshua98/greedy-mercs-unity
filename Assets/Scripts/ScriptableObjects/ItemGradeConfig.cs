@@ -7,7 +7,6 @@ namespace GM.ScriptableObjects
     public class ItemGradeConfig : ScriptableObject
     {
         public ItemGrade Grade;
-        public string Name;
 
         [Header("Appearance")]
         public Sprite BackgroundSprite;

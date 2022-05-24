@@ -2,7 +2,7 @@
 
 namespace GM.HTTP.Requests
 {
-    public class PrestigeRequest : IServerRequest
+    public class PrestigeRequest
     {
         public int PrestigeStage;
     }

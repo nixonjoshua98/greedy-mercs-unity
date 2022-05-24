@@ -15,13 +15,6 @@ namespace GM.Bounties.Requests
         public Inventory.UserCurrencies Currencies;
     }
 
-    // Level Up Bounty
-
-    public class UpgradeBountyRequest : IServerRequest
-    {
-        public int BountyID;
-    }
-
     public class UpgradeBountyResponse : ServerResponse
     {
         public UserBounty Bounty;

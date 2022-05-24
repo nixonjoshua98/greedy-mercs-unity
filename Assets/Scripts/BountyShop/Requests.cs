@@ -7,13 +7,6 @@ using System.Collections.Generic;
 
 namespace GM.BountyShop.Requests
 {
-    // = Requests = //
-
-    public class PurchaseBountyShopItem : IServerRequest
-    {
-        public string ItemID { get; set; }
-    }
-
     // = Responses = //
 
     public class PurchaseArmouryItemResponse : ServerResponse

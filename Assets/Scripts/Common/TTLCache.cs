@@ -14,14 +14,6 @@ namespace GM.Common
     {
         private readonly Dictionary<string, CachedValue> cacheDict = new Dictionary<string, CachedValue>();
 
-        public void Remove(string key)
-        {
-            if (cacheDict.ContainsKey(key))
-            {
-                cacheDict.Remove(key);
-            }
-        }
-
         public T Get<T>(string key, int lifetime, Func<object> fallback)
         {
             try
@@ -52,7 +44,7 @@ namespace GM.Common
             {
                 if (DateTime.UtcNow >= result.ExpireAt)
                 {
-                    Remove(key);
+                    cacheDict.Remove(key);
 
                     return false;
                 }

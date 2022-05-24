@@ -12,13 +12,6 @@ namespace GM.Artefacts
         public double UnlockCost;
     }
 
-    // Bulk Upgrade Artefact
-
-    public class BulkArtefactUpgradeRequest : IServerRequest
-    {
-        public List<Models.BulkArtefactUpgrade> Artefacts;
-    }
-
     public class BulkArtefactUpgradeResponse : ServerResponse
     {
         public double UpgradeCost;

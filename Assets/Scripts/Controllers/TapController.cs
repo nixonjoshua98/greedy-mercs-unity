@@ -31,6 +31,7 @@ namespace GM.Controllers
         private void Start()
         {
             stopWatch = Stopwatch.StartNew();
+
             EnemyUnits = this.GetComponentInScene<IEnemyUnitCollection>();
             DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
         }

@@ -26,13 +26,14 @@ namespace GM.Mercs.Controllers
     {
         [Header("Components")]
         [SerializeField] private MovementController Movement;
+
         private List<IUnitActionController> ActionControllers;
         private UnitBase CurrentTarget;
 
-        // = Events = //
-        public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
+        [Header("Events")]
+        public UnityEvent<BigDouble> OnDamageDealt = new();
 
-        // Managers
+        // Scene instances
         private IDamageTextPool DamageTextPool;
         private ISquadController SquadController;
         private IEnemyUnitCollection EnemyUnits;

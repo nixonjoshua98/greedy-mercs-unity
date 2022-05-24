@@ -38,7 +38,7 @@ namespace GM.HTTP
         void FetchBountyShop(Action<GetBountyShopResponse> callback);
     }
 
-    public class HTTPClient : MonoBehaviourLazySingleton<HTTPClient>, IHTTPClient
+    public class AbstractHTTPClient : MonoBehaviourLazySingleton<HTTPClient>
     {
         private HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
@@ -46,153 +46,11 @@ namespace GM.HTTP
             Address = "81.136.113.53"
         };
 
-        private string Token = null;
+        protected string Token = null;
 
-        public bool IsOffline { get; private set; }
+        public bool IsOffline { get; private set; }       
 
-        /// <summary>
-        /// Send local stat changes to the server to sync
-        /// </summary>
-        public void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action)
-        {
-            UpdateLifetimeStatsRequest req = new() { Changes = App.Stats.LocalLifetimeStats };
-
-            SendRequest("PUT", "User/LifetimeStats", req, false, action);
-        }
-
-        /// <summary>
-        /// Fetch all user quests and quest progress
-        /// </summary>
-        public void FetchQuests(Action<QuestsDataResponse> action)
-        {
-            SendRequest("GET", "Quests", ServerRequest.Empty, encrypt: false, action);
-        }
-
-        /// <summary>
-        /// Complete a merc quest
-        /// </summary>
-        public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
-        {
-            CompleteMercQuestRequest req = new() { QuestID = questId, HighestStageReached = App.Stats.HighestStageReached };
-
-            SendRequest("PUT", "Quests/Merc", req, encrypt: false, action);
-        }
-
-        /// <summary>
-        /// Complete a daily quest
-        /// </summary>
-        public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)
-        {
-            CompleteDailyQuestRequest req = new() { QuestID = questId, LocalDailyStats = App.Stats.LocalDailyStats };
-
-            SendRequest("PUT", "Quests/Daily", req, encrypt: false, action);
-        }
-
-        /// <summary>
-        /// Fetch the datafiles stored on the server
-        /// </summary>
-        public void FetchStaticData(Action<FetchGameDataResponse> callback)
-        {
-            SendRequest("GET", "DataFile", ServerRequest.Empty, false, callback);
-        }
-
-        /// <summary>
-        /// Unlock a random new artefact
-        /// </summary>
-        public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
-        {
-            SendRequest("GET", "Artefacts/Unlock", ServerRequest.Empty, false, callback);
-        }
-
-        /// <summary>
-        /// Bulk upgrade multiple artefacts in the same request
-        /// </summary>
-        public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback)
-        {
-            BulkArtefactUpgradeRequest req = new() { Artefacts = artefacts.Select(x => new BulkArtefactUpgrade() { ArtefactID = x.Key, Levels = x.Value }).ToList() };
-
-            SendRequest("PUT", "Artefacts/BulkUpgrade", req, false, callback);
-        }
-
-        /// <summary>
-        /// Upgrade a single armoury item
-        /// </summary>
-        public void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback)
-        {
-            UpgradeArmouryItemRequest req = new() { ItemID = item };
-
-            SendRequest("PUT", "Armoury/Upgrade", req, false, callback);
-        }
-
-        /// <summary>
-        /// Claim the earned points which have accumulated since the last claim
-        /// </summary>
-        public void ClaimBounties(Action<BountyClaimResponse> callback)
-        {
-            SendRequest("GET", "Bounties/Claim", ServerRequest.Empty, false, callback);
-        }
-
-        public void UpgradeBounty(int bountyId, Action<UpgradeBountyResponse> callback)
-        {
-            UpgradeBountyRequest req = new() { BountyID = bountyId };
-
-            SendRequest("PUT", "Bounties/Upgrade", req, false, callback);
-        }
-
-        /// <summary>
-        /// Attempt a login via device id
-        /// </summary>
-        public void DeviceLogin(Action<LoginResponse> callback)
-        {
-            var req = new LoginRequest(SystemInfo.deviceUniqueIdentifier);
-
-            SendRequest<LoginRequest, LoginResponse>("GET", "Login/Device", req, false, (resp) =>
-            {
-                Token = null;
-
-                if (resp.StatusCode == HTTPCodes.Success)
-                {
-                    Token = resp.Token;
-                }
-
-                callback.Invoke(resp);
-            });
-        }
-
-        /// <summary>
-        /// Send the prestige request
-        /// </summary>
-        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
-        {
-            SendRequest("PUT", "Prestige", request, false, callback);
-        }
-
-        /// <summary>
-        /// Purchase an armoury item from the shop
-        /// </summary>
-        public void PurchaseBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)
-        {
-            PurchaseBountyShopItem req = new() { ItemID = item };
-
-            SendRequest("PUT", "BountyShop/Purchase/ArmouryItem", req, false, callback);
-        }
-
-        public void FetchBountyShop(Action<GetBountyShopResponse> callback)
-        {
-            SendRequest("GET", "BountyShop", ServerRequest.Empty, false, callback);
-        }
-
-        /// <summary>
-        /// Purchase a currency item from the bounty shop
-        /// </summary>
-        public void PurchaseBountyShopCurrency(string item, Action<PurchaseCurrencyResponse> callback)
-        {
-            PurchaseBountyShopItem req = new() { ItemID = item };
-
-            SendRequest("PUT", "BountyShop/Purchase/Currency", req, false, callback);
-        }
-
-        private UnityWebRequest CreateWebRequest<TRequest>(string method, string url, TRequest request, bool encrypt = false) where TRequest : IServerRequest
+        private UnityWebRequest CreateWebRequest(string method, string url, object request, bool encrypt = false)
         {
             url = ResolveURL(url);
 
@@ -209,7 +67,7 @@ namespace GM.HTTP
             return www;
         }
 
-        private void SendRequest<TRequest, TResponse>(string method, string url, TRequest request, bool encrypt, Action<TResponse> action) where TRequest : IServerRequest where TResponse : IServerResponse, new()
+        protected void SendRequest<TResponse>(string method, string url, object request, bool encrypt, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
             if (IsOffline)
             {
@@ -283,7 +141,7 @@ namespace GM.HTTP
             return model;
         }
 
-        private string SerializeRequest<T>(T request, bool encrypt = false) where T : IServerRequest
+        private string SerializeRequest(object request, bool encrypt = false)
         {
             string str = JsonConvert.SerializeObject(request);
 
@@ -316,6 +174,112 @@ namespace GM.HTTP
             {
                 action.Invoke(resp);
             }
+        }
+    }
+
+
+    public class HTTPClient : AbstractHTTPClient, IHTTPClient
+    {
+        public void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action)
+        {
+            var req = new { Changes = App.Stats.LocalLifetimeStats };
+
+            SendRequest("PUT", "User/LifetimeStats", req, false, action);
+        }
+
+        public void FetchQuests(Action<QuestsDataResponse> action)
+        {
+            SendRequest("GET", "Quests", null, encrypt: false, action);
+        }
+
+        public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
+        {
+            var req = new { QuestID = questId, HighestStageReached = App.Stats.HighestStageReached };
+
+            SendRequest("PUT", "Quests/Merc", req, encrypt: false, action);
+        }
+
+        public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)
+        {
+            var req = new { QuestID = questId, LocalDailyStats = App.Stats.LocalDailyStats };
+
+            SendRequest("PUT", "Quests/Daily", req, encrypt: false, action);
+        }
+
+        public void FetchStaticData(Action<FetchGameDataResponse> callback)
+        {
+            SendRequest("GET", "DataFile", null, false, callback);
+        }
+        public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
+        {
+            SendRequest("GET", "Artefacts/Unlock", null, false, callback);
+        }
+
+        public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback)
+        {
+            var req = new { Artefacts = artefacts.Select(x => new BulkArtefactUpgrade() { ArtefactID = x.Key, Levels = x.Value }).ToList() };
+
+            SendRequest("PUT", "Artefacts/BulkUpgrade", req, false, callback);
+        }
+
+        public void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback)
+        {
+            var req = new { ItemID = item };
+
+            SendRequest("PUT", "Armoury/Upgrade", req, false, callback);
+        }
+
+        public void ClaimBounties(Action<BountyClaimResponse> callback)
+        {
+            SendRequest("GET", "Bounties/Claim", null, false, callback);
+        }
+
+        public void UpgradeBounty(int bountyId, Action<UpgradeBountyResponse> callback)
+        {
+            var req = new { BountyID = bountyId };
+
+            SendRequest("PUT", "Bounties/Upgrade", req, false, callback);
+        }
+
+        public void DeviceLogin(Action<LoginResponse> callback)
+        {
+            var req = new { DeviceId = SystemInfo.deviceUniqueIdentifier };
+
+            SendRequest<LoginResponse>("GET", "Login/Device", req, false, (resp) =>
+            {
+                Token = null;
+
+                if (resp.StatusCode == HTTPCodes.Success)
+                {
+                    Token = resp.Token;
+                }
+
+                callback.Invoke(resp);
+            });
+        }
+
+        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
+        {
+            SendRequest("PUT", "Prestige", request, false, callback);
+        }
+
+        public void PurchaseBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)
+        {
+            var req = new { ItemID = item };
+
+            SendRequest("PUT", "BountyShop/Purchase/ArmouryItem", req, false, callback);
+        }
+
+        public void FetchBountyShop(Action<GetBountyShopResponse> callback)
+        {
+            SendRequest("GET", "BountyShop", null, false, callback);
+        }
+
+        public void PurchaseBountyShopCurrency(string item, Action<PurchaseCurrencyResponse> callback)
+        {
+            var req = new { ItemID = item };
+
+            SendRequest("PUT", "BountyShop/Purchase/Currency", req, false, callback);
         }
     }
 }

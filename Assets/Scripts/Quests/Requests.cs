@@ -6,21 +6,9 @@ using System.Collections.Generic;
 
 namespace GM.Quests
 {
-    public class CompleteMercQuestRequest : IServerRequest
-    {
-        public int QuestID;
-        public int HighestStageReached;
-    }
-
     public class CompleteMercQuestResponse : ServerResponse
     {
         public MercID UnlockedMerc;
-    }
-
-    public class CompleteDailyQuestRequest : IServerRequest
-    {
-        public int QuestID;
-        public TimedPlayerStatsModel LocalDailyStats;
     }
 
     public class CompleteDailyQuestResponse : ServerResponse

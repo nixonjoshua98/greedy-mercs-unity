@@ -1,5 +1,6 @@
 using GM.Common;
 using GM.DamageTextPool;
+using GM.Units;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,17 +18,20 @@ namespace GM.Controllers
         private float ClickInterval => 1.0f / MaxTapsPerSecond;
 
         private Stopwatch stopWatch;
-        private GameManager GameManager;
+
+        // Scene instances
+        private IEnemyUnitCollection EnemyUnits;
         private IDamageTextPool DamageNumberManager;
 
-        // Events
+        [Header("Prefabs")]
         public UnityEvent E_OnTap = new();
+
+        UnitBase CurrentTarget;
 
         private void Start()
         {
             stopWatch = Stopwatch.StartNew();
-
-            GameManager = this.GetComponentInScene<GameManager>();
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitCollection>();
             DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
         }
 
@@ -41,10 +45,15 @@ namespace GM.Controllers
 
                 BigDouble damage = App.GMCache.TotalTapDamage;
 
-                if (GameManager.DealDamageToTarget(damage, showDamageNumber: false))
-                {
-                    DamageNumberManager.Spawn(worldPosition, Format.Number(damage));
-                }
+                // Target is invalid at this point
+                if (!EnemyUnits.ContainsUnit(CurrentTarget))
+                    return;
+
+                HealthController health = CurrentTarget.GetComponent<HealthController>();
+
+                health.TakeDamage(damage);
+
+                DamageNumberManager.Spawn(worldPosition, Format.Number(damage));
 
                 E_OnTap.Invoke();
             }

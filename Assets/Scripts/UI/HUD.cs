@@ -11,7 +11,7 @@ namespace GM
 
         private void Awake()
         {
-            WaveManager wave = this.GetComponentInScene<WaveManager>();
+            GameManager wave = this.GetComponentInScene<GameManager>();
 
             wave.E_BossSpawn.AddListener(WaveManager_BossSpawned);
         }

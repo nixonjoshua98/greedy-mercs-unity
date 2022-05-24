@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3858409953258592746}
   - component: {fileID: 3858409953258592749}
-  - component: {fileID: 8225767181027567733}
   - component: {fileID: 5855116896621325249}
   - component: {fileID: 3858409953258592751}
   m_Layer: 0
@@ -50,24 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Avatar: {fileID: 7990702041426216414}
   Id: 1
-  Movement: {fileID: 3858409953258592751}
---- !u!114 &8225767181027567733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3858409953258592750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92028f80970bb4f40b72a26086e2b421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Priority: 5
-  MoveSpeed: 10
-  AttackRange: 1
-  Avatar: {fileID: 7990702041426216414}
-  Controller: {fileID: 3858409953258592749}
   Movement: {fileID: 3858409953258592751}
 --- !u!114 &5855116896621325249
 MonoBehaviour:

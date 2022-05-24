@@ -8,5 +8,7 @@ namespace GM.Mercs
         {
             EnergyPercentUsedToInstantiate = energy;
         }
+
+        public bool IsEnergyOverload => EnergyPercentUsedToInstantiate >= 2.0f;
     }
 }

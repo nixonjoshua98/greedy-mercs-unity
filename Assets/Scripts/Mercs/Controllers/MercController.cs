@@ -1,5 +1,6 @@
 using GM.Common;
 using GM.Common.Enums;
+using GM.Controllers;
 using GM.DamageTextPool;
 using GM.Units;
 using System.Collections;
@@ -7,6 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+
+namespace GM
+{
+    record MercAttackValues
+    {
+        public DamageType Type;
+        public BigDouble Value;
+    }
+}
+
 
 namespace GM.Mercs.Controllers
 {
@@ -23,8 +34,8 @@ namespace GM.Mercs.Controllers
 
         // Managers
         private IDamageTextPool DamageTextPool;
-        private GameManager GameManager;
         private ISquadController SquadController;
+        private IEnemyUnitCollection EnemyUnits;
 
         // Energy
         private bool IsEnergyDepleted;
@@ -46,9 +57,8 @@ namespace GM.Mercs.Controllers
         protected void GetRequiredComponents()
         {
             ActionControllers = GetComponents<IUnitActionController>().OrderByDescending(x => x.Priority).ToList();
-
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitCollection>();
             DamageTextPool = this.GetComponentInScene<IDamageTextPool>();
-            GameManager = this.GetComponentInScene<GameManager>();
             SquadController = this.GetComponentInScene<ISquadController>();
         }
 
@@ -129,29 +139,39 @@ namespace GM.Mercs.Controllers
 
         private void DealDamageToTarget()
         {
+            var attackValues = CalculateAttackValue();
+
+            // Target is invalid at this point
+            if (!EnemyUnits.ContainsUnit(CurrentTarget))
+                return;
+
+            HealthController health = CurrentTarget.GetComponent<HealthController>();
+
+            health.TakeDamage(attackValues.Value);
+
+            OnDamageDealt.Invoke(attackValues.Value);
+
+            DamageTextPool.Spawn(CurrentTarget, attackValues.Value, attackValues.Type);
+        }
+
+        MercAttackValues CalculateAttackValue()
+        {
             DamageType damageType = DamageType.Normal;
 
-            BigDouble damage = MercDataValues.DamagePerAttack;
+            BigDouble damage = MercDataValues.DamagePerAttack * SetupPayload.EnergyPercentUsedToInstantiate;
 
-            if (SetupPayload.EnergyPercentUsedToInstantiate == 2.0f)
+            if (SetupPayload.IsEnergyOverload)
                 damageType = DamageType.EnergyOvercharge;
 
-            damage *= SetupPayload.EnergyPercentUsedToInstantiate;
-
-            // Critical hit
             if (Utility.Maths.PercentChance(App.GMCache.CriticalHitChance))
             {
                 damageType = DamageType.CriticalHit;
                 damage *= App.GMCache.CriticalHitMultiplier;
             }
 
-            if (GameManager.DealDamageToTarget(damage, false))
-            {
-                DamageTextPool.Spawn(CurrentTarget, damage, damageType);
-
-                OnDamageDealt.Invoke(damage);
-            }
+            return new() { Type = damageType, Value = damage };
         }
+
 
         private IEnumerator EnergyExhaustedAnimation()
         {

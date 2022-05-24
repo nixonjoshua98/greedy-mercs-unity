@@ -6,7 +6,7 @@ namespace GM.PlayerStats
     {
         private void Awake()
         {
-            WaveManager wave = this.GetComponentInScene<WaveManager>();
+            GameManager wave = this.GetComponentInScene<GameManager>();
             TapController click = this.GetComponentInScene<TapController>();
 
             wave.E_EnemyDefeated.AddListener(WaveManager_OnEnemyDefeated);

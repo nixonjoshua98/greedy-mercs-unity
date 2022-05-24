@@ -1,7 +1,6 @@
 ﻿using GM.Armoury.Data;
 using GM.Artefacts.Models;
 using GM.Bounties.Models;
-using GM.BountyShop.Data;
 using GM.Inventory;
 using GM.Mercs;
 using GM.PlayerStats;

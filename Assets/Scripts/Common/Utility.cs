@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GM.Common
 {
     public static class Utility
-    {        
+    {
         public static System.Random SeededRandom(string seed)
         {
             using var algo = SHA1.Create();

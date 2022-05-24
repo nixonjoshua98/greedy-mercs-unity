@@ -1,11 +1,10 @@
 using GM.BountyShop.Data;
 using GM.BountyShop.Requests;
+using GM.UI;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using GM.UI;
-using GM.Common;
 
 namespace GM.BountyShop.UI
 {

@@ -1,6 +1,6 @@
+using GM.Common.Enums;
 using Newtonsoft.Json;
 using UnityEngine;
-using GM.Common.Enums;
 
 namespace GM.Artefacts.Models
 {

@@ -19,7 +19,7 @@ namespace GM
         [HideInInspector] public UnityEvent E_BossDefeated = new();
         [HideInInspector] public UnityEvent E_EnemyDefeated = new();
 
-        private List<UnitBase> SpawnedEnemies = new List<UnitBase>();
+        private readonly List<UnitBase> SpawnedEnemies = new List<UnitBase>();
 
         public void Start()
         {
@@ -41,7 +41,7 @@ namespace GM
             {
                 GameObject enemy = InstantiateEnemyUnit();
 
-                UnitBase unit = enemy.GetComponent<UnitBase>(); 
+                UnitBase unit = enemy.GetComponent<UnitBase>();
 
                 HealthController health = unit.GetComponent<HealthController>();
 
@@ -108,7 +108,7 @@ namespace GM
             // Unit cannot be attacked until they are visible on screen
             Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(bossObject.transform.position), () => health.Invincible = false);
 
-            return new() { GameObject = bossObject, BountyID = bountyData?.ID};
+            return new() { GameObject = bossObject, BountyID = bountyData?.ID };
         }
 
 

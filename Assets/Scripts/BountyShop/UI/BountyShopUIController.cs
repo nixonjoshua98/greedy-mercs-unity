@@ -17,8 +17,7 @@ namespace GM.BountyShop.UI
         public Transform ItemsParent;
         [SerializeField] TMP_Text RefreshText;
         [SerializeField] TypeWriter LoadingTypeWriter;
-
-        List<GameObject> ItemSlotObjects = new();
+        readonly List<GameObject> ItemSlotObjects = new();
 
         void Awake()
         {
@@ -50,7 +49,7 @@ namespace GM.BountyShop.UI
                 }
                 else if (App.BountyShop.IsValid)
                 {
-                    RefreshText.text = $"items refresh in <color=orange>{App.DailyRefresh.TimeUntilNext.Format()}</color>";
+                    RefreshText.text = $"items refresh in <color=orange>{TimeSpanExtensions.ToString(App.DailyRefresh.TimeUntilNext)}</color>";
                 }
                 else
                 {

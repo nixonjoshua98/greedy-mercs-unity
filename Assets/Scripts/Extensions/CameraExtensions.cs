@@ -9,7 +9,6 @@ namespace GM
             return pos.x >= cam.MinBounds().x && cam.MaxBounds().x >= pos.x;
         }
 
-
         public static Vector2 MinBounds(this Camera camera)
         {
             Vector2 v2 = camera.Extents();

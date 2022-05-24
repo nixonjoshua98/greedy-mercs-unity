@@ -1,5 +1,4 @@
 using GM.Bounties.Models;
-using GM.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

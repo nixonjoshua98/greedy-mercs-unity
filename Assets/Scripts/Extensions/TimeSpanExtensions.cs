@@ -10,8 +10,7 @@ namespace GM
 
     public static class TimeSpanExtensions
     {
-        // = Extensions = //
-        public static string Format(this TimeSpan ts, TimeSpanFormat format = TimeSpanFormat.Default)
+        public static string ToString(this TimeSpan ts, TimeSpanFormat format = TimeSpanFormat.Default)
         {
             switch (format)
             {

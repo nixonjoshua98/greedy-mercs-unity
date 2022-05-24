@@ -25,8 +25,7 @@ namespace GM.Controllers
 
         [Header("Prefabs")]
         public UnityEvent E_OnTap = new();
-
-        UnitBase CurrentTarget;
+        readonly UnitBase CurrentTarget;
 
         private void Start()
         {

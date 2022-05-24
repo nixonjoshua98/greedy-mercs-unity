@@ -31,7 +31,7 @@ namespace GM.Quests.UI
             {
                 var ts = App.DailyRefresh.TimeUntilNext;
 
-                InfoText.text = ts.TotalSeconds <= 1.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.Format(TimeSpanFormat.Largest)}</color>";
+                InfoText.text = ts.TotalSeconds <= 1.0f ? "Daily quests are refreshing" : $"Quests refresh in <color=orange>{ts.ToString(TimeSpanFormat.Largest)}</color>";
 
                 Slots.ForEach(s => s.UpdateUI());
             }

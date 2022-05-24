@@ -48,7 +48,7 @@ namespace GM.HTTP
 
         protected string Token = null;
 
-        public bool IsOffline { get; private set; }       
+        public bool IsOffline { get; private set; }
 
         private UnityWebRequest CreateWebRequest(string method, string url, object request, bool encrypt = false)
         {

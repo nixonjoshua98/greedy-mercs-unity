@@ -22,8 +22,8 @@ namespace GM.UI
             RectTransform rt = GetComponent<RectTransform>();
 
             yield return Enumerators.LerpFromTo(0.5f, 1, 0.1f, progress =>
-            {                 
-                rt.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, progress);             
+            {
+                rt.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, progress);
             });
 
             Destroy(this);

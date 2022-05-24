@@ -1,9 +1,9 @@
 using GM.BountyShop.Data;
 using GM.BountyShop.Requests;
+using GM.UI;
 using System;
 using TMPro;
 using UnityEngine;
-using GM.UI;
 using UnityEngine.UI;
 
 namespace GM.BountyShop.UI

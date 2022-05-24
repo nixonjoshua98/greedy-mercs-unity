@@ -17,17 +17,17 @@ namespace GM.Mercs.Controllers
         [SerializeField] private MovementController Movement;
 
         /* Scene Components */
-        private IEnemyUnitQueue EnemyUnits;
+        private IEnemyUnitCollection EnemyUnits;
         private bool HasPerformedAttack;
 
         private void Awake()
         {
-            EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitCollection>();
         }
 
         public override bool WantsControl()
         {
-            UnitBaseClass current = null;
+            UnitBase current = null;
 
             if (HasPerformedAttack || !EnemyUnits.TryGetUnit(ref current))
             {
@@ -59,7 +59,7 @@ namespace GM.Mercs.Controllers
 
         private IEnumerator MovingAttack()
         {
-            UnitBaseClass target = null;
+            UnitBase target = null;
             Vector3 moveDir = Vector3.zero;
 
             Avatar.PlayAnimation(Avatar.Animations.MoveAttack);
@@ -92,14 +92,14 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        private bool CanDefeatTargetOneHit(UnitBaseClass unit)
+        private bool CanDefeatTargetOneHit(UnitBase unit)
         {
             HealthController health = unit.GetComponent<HealthController>();
 
             return health.MaxHealth < Controller.MercDataValues.DamagePerAttack;
         }
 
-        private Vector3 GetMoveDirection(UnitBaseClass unit)
+        private Vector3 GetMoveDirection(UnitBase unit)
         {
             return (unit.transform.position - transform.position).normalized;
         }

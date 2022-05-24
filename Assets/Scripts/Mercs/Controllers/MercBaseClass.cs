@@ -2,7 +2,7 @@
 
 namespace GM.Mercs
 {
-    public abstract class MercBaseClass : GM.Units.UnitBaseClass
+    public abstract class MercBaseClass : GM.Units.UnitBase
     {
         public MercID Id;
 

@@ -1504,7 +1504,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 336.38, y: 336.38}
+  m_CellSize: {x: 323, y: 323}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 5
@@ -6369,7 +6369,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1137185880}
-  - component: {fileID: 1137185881}
   - component: {fileID: 1137185882}
   - component: {fileID: 1137185883}
   - component: {fileID: 1137185886}
@@ -6399,22 +6398,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1137185881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1137185879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4962e70133ffc364bb11455ee128b871, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyUnitObject: {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4,
-    type: 3}
-  EnemyBossUnitObjects:
-  - {fileID: 7382601704044843036, guid: d4b787f7979ae0342aa4ce265cd9845e, type: 3}
 --- !u!114 &1137185882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6440,6 +6423,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a52940279c0e684a8604d1da125b382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyObject: {fileID: 6803764169120994599, guid: e421d1294a236334882c1740ea97c3f4,
+    type: 3}
+  BossObject: {fileID: 7382601704044843036, guid: d4b787f7979ae0342aa4ce265cd9845e,
+    type: 3}
+  E_BossSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  E_BossDefeated:
+    m_PersistentCalls:
+      m_Calls: []
+  E_EnemyDefeated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1137185884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7465,7 +7461,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -87.50018}
+  m_AnchoredPosition: {x: 0, y: -87.5}
   m_SizeDelta: {x: 0, y: -175.00018}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1275936013

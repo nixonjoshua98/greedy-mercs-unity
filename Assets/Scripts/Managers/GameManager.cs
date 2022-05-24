@@ -6,13 +6,13 @@ namespace GM
 {
     public class GameManager : Core.GMMonoBehaviour
     {
-        private IEnemyUnitQueue EnemyUnits;
+        private IEnemyUnitCollection EnemyUnits;
         private WaveManager WaveManager;
         private IDamageTextPool DamageNumberManager;
 
         private void Awake()
         {
-            EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitCollection>();
 
             WaveManager = this.GetComponentInScene<WaveManager>();
             DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
@@ -26,7 +26,7 @@ namespace GM
 
         public bool DealDamageToTarget(BigDouble damageValue, bool showDamageNumber = true)
         {
-            GM.Units.UnitBaseClass unit = null;
+            GM.Units.UnitBase unit = null;
 
             if (!EnemyUnits.TryGetUnit(ref unit))
                 return false;

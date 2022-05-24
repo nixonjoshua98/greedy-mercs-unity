@@ -52,7 +52,7 @@ namespace GM.Core
         {
             GMLogger.Editor(UnityEngine.Application.persistentDataPath);
 
-            return Instance ?? (Instance = new(localDataContainer));
+            return Instance ??= new(localDataContainer);
         }
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)

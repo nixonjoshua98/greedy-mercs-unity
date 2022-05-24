@@ -16,7 +16,7 @@ namespace GM.Mercs.Controllers
         [Header("Components")]
         [SerializeField] private MovementController Movement;
         private List<IUnitActionController> ActionControllers;
-        private UnitBaseClass CurrentTarget;
+        private UnitBase CurrentTarget;
 
         // = Events = //
         public UnityEvent<BigDouble> OnDamageDealt { get; set; } = new UnityEvent<BigDouble>();
@@ -104,7 +104,7 @@ namespace GM.Mercs.Controllers
         /// </summary>
         private void FollowUnitInFront(int queueIndex)
         {
-            UnitBaseClass unit = SquadController.GetUnitAtQueuePosition(queueIndex - 1);
+            UnitBase unit = SquadController.GetUnitAtQueuePosition(queueIndex - 1);
 
             Vector3 targetPosition = new Vector3(unit.Avatar.Bounds.min.x - unit.Avatar.Bounds.size.x, transform.position.y);
 
@@ -118,7 +118,7 @@ namespace GM.Mercs.Controllers
             }
         }
 
-        public void DealDamageToTarget(UnitBaseClass target)
+        public void DealDamageToTarget(UnitBase target)
         {
             CurrentTarget = target;
 

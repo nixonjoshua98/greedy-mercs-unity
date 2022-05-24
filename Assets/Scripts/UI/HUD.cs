@@ -21,9 +21,16 @@ namespace GM
             CurrentStageText.text = $"Stage {App.GameState.Stage}\n{App.GameState.EnemiesDefeated}/{App.GameState.EnemiesPerStage}";
         }
 
-        private void WaveManager_BossSpawned(UnitFactoryInstantiatedBossUnit boss)
+        private void WaveManager_BossSpawned(SpawnedBoss boss)
         {
-            BossNameText.text = boss.Name;
+            string name = "Boss battle";
+
+            if (boss.BountyID.HasValue)
+            {
+                name = App.Bounties.GetGameBounty(boss.BountyID.Value).Name;
+            }
+
+            BossNameText.text = name;
         }
     }
 }

@@ -29,13 +29,13 @@ namespace GM.Mercs.Controllers
             Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
         }
 
-        public override void StartAttack(UnitBaseClass target)
+        public override void StartAttack(UnitBase target)
         {
             base.StartAttack(target);
             Avatar.PlayAnimation(Avatar.Animations.Attack);
         }
 
-        public override bool IsWithinAttackDistance(GM.Units.UnitBaseClass unit)
+        public override bool IsWithinAttackDistance(GM.Units.UnitBase unit)
         {
             float dist = Avatar.DistanceBetweenAvatar(unit.Avatar);
 

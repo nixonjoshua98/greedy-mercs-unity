@@ -10,28 +10,28 @@ namespace GM.Mercs.Controllers
         [SerializeField] protected MercController Controller;
 
         /* Scene Components */
-        protected IEnemyUnitQueue EnemyUnits;
+        protected IEnemyUnitCollection EnemyUnits;
 
         [SerializeField] protected float CooldownTimer = 1.0f;
 
-        protected UnitBaseClass CurrentTarget;
+        protected UnitBase CurrentTarget;
 
         public bool IsAttacking { get; protected set; }
         public bool IsOnCooldown { get; protected set; }
 
-        public abstract bool IsWithinAttackDistance(GM.Units.UnitBaseClass target);
+        public abstract bool IsWithinAttackDistance(GM.Units.UnitBase target);
 
         protected virtual void GetRequiredComponents()
         {
-            EnemyUnits = this.GetComponentInScene<IEnemyUnitQueue>();
+            EnemyUnits = this.GetComponentInScene<IEnemyUnitCollection>();
         }
 
-        public virtual bool CanStartAttack(UnitBaseClass unit)
+        public virtual bool CanStartAttack(UnitBase unit)
         {
             return !IsOnCooldown && !IsAttacking && IsWithinAttackDistance(unit);
         }
 
-        public virtual void StartAttack(GM.Units.UnitBaseClass target)
+        public virtual void StartAttack(GM.Units.UnitBase target)
         {
             IsAttacking = true;
             CurrentTarget = target;

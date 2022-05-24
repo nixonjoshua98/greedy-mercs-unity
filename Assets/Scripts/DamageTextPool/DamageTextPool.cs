@@ -9,7 +9,7 @@ namespace GM.DamageTextPool
         void Spawn(Vector3 position, string value);
         void Spawn(GM.Units.UnitAvatar avatar, string value);
 
-        void Spawn(UnitBaseClass unit, BigDouble value, DamageType damageType);
+        void Spawn(UnitBase unit, BigDouble value, DamageType damageType);
     }
 
 
@@ -31,7 +31,7 @@ namespace GM.DamageTextPool
             Spawn(avatar.Bounds.RandomCenterPosition(), value);
         }
 
-        public void Spawn(UnitBaseClass unit, BigDouble value, DamageType damageType)
+        public void Spawn(UnitBase unit, BigDouble value, DamageType damageType)
         {
             Spawn(unit.Avatar.Bounds.RandomCenterPosition(), Format.Number(value), damageType.TextColor());
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GM.Units.Controllers
 {
-    public class EnemyUnitController : Units.UnitBaseClass
+    public class EnemyUnitController : Units.UnitBase
     {
         [Header("Prefabs")]
         public GameObject DefeatPS;

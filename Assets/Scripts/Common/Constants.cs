@@ -4,9 +4,7 @@ namespace GM.Common
 {
     public static class Constants
     {
-        public const int MIN_PRESTIGE_STAGE = 60;
-
-        public const float CENTER_BATTLE_Y = 12.5f;
+        public const float CENTER_BATTLE_Y = 12f;
 
         public const float BASE_CRIT_CHANCE = 0.01f;
         public const float BASE_CRIT_MULTIPLIER = 3.0f;

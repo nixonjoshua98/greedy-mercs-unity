@@ -37,7 +37,7 @@ namespace GM.Mercs.Controllers
 
         public override bool IsWithinAttackDistance(GM.Units.UnitBase unit)
         {
-            float dist = Avatar.DistanceBetweenAvatar(unit.Avatar);
+            float dist = Avatar.DistanceXBetweenAvatar(unit.Avatar);
 
             return dist <= AttackRange;
         }

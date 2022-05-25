@@ -116,7 +116,7 @@ namespace GM.Mercs
         {
             Vector2 pos = new Vector2(Camera.main.MinBounds().x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
 
-            StaticMercData data = App.Mercs.GetGameMerc(unitId);
+            var data = App.Mercs.GetMerc(unitId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 

@@ -93,7 +93,7 @@ namespace GM.Mercs.UI
 
         private Sprite GetMercIconSprite(MercID unit)
         {
-            return App.Mercs.GetGameMerc(unit).Icon;
+            return App.Mercs.GetMerc(unit).Icon;
         }
 
         public void UpdateMerc(MercID unit)

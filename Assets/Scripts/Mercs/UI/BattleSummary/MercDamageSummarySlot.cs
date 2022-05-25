@@ -25,7 +25,7 @@ namespace GM.Mercs.UI
 
         public void UpdateValues(MercID mercId, BigDouble val, float percent)
         {
-            var mercData = App.Mercs.GetGameMerc(mercId);
+            var mercData = App.Mercs.GetMerc(mercId);
 
             MercIconImage.sprite = mercData.Icon;
             NameText.text = mercData.Name;

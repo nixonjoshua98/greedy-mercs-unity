@@ -15,7 +15,7 @@ namespace GM.Mercs.Data
 
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
-        public int MaxSquadSize { get; private set; } = 5;
+        public readonly int MaxSquadSize = 5;
 
         /// <summary>
         /// Update all stored static and user data
@@ -86,6 +86,8 @@ namespace GM.Mercs.Data
             E_OnMercUnlocked.Invoke(mercId);
         }
 
+        public bool TryGetMercState(MercID id, out UserMercState state) => UserMercs.TryGetValue(id, out state);
+
         /// <summary>
         /// Temp
         /// </summary>
@@ -147,14 +149,6 @@ namespace GM.Mercs.Data
         }
 
         /// <summary>
-        /// Fetch the data about a merc
-        /// </summary>
-        public StaticMercData GetGameMerc(MercID key)
-        {
-            return StaticMercs[key];
-        }
-
-        /// <summary>
         /// Fetch the squad mercs (stored in the PersistantLocalFile)
         /// </summary>
         public HashSet<MercID> SquadMercs => App.PersistantLocalFile.SquadMercIDs;
@@ -167,10 +161,7 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Fetch the aggregated dataclass for the unit
         /// </summary>
-        public AggregatedMercData GetMerc(MercID key)
-        {
-            return new AggregatedMercData(StaticMercs[key], UserMercs[key]);
-        }
+        public AggregatedMercData GetMerc(MercID key) => new(StaticMercs[key]);
 
         /// <summary> 
         /// Fetch the full data for all user unlocked mercs

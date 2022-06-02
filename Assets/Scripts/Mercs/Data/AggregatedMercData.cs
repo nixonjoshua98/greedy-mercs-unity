@@ -1,12 +1,12 @@
+using GM.Common.Enums;
 using System.Collections.Generic;
 using UnityEngine;
-using GM.Common.Enums;
 
 namespace GM.Mercs.Data
 {
     public class AggregatedMercData : Core.GMClass
     {
-        StaticMercData StaticValues;
+        readonly StaticMercData StaticValues;
 
         public AggregatedMercData(StaticMercData gameData)
         {
@@ -37,7 +37,7 @@ namespace GM.Mercs.Data
         public int MaxLevel => 1_000;
         public bool IsMaxLevel => State.Level >= MaxLevel;
         public bool InSquad => App.PersistantLocalFile.SquadMercIDs.Contains(StaticValues.ID);
-        public AttackType AttackType => StaticValues.AttackType;
+        public UnitAttackType AttackType => StaticValues.AttackType;
         public List<MercPassiveReference> Passives => StaticValues.Passives;
         public BigDouble BaseDamage => StaticValues.BaseDamage;
         public BigDouble DamagePerAttack => App.GMCache.MercDamagePerAttack(this);

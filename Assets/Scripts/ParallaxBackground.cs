@@ -20,7 +20,6 @@ namespace GM
             AlignRenders();
         }
 
-
         void AlignRenders()
         {
             for (int i = 1; i < Renderers.Length; i++)
@@ -31,7 +30,6 @@ namespace GM
                 current.transform.position = new Vector3(prev.bounds.max.x, prev.transform.position.y) + new Vector3(current.bounds.size.x / 2, 0);
             }
         }
-
 
         void LateUpdate()
         {

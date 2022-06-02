@@ -4,14 +4,14 @@ namespace GM
 {
     public static class AttackTypeExtensions
     {
-        public static BonusType Bonus(this AttackType val)
+        public static BonusType Bonus(this UnitAttackType val)
         {
             switch (val)
             {
-                case AttackType.MELEE:
+                case UnitAttackType.Melee:
                     return BonusType.MULTIPLY_MELEE_DMG;
 
-                case AttackType.RANGED:
+                case UnitAttackType.Ranged:
                     return BonusType.MULTIPLY_MELEE_DMG;
 
                 default:

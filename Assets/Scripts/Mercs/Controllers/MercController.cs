@@ -33,7 +33,7 @@ namespace GM.Mercs.Controllers
         // Scene instances
         private IDamageTextPool DamageTextPool;
         private MercSquadController SquadController;
-        private UnitCollection EnemyUnits;
+        private EnemyUnitCollection EnemyUnits;
 
         // Energy
         private bool IsEnergyDepleted;
@@ -44,7 +44,7 @@ namespace GM.Mercs.Controllers
         // ...
         public GM.Mercs.Data.AggregatedMercData MercDataValues => App.Mercs.GetMerc(Id);
 
-        public void Init(MercSetupPayload payload, UnitCollection enemyUnits)
+        public void Init(MercSetupPayload payload, EnemyUnitCollection enemyUnits)
         {
             SetupPayload = payload;
             EnemyUnits = enemyUnits;
@@ -76,7 +76,7 @@ namespace GM.Mercs.Controllers
             if (Attack.HasControl)
                 return;
 
-            EnemyUnits.TryGetUnit(ref CurrentTarget);
+            EnemyUnits.TryGet(ref CurrentTarget);
 
             if (Attack.CanStartAttack(CurrentTarget))
             {
@@ -113,7 +113,7 @@ namespace GM.Mercs.Controllers
 
         public void DealDamageToTarget()
         {
-            if (!EnemyUnits.ContainsUnit(CurrentTarget))
+            if (!EnemyUnits.Contains(CurrentTarget))
                 return;
 
             var attackValues = CalculateAttackValue();
@@ -138,7 +138,7 @@ namespace GM.Mercs.Controllers
             if (SetupPayload.IsEnergyOverload)
                 damageType = DamageType.EnergyOvercharge;
 
-            if (Utility.MathsUtlity.PercentChance(App.GMCache.CriticalHitChance))
+            if (MathsUtlity.PercentChance(App.GMCache.CriticalHitChance))
             {
                 damageType = DamageType.CriticalHit;
                 damage *= App.GMCache.CriticalHitMultiplier;

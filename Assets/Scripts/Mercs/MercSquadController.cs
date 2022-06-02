@@ -10,7 +10,7 @@ namespace GM.Mercs
     public class MercSquadController : Core.GMMonoBehaviour
     {
         [Header("References")]
-        [SerializeField] UnitCollection EnemyUnits;
+        [SerializeField] EnemyUnitCollection EnemyUnits;
 
         private readonly List<MercBase> UnitQueue = new List<MercBase>();
         private readonly List<MercID> UnitIDs = new List<MercID>();

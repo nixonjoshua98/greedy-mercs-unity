@@ -18,7 +18,7 @@ namespace GM.Controllers
 
         private Stopwatch _stopWatch;
 
-        [SerializeField] UnitCollection EnemyUnits;
+        [SerializeField] EnemyUnitCollection EnemyUnits;
         private IDamageTextPool DamageNumberManager;
 
         [Header("Prefabs")]

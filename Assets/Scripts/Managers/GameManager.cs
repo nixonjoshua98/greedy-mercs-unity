@@ -10,7 +10,7 @@ namespace GM
     public class GameManager : GM.Core.GMMonoBehaviour
     {
         [Header("References")]
-        [SerializeField] UnitCollection EnemyUnits;
+        [SerializeField] EnemyUnitCollection EnemyUnits;
 
         [Header("Prefabs")]
         public GameObject EnemyObject;

@@ -24,7 +24,7 @@ namespace GM.Artefacts.UI
         private Action<int, int> upgradeCallback;
         private int _BuyAmount; // Raw value. We should use BuyAmount for most cases
 
-        private int BuyAmount => Utility.MathsUtlity.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
+        private int BuyAmount => MathsUtlity.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
 
         public void Setup(int artefactId, AmountSelector selector, Action<int, int> callback)
         {

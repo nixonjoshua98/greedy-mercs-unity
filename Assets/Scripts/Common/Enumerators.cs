@@ -13,13 +13,6 @@ namespace GM
             callback.Invoke();
         }
 
-        private static IEnumerator _InvokeAfter(float delay, Action callback)
-        {
-            yield return new WaitForSecondsRealtime(delay);
-
-            callback.Invoke();
-        }
-
         public static IEnumerator InvokeUntil(Func<bool> predicate, Action action)
         {
             while (!predicate())
@@ -28,6 +21,11 @@ namespace GM
 
                 action.Invoke();
             }
+        }
+
+        public static void InvokeAfter(MonoBehaviour mono, Func<bool> predicate, Action callback)
+        {
+            mono.StartCoroutine(InvokeAfter(predicate, callback));
         }
 
         public static IEnumerator LerpFromTo(float from, float to, float duration, Action<float> action)
@@ -44,26 +42,6 @@ namespace GM
             }
 
             action.Invoke(to);
-        }
-
-        public static IEnumerator Lerp01(float duration, Action<float> action)
-        {
-            return LerpFromTo(0, 1, duration, action);
-        }
-
-        public static void Lerp01(MonoBehaviour mono, float duration, Action<float> action)
-        {
-            mono.StartCoroutine(LerpFromTo(0, 1, duration, action));
-        }
-
-        public static void InvokeAfter(MonoBehaviour mono, Func<bool> predicate, Action callback)
-        {
-            mono.StartCoroutine(InvokeAfter(predicate, callback));
-        }
-
-        public static void InvokeAfter(MonoBehaviour mono, float delay, Action callback)
-        {
-            mono.StartCoroutine(_InvokeAfter(delay, callback));
         }
     }
 }

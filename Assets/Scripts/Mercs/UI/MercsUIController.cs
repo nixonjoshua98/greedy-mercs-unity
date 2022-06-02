@@ -32,7 +32,7 @@ namespace GM.Mercs.UI
 
         private void SubscribeToEvents()
         {
-            ISquadController squad = this.GetComponentInScene<ISquadController>();
+            MercSquadController squad = this.GetComponentInScene<MercSquadController>();
 
             squad.E_MercAddedToSquad.AddListener(() => UpdateSlotsUI());
         }

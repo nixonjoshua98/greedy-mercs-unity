@@ -7,8 +7,6 @@ using System.Collections.Generic;
 
 namespace GM.BountyShop.Requests
 {
-    // = Responses = //
-
     public class PurchaseArmouryItemResponse : ServerResponse
     {
         public long PurchaseCost;
@@ -21,8 +19,6 @@ namespace GM.BountyShop.Requests
         public long PurchaseCost;
         public UserCurrencies Currencies;
     }
-
-    // = Get Bounty Shop = //
 
     public class GetBountyShopResponse : ServerResponse
     {

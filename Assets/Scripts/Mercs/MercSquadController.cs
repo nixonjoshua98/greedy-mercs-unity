@@ -1,3 +1,5 @@
+using GM.Mercs.Controllers;
+using GM.Units;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,26 +7,33 @@ using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs
 {
-    public interface ISquadController
+    public class MercSquadController : Core.GMMonoBehaviour
     {
-        UnityEvent E_MercAddedToSquad { get; }
+        [Header("References")]
+        [SerializeField] UnitCollection EnemyUnits;
 
-        bool TryGetUnit(out MercBaseClass unit);
-        void RemoveFromQueue(MercBaseClass unit);
-        void RemoveFromSquad(MercID mercId);
-        void AddToSquad(MercID mercId);
-        int GetQueuePosition(MercBaseClass unit);
-        MercBaseClass GetUnitAtQueuePosition(int idx);
-    }
-
-
-    public class MercSquadController : Core.GMMonoBehaviour, ISquadController
-    {
-        private readonly List<MercBaseClass> UnitQueue = new List<MercBaseClass>();
+        private readonly List<MercBase> UnitQueue = new List<MercBase>();
         private readonly List<MercID> UnitIDs = new List<MercID>();
 
         public UnityEvent E_MercAddedToSquad { get; private set; } = new UnityEvent();
-        public UnityEvent<MercBaseClass> E_UnitSpawned { get; set; } = new UnityEvent<MercBaseClass>();
+        public UnityEvent<MercBase> E_UnitSpawned { get; set; } = new UnityEvent<MercBase>();
+
+
+        public void Remove(MercBase unit)
+        {
+            UnitQueue.Remove(unit);
+            UnitIDs.Remove(unit.Id);
+        }
+
+        public bool TryGetUnit(out MercBase unit)
+        {
+            unit = UnitQueue.Count == 0 ? null : UnitQueue[0];
+
+            return unit != null;
+        }
+
+        public MercBase Get(int idx) => UnitQueue[idx];
+        public int GetIndex(MercBase unit) => UnitQueue.FindIndex((u) => u == unit);
 
         private void Awake()
         {
@@ -75,15 +84,9 @@ namespace GM.Mercs
             }
         }
 
-        public void RemoveFromQueue(MercBaseClass unit)
-        {
-            UnitQueue.Remove(unit);
-            UnitIDs.Remove(unit.Id);
-        }
-
         private void AddMercToQueue(MercID unitId, MercSetupPayload payload)
         {
-            MercBaseClass unit = InstantiateMerc(unitId, payload);
+            MercBase unit = InstantiateMerc(unitId, payload);
 
             UnitQueue.Add(unit);
             UnitIDs.Add(unitId);
@@ -91,47 +94,31 @@ namespace GM.Mercs
             E_UnitSpawned.Invoke(unit);
         }
 
-        private bool UnitExistsInQueue(MercID unit)
+        bool UnitExistsInQueue(MercID unit)
         {
             return UnitIDs.Contains(unit);
         }
 
-        public bool TryGetUnit(out MercBaseClass unit)
+        private MercBase InstantiateMerc(MercID unitId)
         {
-            unit = UnitQueue.Count == 0 ? null : GetUnitAtQueuePosition(0);
-            return unit != null;
-        }
-
-        public MercBaseClass GetUnitAtQueuePosition(int idx)
-        {
-            return UnitQueue[idx];
-        }
-
-        public int GetQueuePosition(MercBaseClass unit)
-        {
-            return UnitQueue.FindIndex((u) => u == unit);
-        }
-
-        private MercBaseClass InstantiateMerc(MercID unitId)
-        {
-            Vector2 pos = new Vector2(Camera.main.MinBounds().x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
+            Vector2 pos = new Vector2(Camera.main.Bounds().min.x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
 
             var data = App.Mercs.GetMerc(unitId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
-            MercBaseClass mercBase = o.GetComponent<MercBaseClass>();
+            MercBase mercBase = o.GetComponent<MercBase>();
 
             return mercBase;
         }
 
-        private MercBaseClass InstantiateMerc(MercID unitId, MercSetupPayload payload)
+        private MercBase InstantiateMerc(MercID unitId, MercSetupPayload payload)
         {
-            MercBaseClass mercBase = InstantiateMerc(unitId);
+            MercController merc = InstantiateMerc(unitId) as MercController;
 
-            mercBase.Init(payload);
+            merc.Init(payload, EnemyUnits);
 
-            return mercBase;
+            return merc;
         }
 
         public void AddToSquad(MercID mercId)

@@ -1,3 +1,4 @@
+using GM.Controllers;
 using GM.Units;
 using System.Collections;
 using UnityEngine;
@@ -20,7 +21,6 @@ namespace GM.Mercs.Controllers
         private void Awake()
         {
             SubscribeToEvents();
-            GetRequiredComponents();
         }
 
         protected virtual void SubscribeToEvents()
@@ -32,14 +32,22 @@ namespace GM.Mercs.Controllers
         public override void StartAttack(UnitBase target)
         {
             base.StartAttack(target);
+
+            if (target.TryGetComponent(out HealthController health))
+            {
+                health.E_OnZeroHealth.AddListener(() => CurrentTarget = null);
+            }
+
+            HasControl = true;
+
             Avatar.PlayAnimation(Avatar.Animations.Attack);
+
+            StartCoroutine(_Update());
         }
 
         public override bool IsWithinAttackDistance(GM.Units.UnitBase unit)
         {
-            float dist = Avatar.DistanceXBetweenAvatar(unit.Avatar);
-
-            return dist <= AttackRange;
+            return Avatar.DistanceXBetweenAvatar(unit.Avatar) <= AttackRange;
         }
 
         private void InstantiateAttackImpactObject()
@@ -47,69 +55,45 @@ namespace GM.Mercs.Controllers
             Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition(), Quaternion.identity);
         }
 
-        public override bool WantsControl()
+        public void Stop()
         {
-            if (!EnemyUnits.TryGetUnit(ref CurrentTarget))
-                return false;
-
-            return IsWithinAttackDistance(CurrentTarget);
-        }
-
-        public override void GiveControl()
-        {
-            HasControl = true;
+            HasControl = false;
             IsAttacking = false;
-
-            StartCoroutine(UpdateLoop());
+            CurrentTarget = null;
         }
 
-        public override void RemoveControl()
+        IEnumerator _Update()
         {
-            if (HasControl)
+            while (HasControl && IsTargetValid(CurrentTarget))
             {
-                HasControl = false;
-                IsAttacking = false;
-                CurrentTarget = null;
-            }
-        }
-
-        private IEnumerator UpdateLoop()
-        {
-            while (HasControl && EnemyUnits.TryGetUnit(ref CurrentTarget))
-            {
-                if (!IsAttacking && !IsWithinAttackDistance(CurrentTarget))
-                {
-                    RemoveControl();
-                    break;
-                }
-
-                // Start an attack (assuming we can)
-                else if (CanStartAttack(CurrentTarget))
-                {
+                if (CanStartAttack(CurrentTarget))
                     StartAttack(CurrentTarget);
-                }
 
                 else if (IsOnCooldown)
-                {
                     Avatar.PlayAnimation(Avatar.Animations.Idle);
-                }
 
                 yield return new WaitForEndOfFrame();
             }
+
+            Stop();
         }
 
+        bool IsTargetValid(UnitBase unit)
+        {
+            return unit is not null && IsWithinAttackDistance(unit);
+        }
 
-        // == Callbacks == //
         public void Animation_AttackImpact()
         {
             InstantiateAttackImpactObject();
-            Controller.DealDamageToTarget(CurrentTarget);
+            Controller.DealDamageToTarget();
         }
 
         public void Animation_AttackFinished()
         {
+            IsAttacking = false;
+
             StartCooldown();
-            RemoveControl();
         }
     }
 }

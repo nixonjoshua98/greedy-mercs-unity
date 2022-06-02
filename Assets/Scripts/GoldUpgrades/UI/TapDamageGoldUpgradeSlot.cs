@@ -12,7 +12,7 @@ namespace GM.GoldUpgrades.UI
         [Space]
         public GM.UI.VStackedButton UpgradeButton;
         private int _buyAmount;
-        protected int BuyAmount => Utility.Maths.NextMultipleMax(Upgrade.Level, _buyAmount, 1_000);
+        protected int BuyAmount => Utility.MathsUtlity.NextMultipleMax(Upgrade.Level, _buyAmount, 1_000);
 
         private TapDamageGoldUpgrade Upgrade => App.GoldUpgrades.TapUpgrade;
 

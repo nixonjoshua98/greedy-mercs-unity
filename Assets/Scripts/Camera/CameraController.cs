@@ -6,16 +6,16 @@ namespace GM
     public class CameraController : MonoBehaviour
     {
         [SerializeField] private float MoveSpeed = 10.0f;
-        private ISquadController MercSquad;
+        private MercSquadController MercSquad;
 
         private void Awake()
         {
-            MercSquad = this.GetComponentInScene<ISquadController>();
+            MercSquad = this.GetComponentInScene<MercSquadController>();
         }
 
         private void FixedUpdate()
         {
-            if (MercSquad.TryGetUnit(out MercBaseClass unit))
+            if (MercSquad.TryGetUnit(out MercBase unit))
             {
                 SetCameraPosition(unit.Avatar.Bounds.max.x);
             }

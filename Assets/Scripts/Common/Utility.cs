@@ -14,7 +14,7 @@ namespace GM.Common
             return new(hash);
         }
 
-        public static class Maths
+        public static class MathsUtlity
         {
             private static int RoundDownTo(int value, int multiple)
             {

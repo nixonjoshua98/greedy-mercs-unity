@@ -2,14 +2,16 @@ using GM.Bounties.Models;
 using GM.Common;
 using GM.Controllers;
 using GM.Units;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GM
 {
-    public class GameManager : GM.Core.GMMonoBehaviour, IEnemyUnitCollection
+    public class GameManager : GM.Core.GMMonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] UnitCollection EnemyUnits;
+
         [Header("Prefabs")]
         public GameObject EnemyObject;
         public GameObject BossObject;
@@ -18,8 +20,6 @@ namespace GM
         [HideInInspector] public UnityEvent<SpawnedBoss> E_BossSpawn = new();
         [HideInInspector] public UnityEvent E_BossDefeated = new();
         [HideInInspector] public UnityEvent E_EnemyDefeated = new();
-
-        private readonly List<UnitBase> SpawnedEnemies = new List<UnitBase>();
 
         public void Start()
         {
@@ -35,6 +35,7 @@ namespace GM
 
         private void StartWave()
         {
+
             BigDouble maxHealth = App.GMCache.EnemyHealthAtStage(App.GameState.Stage);
 
             for (int i = 0; i < App.GameState.EnemiesRemaining; i++)
@@ -60,7 +61,7 @@ namespace GM
             health.Init(App.GMCache.StageBossHealthAtStage(App.GameState.Stage));
 
             // Set the boss position off-screen
-            enemy.GameObject.transform.position = new Vector3(Camera.main.MaxBounds().x + 2.5f, Constants.CENTER_BATTLE_Y);
+            enemy.GameObject.transform.position = new Vector3(Camera.main.Bounds().max.x + 2.5f, Constants.CENTER_BATTLE_Y);
 
             E_BossSpawn.Invoke(enemy);
         }
@@ -70,7 +71,6 @@ namespace GM
         {
             GameObject obj = Instantiate(EnemyObject, EnemyUnitSpawnPosition(), Quaternion.identity);
 
-            // Components
             UnitBase unit = obj.GetComponent<UnitBase>();
             AbstractHealthController health = obj.GetComponent<AbstractHealthController>();
 
@@ -78,7 +78,7 @@ namespace GM
 
             health.E_OnZeroHealth.AddListener(() => OnEnemyZeroHealth(obj));
 
-            SpawnedEnemies.Add(unit);
+            EnemyUnits.Add(unit);
 
             // Unit cannot be attacked until they are visible on screen
             Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(unit.Avatar.Bounds.min), () => health.Invincible = false);
@@ -103,7 +103,7 @@ namespace GM
 
             health.E_OnZeroHealth.AddListener(() => OnBossZeroHealth(bossObject));
 
-            SpawnedEnemies.Add(unit);
+            EnemyUnits.Add(unit);
 
             // Unit cannot be attacked until they are visible on screen
             Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(bossObject.transform.position), () => health.Invincible = false);
@@ -114,42 +114,27 @@ namespace GM
 
         private Vector3 EnemyUnitSpawnPosition()
         {
-            if (SpawnedEnemies.Count > 0)
+            if (EnemyUnits.Count > 0)
             {
-                UnitBase unit = SpawnedEnemies[SpawnedEnemies.Count - 1];
+                UnitBase unit = EnemyUnits.Last();
 
                 return new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 1.0f, unit.transform.position.y);
             }
 
-            return new Vector3(8, GM.Common.Constants.CENTER_BATTLE_Y) + new Vector3(Camera.main.MaxBounds().x, 0);
-        }
-
-        public bool TryGetUnit(ref UnitBase current)
-        {
-            if (!ContainsUnit(current) && SpawnedEnemies.Count > 0)
-            {
-                current = SpawnedEnemies[0];
-            }
-
-            return ContainsUnit(current);
-        }
-
-        public bool ContainsUnit(UnitBase unit)
-        {
-            return SpawnedEnemies.Contains(unit);
+            return new Vector3(8, GM.Common.Constants.CENTER_BATTLE_Y) + new Vector3(Camera.main.Bounds().max.x, 0);
         }
 
         void OnEnemyZeroHealth(GameObject unitObject)
         {
             UnitBase unit = unitObject.GetComponent<UnitBase>();
 
-            SpawnedEnemies.Remove(unit);
+            EnemyUnits.Remove(unit);
 
             App.GameState.EnemiesDefeated++;
 
             E_EnemyDefeated.Invoke();
 
-            if (SpawnedEnemies.Count == 0)
+            if (EnemyUnits.Count == 0)
             {
                 SpawnBoss();
             }
@@ -159,7 +144,7 @@ namespace GM
         {
             UnitBase unit = unitObject.GetComponent<UnitBase>();
 
-            SpawnedEnemies.Remove(unit);
+            EnemyUnits.Remove(unit);
 
             App.GameState.Stage++;
             App.GameState.EnemiesDefeated = 0;

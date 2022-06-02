@@ -14,40 +14,47 @@ namespace GM.Controllers
         public ObjectPool ParticlePool;
 
         public int MaxTapsPerSecond = 20;
-
         private float ClickInterval => 1.0f / MaxTapsPerSecond;
 
-        private Stopwatch stopWatch;
+        private Stopwatch _stopWatch;
 
-        // Scene instances
-        private IEnemyUnitCollection EnemyUnits;
+        [SerializeField] UnitCollection EnemyUnits;
         private IDamageTextPool DamageNumberManager;
 
         [Header("Prefabs")]
-        public UnityEvent E_OnTap = new();
-        readonly UnitBase CurrentTarget;
+        [HideInInspector] public UnityEvent E_OnTap = new();
+
+        UnitBase CurrentTarget;
+
+        void Awake()
+        {
+            _stopWatch = Stopwatch.StartNew();
+        }
 
         private void Start()
         {
-            stopWatch = Stopwatch.StartNew();
-
-            EnemyUnits = this.GetComponentInScene<IEnemyUnitCollection>();
             DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
         }
 
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
-            if (stopWatch.ElapsedMilliseconds >= ClickInterval)
+            SpawnClickEffect(eventData.position);
+
+            if (_stopWatch.ElapsedMilliseconds >= ClickInterval)
             {
-                stopWatch.Restart();
+                _stopWatch.Restart();
+
+                if (EnemyUnits.Count == 0)
+                    return;
+
+                CurrentTarget = CurrentTarget == null ? EnemyUnits.First() : CurrentTarget;
+
+                if (!Camera.main.IsVisible(CurrentTarget.transform.position))
+                    return;
 
                 Vector3 worldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
 
                 BigDouble damage = App.GMCache.TotalTapDamage;
-
-                // Target is invalid at this point
-                if (!EnemyUnits.ContainsUnit(CurrentTarget))
-                    return;
 
                 HealthController health = CurrentTarget.GetComponent<HealthController>();
 
@@ -57,8 +64,6 @@ namespace GM.Controllers
 
                 E_OnTap.Invoke();
             }
-
-            SpawnClickEffect(eventData.position);
         }
 
         void SpawnClickEffect(Vector3 pos)

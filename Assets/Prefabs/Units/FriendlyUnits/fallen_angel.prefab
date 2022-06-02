@@ -50,6 +50,10 @@ MonoBehaviour:
   Avatar: {fileID: 7990702041426216414}
   Id: 1
   Movement: {fileID: 3858409953258592751}
+  Attack: {fileID: 5855116896621325249}
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5855116896621325249
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -50,6 +50,10 @@ MonoBehaviour:
   Avatar: {fileID: 7369940450850404304}
   Id: 3
   Movement: {fileID: 2292817266137231968}
+  Attack: {fileID: 2292817266137231969}
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2292817266137231969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331aac1a6cc4c864d9840291ceb316f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Priority: 0
   Controller: {fileID: 2292817266137231966}
   CooldownTimer: 0.5
   Avatar: {fileID: 7369940450850404304}

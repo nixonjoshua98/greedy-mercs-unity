@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1499377040995566333}
   m_Father: {fileID: 0}
@@ -49,6 +50,10 @@ MonoBehaviour:
   Avatar: {fileID: 180202088276066436}
   Id: 2
   Movement: {fileID: 9182918656529223324}
+  Attack: {fileID: 9182918656529223323}
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &9182918656529223323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331aac1a6cc4c864d9840291ceb316f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Priority: 0
   Controller: {fileID: 9182918656529223322}
   CooldownTimer: 0.25
   Avatar: {fileID: 180202088276066436}
@@ -161,12 +165,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b82ecc9ac0f9374c823057fd7eafafc, type: 3}
---- !u!4 &1499377040995566333 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7763815038440110930, guid: 5b82ecc9ac0f9374c823057fd7eafafc,
-    type: 3}
-  m_PrefabInstance: {fileID: 9182918655072287151}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &180202088276066436 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9074879715128293675, guid: 5b82ecc9ac0f9374c823057fd7eafafc,
@@ -179,3 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3189bb3e0055eee48a7902ce9c2d6a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1499377040995566333 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7763815038440110930, guid: 5b82ecc9ac0f9374c823057fd7eafafc,
+    type: 3}
+  m_PrefabInstance: {fileID: 9182918655072287151}
+  m_PrefabAsset: {fileID: 0}

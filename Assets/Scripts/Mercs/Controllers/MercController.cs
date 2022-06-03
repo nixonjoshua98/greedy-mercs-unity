@@ -25,7 +25,7 @@ namespace GM.Mercs.Controllers
         [SerializeField] MovementController Movement;
         [SerializeField] AttackController Attack;
 
-        private UnitBase CurrentTarget;
+        private AttackTarget CurrentTarget;
 
         [Header("Events")]
         [HideInInspector] public UnityEvent<BigDouble> OnDamageDealt = new();
@@ -33,7 +33,7 @@ namespace GM.Mercs.Controllers
         // Scene instances
         private IDamageTextPool DamageTextPool;
         private MercSquadController SquadController;
-        private EnemyUnitCollection EnemyUnits;
+        public EnemyUnitCollection EnemyUnits;
 
         // Energy
         private bool IsEnergyDepleted;
@@ -65,7 +65,7 @@ namespace GM.Mercs.Controllers
 
         private void FixedUpdate()
         {
-            if (!IsEnergyDepleted)
+            if (!IsEnergyDepleted && !Attack.HasControl)
             {
                 UpdateMercWithEnergy();
             }
@@ -73,26 +73,22 @@ namespace GM.Mercs.Controllers
 
         private void UpdateMercWithEnergy()
         {
-            if (Attack.HasControl)
-                return;
+            int idx = SquadController.GetIndex(this);
 
-            EnemyUnits.TryGet(ref CurrentTarget);
-
-            if (Attack.CanStartAttack(CurrentTarget))
+            if (idx == 0)
             {
-                Attack.StartAttack(CurrentTarget);
+                if (!EnemyUnits.Contains(CurrentTarget))
+                    EnemyUnits.GetTarget(this, out CurrentTarget);
+
+                if (Attack.CanStartAttack(CurrentTarget.Unit))
+                    Attack.StartAttack(CurrentTarget.Unit);
+
+                else
+                    Movement.MoveDirection(Vector2.right);
             }
 
             else
-            {
-                int idx = SquadController.GetIndex(this);
-
-                if (idx == 0)
-                    Movement.MoveDirection(Vector2.right);
-
-                else
-                    FollowUnitInFront(idx);
-            }
+                FollowUnitInFront(idx);
         }
 
         private void FollowUnitInFront(int queueIndex)
@@ -113,20 +109,17 @@ namespace GM.Mercs.Controllers
 
         public void DealDamageToTarget()
         {
-            if (!EnemyUnits.Contains(CurrentTarget))
-                return;
-
             var attackValues = CalculateAttackValue();
 
             ReduceEnergy(MercDataValues.EnergyConsumedPerAttack);
 
-            HealthController health = CurrentTarget.GetComponent<HealthController>();
+            HealthController health = CurrentTarget.Unit.GetComponent<HealthController>();
 
             health.TakeDamage(attackValues.Value);
 
             OnDamageDealt.Invoke(attackValues.Value);
 
-            DamageTextPool.Spawn(CurrentTarget, attackValues.Value, attackValues.Type);
+            DamageTextPool.Spawn(CurrentTarget.Unit, attackValues.Value, attackValues.Type);
         }
 
         MercAttackValues CalculateAttackValue()
@@ -174,6 +167,8 @@ namespace GM.Mercs.Controllers
                     IsEnergyDepleted = true;
 
                     SquadController.Remove(this);
+
+                    EnemyUnits.ReleaseTarget(this, CurrentTarget);
 
                     this.InvokeAfter(0.25f, () => StartCoroutine(EnergyExhaustedAnimation()));
                 }

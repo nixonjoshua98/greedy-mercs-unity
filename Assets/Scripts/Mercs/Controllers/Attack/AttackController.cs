@@ -10,6 +10,7 @@ namespace GM.Mercs.Controllers
         [SerializeField] protected float CooldownTimer = 1.0f;
 
         protected UnitBase CurrentTarget;
+        protected EnemyUnitCollection EnemyUnits => Controller.EnemyUnits;
 
         public bool IsAttacking { get; protected set; }
         public bool IsOnCooldown { get; protected set; }

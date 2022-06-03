@@ -80,13 +80,16 @@ namespace GM.Mercs.Controllers
 
         bool IsTargetValid(UnitBase unit)
         {
-            return unit is not null && IsWithinAttackDistance(unit);
+            return EnemyUnits.Contains(unit) && IsWithinAttackDistance(unit);
         }
 
         public void Animation_AttackImpact()
         {
-            InstantiateAttackImpactObject();
-            Controller.DealDamageToTarget();
+            if (IsTargetValid(CurrentTarget))
+            {
+                InstantiateAttackImpactObject();
+                Controller.DealDamageToTarget();
+            }
         }
 
         public void Animation_AttackFinished()

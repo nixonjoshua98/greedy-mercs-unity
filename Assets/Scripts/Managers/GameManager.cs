@@ -126,9 +126,7 @@ namespace GM
 
         void OnEnemyZeroHealth(GameObject unitObject)
         {
-            UnitBase unit = unitObject.GetComponent<UnitBase>();
-
-            EnemyUnits.Remove(unit);
+            EnemyUnits.Remove(unitObject);
 
             App.GameState.EnemiesDefeated++;
 
@@ -142,9 +140,7 @@ namespace GM
 
         void OnBossZeroHealth(GameObject unitObject)
         {
-            UnitBase unit = unitObject.GetComponent<UnitBase>();
-
-            EnemyUnits.Remove(unit);
+            EnemyUnits.Remove(unitObject);
 
             App.GameState.Stage++;
             App.GameState.EnemiesDefeated = 0;

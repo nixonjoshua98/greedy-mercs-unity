@@ -30,6 +30,8 @@ namespace GM.Core
         {
             HTTPClient.Instance.DeviceLogin((resp) =>
             {
+                Debug.Log("Fetched User Data " + resp.StatusCode);
+
                 Data.UserData = resp.UserData;
 
                 switch (resp.StatusCode)
@@ -45,6 +47,8 @@ namespace GM.Core
         {
             HTTPClient.Instance.FetchStaticData((resp) =>
             {
+                Debug.Log("Fetched Static Data " + resp.StatusCode);
+
                 Data.StaticData = resp;
 
                 switch (resp.StatusCode)

@@ -5,21 +5,18 @@ using UnityEngine;
 
 namespace GM.Mercs.Controllers
 {
-    public class MeleeAttackController : AttackController
+    public class MeleeAttackController : AbstractAttackController
     {
-        public UnitAvatar Avatar;
-
         [Header("Prefabs")]
         public GameObject AttackImpactObject;
 
-        [Header("Components (MeleeAttackController)")]
+        [Header("Components")]
         [SerializeField] protected MovementController MoveController;
 
-        [Header("Properties")]
-        [SerializeField] private float AttackRange = 1.0f;
-
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             SubscribeToEvents();
         }
 
@@ -45,11 +42,6 @@ namespace GM.Mercs.Controllers
             StartCoroutine(_Update());
         }
 
-        public override bool IsWithinAttackDistance(GM.Units.UnitBase unit)
-        {
-            return Avatar.DistanceXBetweenAvatar(unit.Avatar) <= AttackRange;
-        }
-
         private void InstantiateAttackImpactObject()
         {
             Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition(), Quaternion.identity);
@@ -64,7 +56,7 @@ namespace GM.Mercs.Controllers
 
         IEnumerator _Update()
         {
-            while (HasControl && IsTargetValid(CurrentTarget))
+            while (HasControl && CurrentTarget != null)
             {
                 if (CanStartAttack(CurrentTarget))
                     StartAttack(CurrentTarget);
@@ -78,18 +70,10 @@ namespace GM.Mercs.Controllers
             Stop();
         }
 
-        bool IsTargetValid(UnitBase unit)
-        {
-            return EnemyUnits.Contains(unit) && IsWithinAttackDistance(unit);
-        }
-
         public void Animation_AttackImpact()
         {
-            if (IsTargetValid(CurrentTarget))
-            {
-                InstantiateAttackImpactObject();
-                Controller.DealDamageToTarget();
-            }
+            InstantiateAttackImpactObject();
+            Controller.DealDamageToTarget();
         }
 
         public void Animation_AttackFinished()

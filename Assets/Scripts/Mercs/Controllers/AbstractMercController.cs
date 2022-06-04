@@ -19,21 +19,25 @@ namespace GM
 
 namespace GM.Mercs.Controllers
 {
-    public class MercController : MercBase
+    public abstract class AbstractMercController : MercBase
     {
         [Header("Components")]
-        [SerializeField] MovementController Movement;
-        [SerializeField] AttackController Attack;
+        [SerializeField] protected MovementController Movement;
+        [SerializeField] private AbstractAttackController Attack;
 
-        private AttackTarget CurrentTarget;
+        // Current attack target which the unit should focus
+        protected AttackTarget CurrentTarget;
 
         [Header("Events")]
         [HideInInspector] public UnityEvent<BigDouble> OnDamageDealt = new();
+        [HideInInspector] public UnityEvent E_OnZeroEnergy = new();
 
         // Scene instances
         private IDamageTextPool DamageTextPool;
         private MercSquadController SquadController;
-        public EnemyUnitCollection EnemyUnits;
+
+        // Assigned during Init
+        protected EnemyUnitCollection EnemyUnits;
 
         // Energy
         private bool IsEnergyDepleted;
@@ -67,11 +71,11 @@ namespace GM.Mercs.Controllers
         {
             if (!IsEnergyDepleted && !Attack.HasControl)
             {
-                UpdateMercWithEnergy();
+                _UpdateMerc();
             }
         }
 
-        private void UpdateMercWithEnergy()
+        private void _UpdateMerc()
         {
             int idx = SquadController.GetIndex(this);
 
@@ -80,26 +84,42 @@ namespace GM.Mercs.Controllers
                 if (!EnemyUnits.Contains(CurrentTarget))
                     EnemyUnits.GetTarget(this, out CurrentTarget);
 
-                if (Attack.CanStartAttack(CurrentTarget.Unit))
+                if (CanStartAttack())
+                {
                     Attack.StartAttack(CurrentTarget.Unit);
-
+                }
                 else
-                    Movement.MoveDirection(Vector2.right);
+                {
+                    MoveTowardsCurrentTarget();
+                }
             }
-
-            else
+            else if (idx > 0)
+            {
                 FollowUnitInFront(idx);
+            }
         }
 
-        private void FollowUnitInFront(int queueIndex)
+        protected abstract void MoveTowardsCurrentTarget();
+
+        protected virtual bool CanStartAttack()
         {
-            UnitBase unit = SquadController.Get(queueIndex - 1);
+            return CurrentTarget != null && Attack.CanStartAttack(CurrentTarget.Unit);
+        }
 
-            Vector3 targetPosition = new(unit.Avatar.Bounds.min.x - unit.Avatar.Bounds.size.x, transform.position.y);
+        private void FollowUnitInFront(int idx)
+        {
+            UnitBase unitInFront = SquadController.Get(idx - 1);
 
-            if (transform.position != targetPosition)
+            Vector3 position = new(unitInFront.Avatar.Bounds.min.x - (unitInFront.Avatar.Bounds.size.x / 2), transform.position.y);
+
+            MoveToPosition(position);
+        }
+
+        protected void MoveToPosition(Vector3 vec)
+        {
+            if (transform.position != vec)
             {
-                Movement.MoveTowards(targetPosition);
+                Movement.MoveTowards(vec);
             }
             else
             {
@@ -166,7 +186,7 @@ namespace GM.Mercs.Controllers
                 {
                     IsEnergyDepleted = true;
 
-                    SquadController.Remove(this);
+                    E_OnZeroEnergy.Invoke();
 
                     EnemyUnits.ReleaseTarget(this, CurrentTarget);
 

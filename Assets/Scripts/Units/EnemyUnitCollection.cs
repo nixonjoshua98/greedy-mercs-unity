@@ -1,29 +1,18 @@
-using GM.Common.Enums;
 using GM.Mercs.Controllers;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace GM.Units
 {
     class EnemyUnitTarget
     {
         public UnitBase Unit;
-        public int NumRangedAttackers;
-        public List<MercController> MeleeAttackers = new List<MercController>(2) { null, null };
-    }
-
-    public enum AttackSide
-    {
-        None,
-        Left,
-        Right
+        public bool HasAttacker;
     }
 
     public class AttackTarget
     {
         public UnitBase Unit;
-        public AttackSide MeleeAttackSide;
     }
 
     public class EnemyUnitCollection : MonoBehaviour
@@ -42,11 +31,6 @@ namespace GM.Units
             _units.RemoveAll(x => x.Unit.gameObject == obj);
         }
 
-        public bool Contains(UnitBase unit)
-        {
-            return _units.Find(x => x.Unit == unit) is not null;
-        }
-
         public bool Contains(AttackTarget unit)
         {
             return unit is not null && _units.Find(x => x.Unit == unit.Unit) is not null;
@@ -54,7 +38,7 @@ namespace GM.Units
 
         public UnitBase Last()
         {
-            return _units[_units.Count - 1].Unit;
+            return _units[^1].Unit;
         }
 
         public UnitBase First()
@@ -62,25 +46,24 @@ namespace GM.Units
             return _units[0].Unit;
         }
 
-        public bool GetTarget(MercController controller, out AttackTarget unit)
+        public bool GetTarget(AbstractMercController controller, out AttackTarget unit)
         {
             unit = default;
 
-            if (_units.Count == 0 || !CanAttackTypeTargetUnit(controller.MercDataValues.AttackType, _units[0]))
+            if (_units.Count == 0 || _units[0].HasAttacker)
                 return false;
 
             AddTarget(controller, _units[0]);
 
             unit = new AttackTarget()
             {
-                Unit = _units[0].Unit,
-                MeleeAttackSide = GetAttackSide(controller, _units[0])
+                Unit = _units[0].Unit
             };
 
             return true;
         }
 
-        public void ReleaseTarget(MercController controller, AttackTarget unit)
+        public void ReleaseTarget(AbstractMercController controller, AttackTarget unit)
         {
             var target = _units.Find(x => x.Unit == unit.Unit);
 
@@ -90,61 +73,14 @@ namespace GM.Units
             }
         }
 
-        void AddTarget(MercController attacker, EnemyUnitTarget defender)
+        void AddTarget(AbstractMercController attacker, EnemyUnitTarget defender)
         {
-            switch (attacker.MercDataValues.AttackType)
-            {
-                case UnitAttackType.Ranged:
-                    defender.NumRangedAttackers += 1;
-                    break;
-
-                case UnitAttackType.Melee:
-                    int idx = defender.MeleeAttackers.IndexOf(null);
-                    
-                    defender.MeleeAttackers[idx] = attacker;
-
-                    break;
-            }
+            defender.HasAttacker = true;
         }
 
-        AttackSide GetAttackSide(MercController controller, EnemyUnitTarget defender)
+        void RemoveTarget(AbstractMercController attacker, EnemyUnitTarget defender)
         {
-            int idx = defender.MeleeAttackers.IndexOf(controller);
-
-            return idx switch
-            {
-                0 => AttackSide.Left,
-                1 => AttackSide.Right,
-                _ => AttackSide.None
-            };
-        }
-
-        void RemoveTarget(MercController attacker, EnemyUnitTarget defender)
-        {
-            switch (attacker.MercDataValues.AttackType)
-            {
-                case UnitAttackType.Ranged:
-                    defender.NumRangedAttackers -= 1;
-                    break;
-
-                case UnitAttackType.Melee:
-                    int idx = defender.MeleeAttackers.IndexOf(attacker);
-
-                    if (idx >= 0)
-                        defender.MeleeAttackers[idx] = null;
-
-                    break;
-            }
-        }
-
-        bool CanAttackTypeTargetUnit(UnitAttackType type, EnemyUnitTarget target)
-        {
-            return type switch
-            {
-                UnitAttackType.Melee => target.MeleeAttackers.Where(x => x is not null).Count() < 2,
-                UnitAttackType.Ranged => target.NumRangedAttackers == 0,
-                _ => false
-            };
+            defender.HasAttacker = false;
         }
     }
 }

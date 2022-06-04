@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9182918656529223325}
-  - component: {fileID: 9182918656529223322}
   - component: {fileID: 9182918656529223323}
   - component: {fileID: 9182918656529223324}
+  - component: {fileID: 3669818139686466736}
   m_Layer: 0
   m_Name: red_demon_knight
   m_TagString: Untagged
@@ -35,25 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9182918656529223322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9182918656529223326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd2cbf7afad7554296ac8521ed6fdc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Avatar: {fileID: 180202088276066436}
-  Id: 2
-  Movement: {fileID: 9182918656529223324}
-  Attack: {fileID: 9182918656529223323}
-  OnDamageDealt:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &9182918656529223323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331aac1a6cc4c864d9840291ceb316f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller: {fileID: 9182918656529223322}
   CooldownTimer: 0.25
   Avatar: {fileID: 180202088276066436}
   AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
@@ -86,6 +66,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Avatar: {fileID: 180202088276066436}
   MoveSpeed: 8
+--- !u!114 &3669818139686466736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9182918656529223326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8997ba9154f9d43a05e2a563b66b64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Avatar: {fileID: 180202088276066436}
+  Id: 2
+  Movement: {fileID: 9182918656529223324}
+  Attack: {fileID: 9182918656529223323}
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyUnits: {fileID: 0}
 --- !u!1001 &9182918655072287151
 PrefabInstance:
   m_ObjectHideFlags: 0

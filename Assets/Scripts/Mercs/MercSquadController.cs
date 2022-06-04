@@ -1,9 +1,9 @@
+using GM.Common.Enums;
 using GM.Mercs.Controllers;
 using GM.Units;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using MercID = GM.Common.Enums.MercID;
 
 namespace GM.Mercs
 {
@@ -12,34 +12,31 @@ namespace GM.Mercs
         [Header("References")]
         [SerializeField] EnemyUnitCollection EnemyUnits;
 
-        private readonly List<MercBase> UnitQueue = new List<MercBase>();
-        private readonly List<MercID> UnitIDs = new List<MercID>();
+        private readonly List<MercBase> _units = new();
 
-        public UnityEvent E_MercAddedToSquad { get; private set; } = new UnityEvent();
-        public UnityEvent<MercBase> E_UnitSpawned { get; set; } = new UnityEvent<MercBase>();
-
-
-        public void Remove(MercBase unit)
-        {
-            UnitQueue.Remove(unit);
-            UnitIDs.Remove(unit.Id);
-        }
+        /* Events */
+        public UnityEvent E_MercAddedToSquad = new UnityEvent();
+        public UnityEvent<MercBase> E_UnitSpawned = new UnityEvent<MercBase>();
 
         public bool TryGetUnit(out MercBase unit)
         {
-            unit = UnitQueue.Count == 0 ? null : UnitQueue[0];
+            unit = _units.Count == 0 ? null : _units[0];
 
             return unit != null;
         }
 
-        public MercBase Get(int idx) => UnitQueue[idx];
-        public int GetIndex(MercBase unit) => UnitQueue.FindIndex((u) => u == unit);
+        public MercBase Get(int idx) => _units[idx];
+        public int GetIndex(MercBase unit) => _units.FindIndex((u) => u == unit);
+        bool UnitExistsInQueue(MercID unit) => _units.Find(x => x.Id == unit) is not null;
 
         private void Awake()
         {
             SubscribeToEvents();
 
-            App.Mercs.MercsInSquad.ForEach(merc => AddToSquad(merc));
+            App.Mercs.MercsInSquad.ForEach(merc =>
+            {
+                E_MercAddedToSquad.Invoke();
+            });
         }
 
         private void SubscribeToEvents()
@@ -86,49 +83,36 @@ namespace GM.Mercs
 
         private void AddMercToQueue(MercID unitId, MercSetupPayload payload)
         {
-            MercBase unit = InstantiateMerc(unitId, payload);
+            AbstractMercController unit = InstantiateMerc(unitId);
 
-            UnitQueue.Add(unit);
-            UnitIDs.Add(unitId);
+            unit.Init(payload, EnemyUnits);
+
+            unit.E_OnZeroEnergy.AddListener(() => _units.Remove(unit)); // Remove the unit from the queue once its energy has depleted
+
+            _units.Add(unit);
 
             E_UnitSpawned.Invoke(unit);
         }
 
-        bool UnitExistsInQueue(MercID unit)
+        private AbstractMercController InstantiateMerc(MercID unitId)
         {
-            return UnitIDs.Contains(unit);
-        }
-
-        private MercBase InstantiateMerc(MercID unitId)
-        {
-            Vector2 pos = new Vector2(Camera.main.Bounds().min.x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
+            Vector2 pos = new(Camera.main.Bounds().min.x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
 
             var data = App.Mercs.GetMerc(unitId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
-            MercBase mercBase = o.GetComponent<MercBase>();
-
-            return mercBase;
+            return o.GetComponent<AbstractMercController>();
         }
 
-        private MercBase InstantiateMerc(MercID unitId, MercSetupPayload payload)
-        {
-            MercController merc = InstantiateMerc(unitId) as MercController;
-
-            merc.Init(payload, EnemyUnits);
-
-            return merc;
-        }
-
-        public void AddToSquad(MercID mercId)
+        public void AddUnitToSquad(MercID mercId)
         {
             App.Mercs.SquadMercs.Add(mercId);
 
             E_MercAddedToSquad.Invoke();
         }
 
-        public void RemoveFromSquad(MercID mercId)
+        public void RemoveUnitFromSquad(MercID mercId)
         {
             App.Mercs.SquadMercs.Remove(mercId);
         }
@@ -139,7 +123,7 @@ namespace GM.Mercs
         {
             if (!App.Mercs.IsSquadFull)
             {
-                AddToSquad(mercId);
+                AddUnitToSquad(mercId);
             }
         }
     }

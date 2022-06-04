@@ -169,7 +169,7 @@ namespace GM.Mercs.Data
         public List<AggregatedMercData> UnlockedMercs => UserMercs.Select(pair => GetMerc(pair.Key)).ToList();
 
         /// <summary>
-        /// Unit IDs for the units currently in the squad
+        /// Units which the user has decided to have in their squad
         /// </summary>
         public List<MercID> MercsInSquad => UserMercs.Where(x => GetMerc(x.Key).InSquad).Select(x => x.Key).ToList();
     }

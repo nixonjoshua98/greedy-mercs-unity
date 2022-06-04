@@ -6,9 +6,7 @@ namespace GM.Units
     public class MovementController : MonoBehaviour
     {
         public UnitAvatar Avatar;
-
-        [Header("Properties")]
-        public float MoveSpeed = 2.5f;
+        readonly float MoveSpeed = 8.0f;
 
         public void MoveTowards(Vector3 target, float moveSpeed, bool playAnimation = true)
         {
@@ -52,7 +50,7 @@ namespace GM.Units
             LookAt(transform.position + (dir * 100));
         }
 
-        private void LookAt(Vector3 pos)
+        public void LookAt(Vector3 pos)
         {
             bool isTargetRight = pos.x > transform.position.x;
             bool isFacingRight = Avatar.transform.localScale.x >= 0.0f;

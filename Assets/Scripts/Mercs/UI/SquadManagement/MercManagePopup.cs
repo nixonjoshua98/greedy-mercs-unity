@@ -113,12 +113,12 @@ namespace GM.Mercs.UI
 
             foreach (MercID merc in App.Mercs.MercsInSquad)
             {
-                MercSquad.RemoveFromSquad(merc);
+                MercSquad.RemoveUnitFromSquad(merc);
             }
 
             foreach (MercID merc in newSquadMercIds)
             {
-                MercSquad.AddToSquad(merc);
+                MercSquad.AddUnitToSquad(merc);
             }
 
             OnSavedChanges?.Invoke();

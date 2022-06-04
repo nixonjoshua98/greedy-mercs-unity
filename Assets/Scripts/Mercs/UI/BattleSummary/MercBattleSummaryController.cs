@@ -33,7 +33,7 @@ namespace GM.Mercs.UI
 
             squad.E_UnitSpawned.AddListener(merc =>
             {
-                var controller = merc.GetComponent<GM.Mercs.Controllers.MercController>();
+                var controller = merc.GetComponent<GM.Mercs.Controllers.AbstractMercController>();
 
                 controller.OnDamageDealt.AddListener(dmg =>
                 {

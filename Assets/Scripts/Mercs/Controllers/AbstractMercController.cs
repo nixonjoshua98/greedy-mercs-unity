@@ -4,6 +4,7 @@ using GM.Controllers;
 using GM.DamageTextPool;
 using GM.Units;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,14 +20,13 @@ namespace GM
 
 namespace GM.Mercs.Controllers
 {
-    public abstract class AbstractMercController : MercBase
+    public abstract class AbstractMercController : UnitBase
     {
+        public MercID ID = MercID.UNKNOWN;
+
         [Header("Components")]
         [SerializeField] protected MovementController Movement;
         [SerializeField] private AbstractAttackController Attack;
-
-        // Current attack target which the unit should focus
-        protected AttackTarget CurrentTarget;
 
         [Header("Events")]
         [HideInInspector] public UnityEvent<BigDouble> OnDamageDealt = new();
@@ -34,10 +34,13 @@ namespace GM.Mercs.Controllers
 
         // Scene instances
         private IDamageTextPool DamageTextPool;
-        private MercSquadController SquadController;
 
-        // Assigned during Init
+        // Current attack target which the unit should focus
+        protected AttackTarget CurrentTarget;
+
+        /* Init Values */
         protected EnemyUnitCollection EnemyUnits;
+        protected MercSquadController SquadController;
 
         // Energy
         private bool IsEnergyDepleted;
@@ -45,26 +48,29 @@ namespace GM.Mercs.Controllers
 
         protected MercSetupPayload SetupPayload;
 
-        // ...
-        public GM.Mercs.Data.AggregatedMercData MercDataValues => App.Mercs.GetMerc(Id);
+        /* Value Forwarding */
+        private bool IsAttacking => Attack.HasControl;
 
-        public void Init(MercSetupPayload payload, EnemyUnitCollection enemyUnits)
+        /* Game Values */
+        public GM.Mercs.Data.AggregatedMercData DataValues => App.Mercs.GetMerc(ID);
+
+        public void Init(MercSetupPayload payload, MercSquadController squad, EnemyUnitCollection enemyUnits)
         {
             SetupPayload = payload;
             EnemyUnits = enemyUnits;
+            SquadController = squad;
         }
 
         private void Awake()
         {
             GetRequiredComponents();
 
-            EnergyRemaining = MercDataValues.BattleEnergyCapacity;
+            EnergyRemaining = DataValues.BattleEnergyCapacity;
         }
 
         protected void GetRequiredComponents()
         {
             DamageTextPool = this.GetComponentInScene<IDamageTextPool>();
-            SquadController = this.GetComponentInScene<MercSquadController>();
         }
 
         private void FixedUpdate()
@@ -108,9 +114,22 @@ namespace GM.Mercs.Controllers
 
         private void FollowUnitInFront(int idx)
         {
-            UnitBase unitInFront = SquadController.Get(idx - 1);
+            var unitInFront = SquadController.Get(idx - 1);
 
-            Vector3 position = new(unitInFront.Avatar.Bounds.min.x - (unitInFront.Avatar.Bounds.size.x / 2), transform.position.y);
+            // TODO: 05/06/2022 : Potential code smell
+            // Multiple melee units can attack at the same time, and the unit may not be the closest one if attacking.
+            // e.g melee unit could be attacking from the right side but we should follow the closest unit on the left side
+            if (unitInFront.DataValues.AttackType == UnitAttackType.Melee && unitInFront.IsAttacking)
+            {
+                var unitsInFront = SquadController.GetUnitsInFront(idx);
+
+                if (unitsInFront.Count > 1)
+                {
+                    unitInFront = unitsInFront.OrderByDescending(x => Mathf.Abs(x.transform.position.x - transform.position.x)).FirstOrDefault();
+                }
+            }
+
+            Vector3 position = new(unitInFront.Avatar.Bounds.min.x - (unitInFront.Avatar.Bounds.size.x * 0.75f), transform.position.y);
 
             MoveToPosition(position);
         }
@@ -131,7 +150,7 @@ namespace GM.Mercs.Controllers
         {
             var attackValues = CalculateAttackValue();
 
-            ReduceEnergy(MercDataValues.EnergyConsumedPerAttack);
+            ReduceEnergy(DataValues.EnergyConsumedPerAttack);
 
             HealthController health = CurrentTarget.Unit.GetComponent<HealthController>();
 
@@ -146,7 +165,7 @@ namespace GM.Mercs.Controllers
         {
             DamageType damageType = DamageType.Normal;
 
-            BigDouble damage = MercDataValues.DamagePerAttack * SetupPayload.EnergyPercentUsedToInstantiate;
+            BigDouble damage = DataValues.DamagePerAttack * SetupPayload.EnergyPercentUsedToInstantiate;
 
             if (SetupPayload.IsEnergyOverload)
                 damageType = DamageType.EnergyOvercharge;
@@ -159,7 +178,6 @@ namespace GM.Mercs.Controllers
 
             return new() { Type = damageType, Value = damage };
         }
-
 
         private IEnumerator EnergyExhaustedAnimation()
         {

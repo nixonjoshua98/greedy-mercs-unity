@@ -47,11 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331aac1a6cc4c864d9840291ceb316f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownTimer: 0.25
-  Avatar: {fileID: 180202088276066436}
   AttackImpactObject: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
   MoveController: {fileID: 9182918656529223324}
-  AttackRange: 1
 --- !u!114 &9182918656529223324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +62,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 180202088276066436}
-  MoveSpeed: 8
 --- !u!114 &3669818139686466736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,13 +75,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 180202088276066436}
-  Id: 2
+  ID: 2
   Movement: {fileID: 9182918656529223324}
   Attack: {fileID: 9182918656529223323}
   OnDamageDealt:
     m_PersistentCalls:
       m_Calls: []
-  EnemyUnits: {fileID: 0}
+  E_OnZeroEnergy:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &9182918655072287151
 PrefabInstance:
   m_ObjectHideFlags: 0

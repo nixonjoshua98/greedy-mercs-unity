@@ -4,20 +4,17 @@ using UnityEngine;
 
 namespace GM.Units
 {
-    class EnemyUnitTarget
+    public class AttackTarget
     {
         public UnitBase Unit;
         public bool HasAttacker;
     }
 
-    public class AttackTarget
-    {
-        public UnitBase Unit;
-    }
+    // Targetting logic should be moved out into a seperate logic once ranged units are implemented
 
     public class EnemyUnitCollection : MonoBehaviour
     {
-        readonly List<EnemyUnitTarget> _units = new();
+        readonly List<AttackTarget> _units = new();
 
         public int Count { get => _units.Count; }
 
@@ -73,12 +70,12 @@ namespace GM.Units
             }
         }
 
-        void AddTarget(AbstractMercController attacker, EnemyUnitTarget defender)
+        void AddTarget(AbstractMercController attacker, AttackTarget defender)
         {
             defender.HasAttacker = true;
         }
 
-        void RemoveTarget(AbstractMercController attacker, EnemyUnitTarget defender)
+        void RemoveTarget(AbstractMercController attacker, AttackTarget defender)
         {
             defender.HasAttacker = false;
         }

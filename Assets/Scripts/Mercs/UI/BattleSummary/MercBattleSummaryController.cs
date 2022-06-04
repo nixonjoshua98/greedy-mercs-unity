@@ -31,13 +31,11 @@ namespace GM.Mercs.UI
         {
             MercSquadController squad = this.GetComponentInScene<MercSquadController>();
 
-            squad.E_UnitSpawned.AddListener(merc =>
+            squad.E_UnitSpawned.AddListener(controller =>
             {
-                var controller = merc.GetComponent<GM.Mercs.Controllers.AbstractMercController>();
-
                 controller.OnDamageDealt.AddListener(dmg =>
                 {
-                    damageValues.Add(new MercDamageValue(controller.Id, dmg));
+                    damageValues.Add(new MercDamageValue(controller.ID, dmg));
                 });
             });
 
@@ -50,10 +48,13 @@ namespace GM.Mercs.UI
 
             if (SummaryPopup != null)
             {
-                IEnumerable<KeyValuePair<MercID, BigDouble>> dmg = damageValues.GroupBy(m => m.MercId).Select(x =>
-                {
-                    return new KeyValuePair<MercID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum());
-                }).OrderByDescending(x => x.Value);
+                var dmg = damageValues
+                    .GroupBy(m => m.MercId)
+                    .Select(x =>
+                    {
+                        return new KeyValuePair<MercID, BigDouble>(x.Key, x.Select(x => x.Damage).Sum());
+                    })
+                    .OrderByDescending(x => x.Value);
 
                 SummaryPopup.UpdateDamageNumbers(dmg.ToList());
             }

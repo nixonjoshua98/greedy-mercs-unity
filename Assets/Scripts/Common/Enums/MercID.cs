@@ -3,7 +3,7 @@ namespace GM.Common.Enums
 {
     public enum MercID
     {
-        NONE = -1,
+        UNKNOWN = -1,
 
         STONE_GOLEM = 0,
         FALLEN_ANGEL = 1,

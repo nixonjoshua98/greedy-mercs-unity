@@ -2,6 +2,7 @@ using GM.Common.Enums;
 using GM.Mercs.Controllers;
 using GM.Units;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,22 +13,31 @@ namespace GM.Mercs
         [Header("References")]
         [SerializeField] EnemyUnitCollection EnemyUnits;
 
-        private readonly List<MercBase> _units = new();
+        private readonly List<AbstractMercController> _units = new();
 
         /* Events */
         public UnityEvent E_MercAddedToSquad = new UnityEvent();
-        public UnityEvent<MercBase> E_UnitSpawned = new UnityEvent<MercBase>();
+        public UnityEvent<AbstractMercController> E_UnitSpawned = new();
 
-        public bool TryGetUnit(out MercBase unit)
+        public int Count => _units.Count;
+        public AbstractMercController First() => _units[0];
+
+        public List<AbstractMercController> GetUnitsInFront(int idx)
         {
-            unit = _units.Count == 0 ? null : _units[0];
+            List<AbstractMercController> ls = new();
 
-            return unit != null;
+            idx--; // Ignore the current unit
+
+            while (idx > 0)
+                ls.Append(_units[--idx]);
+
+            return ls;
         }
 
-        public MercBase Get(int idx) => _units[idx];
-        public int GetIndex(MercBase unit) => _units.FindIndex((u) => u == unit);
-        bool UnitExistsInQueue(MercID unit) => _units.Find(x => x.Id == unit) is not null;
+
+        public AbstractMercController Get(int idx) => _units[idx];
+        public int GetIndex(AbstractMercController unit) => _units.FindIndex((u) => u == unit);
+        bool UnitExistsInQueue(MercID unit) => _units.Find(x => x.ID == unit) is not null;
 
         private void Awake()
         {
@@ -85,7 +95,7 @@ namespace GM.Mercs
         {
             AbstractMercController unit = InstantiateMerc(unitId);
 
-            unit.Init(payload, EnemyUnits);
+            unit.Init(payload, this, EnemyUnits);
 
             unit.E_OnZeroEnergy.AddListener(() => _units.Remove(unit)); // Remove the unit from the queue once its energy has depleted
 
@@ -96,7 +106,12 @@ namespace GM.Mercs
 
         private AbstractMercController InstantiateMerc(MercID unitId)
         {
-            Vector2 pos = new(Camera.main.Bounds().min.x - 3.5f, Common.Constants.CENTER_BATTLE_Y);
+            var camBounds = Camera.main.Bounds();
+
+            Vector2 pos = new(
+                camBounds.min.x - 3.5f - (_units.Count), 
+                Common.Constants.CENTER_BATTLE_Y
+            );
 
             var data = App.Mercs.GetMerc(unitId);
 

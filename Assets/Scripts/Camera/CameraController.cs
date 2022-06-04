@@ -15,8 +15,10 @@ namespace GM
 
         private void FixedUpdate()
         {
-            if (MercSquad.TryGetUnit(out MercBase unit))
+            if (MercSquad.Count > 0)
             {
+                var unit = MercSquad.First();
+
                 SetCameraPosition(unit.Avatar.Bounds.max.x);
             }
         }

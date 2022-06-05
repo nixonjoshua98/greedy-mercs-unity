@@ -4,6 +4,11 @@ namespace GM.Mercs.Controllers
 {
     public class MeleeMercController : AbstractMercController
     {
+        protected override bool CanFetchTarget()
+        {
+            return SquadController.GetIndex(this) <= 1;
+        }
+
         protected override void MoveTowardsCurrentTarget()
         {
             Vector3 targetPosition = GetCurrentTargetPosition();
@@ -18,7 +23,15 @@ namespace GM.Mercs.Controllers
 
         private Vector3 GetCurrentTargetPosition()
         {
-            Vector3 pos = CurrentTarget.Unit.Avatar.Bounds.min - new Vector3(Avatar.Bounds.size.x / 2, 0);
+            var attackSide = CurrentTarget.GetAttackSide(this);
+
+            Vector3 pos = attackSide switch
+            {
+                Units.AttackSide.Left => CurrentTarget.Unit.Avatar.Bounds.min - new Vector3(Avatar.Bounds.size.x / 2, 0),
+                Units.AttackSide.Right => CurrentTarget.Unit.Avatar.Bounds.max + new Vector3(Avatar.Bounds.size.x / 2, 0),
+                _ => throw new System.Exception("Invalid attack side")
+            };
+
 
             pos.y = CurrentTarget.Unit.transform.position.y;
 

@@ -47,21 +47,14 @@ namespace GM.Mercs.Controllers
             Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition(), Quaternion.identity);
         }
 
-        public void Stop()
-        {
-            HasControl = false;
-            IsAttacking = false;
-            CurrentTarget = null;
-        }
-
         IEnumerator _Update()
         {
-            while (HasControl && CurrentTarget != null)
+            while (HasControl && CurrentTarget is not null)
             {
-                if (CanStartAttack(CurrentTarget))
+                if (CanStartAttack)
                     StartAttack(CurrentTarget);
 
-                else if (IsOnCooldown)
+                else if (IsOnCooldown && !IsAttacking)
                     Avatar.PlayAnimation(Avatar.Animations.Idle);
 
                 yield return new WaitForEndOfFrame();
@@ -78,9 +71,9 @@ namespace GM.Mercs.Controllers
 
         public void Animation_AttackFinished()
         {
-            IsAttacking = false;
-
             StartCooldown();
+
+            IsAttacking = false;
         }
     }
 }

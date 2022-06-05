@@ -2,7 +2,6 @@ using GM.Common.Enums;
 using GM.Mercs.Controllers;
 using GM.Units;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,24 +15,8 @@ namespace GM.Mercs
         private readonly List<AbstractMercController> _units = new();
 
         /* Events */
-        public UnityEvent E_MercAddedToSquad = new UnityEvent();
-        public UnityEvent<AbstractMercController> E_UnitSpawned = new();
-
-        public int Count => _units.Count;
-        public AbstractMercController First() => _units[0];
-
-        public List<AbstractMercController> GetUnitsInFront(int idx)
-        {
-            List<AbstractMercController> ls = new();
-
-            idx--; // Ignore the current unit
-
-            while (idx > 0)
-                ls.Append(_units[--idx]);
-
-            return ls;
-        }
-
+        [HideInInspector] public UnityEvent E_MercAddedToSquad = new UnityEvent();
+        [HideInInspector] public UnityEvent<AbstractMercController> E_UnitSpawned = new();
 
         public AbstractMercController Get(int idx) => _units[idx];
         public int GetIndex(AbstractMercController unit) => _units.FindIndex((u) => u == unit);

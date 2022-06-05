@@ -1,31 +1,29 @@
-using GM.Mercs;
+using GM.Units;
 using UnityEngine;
 
 namespace GM
 {
     public class CameraController : MonoBehaviour
     {
+        [Header("Properties")]
         [SerializeField] private float MoveSpeed = 10.0f;
-        private MercSquadController MercSquad;
 
-        private void Awake()
-        {
-            MercSquad = this.GetComponentInScene<MercSquadController>();
-        }
+        [Header("References")]
+        [SerializeField] private EnemyUnitCollection EnemyUnits;
 
         private void FixedUpdate()
         {
-            if (MercSquad.Count > 0)
+            if (EnemyUnits.Count > 0)
             {
-                var unit = MercSquad.First();
+                var unit = EnemyUnits.First();
 
-                SetCameraPosition(unit.Avatar.Bounds.max.x);
+                SetCameraPosition(unit.transform.position.x);
             }
         }
 
         private void SetCameraPosition(float xPos)
         {
-            Vector3 to = new Vector3(Mathf.Max(transform.position.x, xPos), transform.position.y, transform.position.z);
+            Vector3 to = new(xPos, transform.position.y, transform.position.z);
 
             transform.position = Vector3.MoveTowards(transform.position, to, MoveSpeed * Time.fixedUnscaledDeltaTime);
         }

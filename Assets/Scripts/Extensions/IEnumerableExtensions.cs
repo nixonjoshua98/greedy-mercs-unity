@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace GM
 {
@@ -14,6 +16,18 @@ namespace GM
             }
 
             return total;
+        }
+
+        public static Vector3 Average(this IEnumerable<Vector3> source)
+        {
+            Vector3 result = Vector3.zero;
+
+            foreach (Vector3 vec in source)
+            {
+                result += vec;
+            }
+
+            return result / source.Count();
         }
     }
 }

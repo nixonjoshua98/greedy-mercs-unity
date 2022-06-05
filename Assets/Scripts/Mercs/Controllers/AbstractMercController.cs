@@ -49,7 +49,7 @@ namespace GM.Mercs.Controllers
         protected MercSetupPayload SetupPayload;
 
         /* Value Forwarding */
-        private bool IsAttacking => Attack.HasControl;
+        private bool HasTarget => CurrentTarget is not null;
 
         /* Game Values */
         public GM.Mercs.Data.AggregatedMercData DataValues => App.Mercs.GetMerc(ID);
@@ -83,49 +83,57 @@ namespace GM.Mercs.Controllers
 
         private void _UpdateMerc()
         {
-            int idx = SquadController.GetIndex(this);
+            bool hasTarget = false;
 
-            if (idx == 0)
+            if (CanFetchTarget())
+                hasTarget = FetchTarget();
+
+            if (hasTarget)
             {
-                if (!EnemyUnits.Contains(CurrentTarget))
-                    EnemyUnits.GetTarget(this, out CurrentTarget);
-
                 if (CanStartAttack())
-                {
                     Attack.StartAttack(CurrentTarget.Unit);
-                }
+
                 else
-                {
                     MoveTowardsCurrentTarget();
-                }
             }
-            else if (idx > 0)
+            else
             {
-                FollowUnitInFront(idx);
+                FollowUnitInFront();
             }
         }
 
+        protected virtual bool FetchTarget()
+        {
+            bool hasTarget = true;
+
+            if (!EnemyUnits.Contains(CurrentTarget))
+                hasTarget = EnemyUnits.GetTarget(this, out CurrentTarget);
+
+            return hasTarget;
+        }
+
+        protected abstract bool CanFetchTarget();
         protected abstract void MoveTowardsCurrentTarget();
 
         protected virtual bool CanStartAttack()
         {
-            return CurrentTarget != null && Attack.CanStartAttack(CurrentTarget.Unit);
+            return CurrentTarget != null && Attack.CanStartAttack;
         }
 
-        private void FollowUnitInFront(int idx)
+        private void FollowUnitInFront()
         {
+            int idx = SquadController.GetIndex(this);
+
             var unitInFront = SquadController.Get(idx - 1);
 
             // TODO: 05/06/2022 : Potential code smell
             // Multiple melee units can attack at the same time, and the unit may not be the closest one if attacking.
             // e.g melee unit could be attacking from the right side but we should follow the closest unit on the left side
-            if (unitInFront.DataValues.AttackType == UnitAttackType.Melee && unitInFront.IsAttacking)
+            if (unitInFront.DataValues.AttackType == UnitAttackType.Melee && unitInFront.HasTarget)
             {
-                var unitsInFront = SquadController.GetUnitsInFront(idx);
-
-                if (unitsInFront.Count > 1)
+                if (unitInFront.CurrentTarget.TryGetMeleeAttacker(AttackSide.Left, out var leftAttacker))
                 {
-                    unitInFront = unitsInFront.OrderByDescending(x => Mathf.Abs(x.transform.position.x - transform.position.x)).FirstOrDefault();
+                    unitInFront = leftAttacker;
                 }
             }
 
@@ -202,6 +210,8 @@ namespace GM.Mercs.Controllers
 
                 if (EnergyRemaining <= 0)
                 {
+                    Attack.Stop();
+
                     IsEnergyDepleted = true;
 
                     E_OnZeroEnergy.Invoke();

@@ -18,6 +18,7 @@ namespace GM.Mercs.Controllers
         protected bool IsAttacking;
         protected bool IsOnCooldown;
         public bool HasControl { get; protected set; }
+        public bool CanStartAttack { get => !IsOnCooldown && !IsAttacking; }
 
         protected virtual void Awake()
         {
@@ -33,9 +34,11 @@ namespace GM.Mercs.Controllers
             GMLogger.WhenNull(Avatar, "Avatar is null");
         }
 
-        public virtual bool CanStartAttack(UnitBase unit)
+        public void Stop()
         {
-            return !IsOnCooldown && !IsAttacking;
+            HasControl = false;
+            IsAttacking = false;
+            CurrentTarget = null;
         }
 
         public virtual void StartAttack(GM.Units.UnitBase target)

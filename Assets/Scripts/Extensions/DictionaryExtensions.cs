@@ -9,11 +9,11 @@ namespace GM
             return source.TryGetValue(key, out TValue value) ? value : defaultValue;
         }
 
-        public static TKey GetKeyFromValue<TKey, TValue>(this Dictionary<TKey, TValue> source, TValue value)
+        public static TKey GetKeyFromValue<TKey, TValue>(this Dictionary<TKey, TValue> source, TValue value) where TValue : class
         {
             foreach (var pair in source)
             {
-                if (pair.Value.Equals(value))
+                if (pair.Value == value || pair.Value.Equals(value) || (pair.Value == null && value == null))
                 {
                     return pair.Key;
                 }

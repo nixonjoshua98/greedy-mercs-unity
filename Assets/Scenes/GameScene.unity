@@ -3578,7 +3578,7 @@ GameObject:
   - component: {fileID: 689350227}
   - component: {fileID: 689350226}
   m_Layer: 0
-  m_Name: MercUnitCollection
+  m_Name: MercSquad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3597,6 +3597,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyUnits: {fileID: 1035282822}
+  E_MercAddedToSquad:
+    m_PersistentCalls:
+      m_Calls: []
+  E_UnitSpawned:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &689350227
 Transform:
   m_ObjectHideFlags: 0
@@ -10499,6 +10505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 10
+  EnemyUnits: {fileID: 1035282822}
 --- !u!1 &1752948552
 GameObject:
   m_ObjectHideFlags: 0

@@ -63,11 +63,5 @@ namespace GM.Units
                 return new Vector3(other.Bounds.min.x, transform.position.y);
             }
         }
-
-        public float DistanceXBetweenAvatar(UnitAvatar other)
-        {
-            return Mathf.Abs(GetClosestBounds(other).x - other.GetClosestBounds(this).x);
-        }
-
     }
 }

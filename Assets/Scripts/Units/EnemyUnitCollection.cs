@@ -1,16 +1,30 @@
 using GM.Mercs.Controllers;
 using System.Collections.Generic;
 using UnityEngine;
+using GM.Common.Enums;
+using System.Linq;
 
 namespace GM.Units
 {
     public class AttackTarget
     {
         public UnitBase Unit;
-        public bool HasAttacker;
+
+        public Dictionary<AttackSide, AbstractMercController> MeleeAttackers = new()
+        {
+            { AttackSide.Left, null },
+            { AttackSide.Right, null },
+        };
+
+        public AttackSide GetAttackSide(AbstractMercController controller) => MeleeAttackers.GetKeyFromValue(controller);
+        public bool TryGetMeleeAttacker(AttackSide side, out AbstractMercController result) => (result = MeleeAttackers[side]) != null;
     }
 
-    // Targetting logic should be moved out into a seperate logic once ranged units are implemented
+    public enum AttackSide
+    {
+        Left, 
+        Right
+    }
 
     public class EnemyUnitCollection : MonoBehaviour
     {
@@ -47,15 +61,12 @@ namespace GM.Units
         {
             unit = default;
 
-            if (_units.Count == 0 || _units[0].HasAttacker)
+            if (_units.Count == 0 || !UnitHasAvailableTargetSlot(_units[0], controller.DataValues.AttackType))
                 return false;
 
             AddTarget(controller, _units[0]);
 
-            unit = new AttackTarget()
-            {
-                Unit = _units[0].Unit
-            };
+            unit = _units[0];
 
             return true;
         }
@@ -70,14 +81,28 @@ namespace GM.Units
             }
         }
 
+        bool UnitHasAvailableTargetSlot(AttackTarget target, UnitAttackType attackType)
+        {
+            if (attackType == UnitAttackType.Melee)
+                return target.MeleeAttackers.Where(x => x.Value is null).Count() >= 1;
+
+            return false;
+        }
+
         void AddTarget(AbstractMercController attacker, AttackTarget defender)
         {
-            defender.HasAttacker = true;
+            if (attacker.DataValues.AttackType == UnitAttackType.Melee)
+            {
+                defender.MeleeAttackers[defender.GetAttackSide(null)] = attacker;
+            }
         }
 
         void RemoveTarget(AbstractMercController attacker, AttackTarget defender)
         {
-            defender.HasAttacker = false;
+            if (attacker.DataValues.AttackType == UnitAttackType.Melee)
+            {
+                defender.MeleeAttackers[defender.GetAttackSide(attacker)] = null;
+            }
         }
     }
 }

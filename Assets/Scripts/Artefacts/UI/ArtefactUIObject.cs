@@ -17,7 +17,7 @@ namespace GM.Artefacts.UI
 
         protected string GetBonusText()
         {
-            return Format.Bonus(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
+            return Format.BonusValue(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
         }
     }
 }

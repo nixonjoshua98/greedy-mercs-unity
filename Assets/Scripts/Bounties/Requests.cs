@@ -4,8 +4,6 @@ using System;
 
 namespace GM.Bounties.Requests
 {
-    // Bounty Claim
-
     public class BountyClaimResponse : ServerResponse
     {
         public long PointsClaimed;

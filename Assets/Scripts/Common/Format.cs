@@ -19,7 +19,7 @@ namespace GM
             return $"{Number(value, bonusType)} {Bonus(bonusType)}";
         }
 
-        public static string Bonus(BonusType bonusType, BigDouble value, string colour)
+        public static string BonusValue(BonusType bonusType, BigDouble value, string colour = "orange")
         {
             return $"<color={colour}>{Number(value, bonusType)}</color> {Bonus(bonusType)}";
         }

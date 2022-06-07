@@ -22,7 +22,7 @@ namespace GM.Bounties.Models
         public int Level => _userBounty.Level;
         public int NumDefeats => _userBounty.NumDefeats;
         public float BonusValue => CurrentLevelValues?.BonusValue ?? 0.0f;
-        public bool CanLevelUp
+        public bool CanUpgrade
         {
             get
             {

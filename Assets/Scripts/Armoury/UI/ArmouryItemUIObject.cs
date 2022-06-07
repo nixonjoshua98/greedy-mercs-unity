@@ -17,7 +17,7 @@ namespace GM.Armoury.UI
 
         protected string GetBonusText()
         {
-            return Format.Bonus(AssignedItem.BonusType, AssignedItem.BonusValue, "orange");
+            return Format.BonusValue(AssignedItem.BonusType, AssignedItem.BonusValue, "orange");
         }
     }
 }

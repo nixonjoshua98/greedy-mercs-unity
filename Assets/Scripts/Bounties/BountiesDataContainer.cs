@@ -22,7 +22,7 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Fetch the data for all unlocked bounties
         /// </summary>
-        public List<AggregatedBounty> UnlockedBounties => UserData.UnlockedBounties.OrderBy(x => x.BountyID).Select(ele => GetUnlockedBounty(ele.BountyID)).ToList();
+        public List<AggregatedBounty> UnlockedBounties => UserData.UnlockedBounties.OrderBy(x => x.BountyID).Select(ele => GetBounty(ele.BountyID)).ToList();
 
         /// <summary>
         /// Time since the last claim
@@ -94,7 +94,7 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Fetch data for an unlocked bounty
         /// </summary>
-        public AggregatedBounty GetUnlockedBounty(int key)
+        public AggregatedBounty GetBounty(int key)
         {
             return new AggregatedBounty(GetGameBounty(key), GetUserBountyData(key));
         }

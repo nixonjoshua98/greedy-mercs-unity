@@ -6,8 +6,6 @@ using UnityEngine;
 
 namespace GM.Bounties.Models
 {
-    // User Models
-
     public class UserBounty
     {
         public int BountyID;
@@ -20,8 +18,6 @@ namespace GM.Bounties.Models
         public DateTime LastClaimTime;
         public List<UserBounty> UnlockedBounties;
     }
-
-    // Game Models
 
     public class BountyLevel
     {
@@ -44,6 +40,7 @@ namespace GM.Bounties.Models
 
         [JsonIgnore]
         public Sprite Icon;
+
         [JsonIgnore]
         public GameObject Prefab;
     }

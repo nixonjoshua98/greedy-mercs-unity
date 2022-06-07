@@ -12,7 +12,23 @@ namespace GM.PlayerStats
             wave.E_EnemyDefeated.AddListener(WaveManager_OnEnemyDefeated);
             wave.E_BossDefeated.AddListener(WaveManager_OnBossDefeated);
 
-            click.E_OnTap.AddListener(TapController_OnTop);
+            click.E_OnTap.AddListener(TapController_OnTap);
+        }
+
+        void Start()
+        {
+            InvokeRepeating(nameof(SyncLifetimeStatsWithServer), 30.0f, 30.0f);
+        }
+
+        private void SyncLifetimeStatsWithServer()
+        {
+            App.Stats.UpdateLifetimeStats(success =>
+            {
+                if (!success)
+                {
+                    GMLogger.Error("Failed to update account lifetime stats");
+                }
+            });
         }
 
         private void WaveManager_OnEnemyDefeated()
@@ -27,7 +43,7 @@ namespace GM.PlayerStats
             App.Stats.LocalDailyStats.TotalBossesDefeated++;
         }
 
-        private void TapController_OnTop()
+        private void TapController_OnTap()
         {
             App.Stats.LocalLifetimeStats.TotalTaps++;
             App.Stats.LocalDailyStats.TotalTaps++;

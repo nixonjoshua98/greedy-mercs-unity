@@ -6,18 +6,9 @@ namespace GM
 {
     public class ServerSyncManager : GM.Core.GMMonoBehaviour
     {
-        private const float StatsSyncInterval = 1_000 * 30; // 30 Seconds
-
         private bool isUpdatingQuests;
-        private bool isUpdatingLifetimeStats;
-        private Stopwatch syncStatsWatch;
 
         bool isUpdatingBountyShop;
-
-        private void Awake()
-        {
-            syncStatsWatch = Stopwatch.StartNew();
-        }
 
         private void Start()
         {
@@ -37,13 +28,6 @@ namespace GM
                 {
                     FetchQuests();
                 }
-
-                if (!isUpdatingLifetimeStats && syncStatsWatch.ElapsedMilliseconds >= StatsSyncInterval)
-                {
-                    syncStatsWatch.Restart();
-
-                    SyncStatsWithServer();
-                }
             }
         }
 
@@ -60,13 +44,6 @@ namespace GM
 
                 isUpdatingBountyShop = !App.BountyShop.IsValid;
             });
-        }
-
-        private void SyncStatsWithServer()
-        {
-            isUpdatingLifetimeStats = true;
-
-            App.Stats.UpdateLifetimeStats(success => isUpdatingLifetimeStats = false);
         }
 
         private void FetchQuests()

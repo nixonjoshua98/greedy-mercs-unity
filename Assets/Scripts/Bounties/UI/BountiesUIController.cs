@@ -110,7 +110,7 @@ namespace GM.Bounties.UI
                 }
                 else
                 {
-                    Modals.ShowServerError(resp);
+                    GMLogger.Error(resp.Message);
                 }
             });
         }

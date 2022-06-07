@@ -52,7 +52,7 @@ namespace GM.Bounties.UI
 
                 if (!success)
                 {
-                    Modals.ShowServerError(resp);
+                    GMLogger.Error(resp.Message);
                 }
             });
         }

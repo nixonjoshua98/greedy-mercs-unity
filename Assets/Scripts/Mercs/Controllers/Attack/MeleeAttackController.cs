@@ -49,24 +49,33 @@ namespace GM.Mercs.Controllers
 
         IEnumerator _Update()
         {
-            while (HasControl && CurrentTarget is not null)
+            while (HasControl)
             {
-                if (CanStartAttack)
-                    StartAttack(CurrentTarget);
+                if (CurrentTarget is not null)
+                {
+                    if (CanStartAttack)
+                        StartAttack(CurrentTarget);
 
-                else if (IsOnCooldown && !IsAttacking)
-                    Avatar.PlayAnimation(Avatar.Animations.Idle);
+                    else if (IsOnCooldown && !IsAttacking)
+                        Avatar.PlayAnimation(Avatar.Animations.Idle);
+                }
+
+                else if (!IsAttacking)
+                {
+                    Stop();
+                }
 
                 yield return new WaitForEndOfFrame();
             }
-
-            Stop();
         }
 
         public void Animation_AttackImpact()
         {
-            InstantiateAttackImpactObject();
-            Controller.DealDamageToTarget();
+            if (CurrentTarget is not null)
+            {
+                InstantiateAttackImpactObject();
+                Controller.DealDamageToTarget();
+            }
         }
 
         public void Animation_AttackFinished()

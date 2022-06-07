@@ -5,6 +5,11 @@ namespace GM
 {
     public static class GMLogger
     {
+        public static void Error(object obj)
+        {
+            Debug.LogError(obj);
+        }
+
         public static void Editor(object obj)
         {
             if (Application.isEditor)

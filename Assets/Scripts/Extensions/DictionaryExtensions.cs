@@ -13,7 +13,7 @@ namespace GM
         {
             foreach (var pair in source)
             {
-                if (pair.Value == value || pair.Value.Equals(value) || (pair.Value == null && value == null))
+                if (pair.Value == value)
                 {
                     return pair.Key;
                 }

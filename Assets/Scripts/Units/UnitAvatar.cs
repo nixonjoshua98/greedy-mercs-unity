@@ -10,11 +10,11 @@ namespace GM.Units
         public Animator Animator;
         public AnimationStrings Animations;
 
-        [HideInInspector] public UnityEvent E_Anim_MeleeAttackImpact = new UnityEvent();
-        [HideInInspector] public UnityEvent E_Anim_MeleeAttackFinished = new UnityEvent();
+        [HideInInspector] public UnityEvent E_Anim_MeleeAttackImpact = new();
+        [HideInInspector] public UnityEvent E_Anim_MeleeAttackFinished = new();
 
-        [HideInInspector] public UnityEvent E_Anim_OnDefeat = new UnityEvent();
-        [HideInInspector] public UnityEvent E_Anim_OnHurt = new UnityEvent();
+        [HideInInspector] public UnityEvent E_Anim_OnDefeat = new();
+        [HideInInspector] public UnityEvent E_Anim_OnHurt = new();
 
         public Bounds Bounds => Collider.bounds;
 
@@ -30,22 +30,22 @@ namespace GM.Units
 
         public void Animation_MeleeAttackImpact()
         {
-            E_Anim_MeleeAttackImpact.Invoke();
+            E_Anim_MeleeAttackImpact?.Invoke();
         }
 
         public void Animation_MeleeAttackFinished()
         {
-            E_Anim_MeleeAttackFinished.Invoke();
+            E_Anim_MeleeAttackFinished?.Invoke();
         }
 
         public void Animation_OnDefeat()
         {
-            E_Anim_OnDefeat.Invoke();
+            E_Anim_OnDefeat?.Invoke();
         }
 
         public void Animation_OnHurt()
         {
-            E_Anim_OnHurt.Invoke();
+            E_Anim_OnHurt?.Invoke();
         }
 
         // = Helper = //

@@ -35,7 +35,6 @@ namespace GM
 
         private void StartWave()
         {
-
             BigDouble maxHealth = App.GMCache.EnemyHealthAtStage(App.GameState.Stage);
 
             for (int i = 0; i < App.GameState.EnemiesRemaining; i++)
@@ -118,10 +117,10 @@ namespace GM
             {
                 UnitBase unit = EnemyUnits.Last();
 
-                return new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x / 2) + 1.0f, unit.transform.position.y);
+                return new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x * 2f) + 1.0f, unit.transform.position.y);
             }
 
-            return new Vector3(8, GM.Common.Constants.CENTER_BATTLE_Y) + new Vector3(Camera.main.Bounds().max.x, 0);
+            return new Vector3(8, Constants.CENTER_BATTLE_Y) + new Vector3(Camera.main.Bounds().max.x, 0);
         }
 
         void OnEnemyZeroHealth(GameObject unitObject)

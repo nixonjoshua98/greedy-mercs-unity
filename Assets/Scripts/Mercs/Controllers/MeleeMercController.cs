@@ -32,7 +32,6 @@ namespace GM.Mercs.Controllers
                 _ => throw new System.Exception("Invalid attack side")
             };
 
-
             pos.y = CurrentTarget.Unit.transform.position.y;
 
             return pos;

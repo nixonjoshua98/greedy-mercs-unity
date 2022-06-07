@@ -8,27 +8,24 @@ namespace GM.LocalFiles
 {
     public sealed class LocalPersistantFile : GM.Core.GMClass
     {
-        private const string FilePath = "PersistantLocalFile";
+        private const string FilePath = "LocalPersistantFile";
 
         [JsonProperty]
         private TimedPlayerStatsModel _LocalDailyStats;
 
         [JsonProperty]
-        public HashSet<MercID> SquadMercIDs { get; set; } = new();
+        public HashSet<MercID> SquadMercIDs = new();
 
         [JsonIgnore]
         public TimedPlayerStatsModel LocalDailyStats
         {
             get
             {
-                if (_LocalDailyStats is null)
-                    _LocalDailyStats = new();
+                _LocalDailyStats ??= new();
 
-                // Data is not valid so we need to clear and reset it
-                else if (!App.DailyRefresh.Current.IsBetween(_LocalDailyStats.LastUpdated))
-                {
+                // Clear outdated data
+                if (!App.DailyRefresh.Current.IsBetween(_LocalDailyStats.LastUpdated))
                     _LocalDailyStats = new() { LastUpdated = DateTime.UtcNow };
-                }
 
                 return _LocalDailyStats;
             }
@@ -36,7 +33,7 @@ namespace GM.LocalFiles
         }
 
         [JsonProperty]
-        public LifetimeStatsModel LocalLifetimeStats { get; set; } = new();
+        public LifetimeStatsModel LocalLifetimeStats = new();
 
         /// <summary>
         /// Static constructor (preferred usage)

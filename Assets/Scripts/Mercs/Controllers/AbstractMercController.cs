@@ -126,9 +126,6 @@ namespace GM.Mercs.Controllers
 
             var unitInFront = SquadController.Get(idx - 1);
 
-            // TODO: 05/06/2022 : Potential code smell
-            // Multiple melee units can attack at the same time, and the unit may not be the closest one if attacking.
-            // e.g melee unit could be attacking from the right side but we should follow the closest unit on the left side
             if (unitInFront.DataValues.AttackType == UnitAttackType.Melee && unitInFront.HasTarget)
             {
                 if (unitInFront.CurrentTarget.TryGetMeleeAttacker(AttackSide.Left, out var leftAttacker))

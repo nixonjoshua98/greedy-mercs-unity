@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace GM.UI.Layouts
 {
     [Obsolete("Use GridLayoutExpandable instead")]
-    public class ExpandableGridLayout : GridLayoutGroup
+    public class _ExpandableGridLayout : GridLayoutGroup
     {
         public void UpdateCellSize()
         {

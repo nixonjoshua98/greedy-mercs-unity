@@ -10,7 +10,7 @@ namespace GM.Armoury.UI
         public GameObject ArmouryItemSlotObject;
 
         [Header("References")]
-        public GM.UI.Layouts.ExpandableGridLayout ItemsGridLayout;
+        public GM.UI.Layouts._ExpandableGridLayout ItemsGridLayout;
         public Transform ItemsSlotsParent;
 
         [Header("Properties")]

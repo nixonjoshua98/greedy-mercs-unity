@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-
 namespace GM.BountyShop.UI
 {
     public class BountyShopUIController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        public GameObject ArmouryItemSlotObject;
-        public GameObject CurrencyItemSlotObject;
+        [SerializeField] GameObject ArmouryItemSlotObject;
+        [SerializeField] GameObject CurrencyItemSlotObject;
 
         [Header("References")]
-        public Transform ItemsParent;
+        [SerializeField] Transform ItemsParent;
         [SerializeField] TMP_Text RefreshText;
-        [SerializeField] TypeWriter LoadingTypeWriter;
-        readonly List<GameObject> ItemSlotObjects = new();
+        [SerializeField] TypeWriter LoadingTypeWriter;        
+        
+        List<GameObject> ItemSlotObjects = new();
 
         void Awake()
         {
@@ -34,54 +34,52 @@ namespace GM.BountyShop.UI
             InstantiateItemSlots();
         }
 
+        void OnClientOffline()
+        {
+            RefreshText.text = "Offline";
+            LoadingTypeWriter.enabled = false;
+
+            ShowDefaultItemSlots();
+        }
+
+        void ShowDefaultItemSlots()
+        {
+            ItemSlotObjects.ForEach(x => Destroy(x));
+        }
+
         IEnumerator _InternalLoop()
         {
-            while (true)
+            bool isPrevValid = App.BountyShop.IsValid;
+
+            while (!App.HTTP.IsOffline)
             {
-                LoadingTypeWriter.enabled = !App.BountyShop.IsValid && !App.HTTP.IsOffline;
+                LoadingTypeWriter.enabled = !App.BountyShop.IsValid;
 
-                if (App.HTTP.IsOffline)
+                if (App.BountyShop.IsValid)
                 {
-                    RefreshText.text = "Bounty Shop Offline";
+                    RefreshText.text = $"Time Until Refresh\n<color=orange>{App.DailyRefresh.TimeUntilNext.ToString(TimeSpanFormat.Default)}</color>";
+                }
+                // Shop has invalidated - Most likely is being refreshed
+                else if (!App.BountyShop.IsValid && isPrevValid)
+                {
+                    ShowDefaultItemSlots();
+                }
 
-                    ItemSlotObjects.ForEach(x => Destroy(x));
-                    break;
-                }
-                else if (App.BountyShop.IsValid)
-                {
-                    RefreshText.text = $"items refresh in\n<color=orange>{App.DailyRefresh.TimeUntilNext.ToString(TimeSpanFormat.Default)}</color>";
-                }
-                else
-                {
-                    ItemSlotObjects.ForEach(x => Destroy(x));
-                }
+                isPrevValid = App.BountyShop.IsValid;
 
                 yield return new WaitForSecondsRealtime(1.0f);
             }
+
+            OnClientOffline();
         }
 
-        void CreateCurrencyItemSlots()
+        T InstantiateItemSlot<T>(GameObject prefab) where T: MonoBehaviour
         {
-            App.BountyShop.CurrencyItems.ForEach(item =>
-            {
-                var slot = this.Instantiate<BountyShopCurrencyItemSlot>(CurrencyItemSlotObject, ItemsParent);
+            var slot = this.Instantiate<T>(prefab, ItemsParent);
 
-                ItemSlotObjects.Add(slot.gameObject);
+            ItemSlotObjects.Add(slot.gameObject);
 
-                slot.Set(item);
-            });
-        }
-
-        void CreateArmouryItemSlots()
-        {
-            App.BountyShop.ArmouryItems.ForEach(item =>
-            {
-                var slot = this.Instantiate<BountyShopArmouryItemSlot>(ArmouryItemSlotObject, ItemsParent);
-
-                ItemSlotObjects.Add(slot.gameObject);
-
-                slot.Set(item);
-            });
+            return slot;
         }
 
         void RandomizeSlotPositions()
@@ -98,8 +96,9 @@ namespace GM.BountyShop.UI
 
         void InstantiateItemSlots()
         {
-            CreateCurrencyItemSlots();
-            CreateArmouryItemSlots();
+            App.BountyShop.ArmouryItems.ForEach(item => InstantiateItemSlot<BountyShopArmouryItemSlot>(ArmouryItemSlotObject).Set(item));
+            App.BountyShop.CurrencyItems.ForEach(item => InstantiateItemSlot<BountyShopCurrencyItemSlot>(CurrencyItemSlotObject).Set(item));
+
             RandomizeSlotPositions();
         }
     }

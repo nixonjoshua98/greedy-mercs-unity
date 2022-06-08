@@ -23,7 +23,7 @@ namespace GM.UI
         [ShowIf("ratioMode", RatioMode.Fixed)]
         [SerializeField] private float cellRatio = 1;
 
-        private void Awake()
+        void Awake()
         {
             Grid = GetComponent<GridLayoutGroup>();
             RectTrans = GetComponent<RectTransform>();

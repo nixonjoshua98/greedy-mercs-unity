@@ -88,7 +88,7 @@ namespace GM.Artefacts.UI
 
         public void OnShowPopupButton()
         {
-            InstantiateUI<ArtefactPopup>(ArtefactPopupObject).AssignArtefact(AssignedArtefact.Id);
+            this.InstantiateUI<ArtefactPopup>(ArtefactPopupObject).AssignArtefact(AssignedArtefact.Id);
         }
     }
 }

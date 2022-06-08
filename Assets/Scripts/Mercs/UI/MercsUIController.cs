@@ -57,7 +57,7 @@ namespace GM.Mercs.UI
 
         private void InstantiateSlot(MercID merc)
         {
-            SquadMercSlot slot = Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
+            SquadMercSlot slot = this.Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
 
             slot.Assign(merc, UpgradeAmountSelector);
 
@@ -78,7 +78,7 @@ namespace GM.Mercs.UI
 
         public void ShowAvailableMercs()
         {
-            InstantiateUI<MercManagePopup>(ManageMercsObject).AssignCallback(() =>
+            this.InstantiateUI<MercManagePopup>(ManageMercsObject).AssignCallback(() =>
             {
                 UpdateSlotsUI();
             });

@@ -22,7 +22,7 @@ namespace GM.UI
 
         public void OpenQuestsPopup()
         {
-            InstantiateUI<GM.Quests.UI.QuestsPopup>(QuestsPopupObject);
+            this.InstantiateUI<GM.Quests.UI.QuestsPopup>(QuestsPopupObject);
         }
     }
 }

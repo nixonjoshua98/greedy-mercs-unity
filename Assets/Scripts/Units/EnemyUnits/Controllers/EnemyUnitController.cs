@@ -35,7 +35,7 @@ namespace GM.Units.Controllers
 
         protected virtual void LinkHealthBar()
         {
-            GM.UI.HealthBarController controller = InstantiateUI<GM.UI.HealthBarController>(HealthBarObject);
+            GM.UI.HealthBarController controller = this.InstantiateUI<GM.UI.HealthBarController>(HealthBarObject);
 
             controller.AssignHealthController(HealthController, HealthBarTargetTransform);
         }

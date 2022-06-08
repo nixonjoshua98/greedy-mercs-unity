@@ -62,7 +62,7 @@ namespace GM.Mercs.UI
 
         public void ShowSummary()
         {
-            SummaryPopup = InstantiateUI<MercBattleSummaryPopup>(PopupObject);
+            SummaryPopup = this.InstantiateUI<MercBattleSummaryPopup>(PopupObject);
 
             UpdateSummaryPopup();
         }

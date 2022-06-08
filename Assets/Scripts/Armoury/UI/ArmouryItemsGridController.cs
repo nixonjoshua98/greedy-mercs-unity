@@ -37,7 +37,7 @@ namespace GM.Armoury.UI
         {
             if (!ItemSlots.TryGetValue(itemId, out ArmouryItemSlot slot))
             {
-                slot = Instantiate<ArmouryItemSlot>(ArmouryItemSlotObject, ItemsGridLayout.transform);
+                slot = this.Instantiate<ArmouryItemSlot>(ArmouryItemSlotObject, ItemsGridLayout.transform);
 
                 slot.AssignItem(itemId);
 

@@ -41,7 +41,7 @@ namespace GM.Quests.UI
         {
             foreach (var quest in App.Quests.DailyQuests)
             {
-                var slot = Instantiate<DailyQuestSlot>(QuestSlotObject, QuestParent);
+                var slot = this.Instantiate<DailyQuestSlot>(QuestSlotObject, QuestParent);
 
                 slot.Init(ClaimDailyQuest, quest);
 

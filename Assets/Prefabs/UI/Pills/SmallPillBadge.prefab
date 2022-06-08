@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3593193454346411702}
   m_Layer: 0
-  m_Name: Inner
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 4835470529628301988}
   - component: {fileID: 8028767771555495491}
   m_Layer: 0
-  m_Name: small_pill_badge
+  m_Name: SmallPillBadge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.8
+  m_fontSize: 26.2
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1

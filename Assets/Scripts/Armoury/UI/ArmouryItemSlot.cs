@@ -37,7 +37,7 @@ namespace GM.Armoury.UI
 
         public void OnPopupButton()
         {
-            InstantiateUI<ArmouryItemPopup>(PopupObject).AssignItem(AssignedItem.ID);
+            this.InstantiateUI<ArmouryItemPopup>(PopupObject).AssignItem(AssignedItem.ID);
         }
     }
 }

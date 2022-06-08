@@ -70,7 +70,7 @@ namespace GM.Bounties.UI
 
                 if (!slots.TryGetValue(bounty.ID, out BountySlot slot))
                 {
-                    slot = slots[bounty.ID] = Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
+                    slot = slots[bounty.ID] = this.Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
 
                     slot.Assign(bounty.ID);
                 }

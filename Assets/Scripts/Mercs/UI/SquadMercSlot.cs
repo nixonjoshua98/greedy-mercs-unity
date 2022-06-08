@@ -92,7 +92,7 @@ namespace GM.Mercs.UI
         /// <summary> Callback from UI to open the merc popup </summary>
         public void OnInfoButton()
         {
-            InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.ID);
+            this.InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.ID);
         }
     }
 }

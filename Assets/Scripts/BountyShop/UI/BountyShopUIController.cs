@@ -49,7 +49,7 @@ namespace GM.BountyShop.UI
                 }
                 else if (App.BountyShop.IsValid)
                 {
-                    RefreshText.text = $"items refresh in <color=orange>{TimeSpanExtensions.ToString(App.DailyRefresh.TimeUntilNext)}</color>";
+                    RefreshText.text = $"items refresh in\n<color=orange>{App.DailyRefresh.TimeUntilNext.ToString(TimeSpanFormat.Default)}</color>";
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace GM.BountyShop.UI
         {
             App.BountyShop.CurrencyItems.ForEach(item =>
             {
-                var slot = Instantiate<BountyShopCurrencyItemSlot>(CurrencyItemSlotObject, ItemsParent);
+                var slot = this.Instantiate<BountyShopCurrencyItemSlot>(CurrencyItemSlotObject, ItemsParent);
 
                 ItemSlotObjects.Add(slot.gameObject);
 
@@ -76,7 +76,7 @@ namespace GM.BountyShop.UI
         {
             App.BountyShop.ArmouryItems.ForEach(item =>
             {
-                var slot = Instantiate<BountyShopArmouryItemSlot>(ArmouryItemSlotObject, ItemsParent);
+                var slot = this.Instantiate<BountyShopArmouryItemSlot>(ArmouryItemSlotObject, ItemsParent);
 
                 ItemSlotObjects.Add(slot.gameObject);
 

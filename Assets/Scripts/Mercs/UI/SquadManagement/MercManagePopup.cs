@@ -52,7 +52,7 @@ namespace GM.Mercs.UI
         {
             foreach (var unlockedMerc in App.Mercs.UnlockedMercs)
             {
-                MercManageSlot slot = Instantiate<MercManageSlot>(ManageMercSlot, null);
+                MercManageSlot slot = this.Instantiate<MercManageSlot>(ManageMercSlot, null);
 
                 slot.transform.SetParent(AvailableMercsParent, false);
 
@@ -68,7 +68,7 @@ namespace GM.Mercs.UI
         {
             for (int i = 0; i < App.Mercs.MaxSquadSize; ++i)
             {
-                MercManageIcon slot = Instantiate<MercManageIcon>(ManageMercIconObject, SquadIconsParent);
+                MercManageIcon slot = this.Instantiate<MercManageIcon>(ManageMercIconObject, SquadIconsParent);
 
                 Icons.Add(slot);
             }

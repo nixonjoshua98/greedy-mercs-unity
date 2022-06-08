@@ -26,7 +26,7 @@ namespace GM.Quests.UI
         {
             foreach (var quest in App.Quests.MercQuests)
             {
-                var slot = Instantiate<MercQuestSlot>(QuestSlotObject, QuestParent);
+                var slot = this.Instantiate<MercQuestSlot>(QuestSlotObject, QuestParent);
 
                 slot.Init(ClaimDailyQuest, quest);
             }

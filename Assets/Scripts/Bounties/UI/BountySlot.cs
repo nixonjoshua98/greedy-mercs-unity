@@ -40,11 +40,9 @@ namespace GM.Bounties.UI
             Pillbadge.SetActive(_bounty.CanUpgrade);
         }
 
-        // UI Events //
-
-        public void Button_ShowInfoPopup()
+        public void OnSlotClicked()
         {
-            InstantiateUI<BountyPopup>(InfoPopupObject).Set(_bounty);
+            this.InstantiateUI<BountyPopup>(InfoPopupObject).Set(_bounty);
         }
     }
 }

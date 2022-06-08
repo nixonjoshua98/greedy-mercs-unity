@@ -19,7 +19,7 @@ namespace GM.BountyShop.UI
 
         protected T InstantiateModal<T>(GameObject obj)
         {
-            _createdModal = InstantiateUI(obj);
+            _createdModal = this.InstantiateUI(obj);
 
             return _createdModal.GetComponent<T>();
         }

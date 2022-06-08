@@ -21,7 +21,7 @@ namespace GM.Mercs.UI
         {
             foreach (MercPassiveReference p in AssignedMerc.Passives)
             {
-                Instantiate<MercPassiveSlot>(PassiveSlotObject, PassivesParent).Assign(p, AssignedMerc.IsPassiveUnlocked(p));
+                this.Instantiate<MercPassiveSlot>(PassiveSlotObject, PassivesParent).Assign(p, AssignedMerc.IsPassiveUnlocked(p));
             }
 
             SetUI();

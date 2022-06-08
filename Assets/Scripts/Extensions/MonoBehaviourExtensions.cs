@@ -32,7 +32,13 @@ namespace GM
             return default;
         }
 
+        public static T Instantiate<T>(this MonoBehaviour mono, GameObject obj, Transform parent) => UnityEngine.Object.Instantiate(obj, parent).GetComponent<T>();
+        public static GameObject InstantiateUI(this MonoBehaviour mono, GameObject obj) => UnityEngine.Object.Instantiate(obj, MainCanvas.transform);
+        public static T InstantiateUI<T>(this MonoBehaviour mono, GameObject obj) => InstantiateUI(mono, obj).GetComponent<T>();
+
         // Private Static Methods //
+
+        private static GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
 
         static IEnumerator Lerp(float from, float to, float duration, Action<float> action)
         {

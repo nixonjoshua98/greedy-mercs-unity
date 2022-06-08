@@ -29,14 +29,14 @@ namespace GM.UI
             RectTrans = GetComponent<RectTransform>();
         }
 
-        private void OnRectTransformDimensionsChange()
+#if UNITY_EDITOR
+        void OnRectTransformDimensionsChange()
         {
             if (Grid is not null)
                 UpdateCellSize();
         }
 
-#if UNITY_EDITOR
-        private void FixedUpdate()
+        void Update()
         {
             if (Grid is not null)
                 UpdateCellSize();

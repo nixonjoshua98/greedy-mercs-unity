@@ -67,7 +67,7 @@ namespace GM.Artefacts.UI
 
                 if (!ArtefactSlots.TryGetValue(art.Id, out ArtefactSlot slot))
                 {
-                    slot = ArtefactSlots[art.Id] = Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
+                    slot = ArtefactSlots[art.Id] = this.Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
 
                     slot.Setup(art.Id, UpgradeAmountSelector, ArtefactSlot_OnUpgradeButton);
                 }
@@ -94,7 +94,7 @@ namespace GM.Artefacts.UI
 
         public void OnUnlockArtefactButton()
         {
-            InstantiateUI<UnlockArtefactPopup>(UnlockArtefactObject).Init((artefact) =>
+            this.InstantiateUI<UnlockArtefactPopup>(UnlockArtefactObject).Init((artefact) =>
             {
                 UpdateArtefactSlots();
                 UpdateUnlockArtefactText();

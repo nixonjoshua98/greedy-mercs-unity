@@ -1,7 +1,5 @@
 using GM.HTTP;
 using GM.Models;
-using GM.ScriptableObjects;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,10 +13,6 @@ namespace GM.Core
 
     public class GMApplicationInitializer : MonoBehaviour
     {
-        [Header("Scriptable Objects")]
-        public List<ItemGradeConfig> ItemGradesConfigs;
-        public List<CurrencyConfig> CurrencyItemsConfig;
-
         private InitialisationData Data = new();
 
         private void Start()
@@ -65,15 +59,11 @@ namespace GM.Core
 
         private void Initialize()
         {
+            GMApplication app = GMApplication.Instance;
+
             LocalStateFile.LoadFromFile(out LocalStateFile localStateFile);
 
-            LocalGameDataContainer localGameData = new()
-            {
-                ItemGradesConfigs = ItemGradesConfigs,
-                CurrencyItemsConfig = CurrencyItemsConfig
-            };
-
-            GMApplication app = GMApplication.Create(localGameData);
+            app.Initialize();
 
             app.UpdateDataContainers(Data.UserData, Data.StaticData, localStateFile);
 

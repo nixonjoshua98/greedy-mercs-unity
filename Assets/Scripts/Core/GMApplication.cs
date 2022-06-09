@@ -3,10 +3,11 @@ using GM.LocalFiles;
 using GM.Models;
 using GM.ScriptableObjects;
 using System;
+using UnityEngine;
 
 namespace GM.Core
 {
-    public class GMApplication
+    public class GMApplication : UnityEngine.MonoBehaviour
     {
         public static GMApplication Instance { get; private set; }
 
@@ -21,13 +22,15 @@ namespace GM.Core
         public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();
         public GM.PlayerStats.PlayerStatsContainer Stats = new();
 
-        public LocalGameDataContainer LocalGameData;
+        [Tooltip("Local Data (ScriptableObjects etc.)")]
+        public LocalDataContainer Local;
+
+        [Tooltip("Local Save Manager - MonoBehaviour Singleton ")]
+        public LocalSaveManager SaveManager;
+
 
         public CurrentPrestigeState GameState;
-
         public GMCache GMCache = new();
-
-        public LocalSaveManager SaveManager;
         public LocalPersistantFile PersistantLocalFile;
 
         /// <summary>
@@ -40,19 +43,18 @@ namespace GM.Core
         /// </summary>
         public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromDays(1) };
 
-        private GMApplication(LocalGameDataContainer localDataContainer)
+        void Awake()
         {
-            LocalGameData = localDataContainer;
-            SaveManager = LocalSaveManager.Instance;    // Force lazy load
+            Instance = this;
 
-            LocalPersistantFile.LoadFromFile(out PersistantLocalFile);
+            DontDestroyOnLoad(this);
         }
 
-        public static GMApplication Create(LocalGameDataContainer localDataContainer)
+        public void Initialize()
         {
-            GMLogger.Editor(UnityEngine.Application.persistentDataPath);
+            GMLogger.Editor(Application.persistentDataPath);
 
-            return Instance ??= new(localDataContainer);
+            LocalPersistantFile.LoadFromFile(out PersistantLocalFile);
         }
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)

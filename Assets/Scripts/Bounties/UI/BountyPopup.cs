@@ -13,12 +13,15 @@ namespace GM.Bounties.UI
         [SerializeField] TMP_Text BonusText;
         [SerializeField] TMP_Text DescriptionText;
         [SerializeField] TMP_Text LevelText;
-        [SerializeField] TMP_Text SmallText;
         [SerializeField] TMP_Text UpgradeButtonText;
         [Space]
         [SerializeField] Slider LevelProgressSlider;
         [SerializeField] Image IconImage;
         [SerializeField] Button UpgradeButton;
+
+        [Header("Button GameObjects")]
+        [SerializeField] GameObject AddButtonObject;
+        [SerializeField] GameObject RemoveButtonObject;
 
         int _bountyId;
 
@@ -42,9 +45,18 @@ namespace GM.Bounties.UI
             BonusText.text              = Format.BonusValue(_assignedBounty.BonusType, _assignedBounty.BonusValue);
             DescriptionText.text        = _assignedBounty.Description;
             LevelProgressSlider.value   = !_assignedBounty.IsMaxLevel ? (_assignedBounty.NumDefeats / (float)_assignedBounty.Levels[_assignedBounty.Level].NumDefeatsRequired) : 1.0f;
-            SmallText.text              = _assignedBounty.IsMaxLevel ? "<color=green>Bounty is max level</color>" : "<color=red>Defeat more to upgrade!</color>";
             UpgradeButtonText.text      = _assignedBounty.CanUpgrade ? "Upgrade" : _assignedBounty.IsMaxLevel ? "Max level" : "Not yet...";
             UpgradeButton.interactable  = _assignedBounty.CanUpgrade;
+        }
+
+        public void OnAddButton()
+        {
+
+        }
+
+        public void OnRemoveButton()
+        {
+
         }
 
         public void OnUpgradeButton()

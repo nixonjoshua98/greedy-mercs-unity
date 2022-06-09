@@ -9615,8 +9615,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Defeat <color=white>named stage bosses</color> and collect their bounties
-    to start generating <color=green>shards</color>. Bounties provide <color=white>bonuses</color>
-    and <color=green>shards</color> can be used to purchase items from the <color=yellow>shop</color>
+    to start generating <color=green>shards</color>. Bounties provide <color=white>bonuses</color>,
+    and <color=green>shards</color> can be used to purchase items from the shop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d83a2d1c974da674f91de9eb336819ae, type: 2}
   m_sharedMaterial: {fileID: 1861299339541508876, guid: d83a2d1c974da674f91de9eb336819ae,

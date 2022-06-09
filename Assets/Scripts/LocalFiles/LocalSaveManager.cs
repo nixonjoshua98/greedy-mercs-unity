@@ -1,30 +1,27 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace GM
+﻿namespace GM
 {
-    public class LocalSaveManager : Common.MonoBehaviourLazySingleton<LocalSaveManager>
+    public class LocalSaveManager : GM.Core.GMMonoBehaviour
     {
         public bool Paused { get; set; } = false;
 
         private void Awake()
         {
-            StartCoroutine(SaveLoop());
+            DontDestroyOnLoad(this);
         }
 
-        private IEnumerator SaveLoop()
+        void Start()
         {
-            while (true)
+            InvokeRepeating(nameof(_PeriodicUpdate), 3.0f, 1.0f);
+        }
+
+        private void _PeriodicUpdate()
+        {
+            if (!Paused)
             {
-                yield return new WaitForSecondsRealtime(1);
-
-                if (!Paused)
-                {
-                    App.SaveLocalStateFile();
-                }
-
-                App.PersistantLocalFile.WriteToFile();
+                App.SaveLocalStateFile();
             }
+
+            App.PersistantLocalFile.WriteToFile();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace GM.Armoury
             BaseEffect = gameItem.BaseEffect;
             LevelEffect = gameItem.LevelEffect;
 
-            GradeConfig = App.LocalGameData.GetItemGradeConfig(Grade);
+            GradeConfig = App.Local.GetItemGradeConfig(Grade);
         }
 
         UserArmouryItem UserModel

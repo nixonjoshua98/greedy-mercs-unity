@@ -5,7 +5,8 @@ using System.Linq;
 
 namespace GM.ScriptableObjects
 {
-    public class LocalGameDataContainer
+    [System.Serializable]
+    public class LocalDataContainer
     {
         public List<ItemGradeConfig> ItemGradesConfigs;
         public List<CurrencyConfig> CurrencyItemsConfig;

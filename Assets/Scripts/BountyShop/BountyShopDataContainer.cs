@@ -71,7 +71,6 @@ namespace GM.BountyShop.Data
             {
                 if (resp.StatusCode == 200)
                 {
-                    // Update purchase count
                     itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
 
                     App.Armoury.Update(resp.ArmouryItem);

@@ -1,6 +1,7 @@
 using GM.Bounties.Models;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GM.Bounties.UI
@@ -17,19 +18,19 @@ namespace GM.Bounties.UI
         [Space]
         [SerializeField] Slider LevelProgressSlider;
         [SerializeField] Image IconImage;
-        [SerializeField] Button UpgradeButton;
 
-        [Header("Button GameObjects")]
-        [SerializeField] GameObject AddButtonObject;
-        [SerializeField] GameObject RemoveButtonObject;
+        [Header("Buttons")]
+        [SerializeField] Button AddButton;
+        [SerializeField] Button RemoveButton;
+        [SerializeField] Button UpgradeButton;
 
         int _bountyId;
 
         AggregatedBounty _assignedBounty => App.Bounties.GetBounty(_bountyId);
 
-        public void Set(AggregatedBounty bounty)
+        public void Initialize(int bountyId)
         {
-            _bountyId = bounty.ID;
+            _bountyId = bountyId;
 
             UpdateUI();
 
@@ -47,28 +48,53 @@ namespace GM.Bounties.UI
             LevelProgressSlider.value   = !_assignedBounty.IsMaxLevel ? (_assignedBounty.NumDefeats / (float)_assignedBounty.Levels[_assignedBounty.Level].NumDefeatsRequired) : 1.0f;
             UpgradeButtonText.text      = _assignedBounty.CanUpgrade ? "Upgrade" : _assignedBounty.IsMaxLevel ? "Max level" : "Not yet...";
             UpgradeButton.interactable  = _assignedBounty.CanUpgrade;
+
+            UpdateActionButtons();
+        }
+
+        void UpdateActionButtons()
+        {
+            AddButton.gameObject.SetActive(!_assignedBounty.IsActive);
+            RemoveButton.gameObject.SetActive(_assignedBounty.IsActive);
+        }
+
+        /* Event Listeners */
+
+        public void OnCloseButton()
+        {
+            Destroy(gameObject);
         }
 
         public void OnAddButton()
         {
-
-        }
-
-        public void OnRemoveButton()
-        {
-
-        }
-
-        public void OnUpgradeButton()
-        {
-            App.Bounties.UpgradeBounty(_assignedBounty.ID, (success, resp) =>
+            App.Bounties.AddActiveBounty(_bountyId, (success, resp) =>
             {
                 UpdateUI();
 
                 if (!success)
-                {
                     GMLogger.Error(resp.Message);
-                }
+            });
+        }
+
+        public void OnRemoveButton()
+        {
+            App.Bounties.RemoveActiveBounty(_bountyId, (success, resp) =>
+            {
+                UpdateUI();
+
+                if (!success)
+                    GMLogger.Error(resp.Message);
+            });
+        }
+
+        public void OnUpgradeButton()
+        {
+            App.Bounties.UpgradeBounty(_bountyId, (success, resp) =>
+            {
+                UpdateUI();
+
+                if (!success)
+                    GMLogger.Error(resp.Message);
             });
         }
     }

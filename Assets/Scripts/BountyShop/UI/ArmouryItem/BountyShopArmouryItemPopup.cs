@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace GM.BountyShop.UI
 {
-    public class BountyShopArmouryItemModal : AbstractBountyShopItemModal
+    public class BountyShopArmouryItemPopup : AbstractBountyShopItemModal
     {
         [Header("Components")]
         [SerializeField] TMP_Text NameText;
@@ -64,13 +64,11 @@ namespace GM.BountyShop.UI
 
                 PurchaseCallback.Invoke(success, resp);
 
-                if (success)
-                {
-                    Close();
-                }
+                if (!success)
+                    GMLogger.Error(resp.Message);
                 else
                 {
-                    GMLogger.Error(resp.Message);
+                    Close();
                 }
             });
         }

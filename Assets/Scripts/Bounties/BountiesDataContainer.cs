@@ -1,5 +1,6 @@
 using GM.Bounties.Requests;
 using GM.Bounties.ScripableObjects;
+using GM.HTTP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Total unclaimed points ready to claim
         /// </summary>
-        public long TotalUnclaimedPoints => (long)Math.Floor(TimeSinceClaim.TotalHours * TotalHourlyIncome);
+        public long TotalUnclaimedPoints => (long)Math.Floor(TimeSinceClaim.TotalHours * ActiveBountiesHoourlyIncome);
 
         /// <summary>
         /// Update the complete user bounty data
@@ -84,12 +85,14 @@ namespace GM.Bounties.Models
         /// <summary>
         /// Calculate the total hourly income from all active bounties
         /// </summary>
-        public long TotalHourlyIncome => UnlockedBounties.Sum(ele => ele.Income);
+        public long ActiveBountiesHoourlyIncome => ActiveBounties.Sum(ele => ele.Income);
 
         /// <summary>
         /// Maximum points which can be claimed at once
         /// </summary>
-        public long MaxClaimPoints => Mathf.FloorToInt(GameData.MaxUnclaimedHours * TotalHourlyIncome);
+        public long MaxClaimPoints => Mathf.FloorToInt(GameData.MaxUnclaimedHours * ActiveBountiesHoourlyIncome);
+
+        public int MaxActiveBounties => GameData.MaxActiveBounties;
 
         /// <summary>
         /// Fetch data for an unlocked bounty
@@ -99,10 +102,17 @@ namespace GM.Bounties.Models
             return new AggregatedBounty(GetGameBounty(key), GetUserBountyData(key));
         }
 
+        public bool IsBountyActive(int id)
+        {
+            return UserData.ActiveBounties.Any(x => x == id);
+        }
+
+        public List<AggregatedBounty> ActiveBounties => UserData.ActiveBounties.Select(x => GetBounty(x)).ToList();
+
         /// <summary>
         /// Get data for a single bounty
         /// </summary>
-        public Models.Bounty GetGameBounty(int key)
+        public Bounty GetGameBounty(int key)
         {
             return GameData.Bounties.Where(ele => ele.ID == key).FirstOrDefault();
         }
@@ -130,7 +140,7 @@ namespace GM.Bounties.Models
         {
             result = default;
 
-            foreach (Models.Bounty bounty in GameData.Bounties)
+            foreach (Bounty bounty in GameData.Bounties)
             {
                 if (bounty.UnlockStage == stage)
                 {
@@ -149,7 +159,7 @@ namespace GM.Bounties.Models
         {
             App.HTTP.ClaimBounties((resp) =>
             {
-                if (resp.StatusCode == 200)
+                if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
                     UserData.LastClaimTime = resp.ClaimTime;
 
@@ -158,7 +168,29 @@ namespace GM.Bounties.Models
                     App.Inventory.BountyPointsChanged.Invoke(resp.PointsClaimed);
                 }
 
-                action(resp.StatusCode == 200, resp);
+                action(resp.StatusCode == HTTP.HTTPCodes.Success, resp);
+            });
+        }
+
+        public void AddActiveBounty(int bountyId, UnityAction<bool, ServerResponse> callback)
+        {
+            App.HTTP.ToggleActiveBounty(bountyId, true, (resp) =>
+            {
+                if (resp.StatusCode == HTTPCodes.Success)
+                    UserData.ActiveBounties.Add(bountyId);
+
+                callback(resp.StatusCode == HTTPCodes.Success, resp);
+            });
+        }
+
+        public void RemoveActiveBounty(int bountyId, UnityAction<bool, ServerResponse> callback)
+        {
+            App.HTTP.ToggleActiveBounty(bountyId, false, (resp) =>
+            {
+                if (resp.StatusCode == HTTPCodes.Success)
+                    UserData.ActiveBounties.RemoveAll(x => x == bountyId);
+
+                callback(resp.StatusCode == HTTPCodes.Success, resp);
             });
         }
 
@@ -166,14 +198,10 @@ namespace GM.Bounties.Models
         {
             App.HTTP.UpgradeBounty(bountyId, resp =>
             {
-                bool success = resp.StatusCode == HTTP.HTTPCodes.Success;
-
-                if (success)
-                {
+                if (resp.StatusCode == HTTPCodes.Success)
                     UpdateUserBounty(resp.Bounty);
-                }
 
-                action.Invoke(success, resp);
+                action.Invoke(resp.StatusCode == HTTPCodes.Success, resp);
             });
         }
     }

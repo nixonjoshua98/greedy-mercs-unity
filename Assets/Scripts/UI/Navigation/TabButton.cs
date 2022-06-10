@@ -21,8 +21,8 @@ namespace GM.Navigation
         [SerializeField] private Image Background;
         [SerializeField] private TabStateSprites Colours;
 
-        public UnityEvent OnSelected;
-        public UnityEvent OnDeselected;
+        public UnityEvent E_OnSelected;
+        public UnityEvent E_OnDeselected;
 
         private void Awake()
         {
@@ -33,14 +33,14 @@ namespace GM.Navigation
         {
             Background.color = Colours.Selected;
 
-            OnSelected?.Invoke();
+            E_OnSelected?.Invoke();
         }
 
         public void DeSelect()
         {
             Background.color = Colours.Unselected;
 
-            OnDeselected?.Invoke();
+            E_OnDeselected?.Invoke();
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

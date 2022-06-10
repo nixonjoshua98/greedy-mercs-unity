@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GM.Bounties.Models
@@ -16,6 +17,7 @@ namespace GM.Bounties.Models
     public class UserBounties
     {
         public DateTime LastClaimTime;
+        public List<int> ActiveBounties;
         public List<UserBounty> UnlockedBounties;
     }
 
@@ -48,6 +50,7 @@ namespace GM.Bounties.Models
     public class BountiesDataModel
     {
         public float MaxUnclaimedHours;
+        public int MaxActiveBounties;
 
         public List<Bounty> Bounties;
     }

@@ -48,7 +48,7 @@ namespace GM.UI
                 }
             }
 
-            Text.text = Template.Replace("%TEXT%", TextToDisplay.Substring(0, numCharactersShown));
+            Text.text = Template.Replace("%TEXT%", TextToDisplay[..numCharactersShown]);
         }
     }
 }

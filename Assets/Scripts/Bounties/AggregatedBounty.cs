@@ -36,6 +36,7 @@ namespace GM.Bounties.Models
         public int Income => _bounty.HourlyIncome;
         public string Name => _bounty.Name;
         public Sprite Icon => _bounty.Icon;
+        public bool IsActive => App.Bounties.IsBountyActive(_bounty.ID);
 
         private BountyLevel CurrentLevelValues => (Level > 0 && Level <= _bounty.Levels.Count) ? _bounty.Levels[Level - 1] : null;
     }

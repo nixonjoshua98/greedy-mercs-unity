@@ -1,5 +1,4 @@
 using GM.UI;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,7 +9,8 @@ namespace GM.Bounties.UI
     public class BountiesUIController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        public GameObject BountySlotObject;
+        [SerializeField] GameObject BountySlotObject;
+        [SerializeField] GameObject ActiveBountySlotObject;
 
         [Space]
         [SerializeField] TMP_Text ClaimAmountText;
@@ -24,43 +24,74 @@ namespace GM.Bounties.UI
         [SerializeField] Image ClaimSliderFill;
         [SerializeField] Transform BountySlotParent;
 
+        [Header("Parent Transforms")]
+        [SerializeField] Transform ActiveBountiesParent;
+
         private readonly Dictionary<int, BountySlot> slots = new();
 
-        // Backing Fields
+        List<ActiveBountySlot> ActiveBountySlots = new();
+
+        // Backing Field
         bool _IsClaimingPoints;
 
         /// <summary>
         /// Property which includes an update to the relevant UI upon value change
         /// </summary>
-        bool IsClaimingPoints { get => _IsClaimingPoints; set { _IsClaimingPoints = value; UpdateClaimButton(); } }
+        bool IsClaimingPoints { get => _IsClaimingPoints; set { _IsClaimingPoints = value; UpdateClaimUI(); } }
 
-        private void OnEnable()
+        void Awake()
         {
-            UpdateBountySlots();
-        }
-
-        private void Start()
-        {
-            StartCoroutine(_InternalLoop());
+            InstantiateInitialActiveSlots();
         }
 
         /// <summary>
         /// Internal update loop to reduce number of unneeded UI updates
         /// </summary>
-        private IEnumerator _InternalLoop()
+        private void _InternalLoop()
         {
-            while (true)
-            {
-                if (gameObject.activeInHierarchy)
-                {
-                    UpdateClaimUI();
-                }
+            UpdateUI();
+        }
 
-                yield return new WaitForSecondsRealtime(0.25f);
+        void UpdateUI()
+        {
+            UpdateSlotsUI();
+            UpdateClaimUI();
+            UpdateActiveSlots();
+        }
+
+        void InstantiateInitialActiveSlots()
+        {
+            for (int i = 0; i < App.Bounties.MaxActiveBounties; i++)
+            {
+                ActiveBountySlot slot = this.Instantiate<ActiveBountySlot>(ActiveBountySlotObject, ActiveBountiesParent);
+
+                ActiveBountySlots.Add(slot);
             }
         }
 
-        private void UpdateBountySlots()
+        void UpdateActiveSlots()
+        {
+            var activeBounties = App.Bounties.ActiveBounties;
+
+            for (int i = 0; i < ActiveBountySlots.Count; i++)
+            {
+                var slot = ActiveBountySlots[i];
+
+                if (activeBounties.Count > i)
+                {
+                    var bounty = activeBounties[i];
+
+                    if (slot.BountyID != bounty.ID)
+                        slot.Initialize(bounty);
+                }
+                else
+                {
+                    slot.Reset();
+                }
+            }
+        }
+
+        private void UpdateSlotsUI()
         {
             var unlockedBounties = App.Bounties.UnlockedBounties;
 
@@ -72,7 +103,7 @@ namespace GM.Bounties.UI
                 {
                     slot = slots[bounty.ID] = this.Instantiate<BountySlot>(BountySlotObject, BountySlotParent);
 
-                    slot.Assign(bounty.ID);
+                    slot.Initialize(bounty.ID);
                 }
 
                 slot.transform.SetSiblingIndex(i);
@@ -83,6 +114,8 @@ namespace GM.Bounties.UI
         {
             ClaimAmountText.text = $"{App.Bounties.TotalUnclaimedPoints}/{App.Bounties.MaxClaimPoints}";
             ClaimSlider.value = App.Bounties.ClaimPercentFilled;
+
+            UpdateClaimButton();
         }
 
         void UpdateClaimButton()
@@ -94,6 +127,18 @@ namespace GM.Bounties.UI
                 ClaimButtonText.text = "Claim";
         }
 
+        /* Event Listeners */
+
+        public void OnTabSelected()
+        {
+            InvokeRepeating(nameof(_InternalLoop), 0f, 0.5f);
+        }
+
+        public void OnTabDeSelected()
+        {
+            CancelInvoke();
+        }
+
         public void OnClaimButton()
         {
             IsClaimingPoints = true;
@@ -102,16 +147,8 @@ namespace GM.Bounties.UI
             {
                 IsClaimingPoints = false;
 
-                UpdateClaimUI();
-
-                if (success)
-                {
-
-                }
-                else
-                {
+                if (!success)
                     GMLogger.Error(resp.Message);
-                }
             });
         }
     }

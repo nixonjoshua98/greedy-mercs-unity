@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GM.Bounties.UI
@@ -19,7 +20,7 @@ namespace GM.Bounties.UI
         private int _bountyId = -1;
         public Models.AggregatedBounty _bounty => App.Bounties.GetBounty(_bountyId);
 
-        public virtual void Assign(int bountyId)
+        public virtual void Initialize(int bountyId)
         {
             _bountyId = bountyId;
 
@@ -33,16 +34,22 @@ namespace GM.Bounties.UI
 
             BonusText.text = $"<color=orange>{Format.Number(_bounty.BonusValue, _bounty.BonusType)}</color> {Format.Bonus(_bounty.BonusType)}";
             IncomeText.text = Format.Number(_bounty.Income);
-        }
 
-        void FixedUpdate()
-        {
             Pillbadge.SetActive(_bounty.CanUpgrade);
         }
 
+        void InstantiateBountyPopup()
+        {
+            var popup = this.InstantiateUI<BountyPopup>(InfoPopupObject);
+
+            popup.Initialize(_bountyId);
+        }
+
+        /* Event Listeners */
+
         public void OnSlotClicked()
         {
-            this.InstantiateUI<BountyPopup>(InfoPopupObject).Set(_bounty);
+            InstantiateBountyPopup();
         }
     }
 }

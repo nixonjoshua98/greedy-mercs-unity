@@ -36,6 +36,7 @@ namespace GM.HTTP
         void UpgradeArmouryItem(int item, Action<UpgradeArmouryItemResponse> callback);
         void UpgradeBounty(int bountyId, Action<UpgradeBountyResponse> callback);
         void FetchBountyShop(Action<GetBountyShopResponse> callback);
+        void ToggleActiveBounty(int bountyId, bool isActive, Action<ServerResponse> callback);
     }
 
     public class AbstractHTTPClient : MonoBehaviourLazySingleton<HTTPClient>
@@ -210,6 +211,7 @@ namespace GM.HTTP
         {
             SendRequest("GET", "DataFile", null, false, callback);
         }
+
         public void UnlockArtefact(Action<UnlockArtefactResponse> callback)
         {
             SendRequest("GET", "Artefacts/Unlock", null, false, callback);
@@ -239,6 +241,13 @@ namespace GM.HTTP
             var req = new { BountyID = bountyId };
 
             SendRequest("PUT", "Bounties/Upgrade", req, false, callback);
+        }
+
+        public void ToggleActiveBounty(int bountyId, bool isActive, Action<ServerResponse> callback)
+        {
+            var req = new { BountyID = bountyId, IsActive = isActive };
+
+            SendRequest("PUT", "Bounties/Toggle", req, encrypt: true, callback);
         }
 
         public void DeviceLogin(Action<LoginResponse> callback)

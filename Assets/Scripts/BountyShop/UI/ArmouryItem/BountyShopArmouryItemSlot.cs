@@ -43,7 +43,7 @@ namespace GM.BountyShop.UI
 
         public void Button_OnClick()
         {
-            var modal = InstantiateModal<BountyShopArmouryItemModal>(PurchaseModalObject);
+            var modal = InstantiateModal<BountyShopArmouryItemPopup>(PurchaseModalObject);
 
             modal.Set(ShopItem, OnItemPurchased);
         }

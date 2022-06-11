@@ -265,7 +265,7 @@ MonoBehaviour:
       type: 2}
   size: {x: 32, y: 32}
   maxSize: 20
-  numOfCircleToShow: 2
+  numOfCircleToShow: 1
   Initialized: 0
 --- !u!4 &162318600
 Transform:

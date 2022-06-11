@@ -133,24 +133,37 @@ namespace GM.Core
         }
         #endregion
 
-        #region Mercs
         /// <summary>Upgrade cost for merc. CurrentLevel -> (CurrentLevel + levels)</summary>
         public BigDouble MercUpgradeCost(GM.Mercs.Data.AggregatedMercData merc, int levels)
         {
             return GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels);
         }
 
-        /// <summary>Base merc damage for current level. Does not apply any bonuses</summary>
-        public BigDouble MercBaseDamage(GM.Mercs.Data.AggregatedMercData merc)
+        /// <summary>
+        /// Base merc damage for current level. Does not apply any bonuses
+        /// </summary>
+        public BigDouble MercBaseDamage(AggregatedMercData merc) => GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel);
+
+        /// <summary>
+        /// Base merc damage for a given level. Does not apply any bonuses
+        /// </summary>
+        public BigDouble MercBaseDamage(AggregatedMercData merc, int level) => GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, level);
+
+        public BigDouble MercDamagePerAttack(AggregatedMercData merc)
         {
-            return GameFormulas.MercBaseDamageAtLevel(merc.BaseDamage, merc.CurrentLevel);
+            return MercBaseDamage(merc) * 
+                CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) *
+                CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) * 
+                CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
         }
 
-        public BigDouble MercDamagePerAttack(GM.Mercs.Data.AggregatedMercData merc)
+        public BigDouble MercDamagePerAttack(AggregatedMercData merc, int level)
         {
-            return MercBaseDamage(merc) * CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) * CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
+            return MercBaseDamage(merc, level) *
+                CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) *
+                CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) *
+                CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
         }
-        #endregion
 
         public BigDouble TotalTapDamage => TapUpgradeDamage * CombinedBonuses.Get(BonusType.MULTIPLY_TAP_DMG, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1);
 

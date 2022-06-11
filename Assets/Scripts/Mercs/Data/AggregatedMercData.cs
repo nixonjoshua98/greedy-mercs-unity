@@ -41,6 +41,7 @@ namespace GM.Mercs.Data
         public List<MercPassiveReference> Passives => StaticValues.Passives;
         public BigDouble BaseDamage => StaticValues.BaseDamage;
         public BigDouble DamagePerAttack => App.GMCache.MercDamagePerAttack(this);
+        public BigDouble AttackDamage(int level) => App.GMCache.MercDamagePerAttack(this, level);
         public BigDouble UpgradeCost(int numLevels) => App.GMCache.MercUpgradeCost(this, numLevels);
         public bool IsPassiveUnlocked(MercPassiveReference passive) => State.Level >= passive.UnlockLevel;
     }

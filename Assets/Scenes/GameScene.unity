@@ -218,7 +218,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 712.5, y: 175}
+  m_CellSize: {x: 825, y: 175}
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 1
   m_ConstraintCount: 2
@@ -4204,7 +4204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4309db36912df4049873aa808bc7cac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SquadMercSlotObject: {fileID: 1956468972685746162, guid: 32649f1d403442e44a5f4e07c04cc7c7,
+  SquadMercSlotObject: {fileID: 600224295653121235, guid: 3db663648c2123c498cfb691aba207e5,
     type: 3}
   ManageMercsObject: {fileID: 616481476494935473, guid: a5934741f64cabc488ca6360af7a8919,
     type: 3}
@@ -4496,7 +4496,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 720, y: 0}
+  m_AnchoredPosition: {x: 832.5, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &717486034
@@ -5655,7 +5655,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.45
+  m_fontSize: 42
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9099,7 +9099,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 282, y: 282}
+  m_CellSize: {x: 327, y: 327}
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 1
   m_ConstraintCount: 5

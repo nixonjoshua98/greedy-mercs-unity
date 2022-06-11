@@ -13,10 +13,12 @@ namespace GM.Mercs.UI
 
         [Header("References")]
         public Image IconImage;
-        public TMP_Text NameText;
-        public TMP_Text LevelText;
-        public TMP_Text DamageText;
 
+        [Header("Text Elements")]
+        [SerializeField] TMP_Text NameText;
+        [SerializeField] TMP_Text DamageText;
+        [SerializeField] TMP_Text DamageIncreaseText;
+        [Space]
         [SerializeField] private TMP_Text EnergyPercentageText;
         [SerializeField] private Slider EnergySlider;
         [SerializeField] private Slider ExcessEnergySlider;
@@ -31,46 +33,72 @@ namespace GM.Mercs.UI
 
             Assign(merc);
 
-            selector.E_OnChange.AddListener((val) => _buyAmount = val);
+            selector.E_OnChange.AddListener((val) =>
+            {
+                _buyAmount = val;
+
+                UpdateUI();
+            });
+
+            InvokeRepeating(nameof(UpdateEnergyUI), 0f, 0.05f);
+            InvokeRepeating(nameof(UpdateUI), 0f, 0.25f);
         }
 
         protected override void OnAssigned()
         {
             IconImage.sprite = AssignedMerc.Icon;
-            NameText.text = AssignedMerc.Name;
 
-            UpdateUI();
-        }
-
-        private void FixedUpdate()
-        {
             UpdateUI();
         }
 
         private void UpdateUI()
         {
-            // Energy
-            EnergyPercentageText.text = Format.Percentage(AssignedMerc.CurrentSpawnEnergyPercentage, 0);
-            EnergySlider.value = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage, 0, 1);
-            ExcessEnergySlider.value = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage - 1, 0, 1);
+            UpdateDamageIncreaseText();
+            UpdateUpgradeButton();
 
-            LevelText.text = $"Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>";
-            DamageText.text = GetBonusText();
+            NameText.text      = $"(Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>) {AssignedMerc.Name}";
+            DamageText.text     = $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
+        }
 
-            UpgradeButton.SetText("MAX LEVEL", "");
+        void UpdateEnergyUI()
+        {
+            EnergyPercentageText.text   = Format.Percentage(AssignedMerc.CurrentSpawnEnergyPercentage, 0);
+            EnergySlider.value          = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage, 0, 1);
+            ExcessEnergySlider.value    = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage - 1, 0, 1);
+        }
+
+        void UpdateUpgradeButton()
+        {
+            UpgradeButton.Icon.enabled = !AssignedMerc.IsMaxLevel;
+
+            UpgradeButton.TopText.text = "Max Level";
+            UpgradeButton.BtmText.text = "";
+
+            BigDouble upgradeCost = AssignedMerc.UpgradeCost(BuyAmount);
 
             if (!AssignedMerc.IsMaxLevel)
             {
-                UpgradeButton.SetText($"x{BuyAmount}", Format.Number(AssignedMerc.UpgradeCost(BuyAmount)));
+                UpgradeButton.TopText.text = $"x{BuyAmount}";
+                UpgradeButton.BtmText.text = Format.Number(upgradeCost);
             }
 
-            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Inventory.Gold >= AssignedMerc.UpgradeCost(BuyAmount);
+            UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Inventory.Gold >= upgradeCost;
         }
 
-        private string GetBonusText()
+        void UpdateDamageIncreaseText()
         {
-            return $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
+            if (AssignedMerc.IsMaxLevel)
+            {
+                DamageIncreaseText.text = string.Empty;
+                return;
+            }
+
+            BigDouble dmg = AssignedMerc.AttackDamage(AssignedMerc.CurrentLevel + BuyAmount) - AssignedMerc.DamagePerAttack;
+
+            DamageIncreaseText.text = $"+{Format.Number(dmg)} DMG";       
         }
+
+        /* Event Listeners */
 
         public void OnUpgradeButton()
         {
@@ -89,7 +117,6 @@ namespace GM.Mercs.UI
             }
         }
 
-        /// <summary> Callback from UI to open the merc popup </summary>
         public void OnInfoButton()
         {
             this.InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.ID);

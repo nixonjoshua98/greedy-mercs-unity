@@ -10,6 +10,9 @@ namespace GM.UI
         public TMP_Text BtmText;
         private Button _Button;
 
+        [Tooltip("Optional")]
+        public Image Icon;
+
         private Button Button
         {
             get

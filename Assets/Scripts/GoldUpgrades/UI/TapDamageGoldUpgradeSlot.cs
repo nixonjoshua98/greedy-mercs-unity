@@ -10,7 +10,7 @@ namespace GM.GoldUpgrades.UI
         public TMP_Text LevelText;
         public TMP_Text DamageText;
         [Space]
-        public GM.UI.VStackedButton UpgradeButton;
+        public GM.UI.StackedButton UpgradeButton;
         private int _buyAmount;
         protected int BuyAmount => MathsUtlity.NextMultipleMax(Upgrade.Level, _buyAmount, 1_000);
 

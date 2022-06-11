@@ -16,14 +16,16 @@ namespace GM.Mercs.UI
 
         [Header("Text Elements")]
         [SerializeField] TMP_Text NameText;
+        [SerializeField] TMP_Text LevelText;
         [SerializeField] TMP_Text DamageText;
         [SerializeField] TMP_Text DamageIncreaseText;
+        [SerializeField] TMP_Text EnergyPercentageText;
+
+        [Header("Sliders")]
+        [SerializeField] Slider EnergySlider;
+        [SerializeField] Slider ExcessEnergySlider;
         [Space]
-        [SerializeField] private TMP_Text EnergyPercentageText;
-        [SerializeField] private Slider EnergySlider;
-        [SerializeField] private Slider ExcessEnergySlider;
-        [Space]
-        public GM.UI.VStackedButton UpgradeButton;
+        public GM.UI.StackedButton UpgradeButton;
         private int _buyAmount;
         protected int BuyAmount => MathsUtlity.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
 
@@ -47,6 +49,7 @@ namespace GM.Mercs.UI
         protected override void OnAssigned()
         {
             IconImage.sprite = AssignedMerc.Icon;
+            NameText.text    = AssignedMerc.Name;
 
             UpdateUI();
         }
@@ -56,8 +59,8 @@ namespace GM.Mercs.UI
             UpdateDamageIncreaseText();
             UpdateUpgradeButton();
 
-            NameText.text      = $"(Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>) {AssignedMerc.Name}";
-            DamageText.text     = $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
+            LevelText.text  = $"Lvl <color=orange>{AssignedMerc.CurrentLevel}</color>";
+            DamageText.text = $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
         }
 
         void UpdateEnergyUI()
@@ -87,11 +90,10 @@ namespace GM.Mercs.UI
 
         void UpdateDamageIncreaseText()
         {
+            DamageIncreaseText.text = string.Empty;
+
             if (AssignedMerc.IsMaxLevel)
-            {
-                DamageIncreaseText.text = string.Empty;
                 return;
-            }
 
             BigDouble dmg = AssignedMerc.AttackDamage(AssignedMerc.CurrentLevel + BuyAmount) - AssignedMerc.DamagePerAttack;
 
@@ -115,6 +117,8 @@ namespace GM.Mercs.UI
 
                 App.Inventory.GoldChanged.Invoke(upgradeCost * -1);
             }
+
+            UpdateUI();
         }
 
         public void OnInfoButton()

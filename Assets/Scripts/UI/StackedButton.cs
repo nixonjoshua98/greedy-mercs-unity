@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GM.UI
 {
-    public class VStackedButton : MonoBehaviour
+    public class StackedButton : MonoBehaviour
     {
         public TMP_Text TopText;
         public TMP_Text BtmText;

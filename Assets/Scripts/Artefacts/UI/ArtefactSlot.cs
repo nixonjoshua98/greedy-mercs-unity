@@ -20,7 +20,7 @@ namespace GM.Artefacts.UI
         public TMP_Text LevelText;
         public TMP_Text BonusText;
         [Space]
-        public VStackedButton UpgradeButton;
+        public StackedButton UpgradeButton;
         private Action<int, int> upgradeCallback;
         private int _BuyAmount; // Raw value. We should use BuyAmount for most cases
 

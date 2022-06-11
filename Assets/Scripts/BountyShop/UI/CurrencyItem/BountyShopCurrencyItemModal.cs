@@ -17,10 +17,9 @@ namespace GM.BountyShop.UI
         [SerializeField] Image Icon;
 
         [Header("Buttons")]
-        [SerializeField] Button CancelButton;
-        [Space]
+        [SerializeField] Button CloseButton;
         [SerializeField] Button PurchaseButton;
-        [SerializeField] TMP_Text PurchaseButtonText;
+        [Space]
         [SerializeField] TypeWriter PurchaseButtonTextTypeWriter;
 
         BountyShopCurrencyItem ShopItem;
@@ -41,7 +40,7 @@ namespace GM.BountyShop.UI
 
         protected override void UpdatePurchaseUI()
         {
-            CancelButton.interactable = !IsSendingRequest;
+            CloseButton.interactable = !IsSendingRequest;
             PurchaseButton.interactable = !IsSendingRequest;
 
             PurchaseButtonTextTypeWriter.enabled = IsSendingRequest;
@@ -50,7 +49,14 @@ namespace GM.BountyShop.UI
                 CostText.text = ShopItem.PurchaseCost.ToString();
         }
 
-        public void Purchase()
+        /* Event Listeners */
+
+        public void OnCloseButton()
+        {
+            Destroy(gameObject);
+        }
+
+        public void OnPurchaseButton()
         {
             IsSendingRequest = true;
 
@@ -62,7 +68,7 @@ namespace GM.BountyShop.UI
 
                 if (success)
                 {
-                    Close();
+                    Destroy(gameObject);
                 }
                 else
                 {

@@ -6,10 +6,5 @@ namespace GM.BountyShop.UI
         protected bool IsSendingRequest { get => _IsSendingRequest; set { _IsSendingRequest = value; UpdatePurchaseUI(); } }
 
         protected abstract void UpdatePurchaseUI();
-
-        public void Close()
-        {
-            Destroy(gameObject);
-        }
     }
 }

@@ -26,6 +26,8 @@ namespace GM.BountyShop.UI
             QuantityText.text = $"{item.Quantity}x";
 
             ItemImage.sprite = item.Item.Icon;
+
+            UpdateDynamicUI();
         }
 
         void UpdateDynamicUI()

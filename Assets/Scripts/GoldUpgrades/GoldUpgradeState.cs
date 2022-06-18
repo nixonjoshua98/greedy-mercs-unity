@@ -15,7 +15,7 @@
 
         public BigDouble UpgradeCost(int levels)
         {
-            return App.GMCache.TapUpgradeCost(levels);
+            return App.Values.TapUpgradeCost(levels);
         }
     }
 }

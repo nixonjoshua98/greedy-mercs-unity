@@ -1,5 +1,4 @@
 using GM.Common.Enums;
-using GM.LocalFiles;
 using GM.Mercs.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,9 @@ namespace GM.Mercs.Data
 {
     public class MercDataContainer : Core.GMClass
     {
-        private readonly Dictionary<MercID, UserMercState> UserMercs = new Dictionary<MercID, UserMercState>();
-        private readonly Dictionary<MercID, StaticMercData> StaticMercs = new Dictionary<MercID, StaticMercData>();
+        private List<UserMercState> UserStates => App.LocalStateFile.MercStates;
+
+        private readonly Dictionary<MercID, StaticMercData> StaticMercs = new();
 
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
@@ -20,60 +20,24 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Update all stored static and user data
         /// </summary>
-        public void Set(List<UserMercDataModel> userMercs, StaticMercsModel staticData, LocalStateFile local)
+        public void Set(List<UserMercDataModel> userMercs, StaticMercsModel staticData)
         {
-            SetDefaultMercStates(userMercs);
-
-            // We may have existing local data
-            if (!(local == null || local.Mercs == null))
-                SetStatesFromSaveFile(local);
-
+            UpdateLocalStateFile(userMercs);            
             SetStaticData(staticData);
-            UpdatePersistantLocalFile(App.PersistantLocalFile);
         }
 
-        /// <summary>
-        /// Delete all local state data (data which exists only in the current prestige)
-        /// </summary>
-        public void DeleteLocalStateData()
+        private void UpdateLocalStateFile(List<UserMercDataModel> mercs)
         {
-            UserMercs.Clear();
-        }
+            Dictionary<MercID, UserMercState> states = new();
 
-        /// <summary>
-        /// Perform some checks on the persistant file to avoid invalid data
-        /// </summary>
-        private void UpdatePersistantLocalFile(LocalPersistantFile file)
-        {
-            file.SquadMercIDs.RemoveWhere(id => !UserMercs.ContainsKey(id));
-
-            if (IsSquadFull)
-                file.SquadMercIDs.Clear();
-        }
-
-        /// <summary>
-        /// Update the merc states (level etc.) from the local save file
-        /// </summary>
-        private void SetStatesFromSaveFile(LocalStateFile model)
-        {
-            foreach (var merc in model.Mercs)
+            mercs.ForEach(merc =>
             {
-                if (UserMercs.ContainsKey(merc.ID))
-                {
-                    UserMercs[merc.ID] = merc;
-                }
-            }
-        }
+                var savedState = App.LocalStateFile.MercStates.FirstOrDefault(x => x.ID == merc.ID);
 
-        /// <summary>
-        /// Sets default state for all unlocked mercs
-        /// </summary>
-        private void SetDefaultMercStates(List<UserMercDataModel> mercs)
-        {
-            foreach (var merc in mercs)
-            {
-                UserMercs[merc.ID] = new UserMercState(merc.ID);
-            }
+                states[merc.ID] = savedState ?? new UserMercState(merc.ID);
+            });
+
+            App.LocalStateFile.MercStates = states.Values.ToList();
         }
 
         /// <summary>
@@ -81,20 +45,19 @@ namespace GM.Mercs.Data
         /// </summary>
         public void AddNewUnlockedMerc(MercID mercId)
         {
-            UserMercs.Add(mercId, new(mercId));
+            UserStates.Add(new UserMercState(mercId));
 
             E_OnMercUnlocked.Invoke(mercId);
         }
 
-        public bool TryGetMercState(MercID id, out UserMercState state) => UserMercs.TryGetValue(id, out state);
-
-        /// <summary>
-        /// Temp
-        /// </summary>
-        public void UpdateLocalSaveFile(ref LocalStateFile model)
+        public bool TryGetMercState(MercID id, out UserMercState state)
         {
-            model.Mercs = UserMercs.Values.ToList();
+            state = UserStates.FirstOrDefault(x => x.ID == id);
+
+            return state is not null;
         }
+
+        public UserMercState GetStateOrNull(MercID id) => UserStates.FirstOrDefault(x => x.ID == id);
 
         /// <summary>
         /// Update the internal static game data we have
@@ -159,6 +122,11 @@ namespace GM.Mercs.Data
         public bool IsSquadFull => SquadMercs.Count >= MaxSquadSize;
 
         /// <summary>
+        /// Check if the provided merc is in the squad
+        /// </summary>
+        public bool InSquad(MercID merc) => App.PersistantLocalFile.SquadMercIDs.Contains(merc);
+
+        /// <summary>
         /// Fetch the aggregated dataclass for the unit
         /// </summary>
         public AggregatedMercData GetMerc(MercID key) => new(StaticMercs[key]);
@@ -166,11 +134,11 @@ namespace GM.Mercs.Data
         /// <summary> 
         /// Fetch the full data for all user unlocked mercs
         /// </summary>
-        public List<AggregatedMercData> UnlockedMercs => UserMercs.Select(pair => GetMerc(pair.Key)).ToList();
+        public List<AggregatedMercData> UnlockedMercs => UserStates.Select(pair => GetMerc(pair.ID)).ToList();
 
         /// <summary>
         /// Units which the user has decided to have in their squad
         /// </summary>
-        public List<MercID> MercsInSquad => UserMercs.Where(x => GetMerc(x.Key).InSquad).Select(x => x.Key).ToList();
+        public List<MercID> MercsInSquad => UserStates.Where(x => InSquad(x.ID)).Select(x => x.ID).ToList();
     }
 }

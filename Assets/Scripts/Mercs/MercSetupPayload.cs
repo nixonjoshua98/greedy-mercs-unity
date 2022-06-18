@@ -2,13 +2,13 @@ namespace GM.Mercs
 {
     public class MercSetupPayload
     {
-        public readonly float EnergyPercentUsedToInstantiate;
+        public readonly float RechargePercentage;
 
-        public MercSetupPayload(float energy)
+        public MercSetupPayload(float percent)
         {
-            EnergyPercentUsedToInstantiate = energy;
+            RechargePercentage = percent;
         }
 
-        public bool IsEnergyOverload => EnergyPercentUsedToInstantiate >= 2.0f;
+        public bool IsOverCharge => RechargePercentage >= 2.0f;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GM.Bounties.UI
 {
-    public class BountyPopup : GM.UI.PopupPanelBase
+    public class BountyPopup : GM.UI.PopupBase
     {
         [Header("Text Elements")]
         [SerializeField] TMP_Text NameText;

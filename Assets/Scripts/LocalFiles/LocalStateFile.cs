@@ -1,5 +1,6 @@
 ﻿using GM.Mercs.Data;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace GM
 {
@@ -7,8 +8,26 @@ namespace GM
     {
         private const string FilePath = "LocalStateFile";
 
-        public CurrentPrestigeState GameState = new CurrentPrestigeState();
-        public List<UserMercState> Mercs = new List<UserMercState>();
+        [JsonProperty]
+        public GameState GameState = new();
+
+        [JsonProperty]
+        public List<UserMercState> MercStates { get; set; } = new();
+
+        /* Inventory */
+        public BigDouble Gold = 0;
+
+        public void Clear(bool overwrite = false)
+        {
+            Gold = 0;
+            GameState = new();
+            MercStates.Clear();
+
+            if (overwrite)
+            {
+                WriteToFile();
+            }
+        }
 
         public static FileStatus LoadFromFile(out LocalStateFile file)
         {

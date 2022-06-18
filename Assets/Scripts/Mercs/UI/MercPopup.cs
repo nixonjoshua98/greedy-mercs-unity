@@ -1,37 +1,47 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using GM.Mercs.Data;
+using System;
 
 namespace GM.Mercs.UI
 {
-    public class MercPopup : MercUIObject
+    public class MercPopup : GM.Core.GMMonoBehaviour
     {
-        [Header("Prefabs")]
-        public GameObject PassiveSlotObject;
+        private GM.Common.Enums.MercID _mercID;
 
-        [Header("Components")]
-        public TMP_Text NameText;
-        public TMP_Text EnergyText;
-        public Image IconImage;
+        [Header("Text Elements")]
+        [SerializeField] TMP_Text NameText;
+        [SerializeField] TMP_Text LevelText;
+        [SerializeField] TMP_Text RechargeText;
+        [SerializeField] TMP_Text BaseDamageText;
 
-        [Header("References")]
-        public Transform PassivesParent;
+        [SerializeField] Image IconImage;
 
-        protected override void OnAssigned()
+        AggregatedMercData Merc { get => App.Mercs.GetMerc(_mercID); }
+
+        public void Initialize(AggregatedMercData merc)
         {
-            foreach (MercPassiveReference p in AssignedMerc.Passives)
-            {
-                this.Instantiate<MercPassiveSlot>(PassiveSlotObject, PassivesParent).Assign(p, AssignedMerc.IsPassiveUnlocked(p));
-            }
+            _mercID = merc.ID;
 
-            SetUI();
+            UpdateUI();
         }
 
-        private void SetUI()
+        private void UpdateUI()
         {
-            NameText.text = $"{AssignedMerc.Name} Lvl. <color=orange>{AssignedMerc.CurrentLevel}</color>";
-            EnergyText.text = AssignedMerc.SpawnEnergyRequired.ToString();
-            IconImage.sprite = AssignedMerc.Icon;
+            NameText.text = Merc.Name;
+            RechargeText.text = $"{Math.Round(Merc.RechargeRate, 1)}s";
+            BaseDamageText.text = Mathf.FloorToInt(Merc.BaseDamage).ToString();
+            LevelText.text = $"Lv <color=orange>{Merc.CurrentLevel}</color>";
+
+            IconImage.sprite = Merc.Icon;
+        }
+
+        /* Event Listeners */
+
+        public void OnCloseButton()
+        {
+            Destroy(gameObject);
         }
     }
 }

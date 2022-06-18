@@ -2,7 +2,7 @@
 
 namespace GM
 {
-    public class CurrentPrestigeState
+    public class GameState
     {
         public readonly int EnemiesPerStage = 3;
 

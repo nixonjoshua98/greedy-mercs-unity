@@ -44,29 +44,27 @@ namespace GM.Mercs
 
         private void UpdateMercsEnergy()
         {
-            float ts = Time.fixedDeltaTime;
-
             foreach (MercID unit in App.Mercs.MercsInSquad)
             {
+                float ts = Time.fixedDeltaTime;
+
                 var merc = App.Mercs.GetMerc(unit);
 
-                float energyGained = merc.EnergyGainedPerSecond * ts;
+                // Reduce the timer gained if we are 'over-charging' for extra damage
+                if (merc.RechargeProgress >= merc.RechargeRate)
+                    ts /= 4;
 
-                // Reduce the energy gained if we are 'over-charging' for extra damage
-                if (merc.CurrentSpawnEnergy >= merc.SpawnEnergyRequired)
-                    energyGained /= 4;
-
-                // Increment the energy value
-                merc.CurrentSpawnEnergy = Mathf.Min(merc.CurrentSpawnEnergy + energyGained, merc.SpawnEnergyRequired * 2);
+                // Increment the value
+                merc.RechargeProgress = Mathf.Min(merc.RechargeProgress + ts, merc.RechargeRate * 2);
 
                 // Check if we can spawn a new unit in the queue
-                if (merc.CurrentSpawnEnergy >= merc.SpawnEnergyRequired && !UnitExistsInQueue(merc.ID))
+                if (merc.RechargePercentage >= 1.0f && !UnitExistsInQueue(merc.ID))
                 {
                     // Create payload
-                    MercSetupPayload payload = new MercSetupPayload(merc.CurrentSpawnEnergyPercentage);
+                    MercSetupPayload payload = new MercSetupPayload(merc.RechargePercentage);
 
                     // Reset some data
-                    merc.CurrentSpawnEnergy = 0;
+                    merc.RechargeProgress = 0;
 
                     // Add merc to queue
                     AddMercToQueue(merc.ID, payload);

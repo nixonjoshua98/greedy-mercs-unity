@@ -5,8 +5,14 @@ using UnityEngine;
 
 namespace GM.Common
 {
+    /*
+        Values calculated in this class should not require access to the game state and should be deterministic - which makes them easy to cache for a small performance increase
+     */
+
     public static class GameFormulas
     {
+        private static TTLCache _cache = new();
+
         #region Minor Tap Upgrade
         public static BigDouble TapUpgradeDamage(int currentLevel)
         {
@@ -99,11 +105,22 @@ namespace GM.Common
             return CalcEnemyGold(stage) * 7.3f;
         }
 
-        public static BigInteger CalcPrestigePoints(int stage)
+        /// <summary>
+        /// Calculate the base prestige points for a provided stage
+        /// </summary>
+        public static double BasePrestigePoints(int stage)
         {
-            BigDouble big = BigDouble.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2.2);
+            string key = $"{nameof(BasePrestigePoints)}:{stage}";
 
-            return big.CeilToBigInteger();
+            return _cache.Get<double>(key, () =>
+            {
+                double value = Math.Pow(Mathf.CeilToInt((stage - 75) / 10.0f), 2.2);
+
+                if (double.IsNaN(value) || double.IsNegative(value))
+                    return (double)0;
+
+                return value;
+            });
         }
 
         public static BigDouble SumNonIntegerPowerSeq(int start, int total, float exponent)

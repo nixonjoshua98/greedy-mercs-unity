@@ -37,11 +37,10 @@ namespace GM.Mercs
 
     public class StaticMercData
     {
-        [JsonProperty(PropertyName = "mercId", Required = Required.Always)]
+        [JsonProperty(PropertyName = "mercId")]
         public MercID ID;
 
-        [JsonProperty(Required = Required.Always)]
-        public double BaseDamage;
+        public float BaseDamage;
 
         [JsonProperty(PropertyName = "passives")]
         public List<MercPassiveReference> Passives;
@@ -52,8 +51,7 @@ namespace GM.Mercs
         [JsonProperty(PropertyName = "attackType")]
         public UnitAttackType AttackType = UnitAttackType.Melee;
 
-        [JsonProperty]
-        public int SpawnEnergyRequired;
+        public float RechargeRate;
 
         [JsonIgnore]
         public Sprite Icon;

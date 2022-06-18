@@ -3,16 +3,19 @@ using Newtonsoft.Json;
 
 namespace GM.Mercs.Data
 {
-    public class UserMercState : GM.Core.GMClass
+    public class UserMercState
     {
-        [JsonProperty(Required = Required.Always)]
-        public readonly MercID ID;
+        [JsonProperty]
+        public MercID ID;
 
         [JsonProperty]
         public int Level = 1;
 
         [JsonProperty]
-        public float CurrentSpawnEnergy = 0.0f;
+        public float RechargeProgress = 0.0f;
+
+        [JsonProperty]
+        public int EnemiesDefeatedSincePrestige = 0;
 
         private UserMercState() { }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GM.UI.InfoPopups
 {
-    public class InfoModal : GM.UI.PopupPanelBase
+    public class InfoModal : GM.UI.PopupBase
     {
         [Header("Components")]
         [SerializeField] TMP_Text Title;

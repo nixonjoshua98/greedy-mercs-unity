@@ -25,13 +25,17 @@ namespace GM.Core
         [Tooltip("Local Data (ScriptableObjects etc.)")]
         public LocalDataContainer Local;
 
-        [Tooltip("Local Save Manager - MonoBehaviour Singleton ")]
+        [Tooltip("Local Save Manager Singleton")]
         public LocalSaveManager SaveManager;
 
+        /* Current state - Forward it from the state file */
+        public GameState GameState { get => LocalStateFile.GameState; }
 
-        public CurrentPrestigeState GameState;
-        public GMCache GMCache = new();
+        public GMValues Values = new();
+
+        /* Local Files */
         public LocalPersistantFile PersistantLocalFile;
+        public LocalStateFile LocalStateFile;
 
         /// <summary>
         /// Main HTTP client for communicating with the server
@@ -55,42 +59,26 @@ namespace GM.Core
             GMLogger.Editor(Application.persistentDataPath);
 
             LocalPersistantFile.LoadFromFile(out PersistantLocalFile);
+            LocalStateFile.LoadFromFile(out LocalStateFile);
         }
 
-        public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData, LocalStateFile stateFile = null)
+        public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData)
         {
             // Property has a date check, so if the data is old then it will recreate a new instance
             PersistantLocalFile.LocalDailyStats.LastUpdated = DateTime.UtcNow;
 
-            GameState = stateFile == null ? new() : stateFile.GameState;
-
             Stats.Set(userData.LifetimeStats);
             Quests.Set(userData.Quests);
-            Mercs.Set(userData.UnlockedMercs, staticData.Mercs, stateFile);
+            Mercs.Set(userData.UnlockedMercs, staticData.Mercs);
             Armoury.Set(userData.ArmouryItems, staticData.ArmouryItems);
             Bounties.Set(userData.Bounties, staticData.Bounties);
             Inventory.Set(userData.Currencies);
             Artefacts.Set(userData.Artefacts, staticData.Artefacts);
         }
 
-        public void SaveLocalStateFile()
-        {
-            LocalStateFile savefile = new();
-
-            GameState.UpdateLocalSaveFile(ref savefile);
-            Mercs.UpdateLocalSaveFile(ref savefile);
-
-            savefile.WriteToFile();
-        }
-
         public void DeleteLocalStateData()
         {
-            GameState = new CurrentPrestigeState();
-
-            Mercs.DeleteLocalStateData();
-
             GoldUpgrades.DeleteLocalStateData();
-            Inventory.DeleteLocalStateData();
         }
     }
 }

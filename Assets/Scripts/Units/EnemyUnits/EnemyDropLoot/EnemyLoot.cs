@@ -17,7 +17,7 @@
 
         public virtual void Process()
         {
-            BigDouble gold = App.GMCache.GoldPerEnemyAtStage(spawnedStage);
+            BigDouble gold = App.Values.GoldPerEnemyAtStage(spawnedStage);
 
             App.Inventory.Gold += gold;
 

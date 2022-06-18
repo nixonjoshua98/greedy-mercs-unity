@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84c0bf612aed8a49813f36e967928dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PopupObject: {fileID: 1053974343620271903, guid: 243be5412ab4b5e4b9a1e69228e1803b,
+  PopupObject: {fileID: 3648323941193712590, guid: 5b04a7ee8a6472a41b17d0194ff43440,
     type: 3}
   IconImage: {fileID: 2914145198450589645}
   NameText: {fileID: 4390851993563064579}
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lvl. 1000
+  m_text: Lv 1000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d83a2d1c974da674f91de9eb336819ae, type: 2}
   m_sharedMaterial: {fileID: 1861299339541508876, guid: d83a2d1c974da674f91de9eb336819ae,
@@ -492,12 +492,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.3
+  m_fontSize: 41.2
   m_fontSizeBase: 52
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 48
+  m_fontSizeMax: 42
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 1024

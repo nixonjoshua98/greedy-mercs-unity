@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace GM.UI
 {
-    public abstract class PopupPanelBase : GM.Core.GMMonoBehaviour
+    public abstract class PopupBase : GM.Core.GMMonoBehaviour
     {
-        [Header("(PanelPopupBase) References")]
         [SerializeField] GameObject InnerPanel;
 
         protected void ShowInnerPanel()

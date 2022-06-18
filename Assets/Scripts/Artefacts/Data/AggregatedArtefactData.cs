@@ -29,11 +29,11 @@ namespace GM.Artefacts.Data
         public float BaseEffect => Game.BaseEffect;
         public float CostExpo => Game.CostExpo;
         public float CostCoeff => Game.CostCoeff;
-        public BigDouble Effect => App.GMCache.ArtefactEffect(this);
+        public BigDouble Effect => App.Values.ArtefactEffect(this);
         public bool IsMaxLevel => CurrentLevel >= Game.MaxLevel;
         public double UpgradeCost(int levels)
         {
-            return App.GMCache.ArtefactUpgradeCost(this, levels);
+            return App.Values.ArtefactUpgradeCost(this, levels);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GM
             return dmg switch
             {
                 DamageType.Normal => Constants.Colors.Red,
-                DamageType.EnergyOvercharge => Constants.Colors.SoftBlue,
+                DamageType.Overcharge => Constants.Colors.SoftBlue,
                 DamageType.CriticalHit => Constants.Colors.Yellow,
                 _ => Constants.Colors.Red
             };

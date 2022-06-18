@@ -33,7 +33,7 @@ namespace GM.Mercs.UI
             InSquad = MercData.InSquad;
 
             NameText.text = MercData.Name;
-            EnergyText.text = $"{MercData.SpawnEnergyRequired}";
+            EnergyText.text = $"{MercData.RechargeRate}s";
             LevelText.text = $"Lvl. <color=orange>{MercData.CurrentLevel}</color>";
             MercIconImage.sprite = MercData.Icon;
         }

@@ -35,7 +35,7 @@ namespace GM
 
         private void StartWave()
         {
-            BigDouble maxHealth = App.GMCache.EnemyHealthAtStage(App.GameState.Stage);
+            BigDouble maxHealth = App.Values.EnemyHealthAtStage(App.GameState.Stage);
 
             for (int i = 0; i < App.GameState.EnemiesRemaining; i++)
             {
@@ -57,7 +57,7 @@ namespace GM
             HealthController health = enemy.GameObject.GetComponent<HealthController>();
 
             // Setup
-            health.Init(App.GMCache.StageBossHealthAtStage(App.GameState.Stage));
+            health.Init(App.Values.StageBossHealthAtStage(App.GameState.Stage));
 
             // Set the boss position off-screen
             enemy.GameObject.transform.position = new Vector3(Camera.main.Bounds().max.x + 2.5f, Constants.CENTER_BATTLE_Y);

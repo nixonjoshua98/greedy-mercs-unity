@@ -49,11 +49,11 @@ namespace GM.Armoury
         public int NumOwned => UserModel.NumOwned;
         public int CurrentLevel => UserModel.Level;
 
-        public double BonusValue => App.GMCache.ArmouryItemBonusValue(this);
+        public double BonusValue => App.Values.ArmouryItemBonusValue(this);
 
         public int UpgradeCost()
         {
-            return App.GMCache.ArmouryItemUpgradeCost(this);
+            return App.Values.ArmouryItemUpgradeCost(this);
         }
     }
 }

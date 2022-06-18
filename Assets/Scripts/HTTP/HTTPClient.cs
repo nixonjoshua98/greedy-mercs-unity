@@ -29,7 +29,7 @@ namespace GM.HTTP
         void FetchQuests(Action<QuestsDataResponse> action);
         void FetchStaticData(Action<FetchGameDataResponse> callback);
         void DeviceLogin(Action<LoginResponse> callback);
-        void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback);
+        void Prestige(Action<PrestigeResponse> callback);
         void PurchaseBountyShopCurrency(string item, Action<PurchaseCurrencyResponse> callback);
         void UnlockArtefact(Action<UnlockArtefactResponse> callback);
         void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action);
@@ -267,9 +267,14 @@ namespace GM.HTTP
             });
         }
 
-        public void Prestige(PrestigeRequest request, Action<PrestigeResponse> callback)
+        public void Prestige(Action<PrestigeResponse> callback)
         {
-            SendRequest("PUT", "Prestige", request, false, callback);
+            var req = new
+            {
+                LocalState = App.LocalStateFile
+            };
+
+            SendRequest("PUT", "Prestige", req, encrypt: true, callback);
         }
 
         public void PurchaseBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)

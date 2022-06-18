@@ -19,10 +19,7 @@ namespace GM.BountyShop.UI
         
         List<GameObject> ItemSlotObjects = new();
 
-        void Awake()
-        {
-            App.BountyShop.E_ShopUpdated.AddListener(OnShopUpdated);
-        }
+        bool _IsShopShown = false;
 
         void Start()
         {
@@ -39,11 +36,13 @@ namespace GM.BountyShop.UI
             RefreshText.text = "Offline";
             LoadingTypeWriter.enabled = false;
 
-            ShowDefaultItemSlots();
+            DestroyItemSlots();
         }
 
-        void ShowDefaultItemSlots()
+        void DestroyItemSlots()
         {
+            _IsShopShown = false;
+
             ItemSlotObjects.ForEach(x => Destroy(x));
         }
 
@@ -58,11 +57,17 @@ namespace GM.BountyShop.UI
                 if (App.BountyShop.IsValid)
                 {
                     RefreshText.text = $"Time Until Refresh\n<color=orange>{App.DailyRefresh.TimeUntilNext.ToString(TimeSpanFormat.Default)}</color>";
+
+                    if (!_IsShopShown)
+                    {
+                        InstantiateItemSlots();
+                    }
                 }
+
                 // Shop has invalidated - Most likely is being refreshed
                 else if (!App.BountyShop.IsValid && isPrevValid)
                 {
-                    ShowDefaultItemSlots();
+                    DestroyItemSlots();
                 }
 
                 isPrevValid = App.BountyShop.IsValid;
@@ -84,7 +89,7 @@ namespace GM.BountyShop.UI
 
         void RandomizeSlotPositions()
         {
-            var rnd = GM.Common.Utility.SeededRandom(App.DailyRefresh.Previous.ToString());
+            var rnd = GM.Common.Utility.SeededRandom(App.DailyRefresh.Previous);
 
             for (int i = 0; i < ItemsParent.childCount; i++)
             {
@@ -96,6 +101,8 @@ namespace GM.BountyShop.UI
 
         void InstantiateItemSlots()
         {
+            _IsShopShown = true;
+
             App.BountyShop.ArmouryItems.ForEach(item => InstantiateItemSlot<BountyShopArmouryItemSlot>(ArmouryItemSlotObject).Set(item));
             App.BountyShop.CurrencyItems.ForEach(item => InstantiateItemSlot<BountyShopCurrencyItemSlot>(CurrencyItemSlotObject).Set(item));
 

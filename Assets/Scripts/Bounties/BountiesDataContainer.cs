@@ -57,6 +57,8 @@ namespace GM.Bounties.Models
             UserData = data;
         }
 
+        public int BountiesDefeatedSincePrestige => GameData.Bounties.Where(b => App.GameState.Stage > b.UnlockStage).Count();
+
         /// <summary>
         /// Update a single bounty (delete and re-add the bounty)
         /// </summary>

@@ -10,6 +10,11 @@ namespace GM
             Debug.LogError(obj);
         }
 
+        public static void Log(object obj)
+        {
+            Debug.Log(obj);
+        }
+
         public static void Editor(object obj)
         {
             if (Application.isEditor)

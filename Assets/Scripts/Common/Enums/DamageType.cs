@@ -3,7 +3,7 @@
     public enum DamageType
     {
         Normal,
-        EnergyOvercharge,
+        Overcharge,
         CriticalHit
     }
 }

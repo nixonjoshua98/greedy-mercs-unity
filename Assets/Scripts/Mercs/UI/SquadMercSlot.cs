@@ -59,15 +59,15 @@ namespace GM.Mercs.UI
             UpdateDamageIncreaseText();
             UpdateUpgradeButton();
 
-            LevelText.text  = $"Lvl <color=orange>{AssignedMerc.CurrentLevel}</color>";
+            LevelText.text  = $"Lv <color=orange>{AssignedMerc.CurrentLevel}</color>";
             DamageText.text = $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
         }
 
         void UpdateEnergyUI()
         {
-            EnergyPercentageText.text   = Format.Percentage(AssignedMerc.CurrentSpawnEnergyPercentage, 0);
-            EnergySlider.value          = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage, 0, 1);
-            ExcessEnergySlider.value    = Mathf.Clamp(AssignedMerc.CurrentSpawnEnergyPercentage - 1, 0, 1);
+            EnergyPercentageText.text   = Format.Percentage(AssignedMerc.RechargePercentage, 0);
+            EnergySlider.value          = Mathf.Clamp(AssignedMerc.RechargePercentage, 0, 1);
+            ExcessEnergySlider.value    = Mathf.Clamp(AssignedMerc.RechargePercentage - 1, 0, 1);
         }
 
         void UpdateUpgradeButton()
@@ -104,7 +104,7 @@ namespace GM.Mercs.UI
 
         public void OnUpgradeButton()
         {
-            BigDouble upgradeCost = App.GMCache.MercUpgradeCost(AssignedMerc, BuyAmount);
+            BigDouble upgradeCost = App.Values.MercUpgradeCost(AssignedMerc, BuyAmount);
 
             bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > AssignedMerc.MaxLevel;
             bool canAffordUpgrade = App.Inventory.Gold >= upgradeCost;
@@ -123,7 +123,9 @@ namespace GM.Mercs.UI
 
         public void OnInfoButton()
         {
-            this.InstantiateUI<MercPopup>(PopupObject).Assign(AssignedMerc.ID);
+            var popup = this.InstantiateUI<MercPopup>(PopupObject);
+
+            popup.Initialize(AssignedMerc);
         }
     }
 }

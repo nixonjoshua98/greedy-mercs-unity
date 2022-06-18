@@ -14,6 +14,12 @@ namespace GM
 
     public static class FileUtils
     {
+#if UNITY_EDITOR
+        const bool _PlainText = true;
+#else
+        const bool _PlainText = false;
+#endif
+
         public static string ResolvePath(string name)
         {
             return $"{Application.persistentDataPath}/{name}";
@@ -35,8 +41,7 @@ namespace GM
                 if (!File.Exists(path))
                     return FileStatus.NOT_EXISTS;
 
-                result = JsonConvert.DeserializeObject<T>(AES.Decrypt(ReadFromFile(path)));
-                //result = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+                result = JsonConvert.DeserializeObject<T>(ReadFromFile(path));
 
                 if (result == null)
                 {
@@ -53,38 +58,45 @@ namespace GM
             }
         }
 
-
         public static void WriteModel<T>(string path, T model)
         {
             path = ResolvePath(path);
 
-            //File.WriteAllText(path, JsonConvert.SerializeObject(model));
-
             string json = JsonConvert.SerializeObject(model);
-            string encrypted = AES.Encrypt(json);
 
-            WriteToFile(path, encrypted);
+            WriteToFile(path, json);
         }
 
         private static void WriteToFile(string path, string text)
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            if (_PlainText)
+                File.WriteAllText(path, text);
 
-            new FileInfo(path).Directory.Create();
-
-            using (FileStream file = File.Open(path, FileMode.OpenOrCreate))
+            else
             {
-                bf.Serialize(file, text);
+                BinaryFormatter bf = new();
+
+                new FileInfo(path).Directory.Create();
+
+                using (FileStream file = File.Open(path, FileMode.OpenOrCreate))
+                {
+                    bf.Serialize(file, AES.Encrypt(text));
+                }
             }
         }
 
         private static string ReadFromFile(string path)
         {
-            BinaryFormatter bf = new BinaryFormatter();
+            if (_PlainText)
+                return File.ReadAllText(path);
+
+            BinaryFormatter bf = new();
 
             using (FileStream file = File.Open(path, FileMode.Open))
             {
-                return (string)bf.Deserialize(file);
+                string plain = (string)bf.Deserialize(file);
+
+                return AES.Decrypt(plain);
             }
         }
     }

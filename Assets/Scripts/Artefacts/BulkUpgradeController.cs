@@ -37,7 +37,7 @@ namespace GM.Artefacts
 
             UnprocessedChanges.Upgrades[artefact] = UnprocessedChanges.Upgrades.Get(artefact, 0) + levels;
 
-            var upgradeCost = App.GMCache.ArtefactUpgradeCost(artefact, levels);
+            var upgradeCost = App.Values.ArtefactUpgradeCost(artefact, levels);
 
             // Currency changes
             UnprocessedChanges.UpgradeCost += upgradeCost;

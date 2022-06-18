@@ -29,8 +29,9 @@ namespace GM.Mercs.Controllers
         [SerializeField] private AbstractAttackController Attack;
 
         [Header("Events")]
-        [HideInInspector] public UnityEvent<BigDouble> OnDamageDealt = new();
-        [HideInInspector] public UnityEvent E_OnZeroEnergy = new();
+        [HideInInspector] public UnityEvent<BigDouble> E_OnDamageDealt = new();
+        [HideInInspector] public UnityEvent E_OnZeroEnergy { get; set; } = new();
+        [HideInInspector] public UnityEvent E_OnEnemyDefeated = new();
 
         // Scene instances
         private IDamageTextPool DamageTextPool;
@@ -159,26 +160,34 @@ namespace GM.Mercs.Controllers
 
             HealthController health = CurrentTarget.Unit.GetComponent<HealthController>();
 
-            health.TakeDamage(attackValues.Value);
+            if (health.CanTakeDamage)
+            {
+                health.TakeDamage(attackValues.Value);
 
-            OnDamageDealt.Invoke(attackValues.Value);
+                E_OnDamageDealt.Invoke(attackValues.Value);
 
-            DamageTextPool.Spawn(CurrentTarget.Unit, attackValues.Value, attackValues.Type);
+                DamageTextPool.Spawn(CurrentTarget.Unit, attackValues.Value, attackValues.Type);
+
+                if (health.IsDead)
+                {
+                    E_OnEnemyDefeated.Invoke();
+                }
+            }
         }
 
         MercAttackValues CalculateAttackValue()
         {
             DamageType damageType = DamageType.Normal;
 
-            BigDouble damage = DataValues.DamagePerAttack * SetupPayload.EnergyPercentUsedToInstantiate;
+            BigDouble damage = DataValues.DamagePerAttack * SetupPayload.RechargePercentage;
 
-            if (SetupPayload.IsEnergyOverload)
-                damageType = DamageType.EnergyOvercharge;
+            if (SetupPayload.IsOverCharge)
+                damageType = DamageType.Overcharge;
 
-            if (MathsUtlity.PercentChance(App.GMCache.CriticalHitChance))
+            if (MathsUtlity.PercentChance(App.Values.CriticalHitChance))
             {
                 damageType = DamageType.CriticalHit;
-                damage *= App.GMCache.CriticalHitMultiplier;
+                damage *= App.Values.CriticalHitMultiplier;
             }
 
             return new() { Type = damageType, Value = damage };

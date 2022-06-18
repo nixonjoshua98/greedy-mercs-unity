@@ -61,11 +61,9 @@ namespace GM.Core
         {
             GMApplication app = GMApplication.Instance;
 
-            LocalStateFile.LoadFromFile(out LocalStateFile localStateFile);
-
             app.Initialize();
 
-            app.UpdateDataContainers(Data.UserData, Data.StaticData, localStateFile);
+            app.UpdateDataContainers(Data.UserData, Data.StaticData);
 
             SceneManager.LoadSceneAsync("GameScene");
         }

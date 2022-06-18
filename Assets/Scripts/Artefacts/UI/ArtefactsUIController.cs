@@ -85,7 +85,7 @@ namespace GM.Artefacts.UI
                 return;
             }
 
-            double unlockCost = App.GMCache.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
+            double unlockCost = App.Values.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
 
             UnlockArtefactButton.interactable = !App.Artefacts.UserUnlockedAll && App.Inventory.PrestigePoints >= unlockCost;
 

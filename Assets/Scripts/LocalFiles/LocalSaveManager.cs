@@ -18,7 +18,7 @@
         {
             if (!Paused)
             {
-                App.SaveLocalStateFile();
+                App.LocalStateFile.WriteToFile();
             }
 
             App.PersistantLocalFile.WriteToFile();

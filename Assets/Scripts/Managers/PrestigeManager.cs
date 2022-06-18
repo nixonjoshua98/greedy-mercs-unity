@@ -1,30 +1,16 @@
 using GM.HTTP;
 using GM.HTTP.Requests;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine;
+using GM.UI;
 
 namespace GM.Managers
 {
     public class PrestigeManager : Core.GMMonoBehaviour
     {
-        private static PrestigeManager Instance = null;
-
-        private void Awake()
-        {
-            if (Instance == null)
-                Instance = this;
-            else
-                Destroy(gameObject);
-        }
-
-        private void PerformPrestige()
-        {
-            PrestigeRequest request = new()
-            {
-                PrestigeStage = App.GameState.Stage
-            };
-
-            App.HTTP.Prestige(request, Server_OnPrestige);
-        }
+        [Header("Prefabs")]
+        [SerializeField] GameObject PrestigeConfirmPopup;
 
         // = Callbacks = //
 
@@ -37,7 +23,7 @@ namespace GM.Managers
         private void OnPrestigeFailed()
         {
             App.SaveManager.Paused = false;
-            App.SaveLocalStateFile();
+            App.LocalStateFile.WriteToFile();
         }
 
         private void OnPrestigeSuccess(PrestigeResponse resp)
@@ -46,16 +32,15 @@ namespace GM.Managers
 
             App.DeleteLocalStateData();
 
-            App.UpdateDataContainers(resp.UserData, resp.DataFiles);
+            App.LocalStateFile.Clear(overwrite: true);
 
-            App.SaveLocalStateFile();
+            App.UpdateDataContainers(resp.UserData, resp.DataFiles);
 
             SceneManager.LoadScene("GameScene");
         }
 
-        // = Server Callbacks = //
 
-        private void Server_OnPrestige(PrestigeResponse resp)
+        private void OnPrestigeResponse(PrestigeResponse resp)
         {
             if (resp.StatusCode == HTTPCodes.Success)
             {
@@ -67,12 +52,22 @@ namespace GM.Managers
             }
         }
 
-        // = UI Callbacks = //
+        /* Event Listeners */
 
-        public void Button_OnPrestige()
+        private void PerformPrestige()
         {
-            OnPrePrestige();
-            PerformPrestige();
+            App.HTTP.Prestige(OnPrestigeResponse);
+        }
+
+        public void OnPrestigeButton()
+        {
+            var popup = this.InstantiateUI<PrestigePopup>(PrestigeConfirmPopup);
+
+            popup.Initialize(() =>
+            {
+                OnPrePrestige();
+                PerformPrestige();
+            });
         }
     }
 }

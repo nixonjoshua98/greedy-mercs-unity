@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GM.Mercs.UI
 {
-    internal struct MercDamageValue
+    internal class MercDamageValue
     {
         public MercID MercId;
         public DateTime Time;
@@ -24,8 +24,9 @@ namespace GM.Mercs.UI
     {
         [Header("Prefabs")]
         public GameObject PopupObject;
-        private List<MercDamageValue> damageValues = new List<MercDamageValue>();
-        private MercBattleSummaryPopup SummaryPopup;
+
+        List<MercDamageValue> damageValues = new List<MercDamageValue>();
+        MercBattleSummaryPopup SummaryPopup;
 
         private void Awake()
         {
@@ -33,13 +34,11 @@ namespace GM.Mercs.UI
 
             squad.E_UnitSpawned.AddListener(controller =>
             {
-                controller.OnDamageDealt.AddListener(dmg =>
-                {
-                    damageValues.Add(new MercDamageValue(controller.ID, dmg));
-                });
+                controller.E_OnEnemyDefeated.AddListener(() => OnEnemyDefeated(controller.ID));
+                controller.E_OnDamageDealt.AddListener(dmg => OnDamageDealt(controller.ID, dmg));
             });
 
-            InvokeRepeating("UpdateSummaryPopup", 0, 3);
+            InvokeRepeating(nameof(UpdateSummaryPopup), 0, 3);
         }
 
         private void UpdateSummaryPopup()
@@ -65,6 +64,21 @@ namespace GM.Mercs.UI
             SummaryPopup = this.InstantiateUI<MercBattleSummaryPopup>(PopupObject);
 
             UpdateSummaryPopup();
+        }
+
+        /* Event Listeners */
+
+        void OnDamageDealt(MercID mercId, BigDouble dmg)
+        {
+            damageValues.Add(new MercDamageValue(mercId, dmg));
+        }
+
+        void OnEnemyDefeated(MercID mercId)
+        {
+            if (App.Mercs.TryGetMercState(mercId, out var state))
+            {
+                state.EnemiesDefeatedSincePrestige++;
+            }
         }
     }
 }

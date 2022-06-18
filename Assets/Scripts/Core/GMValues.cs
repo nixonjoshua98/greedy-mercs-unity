@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace GM.Core
 {
-    public class GMCache : GMClass
+    public class GMValues : GMClass
     {
         private List<KeyValuePair<BonusType, BigDouble>> MercPassiveBonuses
         {
@@ -52,6 +52,43 @@ namespace GM.Core
             }
         }
 
+        public BigDouble GetResolvedBonus(BonusType bonus)
+        {
+            return bonus switch
+            {
+                BonusType.FLAT_CRIT_CHANCE => CombinedBonuses.Get(bonus, 0),
+                _ => CombinedBonuses.Get(bonus, 1)
+            };
+        }
+
+        #region Prestige Points
+
+        public double BasePrestigePoints()
+        {
+            return GameFormulas.BasePrestigePoints(App.GameState.Stage);
+        }
+
+        public double BasePrestigePoints(int stage)
+        {
+            return GameFormulas.BasePrestigePoints(stage);
+        }
+
+        public double BonusPrestigePoints()
+        {
+            return BonusPrestigePoints(App.GameState.Stage);
+        }
+
+        public double BonusPrestigePoints(int stage)
+        {
+            BigDouble multiplier = GetResolvedBonus(BonusType.MULTIPLY_PRESTIGE_BONUS);
+
+            var basePoints = GameFormulas.BasePrestigePoints(stage);
+
+            return (multiplier > 1 ? basePoints * (multiplier - 1) : 0).ToDouble();
+        }
+
+        #endregion
+
         public BigDouble EnemyHealthAtStage(int stage)
         {
             return GameFormulas.EnemyHealth(stage);
@@ -70,13 +107,6 @@ namespace GM.Core
         public BigDouble GoldPerStageBossAtStage(int stage)
         {
             return GameFormulas.CalcBossGold(stage) * CombinedBonuses.Get(BonusType.MULTIPLY_BOSS_GOLD, 1) * CombinedBonuses.Get(BonusType.MULTIPLY_ALL_GOLD, 1);
-        }
-
-        public BigInteger PrestigePointsAtStage(int stage)
-        {
-            BigDouble big = GameFormulas.CalcPrestigePoints(stage).ToBigDouble() * CombinedBonuses.Get(BonusType.MULTIPLY_PRESTIGE_BONUS, 1);
-
-            return big.FloorToBigInteger();
         }
 
         #region Critical Hit

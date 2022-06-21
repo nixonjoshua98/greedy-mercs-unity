@@ -1,5 +1,6 @@
 using GM.Common.Enums;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GM.Mercs.Data
@@ -30,7 +31,8 @@ namespace GM.Mercs.Data
         public bool IsMaxLevel => State.Level >= MaxLevel;
         public bool InSquad => App.Mercs.InSquad(ID);
         public UnitAttackType AttackType => StaticValues.AttackType;
-        public List<MercPassiveReference> Passives => StaticValues.Passives;
+        public List<MercPassive> Passives => StaticValues.Passives;
+        public List<MercPassive> UnlockedPassives => StaticValues.Passives.Where(x => CurrentLevel >= x.UnlockLevel).ToList();
         public float BaseDamage => StaticValues.BaseDamage;
         public BigDouble DamagePerAttack => App.Values.MercDamagePerAttack(this);
         public BigDouble AttackDamage(int level) => App.Values.MercDamagePerAttack(this, level);

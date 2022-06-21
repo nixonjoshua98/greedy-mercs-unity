@@ -7,48 +7,46 @@ namespace GM.Mercs
 {
     public class StaticMercsModel
     {
-        public List<MercPassive> Passives;
+        public List<MercPassiveBonus> Passives;
         public List<StaticMercData> Mercs;
+    }
+
+    public class MercPassiveBonus
+    {
+        [JsonProperty(PropertyName = "PassiveID")]
+        public int ID;
+
+        public BonusType BonusType;
+
+        public float BonusValue;
     }
 
     public class MercPassive
     {
-        [JsonProperty(PropertyName = "passiveId")]
-        public int ID;
+        public int PassiveID;
 
-        [JsonProperty(PropertyName = "bonusType")]
-        public BonusType Type;
+        public int UnlockLevel;
 
-        [JsonProperty(PropertyName = "bonusValue")]
-        public float Value;
-    }
-
-    public class MercPassiveReference
-    {
-        [JsonProperty(Required = Required.Always)]
-        public int PassiveID { get; set; }
-
-        [JsonProperty(Required = Required.Always)]
-        public int UnlockLevel { get; set; }
+        /* Values set from MercPassiveBonus during setup */ 
 
         [JsonIgnore]
-        public MercPassive Values { get; set; }
+        public BonusType BonusType;
+
+        [JsonIgnore]
+        public float BonusValue;
     }
 
     public class StaticMercData
     {
-        [JsonProperty(PropertyName = "mercId")]
+        [JsonProperty(PropertyName = "MercID")]
         public MercID ID;
 
         public float BaseDamage;
 
-        [JsonProperty(PropertyName = "passives")]
-        public List<MercPassiveReference> Passives;
+        public List<MercPassive> Passives;
 
-        [JsonProperty(PropertyName = "name")]
         public string Name = "Missing Merc Name";
 
-        [JsonProperty(PropertyName = "attackType")]
         public UnitAttackType AttackType = UnitAttackType.Melee;
 
         public float RechargeRate;

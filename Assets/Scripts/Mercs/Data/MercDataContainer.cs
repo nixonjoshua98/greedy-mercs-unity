@@ -64,7 +64,7 @@ namespace GM.Mercs.Data
         /// </summary>
         private void SetStaticData(StaticMercsModel model)
         {
-            Dictionary<int, MercPassive> passives = model.Passives.ToDictionary(x => x.ID, x => x);
+            Dictionary<int, MercPassiveBonus> passives = model.Passives.ToDictionary(x => x.ID, x => x);
 
             var allLocalMercData = LoadLocalData();
 
@@ -81,7 +81,7 @@ namespace GM.Mercs.Data
                 merc.Icon = localData.Icon;
                 merc.Prefab = localData.Prefab;
 
-                UpdateMercPassivesFromReferences(ref merc, in passives);
+                UpdateMercPassivesFromReferences(ref merc, passives);
 
                 StaticMercs[merc.ID] = merc;
             }
@@ -90,17 +90,23 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Set the merc passives using the static data
         /// </summary>
-        private void UpdateMercPassivesFromReferences(ref StaticMercData merc, in Dictionary<int, MercPassive> passives)
+        private void UpdateMercPassivesFromReferences(ref StaticMercData merc, Dictionary<int, MercPassiveBonus> passives)
         {
-            foreach (MercPassiveReference reference in merc.Passives)
+            foreach (MercPassive reference in merc.Passives.ToArray())
             {
-                if (passives.TryGetValue(reference.PassiveID, out MercPassive passive))
+                if (passives.TryGetValue(reference.PassiveID, out MercPassiveBonus passive))
                 {
-                    reference.Values = passive;
+                    reference.BonusValue = passive.BonusValue;
+                    reference.BonusType = passive.BonusType;
+                }
+                else
+                {
+                    // Remove the passive from the merc if the data is not available
+                    merc.Passives.RemoveAll(p => p.PassiveID == reference.PassiveID);
+
+                    GMLogger.Log($"Passive {reference.PassiveID} found on merc {merc.ID} but is not valid");
                 }
             }
-
-            merc.Passives.RemoveAll((p) => p.Values == null);
         }
 
         /// <summary>

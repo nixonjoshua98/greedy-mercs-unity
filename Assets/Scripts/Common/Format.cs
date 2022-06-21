@@ -28,8 +28,8 @@ namespace GM
         {
             return type switch
             {
-                BonusType.FLAT_CRIT_CHANCE => "Critical Chance",
-                BonusType.MULTIPLY_CRIT_DMG => "Critical Damage",
+                BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
+                BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
                 BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
                 BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
                 BonusType.MULTIPLY_ALL_DMG => "All Damage",
@@ -49,6 +49,19 @@ namespace GM
             {
                 _ => Percentage(val.ToDouble())
             };
+        }
+
+        public static string Number(BonusType bonus, BigDouble val)
+        {
+            return bonus switch
+            {
+                _ => Percentage(val.ToDouble())
+            };
+        }
+
+        public static string Number(float val, BonusType bonus)
+        {
+            return Number(new BigDouble(val), bonus);
         }
 
         public static string Number(long val)

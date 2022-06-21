@@ -21,9 +21,7 @@ namespace GM.Core
                 {
                     AggregatedMercData merc = App.Mercs.GetMerc(mercId);
 
-                    List<MercPassive> passives = merc.UnlockedPassives;
-
-                    ls.AddRange(passives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue)));
+                    ls.AddRange(merc.UnlockedPassives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue)));
                 });
 
                 return ls;

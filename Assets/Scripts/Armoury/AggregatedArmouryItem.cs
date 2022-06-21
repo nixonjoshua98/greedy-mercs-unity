@@ -1,7 +1,7 @@
 using GM.Armoury.Data;
 using GM.Common.Enums;
 using GM.ScriptableObjects;
-using GMCommon.Enums;
+using GM.Common.Enums;
 using UnityEngine;
 
 namespace GM.Armoury

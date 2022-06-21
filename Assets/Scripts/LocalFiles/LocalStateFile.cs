@@ -12,7 +12,7 @@ namespace GM
         public GameState GameState = new();
 
         [JsonProperty]
-        public List<UserMercState> MercStates { get; set; } = new();
+        public List<UserMercLocalState> MercStates { get; set; } = new();
 
         /* Inventory */
         public BigDouble Gold = 0;

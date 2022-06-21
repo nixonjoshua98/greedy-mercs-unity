@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using GM.Mercs.Data;
+using GM.Common;
 using System;
 
 namespace GM.Mercs.UI
@@ -39,10 +40,10 @@ namespace GM.Mercs.UI
 
         private void UpdateUI()
         {
-            NameText.text = Merc.Name;
-            RechargeText.text = $"{Math.Round(Merc.RechargeRate, 1)}s";
-            BaseDamageText.text = Mathf.FloorToInt(Merc.BaseDamage).ToString();
-            LevelText.text = $"Lv <color=orange>{Merc.CurrentLevel}</color>";
+            NameText.text           = Merc.Name;
+            RechargeText.text       = $"{Math.Round(Merc.RechargeRate, 1)}s";
+            BaseDamageText.text     = Mathf.FloorToInt(Merc.BaseDamage).ToString();
+            LevelText.text          = $"Lv <color=orange>{Merc.CurrentLevel}</color>";
 
             IconImage.sprite = Merc.Icon;
         }

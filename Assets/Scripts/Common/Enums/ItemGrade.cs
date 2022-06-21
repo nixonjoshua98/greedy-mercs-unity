@@ -1,4 +1,4 @@
-﻿namespace GMCommon.Enums
+﻿namespace GM.Common.Enums
 {
     public enum ItemGrade
     {

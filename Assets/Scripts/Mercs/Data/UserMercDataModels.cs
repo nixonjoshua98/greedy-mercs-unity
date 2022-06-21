@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace GM.Mercs
 {
-    public class UserMercDataModel
+    public class UserMercState
     {
-        [JsonProperty(PropertyName = "mercId", Required = Required.Always)]
+        [JsonProperty(PropertyName = "MercID")]
         public MercID ID;
     }
 }

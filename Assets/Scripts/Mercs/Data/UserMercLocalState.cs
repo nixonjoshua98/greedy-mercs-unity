@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GM.Mercs.Data
 {
-    public class UserMercState
+    public class UserMercLocalState
     {
         [JsonProperty]
         public MercID ID;
@@ -17,9 +17,9 @@ namespace GM.Mercs.Data
         [JsonProperty]
         public int EnemiesDefeatedSincePrestige = 0;
 
-        private UserMercState() { }
+        private UserMercLocalState() { }
 
-        public UserMercState(MercID unit)
+        public UserMercLocalState(MercID unit)
         {
             ID = unit;
         }

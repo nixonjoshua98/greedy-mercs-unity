@@ -1,4 +1,4 @@
-using GMCommon.Enums;
+using GM.Common.Enums;
 using UnityEngine;
 
 namespace GM.ScriptableObjects

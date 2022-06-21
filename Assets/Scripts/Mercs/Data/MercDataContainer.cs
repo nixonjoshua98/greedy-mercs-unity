@@ -9,9 +9,10 @@ namespace GM.Mercs.Data
 {
     public class MercDataContainer : Core.GMClass
     {
-        private List<UserMercState> UserStates => App.LocalStateFile.MercStates;
+        private List<UserMercLocalState> LocalStates => App.LocalStateFile.MercStates;
 
-        private readonly Dictionary<MercID, StaticMercData> StaticMercs = new();
+        private Dictionary<MercID, StaticMercData> StaticMercs = new();
+        private Dictionary<MercID, UserMercState> userStates = new();
 
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
@@ -20,21 +21,23 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Update all stored static and user data
         /// </summary>
-        public void Set(List<UserMercDataModel> userMercs, StaticMercsModel staticData)
+        public void Set(List<UserMercState> userMercs, StaticMercsModel staticData)
         {
+            userStates = userMercs.ToDictionary(x => x.ID, x => x);
+
             UpdateLocalStateFile(userMercs);            
             SetStaticData(staticData);
         }
 
-        private void UpdateLocalStateFile(List<UserMercDataModel> mercs)
+        private void UpdateLocalStateFile(List<UserMercState> mercs)
         {
-            Dictionary<MercID, UserMercState> states = new();
+            Dictionary<MercID, UserMercLocalState> states = new();
 
             mercs.ForEach(merc =>
             {
                 var savedState = App.LocalStateFile.MercStates.FirstOrDefault(x => x.ID == merc.ID);
 
-                states[merc.ID] = savedState ?? new UserMercState(merc.ID);
+                states[merc.ID] = savedState ?? new UserMercLocalState(merc.ID);
             });
 
             App.LocalStateFile.MercStates = states.Values.ToList();
@@ -45,19 +48,21 @@ namespace GM.Mercs.Data
         /// </summary>
         public void AddNewUnlockedMerc(MercID mercId)
         {
-            UserStates.Add(new UserMercState(mercId));
+            LocalStates.Add(new UserMercLocalState(mercId));
 
             E_OnMercUnlocked.Invoke(mercId);
         }
 
-        public bool TryGetMercState(MercID id, out UserMercState state)
+        public bool TryGetMercState(MercID id, out UserMercLocalState state)
         {
-            state = UserStates.FirstOrDefault(x => x.ID == id);
+            state = LocalStates.FirstOrDefault(x => x.ID == id);
 
             return state is not null;
         }
 
-        public UserMercState GetStateOrNull(MercID id) => UserStates.FirstOrDefault(x => x.ID == id);
+        public UserMercLocalState GetLocalStateOrNull(MercID id) => LocalStates.FirstOrDefault(x => x.ID == id);
+
+        public UserMercState GetUserStateOrNull(MercID id) => userStates.Get(id, null);
 
         /// <summary>
         /// Update the internal static game data we have
@@ -140,11 +145,11 @@ namespace GM.Mercs.Data
         /// <summary> 
         /// Fetch the full data for all user unlocked mercs
         /// </summary>
-        public List<AggregatedMercData> UnlockedMercs => UserStates.Select(pair => GetMerc(pair.ID)).ToList();
+        public List<AggregatedMercData> UnlockedMercs => LocalStates.Select(pair => GetMerc(pair.ID)).ToList();
 
         /// <summary>
         /// Units which the user has decided to have in their squad
         /// </summary>
-        public List<MercID> MercsInSquad => UserStates.Where(x => InSquad(x.ID)).Select(x => x.ID).ToList();
+        public List<MercID> MercsInSquad => LocalStates.Where(x => InSquad(x.ID)).Select(x => x.ID).ToList();
     }
 }

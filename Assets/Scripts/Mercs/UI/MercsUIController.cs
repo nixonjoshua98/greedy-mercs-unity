@@ -12,13 +12,9 @@ namespace GM.Mercs.UI
 
         [Header("References")]
         public GM.UI.AmountSelector UpgradeAmountSelector;
-        [Space]
         public Transform SquadMercSlotsParent;
-        [Space]
-        private readonly
 
-        // ...
-        Dictionary<MercID, MercUIObject> MercSlots = new Dictionary<MercID, MercUIObject>();
+        private readonly Dictionary<MercID, MercUIObject> MercSlots = new();
 
         private void Awake()
         {

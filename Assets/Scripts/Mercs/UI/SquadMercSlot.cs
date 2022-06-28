@@ -29,9 +29,9 @@ namespace GM.Mercs.UI
         private int _buyAmount;
         protected int BuyAmount => MathsUtlity.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
 
-        public void Assign(MercID merc, GM.UI.AmountSelector selector)
+        public void Assign(MercID merc, GM.UI.QuantitySelector selector)
         {
-            _buyAmount = selector.Current;
+            _buyAmount = selector.CurrentValue;
 
             Assign(merc);
 

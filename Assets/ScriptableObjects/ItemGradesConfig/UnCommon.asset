@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a9089f1e096b884d8ac1af2f09d5351, type: 3}
-  m_Name: Rare
+  m_Name: UnCommon
   m_EditorClassIdentifier: 
   Grade: 20
   BackgroundSprite: {fileID: 21300000, guid: a7a9761b8498fc3469b31675a4250f17, type: 3}

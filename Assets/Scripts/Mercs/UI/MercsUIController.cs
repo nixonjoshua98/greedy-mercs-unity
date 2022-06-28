@@ -11,7 +11,7 @@ namespace GM.Mercs.UI
         public GameObject ManageMercsObject;
 
         [Header("References")]
-        public GM.UI.AmountSelector UpgradeAmountSelector;
+        public GM.UI.QuantitySelector QuantitySelector;
         public Transform SquadMercSlotsParent;
 
         private readonly Dictionary<MercID, MercUIObject> MercSlots = new();
@@ -55,7 +55,7 @@ namespace GM.Mercs.UI
         {
             SquadMercSlot slot = this.Instantiate<SquadMercSlot>(SquadMercSlotObject, SquadMercSlotsParent);
 
-            slot.Assign(merc, UpgradeAmountSelector);
+            slot.Assign(merc, QuantitySelector);
 
             MercSlots.Add(merc, slot);
 

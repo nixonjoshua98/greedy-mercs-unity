@@ -1,3 +1,4 @@
+using GM.Common;
 using GM.Mercs.Data;
 using System;
 using TMPro;
@@ -17,6 +18,7 @@ namespace GM.Mercs.UI
         [SerializeField] TMP_Text NameText;
         [SerializeField] TMP_Text LevelText;
         [SerializeField] TMP_Text RechargeText;
+        [SerializeField] TMP_Text DamageText;
         [Space]
         [SerializeField] Image IconImage;
 
@@ -39,8 +41,9 @@ namespace GM.Mercs.UI
         private void UpdateUI()
         {
             NameText.text           = Merc.Name;
-            RechargeText.text       = $"{Math.Round(Merc.RechargeRate, 1)}s";
-            LevelText.text          = $"Lv <color=orange>{Merc.CurrentLevel}</color>";
+            DamageText.text         = $"{Format.Number(Merc.DamagePerAttack)}";
+            RechargeText.text       = $"{Math.Round(Merc.RechargeRate, 2)}s";
+            LevelText.text          = $"{Merc.CurrentLevel}";
 
             IconImage.sprite = Merc.Icon;
         }

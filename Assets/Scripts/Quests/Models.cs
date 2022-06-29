@@ -1,4 +1,5 @@
 ﻿using GM.Common.Enums;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace GM.Quests
@@ -8,23 +9,33 @@ namespace GM.Quests
         Prestige = 0,
         EnemiesDefeated = 1,
         BossesDefeated = 2,
-        Taps = 3
+        Taps = 3,
+        StageReached = 4
     }
 
-    public class MercQuest
+    public enum QuestType
     {
-        public int QuestID;
-        public int RequiredStage;
-        public MercID RewardMercID;
+        MercQuest = 0,
+        DailyQuest = 1
     }
 
-    public class DailyQuest
+    public abstract class AbstractQuest
     {
-        public int QuestID;
+        [JsonProperty(PropertyName = "QuestID")]
+        public int ID;
+
         public QuestActionType ActionType;
-        public int DiamondsRewarded;
-
         public long LongValue;
+    }
+
+    public class MercQuest : AbstractQuest
+    {
+        public int RewardMercID;
+    }
+
+    public class DailyQuest : AbstractQuest
+    {
+        public int DiamondsRewarded;
     }
 
     public class Quests

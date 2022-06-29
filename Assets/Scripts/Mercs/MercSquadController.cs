@@ -12,30 +12,15 @@ namespace GM.Mercs
         [Header("References")]
         [SerializeField] EnemyUnitCollection EnemyUnits;
 
+        [Header("Events")]
+        [HideInInspector] public UnityEvent<AbstractMercController> E_UnitSpawned = new();
+
         private readonly List<AbstractMercController> _units = new();
 
-        /* Events */
-        [HideInInspector] public UnityEvent E_MercAddedToSquad = new UnityEvent();
-        [HideInInspector] public UnityEvent<AbstractMercController> E_UnitSpawned = new();
 
         public AbstractMercController Get(int idx) => _units[idx];
         public int GetIndex(AbstractMercController unit) => _units.FindIndex((u) => u == unit);
         bool UnitExistsInQueue(MercID unit) => _units.Find(x => x.ID == unit) is not null;
-
-        private void Awake()
-        {
-            SubscribeToEvents();
-
-            App.Mercs.MercsInSquad.ForEach(merc =>
-            {
-                E_MercAddedToSquad.Invoke();
-            });
-        }
-
-        private void SubscribeToEvents()
-        {
-            App.Mercs.E_OnMercUnlocked.AddListener(GMApplication_OnMercUnlocked);
-        }
 
         private void FixedUpdate()
         {
@@ -44,11 +29,9 @@ namespace GM.Mercs
 
         private void UpdateMercsEnergy()
         {
-            foreach (MercID unit in App.Mercs.MercsInSquad)
+            foreach (var merc in App.Mercs.UnlockedMercs)
             {
                 float ts = Time.fixedDeltaTime;
-
-                var merc = App.Mercs.GetMerc(unit);
 
                 // Reduce the timer gained if we are 'over-charging' for extra damage
                 if (merc.RechargeProgress >= merc.RechargeRate)
@@ -61,7 +44,7 @@ namespace GM.Mercs
                 if (merc.RechargePercentage >= 1.0f && !UnitExistsInQueue(merc.ID))
                 {
                     // Create payload
-                    MercSetupPayload payload = new MercSetupPayload(merc.RechargePercentage);
+                    MercSetupPayload payload = new(merc.RechargePercentage);
 
                     // Reset some data
                     merc.RechargeProgress = 0;
@@ -89,38 +72,13 @@ namespace GM.Mercs
         {
             var camBounds = Camera.main.Bounds();
 
-            Vector2 pos = new(
-                camBounds.min.x - 3.5f - (_units.Count), 
-                Common.Constants.CENTER_BATTLE_Y
-            );
+            Vector2 pos = new(camBounds.min.x - 3.5f - (_units.Count), Common.Constants.CENTER_BATTLE_Y);
 
             var data = App.Mercs.GetMerc(unitId);
 
             GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
 
             return o.GetComponent<AbstractMercController>();
-        }
-
-        public void AddUnitToSquad(MercID mercId)
-        {
-            App.Mercs.SquadMercs.Add(mercId);
-
-            E_MercAddedToSquad.Invoke();
-        }
-
-        public void RemoveUnitFromSquad(MercID mercId)
-        {
-            App.Mercs.SquadMercs.Remove(mercId);
-        }
-
-        // Event Listeners //
-
-        private void GMApplication_OnMercUnlocked(MercID mercId)
-        {
-            if (!App.Mercs.IsSquadFull)
-            {
-                AddUnitToSquad(mercId);
-            }
         }
     }
 }

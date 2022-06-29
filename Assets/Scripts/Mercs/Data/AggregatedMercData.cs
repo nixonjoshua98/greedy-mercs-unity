@@ -15,7 +15,6 @@ namespace GM.Mercs.Data
         }
 
         UserMercLocalState LocalState => App.Mercs.GetLocalStateOrNull(ID);
-        UserMercState State => App.Mercs.GetUserStateOrNull(ID);
 
         public MercID ID => StaticValues.ID;
         public string Name => StaticValues.Name;
@@ -26,11 +25,9 @@ namespace GM.Mercs.Data
         public float RechargePercentage => LocalState.RechargeProgress / StaticValues.RechargeRate;
         public float EnergyConsumedPerAttack => 10;
         public int BattleEnergyCapacity => 50;
-        public bool IsUnlocked => State is not null;
         public int CurrentLevel { get => LocalState.Level; set => LocalState.Level = Mathf.Min(MaxLevel, value); }
         public int MaxLevel => 1_000;
         public bool IsMaxLevel => LocalState.Level >= MaxLevel;
-        public bool InSquad => App.Mercs.InSquad(ID);
         public UnitAttackType AttackType => StaticValues.AttackType;
         public List<MercPassive> Passives => StaticValues.Passives;
         public List<MercPassive> UnlockedPassives => StaticValues.Passives.Where(x => CurrentLevel >= x.UnlockLevel).ToList();

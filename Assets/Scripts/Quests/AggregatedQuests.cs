@@ -1,56 +1,74 @@
 ﻿using GM.Common.Enums;
-using System;
+using GM.PlayerStats;
 
 namespace GM.Quests
 {
-    public interface IAggregatedQuest
+    public abstract class AbstractAggregatedQuest : GM.Core.GMClass
     {
-        public string Title { get; }
-        public int ID { get; }
-        public bool IsCompleted { get; }
-        public float CurrentProgress { get; }
-    }
-
-    public abstract class AbstractAggregatedQuest : GM.Core.GMClass, IAggregatedQuest
-    {
-        public int ID { get; set; }
-        public abstract string Title { get; }
-        public abstract bool IsCompleted { get; }
-        public abstract float CurrentProgress { get; }
-    }
-
-    public class AggregatedMercQuest : AbstractAggregatedQuest
-    {
-        public int RequiredStage;
-        public MercID RewardMercID;
-        public override bool IsCompleted => App.Quests.IsMercQuestCompleted(ID);
-        public override float CurrentProgress => Math.Min(1.0f, App.GameState.Stage / Math.Max(1, (float)RequiredStage));
-        public override string Title => $"Reach Stage <color=orange>{RequiredStage}</color>";
-    }
-
-    public class AggregatedDailyQuest : AbstractAggregatedQuest
-    {
-        public QuestActionType ActionType;
-        public int DiamondsRewarded;
-
+        public int ID;
         public long LongValue;
 
-        public override bool IsCompleted => App.Quests.IsDailyQuestCompleted(ID);
-        public override float CurrentProgress => ActionType switch
-        {
-            QuestActionType.Prestige => App.Stats.LocalDailyStats.TotalPrestiges / (float)LongValue,
-            QuestActionType.EnemiesDefeated => App.Stats.LocalDailyStats.TotalEnemiesDefeated / (float)LongValue,
-            QuestActionType.BossesDefeated => App.Stats.LocalDailyStats.TotalBossesDefeated / (float)LongValue,
-            QuestActionType.Taps => App.Stats.LocalDailyStats.TotalTaps / (float)LongValue
-        };
+        public QuestActionType ActionType;
+        public readonly QuestType QuestType;
 
-        public override string Title => ActionType switch
+        public AbstractAggregatedQuest(QuestType questType)
+        {
+            QuestType = questType;
+        }
+
+        public bool IsCompleted => App.Quests.IsQuestCompleted(QuestType, ID);
+
+        public float CurrentProgress
+        {
+            get
+            {
+                UserAccountStats stats = QuestType switch
+                {
+                    QuestType.MercQuest => App.Stats.ConfirmedLifetimeStats,
+                    QuestType.DailyQuest => App.Stats.LocalDailyStats,
+                    _ => throw new System.Exception()
+                };
+
+                return ActionType switch
+                {
+                    QuestActionType.Prestige => stats.TotalPrestiges / (float)LongValue,
+                    QuestActionType.EnemiesDefeated => stats.TotalEnemiesDefeated / (float)LongValue,
+                    QuestActionType.BossesDefeated => stats.TotalBossesDefeated / (float)LongValue,
+                    QuestActionType.Taps => stats.TotalTaps / (float)LongValue,
+                    QuestActionType.StageReached => stats.HighestPrestigeStage / (float)LongValue,
+                    _ => throw new System.Exception()
+                };
+            }
+        }
+
+        public string Title => ActionType switch
         {
             QuestActionType.Prestige => $"Perform <color=orange>{LongValue}</color> Prestiges",
             QuestActionType.EnemiesDefeated => $"Defeat <color=orange>{LongValue}</color> Enemies",
             QuestActionType.BossesDefeated => $"Defeat <color=orange>{LongValue}</color> Stage Bosses",
-            QuestActionType.Taps => $"Deal Tap Damage <color=orange>{LongValue}</color> Times"
+            QuestActionType.Taps => $"Deal Tap Damage <color=orange>{LongValue}</color> Times",
+            QuestActionType.StageReached => $"Reach stage <color=orange>{LongValue}</color>",
+            _ => throw new System.Exception()
         };
+    }
 
+    public class AggregatedMercQuest : AbstractAggregatedQuest
+    {
+        public MercID RewardMercID;
+
+        public AggregatedMercQuest() : base(QuestType.MercQuest)
+        {
+
+        }
+    }
+
+    public class AggregatedDailyQuest : AbstractAggregatedQuest
+    {
+        public int DiamondsRewarded;
+
+        public AggregatedDailyQuest() : base(QuestType.DailyQuest)
+        {
+
+        }
     }
 }

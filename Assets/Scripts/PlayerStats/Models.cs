@@ -2,7 +2,7 @@
 
 namespace GM.PlayerStats
 {
-    public class PlayerStats
+    public class UserAccountStats
     {
         public int TotalPrestiges;
         public int TotalEnemiesDefeated;
@@ -12,13 +12,13 @@ namespace GM.PlayerStats
     }
 
 
-    public class LifetimeStatsModel : PlayerStats
+    public class LifetimeStatsModel : UserAccountStats
     {
 
     }
 
 
-    public class TimedPlayerStatsModel : PlayerStats
+    public class TimedPlayerStatsModel : UserAccountStats
     {
         public DateTime LastUpdated;
 

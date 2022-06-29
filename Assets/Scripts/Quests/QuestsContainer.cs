@@ -26,14 +26,14 @@ namespace GM.Quests
 
         public bool IsDailyQuestsValid => App.DailyRefresh.Current.IsBetween(QuestsCreatedAt);
 
-        public bool IsMercQuestCompleted(int questId)
+        public bool IsQuestCompleted(QuestType questType, int questId)
         {
-            return CompletedMercQuests.Contains(questId);
-        }
-
-        public bool IsDailyQuestCompleted(int questId)
-        {
-            return CompletedDailyQuests.Contains(questId);
+            return questType switch
+            {
+                QuestType.MercQuest => CompletedMercQuests.Contains(questId),
+                QuestType.DailyQuest => CompletedDailyQuests.Contains(questId),
+                _ => throw new NotImplementedException()
+            };
         }
 
         public int NumQuestsReadyToClaim => NumMercQuestsReadyToComplete + NumDailyQuestsReadyToComplete;
@@ -52,7 +52,7 @@ namespace GM.Quests
                 {
                     ls.Add(new()
                     {
-                        ID = quest.QuestID,
+                        ID = quest.ID,
                         ActionType = quest.ActionType,
                         DiamondsRewarded = quest.DiamondsRewarded,
                         LongValue = quest.LongValue
@@ -73,9 +73,9 @@ namespace GM.Quests
                 {
                     ls.Add(new()
                     {
-                        ID = quest.QuestID,
-                        RequiredStage = quest.RequiredStage,
-                        RewardMercID = quest.RewardMercID
+                        ID = quest.ID,
+                        ActionType = quest.ActionType,
+                        LongValue = quest.LongValue
                     });
                 });
 
@@ -83,7 +83,7 @@ namespace GM.Quests
             }
         }
 
-        public void SendCompleteMercQuest(IAggregatedQuest quest, Action<bool> callback)
+        public void SendCompleteMercQuest(AbstractAggregatedQuest quest, Action<bool> callback)
         {
             App.HTTP.CompleteMercQuest(quest.ID, (resp) =>
             {
@@ -98,7 +98,7 @@ namespace GM.Quests
             });
         }
 
-        public void SendCompleteDailyQuest(IAggregatedQuest quest, Action<bool> callback)
+        public void SendCompleteDailyQuest(AbstractAggregatedQuest quest, Action<bool> callback)
         {
             App.HTTP.CompleteDailyQuest(quest.ID, (resp) =>
             {

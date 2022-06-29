@@ -127,11 +127,11 @@ namespace GM.HTTP
             if (encrpted)
                 text = AES.Decrypt(text);
 
-            if (!Serialization.TryDeserialize(in text, out T model))
+            if (!Serialization.TryDeserialize(text, out T model))
             {
                 model = new T() { Message = "Failed to deserialize response" };
 
-                if (Serialization.TryDeserialize(in text, out ServerResponse resp))
+                if (Serialization.TryDeserialize(text, out ServerResponse resp))
                 {
                     model.Message = resp.Message;
                 }
@@ -173,6 +173,9 @@ namespace GM.HTTP
             }
             else
             {
+                if (www.responseCode != 200)
+                    GMLogger.Error($"{www.url} | {resp.Message} | {www.responseCode}");
+
                 action.Invoke(resp);
             }
         }
@@ -195,14 +198,14 @@ namespace GM.HTTP
 
         public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
         {
-            var req = new { QuestID = questId, HighestStageReached = App.Stats.HighestStageReached };
+            var req = new { QuestID = questId };
 
             SendRequest("PUT", "Quests/Merc", req, encrypt: false, action);
         }
 
         public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)
         {
-            var req = new { QuestID = questId, LocalDailyStats = App.Stats.LocalDailyStats };
+            var req = new { QuestID = questId, App.Stats.LocalDailyStats };
 
             SendRequest("PUT", "Quests/Daily", req, encrypt: false, action);
         }

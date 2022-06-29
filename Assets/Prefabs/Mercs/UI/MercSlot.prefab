@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 600224295653121234}
   - component: {fileID: 169886266203842461}
   m_Layer: 5
-  m_Name: SquadMercSlot
+  m_Name: MercSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -24,6 +24,7 @@ namespace GM.Common
         public static class Colors
         {
             public static string HexPurple = "#DA00FF";
+            public static string OffWhite = "#EEEEEE";
 
             public static readonly Color Green = Color255(32, 200, 0);
             public static readonly Color Orange = Color255(216, 128, 8);

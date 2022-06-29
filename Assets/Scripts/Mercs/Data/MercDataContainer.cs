@@ -12,18 +12,16 @@ namespace GM.Mercs.Data
         private List<UserMercLocalState> LocalStates => App.LocalStateFile.MercStates;
 
         private Dictionary<MercID, StaticMercData> StaticMercs = new();
-        private Dictionary<MercID, UserMercState> userStates = new();
+        private Dictionary<MercID, UserMercState> UserMercStates = new();
 
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
-
-        public readonly int MaxSquadSize = 5;
 
         /// <summary>
         /// Update all stored static and user data
         /// </summary>
         public void Set(List<UserMercState> userMercs, StaticMercsModel staticData)
         {
-            userStates = userMercs.ToDictionary(x => x.ID, x => x);
+            UserMercStates = userMercs.ToDictionary(x => x.ID, x => x);
 
             UpdateLocalStateFile(userMercs);            
             SetStaticData(staticData);
@@ -62,7 +60,7 @@ namespace GM.Mercs.Data
 
         public UserMercLocalState GetLocalStateOrNull(MercID id) => LocalStates.FirstOrDefault(x => x.ID == id);
 
-        public UserMercState GetUserStateOrNull(MercID id) => userStates.Get(id, null);
+        public UserMercState GetUserStateOrNull(MercID id) => UserMercStates.Get(id, null);
 
         /// <summary>
         /// Update the internal static game data we have
@@ -123,21 +121,6 @@ namespace GM.Mercs.Data
         }
 
         /// <summary>
-        /// Fetch the squad mercs (stored in the PersistantLocalFile)
-        /// </summary>
-        public HashSet<MercID> SquadMercs => App.PersistantLocalFile.SquadMercIDs;
-
-        /// <summary>
-        /// Check if the squad is currently full (no more mercs should be added)
-        /// </summary>
-        public bool IsSquadFull => SquadMercs.Count >= MaxSquadSize;
-
-        /// <summary>
-        /// Check if the provided merc is in the squad
-        /// </summary>
-        public bool InSquad(MercID merc) => App.PersistantLocalFile.SquadMercIDs.Contains(merc);
-
-        /// <summary>
         /// Fetch the aggregated dataclass for the unit
         /// </summary>
         public AggregatedMercData GetMerc(MercID key) => new(StaticMercs[key]);
@@ -146,10 +129,5 @@ namespace GM.Mercs.Data
         /// Fetch the full data for all user unlocked mercs
         /// </summary>
         public List<AggregatedMercData> UnlockedMercs => LocalStates.Select(pair => GetMerc(pair.ID)).ToList();
-
-        /// <summary>
-        /// Units which the user has decided to have in their squad
-        /// </summary>
-        public List<MercID> MercsInSquad => LocalStates.Where(x => InSquad(x.ID)).Select(x => x.ID).ToList();
     }
 }

@@ -1,11 +1,9 @@
 using GM.Armoury;
 using GM.Common;
 using GM.Common.Enums;
-using GM.Mercs;
 using GM.Mercs.Data;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 
 namespace GM.Core
 {
@@ -17,10 +15,8 @@ namespace GM.Core
             {
                 List<KeyValuePair<BonusType, BigDouble>> ls = new();
 
-                App.Mercs.MercsInSquad.ForEach(mercId =>
+                App.Mercs.UnlockedMercs.ForEach(merc =>
                 {
-                    AggregatedMercData merc = App.Mercs.GetMerc(mercId);
-
                     ls.AddRange(merc.UnlockedPassives.Select(x => new KeyValuePair<BonusType, BigDouble>(x.BonusType, x.BonusValue)));
                 });
 

@@ -989,7 +989,7 @@ MonoBehaviour:
   Colours:
     Selected: {r: 0.84705883, g: 0.5019608, b: 0, a: 1}
     Unselected: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-  OnSelected:
+  E_OnSelected:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3084001784819635196}
@@ -1004,19 +1004,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 5516783350374779853}
-        m_TargetAssemblyTypeName: GM.Quests.UI.QuestsPopup, Assembly-CSharp
-        m_MethodName: Button_OnChangeTab
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnDeselected:
+  E_OnDeselected:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3084001784819635196}
@@ -1479,7 +1467,7 @@ MonoBehaviour:
   Colours:
     Selected: {r: 0.84705883, g: 0.5019608, b: 0, a: 1}
     Unselected: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-  OnSelected:
+  E_OnSelected:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3088677653381650202}
@@ -1494,7 +1482,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  OnDeselected:
+  E_OnDeselected:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3088677653381650202}
@@ -1935,6 +1923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9300d158f3e3e8f48b28e50e60133be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Template: 
   TextToDisplay: ...
   MsPerChar: 250
   Loop: 1

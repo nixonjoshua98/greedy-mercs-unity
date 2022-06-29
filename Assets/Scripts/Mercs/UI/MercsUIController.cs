@@ -28,23 +28,14 @@ namespace GM.Mercs.UI
 
         private void SubscribeToEvents()
         {
-            MercSquadController squad = this.GetComponentInScene<MercSquadController>();
-
-            squad.E_MercAddedToSquad.AddListener(() => UpdateSlotsUI());
+            App.Mercs.E_OnMercUnlocked.AddListener((mercId) => UpdateSlotsUI());
         }
 
         private void UpdateSlotsUI()
         {
             foreach (var merc in App.Mercs.UnlockedMercs)
             {
-                // Merc has been removed from squad
-                if (MercSlots.ContainsKey(merc.ID) && !merc.InSquad)
-                {
-                    DestroySlot(merc.ID);
-                }
-
-                // Merc has been added to the squad
-                else if (!MercSlots.ContainsKey(merc.ID) && merc.InSquad)
+                if (!MercSlots.ContainsKey(merc.ID))
                 {
                     InstantiateSlot(merc.ID);
                 }
@@ -68,16 +59,6 @@ namespace GM.Mercs.UI
                 Destroy(slot.gameObject);
                 MercSlots.Remove(mercId);
             }
-        }
-
-        // = UI Callbacks = //
-
-        public void ShowAvailableMercs()
-        {
-            this.InstantiateUI<MercManagePopup>(ManageMercsObject).AssignCallback(() =>
-            {
-                UpdateSlotsUI();
-            });
         }
     }
 }

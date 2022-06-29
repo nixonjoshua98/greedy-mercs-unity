@@ -5,7 +5,7 @@ namespace GM.Common
 {
     public static class Serialization
     {
-        public static bool TryDeserialize<T>(in string text, out T model)
+        public static bool TryDeserialize<T>(string text, out T model)
         {
             model = default;
 

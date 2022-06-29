@@ -1,4 +1,4 @@
-﻿namespace GM.PlayerStats
+﻿namespace GM.UserStats
 {
     public class UpdateLifetimeStatsResponse : GM.HTTP.ServerResponse
     {

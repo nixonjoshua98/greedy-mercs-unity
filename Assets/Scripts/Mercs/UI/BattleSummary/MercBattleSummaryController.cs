@@ -26,7 +26,7 @@ namespace GM.Mercs.UI
         public GameObject PopupObject;
 
         List<MercDamageValue> damageValues = new List<MercDamageValue>();
-        MercBattleSummaryPopup SummaryPopup;
+        MercSummaryModal SummaryPopup;
 
         private void Awake()
         {
@@ -61,7 +61,7 @@ namespace GM.Mercs.UI
 
         public void ShowSummary()
         {
-            SummaryPopup = this.InstantiateUI<MercBattleSummaryPopup>(PopupObject);
+            SummaryPopup = this.InstantiateUI<MercSummaryModal>(PopupObject);
 
             UpdateSummaryPopup();
         }

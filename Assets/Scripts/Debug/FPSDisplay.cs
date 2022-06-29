@@ -6,6 +6,14 @@ namespace GM
     {
         private float deltaTime = 0.0f;
 
+        void Awake()
+        {
+            if (!Application.isEditor)
+                Destroy(gameObject);
+            else
+                DontDestroyOnLoad(gameObject);
+        }
+
         private void Update()
         {
             deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;

@@ -30,7 +30,7 @@ namespace GM.Mercs.UI
             MercIconImage.sprite = mercData.Icon;
             NameText.text = mercData.Name;
 
-            DamageText.text = $"{Format.Number(val)} ({Format.Percentage(percent)})";
+            DamageText.text = $"{Format.Number(val)} ({Format.Percentage(percent, dp: 0)})";
 
             DamageSlider.value = percent;
         }

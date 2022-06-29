@@ -5,11 +5,16 @@ using UnityEngine;
 
 namespace GM.Mercs.UI
 {
-    public class MercBattleSummaryPopup : MonoBehaviour
+    public class MercSummaryModal : GM.UI.PopupBase
     {
         [SerializeField] private GameObject MercSummarySlotObject;
         [SerializeField] private Transform MercSlotsParent;
         private readonly List<MercDamageSummarySlot> MercSlots = new List<MercDamageSummarySlot>();
+
+        void Start()
+        {
+            ShowInnerPanel();
+        }
 
         public void UpdateDamageNumbers(List<KeyValuePair<MercID, BigDouble>> dmg)
         {
@@ -40,6 +45,13 @@ namespace GM.Mercs.UI
             MercDamageSummarySlot slot = go.GetComponent<MercDamageSummarySlot>();
 
             MercSlots.Add(slot);
+        }
+
+        /* Callbacks */
+
+        public void CloseModal()
+        {
+            Destroy(gameObject);
         }
     }
 }

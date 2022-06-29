@@ -20,7 +20,7 @@ namespace GM.Core
         public GM.Armoury.Data.ArmouryDataContainer Armoury = new();
         public GM.Bounties.Models.BountiesDataContainer Bounties = new();
         public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();
-        public GM.PlayerStats.PlayerStatsContainer Stats = new();
+        public GM.UserStats.PlayerStatsContainer Stats = new();
 
         [Tooltip("Local Data (ScriptableObjects etc.)")]
         public LocalDataContainer Local;

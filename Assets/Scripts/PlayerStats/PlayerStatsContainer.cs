@@ -1,7 +1,7 @@
 ﻿using GM.HTTP;
 using System;
 
-namespace GM.PlayerStats
+namespace GM.UserStats
 {
     public class PlayerStatsContainer : GM.Core.GMClass
     {

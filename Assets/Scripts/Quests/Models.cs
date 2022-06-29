@@ -1,5 +1,4 @@
-﻿using GM.Common.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace GM.Quests

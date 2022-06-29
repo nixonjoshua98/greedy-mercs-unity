@@ -5,7 +5,7 @@ using GM.Bounties.Requests;
 using GM.BountyShop.Requests;
 using GM.Common;
 using GM.HTTP.Requests;
-using GM.PlayerStats;
+using GM.UserStats;
 using GM.Quests;
 using Newtonsoft.Json;
 using System;

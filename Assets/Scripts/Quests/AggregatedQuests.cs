@@ -1,5 +1,5 @@
 ﻿using GM.Common.Enums;
-using GM.PlayerStats;
+using GM.UserStats;
 
 namespace GM.Quests
 {

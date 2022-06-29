@@ -1,6 +1,6 @@
 using GM.Controllers;
 
-namespace GM.PlayerStats
+namespace GM.UserStats
 {
     public class PlayerStatsManager : GM.Core.GMMonoBehaviour
     {
@@ -17,17 +17,14 @@ namespace GM.PlayerStats
 
         void Start()
         {
-            InvokeRepeating(nameof(SyncLifetimeStatsWithServer), 30.0f, 30.0f);
+            InvokeRepeating(nameof(SyncLifetimeStatsWithServer), 30.0f, 15.0f);
         }
 
         private void SyncLifetimeStatsWithServer()
         {
             App.Stats.UpdateLifetimeStats(success =>
             {
-                if (!success)
-                {
-                    GMLogger.Error("Failed to update account lifetime stats");
-                }
+
             });
         }
 

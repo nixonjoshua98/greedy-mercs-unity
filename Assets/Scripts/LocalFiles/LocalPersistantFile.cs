@@ -1,5 +1,5 @@
 ﻿using GM.Common.Enums;
-using GM.PlayerStats;
+using GM.UserStats;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

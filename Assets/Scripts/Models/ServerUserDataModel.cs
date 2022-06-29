@@ -3,7 +3,7 @@ using GM.Artefacts.Models;
 using GM.Bounties.Models;
 using GM.Inventory;
 using GM.Mercs;
-using GM.PlayerStats;
+using GM.UserStats;
 using GM.Quests;
 using System.Collections.Generic;
 

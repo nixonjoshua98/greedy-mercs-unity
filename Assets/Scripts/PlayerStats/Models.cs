@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GM.PlayerStats
+namespace GM.UserStats
 {
     public class UserAccountStats
     {

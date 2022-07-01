@@ -608,11 +608,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Local:
-    ItemGradesConfigs:
-    - {fileID: 11400000, guid: a03b8d9e4fc415d4eb1ec7e3ecafaced, type: 2}
-    - {fileID: 11400000, guid: 9040f72836bfe63459c8202f74dedc0c, type: 2}
+    ItemGrades:
     - {fileID: 11400000, guid: 7cf27fe1e9b421d4790a8768cd7045d8, type: 2}
-    CurrencyItemsConfig:
+    - {fileID: 11400000, guid: 17f050768975ed7449074be278de2bd9, type: 2}
+    - {fileID: 11400000, guid: 9040f72836bfe63459c8202f74dedc0c, type: 2}
+    - {fileID: 11400000, guid: a03b8d9e4fc415d4eb1ec7e3ecafaced, type: 2}
+    Currencies:
     - {fileID: 11400000, guid: 1be471224c83ee940b97dbac8e7fd5e8, type: 2}
   SaveManager: {fileID: 1454461370}
 --- !u!4 &1127601304

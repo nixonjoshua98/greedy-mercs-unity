@@ -194,7 +194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PopupObject: {fileID: 3648323941193712590, guid: 5b04a7ee8a6472a41b17d0194ff43440,
     type: 3}
-  IconImage: {fileID: 2914145198450589645}
   NameText: {fileID: 4390851993563064579}
   LevelText: {fileID: 1207230886359821541}
   DamageText: {fileID: 8548470125184270777}
@@ -202,6 +201,7 @@ MonoBehaviour:
   EnergyPercentageText: {fileID: 4111410075161880550}
   EnergySlider: {fileID: 5368707854361543249}
   ExcessEnergySlider: {fileID: 1270337369303294379}
+  GradeSlot: {fileID: 4135804076789817527}
   UpgradeButton: {fileID: 7118821718530611054}
 --- !u!1 &631641452793570318
 GameObject:
@@ -2500,7 +2500,7 @@ PrefabInstance:
     - target: {fileID: 6864964119809164234, guid: e510a86f638e5ac4db14b048bf9ff4d1,
         type: 3}
       propertyPath: m_Name
-      value: GenericItemSlot [Base]
+      value: GenericItemSlot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e510a86f638e5ac4db14b048bf9ff4d1, type: 3}
@@ -2520,6 +2520,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4135804076789817527 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 332769490945114205, guid: e510a86f638e5ac4db14b048bf9ff4d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 4466286549137645802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7115176745396036384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f079735b0917a449d739da068de0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7115176745396036384 stripped

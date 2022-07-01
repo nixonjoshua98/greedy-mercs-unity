@@ -1,4 +1,5 @@
 using GM.Common;
+using GM.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,10 +10,7 @@ namespace GM.Mercs.UI
     public class SquadMercSlot : MercUIObject
     {
         [Header("Prefabs")]
-        public GameObject PopupObject;
-
-        [Header("References")]
-        public Image IconImage;
+        [SerializeField] GameObject PopupObject;
 
         [Header("Text Elements")]
         [SerializeField] TMP_Text NameText;
@@ -24,8 +22,11 @@ namespace GM.Mercs.UI
         [Header("Sliders")]
         [SerializeField] Slider EnergySlider;
         [SerializeField] Slider ExcessEnergySlider;
-        [Space]
-        public GM.UI.StackedButton UpgradeButton;
+
+        [Header("References")]
+        [SerializeField] GenericGradeSlot GradeSlot;
+        [SerializeField] StackedButton UpgradeButton;
+
         private int _buyAmount;
         protected int BuyAmount => MathsUtlity.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
 
@@ -48,8 +49,9 @@ namespace GM.Mercs.UI
 
         protected override void OnAssigned()
         {
-            IconImage.sprite = AssignedMerc.Icon;
-            NameText.text    = AssignedMerc.Name;
+            GradeSlot.Intialize(AssignedMerc);
+
+            NameText.text = AssignedMerc.Name;
 
             UpdateUI();
         }

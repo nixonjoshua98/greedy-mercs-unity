@@ -17,7 +17,7 @@ namespace GM.Armoury
         public float LevelEffect;
         public ItemGradeID Grade;
 
-        public ItemGrade GradeConfig;
+        public ItemGradeData GradeConfig;
 
         public AggregatedArmouryItem(int itemId)
         {
@@ -32,7 +32,7 @@ namespace GM.Armoury
             BaseEffect = gameItem.BaseEffect;
             LevelEffect = gameItem.LevelEffect;
 
-            GradeConfig = App.Local.GetItemGradeConfig(Grade);
+            GradeConfig = App.Local.GetItemGrade(Grade);
         }
 
         UserArmouryItem UserModel

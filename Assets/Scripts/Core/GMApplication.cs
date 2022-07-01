@@ -22,7 +22,6 @@ namespace GM.Core
         public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();
         public GM.UserStats.PlayerStatsContainer Stats = new();
 
-        [Tooltip("Local Data (ScriptableObjects etc.)")]
         public LocalDataContainer Local;
 
         [Tooltip("Local Save Manager Singleton")]

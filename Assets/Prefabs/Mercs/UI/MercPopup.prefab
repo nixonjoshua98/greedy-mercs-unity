@@ -1599,8 +1599,8 @@ MonoBehaviour:
   LevelText: {fileID: 3853321653867728563}
   RechargeText: {fileID: 5487116831220217459}
   DamageText: {fileID: 1195997008564013562}
-  IconImage: {fileID: 5758449542301465052}
   PassivesParent: {fileID: 1811190885528273411}
+  GradeSlot: {fileID: 6844999889576158886}
 --- !u!222 &3648323941193712589
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2881,15 +2881,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6512327333965817595}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5758449542301465052 stripped
+--- !u!114 &6844999889576158886 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1552176638190083879, guid: e510a86f638e5ac4db14b048bf9ff4d1,
+  m_CorrespondingSourceObject: {fileID: 332769490945114205, guid: e510a86f638e5ac4db14b048bf9ff4d1,
     type: 3}
   m_PrefabInstance: {fileID: 6512327333965817595}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 47f079735b0917a449d739da068de0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

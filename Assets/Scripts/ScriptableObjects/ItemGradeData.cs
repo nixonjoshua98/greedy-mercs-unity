@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace GM.ScriptableObjects
 {
-    [CreateAssetMenu(menuName = "Scriptables/ItemGrade")]
-    public class ItemGrade : ScriptableObject
+    [CreateAssetMenu(menuName = "Scriptables/ItemGradeData")]
+    public class ItemGradeData : ScriptableObject
     {
         public ItemGradeID Grade;
 

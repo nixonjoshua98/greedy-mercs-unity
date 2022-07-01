@@ -19,11 +19,13 @@ namespace GM.Mercs.UI
         [SerializeField] TMP_Text LevelText;
         [SerializeField] TMP_Text RechargeText;
         [SerializeField] TMP_Text DamageText;
-        [Space]
-        [SerializeField] Image IconImage;
 
         [Header("Transforms")]
         [SerializeField] Transform PassivesParent;
+
+        [Space]
+
+        [SerializeField] GM.UI.GenericGradeSlot GradeSlot;
 
         AggregatedMercData Merc { get => App.Mercs.GetMerc(_mercID); }
 
@@ -45,7 +47,7 @@ namespace GM.Mercs.UI
             RechargeText.text       = $"{Math.Round(Merc.RechargeRate, 2)}s";
             LevelText.text          = $"{Merc.CurrentLevel}";
 
-            IconImage.sprite = Merc.Icon;
+            GradeSlot.Intialize(Merc);
         }
 
         void InstantiatePassiveSlots()

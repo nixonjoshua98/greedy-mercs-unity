@@ -51,6 +51,8 @@ namespace GM.Mercs
 
         public float RechargeRate;
 
+        public ItemGradeID Grade;
+
         [JsonIgnore]
         public Sprite Icon;
 

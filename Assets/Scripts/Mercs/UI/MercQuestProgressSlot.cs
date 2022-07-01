@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 using GM.Common;
+using GM.UI;
 
 namespace GM.Mercs.UI
 {
@@ -14,9 +15,9 @@ namespace GM.Mercs.UI
         [SerializeField] TMP_Text TitleText;
         [SerializeField] TMP_Text DamageText;
         [Space]
+        [SerializeField] GenericGradeSlot GradeSlot;
         [SerializeField] Button CompleteQuestButton;
         [SerializeField] Image ButtonBackgroundImage;
-        [Space]
         [SerializeField] Slider ProgressSlider;
 
         GM.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderBy(x => x.CurrentProgress).LastOrDefault();
@@ -43,7 +44,9 @@ namespace GM.Mercs.UI
             DamageText.text         = $"{Format.Number(merc.BaseDamage)} DMG";
 
             CompleteQuestButton.interactable    = quest.CurrentProgress >= 1.0f;
-            ButtonBackgroundImage.color         = quest.CurrentProgress >= 1.0f ? Constants.Colors.SoftGreen : Constants.Colors.SoftRed;
+            ButtonBackgroundImage.color         = quest.CurrentProgress >= 1.0f ? Constants.Colors.SoftGreen : Constants.Colors.Grey;
+
+            GradeSlot.Intialize(App.Mercs.GetMerc(quest.RewardMercID));
         }
 
         /* Callbacks */

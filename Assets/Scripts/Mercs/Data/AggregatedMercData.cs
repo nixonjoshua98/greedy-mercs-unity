@@ -1,4 +1,5 @@
 using GM.Common.Enums;
+using GM.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -27,6 +28,7 @@ namespace GM.Mercs.Data
         public int BattleEnergyCapacity => 50;
         public int CurrentLevel { get => LocalState.Level; set => LocalState.Level = Mathf.Min(MaxLevel, value); }
         public int MaxLevel => 1_000;
+        public ItemGradeData ItemGrade => App.Local.GetItemGrade(StaticValues.Grade);
         public bool IsMaxLevel => LocalState.Level >= MaxLevel;
         public UnitAttackType AttackType => StaticValues.AttackType;
         public List<MercPassive> Passives => StaticValues.Passives;

@@ -83,7 +83,7 @@ namespace GM.Quests
             }
         }
 
-        public void SendCompleteMercQuest(AbstractAggregatedQuest quest, Action<bool> callback)
+        public void CompleteQuest(AggregatedMercQuest quest, Action<bool> callback)
         {
             App.HTTP.CompleteMercQuest(quest.ID, (resp) =>
             {
@@ -98,7 +98,7 @@ namespace GM.Quests
             });
         }
 
-        public void SendCompleteDailyQuest(AbstractAggregatedQuest quest, Action<bool> callback)
+        public void CompleteQuest(AggregatedDailyQuest quest, Action<bool> callback)
         {
             App.HTTP.CompleteDailyQuest(quest.ID, (resp) =>
             {

@@ -15,8 +15,6 @@ namespace GM.Common
             }
             catch (Exception ex)
             {
-                GMLogger.Exception("DeserializeObject", ex);
-
                 return false;
             }
 

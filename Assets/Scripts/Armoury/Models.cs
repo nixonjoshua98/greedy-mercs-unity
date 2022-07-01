@@ -11,7 +11,7 @@ namespace GM.Armoury.Data
 
         public BonusType BonusType;
 
-        public ItemGrade Grade;
+        public ItemGradeID Grade;
 
         public float BaseEffect;
 

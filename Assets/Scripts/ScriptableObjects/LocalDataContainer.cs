@@ -7,10 +7,10 @@ namespace GM.ScriptableObjects
     [System.Serializable]
     public class LocalDataContainer
     {
-        public List<ItemGradeConfig> ItemGradesConfigs;
+        public List<ItemGrade> ItemGradesConfigs;
         public List<CurrencyConfig> CurrencyItemsConfig;
 
-        public ItemGradeConfig GetItemGradeConfig(ItemGrade grade) => ItemGradesConfigs.FirstOrDefault(x => x.Grade == grade);
+        public ItemGrade GetItemGradeConfig(ItemGradeID grade) => ItemGradesConfigs.FirstOrDefault(x => x.Grade == grade);
         public CurrencyConfig GetCurrencyConfig(CurrencyType type) => CurrencyItemsConfig.FirstOrDefault(x => x.Type == type);
     }
 }

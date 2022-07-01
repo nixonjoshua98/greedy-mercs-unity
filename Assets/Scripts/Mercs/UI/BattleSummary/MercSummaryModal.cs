@@ -1,41 +1,80 @@
 using GM.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using GM.UI;
+using TMPro;
 
 namespace GM.Mercs.UI
 {
     public class MercSummaryModal : GM.UI.PopupBase
     {
-        [SerializeField] private GameObject MercSummarySlotObject;
-        [SerializeField] private Transform MercSlotsParent;
-        private readonly List<MercDamageSummarySlot> MercSlots = new List<MercDamageSummarySlot>();
+        [Header("Text Elements")]
+        [SerializeField] TMP_Text DPSText;
+        [Space]
+        [SerializeField] GameObject MercSummarySlotObject;
+        [SerializeField] Transform MercSlotsParent;
+        [Space]
+        [SerializeField] IntegerSelector Selector;
+
+        List<MercDamageSummarySlot> SummarySlots = new();
+
+        MercBattleSummaryController SummaryController;
+
+        TimeSpan CurrentTimeSpan;
+
+        void Awake()
+        {
+            CurrentTimeSpan = TimeSpan.FromSeconds(Selector.CurrentValue);
+
+            Selector.E_OnChange.AddListener(secs =>
+            {
+                CurrentTimeSpan = TimeSpan.FromSeconds(secs);
+
+                UpdateSummarySlots();
+            });
+        }
 
         void Start()
         {
             ShowInnerPanel();
+
+            InvokeRepeating(nameof(UpdateSummarySlots), 0.0f, 1.0f);
         }
 
-        public void UpdateDamageNumbers(List<KeyValuePair<MercID, BigDouble>> dmg)
+        public void Initialize(MercBattleSummaryController summaryController)
         {
-            MercSlots.ForEach(slot => slot.SetEmpty());
+            SummaryController = summaryController;
+        }
 
-            BigDouble totalDamage = BigDouble.Max(1, dmg.Select(x => x.Value).Sum());
+        void UpdateSummarySlots()
+        {
+            var damageValues = SummaryController.GetDamageValues(CurrentTimeSpan).ToList();
 
-            for (int i = 0; i < Mathf.Max(dmg.Count, MercSlots.Count); ++i)
+            BigDouble totalDamage = BigDouble.Max(1, damageValues.Select(x => x.Value).Sum());
+
+            for (int i = 0; i < Mathf.Max(damageValues.Count, SummarySlots.Count); ++i)
             {
-                if (i >= MercSlots.Count)
-                    InstantiateMercSummarySlot();
+                if (i >= SummarySlots.Count)
+                    InstantiateMercSummarySlot();                
 
-                MercDamageSummarySlot slot = MercSlots[i];
+                MercDamageSummarySlot slot = SummarySlots[i];
 
-                MercID mercId = dmg[i].Key;
-                BigDouble damageDealt = dmg[i].Value;
+                slot.SetEmpty();
 
-                float percent = (float)(damageDealt / totalDamage).ToDouble();
+                if (i < damageValues.Count)
+                {
+                    MercID mercId = damageValues[i].Key;
+                    BigDouble damageDealt = damageValues[i].Value;
 
-                slot.UpdateValues(mercId, damageDealt, percent);
+                    float percent = (float)(damageDealt / totalDamage).ToDouble();
+
+                    slot.UpdateValues(mercId, damageDealt, percent);
+                }
             }
+
+            DPSText.text = Format.Number(totalDamage / SummaryController.GetActualTimeSpan().TotalSeconds);
         }
 
         private void InstantiateMercSummarySlot()
@@ -44,7 +83,7 @@ namespace GM.Mercs.UI
 
             MercDamageSummarySlot slot = go.GetComponent<MercDamageSummarySlot>();
 
-            MercSlots.Add(slot);
+            SummarySlots.Add(slot);
         }
 
         /* Callbacks */

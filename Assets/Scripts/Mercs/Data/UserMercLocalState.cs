@@ -14,9 +14,6 @@ namespace GM.Mercs.Data
         [JsonProperty]
         public float RechargeProgress = 0.0f;
 
-        [JsonProperty]
-        public int EnemiesDefeatedSincePrestige = 0;
-
         private UserMercLocalState() { }
 
         public UserMercLocalState(MercID unit)

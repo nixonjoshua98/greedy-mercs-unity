@@ -51,7 +51,7 @@ namespace GM.Quests.UI
 
         public void ClaimDailyQuest(DailyQuestSlot slot)
         {
-            App.Quests.SendCompleteDailyQuest(slot.Quest, success =>
+            App.Quests.CompleteQuest(slot.Quest, success =>
             {
                 slot.OnClaimResponse(success);
             });

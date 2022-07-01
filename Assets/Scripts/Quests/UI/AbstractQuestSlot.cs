@@ -8,7 +8,7 @@ namespace GM.Quests.UI
     public class ClaimButtonColours
     {
         public Color InProgress = GM.Common.Constants.Colors.Grey;
-        public Color ReadyToComplete = GM.Common.Constants.Colors.Green;
+        public Color ReadyToComplete = GM.Common.Constants.Colors.SoftGreen;
     }
 
     public abstract class AbstractQuestSlot : MonoBehaviour

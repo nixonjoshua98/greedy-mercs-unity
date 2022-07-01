@@ -15,9 +15,9 @@ namespace GM.Armoury
         public BonusType BonusType;
         public float BaseEffect;
         public float LevelEffect;
-        public ItemGrade Grade;
+        public ItemGradeID Grade;
 
-        public ItemGradeConfig GradeConfig;
+        public ItemGrade GradeConfig;
 
         public AggregatedArmouryItem(int itemId)
         {

@@ -42,7 +42,7 @@ namespace GM.UI
             Reset();
 
             Text.text = Format.Number(val);
-            Text.color = val > 0 ? Constants.Colors.Gold : Constants.Colors.Red;
+            Text.color = val > 0 ? Constants.Colors.Gold : Constants.Colors.SoftRed;
         }
 
         public void Set(BigDouble val)
@@ -50,7 +50,7 @@ namespace GM.UI
             Reset();
 
             Text.text = Format.Number(val);
-            Text.color = val > 0 ? Constants.Colors.Gold : Constants.Colors.Red;
+            Text.color = val > 0 ? Constants.Colors.Gold : Constants.Colors.SoftRed;
         }
 
         protected void Reset()

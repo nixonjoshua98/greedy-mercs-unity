@@ -12,7 +12,7 @@ namespace GM.UI
         public int Value;
     }
 
-    public class QuantitySelector : MonoBehaviour
+    public class IntegerSelector : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] TMP_Text OptionButton;

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace GM.ScriptableObjects
 {
-    [CreateAssetMenu(menuName = "Scriptables/ItemGradeConfig")]
-    public class ItemGradeConfig : ScriptableObject
+    [CreateAssetMenu(menuName = "Scriptables/ItemGrade")]
+    public class ItemGrade : ScriptableObject
     {
-        public ItemGrade Grade;
+        public ItemGradeID Grade;
 
         [Header("Appearance")]
         public Sprite BackgroundSprite;

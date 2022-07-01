@@ -10,10 +10,10 @@ namespace GM
         {
             return dmg switch
             {
-                DamageType.Normal => Constants.Colors.Red,
+                DamageType.Normal => Constants.Colors.SoftRed,
                 DamageType.Overcharge => Constants.Colors.SoftBlue,
                 DamageType.CriticalHit => Constants.Colors.Yellow,
-                _ => Constants.Colors.Red
+                _ => Constants.Colors.SoftRed
             };
         }
     }

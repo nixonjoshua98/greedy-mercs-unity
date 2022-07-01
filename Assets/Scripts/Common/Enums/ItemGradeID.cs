@@ -1,6 +1,6 @@
 ﻿namespace GM.Common.Enums
 {
-    public enum ItemGrade
+    public enum ItemGradeID : byte
     {
         None = 0,
         Common = 10,

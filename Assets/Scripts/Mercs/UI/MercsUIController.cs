@@ -11,7 +11,7 @@ namespace GM.Mercs.UI
         public GameObject ManageMercsObject;
 
         [Header("References")]
-        public GM.UI.QuantitySelector QuantitySelector;
+        public GM.UI.IntegerSelector QuantitySelector;
         public Transform SquadMercSlotsParent;
 
         private readonly Dictionary<MercID, MercUIObject> MercSlots = new();
@@ -50,15 +50,6 @@ namespace GM.Mercs.UI
 
             MercSlots.Add(merc, slot);
 
-        }
-
-        private void DestroySlot(MercID mercId)
-        {
-            if (MercSlots.TryGetValue(mercId, out MercUIObject slot))
-            {
-                Destroy(slot.gameObject);
-                MercSlots.Remove(mercId);
-            }
         }
     }
 }

@@ -34,7 +34,7 @@ namespace GM.Quests.UI
 
         public void ClaimDailyQuest(MercQuestSlot slot)
         {
-            App.Quests.SendCompleteMercQuest(slot.Quest, success =>
+            App.Quests.CompleteQuest(slot.Quest, success =>
             {
                 slot.OnClaimResponse(success);
             });

@@ -30,6 +30,7 @@ namespace GM.Common
             public static readonly Color SoftBlue   = Color255(0, 128, 255);
             public static readonly Color SoftRed    = Color255(200, 0, 0);
 
+            public static readonly Color Purple = Color255(218, 0, 255);
             public static readonly Color Orange = Color255(216, 128, 8);
             public static readonly Color Grey = Color255(128, 128, 128);
             public static readonly Color Gold = Color255(212, 175, 55);

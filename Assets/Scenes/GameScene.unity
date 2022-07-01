@@ -11724,6 +11724,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MercQuestProgressSlot
       objectReference: {fileID: 0}
+    - target: {fileID: 3696963071278223395, guid: 338b4a204abbafb4cbb74438662903d0,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7410311475647552247, guid: 338b4a204abbafb4cbb74438662903d0,
         type: 3}
       propertyPath: m_AnchorMax.x

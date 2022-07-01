@@ -11,6 +11,7 @@ namespace GM.Mercs.UI
     {
         [Header("Prefabs")]
         [SerializeField] GameObject PopupObject;
+        [SerializeField] GameObject PassiveIcon;
 
         [Header("Text Elements")]
         [SerializeField] TMP_Text NameText;
@@ -23,7 +24,9 @@ namespace GM.Mercs.UI
         [SerializeField] Slider EnergySlider;
         [SerializeField] Slider ExcessEnergySlider;
 
-        [Header("References")]
+        [Space]
+
+        [SerializeField] Transform PassiveIconsParent;
         [SerializeField] GenericGradeSlot GradeSlot;
         [SerializeField] StackedButton UpgradeButton;
 
@@ -49,11 +52,23 @@ namespace GM.Mercs.UI
 
         protected override void OnAssigned()
         {
+            InstantiatePassiveIcons();
+
             GradeSlot.Intialize(AssignedMerc);
 
             NameText.text = AssignedMerc.Name;
 
             UpdateUI();
+        }
+
+        void InstantiatePassiveIcons()
+        {
+            foreach (var passive in AssignedMerc.Passives)
+            {
+                var slot = this.Instantiate<MercSlotPassiveIcon>(PassiveIcon, PassiveIconsParent);
+
+                slot.Initialize(AssignedMerc, passive.PassiveID);
+            }
         }
 
         private void UpdateUI()

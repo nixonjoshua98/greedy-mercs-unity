@@ -25,6 +25,8 @@ namespace GM.Bounties.UI
             _bountyId = bountyId;
 
             UpdateUI();
+
+            InvokeRepeating(nameof(UpdateUI), 0.0f, 0.25f);
         }
 
         public void UpdateUI()

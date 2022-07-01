@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using System.Linq;
 using GM.Common;
 using GM.UI;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace GM.Mercs.UI
 {
@@ -20,11 +18,11 @@ namespace GM.Mercs.UI
         [SerializeField] Image ButtonBackgroundImage;
         [SerializeField] Slider ProgressSlider;
 
-        GM.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderBy(x => x.CurrentProgress).LastOrDefault();
+        GM.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderByDescending(x => x.CurrentProgress).ThenBy(x => x.ID).FirstOrDefault();
 
         public void Awake()
         {
-            InvokeRepeating(nameof(UpdateUI), 0.0f, 1.0f);
+            InvokeRepeating(nameof(UpdateUI), 0.0f, 0.5f);
         }
 
         void UpdateUI()

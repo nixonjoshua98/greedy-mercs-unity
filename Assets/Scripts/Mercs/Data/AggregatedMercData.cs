@@ -36,6 +36,7 @@ namespace GM.Mercs.Data
         public float BaseDamage => StaticValues.BaseDamage;
         public BigDouble DamagePerAttack => App.Values.MercDamagePerAttack(this);
         public BigDouble AttackDamage(int level) => App.Values.MercDamagePerAttack(this, level);
+        public bool IsPassiveUnlocked(int passiveId) => UnlockedPassives.FirstOrDefault(x => x.PassiveID == passiveId) is not null;
         public BigDouble UpgradeCost(int numLevels) => App.Values.MercUpgradeCost(this, numLevels);
     }
 }

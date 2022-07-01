@@ -12,7 +12,6 @@ namespace GM.Mercs.Data
         private List<UserMercLocalState> LocalStates => App.LocalStateFile.MercStates;
 
         private Dictionary<MercID, StaticMercData> StaticMercs = new();
-        private Dictionary<MercID, UserMercState> UserMercStates = new();
 
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
@@ -21,8 +20,6 @@ namespace GM.Mercs.Data
         /// </summary>
         public void Set(List<UserMercState> userMercs, StaticMercsModel staticData)
         {
-            UserMercStates = userMercs.ToDictionary(x => x.ID, x => x);
-
             UpdateLocalStateFile(userMercs);            
             SetStaticData(staticData);
         }
@@ -51,16 +48,7 @@ namespace GM.Mercs.Data
             E_OnMercUnlocked.Invoke(mercId);
         }
 
-        public bool TryGetMercState(MercID id, out UserMercLocalState state)
-        {
-            state = LocalStates.FirstOrDefault(x => x.ID == id);
-
-            return state is not null;
-        }
-
         public UserMercLocalState GetLocalStateOrNull(MercID id) => LocalStates.FirstOrDefault(x => x.ID == id);
-
-        public UserMercState GetUserStateOrNull(MercID id) => UserMercStates.Get(id, null);
 
         /// <summary>
         /// Update the internal static game data we have

@@ -1,5 +1,6 @@
 ﻿using GM.Common.Enums;
 using GM.UserStats;
+using System;
 
 namespace GM.Quests
 {
@@ -35,8 +36,8 @@ namespace GM.Quests
                     QuestActionType.EnemiesDefeated => stats.TotalEnemiesDefeated / (float)LongValue,
                     QuestActionType.BossesDefeated => stats.TotalBossesDefeated / (float)LongValue,
                     QuestActionType.Taps => stats.TotalTaps / (float)LongValue,
-                    QuestActionType.StageReached => stats.HighestPrestigeStage / (float)LongValue,
-                    _ => throw new System.Exception()
+                    QuestActionType.StageReached => Math.Max(App.GameState.Stage, App.Stats.ConfirmedLifetimeStats.HighestPrestigeStage) / (float)LongValue,
+                    _ => throw new Exception(nameof(CurrentProgress))
                 };
             }
         }

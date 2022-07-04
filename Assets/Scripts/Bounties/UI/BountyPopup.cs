@@ -9,7 +9,6 @@ namespace GM.Bounties.UI
     public class BountyPopup : GM.UI.PopupBase
     {
         [Header("Text Elements")]
-        [SerializeField] TMP_Text NameText;
         [SerializeField] TMP_Text IncomeText;
         [SerializeField] TMP_Text BonusText;
         [SerializeField] TMP_Text DescriptionText;
@@ -40,8 +39,7 @@ namespace GM.Bounties.UI
         void UpdateUI()
         {
             IconImage.sprite            = _assignedBounty.Icon;
-            NameText.text               = _assignedBounty.Name;
-            LevelText.text              = $"Lvl. <color=orange>{_assignedBounty.Level}</color>";
+            LevelText.text              = $"Lv <color=orange>{_assignedBounty.Level}</color>";
             IncomeText.text             = $"Produces <color=white>{_assignedBounty.Income}</color>";
             BonusText.text              = Format.BonusValue(_assignedBounty.BonusType, _assignedBounty.BonusValue);
             DescriptionText.text        = _assignedBounty.Description;

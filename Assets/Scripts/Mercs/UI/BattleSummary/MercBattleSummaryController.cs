@@ -53,7 +53,7 @@ namespace GM.Mercs.UI
 
         public void ShowSummary()
         {
-            this.InstantiateUI<MercSummaryModal>(PopupObject).Initialize(this);
+            this.InstantiateUI<MercSummaryPanel>(PopupObject).Initialize(this);
         }
 
         void OnDamageDealt(MercID mercId, BigDouble dmg)

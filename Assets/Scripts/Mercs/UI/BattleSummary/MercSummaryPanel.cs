@@ -8,7 +8,7 @@ using TMPro;
 
 namespace GM.Mercs.UI
 {
-    public class MercSummaryModal : GM.UI.PopupBase
+    public class MercSummaryPanel : GM.UI.PopupBase
     {
         [Header("Text Elements")]
         [SerializeField] TMP_Text DPSText;

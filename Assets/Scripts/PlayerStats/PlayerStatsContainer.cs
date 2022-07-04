@@ -6,6 +6,8 @@ namespace GM.UserStats
     public class PlayerStatsContainer : GM.Core.GMClass
     {
         public LifetimeStatsModel ConfirmedLifetimeStats;
+
+        // I don't like accessing the persistant file directly so we proxy the value through this property
         public LifetimeStatsModel LocalLifetimeStats { get => App.PersistantLocalFile.LocalLifetimeStats; set => App.PersistantLocalFile.LocalLifetimeStats = value; }
 
         public TimedPlayerStatsModel LocalDailyStats => App.PersistantLocalFile.LocalDailyStats;

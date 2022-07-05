@@ -11,10 +11,9 @@ namespace GM.BountyShop.UI
     public class BountyShopCurrencyItemModal : AbstractBountyShopItemModal
     {
         [Header("Components")]
+        [SerializeField] GenericGradeSlot GradeSlot;
         [SerializeField] TMP_Text TitleText;
         [SerializeField] TMP_Text CostText;
-        [Space]
-        [SerializeField] Image Icon;
 
         [Header("Buttons")]
         [SerializeField] Button CloseButton;
@@ -33,7 +32,7 @@ namespace GM.BountyShop.UI
             TitleText.text = $"<color=orange>{item.Quantity}x</color> {item.Item.DisplayName}";
             CostText.text = item.PurchaseCost.ToString();
 
-            Icon.sprite = item.Item.Icon;
+            GradeSlot.Intialize(Common.Enums.ItemGradeID.None, item.Icon);
 
             ShowInnerPanel();
         }

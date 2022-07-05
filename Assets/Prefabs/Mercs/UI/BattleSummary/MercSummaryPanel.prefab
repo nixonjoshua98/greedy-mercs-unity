@@ -377,8 +377,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2212158617869708116}
   - {fileID: 662086778032721464}
+  - {fileID: 2212158617869708116}
   - {fileID: 3031242312133739641}
   m_Father: {fileID: 6557525899466346685}
   m_RootOrder: 2
@@ -856,7 +856,7 @@ RectTransform:
   - {fileID: 8007875758802197992}
   - {fileID: 3516008827009261480}
   m_Father: {fileID: 532952414963327468}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1550,8 +1550,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -90}
-  m_SizeDelta: {x: 0, y: -180}
+  m_AnchoredPosition: {x: 0, y: -82.5}
+  m_SizeDelta: {x: 0, y: -165}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6609308552531706954
 CanvasRenderer:
@@ -1601,12 +1601,37 @@ PrefabInstance:
     - target: {fileID: 7784500133554750842, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: m_text
-      value: 15 minutes
+      value: 15 Mins
       objectReference: {fileID: 0}
     - target: {fileID: 7784500133554750842, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: m_fontSize
-      value: 64.1
+      value: 59.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784500133554750842, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784500133554750845, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784500133554750845, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784500133554750845, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784500133554750845, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7784500134739054155, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
@@ -1636,7 +1661,7 @@ PrefabInstance:
     - target: {fileID: 7784500135061055420, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7784500135061055420, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
@@ -1666,7 +1691,7 @@ PrefabInstance:
     - target: {fileID: 7784500135061055420, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 90
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 7784500135061055420, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
@@ -1736,7 +1761,7 @@ PrefabInstance:
     - target: {fileID: 7784500135061055421, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: Options.Array.data[0].Label
-      value: 5 Minutes
+      value: 5 Mins
       objectReference: {fileID: 0}
     - target: {fileID: 7784500135061055421, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
@@ -1746,22 +1771,22 @@ PrefabInstance:
     - target: {fileID: 7784500135061055421, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: Options.Array.data[1].Label
-      value: 15 Minutes
+      value: 10 Mins
       objectReference: {fileID: 0}
     - target: {fileID: 7784500135061055421, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: Options.Array.data[1].Value
-      value: 900
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7784500135061055421, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: Options.Array.data[2].Label
-      value: 30 Minutes
+      value: 15 Mins
       objectReference: {fileID: 0}
     - target: {fileID: 7784500135061055421, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}
       propertyPath: Options.Array.data[2].Value
-      value: 1800
+      value: 900
       objectReference: {fileID: 0}
     - target: {fileID: 7784500135061055423, guid: 08f9a1f0876b3e54eb24ab4911f551b6,
         type: 3}

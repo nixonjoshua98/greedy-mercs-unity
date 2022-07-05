@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using GM.Common.Enums;
+using GM.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace GM.UI
 {
@@ -15,8 +14,23 @@ namespace GM.UI
         public void Intialize(GM.Mercs.Data.AggregatedMercData merc)
         {
             IconImage.sprite = merc.Icon;
-            BackgroundImage.sprite = merc.ItemGrade.BackgroundSprite;
-            BorderImage.color = merc.ItemGrade.FrameColour;
+
+            SetBasicUI(merc.ItemGrade);
+        }
+
+        public void Intialize(ItemGradeID grade, Sprite icon)
+        {
+            var config = App.Local.GetItemGrade(grade);
+
+            SetBasicUI(config);
+
+            IconImage.sprite = icon;
+        }
+
+        void SetBasicUI(ItemGradeData grade)
+        {
+            BackgroundImage.sprite = grade.BackgroundSprite;
+            BorderImage.color = grade.FrameColour;
         }
     }
 }

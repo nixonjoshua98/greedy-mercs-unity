@@ -2,7 +2,7 @@
 using GM.Common.Enums;
 using GM.ScriptableObjects;
 using Newtonsoft.Json;
-
+using UnityEngine;
 
 namespace GM.BountyShop.Data
 {
@@ -20,6 +20,9 @@ namespace GM.BountyShop.Data
     {
         public CurrencyType CurrencyType;
         public int Quantity;
+
+        [JsonIgnore]
+        public Sprite Icon => Item.Icon;
 
         [JsonIgnore]
         public CurrencyConfig Item => App.Local.GetCurrency(CurrencyType);

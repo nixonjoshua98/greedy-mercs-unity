@@ -589,7 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a4f41d99489fd4d9061c621e588c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PurchaseModalObject: {fileID: 6090521532411639644, guid: 516ae3534b5a69b42a04dddfe6aa93f4,
+  PurchaseModalObject: {fileID: 6601900933268004223, guid: 9d19743b4fbe96243a006cfb7ebd3a24,
     type: 3}
   ItemImage: {fileID: 7293889158906949717}
   CostText: {fileID: 291380473}

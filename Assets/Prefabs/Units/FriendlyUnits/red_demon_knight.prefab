@@ -78,10 +78,10 @@ MonoBehaviour:
   ID: 2
   Movement: {fileID: 9182918656529223324}
   Attack: {fileID: 9182918656529223323}
-  OnDamageDealt:
+  E_OnDamageDealt:
     m_PersistentCalls:
       m_Calls: []
-  E_OnZeroEnergy:
+  E_OnEnemyDefeated:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &9182918655072287151

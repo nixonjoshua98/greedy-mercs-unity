@@ -16,19 +16,22 @@ namespace GM.UI
     {
         [Header("References")]
         [SerializeField] TMP_Text OptionButton;
-        [Space]
+
+        [Header("Initialization")]
+        [SerializeField] int _IntialIndex = 0;
         [SerializeField] List<QuantitySelectorOption> Options = new();
-
-        int CurrentIndex = 0;
-        QuantitySelectorOption Current => Options[CurrentIndex];
-
-        public int CurrentValue => Current.Value;
 
         [Header("Events")]
         [HideInInspector] public UnityEvent<int> E_OnChange = new();
 
+        int CurrentIndex;
+        QuantitySelectorOption Current => Options[CurrentIndex];
+        public int CurrentValue => Current.Value;
+
         void Awake()
         {
+            CurrentIndex = _IntialIndex;
+
             UpdateButton();
         }
 

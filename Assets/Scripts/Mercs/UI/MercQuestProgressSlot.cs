@@ -20,7 +20,15 @@ namespace GM.Mercs.UI
 
         GM.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderByDescending(x => x.CurrentProgress).ThenBy(x => x.ID).FirstOrDefault();
 
-        public void Awake()
+        void Awake()
+        {
+            if (MercQuest is null)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        void Start()
         {
             InvokeRepeating(nameof(UpdateUI), 0.0f, 0.5f);
         }
@@ -29,17 +37,11 @@ namespace GM.Mercs.UI
         {
             var quest = MercQuest;
 
-            if (MercQuest is null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
             var merc = App.Mercs.GetMerc(quest.RewardMercID);
 
             TitleText.text          = quest.Title;
             ProgressSlider.value    = quest.CurrentProgress;
-            DamageText.text         = $"{Format.Number(merc.BaseDamage)} DMG";
+            DamageText.text         = $"<color=orange>{Format.Number(merc.BaseDamage)}</color> DMG";
 
             CompleteQuestButton.interactable    = quest.CurrentProgress >= 1.0f;
             ButtonBackgroundImage.color         = quest.CurrentProgress >= 1.0f ? Constants.Colors.SoftGreen : Constants.Colors.Grey;
@@ -51,11 +53,18 @@ namespace GM.Mercs.UI
 
         public void OnCompleteQuestButton()
         {
-            if (MercQuest is not null && MercQuest.CurrentProgress >= 1.0f)
+            if (MercQuest.CurrentProgress >= 1.0f)
             {
                 App.Quests.CompleteQuest(MercQuest, (success) =>
                 {
-                    UpdateUI();
+                    if (MercQuest is null)
+                    {
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        UpdateUI();
+                    }
                 });
             }
         }

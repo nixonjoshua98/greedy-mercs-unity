@@ -27,7 +27,7 @@ namespace GM.Quests
                 {
                     QuestType.MercQuest => App.Stats.ConfirmedLifetimeStats,
                     QuestType.DailyQuest => App.Stats.LocalDailyStats,
-                    _ => throw new System.Exception()
+                    _ => throw new Exception()
                 };
 
                 return ActionType switch
@@ -36,7 +36,7 @@ namespace GM.Quests
                     QuestActionType.EnemiesDefeated => stats.TotalEnemiesDefeated / (float)LongValue,
                     QuestActionType.BossesDefeated => stats.TotalBossesDefeated / (float)LongValue,
                     QuestActionType.Taps => stats.TotalTaps / (float)LongValue,
-                    QuestActionType.StageReached => Math.Max(App.GameState.Stage, App.Stats.ConfirmedLifetimeStats.HighestPrestigeStage) / (float)LongValue,
+                    QuestActionType.StageReached => App.GameState.Stage / (float)LongValue, // Refers to current stage (not prestige stage)
                     _ => throw new Exception(nameof(CurrentProgress))
                 };
             }
@@ -57,9 +57,9 @@ namespace GM.Quests
     {
         public MercID RewardMercID;
 
-        public AggregatedMercQuest() : base(QuestType.MercQuest)
+        public AggregatedMercQuest(MercQuest quest) : base(QuestType.MercQuest)
         {
-
+            RewardMercID = quest.RewardMercID;
         }
     }
 

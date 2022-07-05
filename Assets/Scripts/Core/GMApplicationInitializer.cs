@@ -3,6 +3,10 @@ using GM.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*
+ * This needs reworking
+ */
+
 namespace GM.Core
 {
     internal struct InitialisationData
@@ -61,11 +65,12 @@ namespace GM.Core
         {
             GMApplication app = GMApplication.Instance;
 
-            app.Initialize();
+            app.Initialize(Data.UserData, Data.StaticData);
 
-            app.UpdateDataContainers(Data.UserData, Data.StaticData);
-
-            SceneManager.LoadSceneAsync("GameScene");
+            app.Quests.FetchQuests((success) =>
+            {
+                SceneManager.LoadSceneAsync("GameScene");
+            });
         }
     }
 }

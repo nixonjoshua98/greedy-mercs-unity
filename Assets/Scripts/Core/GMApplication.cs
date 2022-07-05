@@ -53,12 +53,14 @@ namespace GM.Core
             DontDestroyOnLoad(this);
         }
 
-        public void Initialize()
+        public void Initialize(IServerUserData userData, IStaticGameData staticData)
         {
             GMLogger.Editor(Application.persistentDataPath);
 
             LocalPersistantFile.LoadFromFile(out PersistantLocalFile);
             LocalStateFile.LoadFromFile(out LocalStateFile);
+
+            UpdateDataContainers(userData, staticData);
         }
 
         public void UpdateDataContainers(IServerUserData userData, IStaticGameData staticData)

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GM.Common.Enums;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace GM.Quests
@@ -29,7 +30,7 @@ namespace GM.Quests
 
     public class MercQuest : AbstractQuest
     {
-        public int RewardMercID;
+        public MercID RewardMercID;
     }
 
     public class DailyQuest : AbstractQuest

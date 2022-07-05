@@ -67,19 +67,15 @@ namespace GM.Quests
         {
             get
             {
-                List<AggregatedMercQuest> ls = new();
-
-                MercQuestsModels.ForEach(quest =>
+                return MercQuestsModels.Select(quest =>
                 {
-                    ls.Add(new()
+                    return new AggregatedMercQuest(quest)
                     {
                         ID = quest.ID,
                         ActionType = quest.ActionType,
                         LongValue = quest.LongValue
-                    });
-                });
-
-                return ls;
+                    };
+                }).ToList();                
             }
         }
 

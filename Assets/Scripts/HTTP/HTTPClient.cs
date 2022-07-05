@@ -8,6 +8,7 @@ using GM.HTTP.Requests;
 using GM.UserStats;
 using GM.Quests;
 using Newtonsoft.Json;
+using GM.HTTP.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,23 +52,6 @@ namespace GM.HTTP
 
         public bool IsOffline { get; private set; }
 
-        private UnityWebRequest CreateWebRequest(string method, string url, object request, bool encrypt = false)
-        {
-            url = ResolveURL(url);
-
-            UnityWebRequest www = method switch
-            {
-                "GET" => UnityWebRequest.Get(url),
-                "PUT" => UnityWebRequest.Put(url, SerializeRequest(request, encrypt)),
-                _ => throw new Exception()
-            };
-
-
-            www.timeout = 3;
-
-            return www;
-        }
-
         protected void SendRequest<TResponse>(string method, string url, object request, bool encrypt, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
             if (IsOffline)
@@ -87,6 +71,23 @@ namespace GM.HTTP
             {
                 ResponseHandler(www, action);
             }));
+        }
+
+        private UnityWebRequest CreateWebRequest(string method, string url, object request, bool encrypt = false)
+        {
+            url = ResolveURL(url);
+
+            UnityWebRequest www = method switch
+            {
+                "GET" => UnityWebRequest.Get(url),
+                "PUT" => UnityWebRequest.Put(url, SerializeRequest(request, encrypt)),
+                _ => throw new Exception()
+            };
+
+
+            www.timeout = 3;
+
+            return www;
         }
 
         private IEnumerator SendRequest(UnityWebRequest www, Action action)
@@ -198,9 +199,9 @@ namespace GM.HTTP
 
         public void CompleteMercQuest(int questId, Action<CompleteMercQuestResponse> action)
         {
-            var req = new { QuestID = questId };
+            var req = new { QuestID = questId, GameState = LocalGameStateRequestModel.Create(App) };
 
-            SendRequest("PUT", "Quests/Merc", req, encrypt: false, action);
+            SendRequest("PUT", "Quests/Merc", req, encrypt: true, action);
         }
 
         public void CompleteDailyQuest(int questId, Action<CompleteDailyQuestResponse> action)

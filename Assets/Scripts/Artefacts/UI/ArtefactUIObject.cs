@@ -2,22 +2,22 @@ namespace GM.Artefacts.UI
 {
     public abstract class ArtefactUIObject : GM.Core.GMMonoBehaviour
     {
-        private int AssignedArtefactId = -1;
+        private int ArtefactID = -1;
 
-        public virtual void AssignArtefact(int artefactId)
+        protected Data.AggregatedArtefactData Artefact => App.Artefacts.GetArtefact(ArtefactID);
+
+        public virtual void Intialize(int artefactId)
         {
-            AssignedArtefactId = artefactId;
+            ArtefactID = artefactId;
 
-            OnAssigned();
+            OnIntialize();
         }
 
-        protected virtual void OnAssigned() { }
-
-        protected Data.AggregatedArtefactData AssignedArtefact => App.Artefacts.GetArtefact(AssignedArtefactId);
+        protected virtual void OnIntialize() { }
 
         protected string GetBonusText()
         {
-            return Format.BonusValue(AssignedArtefact.Bonus, AssignedArtefact.Effect, "orange");
+            return Format.BonusValue(Artefact.Bonus, Artefact.Effect, "orange");
         }
     }
 }

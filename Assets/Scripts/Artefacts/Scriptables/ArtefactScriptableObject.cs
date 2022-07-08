@@ -9,6 +9,5 @@ namespace GM.Artefacts.Scriptables
         public int Id => int.Parse(name.Split('_')[0]);
 
         public Sprite Icon;
-        public Sprite IconBackground;
     }
 }

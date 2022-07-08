@@ -1,6 +1,7 @@
 using GM.Artefacts.Models;
 using UnityEngine;
-using BonusType = GM.Common.Enums.BonusType;
+using GM.Common.Enums;
+using GM.ScriptableObjects;
 
 namespace GM.Artefacts.Data
 {
@@ -8,7 +9,7 @@ namespace GM.Artefacts.Data
     {
         public readonly int Id;
 
-        private ArtefactGameDataModel Game => App.Artefacts.GetGameArtefact(Id);
+        private Artefact Game => App.Artefacts.GetGameArtefact(Id);
 
         private ArtefactUserDataModel User => App.Artefacts.GetUserArtefact(Id);
 
@@ -24,7 +25,8 @@ namespace GM.Artefacts.Data
         public float LevelEffect => Game.LevelEffect;
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
-        public Sprite IconBackground => Game.IconBackground;
+        public ItemGradeID GradeID => Game.GradeID;
+        public ItemGradeData Grade => App.Local.GetItemGrade(Game.GradeID);
         public BonusType Bonus => Game.Bonus;
         public float BaseEffect => Game.BaseEffect;
         public float CostExpo => Game.CostExpo;

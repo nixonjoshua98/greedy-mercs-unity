@@ -34,7 +34,7 @@ namespace GM.Bounties.UI
             NameText.text = _bounty.Name;
             IconImage.sprite = _bounty.Icon;
 
-            BonusText.text = $"<color=orange>{Format.Number(_bounty.BonusValue, _bounty.BonusType)}</color> {Format.Bonus(_bounty.BonusType)}";
+            BonusText.text = $"<color=orange>{Format.Number(_bounty.BonusValue, _bounty.BonusType)}</color> {Format.BonusType(_bounty.BonusType)}";
             IncomeText.text = Format.Number(_bounty.Income);
 
             Pillbadge.SetActive(_bounty.CanUpgrade);

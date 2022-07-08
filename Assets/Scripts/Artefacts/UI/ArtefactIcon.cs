@@ -14,12 +14,12 @@ namespace GM.Artefacts.UI
         public Image IconImage;
         public Image BackgroundImage;
 
-        public void Set(ArtefactGameDataModel artefact)
+        public void Set(Artefact artefact)
         {
             IconImage.sprite = artefact.Icon;
 
             if (NameText != null) NameText.text = artefact.Name;
-            if (artefact.IconBackground != null) BackgroundImage.sprite = artefact.IconBackground;
+            //if (artefact.IconBackground != null) BackgroundImage.sprite = artefact.IconBackground;
         }
 
         public void Set(AggregatedArtefactData artefact)

@@ -34,7 +34,7 @@ namespace GM.Artefacts.UI
             // Disable some elements while the animation is running
             DestroyButton.interactable = UnlockButton.interactable = false;
 
-            List<ArtefactGameDataModel> artefacts = App.Artefacts.GameArtefactsList;
+            List<Artefact> artefacts = App.Artefacts.GameArtefactsList;
 
             while (false && animationTimer > 0.0f)
             {
@@ -42,7 +42,7 @@ namespace GM.Artefacts.UI
                 float frameTime = UnityEngine.Random.Range(0.1f, 0.15f);
 
                 // Random artefact
-                ArtefactGameDataModel artefact = artefacts[UnityEngine.Random.Range(0, artefacts.Count - 1)];
+                Artefact artefact = artefacts[UnityEngine.Random.Range(0, artefacts.Count - 1)];
 
                 Icon.Set(artefact);
 

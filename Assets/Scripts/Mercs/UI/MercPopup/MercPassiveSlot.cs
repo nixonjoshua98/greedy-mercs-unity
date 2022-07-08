@@ -15,7 +15,7 @@ namespace GM.Mercs.UI
         public void Initialize(MercPassive passive)
         {
             LevelText.text = $"Lv {passive.UnlockLevel}";
-            BonusText.text = $"<color=orange>{Format.Number(passive.BonusType, passive.BonusValue)}</color> {Format.Bonus(passive.BonusType)}";
+            BonusText.text = $"<color=orange>{Format.Number(passive.BonusType, passive.BonusValue)}</color> {Format.BonusType(passive.BonusType)}";
         }
     }
 }

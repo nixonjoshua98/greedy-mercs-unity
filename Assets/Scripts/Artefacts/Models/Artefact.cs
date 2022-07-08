@@ -4,13 +4,15 @@ using UnityEngine;
 
 namespace GM.Artefacts.Models
 {
-    public class ArtefactGameDataModel
+    public class Artefact
     {
-        [JsonProperty(PropertyName = "artefactId")]
+        [JsonProperty(PropertyName = "ArtefactID")]
         public int ID;
 
-        [JsonProperty(PropertyName = "bonusType")]
+        [JsonProperty(PropertyName = "BonusType")]
         public BonusType Bonus;
+
+        public ItemGradeID GradeID;
 
         public int MaxLevel = 1_000;
         public string Name;
@@ -21,8 +23,5 @@ namespace GM.Artefacts.Models
 
         [JsonIgnore]
         public Sprite Icon;
-
-        [JsonIgnore]
-        public Sprite IconBackground;
     }
 }

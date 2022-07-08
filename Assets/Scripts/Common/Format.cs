@@ -16,29 +16,29 @@ namespace GM
 
         public static string Bonus(BonusType bonusType, BigDouble value)
         {
-            return $"{Number(value, bonusType)} {Bonus(bonusType)}";
+            return $"{Number(value, bonusType)} {BonusType(bonusType)}";
         }
 
         public static string BonusValue(BonusType bonusType, BigDouble value, string colour = "orange")
         {
-            return $"<color={colour}>{Number(value, bonusType)}</color> {Bonus(bonusType)}";
+            return $"<color={colour}>{Number(value, bonusType)}</color> {BonusType(bonusType)}";
         }
 
-        public static string Bonus(BonusType type)
+        public static string BonusType(BonusType type)
         {
             return type switch
             {
-                BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
-                BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
-                BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
-                BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
-                BonusType.MULTIPLY_ALL_DMG => "All Damage",
-                BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
-                BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
-                BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
-                BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
-                BonusType.MULTIPLY_ALL_GOLD => "All Gold",
-                BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
+                Common.Enums.BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
+                Common.Enums.BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
+                Common.Enums.BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
+                Common.Enums.BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                Common.Enums.BonusType.MULTIPLY_ALL_DMG => "All Damage",
+                Common.Enums.BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
+                Common.Enums.BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
+                Common.Enums.BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
+                Common.Enums.BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
+                Common.Enums.BonusType.MULTIPLY_ALL_GOLD => "All Gold",
+                Common.Enums.BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
                 _ => type.ToString(),
             };
         }

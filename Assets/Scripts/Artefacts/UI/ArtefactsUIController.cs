@@ -69,7 +69,7 @@ namespace GM.Artefacts.UI
                 {
                     slot = ArtefactSlots[art.Id] = this.Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
 
-                    slot.Setup(art.Id, UpgradeAmountSelector, ArtefactSlot_OnUpgradeButton);
+                    slot.Intialize(art.Id, UpgradeAmountSelector, ArtefactSlot_OnUpgradeButton);
                 }
 
                 slot.transform.SetSiblingIndex(i + 1);

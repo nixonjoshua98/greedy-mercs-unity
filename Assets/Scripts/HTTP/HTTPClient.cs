@@ -45,7 +45,7 @@ namespace GM.HTTP
         private HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "109.151.23.91"
+            Address = "109.151.15.183"
         };
 
         protected string Token = null;
@@ -223,7 +223,7 @@ namespace GM.HTTP
 
         public void BulkUpgradeArtefacts(Dictionary<int, int> artefacts, Action<BulkArtefactUpgradeResponse> callback)
         {
-            var req = new { Artefacts = artefacts.Select(x => new BulkArtefactUpgrade() { ArtefactID = x.Key, Levels = x.Value }).ToList() };
+            var req = new { Artefacts = artefacts.Select(x => new { ArtefactID = x.Key, Levels = x.Value }).ToList() };
 
             SendRequest("PUT", "Artefacts/BulkUpgrade", req, false, callback);
         }

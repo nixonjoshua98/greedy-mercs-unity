@@ -10,9 +10,9 @@ namespace GM.Artefacts.UI
         [Space]
         public TMP_Text CurrentBonusText;
 
-        protected override void OnAssigned()
+        protected override void OnIntialize()
         {
-            Icon.Set(AssignedArtefact);
+            Icon.Set(Artefact);
 
             CurrentBonusText.text = GetBonusText();
         }

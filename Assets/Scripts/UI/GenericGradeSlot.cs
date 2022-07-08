@@ -2,6 +2,7 @@ using GM.Common.Enums;
 using GM.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
+using GM.Artefacts;
 
 namespace GM.UI
 {
@@ -25,6 +26,13 @@ namespace GM.UI
             SetBasicUI(config);
 
             IconImage.sprite = icon;
+        }
+
+        public void Intialize(GM.Artefacts.Data.AggregatedArtefactData artefact)
+        {
+            IconImage.sprite = artefact.Icon;
+
+            SetBasicUI(artefact.Grade);
         }
 
         void SetBasicUI(ItemGradeData grade)

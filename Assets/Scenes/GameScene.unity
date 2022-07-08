@@ -2470,7 +2470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Group: {fileID: 992716364}
-  InitiallySelected: 1
+  InitiallySelected: 0
   Background: {fileID: 925970507}
   Colours:
     Selected: {r: 0.0627451, g: 0.0627451, b: 0.0627451, a: 1}
@@ -4110,7 +4110,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690453049}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -5779,7 +5779,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 3
     m_Right: 3
-    m_Top: 0
+    m_Top: 10
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 10
@@ -9325,7 +9325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Group: {fileID: 992716364}
-  InitiallySelected: 0
+  InitiallySelected: 1
   Background: {fileID: 1188228947}
   Colours:
     Selected: {r: 0.0627451, g: 0.0627451, b: 0.0627451, a: 1}
@@ -10715,7 +10715,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715904918}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -10741,7 +10741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a18d9ba384a0b47b6ecaeae36abcb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArtefactSlotObject: {fileID: 402859692585156832, guid: 8ea438801c7c87341bac72daab378327,
+  ArtefactSlotObject: {fileID: 4920974541037699035, guid: 6ad1dccd0a2201248b0e659d13698aa6,
     type: 3}
   UnlockArtefactObject: {fileID: 1266166788286124126, guid: 21bdf2f3a52c42844802d45888b7825a,
     type: 3}
@@ -11913,7 +11913,7 @@ GameObject:
   - component: {fileID: 1955807093}
   - component: {fileID: 1955807092}
   m_Layer: 5
-  m_Name: ArtefactsList [Scroll Rect]
+  m_Name: ScrollRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

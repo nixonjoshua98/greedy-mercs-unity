@@ -11,11 +11,11 @@ namespace GM.Artefacts.Data
 {
     public class ArtefactsDataContainer : Core.GMClass
     {
-        private Dictionary<int, ArtefactGameDataModel> StaticModels;
+        private Dictionary<int, Artefact> StaticModels;
         private Dictionary<int, ArtefactUserDataModel> StateModels;
         private readonly Dictionary<int, AggregatedArtefactData> Artefacts = new Dictionary<int, AggregatedArtefactData>();
 
-        public void Set(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> gameArtefacts)
+        public void Set(List<ArtefactUserDataModel> userArtefacts, List<Artefact> gameArtefacts)
         {
             Update(userArtefacts);
             Update(gameArtefacts);
@@ -30,7 +30,7 @@ namespace GM.Artefacts.Data
             StateModels[art.ID] = art;
         }
 
-        public void UpdateAllData(List<ArtefactUserDataModel> userArtefacts, List<ArtefactGameDataModel> staticArtefacts)
+        public void UpdateAllData(List<ArtefactUserDataModel> userArtefacts, List<Artefact> staticArtefacts)
         {
             Update(userArtefacts);
             Update(staticArtefacts);
@@ -51,7 +51,7 @@ namespace GM.Artefacts.Data
         }
 
         /// <summary> Fetch only the static artefact game data </summary>
-        public ArtefactGameDataModel GetGameArtefact(int itemId)
+        public Artefact GetGameArtefact(int itemId)
         {
             return StaticModels[itemId];
         }
@@ -63,7 +63,7 @@ namespace GM.Artefacts.Data
 
 
         /// <summary> Update all artefacts static data </summary>
-        private void Update(List<ArtefactGameDataModel> artefacts)
+        private void Update(List<Artefact> artefacts)
         {
             Dictionary<int, ArtefactScriptableObject> scriptables = LoadScriptableObjects();
 
@@ -72,7 +72,6 @@ namespace GM.Artefacts.Data
                 ArtefactScriptableObject scriptable = scriptables[art.ID];
 
                 art.Icon = scriptable.Icon;
-                art.IconBackground = scriptable.IconBackground;
             });
 
             StaticModels = artefacts.ToDictionary(x => x.ID, x => x);
@@ -84,7 +83,7 @@ namespace GM.Artefacts.Data
         }
 
         public List<AggregatedArtefactData> UserOwnedArtefacts => StateModels.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToList();
-        public List<ArtefactGameDataModel> GameArtefactsList => StaticModels.Values.ToList();
+        public List<Artefact> GameArtefactsList => StaticModels.Values.ToList();
         public AggregatedArtefactData GetArtefact(int artefactId)
         {
             if (!Artefacts.TryGetValue(artefactId, out AggregatedArtefactData result))

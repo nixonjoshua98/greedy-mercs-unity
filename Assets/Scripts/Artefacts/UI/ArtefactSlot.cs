@@ -12,23 +12,27 @@ namespace GM.Artefacts.UI
         [Header("Prefabs")]
         public GameObject ArtefactPopupObject;
 
-        [Header("References")]
-        public Image IconImage;
-        public Image IconBackgroundImage;
+        [Header("Text References")]
+        [SerializeField] TMP_Text QuantityText;
+        [SerializeField] TMP_Text UpgradeCostText;
+        [SerializeField] TMP_Text NameText;
+        [SerializeField] TMP_Text LevelText;
+        [SerializeField] TMP_Text BonusText;
         [Space]
-        public TMP_Text NameText;
-        public TMP_Text LevelText;
-        public TMP_Text BonusText;
-        [Space]
-        public StackedButton UpgradeButton;
-        private Action<int, int> upgradeCallback;
+        [SerializeField] Button UpgradeButton;
+
+        [Header("...")]
+        [SerializeField] GenericGradeSlot GradeSlot;
+
+        private Action<int, int> UpgradeCallback;
+
         private int _BuyAmount; // Raw value. We should use BuyAmount for most cases
 
-        private int BuyAmount => MathsUtlity.NextMultipleMax(AssignedArtefact.CurrentLevel, _BuyAmount, AssignedArtefact.MaxLevel);
+        private int BuyAmount => MathsUtlity.NextMultipleMax(Artefact.CurrentLevel, _BuyAmount, Artefact.MaxLevel);
 
-        public void Setup(int artefactId, AmountSelector selector, Action<int, int> callback)
+        public void Intialize(int artefactId, AmountSelector selector, Action<int, int> callback)
         {
-            upgradeCallback = callback;
+            UpgradeCallback = callback;
 
             // Set the callback for when the user changes the buy amount
             selector.E_OnChange.AddListener(val =>
@@ -41,54 +45,43 @@ namespace GM.Artefacts.UI
             // Assign a default buy amount
             _BuyAmount = selector.Current;
 
-            base.AssignArtefact(artefactId);
+            Intialize(artefactId);
         }
 
-        protected override void OnAssigned()
+        protected override void OnIntialize()
         {
-            SetStaticUI();
+            GradeSlot.Intialize(Artefact);
+
+            NameText.text = Artefact.Name;
+
             UpdateUI();
-        }
-
-        private void SetStaticUI()
-        {
-            NameText.text = AssignedArtefact.Name;
-            IconImage.sprite = AssignedArtefact.Icon;
-
-            if (AssignedArtefact.IconBackground != null) IconBackgroundImage.sprite = AssignedArtefact.IconBackground;
         }
 
         private void UpdateUI()
         {
-            double ugradeCost = AssignedArtefact.UpgradeCost(BuyAmount);
+            double ugradeCost = Artefact.UpgradeCost(BuyAmount);
 
-            UpgradeButton.SetText("MAX LEVEL", "");
+            QuantityText.text       = Artefact.IsMaxLevel ? "Max Level" : $"x{BuyAmount}";
+            UpgradeCostText.text    = Artefact.IsMaxLevel ? "" : Format.Number(ugradeCost);
 
-            if (!AssignedArtefact.IsMaxLevel)
-            {
-                UpgradeButton.SetText($"x{BuyAmount}", Format.Number(ugradeCost));
-            }
+            LevelText.text = $"Lv <color=orange>{Artefact.CurrentLevel}</color>";
+            BonusText.text = $" <color=orange>{Format.Number(Artefact.Effect, Artefact.Bonus)}</color> {Format.BonusType(Artefact.Bonus)}";
 
-            LevelText.text = $"Lvl. <color=orange>{AssignedArtefact.CurrentLevel}</color>";
-            BonusText.text = GetBonusText();
-
-            UpgradeButton.interactable = !AssignedArtefact.IsMaxLevel && ugradeCost < App.Inventory.PrestigePoints;
+            UpgradeButton.interactable = !Artefact.IsMaxLevel && ugradeCost <= App.Inventory.PrestigePoints;
         }
 
+        /* Event Listeners */
 
-
-
-        // == Callbacks == //
         public void OnUpgradeButton()
         {
-            upgradeCallback.Invoke(AssignedArtefact.Id, BuyAmount);
+            UpgradeCallback.Invoke(Artefact.Id, BuyAmount);
 
             UpdateUI();
         }
 
-        public void OnShowPopupButton()
+        public void OnInfoButton()
         {
-            this.InstantiateUI<ArtefactPopup>(ArtefactPopupObject).AssignArtefact(AssignedArtefact.Id);
+            this.InstantiateUI<ArtefactPopup>(ArtefactPopupObject).Intialize(Artefact.Id);
         }
     }
 }

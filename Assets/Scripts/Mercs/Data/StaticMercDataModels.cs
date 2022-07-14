@@ -1,4 +1,4 @@
-﻿using GM.Common.Enums;
+﻿using GM.Enums;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,7 +51,7 @@ namespace GM.Mercs
 
         public float RechargeRate;
 
-        public ItemGradeID Grade;
+        public ItemGrade Grade;
 
         [JsonIgnore]
         public Sprite Icon;

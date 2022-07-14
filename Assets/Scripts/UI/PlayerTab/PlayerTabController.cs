@@ -9,15 +9,15 @@ namespace GM.UI
         [SerializeField] private GameObject QuestsPopupObject;
 
         [Header("References")]
-        [SerializeField] private AmountSelector UpgradeAmountSelector;
+        //[SerializeField] private AmountSelector UpgradeAmountSelector;
         [Space]
         [SerializeField] private TapDamageGoldUpgradeSlot TapUpgradeSlot;
 
         private void Start()
         {
-            UpgradeAmountSelector.E_OnChange.AddListener(TapUpgradeSlot.AmountSelector_ValueChanged);
+            //UpgradeAmountSelector.E_OnChange.AddListener(TapUpgradeSlot.AmountSelector_ValueChanged);
 
-            UpgradeAmountSelector.InvokeChangeEvent();
+            //UpgradeAmountSelector.InvokeChangeEvent();
         }
 
         public void OpenQuestsPopup()

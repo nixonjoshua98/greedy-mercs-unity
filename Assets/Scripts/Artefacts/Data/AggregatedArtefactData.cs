@@ -1,6 +1,6 @@
 using GM.Artefacts.Models;
 using UnityEngine;
-using GM.Common.Enums;
+using GM.Enums;
 using GM.ScriptableObjects;
 
 namespace GM.Artefacts.Data
@@ -25,7 +25,7 @@ namespace GM.Artefacts.Data
         public float LevelEffect => Game.LevelEffect;
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
-        public ItemGradeID GradeID => Game.GradeID;
+        public ItemGrade GradeID => Game.GradeID;
         public ItemGradeData Grade => App.Local.GetItemGrade(Game.GradeID);
         public BonusType Bonus => Game.Bonus;
         public float BaseEffect => Game.BaseEffect;

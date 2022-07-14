@@ -1,7 +1,7 @@
 using GM.Armoury.Data;
-using GM.Common.Enums;
+using GM.Enums;
 using GM.ScriptableObjects;
-using GM.Common.Enums;
+using GM.Enums;
 using UnityEngine;
 
 namespace GM.Armoury
@@ -15,7 +15,7 @@ namespace GM.Armoury
         public BonusType BonusType;
         public float BaseEffect;
         public float LevelEffect;
-        public ItemGradeID Grade;
+        public ItemGrade Grade;
 
         public ItemGradeData GradeConfig;
 

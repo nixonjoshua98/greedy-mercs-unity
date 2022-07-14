@@ -30,11 +30,10 @@ namespace GM.Artefacts.UI
 
         private int BuyAmount => MathsUtlity.NextMultipleMax(Artefact.CurrentLevel, _BuyAmount, Artefact.MaxLevel);
 
-        public void Intialize(int artefactId, AmountSelector selector, Action<int, int> callback)
+        public void Intialize(int artefactId, IntegerSelector selector, Action<int, int> callback)
         {
             UpgradeCallback = callback;
 
-            // Set the callback for when the user changes the buy amount
             selector.E_OnChange.AddListener(val =>
             {
                 _BuyAmount = val;
@@ -43,7 +42,7 @@ namespace GM.Artefacts.UI
             });
 
             // Assign a default buy amount
-            _BuyAmount = selector.Current;
+            _BuyAmount = selector.CurrentValue;
 
             Intialize(artefactId);
         }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using MercID = GM.Common.Enums.MercID;
+using MercID = GM.Enums.MercID;
 
 namespace GM.Mercs.UI
 {

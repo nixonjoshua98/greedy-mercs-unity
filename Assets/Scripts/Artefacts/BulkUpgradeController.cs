@@ -11,27 +11,22 @@ namespace GM.Artefacts
 
     public class BulkUpgradeController : GM.Core.GMClass
     {
-        private DateTime FirstUpdateTime;
         private readonly Action<bool> UpgradeCallback;
-        private readonly float RequestInterval;
         private bool WaitingForResponse;
         private BulkUpgradeChanges UnprocessedChanges;
         private BulkUpgradeChanges RequestChanges;
 
-        public BulkUpgradeController(Action<bool> success, float interval = 3.0f)
+        public BulkUpgradeController(Action<bool> success)
         {
             UpgradeCallback = success;
-            RequestInterval = interval;
         }
 
-        public bool RequestIsReady => (DateTime.UtcNow - FirstUpdateTime).TotalSeconds > RequestInterval && !WaitingForResponse && UnprocessedChanges != null;
+        public bool IsReady => !WaitingForResponse && UnprocessedChanges != null;
 
         public void Add(int artefact, int levels)
         {
             if (UnprocessedChanges == null)
             {
-                FirstUpdateTime = DateTime.UtcNow;
-
                 UnprocessedChanges = new BulkUpgradeChanges();
             }
 
@@ -49,7 +44,7 @@ namespace GM.Artefacts
 
         public void Process()
         {
-            if (RequestIsReady)
+            if (IsReady)
             {
                 WaitingForResponse = true;
                 RequestChanges = UnprocessedChanges;

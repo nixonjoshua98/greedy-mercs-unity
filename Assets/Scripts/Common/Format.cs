@@ -1,12 +1,10 @@
-using GM.Common.Enums;
-using System.Collections.Generic;
+using GM.Enums;
 using System.Numerics;
 
 namespace GM
 {
     public static class Format
     {
-        private static readonly Dictionary<int, string> UnitsTable = new Dictionary<int, string> { { 0, "" }, { 1, "K" }, { 2, "M" }, { 3, "B" }, { 4, "T" }, { 5, "Q" } };
         private static readonly Common.TTLCache FormatCache = new();
 
         public static string Percentage(BigDouble val, int dp = 2)
@@ -28,17 +26,17 @@ namespace GM
         {
             return type switch
             {
-                Common.Enums.BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
-                Common.Enums.BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
-                Common.Enums.BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
-                Common.Enums.BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
-                Common.Enums.BonusType.MULTIPLY_ALL_DMG => "All Damage",
-                Common.Enums.BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
-                Common.Enums.BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
-                Common.Enums.BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
-                Common.Enums.BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
-                Common.Enums.BonusType.MULTIPLY_ALL_GOLD => "All Gold",
-                Common.Enums.BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
+                Enums.BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
+                Enums.BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
+                Enums.BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
+                Enums.BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                Enums.BonusType.MULTIPLY_ALL_DMG => "All Damage",
+                Enums.BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
+                Enums.BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
+                Enums.BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
+                Enums.BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
+                Enums.BonusType.MULTIPLY_ALL_GOLD => "All Gold",
+                Enums.BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
                 _ => type.ToString(),
             };
         }
@@ -71,68 +69,24 @@ namespace GM
 
         public static string Number(BigDouble val, int dp = 2)
         {
-            return FormatCache.Get<string>($"Number/BigDouble/{val}", 60, () =>
+            return FormatCache.Get<string>($"BigDouble/{val}", 60, () =>
             {
-                BigDouble absVal = BigDouble.Abs(val);
-
-                if (absVal < 1_000)
+                if (BigDouble.Abs(val) < 1_000)
                     return val.ToString($"F{dp}");
 
-                else if (BigDouble.Log(absVal, 1000) < UnitsTable.Count)
-                    return BigDouble_Units(val, dp);
-
-                else
-                    return BigDouble_Exponent(val);
+                return val.ToString(StringFormat.Units);
             });
         }
 
         public static string Number(BigInteger val)
         {
-            return FormatCache.Get<string>($"Number/BigInteger/{val}", 60, () =>
+            return FormatCache.Get<string>($"BigInteger/{val}", 60, () =>
             {
-                BigInteger absVal = BigInteger.Abs(val);
-
-                if (absVal < 1_000)
+                if (BigInteger.Abs(val) < 1_000)
                     return val.ToString();
 
-                else if (BigInteger.Log(absVal, 1000) < UnitsTable.Count)
-                    return BigInteger_Units(val);
-
-                else
-                    return BigInteger_Exponent(val);
+                return val.ToString(StringFormat.Units);
             });
-        }
-
-        private static string BigInteger_Exponent(BigInteger val)
-        {
-            return $"{(val < 0 ? "-" : string.Empty)}{val.ToString("E2").Replace("+", "").Replace("E", "e")}";
-        }
-
-        private static string BigInteger_Units(BigInteger val)
-        {
-            BigInteger absVal = BigInteger.Abs(val);
-
-            int n = (int)BigInteger.Log(absVal, 1000);
-
-            BigDouble m = absVal.ToBigDouble() / BigInteger.Pow(1000, n).ToBigDouble();
-
-            return $"{(val < 0 ? "-" : string.Empty)}{m.ToString("F2") + UnitsTable[n]}";
-        }
-
-        private static string BigDouble_Units(BigDouble val, int dp = 2)
-        {
-            BigDouble absVal = BigDouble.Abs(val);
-
-            int n = (int)BigDouble.Log(absVal, 1000);
-
-            BigDouble m = absVal / BigDouble.Pow(1000, n);
-
-            return $"{(val < 0 ? "-" : string.Empty)}{m.ToString($"F{dp}") + UnitsTable[n]}";
-        }
-
-        private static string BigDouble_Exponent(BigDouble val)
-        {
-            return $"{(val < 0 ? "-" : string.Empty)}{val.ToString("E2").Replace("+", "").Replace("E", "e")}";
         }
     }
 }

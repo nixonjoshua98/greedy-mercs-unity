@@ -1,4 +1,4 @@
-using GM.Common.Enums;
+using GM.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

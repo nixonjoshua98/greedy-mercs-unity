@@ -1,4 +1,4 @@
-using GM.Common.Enums;
+using GM.Enums;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace GM.Artefacts.Models
         [JsonProperty(PropertyName = "BonusType")]
         public BonusType Bonus;
 
-        public ItemGradeID GradeID;
+        public ItemGrade GradeID;
 
         public int MaxLevel = 1_000;
         public string Name;

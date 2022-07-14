@@ -40,6 +40,11 @@ namespace GM.UI
             OptionButton.text = Current.Label;
         }
 
+        public void InvokeChange()
+        {
+            E_OnChange?.Invoke(CurrentValue);
+        }
+
         /* Callbacks */
 
         public void OnOptionChange()
@@ -47,8 +52,7 @@ namespace GM.UI
             CurrentIndex = (CurrentIndex + 1) % Options.Count;
 
             UpdateButton();
-
-            E_OnChange.Invoke(CurrentValue);
+            InvokeChange();
         }
     }
 }

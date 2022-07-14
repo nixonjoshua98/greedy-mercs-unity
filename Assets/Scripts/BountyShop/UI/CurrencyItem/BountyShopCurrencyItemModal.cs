@@ -32,7 +32,7 @@ namespace GM.BountyShop.UI
             TitleText.text = $"<color=orange>{item.Quantity}x</color> {item.Item.DisplayName}";
             CostText.text = item.PurchaseCost.ToString();
 
-            GradeSlot.Intialize(Common.Enums.ItemGradeID.None, item.Icon);
+            GradeSlot.Intialize(Enums.ItemGrade.None, item.Icon);
 
             ShowInnerPanel();
         }

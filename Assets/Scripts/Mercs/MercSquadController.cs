@@ -1,4 +1,4 @@
-using GM.Common.Enums;
+using GM.Enums;
 using GM.Mercs.Controllers;
 using GM.Units;
 using System.Collections.Generic;

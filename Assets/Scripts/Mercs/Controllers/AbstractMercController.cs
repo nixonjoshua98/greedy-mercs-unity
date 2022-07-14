@@ -1,5 +1,5 @@
 using GM.Common;
-using GM.Common.Enums;
+using GM.Enums;
 using GM.Controllers;
 using GM.DamageTextPool;
 using GM.Units;

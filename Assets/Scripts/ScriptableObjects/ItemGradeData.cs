@@ -1,4 +1,4 @@
-using GM.Common.Enums;
+using GM.Enums;
 using UnityEngine;
 
 namespace GM.ScriptableObjects
@@ -6,7 +6,7 @@ namespace GM.ScriptableObjects
     [CreateAssetMenu(menuName = "Scriptables/ItemGradeData")]
     public class ItemGradeData : ScriptableObject
     {
-        public ItemGradeID Grade;
+        public ItemGrade Grade;
 
         [Header("Appearance")]
         public Sprite BackgroundSprite;

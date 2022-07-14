@@ -1,6 +1,6 @@
 using GM.Armoury;
 using GM.Common;
-using GM.Common.Enums;
+using GM.Enums;
 using GM.Mercs.Data;
 using System.Collections.Generic;
 using System.Linq;

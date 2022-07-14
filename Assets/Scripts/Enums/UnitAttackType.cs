@@ -1,4 +1,4 @@
-﻿namespace GM.Common.Enums
+﻿namespace GM.Enums
 {
     public enum UnitAttackType
     {

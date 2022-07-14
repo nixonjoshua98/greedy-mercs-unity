@@ -9,7 +9,7 @@ namespace GM.Mercs.UI
 {
     public class MercPopup : GM.UI.PopupBase
     {
-        private GM.Common.Enums.MercID _mercID;
+        private GM.Enums.MercID _mercID;
 
         [Header("Prefabs")]
         [SerializeField] GameObject PassiveSlotObject;

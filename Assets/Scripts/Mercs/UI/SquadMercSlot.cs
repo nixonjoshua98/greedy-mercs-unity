@@ -3,7 +3,7 @@ using GM.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using MercID = GM.Common.Enums.MercID;
+using MercID = GM.Enums.MercID;
 
 namespace GM.Mercs.UI
 {
@@ -17,7 +17,6 @@ namespace GM.Mercs.UI
         [SerializeField] TMP_Text NameText;
         [SerializeField] TMP_Text LevelText;
         [SerializeField] TMP_Text DamageText;
-        [SerializeField] TMP_Text DamageIncreaseText;
         [SerializeField] TMP_Text EnergyPercentageText;
 
         [Header("Sliders")]
@@ -73,7 +72,6 @@ namespace GM.Mercs.UI
 
         private void UpdateUI()
         {
-            UpdateDamageIncreaseText();
             UpdateUpgradeButton();
 
             LevelText.text  = $"Lv <color=orange>{AssignedMerc.CurrentLevel}</color>";
@@ -103,18 +101,6 @@ namespace GM.Mercs.UI
             }
 
             UpgradeButton.interactable = !AssignedMerc.IsMaxLevel && App.Inventory.Gold >= upgradeCost;
-        }
-
-        void UpdateDamageIncreaseText()
-        {
-            DamageIncreaseText.text = string.Empty;
-
-            if (AssignedMerc.IsMaxLevel)
-                return;
-
-            BigDouble dmg = AssignedMerc.AttackDamage(AssignedMerc.CurrentLevel + BuyAmount) - AssignedMerc.DamagePerAttack;
-
-            DamageIncreaseText.text = $"+{Format.Number(dmg)} DMG";       
         }
 
         /* Event Listeners */

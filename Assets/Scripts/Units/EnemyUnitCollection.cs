@@ -1,7 +1,7 @@
 using GM.Mercs.Controllers;
 using System.Collections.Generic;
 using UnityEngine;
-using GM.Common.Enums;
+using GM.Enums;
 using System.Linq;
 
 namespace GM.Units

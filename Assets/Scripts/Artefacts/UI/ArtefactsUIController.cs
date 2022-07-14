@@ -1,34 +1,37 @@
 using GM.Artefacts.Data;
+using GM.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using AmountSelector = GM.UI.AmountSelector;
 
 namespace GM.Artefacts.UI
 {
     public class ArtefactsUIController : GM.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        public GameObject ArtefactSlotObject;
-        public GameObject UnlockArtefactObject;
+        [SerializeField] GameObject ArtefactSlotObject;
+        [SerializeField] GameObject UnlockArtefactObject;
+
+        [Header("Text References")]
+        [SerializeField] TMP_Text UnlockedText;
+        [SerializeField] TMP_Text UnlockCostText;
 
         [Header("References")]
-        public Transform ArtefactsContent;
-        public AmountSelector UpgradeAmountSelector;
-        public TMP_Text UnlockedArtefactsText;
-        [SerializeField] private TMP_Text UnlockArtefactCostText;
-        [SerializeField] private Button UnlockArtefactButton;
-        [SerializeField] private GameObject UnlockArtefactRow;
-        private readonly Dictionary<int, ArtefactSlot> ArtefactSlots = new Dictionary<int, ArtefactSlot>();
-        private BulkUpgradeController BulkUpgrades;
+        [SerializeField] Transform ArtefactsContent;
+        [SerializeField] IntegerSelector LevelsSelector;
+        [SerializeField] Button UnlockArtefactButton;
+        [SerializeField] GameObject UnlockArtefactRow;
+
+        Dictionary<int, ArtefactSlot> ArtefactSlots = new Dictionary<int, ArtefactSlot>();
+        BulkUpgradeController BulkUpgrades;
 
         private void Awake()
         {
             BulkUpgrades = new BulkUpgradeController(success: BulkUpgradeController_OnBulkUpgrade);
 
-            StartCoroutine(_InternalUpdate());
+            InvokeRepeating(nameof(BulkUpgradeRequestLoop), 0.0f, 1.0f);
         }
 
         private void Start()
@@ -39,22 +42,17 @@ namespace GM.Artefacts.UI
             UpdateUI();
         }
 
-        private IEnumerator _InternalUpdate()
+        private void BulkUpgradeRequestLoop()
         {
-            while (true)
+            if (BulkUpgrades.IsReady)
             {
-                yield return new WaitForSecondsRealtime(0.5f);
-
-                if (BulkUpgrades.RequestIsReady)
-                {
-                    BulkUpgrades.Process();
-                }
+                BulkUpgrades.Process();
             }
         }
 
         private void UpdateUI()
         {
-            UnlockedArtefactsText.text = $"<color=white>{App.Artefacts.NumUnlockedArtefacts} of {App.Artefacts.MaxArtefacts}</color> Artefacts Unlocked";
+            UnlockedText.text = $"<color=white>{App.Artefacts.NumUnlockedArtefacts} of {App.Artefacts.MaxArtefacts}</color> Artefacts Unlocked";
         }
 
         private void UpdateArtefactSlots()
@@ -69,7 +67,7 @@ namespace GM.Artefacts.UI
                 {
                     slot = ArtefactSlots[art.Id] = this.Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
 
-                    slot.Intialize(art.Id, UpgradeAmountSelector, ArtefactSlot_OnUpgradeButton);
+                    slot.Intialize(art.Id, LevelsSelector, ArtefactSlot_OnUpgradeButton);
                 }
 
                 slot.transform.SetSiblingIndex(i + 1);
@@ -89,8 +87,22 @@ namespace GM.Artefacts.UI
 
             UnlockArtefactButton.interactable = !App.Artefacts.UserUnlockedAll && App.Inventory.PrestigePoints >= unlockCost;
 
-            UnlockArtefactCostText.text = Format.Number(unlockCost);
+            UnlockCostText.text = Format.Number(unlockCost);
         }
+
+        private void BulkUpgradeController_OnBulkUpgrade(bool success)
+        {
+            LevelsSelector.InvokeChange();
+        }
+
+        private void ArtefactSlot_OnUpgradeButton(int artefactId, int levels)
+        {
+            BulkUpgrades.Add(artefactId, levels);
+
+            LevelsSelector.InvokeChange();
+        }
+
+        /* Callbacks */
 
         public void OnUnlockArtefactButton()
         {
@@ -99,20 +111,8 @@ namespace GM.Artefacts.UI
                 UpdateArtefactSlots();
                 UpdateUnlockArtefactText();
 
-                UpgradeAmountSelector.InvokeChangeEvent(); // Force a UI update
+                LevelsSelector.InvokeChange(); // Force a UI update
             });
-        }
-
-        private void BulkUpgradeController_OnBulkUpgrade(bool success)
-        {
-            UpgradeAmountSelector.InvokeChangeEvent();
-        }
-
-        private void ArtefactSlot_OnUpgradeButton(int artefactId, int levels)
-        {
-            BulkUpgrades.Add(artefactId, levels);
-
-            UpgradeAmountSelector.InvokeChangeEvent();
         }
     }
 }

@@ -11,8 +11,8 @@ namespace GM.Artefacts.UI
 {
     public class UnlockArtefactPopup : Core.GMMonoBehaviour
     {
-        [Header("References")]
-        public ArtefactIcon Icon;
+        //[Header("References")]
+        //public ArtefactIcon Icon;
 
         public GM.UI.DestroyButton DestroyButton;
         public Button UnlockButton;
@@ -29,7 +29,7 @@ namespace GM.Artefacts.UI
             // Fetch a random animation duration
             float animationTimer = UnityEngine.Random.Range(2.5f, 4.0f);
 
-            Icon.IconImage.enabled = true; // Enable the image so we can actually see it
+            //Icon.IconImage.enabled = true; // Enable the image so we can actually see it
 
             // Disable some elements while the animation is running
             DestroyButton.interactable = UnlockButton.interactable = false;
@@ -44,7 +44,7 @@ namespace GM.Artefacts.UI
                 // Random artefact
                 Artefact artefact = artefacts[UnityEngine.Random.Range(0, artefacts.Count - 1)];
 
-                Icon.Set(artefact);
+                //Icon.Set(artefact);
 
                 // Patse for a period of time
                 yield return new WaitForSecondsRealtime(frameTime);
@@ -53,7 +53,7 @@ namespace GM.Artefacts.UI
                 animationTimer -= frameTime;
             }
 
-            Icon.Set(unlockedArtefact);
+            //Icon.Set(unlockedArtefact);
 
             // Re-enable buttons
             DestroyButton.interactable = UnlockButton.interactable = true;

@@ -80,7 +80,7 @@ namespace GM.Artefacts.UI
 
         public void OnInfoButton()
         {
-            this.InstantiateUI<ArtefactPopup>(ArtefactPopupObject).Intialize(Artefact.Id);
+            this.InstantiateUI<ArtefactPanel>(ArtefactPopupObject).Intialize(Artefact.Id);
         }
     }
 }

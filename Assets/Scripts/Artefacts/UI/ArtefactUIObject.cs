@@ -14,10 +14,5 @@ namespace GM.Artefacts.UI
         }
 
         protected virtual void OnIntialize() { }
-
-        protected string GetBonusText()
-        {
-            return Format.BonusValue(Artefact.Bonus, Artefact.Effect, "orange");
-        }
     }
 }

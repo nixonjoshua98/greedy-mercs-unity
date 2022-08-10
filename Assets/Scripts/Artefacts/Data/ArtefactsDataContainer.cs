@@ -13,7 +13,9 @@ namespace GM.Artefacts.Data
     {
         private Dictionary<int, Artefact> StaticModels;
         private Dictionary<int, ArtefactUserDataModel> StateModels;
-        private readonly Dictionary<int, AggregatedArtefactData> Artefacts = new Dictionary<int, AggregatedArtefactData>();
+
+        // NB, We keep a persistant aggregated artefact class since we store state data which we do not want to save
+        private Dictionary<int, AggregatedArtefactData> ArtefactsLookup = new Dictionary<int, AggregatedArtefactData>();
 
         public void Set(List<ArtefactUserDataModel> userArtefacts, List<Artefact> gameArtefacts)
         {
@@ -24,16 +26,13 @@ namespace GM.Artefacts.Data
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
         public int NumUnlockedArtefacts => StateModels.Count;
         public int MaxArtefacts => StaticModels.Count;
+        public double NextUnlockCost => App.Values.ArtefactUnlockCost(NumUnlockedArtefacts);
+        public List<AggregatedArtefactData> Artefacts => StaticModels.Select(x => GetArtefact(x.Value.ID)).ToList();
+        public List<AggregatedArtefactData> LockedArtefacts => Artefacts.Where(x => !StateModels.ContainsKey(x.Id)).ToList();
 
         private void Update(ArtefactUserDataModel art)
         {
             StateModels[art.ID] = art;
-        }
-
-        public void UpdateAllData(List<ArtefactUserDataModel> userArtefacts, List<Artefact> staticArtefacts)
-        {
-            Update(userArtefacts);
-            Update(staticArtefacts);
         }
 
         public void RevertBulkLevelChanges(Dictionary<int, int> artefacts)
@@ -86,8 +85,8 @@ namespace GM.Artefacts.Data
         public List<Artefact> GameArtefactsList => StaticModels.Values.ToList();
         public AggregatedArtefactData GetArtefact(int artefactId)
         {
-            if (!Artefacts.TryGetValue(artefactId, out AggregatedArtefactData result))
-                result = Artefacts[artefactId] = new AggregatedArtefactData(artefactId);
+            if (!ArtefactsLookup.TryGetValue(artefactId, out AggregatedArtefactData result))
+                result = ArtefactsLookup[artefactId] = new AggregatedArtefactData(artefactId);
             return result;
         }
 

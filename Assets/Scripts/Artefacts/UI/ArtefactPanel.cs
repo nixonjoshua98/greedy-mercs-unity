@@ -5,7 +5,7 @@ namespace GM.Artefacts.UI
 {
     public class ArtefactPanel : ArtefactUIObject
     {
-        [SerializeField] GM.UI.GenericGradeSlot GradeSlot;
+        [SerializeField] GM.UI.GenericGradeItem GradeSlot;
 
         [Header("Text References")]
         [SerializeField] TMP_Text CurrentBonusText;

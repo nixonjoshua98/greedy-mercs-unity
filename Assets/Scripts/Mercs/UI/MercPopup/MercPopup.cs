@@ -25,7 +25,7 @@ namespace GM.Mercs.UI
 
         [Space]
 
-        [SerializeField] GM.UI.GenericGradeSlot GradeSlot;
+        [SerializeField] GM.UI.GenericGradeItem GradeSlot;
 
         AggregatedMercData Merc { get => App.Mercs.GetMerc(_mercID); }
 

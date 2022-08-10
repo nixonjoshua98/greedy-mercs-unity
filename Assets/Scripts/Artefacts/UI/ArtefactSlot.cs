@@ -22,7 +22,7 @@ namespace GM.Artefacts.UI
         [SerializeField] Button UpgradeButton;
 
         [Header("...")]
-        [SerializeField] GenericGradeSlot GradeSlot;
+        [SerializeField] GenericGradeItem GradeSlot;
 
         private Action<int, int> UpgradeCallback;
 

@@ -13,7 +13,7 @@ namespace GM.Mercs.UI
         [SerializeField] TMP_Text TitleText;
         [SerializeField] TMP_Text DamageText;
         [Space]
-        [SerializeField] GenericGradeSlot GradeSlot;
+        [SerializeField] GenericGradeItem GradeSlot;
         [SerializeField] Button CompleteQuestButton;
         [SerializeField] Image ButtonBackgroundImage;
         [SerializeField] Slider ProgressSlider;

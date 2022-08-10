@@ -11,7 +11,7 @@ namespace GM.BountyShop.UI
     public class BountyShopCurrencyItemModal : AbstractBountyShopItemModal
     {
         [Header("Components")]
-        [SerializeField] GenericGradeSlot GradeSlot;
+        [SerializeField] GenericGradeItem GradeSlot;
         [SerializeField] TMP_Text TitleText;
         [SerializeField] TMP_Text CostText;
 

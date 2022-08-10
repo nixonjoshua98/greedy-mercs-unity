@@ -1,10 +1,7 @@
 using GM.Artefacts.Data;
 using GM.UI;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GM.Artefacts.UI
 {
@@ -13,16 +10,11 @@ namespace GM.Artefacts.UI
         [Header("Prefabs")]
         [SerializeField] GameObject ArtefactSlotObject;
         [SerializeField] GameObject UnlockArtefactObject;
-
-        [Header("Text References")]
-        [SerializeField] TMP_Text UnlockedText;
-        [SerializeField] TMP_Text UnlockCostText;
+        [SerializeField] GameObject ArtefactsPanelObject;
 
         [Header("References")]
         [SerializeField] Transform ArtefactsContent;
         [SerializeField] IntegerSelector LevelsSelector;
-        [SerializeField] Button UnlockArtefactButton;
-        [SerializeField] GameObject UnlockArtefactRow;
 
         Dictionary<int, ArtefactSlot> ArtefactSlots = new Dictionary<int, ArtefactSlot>();
         BulkUpgradeController BulkUpgrades;
@@ -37,9 +29,6 @@ namespace GM.Artefacts.UI
         private void Start()
         {
             UpdateArtefactSlots();
-            UpdateUnlockArtefactText();
-
-            UpdateUI();
         }
 
         private void BulkUpgradeRequestLoop()
@@ -48,11 +37,6 @@ namespace GM.Artefacts.UI
             {
                 BulkUpgrades.Process();
             }
-        }
-
-        private void UpdateUI()
-        {
-            UnlockedText.text = $"<color=white>{App.Artefacts.NumUnlockedArtefacts} of {App.Artefacts.MaxArtefacts}</color> Artefacts Unlocked";
         }
 
         private void UpdateArtefactSlots()
@@ -74,22 +58,6 @@ namespace GM.Artefacts.UI
             }
         }
 
-        private void UpdateUnlockArtefactText()
-        {
-            if (App.Artefacts.UserUnlockedAll)
-            {
-                if (UnlockArtefactRow is not null)
-                    Destroy(UnlockArtefactRow);
-                return;
-            }
-
-            double unlockCost = App.Values.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
-
-            UnlockArtefactButton.interactable = !App.Artefacts.UserUnlockedAll && App.Inventory.PrestigePoints >= unlockCost;
-
-            UnlockCostText.text = Format.Number(unlockCost);
-        }
-
         private void BulkUpgradeController_OnBulkUpgrade(bool success)
         {
             LevelsSelector.InvokeChange();
@@ -104,12 +72,16 @@ namespace GM.Artefacts.UI
 
         /* Callbacks */
 
-        public void OnUnlockArtefactButton()
+        public void ShowArtefactsPreviewPanel()
+        {
+            this.InstantiateUI<ArtefactsPreviewPanel>(ArtefactsPanelObject);
+        }
+
+        public void UnlockArtefact()
         {
             this.InstantiateUI<UnlockArtefactPopup>(UnlockArtefactObject).Init((artefact) =>
             {
                 UpdateArtefactSlots();
-                UpdateUnlockArtefactText();
 
                 LevelsSelector.InvokeChange(); // Force a UI update
             });

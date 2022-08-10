@@ -20,6 +20,11 @@ namespace GM
             }
         }
 
+        public static T Random<T>(this List<T> source)
+        {
+            return source[UnityEngine.Random.Range(0, source.Count)];
+        }
+
         public static BigDouble Sum(this IEnumerable<BigDouble> source)
         {
             BigDouble total = 0;

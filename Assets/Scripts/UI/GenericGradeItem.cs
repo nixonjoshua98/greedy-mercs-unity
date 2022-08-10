@@ -2,15 +2,32 @@ using GM.Enums;
 using GM.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
-using GM.Artefacts;
 
 namespace GM.UI
 {
-    public class GenericGradeSlot : GM.Core.GMMonoBehaviour
+    public class GenericGradeItem : GM.Core.GMMonoBehaviour
     {
+        [Header("Defaults")]
+        [SerializeField, Tooltip("Optional")] Sprite DefaultIcon;
+        [SerializeField] Sprite DefaultBackground;
+        [SerializeField] Color DefaultBorderColor;
+
+        [Header("Elements")]
         [SerializeField] Image BackgroundImage;
         [SerializeField] Image IconImage;
         [SerializeField] Image BorderImage;
+
+        public void Empty()
+        {
+            BackgroundImage.sprite  = DefaultBackground;
+            IconImage.sprite        = DefaultIcon;
+            BorderImage.color       = DefaultBorderColor;
+
+            if (DefaultIcon == null)
+            {
+                IconImage.color = new(IconImage.color.r, IconImage.color.g, IconImage.color.g, 0);
+            }
+        }
 
         public void Intialize(GM.Mercs.Data.AggregatedMercData merc)
         {

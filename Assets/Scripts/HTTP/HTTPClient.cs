@@ -45,7 +45,7 @@ namespace GM.HTTP
         private HTTPServerConfig ServerConfig = new HTTPServerConfig
         {
             Port = 2122,
-            Address = "109.151.15.183"
+            Address = "109.151.14.51"
         };
 
         protected string Token = null;

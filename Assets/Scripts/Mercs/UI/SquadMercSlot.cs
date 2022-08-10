@@ -26,7 +26,7 @@ namespace GM.Mercs.UI
         [Space]
 
         [SerializeField] Transform PassiveIconsParent;
-        [SerializeField] GenericGradeSlot GradeSlot;
+        [SerializeField] GenericGradeItem GradeSlot;
         [SerializeField] StackedButton UpgradeButton;
 
         private int _buyAmount;

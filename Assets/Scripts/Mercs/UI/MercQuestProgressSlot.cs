@@ -39,12 +39,12 @@ namespace GM.Mercs.UI
 
             var merc = App.Mercs.GetMerc(quest.RewardMercID);
 
-            TitleText.text          = quest.Title;
-            ProgressSlider.value    = quest.CurrentProgress;
-            DamageText.text         = $"<color=orange>{Format.Number(merc.BaseDamage)}</color> DMG";
+            TitleText.text = quest.Title;
+            ProgressSlider.value = quest.CurrentProgress;
+            DamageText.text = $"<color=orange>{Format.Number(merc.BaseDamage)}</color> DMG";
 
-            CompleteQuestButton.interactable    = quest.CurrentProgress >= 1.0f;
-            ButtonBackgroundImage.color         = quest.CurrentProgress >= 1.0f ? Constants.Colors.SoftGreen : Constants.Colors.Grey;
+            CompleteQuestButton.interactable = quest.CurrentProgress >= 1.0f;
+            ButtonBackgroundImage.color = quest.CurrentProgress >= 1.0f ? Constants.Colors.SoftGreen : Constants.Colors.Grey;
 
             GradeSlot.Intialize(App.Mercs.GetMerc(quest.RewardMercID));
         }

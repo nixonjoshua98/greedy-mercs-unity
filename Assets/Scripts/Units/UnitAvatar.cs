@@ -1,8 +1,8 @@
-using System.Linq;
 using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
 
 namespace GM.Units
 {
@@ -28,8 +28,8 @@ namespace GM.Units
 
         IEnumerator FadeEnumerator(float duration, Action callback)
         {
-            var renderers   = GetComponentsInChildren<SpriteRenderer>();
-            var colors      = renderers.Select(sr => sr.color).ToArray();
+            var renderers = GetComponentsInChildren<SpriteRenderer>();
+            var colors = renderers.Select(sr => sr.color).ToArray();
 
             Vector3 initialScale = transform.localScale;
 

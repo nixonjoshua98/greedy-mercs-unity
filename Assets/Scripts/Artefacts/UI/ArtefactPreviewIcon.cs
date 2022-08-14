@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GM.Artefacts.Data;
-using GM.Artefacts.Data;
-using TMPro;
-using System.Threading.Tasks;
+﻿using GM.Artefacts.Data;
 using GM.UI;
+using UnityEngine;
 
 namespace GM.Artefacts.UI
 {

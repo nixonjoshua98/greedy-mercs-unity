@@ -1,7 +1,6 @@
-using GM.Artefacts.Data;
-using UnityEngine;
 using GM.Common.Enums;
 using GM.ScriptableObjects;
+using UnityEngine;
 
 namespace GM.Artefacts.Data
 {

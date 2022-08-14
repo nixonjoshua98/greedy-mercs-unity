@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using GM.Common.Enums;
+﻿using GM.Common.Enums;
 using GM.ScriptableObjects;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GM.BountyShop.Data

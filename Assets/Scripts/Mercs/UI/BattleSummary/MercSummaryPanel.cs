@@ -1,11 +1,10 @@
-using GM.Common.Enums;
+using GM.Mercs.Data;
+using GM.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using GM.UI;
 using TMPro;
-using GM.Mercs.Data;
+using UnityEngine;
 
 namespace GM.Mercs.UI
 {
@@ -58,7 +57,7 @@ namespace GM.Mercs.UI
             for (int i = 0; i < Mathf.Max(damageValues.Count, SummarySlots.Count); ++i)
             {
                 if (i >= SummarySlots.Count)
-                    InstantiateMercSummarySlot();                
+                    InstantiateMercSummarySlot();
 
                 MercDamageSummarySlot slot = SummarySlots[i];
 

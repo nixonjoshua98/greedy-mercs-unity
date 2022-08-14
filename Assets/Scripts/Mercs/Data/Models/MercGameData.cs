@@ -1,7 +1,6 @@
 ﻿using GM.Common.Enums;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace GM.Mercs.Data
 {

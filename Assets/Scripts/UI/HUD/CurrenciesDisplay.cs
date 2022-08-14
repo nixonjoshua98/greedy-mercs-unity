@@ -52,7 +52,7 @@ namespace GM.UI.HUD
         {
             _lastDisplayUpdate = Time.timeSinceLevelLoad;
 
-            LargeGoldText.text  = Format.Number(App.Inventory.Gold, decimalPlaces: 1);
+            LargeGoldText.text = Format.Number(App.Inventory.Gold, decimalPlaces: 1);
             //GoldText.text       = LargeGoldText.text;
         }
 

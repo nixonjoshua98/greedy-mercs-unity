@@ -1,11 +1,11 @@
 using GM.Common;
-using GM.Controllers;
 using GM.Common.Enums;
+using GM.Controllers;
+using GM.Mercs.Data;
 using GM.Units;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using GM.Mercs.Data;
 
 namespace GM
 {

@@ -21,9 +21,9 @@ namespace GM.Artefacts.UI
 
         void UpdateUI()
         {
-            CurrentBonusText.text   = $"<color=orange>{Format.Number(Artefact.Effect, Artefact.Bonus)}</color> {Format.BonusType(Artefact.Bonus)}";
-            NameText.text           = Artefact.Name;
-            LevelText.text          = $"Lv <color=orange>{Artefact.CurrentLevel}</color>";
+            CurrentBonusText.text = $"<color=orange>{Format.Number(Artefact.Effect, Artefact.Bonus)}</color> {Format.BonusType(Artefact.Bonus)}";
+            NameText.text = Artefact.Name;
+            LevelText.text = $"Lv <color=orange>{Artefact.CurrentLevel}</color>";
         }
 
         public void OnCloseButton()

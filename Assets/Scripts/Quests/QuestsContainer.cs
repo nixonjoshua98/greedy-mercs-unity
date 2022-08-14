@@ -75,7 +75,7 @@ namespace GM.Quests
                         ActionType = quest.ActionType,
                         LongValue = quest.LongValue
                     };
-                }).ToList();                
+                }).ToList();
             }
         }
 

@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using GM.Common;
+using GM.Mercs.Data;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using GM.Mercs.Data;
-using GM.Common;
 
 namespace GM.Mercs.UI
 {

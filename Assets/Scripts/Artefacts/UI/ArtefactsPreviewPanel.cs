@@ -1,9 +1,7 @@
+using GM.Artefacts.Data;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GM.Artefacts.Data;
-using GM.Artefacts.Data;
 using TMPro;
+using UnityEngine;
 
 namespace GM.Artefacts.UI
 {

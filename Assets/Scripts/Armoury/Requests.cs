@@ -1,5 +1,4 @@
 ﻿using GM.Armoury.Data;
-using GM.HTTP;
 
 namespace GM.Armoury.Requests
 {

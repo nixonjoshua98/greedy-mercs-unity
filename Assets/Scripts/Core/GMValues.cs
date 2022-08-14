@@ -175,9 +175,9 @@ namespace GM.Core
 
         public BigDouble MercDamagePerAttack(AggregatedMercData merc)
         {
-            return MercBaseDamage(merc) * 
+            return MercBaseDamage(merc) *
                 CombinedBonuses.Get(BonusType.MULTIPLY_MERC_DMG, 1) *
-                CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) * 
+                CombinedBonuses.Get(BonusType.MULTIPLY_ALL_DMG, 1) *
                 CombinedBonuses.Get(merc.AttackType.Bonus(), 1);
         }
 

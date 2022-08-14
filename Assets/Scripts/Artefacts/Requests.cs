@@ -1,5 +1,4 @@
-﻿using GM.HTTP;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GM.Artefacts.Requests
 {

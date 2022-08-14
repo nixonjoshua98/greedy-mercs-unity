@@ -3,7 +3,6 @@ using GM.Mercs.Data;
 using GM.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GM.Mercs.UI
 {
@@ -68,7 +67,7 @@ namespace GM.Mercs.UI
         {
             UpdateUpgradeButton();
 
-            LevelText.text  = $"Lv <color=orange>{AssignedMerc.CurrentLevel}</color>";
+            LevelText.text = $"Lv <color=orange>{AssignedMerc.CurrentLevel}</color>";
             DamageText.text = $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
         }
 

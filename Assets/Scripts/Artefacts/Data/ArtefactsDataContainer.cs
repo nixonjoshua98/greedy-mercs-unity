@@ -1,4 +1,3 @@
-using GM.Artefacts.Data;
 using GM.Artefacts.Scriptables;
 using System;
 using System.Collections.Generic;

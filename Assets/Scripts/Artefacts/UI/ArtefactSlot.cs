@@ -60,8 +60,8 @@ namespace GM.Artefacts.UI
         {
             double ugradeCost = Artefact.UpgradeCost(BuyAmount);
 
-            QuantityText.text       = Artefact.IsMaxLevel ? "Max Level" : $"x{BuyAmount}";
-            UpgradeCostText.text    = Artefact.IsMaxLevel ? "" : Format.Number(ugradeCost);
+            QuantityText.text = Artefact.IsMaxLevel ? "Max Level" : $"x{BuyAmount}";
+            UpgradeCostText.text = Artefact.IsMaxLevel ? "" : Format.Number(ugradeCost);
 
             LevelText.text = $"Lv <color=orange>{Artefact.CurrentLevel}</color>";
             BonusText.text = $" <color=orange>{Format.Number(Artefact.Effect, Artefact.Bonus)}</color> {Format.BonusType(Artefact.Bonus)}";

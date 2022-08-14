@@ -1,4 +1,3 @@
-using GM.Common.Enums;
 using GM.Mercs.Controllers;
 using GM.Mercs.Data;
 using System.Collections;
@@ -36,9 +35,9 @@ namespace GM.Mercs
             {
                 for (int i = 0; i < UnitGameObjects.Count; i++)
                 {
-                    var unit        = UnitGameObjects[i];
-                    var relPos      = Formation.RelativePositions[i];
-                    var initialPos  = initialPositions[i];
+                    var unit = UnitGameObjects[i];
+                    var relPos = Formation.RelativePositions[i];
+                    var initialPos = initialPositions[i];
 
                     var controller = unit.GetComponent<AbstractMercController>();
 

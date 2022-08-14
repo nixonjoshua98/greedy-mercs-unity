@@ -1,5 +1,4 @@
 using GM.Bounties.Models;
-using GM.HTTP;
 using System;
 
 namespace GM.Bounties.Requests

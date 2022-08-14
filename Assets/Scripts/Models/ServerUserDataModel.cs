@@ -2,11 +2,10 @@
 using GM.Artefacts.Data;
 using GM.Bounties.Models;
 using GM.Inventory;
-using GM.Mercs;
-using GM.UserStats;
-using GM.Quests;
-using System.Collections.Generic;
 using GM.Mercs.Data;
+using GM.Quests;
+using GM.UserStats;
+using System.Collections.Generic;
 
 namespace GM.Models
 {

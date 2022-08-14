@@ -1,9 +1,8 @@
 using GM.HTTP;
 using GM.HTTP.Requests;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine;
 using GM.UI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GM.Managers
 {

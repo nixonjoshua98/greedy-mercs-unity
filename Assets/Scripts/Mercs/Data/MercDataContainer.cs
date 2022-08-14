@@ -1,4 +1,3 @@
-using GM.Common.Enums;
 using GM.Mercs.ScriptableObjects;
 using System;
 using System.Collections.Generic;
@@ -29,7 +28,7 @@ namespace GM.Mercs.Data
                 LoadLocalData().ToList().ForEach(kv => LocalDataFiles[kv.Key] = kv.Value);
             }
 
-            UpdateLocalStateFile(userMercs);            
+            UpdateLocalStateFile(userMercs);
             UpdateStoredGameData(staticData);
         }
 

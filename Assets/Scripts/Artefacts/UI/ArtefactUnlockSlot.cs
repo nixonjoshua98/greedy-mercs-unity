@@ -25,10 +25,10 @@ namespace GM.Artefacts.UI
             double unlockCost = App.Artefacts.NextUnlockCost;
             bool allUnlocked = App.Artefacts.UserUnlockedAll;
 
-            UnlockedText.text                   = $"{App.Artefacts.NumUnlockedArtefacts} / {App.Artefacts.MaxArtefacts} Artefacts Collected";
-            UnlockCostText.text                 = allUnlocked ? "Unlocked" : $"Next Artefact: <color=orange>{Format.Number(unlockCost)}</color>";
-            UnlockArtefactButton.interactable   = !allUnlocked && App.Inventory.PrestigePoints >= unlockCost;
-            UnlockArtefactButton.BtmText.text   = allUnlocked ? "" : Format.Number(unlockCost);
+            UnlockedText.text = $"{App.Artefacts.NumUnlockedArtefacts} / {App.Artefacts.MaxArtefacts} Artefacts Collected";
+            UnlockCostText.text = allUnlocked ? "Unlocked" : $"Next Artefact: <color=orange>{Format.Number(unlockCost)}</color>";
+            UnlockArtefactButton.interactable = !allUnlocked && App.Inventory.PrestigePoints >= unlockCost;
+            UnlockArtefactButton.BtmText.text = allUnlocked ? "" : Format.Number(unlockCost);
         }
 
         void UpdateIcon()

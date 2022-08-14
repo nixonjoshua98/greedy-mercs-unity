@@ -1,6 +1,5 @@
 using GM.Common.Enums;
 using System.Numerics;
-using GM.Common.Enums;
 
 namespace GM
 {

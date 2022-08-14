@@ -38,9 +38,9 @@ namespace GM.Mercs.UI
 
         private void UpdateUI()
         {
-            NameText.text           = Merc.Name;
-            DamageText.text         = $"{Format.Number(Merc.DamagePerAttack)}";
-            LevelText.text          = $"{Merc.CurrentLevel}";
+            NameText.text = Merc.Name;
+            DamageText.text = $"{Format.Number(Merc.DamagePerAttack)}";
+            LevelText.text = $"{Merc.CurrentLevel}";
 
             GradeSlot.Intialize(Merc);
         }

@@ -1,10 +1,8 @@
 using GM.Controllers;
+using GM.Events;
 using GM.UI.HUD;
 using GM.Units;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using GM.Events;
 
 namespace GM.Managers
 {

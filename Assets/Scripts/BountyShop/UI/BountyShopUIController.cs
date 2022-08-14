@@ -15,8 +15,8 @@ namespace GM.BountyShop.UI
         [Header("References")]
         [SerializeField] Transform ItemsParent;
         [SerializeField] TMP_Text RefreshText;
-        [SerializeField] TypeWriter LoadingTypeWriter;        
-        
+        [SerializeField] TypeWriter LoadingTypeWriter;
+
         List<GameObject> ItemSlotObjects = new();
 
         bool _IsShopShown = false;
@@ -78,7 +78,7 @@ namespace GM.BountyShop.UI
             OnClientOffline();
         }
 
-        T InstantiateItemSlot<T>(GameObject prefab) where T: MonoBehaviour
+        T InstantiateItemSlot<T>(GameObject prefab) where T : MonoBehaviour
         {
             var slot = this.Instantiate<T>(prefab, ItemsParent);
 

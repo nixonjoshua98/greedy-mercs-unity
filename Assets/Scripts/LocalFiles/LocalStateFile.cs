@@ -1,7 +1,7 @@
-﻿using GM.Mercs.Data;
-using System.Collections.Generic;
+﻿using GM.Common;
+using GM.Mercs.Data;
 using Newtonsoft.Json;
-using GM.Common;
+using System.Collections.Generic;
 
 namespace GM
 {

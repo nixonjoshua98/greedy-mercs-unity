@@ -1,6 +1,4 @@
-﻿using GM.Common.Enums;
-using GM.Mercs.Data;
-using Newtonsoft.Json;
+﻿using GM.Mercs.Data;
 using System.Collections.Generic;
 
 namespace GM.Quests

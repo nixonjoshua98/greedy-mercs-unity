@@ -1,7 +1,5 @@
-using System.Collections.Generic;
-using UnityEngine;
-using GM.Common.Enums;
 using GM.Mercs.Data;
+using UnityEngine;
 
 namespace GM.Mercs.ScriptableObjects
 {

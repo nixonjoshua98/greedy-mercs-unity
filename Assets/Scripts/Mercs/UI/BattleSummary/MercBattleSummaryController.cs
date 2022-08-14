@@ -1,4 +1,3 @@
-using GM.Common.Enums;
 using GM.Mercs.Data;
 using System;
 using System.Collections.Generic;

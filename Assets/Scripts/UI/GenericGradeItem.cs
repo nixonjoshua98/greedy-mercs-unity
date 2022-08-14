@@ -19,9 +19,9 @@ namespace GM.UI
 
         public void Empty()
         {
-            BackgroundImage.sprite  = DefaultBackground;
-            IconImage.sprite        = DefaultIcon;
-            BorderImage.color       = DefaultBorderColor;
+            BackgroundImage.sprite = DefaultBackground;
+            IconImage.sprite = DefaultIcon;
+            BorderImage.color = DefaultBorderColor;
 
             if (DefaultIcon == null)
             {

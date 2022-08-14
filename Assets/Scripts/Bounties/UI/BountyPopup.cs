@@ -1,7 +1,6 @@
 using GM.Bounties.Models;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GM.Bounties.UI
@@ -38,14 +37,14 @@ namespace GM.Bounties.UI
 
         void UpdateUI()
         {
-            IconImage.sprite            = _assignedBounty.Icon;
-            LevelText.text              = $"Lv <color=orange>{_assignedBounty.Level}</color>";
-            IncomeText.text             = $"Produces <color=white>{_assignedBounty.Income}</color>";
-            BonusText.text              = Format.BonusValue(_assignedBounty.BonusType, _assignedBounty.BonusValue);
-            DescriptionText.text        = _assignedBounty.Description;
-            LevelProgressSlider.value   = !_assignedBounty.IsMaxLevel ? (_assignedBounty.NumDefeats / (float)_assignedBounty.Levels[_assignedBounty.Level].NumDefeatsRequired) : 1.0f;
-            UpgradeButtonText.text      = _assignedBounty.CanUpgrade ? "Upgrade" : _assignedBounty.IsMaxLevel ? "Max level" : "Not yet...";
-            UpgradeButton.interactable  = _assignedBounty.CanUpgrade;
+            IconImage.sprite = _assignedBounty.Icon;
+            LevelText.text = $"Lv <color=orange>{_assignedBounty.Level}</color>";
+            IncomeText.text = $"Produces <color=white>{_assignedBounty.Income}</color>";
+            BonusText.text = Format.BonusValue(_assignedBounty.BonusType, _assignedBounty.BonusValue);
+            DescriptionText.text = _assignedBounty.Description;
+            LevelProgressSlider.value = !_assignedBounty.IsMaxLevel ? (_assignedBounty.NumDefeats / (float)_assignedBounty.Levels[_assignedBounty.Level].NumDefeatsRequired) : 1.0f;
+            UpgradeButtonText.text = _assignedBounty.CanUpgrade ? "Upgrade" : _assignedBounty.IsMaxLevel ? "Max level" : "Not yet...";
+            UpgradeButton.interactable = _assignedBounty.CanUpgrade;
 
             UpdateActionButtons();
         }

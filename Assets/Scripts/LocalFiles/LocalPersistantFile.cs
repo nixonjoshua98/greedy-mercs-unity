@@ -1,5 +1,4 @@
 ﻿using GM.Common;
-using GM.Common.Enums;
 using GM.Mercs.Data;
 using GM.UserStats;
 using Newtonsoft.Json;

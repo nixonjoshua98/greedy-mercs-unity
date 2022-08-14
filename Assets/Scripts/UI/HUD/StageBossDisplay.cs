@@ -1,6 +1,6 @@
 using Coffee.UIEffects;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 namespace GM.UI.HUD
 {
@@ -26,7 +26,7 @@ namespace GM.UI.HUD
 
         /* Callbacks */
 
-        void OnBossSpawned(GM.Events.StageBossEventPayload payload)    
+        void OnBossSpawned(GM.Events.StageBossEventPayload payload)
         {
             FooterText.text = $"--- Stage {payload.StageSpawned} Boss ---";
 

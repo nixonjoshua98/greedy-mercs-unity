@@ -1,10 +1,12 @@
 ﻿namespace GM.HTTP
 {
     public struct HTTPServerConfig
-    {
-        public string Address;
-        public int Port;
+    {       
+        public readonly string BaseURL;
 
-        public string Url => string.Format("http://{0}:{1}/api", Address, Port);
+        public HTTPServerConfig(string baseUrl)
+        {
+            BaseURL = baseUrl;
+        }
     }
 }

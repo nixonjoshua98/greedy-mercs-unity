@@ -12,16 +12,6 @@ namespace GM
             return BigDouble.Parse(source.ToString());
         }
 
-        public static string ToString(this BigInteger value, Enums.StringFormat format)
-        {
-            return format switch
-            {
-                Enums.StringFormat.Exponent => ExponentFormat(value),
-                Enums.StringFormat.Units => UnitsFormat(value),
-                _ => value.ToString(),
-            };
-        }
-
         static string ExponentFormat(BigInteger value)
         {
             string sign = value < 0 ? "-" : string.Empty;
@@ -36,7 +26,7 @@ namespace GM
             int n = (int)BigInteger.Log(absVal, 1000);
 
             if (n >= UnitsTable.Count)
-                return value.ToString(Enums.StringFormat.Exponent);
+                return ExponentFormat(value);
 
             BigDouble m = absVal.ToBigDouble() / BigInteger.Pow(1000, n).ToBigDouble();
 

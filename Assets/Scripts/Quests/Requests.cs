@@ -1,21 +1,21 @@
-﻿using GM.Enums;
-using GM.HTTP;
+﻿using GM.Common.Enums;
+using GM.Mercs.Data;
 using System;
 using System.Collections.Generic;
 
 namespace GM.Quests
 {
-    public class CompleteMercQuestResponse : ServerResponse
+    public class CompleteMercQuestResponse : GM.HTTP.Requests.ServerResponse
     {
         public MercID UnlockedMerc;
     }
 
-    public class CompleteDailyQuestResponse : ServerResponse
+    public class CompleteDailyQuestResponse : GM.HTTP.Requests.ServerResponse
     {
         public int DiamondsRewarded;
     }
 
-    public class QuestsDataResponse : GM.HTTP.ServerResponse
+    public class QuestsDataResponse : GM.HTTP.Requests.ServerResponse
     {
         public DateTime DateTime;
 

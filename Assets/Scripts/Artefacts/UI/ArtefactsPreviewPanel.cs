@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GM.Artefacts.Data;
-using GM.Artefacts.Models;
+using GM.Artefacts.Data;
 using TMPro;
 
 namespace GM.Artefacts.UI

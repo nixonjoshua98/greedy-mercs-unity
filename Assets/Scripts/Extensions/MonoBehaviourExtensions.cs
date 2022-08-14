@@ -7,6 +7,17 @@ namespace GM
 {
     public static class MonoBehaviourExtensions
     {
+        public static void InvokeAfter(this MonoBehaviour mono, float delay, Func<IEnumerator> action)
+        {
+            IEnumerator _InvokeAfter()
+            {
+                yield return new WaitForSeconds(delay);
+                mono.StartCoroutine(action());
+            }
+
+            mono.StartCoroutine(_InvokeAfter());
+        }
+
         public static void InvokeAfter(this MonoBehaviour mono, float delay, Action callback)
         {
             mono.StartCoroutine(InvokeAfter(delay, callback));
@@ -14,7 +25,7 @@ namespace GM
 
         public static void Lerp01(this MonoBehaviour mono, float duration, Action<float> action)
         {
-            mono.StartCoroutine(Lerp(0, 1, duration, action));
+            mono.StartCoroutine(Lerp(mono, 0, 1, duration, action));
         }
 
         public static T GetComponentInScene<T>(this MonoBehaviour _)
@@ -40,17 +51,17 @@ namespace GM
 
         private static GameObject MainCanvas => GameObject.FindGameObjectWithTag("MainCanvas");
 
-        static IEnumerator Lerp(float from, float to, float duration, Action<float> action)
+        public static IEnumerator Lerp(this MonoBehaviour mono, float from, float to, float duration, Action<float> action)
         {
             float progress = 0;
 
             while (progress < 1)
             {
+                progress += (Time.fixedDeltaTime / duration);
+
                 action.Invoke(Mathf.Lerp(from, to, progress));
 
-                progress += (Time.unscaledDeltaTime / duration);
-
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForFixedUpdate();
             }
 
             action.Invoke(to);

@@ -1,23 +1,21 @@
 ﻿using GM.HTTP;
 using System.Collections.Generic;
 
-namespace GM.Artefacts
+namespace GM.Artefacts.Requests
 {
-    // Unlock Artefact
-
-    public class UnlockArtefactResponse : ServerResponse
+    public class UnlockArtefactResponse : GM.HTTP.Requests.ServerResponse
     {
-        public Models.ArtefactUserDataModel Artefact;
+        public Data.ArtefactUserData Artefact;
 
         public double UnlockCost;
     }
 
-    public class BulkArtefactUpgradeResponse : ServerResponse
+    public class BulkArtefactUpgradeResponse : GM.HTTP.Requests.ServerResponse
     {
         public double UpgradeCost;
 
         public double RemainingPrestigePoints;
 
-        public List<Models.ArtefactUserDataModel> Artefacts;
+        public List<Data.ArtefactUserData> Artefacts;
     }
 }

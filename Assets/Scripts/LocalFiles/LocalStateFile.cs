@@ -1,6 +1,7 @@
 ﻿using GM.Mercs.Data;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using GM.Common;
 
 namespace GM
 {
@@ -12,7 +13,7 @@ namespace GM
         public GameState GameState = new();
 
         [JsonProperty]
-        public List<UserMercLocalState> MercStates { get; set; } = new();
+        public List<MercLocalUserData> MercStates { get; set; } = new();
 
         /* Inventory */
         public BigDouble Gold = 0;
@@ -31,17 +32,17 @@ namespace GM
 
         public static FileStatus LoadFromFile(out LocalStateFile file)
         {
-            return FileUtils.LoadModel(FilePath, out file);
+            return FileIO.LoadModel(FilePath, out file);
         }
 
         public void WriteToFile()
         {
-            FileUtils.WriteModel(FilePath, this);
+            FileIO.WriteModel(FilePath, this);
         }
 
         public static void DeleteFile()
         {
-            FileUtils.DeleteFile(FilePath);
+            FileIO.DeleteFile(FilePath);
         }
     }
 }

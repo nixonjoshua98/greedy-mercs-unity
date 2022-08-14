@@ -13,11 +13,11 @@ namespace GM.Mercs.Controllers
         /* Properties */
         readonly float CooldownTimer = 0.5f;
 
-        protected UnitBase CurrentTarget;
+        protected GameObject CurrentTarget;
 
         protected bool IsAttacking;
         protected bool IsOnCooldown;
-        public bool HasControl { get; protected set; }
+
         public bool CanStartAttack { get => !IsOnCooldown && !IsAttacking; }
 
         protected virtual void Awake()
@@ -29,19 +29,9 @@ namespace GM.Mercs.Controllers
         {
             Controller = GetComponent<AbstractMercController>();
             Avatar = GetComponentInChildren<UnitAvatar>();
-
-            GMLogger.WhenNull(Controller, "MercController is null");
-            GMLogger.WhenNull(Avatar, "Avatar is null");
         }
 
-        public void Stop()
-        {
-            HasControl = false;
-            IsAttacking = false;
-            CurrentTarget = null;
-        }
-
-        public virtual void StartAttack(GM.Units.UnitBase target)
+        public virtual void StartAttack(GameObject target)
         {
             IsAttacking = true;
             CurrentTarget = target;

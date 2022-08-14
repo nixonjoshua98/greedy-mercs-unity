@@ -4,7 +4,7 @@ using System;
 
 namespace GM.Bounties.Requests
 {
-    public class BountyClaimResponse : ServerResponse
+    public class BountyClaimResponse : GM.HTTP.Requests.ServerResponse
     {
         public long PointsClaimed;
 
@@ -13,7 +13,7 @@ namespace GM.Bounties.Requests
         public Inventory.UserCurrencies Currencies;
     }
 
-    public class UpgradeBountyResponse : ServerResponse
+    public class UpgradeBountyResponse : GM.HTTP.Requests.ServerResponse
     {
         public UserBounty Bounty;
     }

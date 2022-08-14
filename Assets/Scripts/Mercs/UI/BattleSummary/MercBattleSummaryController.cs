@@ -1,4 +1,5 @@
-using GM.Enums;
+using GM.Common.Enums;
+using GM.Mercs.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace GM.Mercs.UI
 
             squad.E_UnitSpawned.AddListener(controller =>
             {
-                controller.E_OnDamageDealt.AddListener(dmg => OnDamageDealt(controller.ID, dmg));
+                controller.E_OnDamageDealt.AddListener((_, dmg) => OnDamageDealt(controller.ID, dmg));
             });
         }
 

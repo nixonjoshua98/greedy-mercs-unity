@@ -1,4 +1,4 @@
-﻿using GM.Enums;
+﻿using GM.Common.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

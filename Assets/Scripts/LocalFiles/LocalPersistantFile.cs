@@ -1,4 +1,6 @@
-﻿using GM.Enums;
+﻿using GM.Common;
+using GM.Common.Enums;
+using GM.Mercs.Data;
 using GM.UserStats;
 using Newtonsoft.Json;
 using System;
@@ -40,7 +42,7 @@ namespace GM.LocalFiles
         /// </summary>
         public static FileStatus LoadFromFile(out LocalPersistantFile file)
         {
-            return FileUtils.LoadModel(FilePath, out file);
+            return FileIO.LoadModel(FilePath, out file);
         }
 
         /// <summary>
@@ -48,7 +50,7 @@ namespace GM.LocalFiles
         /// </summary>
         public void WriteToFile()
         {
-            FileUtils.WriteModel(FilePath, this);
+            FileIO.WriteModel(FilePath, this);
         }
     }
 }

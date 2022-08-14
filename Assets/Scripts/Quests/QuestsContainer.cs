@@ -52,7 +52,7 @@ namespace GM.Quests
                 {
                     ls.Add(new()
                     {
-                        ID = quest.ID,
+                        ID = quest.QuestID,
                         ActionType = quest.ActionType,
                         DiamondsRewarded = quest.DiamondsRewarded,
                         LongValue = quest.LongValue
@@ -71,7 +71,7 @@ namespace GM.Quests
                 {
                     return new AggregatedMercQuest(quest)
                     {
-                        ID = quest.ID,
+                        ID = quest.QuestID,
                         ActionType = quest.ActionType,
                         LongValue = quest.LongValue
                     };

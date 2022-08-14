@@ -1,5 +1,6 @@
-using GM.Enums;
+using GM.Common.Enums;
 using GM.Mercs.ScriptableObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,30 +10,43 @@ namespace GM.Mercs.Data
 {
     public class MercDataContainer : Core.GMClass
     {
-        private List<UserMercLocalState> LocalStates => App.LocalStateFile.MercStates;
+        private readonly Dictionary<MercID, MercLocalDataFileMerc> LocalDataFiles = new();
+        private readonly Dictionary<MercID, AggregatedMercData> MercData = new();
+        private readonly Dictionary<MercID, MercGameData> MercGameDataLookup = new();
+        private readonly Dictionary<MercID, MercUserData> MercUserDataLookup = new();
 
-        private Dictionary<MercID, StaticMercData> StaticMercs = new();
+        private List<MercLocalUserData> LocalStates => App.LocalStateFile.MercStates;
 
         public UnityEvent<MercID> E_OnMercUnlocked { get; set; } = new UnityEvent<MercID>();
 
         /// <summary>
         /// Update all stored static and user data
         /// </summary>
-        public void Set(List<UserMercState> userMercs, StaticMercsModel staticData)
+        public void Set(List<MercUserData> userMercs, MercDataFile staticData)
         {
+            if (LocalDataFiles.Count == 0)
+            {
+                LoadLocalData().ToList().ForEach(kv => LocalDataFiles[kv.Key] = kv.Value);
+            }
+
             UpdateLocalStateFile(userMercs);            
-            SetStaticData(staticData);
+            UpdateStoredGameData(staticData);
         }
 
-        private void UpdateLocalStateFile(List<UserMercState> mercs)
+        private void UpdateLocalStateFile(List<MercUserData> mercs)
         {
-            Dictionary<MercID, UserMercLocalState> states = new();
+            // Update stored user data
+            MercUserDataLookup.Clear();
+            mercs.ForEach(m => MercUserDataLookup[m.ID] = m);
 
+            Dictionary<MercID, MercLocalUserData> states = new();
+
+            // Update local states
             mercs.ForEach(merc =>
             {
-                var savedState = App.LocalStateFile.MercStates.FirstOrDefault(x => x.ID == merc.ID);
+                var savedState = LocalStates.FirstOrDefault(x => x.ID == merc.ID);
 
-                states[merc.ID] = savedState ?? new UserMercLocalState(merc.ID);
+                states[merc.ID] = savedState ?? new MercLocalUserData(merc.ID);
             });
 
             App.LocalStateFile.MercStates = states.Values.ToList();
@@ -43,45 +57,43 @@ namespace GM.Mercs.Data
         /// </summary>
         public void AddNewUnlockedMerc(MercID mercId)
         {
-            LocalStates.Add(new UserMercLocalState(mercId));
+            LocalStates.Add(new MercLocalUserData(mercId));
 
             E_OnMercUnlocked.Invoke(mercId);
         }
 
-        public UserMercLocalState GetLocalStateOrNull(MercID id) => LocalStates.FirstOrDefault(x => x.ID == id);
-
         /// <summary>
         /// Update the internal static game data we have
         /// </summary>
-        private void SetStaticData(StaticMercsModel model)
+        private void UpdateStoredGameData(MercDataFile model)
         {
-            Dictionary<int, MercPassiveBonus> passives = model.Passives.ToDictionary(x => x.ID, x => x);
+            // Update stored game data lookup
+            MercGameDataLookup.Clear();
+            model.Mercs.ForEach(m => MercGameDataLookup[m.MercID] = m);
 
-            var allLocalMercData = LoadLocalData();
+
+            Dictionary<int, MercPassiveBonus> passives = model.Passives.ToDictionary(x => x.PassiveID, x => x);
 
             for (int i = 0; i < model.Mercs.Count; i++)
             {
-                StaticMercData merc = model.Mercs[i];
+                MercGameData merc = model.Mercs[i];
 
-                if (!allLocalMercData.TryGetValue(merc.ID, out MercScriptableObject localData))
+                if (!LocalDataFiles.TryGetValue(merc.MercID, out var localData))
                 {
-                    Debug.LogWarning($"Missing data for '{merc.ID}'");
+                    Debug.LogWarning($"Missing data for '{merc.MercID}'");
                     continue;
                 }
 
-                merc.Icon = localData.Icon;
-                merc.Prefab = localData.Prefab;
-
                 UpdateMercPassivesFromReferences(ref merc, passives);
 
-                StaticMercs[merc.ID] = merc;
+                MercGameDataLookup[merc.MercID] = merc;
             }
         }
 
         /// <summary>
         /// Set the merc passives using the static data
         /// </summary>
-        private void UpdateMercPassivesFromReferences(ref StaticMercData merc, Dictionary<int, MercPassiveBonus> passives)
+        private void UpdateMercPassivesFromReferences(ref MercGameData merc, Dictionary<int, MercPassiveBonus> passives)
         {
             foreach (MercPassive reference in merc.Passives.ToArray())
             {
@@ -95,7 +107,7 @@ namespace GM.Mercs.Data
                     // Remove the passive from the merc if the data is not available
                     merc.Passives.RemoveAll(p => p.PassiveID == reference.PassiveID);
 
-                    GMLogger.Log($"Passive {reference.PassiveID} found on merc {merc.ID} but is not valid");
+                    GMLogger.Log($"Passive {reference.PassiveID} found on merc {merc.MercID} but is not valid");
                 }
             }
         }
@@ -103,15 +115,34 @@ namespace GM.Mercs.Data
         /// <summary>
         /// Load local merc data and convert to a lookup dictionary
         /// </summary>
-        private Dictionary<MercID, MercScriptableObject> LoadLocalData()
+        private Dictionary<MercID, MercLocalDataFileMerc> LoadLocalData()
         {
-            return Resources.LoadAll<MercScriptableObject>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
+            return Resources.LoadAll<MercLocalDataFileMerc>("Scriptables/Mercs").ToDictionary(ele => ele.ID, ele => ele);
         }
 
         /// <summary>
         /// Fetch the aggregated dataclass for the unit
         /// </summary>
-        public AggregatedMercData GetMerc(MercID key) => new(StaticMercs[key]);
+        public AggregatedMercData GetMerc(MercID key)
+        {
+            if (!MercData.TryGetValue(key, out var data))
+                MercData[key] = data = CreateAggregatedMercInstance(key);
+
+            return data;
+        }
+
+        AggregatedMercData CreateAggregatedMercInstance(MercID mercId)
+        {
+            Func<MercGameData> getMercGameData = () => MercGameDataLookup[mercId];
+
+            Func<MercLocalUserData> getLocalUserData = () =>
+            {
+                return LocalStates.GetOrCreate(x => x.ID == mercId, () => new(mercId));
+            };
+            Func<MercLocalDataFileMerc> getLocalGameData = () => LocalDataFiles[mercId];
+
+            return new(mercId, getMercGameData, getLocalUserData, getLocalGameData);
+        }
 
         /// <summary> 
         /// Fetch the full data for all user unlocked mercs

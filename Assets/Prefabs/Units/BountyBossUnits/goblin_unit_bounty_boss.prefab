@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2751846610600133215
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9091818931984367353}
-  m_Layer: 0
-  m_Name: HealthTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9091818931984367353
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2751846610600133215}
-  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6178279748580105544}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6178279748580105543
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6178279748580105544}
-  - component: {fileID: 7820712332477194511}
+  - component: {fileID: 123362735200786497}
   - component: {fileID: 4047665690431601571}
-  - component: {fileID: 7547229782699089455}
   - component: {fileID: 3346922273578494449}
   m_Layer: 0
   m_Name: goblin_unit_bounty_boss
@@ -60,15 +28,14 @@ Transform:
   m_GameObject: {fileID: 6178279748580105543}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9, y: 1.93, z: 0}
-  m_LocalScale: {x: -0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6173378309871618395}
-  - {fileID: 9091818931984367353}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7820712332477194511
+--- !u!114 &123362735200786497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,16 +44,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6178279748580105543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6278e8fe37546a14bb1370d310755477, type: 3}
+  m_Script: {fileID: 11500000, guid: 138632ca3ccd1c240ae80cdffdca8be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Avatar: {fileID: 8074528182442453802}
-  DefeatPS: {fileID: 1280141305896002, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
-  CoinDropPS: {fileID: 2850238126176891575, guid: 3aef6a16b3efff442babe1bbe9eee4cc,
-    type: 3}
-  HealthBarObject: {fileID: 1059234545781893088, guid: de52fd3fd939e204dbb87f54f9d22c3e,
-    type: 3}
-  HealthBarTargetTransform: {fileID: 9091818931984367353}
+  DefeatPS: {fileID: 1280141305896002, guid: 6ba7459c54454a94496f6edfd268ece2, type: 3}
+  Movement: {fileID: 4047665690431601571}
   UnitAvatar: {fileID: 8074528182442453802}
   HealthController: {fileID: 3346922273578494449}
 --- !u!114 &4047665690431601571
@@ -102,19 +64,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 8074528182442453802}
-  MoveSpeed: 2.5
---- !u!114 &7547229782699089455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6178279748580105543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13d0defddd3dbcf4fbaf02f593c57696, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3346922273578494449
 MonoBehaviour:
   m_ObjectHideFlags: 0

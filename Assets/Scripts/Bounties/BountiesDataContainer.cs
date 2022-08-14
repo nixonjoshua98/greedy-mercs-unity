@@ -1,6 +1,7 @@
 using GM.Bounties.Requests;
 using GM.Bounties.ScripableObjects;
 using GM.HTTP;
+using GM.HTTP.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;

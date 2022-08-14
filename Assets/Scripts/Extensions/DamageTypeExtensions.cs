@@ -1,5 +1,5 @@
 ﻿using GM.Common;
-using GM.Enums;
+using GM.Common.Enums;
 using UnityEngine;
 
 namespace GM
@@ -11,7 +11,6 @@ namespace GM
             return dmg switch
             {
                 DamageType.Normal => Constants.Colors.SoftRed,
-                DamageType.Overcharge => Constants.Colors.SoftBlue,
                 DamageType.CriticalHit => Constants.Colors.Yellow,
                 _ => Constants.Colors.SoftRed
             };

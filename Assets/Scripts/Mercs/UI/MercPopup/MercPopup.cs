@@ -1,15 +1,12 @@
-using GM.Common;
 using GM.Mercs.Data;
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GM.Mercs.UI
 {
     public class MercPopup : GM.UI.PopupBase
     {
-        private GM.Enums.MercID _mercID;
+        private MercID _mercID;
 
         [Header("Prefabs")]
         [SerializeField] GameObject PassiveSlotObject;
@@ -17,7 +14,6 @@ namespace GM.Mercs.UI
         [Header("Text Elements")]
         [SerializeField] TMP_Text NameText;
         [SerializeField] TMP_Text LevelText;
-        [SerializeField] TMP_Text RechargeText;
         [SerializeField] TMP_Text DamageText;
 
         [Header("Transforms")]
@@ -31,7 +27,7 @@ namespace GM.Mercs.UI
 
         public void Initialize(AggregatedMercData merc)
         {
-            _mercID = merc.ID;
+            _mercID = merc.MercID;
 
             InstantiatePassiveSlots();
 
@@ -44,7 +40,6 @@ namespace GM.Mercs.UI
         {
             NameText.text           = Merc.Name;
             DamageText.text         = $"{Format.Number(Merc.DamagePerAttack)}";
-            RechargeText.text       = $"{Math.Round(Merc.RechargeRate, 2)}s";
             LevelText.text          = $"{Merc.CurrentLevel}";
 
             GradeSlot.Intialize(Merc);

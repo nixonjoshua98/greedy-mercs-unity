@@ -1,9 +1,9 @@
 using GM.Common;
+using GM.Mercs.Data;
 using GM.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using MercID = GM.Enums.MercID;
 
 namespace GM.Mercs.UI
 {
@@ -17,11 +17,6 @@ namespace GM.Mercs.UI
         [SerializeField] TMP_Text NameText;
         [SerializeField] TMP_Text LevelText;
         [SerializeField] TMP_Text DamageText;
-        [SerializeField] TMP_Text EnergyPercentageText;
-
-        [Header("Sliders")]
-        [SerializeField] Slider EnergySlider;
-        [SerializeField] Slider ExcessEnergySlider;
 
         [Space]
 
@@ -45,7 +40,6 @@ namespace GM.Mercs.UI
                 UpdateUI();
             });
 
-            InvokeRepeating(nameof(UpdateEnergyUI), 0f, 0.05f);
             InvokeRepeating(nameof(UpdateUI), 0f, 0.25f);
         }
 
@@ -76,13 +70,6 @@ namespace GM.Mercs.UI
 
             LevelText.text  = $"Lv <color=orange>{AssignedMerc.CurrentLevel}</color>";
             DamageText.text = $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
-        }
-
-        void UpdateEnergyUI()
-        {
-            EnergyPercentageText.text   = Format.Percentage(AssignedMerc.RechargePercentage, 0);
-            EnergySlider.value          = Mathf.Clamp(AssignedMerc.RechargePercentage, 0, 1);
-            ExcessEnergySlider.value    = Mathf.Clamp(AssignedMerc.RechargePercentage - 1, 0, 1);
         }
 
         void UpdateUpgradeButton()

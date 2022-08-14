@@ -1,6 +1,6 @@
-using GM.Artefacts.Models;
+using GM.Artefacts.Data;
 using UnityEngine;
-using GM.Enums;
+using GM.Common.Enums;
 using GM.ScriptableObjects;
 
 namespace GM.Artefacts.Data
@@ -11,7 +11,7 @@ namespace GM.Artefacts.Data
 
         private Artefact Game => App.Artefacts.GetGameArtefact(Id);
 
-        private ArtefactUserDataModel User => App.Artefacts.GetUserArtefact(Id);
+        private ArtefactUserData User => App.Artefacts.GetUserArtefact(Id);
 
         public AggregatedArtefactData(int artefactId)
         {
@@ -25,7 +25,7 @@ namespace GM.Artefacts.Data
         public float LevelEffect => Game.LevelEffect;
         public string Name => Game.Name;
         public Sprite Icon => Game.Icon;
-        public ItemGrade GradeID => Game.GradeID;
+        public Rarity GradeID => Game.GradeID;
         public ItemGradeData Grade => App.Local.GetItemGrade(Game.GradeID);
         public BonusType Bonus => Game.Bonus;
         public float BaseEffect => Game.BaseEffect;

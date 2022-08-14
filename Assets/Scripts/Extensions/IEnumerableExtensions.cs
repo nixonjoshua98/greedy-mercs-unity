@@ -7,6 +7,20 @@ namespace GM
 {
     public static class IEnumerableExtensions
     {
+        public static T GetOrCreate<T>(this List<T> ls, Func<T, bool> predicate, Func<T> factory) where T : class
+        {
+            T result = ls.FirstOrDefault(predicate);
+
+            if (result == default(T))
+            {
+                result = factory();
+
+                ls.Add(result);
+            }
+
+            return result;
+        }
+
         public static void RemoveAll<TKey, TValue>(this SortedList<TKey, TValue> ls, Predicate<TKey> predicate)
         {
             var keys = ls.Keys.ToList(); // Copy

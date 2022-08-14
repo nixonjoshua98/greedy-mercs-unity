@@ -1,7 +1,9 @@
-using GM.Enums;
+using GM.Common.Enums;
 using GM.Mercs.Controllers;
-using GM.Units;
+using GM.Mercs.Data;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,74 +11,74 @@ namespace GM.Mercs
 {
     public class MercSquadController : Core.GMMonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] EnemyUnitCollection EnemyUnits;
+        [SerializeField] GM.Scriptables.UnitFormation Formation;
+        float FormationOffsetX = 0;
+
+        public GameManager GameManager;
 
         [Header("Events")]
         [HideInInspector] public UnityEvent<AbstractMercController> E_UnitSpawned = new();
 
-        private readonly List<AbstractMercController> _units = new();
+        readonly List<GameObject> UnitGameObjects = new();
 
-
-        public AbstractMercController Get(int idx) => _units[idx];
-        public int GetIndex(AbstractMercController unit) => _units.FindIndex((u) => u == unit);
-        bool UnitExistsInQueue(MercID unit) => _units.Find(x => x.ID == unit) is not null;
-
-        private void FixedUpdate()
+        void Awake()
         {
-            UpdateMercsEnergy();
+            AddMercToQueue(MercID.STONE_GOLEM);
         }
 
-        private void UpdateMercsEnergy()
+        public IEnumerator MoveUnitsToFormation(float duration, float offset = 0)
         {
-            foreach (var merc in App.Mercs.UnlockedMercs)
+            var initialPositions = Formation.RelativePositions.Select(pos => new Vector3(pos.x + FormationOffsetX, pos.y)).ToList();
+
+            FormationOffsetX += offset;
+
+            yield return this.Lerp(0, 1, duration, progress =>
             {
-                float ts = Time.fixedDeltaTime;
-
-                // Reduce the timer gained if we are 'over-charging' for extra damage
-                if (merc.RechargeProgress >= merc.RechargeRate)
-                    ts /= 4;
-
-                // Increment the value
-                merc.RechargeProgress = Mathf.Min(merc.RechargeProgress + ts, merc.RechargeRate * 2);
-
-                // Check if we can spawn a new unit in the queue
-                if (merc.RechargePercentage >= 1.0f && !UnitExistsInQueue(merc.ID))
+                for (int i = 0; i < UnitGameObjects.Count; i++)
                 {
-                    // Create payload
-                    MercSetupPayload payload = new(merc.RechargePercentage);
+                    var unit        = UnitGameObjects[i];
+                    var relPos      = Formation.RelativePositions[i];
+                    var initialPos  = initialPositions[i];
 
-                    // Reset some data
-                    merc.RechargeProgress = 0;
+                    var controller = unit.GetComponent<AbstractMercController>();
 
-                    // Add merc to queue
-                    AddMercToQueue(merc.ID, payload);
+                    controller.InControl = false;
+
+                    Vector3 position = new(relPos.x + FormationOffsetX, relPos.y);
+
+                    controller.Movement.LerpTowards(initialPos, position, progress);
                 }
-            }
+            });
         }
 
-        private void AddMercToQueue(MercID unitId, MercSetupPayload payload)
+        public void SetControl(bool value)
+        {
+            UnitGameObjects.ForEach(unit =>
+            {
+                var controller = unit.GetComponent<AbstractMercController>();
+
+                controller.InControl = value;
+            });
+        }
+
+        private bool UnitExistsInQueue(MercID unit) => UnitGameObjects.Select(x => x.GetComponent<AbstractMercController>()).ToList().Exists(x => x.ID == unit);
+
+        private void AddMercToQueue(MercID unitId)
         {
             AbstractMercController unit = InstantiateMerc(unitId);
 
-            unit.Init(payload, this, EnemyUnits);
+            unit.Init(this, () => GameManager.EnemyUnits.FirstOrDefault(x => x));
 
-            unit.E_OnZeroEnergy.AddListener(() => _units.Remove(unit)); // Remove the unit from the queue once its energy has depleted
-
-            _units.Add(unit);
+            UnitGameObjects.Add(unit.gameObject);
 
             E_UnitSpawned.Invoke(unit);
         }
 
         private AbstractMercController InstantiateMerc(MercID unitId)
         {
-            var camBounds = Camera.main.Bounds();
-
-            Vector2 pos = new(camBounds.min.x - 3.5f - (_units.Count), Common.Constants.CENTER_BATTLE_Y);
-
             var data = App.Mercs.GetMerc(unitId);
 
-            GameObject o = Instantiate(data.Prefab, pos, Quaternion.identity);
+            GameObject o = Instantiate(data.Prefab, Formation.RelativePositions[0] + new Vector2(FormationOffsetX, 0), Quaternion.identity);
 
             return o.GetComponent<AbstractMercController>();
         }

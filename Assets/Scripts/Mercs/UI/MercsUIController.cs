@@ -1,6 +1,6 @@
+using GM.Mercs.Data;
 using System.Collections.Generic;
 using UnityEngine;
-using MercID = GM.Enums.MercID;
 
 namespace GM.Mercs.UI
 {
@@ -35,9 +35,9 @@ namespace GM.Mercs.UI
         {
             foreach (var merc in App.Mercs.UnlockedMercs)
             {
-                if (!MercSlots.ContainsKey(merc.ID))
+                if (!MercSlots.ContainsKey(merc.MercID))
                 {
-                    InstantiateSlot(merc.ID);
+                    InstantiateSlot(merc.MercID);
                 }
             }
         }

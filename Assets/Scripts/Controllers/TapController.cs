@@ -1,7 +1,7 @@
 using GM.Common;
 using GM.DamageTextPool;
-using GM.Units;
 using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -11,6 +11,8 @@ namespace GM.Controllers
     [RequireComponent(typeof(RectTransform))]
     public class TapController : GM.Core.GMMonoBehaviour, IPointerDownHandler
     {
+        public GameManager Manager;
+
         public ObjectPool ParticlePool;
 
         public int MaxTapsPerSecond = 20;
@@ -18,13 +20,10 @@ namespace GM.Controllers
 
         private Stopwatch _stopWatch;
 
-        [SerializeField] EnemyUnitCollection EnemyUnits;
-        private IDamageTextPool DamageNumberManager;
+        private GM.DamageTextPool.DamageTextPool DamageNumberManager;
 
         [Header("Prefabs")]
         [HideInInspector] public UnityEvent E_OnTap = new();
-
-        UnitBase CurrentTarget;
 
         void Awake()
         {
@@ -33,7 +32,7 @@ namespace GM.Controllers
 
         private void Start()
         {
-            DamageNumberManager = this.GetComponentInScene<IDamageTextPool>();
+            DamageNumberManager = this.GetComponentInScene<GM.DamageTextPool.DamageTextPool>();
         }
 
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
@@ -44,19 +43,18 @@ namespace GM.Controllers
             {
                 _stopWatch.Restart();
 
-                if (EnemyUnits.Count == 0)
+                if (Manager.EnemyUnits.Count == 0)
+                {
                     return;
+                }
 
-                CurrentTarget = CurrentTarget == null ? EnemyUnits.First() : CurrentTarget;
-
-                if (!Camera.main.IsVisible(CurrentTarget.transform.position))
-                    return;
+                var target = Manager.EnemyUnits.First();
 
                 Vector3 worldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
 
                 BigDouble damage = App.Values.TotalTapDamage;
 
-                HealthController health = CurrentTarget.GetComponent<HealthController>();
+                HealthController health = target.GetComponent<HealthController>();
 
                 health.TakeDamage(damage);
 

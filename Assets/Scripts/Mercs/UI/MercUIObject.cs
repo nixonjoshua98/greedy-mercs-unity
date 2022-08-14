@@ -1,4 +1,4 @@
-using MercID = GM.Enums.MercID;
+using GM.Mercs.Data;
 
 namespace GM.Mercs.UI
 {

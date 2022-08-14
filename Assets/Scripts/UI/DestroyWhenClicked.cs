@@ -12,7 +12,7 @@ namespace GM.UI
 
         private void Awake()
         {
-            GameObject canvas = GameObject.FindGameObjectWithTag(Constants.Tags.MainCanvas);
+            GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
 
             CanvasRaycaster = canvas?.GetComponent<GraphicRaycaster>();
 

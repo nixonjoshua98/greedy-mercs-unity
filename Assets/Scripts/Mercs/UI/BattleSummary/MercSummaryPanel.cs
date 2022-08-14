@@ -1,10 +1,11 @@
-using GM.Enums;
+using GM.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using GM.UI;
 using TMPro;
+using GM.Mercs.Data;
 
 namespace GM.Mercs.UI
 {

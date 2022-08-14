@@ -1,31 +1,28 @@
-using GM.Units;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace GM
+namespace GM.CameraControllers
 {
     public class CameraController : MonoBehaviour
     {
-        [Header("Properties")]
-        [SerializeField] private float MoveSpeed = 10.0f;
+        [SerializeField] UnityEngine.Camera Camera;
 
-        [Header("References")]
-        [SerializeField] private EnemyUnitCollection EnemyUnits;
-
-        private void FixedUpdate()
+        public void MoveCamera(Vector3 vec, float duration)
         {
-            if (EnemyUnits.Count > 0)
+            StartCoroutine(MoveCameraEnumerator(vec, duration));
+        }
+
+        public IEnumerator MoveCameraEnumerator(Vector3 vec, float duration)
+        {
+            Vector3 initialPosition = transform.position;
+            Vector3 targetPosition = initialPosition + vec;
+
+            yield return this.Lerp(0, 1, duration, (value) =>
             {
-                var unit = EnemyUnits.First();
-
-                SetCameraPosition(unit.transform.position.x);
-            }
+                transform.position = Vector3.Lerp(initialPosition, targetPosition, value);
+            });
         }
 
-        private void SetCameraPosition(float xPos)
-        {
-            Vector3 to = new(xPos, transform.position.y, transform.position.z);
-
-            transform.position = Vector3.MoveTowards(transform.position, to, MoveSpeed * Time.fixedUnscaledDeltaTime);
-        }
+        public Bounds Bounds => Camera.Bounds();
     }
 }

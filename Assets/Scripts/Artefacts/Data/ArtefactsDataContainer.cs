@@ -1,4 +1,4 @@
-using GM.Artefacts.Models;
+using GM.Artefacts.Data;
 using GM.Artefacts.Scriptables;
 using System;
 using System.Collections.Generic;
@@ -12,12 +12,12 @@ namespace GM.Artefacts.Data
     public class ArtefactsDataContainer : Core.GMClass
     {
         private Dictionary<int, Artefact> StaticModels;
-        private Dictionary<int, ArtefactUserDataModel> StateModels;
+        private Dictionary<int, ArtefactUserData> StateModels;
 
         // NB, We keep a persistant aggregated artefact class since we store state data which we do not want to save
         private Dictionary<int, AggregatedArtefactData> ArtefactsLookup = new Dictionary<int, AggregatedArtefactData>();
 
-        public void Set(List<ArtefactUserDataModel> userArtefacts, List<Artefact> gameArtefacts)
+        public void Set(List<ArtefactUserData> userArtefacts, List<Artefact> gameArtefacts)
         {
             Update(userArtefacts);
             Update(gameArtefacts);
@@ -30,7 +30,7 @@ namespace GM.Artefacts.Data
         public List<AggregatedArtefactData> Artefacts => StaticModels.Select(x => GetArtefact(x.Value.ID)).ToList();
         public List<AggregatedArtefactData> LockedArtefacts => Artefacts.Where(x => !StateModels.ContainsKey(x.Id)).ToList();
 
-        private void Update(ArtefactUserDataModel art)
+        private void Update(ArtefactUserData art)
         {
             StateModels[art.ID] = art;
         }
@@ -44,7 +44,7 @@ namespace GM.Artefacts.Data
         }
 
         /// <summary>Update all artefacts user states</summary>
-        private void Update(List<ArtefactUserDataModel> arts)
+        private void Update(List<ArtefactUserData> arts)
         {
             StateModels = arts.ToDictionary(x => x.ID, x => x);
         }
@@ -55,7 +55,7 @@ namespace GM.Artefacts.Data
             return StaticModels[itemId];
         }
 
-        public ArtefactUserDataModel GetUserArtefact(int itemId)
+        public ArtefactUserData GetUserArtefact(int itemId)
         {
             return StateModels[itemId];
         }

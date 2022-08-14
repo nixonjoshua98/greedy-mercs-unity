@@ -1,5 +1,6 @@
 using GM.BountyShop.Data;
 using GM.BountyShop.Requests;
+using GM.Common.Enums;
 using GM.UI;
 using System;
 using TMPro;
@@ -32,7 +33,7 @@ namespace GM.BountyShop.UI
             TitleText.text = $"<color=orange>{item.Quantity}x</color> {item.Item.DisplayName}";
             CostText.text = item.PurchaseCost.ToString();
 
-            GradeSlot.Intialize(Enums.ItemGrade.None, item.Icon);
+            GradeSlot.Intialize(Rarity.Zero, item.Icon);
 
             ShowInnerPanel();
         }

@@ -1,4 +1,4 @@
-using GM.Enums;
+using GM.Common.Enums;
 
 namespace GM
 {

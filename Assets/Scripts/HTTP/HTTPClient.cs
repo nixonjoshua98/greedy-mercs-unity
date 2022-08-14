@@ -1,14 +1,13 @@
 using GM.Armoury.Requests;
-using GM.Artefacts;
-using GM.Artefacts.Models;
+using GM.Artefacts.Requests;
 using GM.Bounties.Requests;
 using GM.BountyShop.Requests;
 using GM.Common;
-using GM.HTTP.Requests;
-using GM.UserStats;
-using GM.Quests;
-using Newtonsoft.Json;
 using GM.HTTP.Models;
+using GM.HTTP.Requests;
+using GM.Quests;
+using GM.UserStats;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,13 +39,9 @@ namespace GM.HTTP
         void ToggleActiveBounty(int bountyId, bool isActive, Action<ServerResponse> callback);
     }
 
-    public class AbstractHTTPClient : MonoBehaviourLazySingleton<HTTPClient>
+    public abstract class AbstractHTTPClient : MonoBehaviourLazySingleton<HTTPClient>
     {
-        private HTTPServerConfig ServerConfig = new HTTPServerConfig
-        {
-            Port = 2122,
-            Address = "109.151.14.51"
-        };
+        protected abstract HTTPServerConfig Server { get; }
 
         protected string Token = null;
 
@@ -65,12 +60,7 @@ namespace GM.HTTP
 
             UnityWebRequest www = CreateWebRequest(method, url, request, encrypt);
 
-            SetRequestHeaders(www);
-
-            StartCoroutine(SendRequest(www, () =>
-            {
-                ResponseHandler(www, action);
-            }));
+            StartCoroutine(SendRequest(CreateWebRequest(method, url, request), action));
         }
 
         private UnityWebRequest CreateWebRequest(string method, string url, object request, bool encrypt = false)
@@ -84,13 +74,14 @@ namespace GM.HTTP
                 _ => throw new Exception()
             };
 
+            SetRequestHeaders(www);
 
             www.timeout = 3;
 
             return www;
         }
 
-        private IEnumerator SendRequest(UnityWebRequest www, Action action)
+        private IEnumerator SendRequest<TResponse>(UnityWebRequest www, Action<TResponse> action) where TResponse : IServerResponse, new()
         {
             using (www)
             {
@@ -100,14 +91,14 @@ namespace GM.HTTP
                 }
                 finally
                 {
-                    action.Invoke();
+                    ResponseHandler(www, action);
                 }
             }
         }
 
         private string ResolveURL(string endpoint)
         {
-            return $"{ServerConfig.Url}/{endpoint}";
+            return $"{Server.BaseURL}/{endpoint}";
         }
 
         private void SetRequestHeaders(UnityWebRequest www)
@@ -185,6 +176,8 @@ namespace GM.HTTP
 
     public class HTTPClient : AbstractHTTPClient, IHTTPClient
     {
+        protected override HTTPServerConfig Server => new($"http://86.175.180.154:2122/api");
+
         public void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action)
         {
             var req = new { Changes = App.Stats.LocalLifetimeStats };

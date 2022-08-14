@@ -1,4 +1,5 @@
-﻿using GM.Enums;
+﻿using GM.Common.Enums;
+using GM.Mercs.Data;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -21,8 +22,7 @@ namespace GM.Quests
 
     public abstract class AbstractQuest
     {
-        [JsonProperty(PropertyName = "QuestID")]
-        public int ID;
+        public int QuestID;
 
         public QuestActionType ActionType;
         public long LongValue;

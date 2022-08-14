@@ -9,8 +9,8 @@ namespace GM.UserStats
             GameManager wave = this.GetComponentInScene<GameManager>();
             TapController click = this.GetComponentInScene<TapController>();
 
-            wave.E_EnemyDefeated.AddListener(WaveManager_OnEnemyDefeated);
-            wave.E_BossDefeated.AddListener(WaveManager_OnBossDefeated);
+            wave.E_OnEnemyDefeated.AddListener(OnEnemyDefeated);
+            wave.E_OnBossDefeated.AddListener(OnBossDefeated);
 
             click.E_OnTap.AddListener(TapController_OnTap);
         }
@@ -28,13 +28,13 @@ namespace GM.UserStats
             });
         }
 
-        private void WaveManager_OnEnemyDefeated()
+        private void OnEnemyDefeated()
         {
             App.Stats.LocalLifetimeStats.TotalEnemiesDefeated++;
             App.Stats.LocalDailyStats.TotalEnemiesDefeated++;
         }
 
-        private void WaveManager_OnBossDefeated()
+        private void OnBossDefeated()
         {
             App.Stats.LocalLifetimeStats.TotalBossesDefeated++;
             App.Stats.LocalDailyStats.TotalBossesDefeated++;

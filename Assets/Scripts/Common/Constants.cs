@@ -4,8 +4,6 @@ namespace GM.Common
 {
     public static class Constants
     {
-        public const float CENTER_BATTLE_Y = 12f;
-
         public const float BASE_CRIT_CHANCE = 0.01f;
         public const float BASE_CRIT_MULTIPLIER = 3.0f;
 
@@ -13,12 +11,6 @@ namespace GM.Common
         {
             public const string ResponseEncrypted = "Response-Encrypted";
             public const string InvalidToken = "Invalid-Token";
-        }
-
-        public static class Tags
-        {
-            public const string BossHealthBar = "EnemyBossUnitHealthBar";
-            public const string MainCanvas = "MainCanvas";
         }
 
         public static class Colors
@@ -29,6 +21,7 @@ namespace GM.Common
             public static readonly Color SoftGreen  = Color255(0, 200, 0);
             public static readonly Color SoftBlue   = Color255(0, 128, 255);
             public static readonly Color SoftRed    = Color255(200, 0, 0);
+            public static readonly Color Red        = Color255(255, 0, 0);
 
             public static readonly Color Purple = Color255(218, 0, 255);
             public static readonly Color Orange = Color255(216, 128, 8);

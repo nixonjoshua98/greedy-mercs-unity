@@ -1,10 +1,18 @@
-using GM.Enums;
+using GM.Common.Enums;
 using System.Numerics;
+using GM.Common.Enums;
 
 namespace GM
 {
     public static class Format
     {
+        /* Big Bigdouble */
+
+        public static string Number(BigDouble val, int decimalPlaces = 2)
+        {
+            return val.Format(decimalPlaces);
+        }
+
         private static readonly Common.TTLCache FormatCache = new();
 
         public static string Percentage(BigDouble val, int dp = 2)
@@ -26,17 +34,17 @@ namespace GM
         {
             return type switch
             {
-                Enums.BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
-                Enums.BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
-                Enums.BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
-                Enums.BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
-                Enums.BonusType.MULTIPLY_ALL_DMG => "All Damage",
-                Enums.BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
-                Enums.BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
-                Enums.BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
-                Enums.BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
-                Enums.BonusType.MULTIPLY_ALL_GOLD => "All Gold",
-                Enums.BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
+                GM.Common.Enums.BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
+                GM.Common.Enums.BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
+                GM.Common.Enums.BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
+                GM.Common.Enums.BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                GM.Common.Enums.BonusType.MULTIPLY_ALL_DMG => "All Damage",
+                GM.Common.Enums.BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
+                GM.Common.Enums.BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
+                GM.Common.Enums.BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
+                GM.Common.Enums.BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
+                GM.Common.Enums.BonusType.MULTIPLY_ALL_GOLD => "All Gold",
+                GM.Common.Enums.BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
                 _ => type.ToString(),
             };
         }
@@ -67,17 +75,6 @@ namespace GM
             return Number(new BigInteger(val));
         }
 
-        public static string Number(BigDouble val, int dp = 2)
-        {
-            return FormatCache.Get<string>($"BigDouble/{val}", 60, () =>
-            {
-                if (BigDouble.Abs(val) < 1_000)
-                    return val.ToString($"F{dp}");
-
-                return val.ToString(StringFormat.Units);
-            });
-        }
-
         public static string Number(BigInteger val)
         {
             return FormatCache.Get<string>($"BigInteger/{val}", 60, () =>
@@ -85,7 +82,7 @@ namespace GM
                 if (BigInteger.Abs(val) < 1_000)
                     return val.ToString();
 
-                return val.ToString(StringFormat.Units);
+                return val.ToString($"F0");
             });
         }
     }

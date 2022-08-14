@@ -1,6 +1,5 @@
 using GM.Controllers;
 using GM.Units;
-using System.Collections;
 using UnityEngine;
 
 namespace GM.Mercs.Controllers
@@ -26,7 +25,7 @@ namespace GM.Mercs.Controllers
             Avatar.E_Anim_MeleeAttackFinished.AddListener(Animation_AttackFinished);
         }
 
-        public override void StartAttack(UnitBase target)
+        public override void StartAttack(GameObject target)
         {
             base.StartAttack(target);
 
@@ -35,38 +34,14 @@ namespace GM.Mercs.Controllers
                 health.E_OnZeroHealth.AddListener(() => CurrentTarget = null);
             }
 
-            HasControl = true;
-
             Avatar.PlayAnimation(Avatar.Animations.Attack);
-
-            StartCoroutine(_Update());
         }
 
         private void InstantiateAttackImpactObject()
         {
-            Instantiate(AttackImpactObject, CurrentTarget.Avatar.Bounds.RandomCenterPosition(), Quaternion.identity);
-        }
+            var avatar = CurrentTarget.GetComponentInChildren<UnitAvatar>();
 
-        IEnumerator _Update()
-        {
-            while (HasControl)
-            {
-                if (CurrentTarget is not null)
-                {
-                    if (CanStartAttack)
-                        StartAttack(CurrentTarget);
-
-                    else if (IsOnCooldown && !IsAttacking)
-                        Avatar.PlayAnimation(Avatar.Animations.Idle);
-                }
-
-                else if (!IsAttacking)
-                {
-                    Stop();
-                }
-
-                yield return new WaitForEndOfFrame();
-            }
+            Instantiate(AttackImpactObject, avatar.Bounds.RandomPosition(), Quaternion.identity);
         }
 
         public void Animation_AttackImpact()

@@ -1,4 +1,4 @@
-using GM.Enums;
+using GM.Common.Enums;
 using GM.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,7 +36,7 @@ namespace GM.UI
             SetBasicUI(merc.ItemGrade);
         }
 
-        public void Intialize(ItemGrade grade, Sprite icon)
+        public void Intialize(Rarity grade, Sprite icon)
         {
             var config = App.Local.GetItemGrade(grade);
 

@@ -4,10 +4,10 @@ namespace GM
 {
     public static class BoundsExtensions
     {
-        public static Vector3 RandomCenterPosition(this Bounds source)
+        public static Vector3 RandomPosition(this Bounds source)
         {
-            float width = source.size.x / 4;
-            float height = source.size.y / 6;
+            float width = source.size.x * 0.25f;
+            float height = source.size.y * 0.1f;
 
             float xPos = Random.Range(-width, width);
             float yPos = Random.Range(-height, height);

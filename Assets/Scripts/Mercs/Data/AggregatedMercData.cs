@@ -1,39 +1,49 @@
-using GM.Enums;
+using GM.Common.Enums;
+using GM.Mercs.ScriptableObjects;
 using GM.ScriptableObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace GM.Mercs.Data
 {
-    public class AggregatedMercData : Core.GMClass
+    public partial class AggregatedMercData : Core.GMClass
     {
-        readonly StaticMercData StaticValues;
+        public MercID MercID { get; private set; }
 
-        public AggregatedMercData(StaticMercData gameData)
+        private readonly Func<MercGameData> GetMercGameData;
+        private readonly Func<MercLocalUserData> GetLocalUserData;
+        private readonly Func<MercLocalDataFileMerc> GetLocalGameData;
+
+        private MercGameData GameData => GetMercGameData();
+        private MercLocalUserData LocalState => GetLocalUserData();
+        private MercLocalDataFileMerc LocalGameData => GetLocalGameData();
+
+        public AggregatedMercData(MercID mercId, Func<MercGameData> getMercGameData, Func<MercLocalUserData> getLocalUserData, Func<MercLocalDataFileMerc> getLocalGameData)
         {
-            StaticValues = gameData;
+            MercID = mercId;
+
+            GetMercGameData = getMercGameData;
+            GetLocalUserData = getLocalUserData;
+            GetLocalGameData = getLocalGameData;
         }
+    }
 
-        UserMercLocalState LocalState => App.Mercs.GetLocalStateOrNull(ID);
-
-        public MercID ID => StaticValues.ID;
-        public string Name => StaticValues.Name;
-        public GameObject Prefab => StaticValues.Prefab;
-        public Sprite Icon => StaticValues.Icon;
-        public float RechargeRate => StaticValues.RechargeRate;
-        public float RechargeProgress { get => LocalState.RechargeProgress; set => LocalState.RechargeProgress = value; }
-        public float RechargePercentage => LocalState.RechargeProgress / StaticValues.RechargeRate;
-        public float EnergyConsumedPerAttack => 10;
-        public int BattleEnergyCapacity => 50;
+    public partial class AggregatedMercData : Core.GMClass
+    {
+        public string Name => GameData.Name;
+        public GameObject Prefab => LocalGameData.Prefab;
+        public Sprite Icon => LocalGameData.Icon;
         public int CurrentLevel { get => LocalState.Level; set => LocalState.Level = Mathf.Min(MaxLevel, value); }
         public int MaxLevel => 1_000;
-        public ItemGradeData ItemGrade => App.Local.GetItemGrade(StaticValues.Grade);
+        public ItemGradeData ItemGrade => App.Local.GetItemGrade(GameData.Grade);
         public bool IsMaxLevel => LocalState.Level >= MaxLevel;
-        public UnitAttackType AttackType => StaticValues.AttackType;
-        public List<MercPassive> Passives => StaticValues.Passives;
-        public List<MercPassive> UnlockedPassives => StaticValues.Passives.Where(x => CurrentLevel >= x.UnlockLevel).ToList();
-        public float BaseDamage => StaticValues.BaseDamage;
+        public UnitAttackType AttackType => GameData.AttackType;
+        public List<MercPassive> Passives => GameData.Passives;
+        public List<MercPassive> UnlockedPassives => GameData.Passives.Where(x => CurrentLevel >= x.UnlockLevel).ToList();
+        public float BaseDamage => GameData.BaseDamage;
         public BigDouble DamagePerAttack => App.Values.MercDamagePerAttack(this);
         public BigDouble AttackDamage(int level) => App.Values.MercDamagePerAttack(this, level);
         public bool IsPassiveUnlocked(int passiveId) => UnlockedPassives.FirstOrDefault(x => x.PassiveID == passiveId) is not null;

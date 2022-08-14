@@ -1,3 +1,4 @@
+using GM.Mercs.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GM.Enums;
+using GM.Common.Enums;
 using GM.ScriptableObjects;
 using Newtonsoft.Json;
 using UnityEngine;

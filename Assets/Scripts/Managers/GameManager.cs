@@ -1,7 +1,11 @@
 using GM.Bounties.Models;
-using GM.Common;
+using GM.CameraControllers;
 using GM.Controllers;
-using GM.Units;
+using GM.Events;
+using GM.Mercs;
+using GM.Units.Controllers;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,118 +13,103 @@ namespace GM
 {
     public class GameManager : GM.Core.GMMonoBehaviour
     {
+        [SerializeField] CameraController CamController;
+        [SerializeField] MercSquadController Mercs;
+
         [Header("References")]
-        [SerializeField] EnemyUnitCollection EnemyUnits;
+        [HideInInspector] public List<GameObject> EnemyUnits;
 
         [Header("Prefabs")]
-        public GameObject EnemyObject;
-        public GameObject BossObject;
+        [SerializeField] GameObject EnemyObject;
+        [SerializeField] GameObject BossObject;
 
-        [Header("Events")]
-        [HideInInspector] public UnityEvent<SpawnedBoss> E_BossSpawn = new();
-        [HideInInspector] public UnityEvent E_BossDefeated = new();
-        [HideInInspector] public UnityEvent E_EnemyDefeated = new();
+        [Header("Boss Events")]
+        [HideInInspector] public UnityEvent<StageBossEventPayload> E_OnPreBossReady = new();
+        [HideInInspector] public UnityEvent<StageBossEventPayload> E_OnBossReady = new();
+        [HideInInspector] public UnityEvent E_OnBossDefeated = new();
 
-        public void Start()
+        [HideInInspector] public UnityEvent<GameObject> E_OnPreEnemyReady = new();
+        [HideInInspector] public UnityEvent E_OnEnemyDefeated = new();
+        [HideInInspector] public UnityEvent<GameObject> E_OnEnemySpawn = new();
+
+        //
+        Vector3 StageEnemyPosition = new(0, 8.5f);
+
+        GameState State { get => App.GameState; }
+
+        void Awake()
+        {
+            StageEnemyPosition.x = (CamController.Bounds.max.x - 2f);
+        }
+
+        void Start()
+        {
+            Continue();
+        }
+
+        public void Continue()
         {
             if (App.GameState.EnemiesRemaining == 0)
             {
-                SpawnBoss();
+                this.InvokeAfter(0.25f, SetupStageBoss);
             }
             else
             {
-                StartWave();
+                this.InvokeAfter(0.25f, SetupStageEnemy);
             }
         }
 
-        private void StartWave()
+        private IEnumerator SetupStageEnemy()
         {
             BigDouble maxHealth = App.Values.EnemyHealthAtStage(App.GameState.Stage);
 
-            for (int i = 0; i < App.GameState.EnemiesRemaining; i++)
-            {
-                GameObject enemy = InstantiateEnemyUnit();
+            var enemySpawnPos = StageEnemyPosition + new Vector3(5, 0);
 
-                UnitBase unit = enemy.GetComponent<UnitBase>();
+            GameObject enemy = Instantiate(EnemyObject, enemySpawnPos, Quaternion.identity);
 
-                HealthController health = unit.GetComponent<HealthController>();
+            HealthController health = enemy.GetComponent<HealthController>();
 
-                health.Init(maxHealth);
-            }
+            health.E_OnZeroHealth.AddListener(() => OnEnemyZeroHealth(enemy));
+
+            health.Init(maxHealth);
+
+            var controller = enemy.GetComponent<EnemyUnitController>();
+
+            E_OnPreEnemyReady.Invoke(enemy);
+
+            yield return controller.Movement.MoveToPositionEnumerator(StageEnemyPosition);
+
+            EnemyUnits.Add(enemy);
+
+            E_OnEnemySpawn.Invoke(enemy);
         }
 
-        private void SpawnBoss()
-        {
-            SpawnedBoss enemy = InstantiateEnemyBossUnit();
-
-            // Components
-            HealthController health = enemy.GameObject.GetComponent<HealthController>();
-
-            // Setup
-            health.Init(App.Values.StageBossHealthAtStage(App.GameState.Stage));
-
-            // Set the boss position off-screen
-            enemy.GameObject.transform.position = new Vector3(Camera.main.Bounds().max.x + 2.5f, Constants.CENTER_BATTLE_Y);
-
-            E_BossSpawn.Invoke(enemy);
-        }
-
-
-        public GameObject InstantiateEnemyUnit()
-        {
-            GameObject obj = Instantiate(EnemyObject, EnemyUnitSpawnPosition(), Quaternion.identity);
-
-            UnitBase unit = obj.GetComponent<UnitBase>();
-            AbstractHealthController health = obj.GetComponent<AbstractHealthController>();
-
-            health.Invincible = true;
-
-            health.E_OnZeroHealth.AddListener(() => OnEnemyZeroHealth(obj));
-
-            EnemyUnits.Add(unit);
-
-            // Unit cannot be attacked until they are visible on screen
-            Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(unit.Avatar.Bounds.min), () => health.Invincible = false);
-
-            return obj;
-        }
-
-
-        public SpawnedBoss InstantiateEnemyBossUnit()
+        private IEnumerator SetupStageBoss()
         {
             GameObject unitToSpawn = App.Bounties.TryGetStageBounty(App.GameState.Stage, out Bounty bountyData) ? bountyData.Prefab : BossObject;
 
-            // Instantiate the boss object
-            GameObject bossObject = Instantiate(unitToSpawn, EnemyUnitSpawnPosition(), Quaternion.identity);
+            StageEnemyPosition += new Vector3(10, 0);
 
-            // Components
-            UnitBase unit = bossObject.GetComponent<UnitBase>();
-            AbstractHealthController health = bossObject.GetComponent<AbstractHealthController>();
+            GameObject bossObject = Instantiate(unitToSpawn, StageEnemyPosition, Quaternion.identity);
 
-            // Set the enemy to be invinsible while it is not visible on screen
-            health.Invincible = true;
-
+            // Setup Health
+            HealthController health = bossObject.GetComponent<HealthController>();
             health.E_OnZeroHealth.AddListener(() => OnBossZeroHealth(bossObject));
+            health.Init(App.Values.StageBossHealthAtStage(App.GameState.Stage));
 
-            EnemyUnits.Add(unit);
+            var eventPayload = new GM.Events.StageBossEventPayload(bossObject, State.Stage);
 
-            // Unit cannot be attacked until they are visible on screen
-            Enumerators.InvokeAfter(this, () => Camera.main.IsVisible(bossObject.transform.position), () => health.Invincible = false);
+            E_OnPreBossReady.Invoke(eventPayload);
 
-            return new() { GameObject = bossObject, BountyID = bountyData?.ID };
-        }
+            CamController.MoveCamera(new Vector3(10, 0), 1.75f);
 
+            yield return Mercs.MoveUnitsToFormation(1.25f, 10);
 
-        private Vector3 EnemyUnitSpawnPosition()
-        {
-            if (EnemyUnits.Count > 0)
-            {
-                UnitBase unit = EnemyUnits.Last();
+            EnemyUnits.Add(bossObject);
 
-                return new Vector3(unit.Avatar.Bounds.max.x + (unit.Avatar.Bounds.size.x * 2f) + 1.0f, unit.transform.position.y);
-            }
+            E_OnBossReady.Invoke(eventPayload);
 
-            return new Vector3(8, Constants.CENTER_BATTLE_Y) + new Vector3(Camera.main.Bounds().max.x, 0);
+            Mercs.SetControl(true);
         }
 
         void OnEnemyZeroHealth(GameObject unitObject)
@@ -129,12 +118,9 @@ namespace GM
 
             App.GameState.EnemiesDefeated++;
 
-            E_EnemyDefeated.Invoke();
+            E_OnEnemyDefeated.Invoke();
 
-            if (EnemyUnits.Count == 0)
-            {
-                SpawnBoss();
-            }
+            Continue();
         }
 
         void OnBossZeroHealth(GameObject unitObject)
@@ -144,9 +130,9 @@ namespace GM
             App.GameState.Stage++;
             App.GameState.EnemiesDefeated = 0;
 
-            E_BossDefeated.Invoke();
+            E_OnBossDefeated.Invoke();
 
-            StartWave();
+            Continue();
         }
     }
 }

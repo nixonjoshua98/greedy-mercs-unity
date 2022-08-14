@@ -1,5 +1,12 @@
 ﻿
 /*
+    MercDataFile
+        MercGameData
+    MercLocalDataFile
+        MercLocalGameData
+    MercUserData
+    MercLocalUserData
+
     __Data Types__
         - PersistantLocalFile
             - Data which is stored locally but will persist between prestiges

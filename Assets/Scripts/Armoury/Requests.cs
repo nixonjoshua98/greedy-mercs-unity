@@ -1,8 +1,8 @@
-﻿using GM.Armoury.Data;
+﻿using SRC.Armoury.Data;
 
-namespace GM.Armoury.Requests
+namespace SRC.Armoury.Requests
 {
-    public class UpgradeArmouryItemResponse : GM.HTTP.Requests.ServerResponse
+    public class UpgradeArmouryItemResponse : SRC.HTTP.Requests.ServerResponse
     {
         public UserArmouryItem Item;
 

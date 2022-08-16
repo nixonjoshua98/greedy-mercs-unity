@@ -1,4 +1,4 @@
-namespace GM.Core
+namespace SRC.Core
 {
     public abstract class GMClass
     {

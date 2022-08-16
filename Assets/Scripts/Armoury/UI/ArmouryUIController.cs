@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace GM.Armoury.UI
+namespace SRC.Armoury.UI
 {
-    public class ArmouryUIController : GM.Core.GMMonoBehaviour
+    public class ArmouryUIController : SRC.Core.GMMonoBehaviour
     {
         [Header("References")]
         public ArmouryItemsGridController ItemGrid;

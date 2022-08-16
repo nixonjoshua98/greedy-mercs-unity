@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.UI.HUD.StageDisplay
+namespace SRC.UI.HUD.StageDisplay
 {
-    public class StageDisplay : GM.Core.GMMonoBehaviour
+    public class StageDisplay : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] GameManager Manager;
 

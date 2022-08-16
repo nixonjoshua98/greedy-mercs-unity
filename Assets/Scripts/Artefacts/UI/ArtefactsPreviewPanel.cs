@@ -1,11 +1,11 @@
-using GM.Artefacts.Data;
+using SRC.Artefacts.Data;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace GM.Artefacts.UI
+namespace SRC.Artefacts.UI
 {
-    public class ArtefactsPreviewPanel : GM.Core.GMMonoBehaviour
+    public class ArtefactsPreviewPanel : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         [SerializeField] GameObject ArtefactPreviewIconObject;

@@ -1,10 +1,10 @@
-using GM.Mercs.Data;
+using SRC.Mercs.Data;
 using TMPro;
 using UnityEngine;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
-    public class MercPopup : GM.UI.PopupBase
+    public class MercPopup : SRC.UI.PopupBase
     {
         private MercID _mercID;
 
@@ -21,7 +21,7 @@ namespace GM.Mercs.UI
 
         [Space]
 
-        [SerializeField] GM.UI.GenericGradeItem GradeSlot;
+        [SerializeField] SRC.UI.GenericGradeItem GradeSlot;
 
         AggregatedMercData Merc { get => App.Mercs.GetMerc(_mercID); }
 

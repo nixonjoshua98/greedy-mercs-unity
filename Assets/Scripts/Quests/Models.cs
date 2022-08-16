@@ -1,7 +1,7 @@
-﻿using GM.Mercs.Data;
+﻿using SRC.Mercs.Data;
 using System.Collections.Generic;
 
-namespace GM.Quests
+namespace SRC.Quests
 {
     public enum QuestActionType
     {

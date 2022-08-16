@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace GM.Artefacts.Requests
+namespace SRC.Artefacts.Requests
 {
-    public class UnlockArtefactResponse : GM.HTTP.Requests.ServerResponse
+    public class UnlockArtefactResponse : SRC.HTTP.Requests.ServerResponse
     {
         public Data.ArtefactUserData Artefact;
 
         public double UnlockCost;
     }
 
-    public class BulkArtefactUpgradeResponse : GM.HTTP.Requests.ServerResponse
+    public class BulkArtefactUpgradeResponse : SRC.HTTP.Requests.ServerResponse
     {
         public double UpgradeCost;
 

@@ -1,10 +1,10 @@
-﻿using GM.Common.Enums;
-using GM.ScriptableObjects;
+﻿using SRC.Common.Enums;
+using SRC.ScriptableObjects;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.BountyShop.Data
+namespace SRC.BountyShop.Data
 {
     public abstract class BountyShopItem : Core.GMClass
     {

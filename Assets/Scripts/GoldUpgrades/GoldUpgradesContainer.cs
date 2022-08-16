@@ -1,4 +1,4 @@
-namespace GM.GoldUpgrades
+namespace SRC.GoldUpgrades
 {
     public class GoldUpgradesContainer
     {

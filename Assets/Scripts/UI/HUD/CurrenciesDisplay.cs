@@ -1,13 +1,34 @@
+using SRC.Common;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace GM.UI.HUD
+namespace SRC.UI.HUD
 {
-    public class CurrenciesDisplay : GM.Core.GMMonoBehaviour
+    struct PropertyTracker<T> where T : IComparable<T>
+    {
+        public T StartValue;
+        public Func<T> GetCurrentValue;
+
+        public PropertyTracker(T startValue, Func<T> currentValue)
+        {
+            StartValue = startValue;
+            GetCurrentValue = currentValue;
+        }
+        public void Reset()
+        {
+            StartValue = GetCurrentValue();
+        }
+
+        public bool HasChanged => GetCurrentValue().CompareTo(StartValue) != 0;
+    }
+
+    public class CurrenciesDisplay : SRC.Core.GMMonoBehaviour
     {
         [Header("Text Elements")]
         [SerializeField] TMP_Text LargeGoldText;
+        [SerializeField] TMP_Text SmallGoldText;
 
         [Header("Prefabs")]
         [SerializeField] GameObject GoldTravelPS;
@@ -15,12 +36,19 @@ namespace GM.UI.HUD
         [Header("Transforms")]
         [SerializeField] Transform GoldIconTransform;
 
+        [Header("References")]
+        [SerializeField] ObjectPool TextNumbers;
+
         float _lastDisplayUpdate;
 
         int _numGoldTrails = 0;
 
+        PropertyTracker<BigDouble> GoldTracker;
+
         void Awake()
         {
+            GoldTracker = new(App.Inventory.Gold, () => App.Inventory.Gold);
+
             UpdateDisplayGold();
         }
 
@@ -42,7 +70,7 @@ namespace GM.UI.HUD
         void UpdateDisplayGoldTask()
         {
             // Force a UI update at least 4 times a second
-            if (_numGoldTrails == 0 && Mathf.Abs(Time.timeSinceLevelLoad - _lastDisplayUpdate) > 0.25f)
+            if (GoldTracker.HasChanged && _numGoldTrails == 0 && Mathf.Abs(Time.timeSinceLevelLoad - _lastDisplayUpdate) > 0.25f)
             {
                 UpdateDisplayGold();
             }
@@ -53,7 +81,14 @@ namespace GM.UI.HUD
             _lastDisplayUpdate = Time.timeSinceLevelLoad;
 
             LargeGoldText.text = Format.Number(App.Inventory.Gold, decimalPlaces: 1);
-            //GoldText.text       = LargeGoldText.text;
+            SmallGoldText.text = LargeGoldText.text;
+
+            BigDouble changeSinceUpdate = GoldTracker.GetCurrentValue() - GoldTracker.StartValue;
+
+            GoldTracker.Reset();
+
+            if (changeSinceUpdate != 0)
+                ShowSmallText(SmallGoldText.transform.position, changeSinceUpdate);
         }
 
         IEnumerator DisplayGoldTrailEnumerator(Vector3 startPos)
@@ -92,6 +127,15 @@ namespace GM.UI.HUD
 
             // Reset the scale to the original value
             GoldIconTransform.localScale = Vector3.one;
+        }
+
+        private void ShowSmallText(Vector3 position, BigDouble value)
+        {
+            TextPopup popup = TextNumbers.Spawn<TextPopup>();
+
+            popup.transform.position = position;
+
+            popup.Set(value);
         }
     }
 }

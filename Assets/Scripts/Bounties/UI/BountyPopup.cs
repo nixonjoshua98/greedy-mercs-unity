@@ -1,58 +1,53 @@
-using GM.Bounties.Models;
+using SRC.Bounties.Models;
+using SRC.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace GM.Bounties.UI
+namespace SRC.Bounties.UI
 {
-    public class BountyPopup : GM.UI.PopupBase
+    public class BountyPopup : SRC.UI.PopupBase
     {
         [Header("Text Elements")]
-        [SerializeField] TMP_Text IncomeText;
+        [SerializeField] TMP_Text PointsPerHourText;
         [SerializeField] TMP_Text BonusText;
         [SerializeField] TMP_Text DescriptionText;
-        [SerializeField] TMP_Text LevelText;
         [SerializeField] TMP_Text UpgradeButtonText;
         [Space]
-        [SerializeField] Slider LevelProgressSlider;
-        [SerializeField] Image IconImage;
-
-        [Header("Buttons")]
-        [SerializeField] Button AddButton;
-        [SerializeField] Button RemoveButton;
+        [SerializeField] RarityIcon Icon;
         [SerializeField] Button UpgradeButton;
 
-        int _bountyId;
+        [Header("Events")]
+        [HideInInspector] public readonly UnityEvent E_OnBountyUpgraded = new();
 
-        AggregatedBounty _assignedBounty => App.Bounties.GetBounty(_bountyId);
+        AggregatedBounty Bounty;
 
-        public void Initialize(int bountyId)
+        public void Initialize(AggregatedBounty bounty)
         {
-            _bountyId = bountyId;
+            Bounty = bounty;
 
-            UpdateUI();
+            Icon.Initialize(Bounty);
 
             ShowInnerPanel();
         }
 
-        void UpdateUI()
+        void FixedUpdate()
         {
-            IconImage.sprite = _assignedBounty.Icon;
-            LevelText.text = $"Lv <color=orange>{_assignedBounty.Level}</color>";
-            IncomeText.text = $"Produces <color=white>{_assignedBounty.Income}</color>";
-            BonusText.text = Format.BonusValue(_assignedBounty.BonusType, _assignedBounty.BonusValue);
-            DescriptionText.text = _assignedBounty.Description;
-            LevelProgressSlider.value = !_assignedBounty.IsMaxLevel ? (_assignedBounty.NumDefeats / (float)_assignedBounty.Levels[_assignedBounty.Level].NumDefeatsRequired) : 1.0f;
-            UpgradeButtonText.text = _assignedBounty.CanUpgrade ? "Upgrade" : _assignedBounty.IsMaxLevel ? "Max level" : "Not yet...";
-            UpgradeButton.interactable = _assignedBounty.CanUpgrade;
+            PointsPerHourText.text  = Bounty.PointsPerHour.ToString();
+            BonusText.text          = Format.BonusValue(Bounty.BonusType, Bounty.BonusValue);
+            DescriptionText.text    = Bounty.Description;
 
-            UpdateActionButtons();
-        }
+            UpgradeButton.interactable = Bounty.CanUpgrade;
 
-        void UpdateActionButtons()
-        {
-            AddButton.gameObject.SetActive(!_assignedBounty.IsActive);
-            RemoveButton.gameObject.SetActive(_assignedBounty.IsActive);
+            if (Bounty.IsMaxLevel)
+            {
+                UpgradeButtonText.text = "Max Level";
+            }
+            else
+            {
+                UpgradeButtonText.text = $"{Bounty.CurrentKillCount} / {Bounty.NextLevel.KillsRequired} Kills";
+            }
         }
 
         /* Event Listeners */
@@ -62,36 +57,14 @@ namespace GM.Bounties.UI
             Destroy(gameObject);
         }
 
-        public void OnAddButton()
-        {
-            App.Bounties.AddActiveBounty(_bountyId, (success, resp) =>
-            {
-                UpdateUI();
-
-                if (!success)
-                    GMLogger.Error(resp.Message);
-            });
-        }
-
-        public void OnRemoveButton()
-        {
-            App.Bounties.RemoveActiveBounty(_bountyId, (success, resp) =>
-            {
-                UpdateUI();
-
-                if (!success)
-                    GMLogger.Error(resp.Message);
-            });
-        }
-
         public void OnUpgradeButton()
         {
-            App.Bounties.UpgradeBounty(_bountyId, (success, resp) =>
+            App.Bounties.UpgradeBounty(Bounty.BountyID, resp =>
             {
-                UpdateUI();
-
-                if (!success)
-                    GMLogger.Error(resp.Message);
+                if (resp.IsSuccess)
+                {
+                    E_OnBountyUpgraded.Invoke();
+                }
             });
         }
     }

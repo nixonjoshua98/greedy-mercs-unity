@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace GM.CameraControllers
+namespace SRC.CameraControllers
 {
     public class CameraController : MonoBehaviour
     {

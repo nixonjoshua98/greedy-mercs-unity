@@ -3,13 +3,13 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GM.Navigation
+namespace SRC.Navigation
 {
     [System.Serializable]
     internal class TabStateSprites
     {
-        public Color Selected = GM.Common.Constants.Colors.Orange;
-        public Color Unselected = GM.Common.Constants.Colors.Grey;
+        public Color Selected = SRC.Common.Constants.Colors.Orange;
+        public Color Unselected = SRC.Common.Constants.Colors.Grey;
     }
 
     public class TabButton : MonoBehaviour, IPointerClickHandler

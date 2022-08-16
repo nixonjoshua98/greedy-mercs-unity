@@ -1,4 +1,4 @@
-﻿namespace GM.GoldUpgrades
+﻿namespace SRC.GoldUpgrades
 {
     public class GoldUpgradeState
     {
@@ -6,7 +6,7 @@
     }
 
 
-    public class TapDamageGoldUpgrade : GM.Core.GMClass
+    public class TapDamageGoldUpgrade : SRC.Core.GMClass
     {
         public int Level = 0;
 

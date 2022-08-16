@@ -1,6 +1,6 @@
-﻿using GM.Models;
+﻿using SRC.Models;
 
-namespace GM.HTTP.Requests
+namespace SRC.HTTP.Requests
 {
     public class PrestigeResponse : ServerResponse
     {

@@ -1,8 +1,8 @@
 ﻿using UnityEngine.Events;
 
-namespace GM.Inventory.Data
+namespace SRC.Inventory.Data
 {
-    public class UserInventory : GM.Core.GMClass
+    public class UserInventory : SRC.Core.GMClass
     {
         public double PrestigePoints;
 
@@ -19,8 +19,6 @@ namespace GM.Inventory.Data
 
         public void Set(UserCurrencies currencies)
         {
-            Gold = BigDouble.HighValue;
-
             UpdateCurrencies(currencies);
         }
 

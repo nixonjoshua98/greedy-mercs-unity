@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace GM.Quests.UI
+namespace SRC.Quests.UI
 {
     public class MercQuestSlot : AbstractQuestSlot
     {

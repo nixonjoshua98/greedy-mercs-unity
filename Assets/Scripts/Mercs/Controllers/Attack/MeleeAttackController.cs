@@ -1,8 +1,8 @@
-using GM.Controllers;
-using GM.Units;
+using SRC.Controllers;
+using SRC.Units;
 using UnityEngine;
 
-namespace GM.Mercs.Controllers
+namespace SRC.Mercs.Controllers
 {
     public class MeleeAttackController : AbstractAttackController
     {

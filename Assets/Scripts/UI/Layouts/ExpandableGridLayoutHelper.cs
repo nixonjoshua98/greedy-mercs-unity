@@ -1,8 +1,7 @@
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.UI
+namespace SRC.UI
 {
     [ExecuteInEditMode]
     [ExecuteAlways]
@@ -19,7 +18,7 @@ namespace GM.UI
         [SerializeField] private Axis ExpandDirection;
         [SerializeField] private RatioMode ratioMode;
 
-        [ShowIf(nameof(ratioMode), RatioMode.Fixed)]
+        [Tooltip("Used for 'RatioMode.Fixed'")]
         [SerializeField] private float cellRatio = 1;
 
         void Awake()

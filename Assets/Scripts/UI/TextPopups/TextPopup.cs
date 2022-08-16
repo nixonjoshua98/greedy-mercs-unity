@@ -1,9 +1,9 @@
-using GM.Common;
+using SRC.Common;
 using TMPro;
 using UnityEngine;
 
 
-namespace GM.UI
+namespace SRC.UI
 {
     public class TextPopup : MonoBehaviour
     {

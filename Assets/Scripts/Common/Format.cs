@@ -1,7 +1,7 @@
-using GM.Common.Enums;
+using SRC.Common.Enums;
 using System.Numerics;
 
-namespace GM
+namespace SRC
 {
     public static class Format
     {
@@ -33,17 +33,17 @@ namespace GM
         {
             return type switch
             {
-                GM.Common.Enums.BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
-                GM.Common.Enums.BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
-                GM.Common.Enums.BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
-                GM.Common.Enums.BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
-                GM.Common.Enums.BonusType.MULTIPLY_ALL_DMG => "All Damage",
-                GM.Common.Enums.BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
-                GM.Common.Enums.BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
-                GM.Common.Enums.BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
-                GM.Common.Enums.BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
-                GM.Common.Enums.BonusType.MULTIPLY_ALL_GOLD => "All Gold",
-                GM.Common.Enums.BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
+                SRC.Common.Enums.BonusType.FLAT_CRIT_CHANCE => "Crit Chance",
+                SRC.Common.Enums.BonusType.MULTIPLY_CRIT_DMG => "Crit Damage",
+                SRC.Common.Enums.BonusType.MULTIPLY_PRESTIGE_BONUS => "Runestones Bonus",
+                SRC.Common.Enums.BonusType.MULTIPLY_MERC_DMG => "Merc Damage",
+                SRC.Common.Enums.BonusType.MULTIPLY_ALL_DMG => "All Damage",
+                SRC.Common.Enums.BonusType.MULTIPLY_MELEE_DMG => "Melee Damage",
+                SRC.Common.Enums.BonusType.MULTIPLY_RANGED_DMG => "Ranged Damage",
+                SRC.Common.Enums.BonusType.MULTIPLY_ENEMY_GOLD => "Enemy Gold",
+                SRC.Common.Enums.BonusType.MULTIPLY_BOSS_GOLD => "Boss Gold",
+                SRC.Common.Enums.BonusType.MULTIPLY_ALL_GOLD => "All Gold",
+                SRC.Common.Enums.BonusType.MULTIPLY_TAP_DMG => "Tap Damage",
                 _ => type.ToString(),
             };
         }

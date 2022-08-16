@@ -1,10 +1,10 @@
-﻿using GM.BountyShop.Data;
-using GM.BountyShop.Requests;
+﻿using SRC.BountyShop.Data;
+using SRC.BountyShop.Requests;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.BountyShop.UI
+namespace SRC.BountyShop.UI
 {
     public class BountyShopArmouryItemSlot : AbstractBountyShopItemSlot
     {

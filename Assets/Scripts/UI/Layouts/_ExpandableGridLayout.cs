@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.UI.Layouts
+namespace SRC.UI.Layouts
 {
     [Obsolete("Use GridLayoutExpandable instead")]
     public class _ExpandableGridLayout : GridLayoutGroup

@@ -1,9 +1,9 @@
-using GM.Armoury.Data;
-using GM.Common.Enums;
-using GM.ScriptableObjects;
+using SRC.Armoury.Data;
+using SRC.Common.Enums;
+using SRC.ScriptableObjects;
 using UnityEngine;
 
-namespace GM.Armoury
+namespace SRC.Armoury
 {
     public class AggregatedArmouryItem : Core.GMClass
     {

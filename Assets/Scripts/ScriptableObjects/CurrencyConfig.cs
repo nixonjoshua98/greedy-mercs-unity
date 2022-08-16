@@ -1,7 +1,7 @@
-using GM.Common.Enums;
+using SRC.Common.Enums;
 using UnityEngine;
 
-namespace GM.ScriptableObjects
+namespace SRC.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Scriptables/CurrencyConfig")]
     public class CurrencyConfig : ScriptableObject

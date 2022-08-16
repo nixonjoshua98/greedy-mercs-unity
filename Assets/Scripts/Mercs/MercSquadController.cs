@@ -1,16 +1,16 @@
-using GM.Mercs.Controllers;
-using GM.Mercs.Data;
+using SRC.Mercs.Controllers;
+using SRC.Mercs.Data;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.Mercs
+namespace SRC.Mercs
 {
     public class MercSquadController : Core.GMMonoBehaviour
     {
-        [SerializeField] GM.Scriptables.UnitFormation Formation;
+        [SerializeField] SRC.Scriptables.UnitFormation Formation;
         float FormationOffsetX = 0;
 
         public GameManager GameManager;

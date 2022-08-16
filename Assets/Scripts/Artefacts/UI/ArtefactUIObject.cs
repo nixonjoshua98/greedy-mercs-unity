@@ -1,6 +1,6 @@
-namespace GM.Artefacts.UI
+namespace SRC.Artefacts.UI
 {
-    public abstract class ArtefactUIObject : GM.Core.GMMonoBehaviour
+    public abstract class ArtefactUIObject : SRC.Core.GMMonoBehaviour
     {
         private int ArtefactID = -1;
 

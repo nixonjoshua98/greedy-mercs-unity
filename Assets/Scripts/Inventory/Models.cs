@@ -1,4 +1,4 @@
-namespace GM.Inventory
+namespace SRC.Inventory
 {
     public class UserCurrencies
     {

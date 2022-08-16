@@ -1,4 +1,4 @@
-﻿namespace GM._Old
+﻿namespace SRC._Old
 {
     public class Stage1000 : Core.GMMonoBehaviour
     {

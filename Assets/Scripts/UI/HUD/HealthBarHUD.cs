@@ -1,10 +1,10 @@
-using GM.Controllers;
+using SRC.Controllers;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.UI.HUD
+namespace SRC.UI.HUD
 {
     public class HealthBarHUD : MonoBehaviour
     {

@@ -1,12 +1,12 @@
-using GM.UI;
+using SRC.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace GM.BountyShop.UI
+namespace SRC.BountyShop.UI
 {
-    public class BountyShopUIController : GM.Core.GMMonoBehaviour
+    public class BountyShopUIController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         [SerializeField] GameObject ArmouryItemSlotObject;
@@ -89,7 +89,7 @@ namespace GM.BountyShop.UI
 
         void RandomizeSlotPositions()
         {
-            var rnd = GM.Common.Utility.SeededRandom(App.DailyRefresh.Previous);
+            var rnd = SRC.Common.Utility.SeededRandom(App.DailyRefresh.Previous);
 
             for (int i = 0; i < ItemsParent.childCount; i++)
             {

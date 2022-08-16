@@ -1,11 +1,11 @@
-using GM.Armoury.Requests;
-using GM.Armoury.ScriptableObjects;
+using SRC.Armoury.Requests;
+using SRC.Armoury.ScriptableObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.Armoury.Data
+namespace SRC.Armoury.Data
 {
     public class ArmouryDataContainer : Core.GMClass
     {

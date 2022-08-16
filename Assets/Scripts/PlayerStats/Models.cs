@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GM.UserStats
+namespace SRC.UserStats
 {
     public class UserAccountStats
     {

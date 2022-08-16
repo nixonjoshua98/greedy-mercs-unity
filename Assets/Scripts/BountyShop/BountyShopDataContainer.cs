@@ -1,10 +1,10 @@
-﻿using GM.BountyShop.Requests;
+﻿using SRC.BountyShop.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
 
-namespace GM.BountyShop.Data
+namespace SRC.BountyShop.Data
 {
     public class BountyShopDataContainer : Core.GMClass
     {

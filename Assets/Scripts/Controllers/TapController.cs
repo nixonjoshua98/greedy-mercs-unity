@@ -1,14 +1,14 @@
-using GM.Common;
+using SRC.Common;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace GM.Controllers
+namespace SRC.Controllers
 {
     [RequireComponent(typeof(RectTransform))]
-    public class TapController : GM.Core.GMMonoBehaviour, IPointerDownHandler
+    public class TapController : SRC.Core.GMMonoBehaviour, IPointerDownHandler
     {
         public GameManager Manager;
 
@@ -19,7 +19,7 @@ namespace GM.Controllers
 
         private Stopwatch _stopWatch;
 
-        private GM.DamageTextPool.DamageTextPool DamageNumberManager;
+        private SRC.DamageTextPool.DamageTextPool DamageNumberManager;
 
         [Header("Prefabs")]
         [HideInInspector] public UnityEvent E_OnTap = new();
@@ -31,7 +31,7 @@ namespace GM.Controllers
 
         private void Start()
         {
-            DamageNumberManager = this.GetComponentInScene<GM.DamageTextPool.DamageTextPool>();
+            DamageNumberManager = this.GetComponentInScene<SRC.DamageTextPool.DamageTextPool>();
         }
 
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)

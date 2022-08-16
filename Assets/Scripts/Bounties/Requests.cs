@@ -1,9 +1,9 @@
-using GM.Bounties.Models;
+using SRC.Bounties.Models;
 using System;
 
-namespace GM.Bounties.Requests
+namespace SRC.Bounties.Requests
 {
-    public class BountyClaimResponse : GM.HTTP.Requests.ServerResponse
+    public class BountyClaimResponse : SRC.HTTP.Requests.ServerResponse
     {
         public long PointsClaimed;
 
@@ -12,7 +12,7 @@ namespace GM.Bounties.Requests
         public Inventory.UserCurrencies Currencies;
     }
 
-    public class UpgradeBountyResponse : GM.HTTP.Requests.ServerResponse
+    public class UpgradeBountyResponse : SRC.HTTP.Requests.ServerResponse
     {
         public UserBounty Bounty;
     }

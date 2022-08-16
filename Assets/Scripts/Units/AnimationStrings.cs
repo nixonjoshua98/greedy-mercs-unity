@@ -1,4 +1,4 @@
-namespace GM
+namespace SRC
 {
     [System.Serializable]
     public struct AnimationStrings

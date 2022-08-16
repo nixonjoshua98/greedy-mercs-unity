@@ -1,12 +1,12 @@
-using GM.Common.Enums;
-using GM.Mercs.ScriptableObjects;
-using GM.ScriptableObjects;
+using SRC.Common.Enums;
+using SRC.Mercs.ScriptableObjects;
+using SRC.ScriptableObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GM.Mercs.Data
+namespace SRC.Mercs.Data
 {
     public partial class AggregatedMercData : Core.GMClass
     {

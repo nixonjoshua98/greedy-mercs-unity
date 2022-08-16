@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace GM.Quests.UI
+namespace SRC.Quests.UI
 {
-    public class DailyQuestsTab : GM.Core.GMMonoBehaviour
+    public class DailyQuestsTab : SRC.Core.GMMonoBehaviour
     {
         [Space]
         [SerializeField] private GameObject QuestSlotObject;

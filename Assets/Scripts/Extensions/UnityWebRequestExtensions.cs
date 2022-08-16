@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Networking;
 
-namespace GM
+namespace SRC
 {
     public static class UnityWebRequestExtensions
     {

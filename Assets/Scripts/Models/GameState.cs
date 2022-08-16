@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GM
+namespace SRC
 {
     public class GameState
     {

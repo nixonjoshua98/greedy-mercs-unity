@@ -1,12 +1,12 @@
-using GM.Artefacts.Scriptables;
+using SRC.Artefacts.Scriptables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using HTTPCodes = GM.HTTP.HTTPCodes;
+using HTTPCodes = SRC.HTTP.HTTPCodes;
 
-namespace GM.Artefacts.Data
+namespace SRC.Artefacts.Data
 {
     public class ArtefactsDataContainer : Core.GMClass
     {

@@ -1,6 +1,6 @@
-﻿namespace GM.UserStats
+﻿namespace SRC.UserStats
 {
-    public class UpdateLifetimeStatsResponse : GM.HTTP.Requests.ServerResponse
+    public class UpdateLifetimeStatsResponse : SRC.HTTP.Requests.ServerResponse
     {
         public LifetimeStatsModel LifetimeStats;
     }

@@ -1,9 +1,9 @@
-using GM.GoldUpgrades.UI;
+using SRC.GoldUpgrades.UI;
 using UnityEngine;
 
-namespace GM.UI
+namespace SRC.UI
 {
-    public class PlayerTabController : GM.Core.GMMonoBehaviour
+    public class PlayerTabController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         [SerializeField] private GameObject QuestsPopupObject;
@@ -22,7 +22,7 @@ namespace GM.UI
 
         public void OpenQuestsPopup()
         {
-            this.InstantiateUI<GM.Quests.UI.QuestsPopup>(QuestsPopupObject);
+            this.InstantiateUI<SRC.Quests.UI.QuestsPopup>(QuestsPopupObject);
         }
     }
 }

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.UI
+namespace SRC.UI
 {
     [System.Serializable]
     struct QuantitySelectorOption

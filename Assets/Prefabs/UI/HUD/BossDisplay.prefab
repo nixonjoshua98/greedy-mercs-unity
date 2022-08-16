@@ -188,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
   BossIncomingEffect: {fileID: 7947421524383560794}
+  BossText: {fileID: 7947421523323660107}
   FooterText: {fileID: 7947421524553108200}
 --- !u!1 &7947421524383560806
 GameObject:

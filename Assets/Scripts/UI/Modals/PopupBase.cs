@@ -1,10 +1,19 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-namespace GM.UI
+namespace SRC.UI
 {
-    public abstract class PopupBase : GM.Core.GMMonoBehaviour
+    public abstract class PopupBase : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] GameObject InnerPanel;
+
+        [HideInInspector] public readonly UnityEvent E_OnDestroyed = new();
+
+        private void OnDestroy()
+        {
+            E_OnDestroyed.Invoke();
+        }
+
         protected void ShowInnerPanel()
         {
             InnerPanel.SetActive(true);

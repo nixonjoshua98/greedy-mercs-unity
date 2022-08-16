@@ -1,11 +1,11 @@
-using GM.Mercs.ScriptableObjects;
+using SRC.Mercs.ScriptableObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.Mercs.Data
+namespace SRC.Mercs.Data
 {
     public class MercDataContainer : Core.GMClass
     {

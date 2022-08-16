@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace GM.Parallax
+namespace SRC.Parallax
 {
     public class ParallaxLayer : MonoBehaviour
     {

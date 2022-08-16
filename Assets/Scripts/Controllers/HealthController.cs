@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM.Controllers
+namespace SRC.Controllers
 {
     public class HealthController : MonoBehaviour
     {

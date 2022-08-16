@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace GM.UI.HUD
+namespace SRC.UI.HUD
 {
-    public class KillCountHUD : GM.Core.GMMonoBehaviour
+    public class KillCountHUD : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] GameManager Manager;
 

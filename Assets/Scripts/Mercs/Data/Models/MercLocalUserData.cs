@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace GM.Mercs.Data
+namespace SRC.Mercs.Data
 {
     public class MercLocalUserData
     {

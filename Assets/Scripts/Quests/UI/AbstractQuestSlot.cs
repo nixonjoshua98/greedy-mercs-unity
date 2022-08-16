@@ -2,13 +2,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Quests.UI
+namespace SRC.Quests.UI
 {
     [System.Serializable]
     public class ClaimButtonColours
     {
-        public Color InProgress = GM.Common.Constants.Colors.Grey;
-        public Color ReadyToComplete = GM.Common.Constants.Colors.SoftGreen;
+        public Color InProgress = SRC.Common.Constants.Colors.Grey;
+        public Color ReadyToComplete = SRC.Common.Constants.Colors.SoftGreen;
     }
 
     public abstract class AbstractQuestSlot : MonoBehaviour

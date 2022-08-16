@@ -1,4 +1,4 @@
-﻿namespace GM.HTTP
+﻿namespace SRC.HTTP
 {
     public struct HTTPServerConfig
     {

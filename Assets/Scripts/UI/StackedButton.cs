@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.UI
+namespace SRC.UI
 {
     public class StackedButton : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 
-namespace GM
+namespace SRC
 {
     public static class BigIntegerExtensions
     {

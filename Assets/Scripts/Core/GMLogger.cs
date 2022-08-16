@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace GM
+namespace SRC
 {
     public static class GMLogger
     {

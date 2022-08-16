@@ -1,11 +1,11 @@
-using GM.Armoury;
-using GM.Common;
-using GM.Common.Enums;
-using GM.Mercs.Data;
+using SRC.Armoury;
+using SRC.Common;
+using SRC.Common.Enums;
+using SRC.Mercs.Data;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GM.Core
+namespace SRC.Core
 {
     public class GMValues : GMClass
     {
@@ -139,7 +139,7 @@ namespace GM.Core
             return ArtefactUpgradeCost(App.Artefacts.GetArtefact(artefactId), levels);
         }
 
-        public double ArtefactUpgradeCost(GM.Artefacts.Data.AggregatedArtefactData data, int levels)
+        public double ArtefactUpgradeCost(SRC.Artefacts.Data.AggregatedArtefactData data, int levels)
         {
             return GameFormulas.ArtefactUpgradeCost(data.CurrentLevel, levels, data.CostExpo, data.CostCoeff);
         }
@@ -158,7 +158,7 @@ namespace GM.Core
         #endregion
 
         /// <summary>Upgrade cost for merc. CurrentLevel -> (CurrentLevel + levels)</summary>
-        public BigDouble MercUpgradeCost(GM.Mercs.Data.AggregatedMercData merc, int levels)
+        public BigDouble MercUpgradeCost(SRC.Mercs.Data.AggregatedMercData merc, int levels)
         {
             return GameFormulas.MercUpgradeCost(merc.CurrentLevel, levels);
         }

@@ -1,9 +1,9 @@
-using GM.Controllers;
+using SRC.Controllers;
 using UnityEngine;
 
-namespace GM.Units.Controllers
+namespace SRC.Units.Controllers
 {
-    public class EnemyUnitController : GM.Core.GMMonoBehaviour
+    public class EnemyUnitController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         public GameObject DefeatPS;

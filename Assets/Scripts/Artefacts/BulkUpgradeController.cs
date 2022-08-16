@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GM.Artefacts
+namespace SRC.Artefacts
 {
     internal class BulkUpgradeChanges
     {
@@ -9,7 +9,7 @@ namespace GM.Artefacts
         public Dictionary<int, int> Upgrades = new Dictionary<int, int>();
     }
 
-    public class BulkUpgradeController : GM.Core.GMClass
+    public class BulkUpgradeController : SRC.Core.GMClass
     {
         private readonly Action<bool> UpgradeCallback;
         private bool WaitingForResponse;

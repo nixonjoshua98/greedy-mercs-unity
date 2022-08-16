@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace GM.Armoury.ScriptableObjects
+namespace SRC.Armoury.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Scriptables/ArmouryItemScriptableObject")]
     public class ArmouryItemScriptableObject : ScriptableObject

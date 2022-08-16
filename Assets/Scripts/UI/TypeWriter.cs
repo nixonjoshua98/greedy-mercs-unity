@@ -3,7 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace GM.UI
+namespace SRC.UI
 {
     public class TypeWriter : MonoBehaviour
     {

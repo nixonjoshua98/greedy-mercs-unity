@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Scriptables
+namespace SRC.Scriptables
 {
     [CreateAssetMenu(menuName = "Scriptables/UnitFormation")]
     public class UnitFormation : ScriptableObject

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GM.Artefacts.Scriptables
+namespace SRC.Artefacts.Scriptables
 {
     [CreateAssetMenu(menuName = "Scriptables/ArtefactScriptableObject")]
     public class ArtefactScriptableObject : ScriptableObject

@@ -1,26 +1,27 @@
-using GM.HTTP;
-using GM.LocalFiles;
-using GM.Models;
-using GM.ScriptableObjects;
+using SRC.HTTP;
+using SRC.LocalFiles;
+using SRC.Models;
+using SRC.ScriptableObjects;
 using System;
 using UnityEngine;
 
-namespace GM.Core
+namespace SRC.Core
 {
-    public class GMApplication : UnityEngine.MonoBehaviour
+    [System.Serializable]
+    public class GMApplication
     {
         public static GMApplication Instance { get; private set; }
 
         // Data Containers
-        public GM.Quests.QuestsContainer Quests = new();
-        public GM.Mercs.Data.MercDataContainer Mercs = new();
-        public GM.GoldUpgrades.GoldUpgradesContainer GoldUpgrades = new();
-        public GM.Inventory.Data.UserInventory Inventory = new();
-        public GM.Artefacts.Data.ArtefactsDataContainer Artefacts = new();
-        public GM.Armoury.Data.ArmouryDataContainer Armoury = new();
-        public GM.Bounties.Models.BountiesDataContainer Bounties = new();
-        public GM.BountyShop.Data.BountyShopDataContainer BountyShop = new();
-        public GM.UserStats.PlayerStatsContainer Stats = new();
+        public SRC.Quests.QuestsContainer Quests = new();
+        public SRC.Mercs.Data.MercDataContainer Mercs = new();
+        public SRC.GoldUpgrades.GoldUpgradesContainer GoldUpgrades = new();
+        public SRC.Inventory.Data.UserInventory Inventory = new();
+        public SRC.Artefacts.Data.ArtefactsDataContainer Artefacts = new();
+        public SRC.Armoury.Data.ArmouryDataContainer Armoury = new();
+        public SRC.Bounties.Models.BountiesDataContainer Bounties = new();
+        public SRC.BountyShop.Data.BountyShopDataContainer BountyShop = new();
+        public SRC.UserStats.PlayerStatsContainer Stats = new();
 
         public LocalDataContainer Local;
 
@@ -46,11 +47,9 @@ namespace GM.Core
         /// </summary>
         public ServerRefreshInterval DailyRefresh = new() { Hour = 20, Interval = TimeSpan.FromDays(1) };
 
-        void Awake()
+        public GMApplication()
         {
             Instance = this;
-
-            DontDestroyOnLoad(this);
         }
 
         public void Initialize(IServerUserData userData, IStaticGameData staticData)

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GM.Armoury.UI
+namespace SRC.Armoury.UI
 {
     public class ArmouryItemsGridController : Core.GMMonoBehaviour
     {
@@ -10,7 +10,7 @@ namespace GM.Armoury.UI
         public GameObject ArmouryItemSlotObject;
 
         [Header("References")]
-        public GM.UI.Layouts._ExpandableGridLayout ItemsGridLayout;
+        public SRC.UI.Layouts._ExpandableGridLayout ItemsGridLayout;
         public Transform ItemsSlotsParent;
 
         [Header("Properties")]

@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace GM.UI
+namespace SRC.UI
 {
     public class PillBadge : MonoBehaviour
     {

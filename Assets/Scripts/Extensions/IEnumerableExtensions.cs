@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GM
+namespace SRC
 {
     public static class IEnumerableExtensions
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GM
+namespace SRC
 {
     public class ClickObject : MonoBehaviour
     {

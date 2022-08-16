@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Navigation
+namespace SRC.Navigation
 {
     public class TabGroup : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.UI
+namespace SRC.UI
 {
     public class DestroyButton : MonoBehaviour
     {

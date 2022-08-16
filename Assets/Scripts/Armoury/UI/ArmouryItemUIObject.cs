@@ -1,6 +1,6 @@
-namespace GM.Armoury.UI
+namespace SRC.Armoury.UI
 {
-    public abstract class ArmouryItemUIObject : GM.Core.GMMonoBehaviour
+    public abstract class ArmouryItemUIObject : SRC.Core.GMMonoBehaviour
     {
         private int AssignedItemId = -1;
 

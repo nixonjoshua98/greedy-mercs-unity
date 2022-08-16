@@ -1,10 +1,10 @@
-﻿using GM.Mercs.Data;
-using GM.UserStats;
+﻿using SRC.Mercs.Data;
+using SRC.UserStats;
 using System;
 
-namespace GM.Quests
+namespace SRC.Quests
 {
-    public abstract class AbstractAggregatedQuest : GM.Core.GMClass
+    public abstract class AbstractAggregatedQuest : SRC.Core.GMClass
     {
         public int ID;
         public long LongValue;

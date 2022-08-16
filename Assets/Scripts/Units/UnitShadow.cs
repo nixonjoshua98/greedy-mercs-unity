@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GM.Units.Controllers
+namespace SRC.Units.Controllers
 {
     public class UnitShadow : MonoBehaviour
     {

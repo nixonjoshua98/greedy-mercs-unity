@@ -1,10 +1,10 @@
-using GM.Mercs.Data;
+using SRC.Mercs.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
     class MercDamageValue
     {

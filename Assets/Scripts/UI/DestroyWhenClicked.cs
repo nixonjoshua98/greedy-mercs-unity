@@ -3,10 +3,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GM.UI
+namespace SRC.UI
 {
     public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
     {
+        [SerializeField] GameObject TargetObject;
+
         private GraphicRaycaster CanvasRaycaster;
 
         private void Awake()
@@ -26,14 +28,8 @@ namespace GM.UI
 
             if (results.Count >= 1 && results[0].gameObject == gameObject)
             {
-                Destroy(gameObject);
+                Destroy(TargetObject == null ? gameObject : TargetObject);
             }
         }
-
-        private void Destroy()
-        {
-            Destroy(gameObject);
-        }
     }
-
 }

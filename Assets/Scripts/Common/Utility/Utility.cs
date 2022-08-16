@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GM.Common
+namespace SRC.Common
 {
     public static class Utility
     {

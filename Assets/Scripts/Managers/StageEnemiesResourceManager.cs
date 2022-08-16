@@ -1,12 +1,12 @@
-using GM.Controllers;
-using GM.Events;
-using GM.UI.HUD;
-using GM.Units;
+using SRC.Controllers;
+using SRC.Events;
+using SRC.UI.HUD;
+using SRC.Units;
 using UnityEngine;
 
-namespace GM.Managers
+namespace SRC.Managers
 {
-    public class StageEnemiesResourceManager : GM.Core.GMMonoBehaviour
+    public class StageEnemiesResourceManager : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] GameManager Manager;
         [Space]

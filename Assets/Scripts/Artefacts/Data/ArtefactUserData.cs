@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace GM.Artefacts.Data
+namespace SRC.Artefacts.Data
 {
     public class ArtefactUserData
     {

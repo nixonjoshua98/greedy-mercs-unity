@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Common
+namespace SRC.Common
 {
     internal class ObjectPoolObject
     {

@@ -1,8 +1,8 @@
-﻿using GM.Common;
-using GM.Common.Enums;
+﻿using SRC.Common;
+using SRC.Common.Enums;
 using UnityEngine;
 
-namespace GM
+namespace SRC
 {
     public static class DamageTypeExtensions
     {

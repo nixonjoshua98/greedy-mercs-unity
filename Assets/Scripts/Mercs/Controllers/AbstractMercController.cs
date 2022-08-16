@@ -1,13 +1,13 @@
-using GM.Common;
-using GM.Common.Enums;
-using GM.Controllers;
-using GM.Mercs.Data;
-using GM.Units;
+using SRC.Common;
+using SRC.Common.Enums;
+using SRC.Controllers;
+using SRC.Mercs.Data;
+using SRC.Units;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM
+namespace SRC
 {
     record MercAttackValues
     {
@@ -17,12 +17,12 @@ namespace GM
 }
 
 
-namespace GM.Mercs.Controllers
+namespace SRC.Mercs.Controllers
 {
-    public abstract class AbstractMercController : GM.Core.GMMonoBehaviour
+    public abstract class AbstractMercController : SRC.Core.GMMonoBehaviour
     {
         public MercID ID = MercID.UNKNOWN;
-        public GM.Units.UnitAvatar Avatar;
+        public SRC.Units.UnitAvatar Avatar;
         [Header("Components")]
         [SerializeField] public MovementController Movement;
         [SerializeField] private AbstractAttackController Attack;
@@ -32,7 +32,7 @@ namespace GM.Mercs.Controllers
         [HideInInspector] public UnityEvent E_OnEnemyDefeated = new();
 
         // Scene instances
-        private GM.DamageTextPool.DamageTextPool DamageNumbers;
+        private SRC.DamageTextPool.DamageTextPool DamageNumbers;
 
         /* Init Values */
         protected MercSquadController SquadController;
@@ -40,7 +40,7 @@ namespace GM.Mercs.Controllers
         public bool InControl = true;
 
         /* Game Values */
-        public GM.Mercs.Data.AggregatedMercData DataValues => App.Mercs.GetMerc(ID);
+        public SRC.Mercs.Data.AggregatedMercData DataValues => App.Mercs.GetMerc(ID);
 
         protected GameObject CurrentTarget;
         Func<GameObject> TryGetTarget;
@@ -58,7 +58,7 @@ namespace GM.Mercs.Controllers
 
         protected void GetRequiredComponents()
         {
-            DamageNumbers = this.GetComponentInScene<GM.DamageTextPool.DamageTextPool>();
+            DamageNumbers = this.GetComponentInScene<SRC.DamageTextPool.DamageTextPool>();
         }
 
         private void FixedUpdate()

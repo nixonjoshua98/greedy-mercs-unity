@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GM.UI
+namespace SRC.UI
 {
     public class DamageNumberTextPopup : TextPopup
     {

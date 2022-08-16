@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672bd7714b5c89f4cb784327617f0355, type: 3}
+  m_Name: Bounties
+  m_EditorClassIdentifier: 
+  Bounties:
+  - BountyID: 0
+    Icon: {fileID: 21300000, guid: 8981acd73b083464fb81f5cfc3f35073, type: 3}
+    Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1,
+      type: 3}
+  - BountyID: 1
+    Icon: {fileID: 21300000, guid: 975d7ac45911fa149ac31ee2afd06f89, type: 3}
+    Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1,
+      type: 3}
+  - BountyID: 2
+    Icon: {fileID: 21300000, guid: 0e7f5b30c9fb0b9459b26e9411b5fdef, type: 3}
+    Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1,
+      type: 3}
+  - BountyID: 3
+    Icon: {fileID: 21300000, guid: 831343d15b568c34f869398ba6030b68, type: 3}
+    Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1,
+      type: 3}
+  - BountyID: 4
+    Icon: {fileID: 21300000, guid: add51f60a9c4f3f45a671ce9688c5d37, type: 3}
+    Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1,
+      type: 3}
+  - BountyID: 5
+    Icon: {fileID: 21300000, guid: 37a60f98c5f525f40ac9ddacf9388f47, type: 3}
+    Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1,
+      type: 3}
+  - BountyID: 6
+    Icon: {fileID: 21300000, guid: aedcaac2e4aee3c4ca987ae168074dfa, type: 3}
+    Prefab: {fileID: 6178279748580105543, guid: 6f94817bfc37f3043b6b42ac3ca64bb1,
+      type: 3}

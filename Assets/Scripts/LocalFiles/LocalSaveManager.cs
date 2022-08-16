@@ -1,6 +1,6 @@
-﻿namespace GM
+﻿namespace SRC
 {
-    public class LocalSaveManager : GM.Core.GMMonoBehaviour
+    public class LocalSaveManager : SRC.Core.GMMonoBehaviour
     {
         public bool Paused { get; set; } = false;
 

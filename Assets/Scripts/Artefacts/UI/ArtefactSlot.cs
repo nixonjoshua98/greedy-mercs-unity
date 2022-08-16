@@ -1,11 +1,11 @@
-using GM.Common;
-using GM.UI;
+using SRC.Common;
+using SRC.UI;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Artefacts.UI
+namespace SRC.Artefacts.UI
 {
     public class ArtefactSlot : ArtefactUIObject
     {

@@ -1,9 +1,9 @@
-﻿using GM.HTTP;
+﻿using SRC.HTTP;
 using System;
 
-namespace GM.UserStats
+namespace SRC.UserStats
 {
-    public class PlayerStatsContainer : GM.Core.GMClass
+    public class PlayerStatsContainer : SRC.Core.GMClass
     {
         public LifetimeStatsModel ConfirmedLifetimeStats;
 

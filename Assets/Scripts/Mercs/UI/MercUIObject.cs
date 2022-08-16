@@ -1,8 +1,8 @@
-using GM.Mercs.Data;
+using SRC.Mercs.Data;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
-    public abstract class MercUIObject : GM.Core.GMMonoBehaviour
+    public abstract class MercUIObject : SRC.Core.GMMonoBehaviour
     {
         private MercID AssignedId;
 

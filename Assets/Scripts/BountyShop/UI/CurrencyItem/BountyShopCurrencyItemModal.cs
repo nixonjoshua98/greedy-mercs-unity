@@ -1,13 +1,13 @@
-using GM.BountyShop.Data;
-using GM.BountyShop.Requests;
-using GM.Common.Enums;
-using GM.UI;
+using SRC.BountyShop.Data;
+using SRC.BountyShop.Requests;
+using SRC.Common.Enums;
+using SRC.UI;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.BountyShop.UI
+namespace SRC.BountyShop.UI
 {
     public class BountyShopCurrencyItemModal : AbstractBountyShopItemModal
     {

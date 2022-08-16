@@ -1,4 +1,4 @@
-using GM.Artefacts.Data;
+using SRC.Artefacts.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,14 +6,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Artefacts.UI
+namespace SRC.Artefacts.UI
 {
     public class UnlockArtefactPopup : Core.GMMonoBehaviour
     {
         //[Header("References")]
         //public ArtefactIcon Icon;
 
-        public GM.UI.DestroyButton DestroyButton;
+        public SRC.UI.DestroyButton DestroyButton;
         public Button UnlockButton;
         public TMP_Text UnlockButtonText;
         private Action<AggregatedArtefactData> OnArtefactUnlocked;

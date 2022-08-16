@@ -1,12 +1,12 @@
-using GM.Common;
-using GM.Mercs.Data;
+using SRC.Common;
+using SRC.Mercs.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
-    public class MercSlotPassiveIcon : GM.Core.GMMonoBehaviour
+    public class MercSlotPassiveIcon : SRC.Core.GMMonoBehaviour
     {
         [Header("Sprites")]
         [SerializeField] Sprite UnlockedSprite;

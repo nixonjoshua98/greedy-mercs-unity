@@ -1,13 +1,13 @@
-﻿using GM.Armoury.Data;
-using GM.Artefacts.Data;
-using GM.Bounties.Models;
-using GM.Inventory;
-using GM.Mercs.Data;
-using GM.Quests;
-using GM.UserStats;
+﻿using SRC.Armoury.Data;
+using SRC.Artefacts.Data;
+using SRC.Bounties.Models;
+using SRC.Inventory;
+using SRC.Mercs.Data;
+using SRC.Quests;
+using SRC.UserStats;
 using System.Collections.Generic;
 
-namespace GM.Models
+namespace SRC.Models
 {
     public interface IServerUserData
     {

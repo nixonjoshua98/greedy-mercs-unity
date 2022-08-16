@@ -1,9 +1,9 @@
-﻿using GM.Common;
-using GM.Mercs.Data;
+﻿using SRC.Common;
+using SRC.Mercs.Data;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace GM
+namespace SRC
 {
     public class LocalStateFile
     {

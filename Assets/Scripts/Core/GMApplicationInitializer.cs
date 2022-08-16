@@ -1,13 +1,10 @@
-using GM.HTTP;
-using GM.Models;
+using SRC.HTTP;
+using SRC.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * This needs reworking
- */
 
-namespace GM.Core
+namespace SRC.Core
 {
     internal struct InitialisationData
     {
@@ -17,6 +14,8 @@ namespace GM.Core
 
     public class GMApplicationInitializer : MonoBehaviour
     {
+        [SerializeField] private GMApplication App = new();
+
         private InitialisationData Data = new();
 
         private void Start()
@@ -63,11 +62,9 @@ namespace GM.Core
 
         private void Initialize()
         {
-            GMApplication app = GMApplication.Instance;
+            App.Initialize(Data.UserData, Data.StaticData);
 
-            app.Initialize(Data.UserData, Data.StaticData);
-
-            app.Quests.FetchQuests((success) =>
+            App.Quests.FetchQuests((success) =>
             {
                 SceneManager.LoadSceneAsync("GameScene");
             });

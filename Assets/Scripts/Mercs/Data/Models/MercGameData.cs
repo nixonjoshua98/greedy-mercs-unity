@@ -1,8 +1,8 @@
-﻿using GM.Common.Enums;
+﻿using SRC.Common.Enums;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace GM.Mercs.Data
+namespace SRC.Mercs.Data
 {
     public class MercDataFile
     {

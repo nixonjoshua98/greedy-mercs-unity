@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace GM.Common
+namespace SRC.Common
 {
     /*
         Values calculated in this class should not require access to the game state and should be deterministic - which makes them easy to cache for a small performance increase

@@ -1,13 +1,13 @@
-﻿using GM.Common;
-using GM.Mercs.Data;
-using GM.UserStats;
+﻿using SRC.Common;
+using SRC.Mercs.Data;
+using SRC.UserStats;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace GM.LocalFiles
+namespace SRC.LocalFiles
 {
-    public sealed class LocalPersistantFile : GM.Core.GMClass
+    public sealed class LocalPersistantFile : SRC.Core.GMClass
     {
         private const string FilePath = "LocalPersistantFile";
 

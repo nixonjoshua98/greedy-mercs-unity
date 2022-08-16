@@ -1,11 +1,11 @@
-using GM.Common.Enums;
-using GM.ScriptableObjects;
+using SRC.Common.Enums;
+using SRC.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.UI
+namespace SRC.UI
 {
-    public class GenericGradeItem : GM.Core.GMMonoBehaviour
+    public class GenericGradeItem : SRC.Core.GMMonoBehaviour
     {
         [Header("Defaults")]
         [SerializeField, Tooltip("Optional")] Sprite DefaultIcon;
@@ -29,7 +29,7 @@ namespace GM.UI
             }
         }
 
-        public void Intialize(GM.Mercs.Data.AggregatedMercData merc)
+        public void Intialize(SRC.Mercs.Data.AggregatedMercData merc)
         {
             IconImage.sprite = merc.Icon;
 
@@ -45,7 +45,7 @@ namespace GM.UI
             IconImage.sprite = icon;
         }
 
-        public void Intialize(GM.Artefacts.Data.AggregatedArtefactData artefact)
+        public void Intialize(SRC.Artefacts.Data.AggregatedArtefactData artefact)
         {
             IconImage.sprite = artefact.Icon;
 

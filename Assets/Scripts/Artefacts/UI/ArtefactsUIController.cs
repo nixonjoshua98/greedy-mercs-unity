@@ -1,11 +1,11 @@
-using GM.Artefacts.Data;
-using GM.UI;
+using SRC.Artefacts.Data;
+using SRC.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Artefacts.UI
+namespace SRC.Artefacts.UI
 {
-    public class ArtefactsUIController : GM.Core.GMMonoBehaviour
+    public class ArtefactsUIController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         [SerializeField] GameObject ArtefactSlotObject;

@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace GM.Quests.UI
+namespace SRC.Quests.UI
 {
-    public class MercQuestsTab : GM.Core.GMMonoBehaviour
+    public class MercQuestsTab : SRC.Core.GMMonoBehaviour
     {
         [Space]
         [SerializeField] private GameObject QuestSlotObject;

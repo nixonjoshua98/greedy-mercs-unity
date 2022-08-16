@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace GM
+namespace SRC
 {
-    public class ServerSyncManager : GM.Core.GMMonoBehaviour
+    public class ServerSyncManager : SRC.Core.GMMonoBehaviour
     {
         private bool isUpdatingQuests;
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace GM.Units
+namespace SRC.Units
 {
     public class MovementController : MonoBehaviour
     {

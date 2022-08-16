@@ -1,10 +1,10 @@
-﻿namespace GM.HTTP.Models
+﻿namespace SRC.HTTP.Models
 {
     public class LocalGameStateRequestModel
     {
         public int CurrentStage;
 
-        public static LocalGameStateRequestModel Create(GM.Core.GMApplication app)
+        public static LocalGameStateRequestModel Create(SRC.Core.GMApplication app)
         {
             return new()
             {

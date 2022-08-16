@@ -1,10 +1,10 @@
-﻿using GM.Artefacts.Data;
-using GM.UI;
+﻿using SRC.Artefacts.Data;
+using SRC.UI;
 using UnityEngine;
 
-namespace GM.Artefacts.UI
+namespace SRC.Artefacts.UI
 {
-    public class ArtefactPreviewIcon : GM.Core.GMMonoBehaviour
+    public class ArtefactPreviewIcon : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] GenericGradeItem GradeSlot;
 

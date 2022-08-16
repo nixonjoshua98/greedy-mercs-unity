@@ -1,5 +1,5 @@
 ﻿
-namespace GM.Mercs.Data
+namespace SRC.Mercs.Data
 {
     public enum MercID
     {

@@ -1,16 +1,16 @@
-using GM.Common;
+using SRC.Common;
 using TMPro;
 using UnityEngine;
 
-namespace GM.GoldUpgrades.UI
+namespace SRC.GoldUpgrades.UI
 {
-    public class TapDamageGoldUpgradeSlot : GM.Core.GMMonoBehaviour
+    public class TapDamageGoldUpgradeSlot : SRC.Core.GMMonoBehaviour
     {
         [Header("Components")]
         public TMP_Text LevelText;
         public TMP_Text DamageText;
         [Space]
-        public GM.UI.StackedButton UpgradeButton;
+        public SRC.UI.StackedButton UpgradeButton;
         private int _buyAmount;
         protected int BuyAmount => MathsUtlity.NextMultipleMax(Upgrade.Level, _buyAmount, 1_000);
 

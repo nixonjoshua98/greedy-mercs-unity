@@ -1,25 +1,25 @@
-﻿using GM.Armoury.Data;
-using GM.BountyShop.Data;
-using GM.Inventory;
+﻿using SRC.Armoury.Data;
+using SRC.BountyShop.Data;
+using SRC.Inventory;
 using System;
 using System.Collections.Generic;
 
-namespace GM.BountyShop.Requests
+namespace SRC.BountyShop.Requests
 {
-    public class PurchaseArmouryItemResponse : GM.HTTP.Requests.ServerResponse
+    public class PurchaseArmouryItemResponse : SRC.HTTP.Requests.ServerResponse
     {
         public long PurchaseCost;
         public UserCurrencies Currencies;
         public UserArmouryItem ArmouryItem;
     }
 
-    public class PurchaseCurrencyResponse : GM.HTTP.Requests.ServerResponse
+    public class PurchaseCurrencyResponse : SRC.HTTP.Requests.ServerResponse
     {
         public long PurchaseCost;
         public UserCurrencies Currencies;
     }
 
-    public class GetBountyShopResponse : GM.HTTP.Requests.ServerResponse
+    public class GetBountyShopResponse : SRC.HTTP.Requests.ServerResponse
     {
         public DateTime ShopCreationTime;
         public List<BountyShopPurchaseModel> Purchases;

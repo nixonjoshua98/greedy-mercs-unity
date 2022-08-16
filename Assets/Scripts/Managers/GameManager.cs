@@ -1,17 +1,17 @@
-using GM.Bounties.Models;
-using GM.CameraControllers;
-using GM.Controllers;
-using GM.Events;
-using GM.Mercs;
-using GM.Units.Controllers;
+using SRC.Bounties.Models;
+using SRC.CameraControllers;
+using SRC.Controllers;
+using SRC.Events;
+using SRC.Mercs;
+using SRC.Units.Controllers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GM
+namespace SRC
 {
-    public class GameManager : GM.Core.GMMonoBehaviour
+    public class GameManager : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] CameraController CamController;
         [SerializeField] MercSquadController Mercs;
@@ -86,7 +86,7 @@ namespace GM
 
         private IEnumerator SetupStageBoss()
         {
-            GameObject unitToSpawn = App.Bounties.TryGetStageBounty(App.GameState.Stage, out Bounty bountyData) ? bountyData.Prefab : BossObject;
+            GameObject unitToSpawn = App.Bounties.TryGetStageBounty(App.GameState.Stage, out AggregatedBounty bountyData) ? bountyData.Prefab : BossObject;
 
             StageEnemyPosition += new Vector3(10, 0);
 
@@ -97,7 +97,9 @@ namespace GM
             health.E_OnZeroHealth.AddListener(() => OnBossZeroHealth(bossObject));
             health.Init(App.Values.StageBossHealthAtStage(App.GameState.Stage));
 
-            var eventPayload = new GM.Events.StageBossEventPayload(bossObject, State.Stage);
+            var eventPayload = new SRC.Events.StageBossEventPayload(go: bossObject,
+                                                                    stage: State.Stage,
+                                                                    isBounty: bountyData != null);
 
             E_OnPreBossReady.Invoke(eventPayload);
 

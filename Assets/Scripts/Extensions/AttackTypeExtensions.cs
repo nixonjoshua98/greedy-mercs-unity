@@ -1,6 +1,6 @@
-using GM.Common.Enums;
+using SRC.Common.Enums;
 
-namespace GM
+namespace SRC
 {
     public static class AttackTypeExtensions
     {

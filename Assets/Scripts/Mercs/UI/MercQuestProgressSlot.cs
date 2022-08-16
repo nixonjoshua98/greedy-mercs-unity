@@ -1,13 +1,13 @@
-using GM.Common;
-using GM.UI;
+using SRC.Common;
+using SRC.UI;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
-    public class MercQuestProgressSlot : GM.Core.GMMonoBehaviour
+    public class MercQuestProgressSlot : SRC.Core.GMMonoBehaviour
     {
         [Header("Text Elements")]
         [SerializeField] TMP_Text TitleText;
@@ -18,7 +18,7 @@ namespace GM.Mercs.UI
         [SerializeField] Image ButtonBackgroundImage;
         [SerializeField] Slider ProgressSlider;
 
-        GM.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderByDescending(x => x.CurrentProgress).ThenBy(x => x.ID).FirstOrDefault();
+        SRC.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderByDescending(x => x.CurrentProgress).ThenBy(x => x.ID).FirstOrDefault();
 
         void Awake()
         {

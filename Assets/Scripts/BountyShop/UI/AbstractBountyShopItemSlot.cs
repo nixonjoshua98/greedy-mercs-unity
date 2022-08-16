@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace GM.BountyShop.UI
+namespace SRC.BountyShop.UI
 {
-    public abstract class AbstractBountyShopItemSlot : GM.Core.GMMonoBehaviour
+    public abstract class AbstractBountyShopItemSlot : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         [SerializeField] protected GameObject PurchaseModalObject;

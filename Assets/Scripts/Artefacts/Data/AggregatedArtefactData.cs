@@ -1,8 +1,8 @@
-using GM.Common.Enums;
-using GM.ScriptableObjects;
+using SRC.Common.Enums;
+using SRC.ScriptableObjects;
 using UnityEngine;
 
-namespace GM.Artefacts.Data
+namespace SRC.Artefacts.Data
 {
     public class AggregatedArtefactData : Core.GMClass
     {

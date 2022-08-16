@@ -1,11 +1,11 @@
 using TMPro;
 using UnityEngine;
 
-namespace GM.Artefacts.UI
+namespace SRC.Artefacts.UI
 {
     public class ArtefactPanel : ArtefactUIObject
     {
-        [SerializeField] GM.UI.GenericGradeItem GradeSlot;
+        [SerializeField] SRC.UI.GenericGradeItem GradeSlot;
 
         [Header("Text References")]
         [SerializeField] TMP_Text CurrentBonusText;

@@ -1,9 +1,9 @@
-using GM.Mercs.Data;
+using SRC.Mercs.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
     public class MercPassiveSlot : MonoBehaviour
     {

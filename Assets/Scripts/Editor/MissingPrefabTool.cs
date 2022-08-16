@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GM
+namespace SRC
 {
     public class MissingPrefabTool
     {

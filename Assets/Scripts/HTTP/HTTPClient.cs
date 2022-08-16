@@ -1,12 +1,12 @@
-using GM.Armoury.Requests;
-using GM.Artefacts.Requests;
-using GM.Bounties.Requests;
-using GM.BountyShop.Requests;
-using GM.Common;
-using GM.HTTP.Models;
-using GM.HTTP.Requests;
-using GM.Quests;
-using GM.UserStats;
+using SRC.Armoury.Requests;
+using SRC.Artefacts.Requests;
+using SRC.Bounties.Requests;
+using SRC.BountyShop.Requests;
+using SRC.Common;
+using SRC.HTTP.Models;
+using SRC.HTTP.Requests;
+using SRC.Quests;
+using SRC.UserStats;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -15,7 +15,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace GM.HTTP
+namespace SRC.HTTP
 {
     public interface IHTTPClient
     {
@@ -39,7 +39,7 @@ namespace GM.HTTP
         void ToggleActiveBounty(int bountyId, bool isActive, Action<ServerResponse> callback);
     }
 
-    public abstract class AbstractHTTPClient : MonoBehaviourLazySingleton<HTTPClient>
+    public abstract class AbstractHTTPClient : LazyMonoBehaviour<HTTPClient>
     {
         protected abstract HTTPServerConfig Server { get; }
 
@@ -271,7 +271,7 @@ namespace GM.HTTP
                 LocalState = App.LocalStateFile
             };
 
-            SendRequest("PUT", "Prestige", req, encrypt: true, callback);
+            SendRequest("PUT", "Prestige", req, encrypt: false, callback);
         }
 
         public void PurchaseBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)

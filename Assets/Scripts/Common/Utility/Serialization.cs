@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace GM.Common
+namespace SRC.Common
 {
     public static class Serialization
     {

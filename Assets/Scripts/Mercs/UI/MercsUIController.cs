@@ -1,17 +1,17 @@
-using GM.Mercs.Data;
+using SRC.Mercs.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
-    public class MercsUIController : GM.Core.GMMonoBehaviour
+    public class MercsUIController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
         public GameObject SquadMercSlotObject;
         public GameObject ManageMercsObject;
 
         [Header("References")]
-        public GM.UI.IntegerSelector QuantitySelector;
+        public SRC.UI.IntegerSelector QuantitySelector;
         public Transform SquadMercSlotsParent;
 
         private readonly Dictionary<MercID, MercUIObject> MercSlots = new();

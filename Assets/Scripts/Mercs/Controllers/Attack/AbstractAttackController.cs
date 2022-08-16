@@ -1,10 +1,10 @@
-using GM.Units;
+using SRC.Units;
 using System.Collections;
 using UnityEngine;
 
-namespace GM.Mercs.Controllers
+namespace SRC.Mercs.Controllers
 {
-    public abstract class AbstractAttackController : GM.Core.GMMonoBehaviour
+    public abstract class AbstractAttackController : SRC.Core.GMMonoBehaviour
     {
         /* Components */
         protected UnitAvatar Avatar;

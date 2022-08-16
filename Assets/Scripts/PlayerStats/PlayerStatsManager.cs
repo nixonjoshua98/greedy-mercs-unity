@@ -1,8 +1,8 @@
-using GM.Controllers;
+using SRC.Controllers;
 
-namespace GM.UserStats
+namespace SRC.UserStats
 {
-    public class PlayerStatsManager : GM.Core.GMMonoBehaviour
+    public class PlayerStatsManager : SRC.Core.GMMonoBehaviour
     {
         private void Awake()
         {

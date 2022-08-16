@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace GM.UI.HUD.StageDisplay
+namespace SRC.UI.HUD.StageDisplay
 {
     public class StageDisplayIcon : MonoBehaviour
     {

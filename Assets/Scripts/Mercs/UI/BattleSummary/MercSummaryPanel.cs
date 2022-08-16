@@ -1,14 +1,14 @@
-using GM.Mercs.Data;
-using GM.UI;
+using SRC.Mercs.Data;
+using SRC.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
-    public class MercSummaryPanel : GM.UI.PopupBase
+    public class MercSummaryPanel : SRC.UI.PopupBase
     {
         [Header("Text Elements")]
         [SerializeField] TMP_Text DPSText;

@@ -1,7 +1,7 @@
 using System.Reflection;
 using UnityEngine;
 
-namespace GM.Animations
+namespace SRC.Animations
 {
     public sealed class AnimationEventListener : MonoBehaviour
     {

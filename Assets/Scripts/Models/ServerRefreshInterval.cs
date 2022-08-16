@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GM.Models
+namespace SRC.Models
 {
     public class CurrentServerRefresh
     {

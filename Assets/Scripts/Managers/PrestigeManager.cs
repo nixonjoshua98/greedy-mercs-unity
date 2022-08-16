@@ -1,10 +1,10 @@
-using GM.HTTP;
-using GM.HTTP.Requests;
-using GM.UI;
+using SRC.HTTP;
+using SRC.HTTP.Requests;
+using SRC.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GM.Managers
+namespace SRC.Managers
 {
     public class PrestigeManager : Core.GMMonoBehaviour
     {

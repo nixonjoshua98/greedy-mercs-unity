@@ -1,6 +1,6 @@
-namespace GM.Quests.UI
+namespace SRC.Quests.UI
 {
-    public class QuestsPopup : GM.UI.PopupBase
+    public class QuestsPopup : SRC.UI.PopupBase
     {
         private void Start()
         {

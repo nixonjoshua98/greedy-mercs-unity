@@ -1,12 +1,12 @@
-using GM.BountyShop.Data;
-using GM.BountyShop.Requests;
-using GM.UI;
+using SRC.BountyShop.Data;
+using SRC.BountyShop.Requests;
+using SRC.UI;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GM.BountyShop.UI
+namespace SRC.BountyShop.UI
 {
     public class BountyShopArmouryItemPopup : AbstractBountyShopItemModal
     {

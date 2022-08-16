@@ -2,9 +2,9 @@ using System;
 using TMPro;
 using UnityEngine;
 
-namespace GM.UI
+namespace SRC.UI
 {
-    public class PrestigePopup : GM.UI.PopupBase
+    public class PrestigePopup : SRC.UI.PopupBase
     {
         bool _IsInitialized = false;
 

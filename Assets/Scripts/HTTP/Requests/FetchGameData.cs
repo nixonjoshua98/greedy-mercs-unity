@@ -1,14 +1,14 @@
-﻿using GM.Armoury.Data;
-using GM.Models;
+﻿using SRC.Armoury.Data;
+using SRC.Models;
 using System.Collections.Generic;
 
-namespace GM.HTTP.Requests
+namespace SRC.HTTP.Requests
 {
     public class FetchGameDataResponse : ServerResponse, IStaticGameData
     {
-        public List<GM.Artefacts.Data.Artefact> Artefacts { get; set; }
-        public GM.Bounties.Models.BountiesDataModel Bounties { get; set; }
+        public List<SRC.Artefacts.Data.Artefact> Artefacts { get; set; }
+        public SRC.Bounties.Models.BountiesDataFile Bounties { get; set; }
         public List<ArmouryItem> ArmouryItems { get; set; }
-        public GM.Mercs.Data.MercDataFile Mercs { get; set; }
+        public SRC.Mercs.Data.MercDataFile Mercs { get; set; }
     }
 }

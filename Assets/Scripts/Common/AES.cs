@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GM
+namespace SRC
 {
     public static class AES
     {

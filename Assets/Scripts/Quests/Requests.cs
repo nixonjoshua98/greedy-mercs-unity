@@ -1,20 +1,20 @@
-﻿using GM.Mercs.Data;
+﻿using SRC.Mercs.Data;
 using System;
 using System.Collections.Generic;
 
-namespace GM.Quests
+namespace SRC.Quests
 {
-    public class CompleteMercQuestResponse : GM.HTTP.Requests.ServerResponse
+    public class CompleteMercQuestResponse : SRC.HTTP.Requests.ServerResponse
     {
         public MercID UnlockedMerc;
     }
 
-    public class CompleteDailyQuestResponse : GM.HTTP.Requests.ServerResponse
+    public class CompleteDailyQuestResponse : SRC.HTTP.Requests.ServerResponse
     {
         public int DiamondsRewarded;
     }
 
-    public class QuestsDataResponse : GM.HTTP.Requests.ServerResponse
+    public class QuestsDataResponse : SRC.HTTP.Requests.ServerResponse
     {
         public DateTime DateTime;
 

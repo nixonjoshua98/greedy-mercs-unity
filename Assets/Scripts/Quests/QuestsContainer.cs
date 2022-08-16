@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GM.Quests
+namespace SRC.Quests
 {
-    public class QuestsContainer : GM.Core.GMClass
+    public class QuestsContainer : SRC.Core.GMClass
     {
         public DateTime QuestsCreatedAt { get; set; }
 

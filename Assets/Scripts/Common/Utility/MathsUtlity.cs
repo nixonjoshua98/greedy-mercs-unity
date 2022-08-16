@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GM.Common
+namespace SRC.Common
 {
     public static class MathsUtlity
     {

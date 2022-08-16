@@ -2,15 +2,16 @@ using Coffee.UIEffects;
 using TMPro;
 using UnityEngine;
 
-namespace GM.UI.HUD
+namespace SRC.UI.HUD
 {
-    public class StageBossDisplay : GM.Core.GMMonoBehaviour
+    public class StageBossDisplay : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] GameManager Manager;
 
         [SerializeField] UIDissolve BossIncomingEffect;
 
         [Header("Text Elements")]
+        [SerializeField] TMP_Text BossText;
         [SerializeField] TMP_Text FooterText;
 
         void Awake()
@@ -26,8 +27,9 @@ namespace GM.UI.HUD
 
         /* Callbacks */
 
-        void OnBossSpawned(GM.Events.StageBossEventPayload payload)
+        void OnBossSpawned(SRC.Events.StageBossEventPayload payload)
         {
+            BossText.text   = payload.IsBounty ? App.Bounties.GetBountyForStage(payload.StageSpawned).Name : "Boss Battle";
             FooterText.text = $"--- Stage {payload.StageSpawned} Boss ---";
 
             BossIncomingEffect.Play(reset: true);

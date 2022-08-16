@@ -1,7 +1,7 @@
-﻿using GM.Models;
+﻿using SRC.Models;
 using Newtonsoft.Json;
 
-namespace GM.HTTP.Requests
+namespace SRC.HTTP.Requests
 {
     public class LoginResponse : ServerResponse
     {

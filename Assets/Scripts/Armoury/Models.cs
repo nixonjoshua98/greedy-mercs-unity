@@ -1,8 +1,8 @@
-﻿using GM.Common.Enums;
+﻿using SRC.Common.Enums;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace GM.Armoury.Data
+namespace SRC.Armoury.Data
 {
     public class ArmouryItem
     {

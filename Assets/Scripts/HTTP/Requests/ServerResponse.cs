@@ -1,4 +1,4 @@
-namespace GM.HTTP.Requests
+namespace SRC.HTTP.Requests
 {
     public interface IServerResponse
     {
@@ -11,5 +11,7 @@ namespace GM.HTTP.Requests
     {
         public long StatusCode { get; set; } = 0;
         public string Message { get; set; } = string.Empty;
+
+        public bool IsSuccess => StatusCode == HTTPCodes.Success;
     };
 }

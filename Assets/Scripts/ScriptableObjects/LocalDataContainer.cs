@@ -1,8 +1,8 @@
-﻿using GM.Common.Enums;
+﻿using SRC.Common.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GM.ScriptableObjects
+namespace SRC.ScriptableObjects
 {
     [System.Serializable]
     public class LocalDataContainer

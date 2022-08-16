@@ -1,8 +1,8 @@
-using GM.Common.Enums;
+using SRC.Common.Enums;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace GM.Artefacts.Data
+namespace SRC.Artefacts.Data
 {
     public class Artefact
     {

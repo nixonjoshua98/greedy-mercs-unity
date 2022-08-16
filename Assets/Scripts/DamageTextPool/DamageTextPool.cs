@@ -1,11 +1,11 @@
-using GM.Common.Enums;
+using SRC.Common.Enums;
 using UnityEngine;
 
-namespace GM.DamageTextPool
+namespace SRC.DamageTextPool
 {
     public class DamageTextPool : MonoBehaviour
     {
-        [SerializeField] private GM.Common.ObjectPool Pool;
+        [SerializeField] private SRC.Common.ObjectPool Pool;
 
         public void Spawn(Vector3 position, DamageType damageType, BigDouble value)
         {
@@ -14,7 +14,7 @@ namespace GM.DamageTextPool
 
         public void Spawn(Vector3 position, string value, Color color)
         {
-            var popup = Pool.Spawn<GM.UI.DamageNumberTextPopup>();
+            var popup = Pool.Spawn<SRC.UI.DamageNumberTextPopup>();
 
             popup.transform.position = Camera.main.WorldToScreenPoint(position);
 
@@ -23,7 +23,7 @@ namespace GM.DamageTextPool
 
         public void Spawn(Vector3 position, string value)
         {
-            var popup = Pool.Spawn<GM.UI.DamageNumberTextPopup>();
+            var popup = Pool.Spawn<SRC.UI.DamageNumberTextPopup>();
 
             popup.transform.position = Camera.main.WorldToScreenPoint(position);
 

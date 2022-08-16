@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace GM.UI.IconButtons
+namespace SRC.UI.IconButtons
 {
-    public class QuestsPopupButton : GM.Core.GMMonoBehaviour
+    public class QuestsPopupButton : SRC.Core.GMMonoBehaviour
     {
         [SerializeField] private PillBadge Pill;
 

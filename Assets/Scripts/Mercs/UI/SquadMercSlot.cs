@@ -1,10 +1,10 @@
-using GM.Common;
-using GM.Mercs.Data;
-using GM.UI;
+using SRC.Common;
+using SRC.Mercs.Data;
+using SRC.UI;
 using TMPro;
 using UnityEngine;
 
-namespace GM.Mercs.UI
+namespace SRC.Mercs.UI
 {
     public class SquadMercSlot : MercUIObject
     {
@@ -26,7 +26,7 @@ namespace GM.Mercs.UI
         private int _buyAmount;
         protected int BuyAmount => MathsUtlity.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
 
-        public void Assign(MercID merc, GM.UI.IntegerSelector selector)
+        public void Assign(MercID merc, SRC.UI.IntegerSelector selector)
         {
             _buyAmount = selector.CurrentValue;
 

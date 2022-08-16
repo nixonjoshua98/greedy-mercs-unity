@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-namespace GM.Quests.UI
+namespace SRC.Quests.UI
 {
     public class DailyQuestSlot : AbstractQuestSlot
     {

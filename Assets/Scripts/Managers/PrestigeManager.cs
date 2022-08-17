@@ -9,7 +9,7 @@ namespace SRC.Managers
     public class PrestigeManager : Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject PrestigeConfirmPopup;
+        [SerializeField] private GameObject PrestigeConfirmPopup;
 
         // = Callbacks = //
 

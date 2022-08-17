@@ -8,11 +8,11 @@ namespace SRC.Artefacts.UI
     public class ArtefactUnlockSlot : Core.GMMonoBehaviour
     {
         [Header("Text References")]
-        [SerializeField] TMP_Text UnlockedText;
-        [SerializeField] TMP_Text UnlockCostText;
-        [SerializeField] StackedButton UnlockArtefactButton;
+        [SerializeField] private TMP_Text UnlockedText;
+        [SerializeField] private TMP_Text UnlockCostText;
+        [SerializeField] private StackedButton UnlockArtefactButton;
         [Space]
-        [SerializeField] GenericGradeItem Icon;
+        [SerializeField] private GenericGradeItem Icon;
 
         public void Awake()
         {
@@ -31,7 +31,7 @@ namespace SRC.Artefacts.UI
             UnlockArtefactButton.BtmText.text = allUnlocked ? "" : Format.Number(unlockCost);
         }
 
-        void UpdateIcon()
+        private void UpdateIcon()
         {
             double unlockCost = App.Artefacts.NextUnlockCost;
             bool allUnlocked = App.Artefacts.UserUnlockedAll;

@@ -7,7 +7,7 @@ namespace SRC.UI
 {
     public class DestroyWhenClicked : MonoBehaviour, IPointerDownHandler
     {
-        [SerializeField] GameObject TargetObject;
+        [SerializeField] private GameObject TargetObject;
 
         private GraphicRaycaster CanvasRaycaster;
 

@@ -5,26 +5,26 @@ namespace SRC.UI.HUD
 {
     public class KillCountHUD : SRC.Core.GMMonoBehaviour
     {
-        [SerializeField] GameManager Manager;
+        [SerializeField] private GameManager Manager;
 
         [Header("Components")]
-        [SerializeField] TMP_Text KillCountText;
+        [SerializeField] private TMP_Text KillCountText;
 
-        void Awake()
+        private void Awake()
         {
             UpdateText();
 
             Manager.E_OnEnemySpawn.AddListener(OnEnemySpawned);
         }
 
-        void UpdateText()
+        private void UpdateText()
         {
             KillCountText.text = $"{App.GameState.EnemiesDefeated + 1} / {App.GameState.EnemiesPerStage}";
         }
 
         /* Callbacks */
 
-        void OnEnemySpawned(GameObject _)
+        private void OnEnemySpawned(GameObject _)
         {
             UpdateText();
         }

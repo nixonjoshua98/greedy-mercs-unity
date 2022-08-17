@@ -21,7 +21,7 @@ namespace SRC.UI
         [Tooltip("Used for 'RatioMode.Fixed'")]
         [SerializeField] private float cellRatio = 1;
 
-        void Awake()
+        private void Awake()
         {
             Grid = GetComponent<GridLayoutGroup>();
             RectTrans = GetComponent<RectTransform>();
@@ -32,7 +32,7 @@ namespace SRC.UI
             UpdateCellSize();
         }
 
-        void OnRectTransformDimensionsChange()
+        private void OnRectTransformDimensionsChange()
         {
             if (Grid is not null)
                 UpdateCellSize();

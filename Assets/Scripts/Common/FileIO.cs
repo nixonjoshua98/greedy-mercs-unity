@@ -15,7 +15,7 @@ namespace SRC.Common
     public static class FileIO
     {
 #if UNITY_EDITOR
-        const bool _PlainText = true;
+        private const bool _PlainText = true;
 #else
         const bool _PlainText = false;
 #endif

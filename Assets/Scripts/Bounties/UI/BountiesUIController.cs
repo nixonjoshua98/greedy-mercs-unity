@@ -6,14 +6,14 @@ namespace SRC.Bounties.UI
     public class BountiesUIController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject BountyListObject;
+        [SerializeField] private GameObject BountyListObject;
 
         [Header("Transforms")]
-        [SerializeField] Transform BountySlotParent;
+        [SerializeField] private Transform BountySlotParent;
 
         private readonly Dictionary<int, BountyListSlot> slots = new();
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             UpdateSlotsUI();
         }

@@ -5,7 +5,7 @@ namespace SRC.UI
 {
     public abstract class PopupBase : SRC.Core.GMMonoBehaviour
     {
-        [SerializeField] GameObject InnerPanel;
+        [SerializeField] private GameObject InnerPanel;
 
         [HideInInspector] public readonly UnityEvent E_OnDestroyed = new();
 

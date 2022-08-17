@@ -9,21 +9,21 @@ namespace SRC.Mercs.UI
         private MercID _mercID;
 
         [Header("Prefabs")]
-        [SerializeField] GameObject PassiveSlotObject;
+        [SerializeField] private GameObject PassiveSlotObject;
 
         [Header("Text Elements")]
-        [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text LevelText;
-        [SerializeField] TMP_Text DamageText;
+        [SerializeField] private TMP_Text NameText;
+        [SerializeField] private TMP_Text LevelText;
+        [SerializeField] private TMP_Text DamageText;
 
         [Header("Transforms")]
-        [SerializeField] Transform PassivesParent;
+        [SerializeField] private Transform PassivesParent;
 
         [Space]
 
-        [SerializeField] SRC.UI.GenericGradeItem GradeSlot;
+        [SerializeField] private SRC.UI.GenericGradeItem GradeSlot;
 
-        AggregatedMercData Merc { get => App.Mercs.GetMerc(_mercID); }
+        private AggregatedMercData Merc { get => App.Mercs.GetMerc(_mercID); }
 
         public void Initialize(AggregatedMercData merc)
         {
@@ -45,7 +45,7 @@ namespace SRC.Mercs.UI
             GradeSlot.Intialize(Merc);
         }
 
-        void InstantiatePassiveSlots()
+        private void InstantiatePassiveSlots()
         {
             Merc.Passives.ForEach(passive =>
             {

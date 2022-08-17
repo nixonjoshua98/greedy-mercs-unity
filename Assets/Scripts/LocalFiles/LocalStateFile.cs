@@ -1,6 +1,6 @@
-﻿using SRC.Common;
+﻿using Newtonsoft.Json;
+using SRC.Common;
 using SRC.Mercs.Data;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace SRC

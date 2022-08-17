@@ -6,8 +6,7 @@ namespace SRC
     public class ServerSyncManager : SRC.Core.GMMonoBehaviour
     {
         private bool isUpdatingQuests;
-
-        bool isUpdatingBountyShop;
+        private bool isUpdatingBountyShop;
 
         private void Start()
         {
@@ -30,7 +29,7 @@ namespace SRC
             }
         }
 
-        void FetchBountyShop()
+        private void FetchBountyShop()
         {
             isUpdatingBountyShop = true;
 

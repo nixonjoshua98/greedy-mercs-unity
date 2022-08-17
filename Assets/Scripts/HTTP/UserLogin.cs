@@ -1,5 +1,5 @@
-﻿using SRC.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using SRC.Models;
 
 namespace SRC.HTTP.Requests
 {

@@ -8,29 +8,28 @@ namespace SRC.UI.HUD
 {
     public class HealthBarHUD : MonoBehaviour
     {
-        [SerializeField] GameManager GameManager;
+        [SerializeField] private GameManager GameManager;
 
         [Header("Components")]
-        [SerializeField] Slider LaggingSlider;
-        [SerializeField] Slider HealthSlider;
+        [SerializeField] private Slider LaggingSlider;
+        [SerializeField] private Slider HealthSlider;
         [Space]
-        [SerializeField] TMP_Text HealthText;
+        [SerializeField] private TMP_Text HealthText;
+        private bool _isUpdatingLaggingSlider;
 
-        bool _isUpdatingLaggingSlider;
-
-        void Awake()
+        private void Awake()
         {
             ResetHealthBar();
         }
 
-        void Start()
+        private void Start()
         {
             GameManager.E_OnEnemySpawn.AddListener(OnEnemySpawned);
             GameManager.E_OnBossReady.AddListener(payload => OnEnemySpawned(payload.GameObject));
             GameManager.E_OnPreEnemyReady.AddListener(OnPreEnemyReady);
         }
 
-        void ResetHealthBar()
+        private void ResetHealthBar()
         {
             HealthText.text = string.Empty;
 
@@ -38,7 +37,7 @@ namespace SRC.UI.HUD
             LaggingSlider.value = 0;
         }
 
-        void UpdateHealthBar(HealthController health)
+        private void UpdateHealthBar(HealthController health)
         {
             HealthText.text = Format.Number(health.Current, 1);
             HealthSlider.value = (float)health.Percentage;
@@ -49,7 +48,7 @@ namespace SRC.UI.HUD
             }
         }
 
-        void OnPreEnemyReady(GameObject payload)
+        private void OnPreEnemyReady(GameObject payload)
         {
             var health = payload.GetComponent<HealthController>();
 
@@ -58,7 +57,7 @@ namespace SRC.UI.HUD
             HealthText.text = Format.Number(health.Current, 1);
         }
 
-        void OnEnemySpawned(GameObject payload)
+        private void OnEnemySpawned(GameObject payload)
         {
             LaggingSlider.value = 1.0f;
 
@@ -69,7 +68,7 @@ namespace SRC.UI.HUD
             UpdateHealthBar(health);
         }
 
-        void OnEnemyDamageTaken(GameObject enemy, BigDouble damage)
+        private void OnEnemyDamageTaken(GameObject enemy, BigDouble damage)
         {
             var health = enemy.GetComponent<HealthController>();
 
@@ -78,7 +77,7 @@ namespace SRC.UI.HUD
 
         /* Routines */
 
-        IEnumerator UpdateLaggingSlider()
+        private IEnumerator UpdateLaggingSlider()
         {
             _isUpdatingLaggingSlider = true;
 

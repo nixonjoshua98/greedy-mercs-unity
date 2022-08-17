@@ -1,7 +1,7 @@
-﻿using SRC.Common;
+﻿using Newtonsoft.Json;
+using SRC.Common;
 using SRC.Mercs.Data;
 using SRC.UserStats;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 

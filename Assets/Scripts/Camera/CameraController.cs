@@ -5,7 +5,7 @@ namespace SRC.CameraControllers
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] UnityEngine.Camera Camera;
+        [SerializeField] private UnityEngine.Camera Camera;
 
         public void MoveCamera(Vector3 vec, float duration)
         {

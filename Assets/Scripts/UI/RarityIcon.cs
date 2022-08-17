@@ -8,9 +8,9 @@ namespace SRC.UI
     public class RarityIcon : SRC.Core.GMMonoBehaviour
     {
         [Header("Image Elements")]
-        [SerializeField] Image Background;
-        [SerializeField] Image Frame;
-        [SerializeField] Image Icon;
+        [SerializeField] private Image Background;
+        [SerializeField] private Image Frame;
+        [SerializeField] private Image Icon;
 
         public void Initialize(AggregatedBounty bounty)
         {
@@ -19,7 +19,7 @@ namespace SRC.UI
             UpdateUI(bounty.Tier);
         }
 
-        void UpdateUI(Rarity rarity)
+        private void UpdateUI(Rarity rarity)
         {
             var config = App.Local.GetItemGrade(rarity);
 

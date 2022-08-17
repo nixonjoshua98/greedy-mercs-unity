@@ -34,7 +34,7 @@ namespace SRC.Armoury
             GradeConfig = App.Local.GetItemGrade(Grade);
         }
 
-        UserArmouryItem UserModel
+        private UserArmouryItem UserModel
         {
             get
             {

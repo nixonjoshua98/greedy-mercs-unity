@@ -14,7 +14,7 @@ namespace SRC.Artefacts.Data
         private Dictionary<int, ArtefactUserData> StateModels;
 
         // NB, We keep a persistant aggregated artefact class since we store state data which we do not want to save
-        private Dictionary<int, AggregatedArtefactData> ArtefactsLookup = new Dictionary<int, AggregatedArtefactData>();
+        private readonly Dictionary<int, AggregatedArtefactData> ArtefactsLookup = new Dictionary<int, AggregatedArtefactData>();
 
         public void Set(List<ArtefactUserData> userArtefacts, List<Artefact> gameArtefacts)
         {

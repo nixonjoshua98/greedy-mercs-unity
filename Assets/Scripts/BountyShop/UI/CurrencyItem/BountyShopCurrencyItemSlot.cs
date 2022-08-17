@@ -9,14 +9,13 @@ namespace SRC.BountyShop.UI
     public class BountyShopCurrencyItemSlot : AbstractBountyShopItemSlot
     {
         [Header("Components")]
-        [SerializeField] Image ItemImage;
+        [SerializeField] private Image ItemImage;
         [Space]
-        [SerializeField] TMP_Text CostText;
-        [SerializeField] TMP_Text QuantityText;
+        [SerializeField] private TMP_Text CostText;
+        [SerializeField] private TMP_Text QuantityText;
         [Space]
-        [SerializeField] Button Button;
-
-        BountyShopCurrencyItem ShopItem;
+        [SerializeField] private Button Button;
+        private BountyShopCurrencyItem ShopItem;
 
         public void Set(BountyShopCurrencyItem item)
         {
@@ -30,13 +29,13 @@ namespace SRC.BountyShop.UI
             UpdateDynamicUI();
         }
 
-        void UpdateDynamicUI()
+        private void UpdateDynamicUI()
         {
             Button.interactable = ShopItem.InStock;
             CostText.text = ShopItem.InStock ? ShopItem.PurchaseCost.ToString() : "SOLD";
         }
 
-        void OnItemPurchased(bool success, PurchaseCurrencyResponse response)
+        private void OnItemPurchased(bool success, PurchaseCurrencyResponse response)
         {
             UpdateDynamicUI();
         }

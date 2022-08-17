@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using SRC.Armoury.Requests;
 using SRC.Artefacts.Requests;
 using SRC.Bounties.Requests;
@@ -7,7 +8,6 @@ using SRC.HTTP.Models;
 using SRC.HTTP.Requests;
 using SRC.Quests;
 using SRC.UserStats;
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -75,8 +75,6 @@ namespace SRC.HTTP
             };
 
             SetRequestHeaders(www);
-
-            www.timeout = 3;
 
             return www;
         }

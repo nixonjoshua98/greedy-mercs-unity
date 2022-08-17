@@ -9,17 +9,17 @@ namespace SRC.Bounties.UI
     public class BountyListSlot : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject PopupPanelObject;
+        [SerializeField] private GameObject PopupPanelObject;
 
         [Header("Text Elements")]
-        [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text PointsText;
+        [SerializeField] private TMP_Text NameText;
+        [SerializeField] private TMP_Text PointsText;
 
         [Header("Progress Slider")]
-        [SerializeField] Slider UpgradeProgressSlider;
-        [SerializeField] Image UpgradeProgressSliderFill;
+        [SerializeField] private Slider UpgradeProgressSlider;
+        [SerializeField] private Image UpgradeProgressSliderFill;
         [Space]
-        [SerializeField] RarityIcon Icon;
+        [SerializeField] private RarityIcon Icon;
 
         public AggregatedBounty Bounty;
 

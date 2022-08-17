@@ -3,6 +3,7 @@ using SRC.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace SRC.Bounties.UI
@@ -10,33 +11,39 @@ namespace SRC.Bounties.UI
     public class BountyPopup : SRC.UI.PopupBase
     {
         [Header("Text Elements")]
-        [SerializeField] TMP_Text PointsPerHourText;
-        [SerializeField] TMP_Text BonusText;
-        [SerializeField] TMP_Text DescriptionText;
-        [SerializeField] TMP_Text UpgradeButtonText;
+        [SerializeField] private TMP_Text PointsPerHourText;
+        [SerializeField] private TMP_Text BonusText;
+        [SerializeField] private TMP_Text DescriptionText;
+        [SerializeField] private TMP_Text UpgradeButtonText;
         [Space]
-        [SerializeField] RarityIcon Icon;
-        [SerializeField] Button UpgradeButton;
+        [SerializeField] private RarityIcon Icon;
+        [SerializeField] private Button UpgradeButton;
 
         [Header("Events")]
         [HideInInspector] public readonly UnityEvent E_OnBountyUpgraded = new();
-
-        AggregatedBounty Bounty;
+        private AggregatedBounty Bounty;
 
         public void Initialize(AggregatedBounty bounty)
         {
             Bounty = bounty;
 
-            Icon.Initialize(Bounty);
+            UpdateUI();
 
             ShowInnerPanel();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
-            PointsPerHourText.text  = Bounty.PointsPerHour.ToString();
-            BonusText.text          = Format.BonusValue(Bounty.BonusType, Bounty.BonusValue);
-            DescriptionText.text    = Bounty.Description;
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            Icon.Initialize(Bounty);
+
+            PointsPerHourText.text = Bounty.PointsPerHour.ToString();
+            BonusText.text = Format.BonusValue(Bounty.BonusType, Bounty.BonusValue);
+            DescriptionText.text = Bounty.Description;
 
             UpgradeButton.interactable = Bounty.CanUpgrade;
 

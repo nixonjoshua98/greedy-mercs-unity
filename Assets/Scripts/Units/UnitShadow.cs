@@ -4,18 +4,17 @@ namespace SRC.Units.Controllers
 {
     public class UnitShadow : MonoBehaviour
     {
-        [SerializeField] Transform Anchor;
+        [SerializeField] private Transform Anchor;
+        private float InitialAnchorDistance;
+        private Vector2 InitialScale;
 
-        float InitialAnchorDistance;
-        Vector2 InitialScale;
-
-        void Awake()
+        private void Awake()
         {
             InitialScale = transform.localScale;
             InitialAnchorDistance = Mathf.Abs(Anchor.position.y - transform.position.y);
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             float distance = Mathf.Min(InitialAnchorDistance, Mathf.Abs(Anchor.position.y - transform.position.y));
 

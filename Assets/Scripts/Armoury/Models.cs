@@ -1,5 +1,5 @@
-﻿using SRC.Common.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using SRC.Common.Enums;
 using UnityEngine;
 
 namespace SRC.Armoury.Data

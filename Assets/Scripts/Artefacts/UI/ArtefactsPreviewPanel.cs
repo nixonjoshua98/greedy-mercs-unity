@@ -8,15 +8,15 @@ namespace SRC.Artefacts.UI
     public class ArtefactsPreviewPanel : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject ArtefactPreviewIconObject;
+        [SerializeField] private GameObject ArtefactPreviewIconObject;
 
         [Header("Text Elements")]
-        [SerializeField] TMP_Text CollectedText;
+        [SerializeField] private TMP_Text CollectedText;
 
         [Header("References")]
-        [SerializeField] Transform PreviewIconsParent;
+        [SerializeField] private Transform PreviewIconsParent;
 
-        IEnumerator Start()
+        private IEnumerator Start()
         {
             CollectedText.text = $"Artefacts {App.Artefacts.NumUnlockedArtefacts} / {App.Artefacts.MaxArtefacts}";
 
@@ -28,7 +28,7 @@ namespace SRC.Artefacts.UI
             }
         }
 
-        void InstantiatePreviewIcon(AggregatedArtefactData artefact)
+        private void InstantiatePreviewIcon(AggregatedArtefactData artefact)
         {
             this.Instantiate<ArtefactPreviewIcon>(ArtefactPreviewIconObject, PreviewIconsParent).Intialize(artefact);
         }

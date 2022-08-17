@@ -9,29 +9,27 @@ namespace SRC.BountyShop.UI
     public class BountyShopUIController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject ArmouryItemSlotObject;
-        [SerializeField] GameObject CurrencyItemSlotObject;
+        [SerializeField] private GameObject ArmouryItemSlotObject;
+        [SerializeField] private GameObject CurrencyItemSlotObject;
 
         [Header("References")]
-        [SerializeField] Transform ItemsParent;
-        [SerializeField] TMP_Text RefreshText;
-        [SerializeField] TypeWriter LoadingTypeWriter;
+        [SerializeField] private Transform ItemsParent;
+        [SerializeField] private TMP_Text RefreshText;
+        [SerializeField] private TypeWriter LoadingTypeWriter;
+        private readonly List<GameObject> ItemSlotObjects = new();
+        private bool _IsShopShown = false;
 
-        List<GameObject> ItemSlotObjects = new();
-
-        bool _IsShopShown = false;
-
-        void Start()
+        private void Start()
         {
             StartCoroutine(_InternalLoop());
         }
 
-        void OnShopUpdated()
+        private void OnShopUpdated()
         {
             InstantiateItemSlots();
         }
 
-        void OnClientOffline()
+        private void OnClientOffline()
         {
             RefreshText.text = "Offline";
             LoadingTypeWriter.enabled = false;
@@ -39,14 +37,14 @@ namespace SRC.BountyShop.UI
             DestroyItemSlots();
         }
 
-        void DestroyItemSlots()
+        private void DestroyItemSlots()
         {
             _IsShopShown = false;
 
             ItemSlotObjects.ForEach(x => Destroy(x));
         }
 
-        IEnumerator _InternalLoop()
+        private IEnumerator _InternalLoop()
         {
             bool isPrevValid = App.BountyShop.IsValid;
 
@@ -78,7 +76,7 @@ namespace SRC.BountyShop.UI
             OnClientOffline();
         }
 
-        T InstantiateItemSlot<T>(GameObject prefab) where T : MonoBehaviour
+        private T InstantiateItemSlot<T>(GameObject prefab) where T : MonoBehaviour
         {
             var slot = this.Instantiate<T>(prefab, ItemsParent);
 
@@ -87,7 +85,7 @@ namespace SRC.BountyShop.UI
             return slot;
         }
 
-        void RandomizeSlotPositions()
+        private void RandomizeSlotPositions()
         {
             var rnd = SRC.Common.Utility.SeededRandom(App.DailyRefresh.Previous);
 
@@ -99,7 +97,7 @@ namespace SRC.BountyShop.UI
             }
         }
 
-        void InstantiateItemSlots()
+        private void InstantiateItemSlots()
         {
             _IsShopShown = true;
 

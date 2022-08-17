@@ -9,19 +9,19 @@ namespace SRC.Mercs.UI
     public class SquadMercSlot : MercUIObject
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject PopupObject;
-        [SerializeField] GameObject PassiveIcon;
+        [SerializeField] private GameObject PopupObject;
+        [SerializeField] private GameObject PassiveIcon;
 
         [Header("Text Elements")]
-        [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text LevelText;
-        [SerializeField] TMP_Text DamageText;
+        [SerializeField] private TMP_Text NameText;
+        [SerializeField] private TMP_Text LevelText;
+        [SerializeField] private TMP_Text DamageText;
 
         [Space]
 
-        [SerializeField] Transform PassiveIconsParent;
-        [SerializeField] GenericGradeItem GradeSlot;
-        [SerializeField] StackedButton UpgradeButton;
+        [SerializeField] private Transform PassiveIconsParent;
+        [SerializeField] private GenericGradeItem GradeSlot;
+        [SerializeField] private StackedButton UpgradeButton;
 
         private int _buyAmount;
         protected int BuyAmount => MathsUtlity.NextMultipleMax(AssignedMerc.CurrentLevel, _buyAmount, AssignedMerc.MaxLevel);
@@ -53,7 +53,7 @@ namespace SRC.Mercs.UI
             UpdateUI();
         }
 
-        void InstantiatePassiveIcons()
+        private void InstantiatePassiveIcons()
         {
             foreach (var passive in AssignedMerc.Passives)
             {
@@ -71,7 +71,7 @@ namespace SRC.Mercs.UI
             DamageText.text = $"<color=orange>{Format.Number(AssignedMerc.DamagePerAttack)}</color> DMG";
         }
 
-        void UpdateUpgradeButton()
+        private void UpdateUpgradeButton()
         {
             UpgradeButton.Icon.enabled = !AssignedMerc.IsMaxLevel;
 

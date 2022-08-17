@@ -6,7 +6,7 @@ namespace SRC.Units
     public class MovementController : MonoBehaviour
     {
         public UnitAvatar Avatar;
-        readonly float MoveSpeed = 8.0f;
+        private readonly float MoveSpeed = 8.0f;
 
         public IEnumerator MoveToPositionEnumerator(Vector3 position)
         {

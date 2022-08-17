@@ -1,5 +1,5 @@
-﻿using SRC.Common.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using SRC.Common.Enums;
 using System.Collections.Generic;
 
 namespace SRC.Mercs.Data

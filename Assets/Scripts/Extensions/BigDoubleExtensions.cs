@@ -11,14 +11,14 @@ namespace SRC
             return UnitsFormat(value, decimalPlaces);
         }
 
-        static string ExponentFormat(BigDouble value, int decimalPlaces)
+        private static string ExponentFormat(BigDouble value, int decimalPlaces)
         {
             string sign = value < 0 ? "-" : string.Empty;
 
             return $"{sign}{value.ToString($"E{decimalPlaces}").Replace("+", "").Replace("E", "e")}";
         }
 
-        static string UnitsFormat(BigDouble value, int decimalPlaces)
+        private static string UnitsFormat(BigDouble value, int decimalPlaces)
         {
             BigDouble absVal = BigDouble.Abs(value);
 

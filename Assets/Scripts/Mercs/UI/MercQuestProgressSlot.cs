@@ -10,17 +10,17 @@ namespace SRC.Mercs.UI
     public class MercQuestProgressSlot : SRC.Core.GMMonoBehaviour
     {
         [Header("Text Elements")]
-        [SerializeField] TMP_Text TitleText;
-        [SerializeField] TMP_Text DamageText;
+        [SerializeField] private TMP_Text TitleText;
+        [SerializeField] private TMP_Text DamageText;
         [Space]
-        [SerializeField] GenericGradeItem GradeSlot;
-        [SerializeField] Button CompleteQuestButton;
-        [SerializeField] Image ButtonBackgroundImage;
-        [SerializeField] Slider ProgressSlider;
+        [SerializeField] private GenericGradeItem GradeSlot;
+        [SerializeField] private Button CompleteQuestButton;
+        [SerializeField] private Image ButtonBackgroundImage;
+        [SerializeField] private Slider ProgressSlider;
 
-        SRC.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderByDescending(x => x.CurrentProgress).ThenBy(x => x.ID).FirstOrDefault();
+        private SRC.Quests.AggregatedMercQuest MercQuest => App.Quests.MercQuests.Where(x => !x.IsCompleted).OrderByDescending(x => x.CurrentProgress).ThenBy(x => x.ID).FirstOrDefault();
 
-        void Awake()
+        private void Awake()
         {
             if (MercQuest is null)
             {
@@ -28,12 +28,12 @@ namespace SRC.Mercs.UI
             }
         }
 
-        void Start()
+        private void Start()
         {
             InvokeRepeating(nameof(UpdateUI), 0.0f, 0.5f);
         }
 
-        void UpdateUI()
+        private void UpdateUI()
         {
             var quest = MercQuest;
 

@@ -71,7 +71,7 @@ namespace SRC.Core
             Quests.Set(userData.Quests);
             Mercs.Set(userData.UnlockedMercs, staticData.Mercs);
             Armoury.Set(userData.ArmouryItems, staticData.ArmouryItems);
-            Bounties.Set(userData.Bounties, staticData.Bounties);
+            Bounties.UpdateStoredData(userData.Bounties, staticData.Bounties);
             Inventory.Set(userData.Currencies);
             Artefacts.Set(userData.Artefacts, staticData.Artefacts);
         }

@@ -26,7 +26,7 @@ namespace SRC.Units
             StartCoroutine(FadeEnumerator(duration, callback));
         }
 
-        IEnumerator FadeEnumerator(float duration, Action callback)
+        private IEnumerator FadeEnumerator(float duration, Action callback)
         {
             var renderers = GetComponentsInChildren<SpriteRenderer>();
             var colors = renderers.Select(sr => sr.color).ToArray();

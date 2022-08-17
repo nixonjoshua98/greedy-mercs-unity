@@ -11,20 +11,17 @@ namespace SRC.Mercs.UI
     public class MercSummaryPanel : SRC.UI.PopupBase
     {
         [Header("Text Elements")]
-        [SerializeField] TMP_Text DPSText;
+        [SerializeField] private TMP_Text DPSText;
         [Space]
-        [SerializeField] GameObject MercSummarySlotObject;
-        [SerializeField] Transform MercSlotsParent;
+        [SerializeField] private GameObject MercSummarySlotObject;
+        [SerializeField] private Transform MercSlotsParent;
         [Space]
-        [SerializeField] IntegerSelector Selector;
+        [SerializeField] private IntegerSelector Selector;
+        private readonly List<MercDamageSummarySlot> SummarySlots = new();
+        private MercBattleSummaryController SummaryController;
+        private TimeSpan CurrentTimeSpan;
 
-        List<MercDamageSummarySlot> SummarySlots = new();
-
-        MercBattleSummaryController SummaryController;
-
-        TimeSpan CurrentTimeSpan;
-
-        void Awake()
+        private void Awake()
         {
             CurrentTimeSpan = TimeSpan.FromSeconds(Selector.CurrentValue);
 
@@ -36,7 +33,7 @@ namespace SRC.Mercs.UI
             });
         }
 
-        void Start()
+        private void Start()
         {
             ShowInnerPanel();
 
@@ -48,7 +45,7 @@ namespace SRC.Mercs.UI
             SummaryController = summaryController;
         }
 
-        void UpdateSummarySlots()
+        private void UpdateSummarySlots()
         {
             var damageValues = SummaryController.GetDamageValues(CurrentTimeSpan).ToList();
 

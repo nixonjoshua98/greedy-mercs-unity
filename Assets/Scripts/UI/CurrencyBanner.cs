@@ -41,7 +41,7 @@ namespace SRC.UI
             GetTextPopup(txt).Set(value);
         }
 
-        TextPopup GetTextPopup(TMP_Text text)
+        private TextPopup GetTextPopup(TMP_Text text)
         {
             TextPopup o = TextPool.Spawn<TextPopup>();
 

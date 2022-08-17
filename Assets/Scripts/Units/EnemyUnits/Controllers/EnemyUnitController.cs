@@ -15,7 +15,7 @@ namespace SRC.Units.Controllers
         [Space]
         [SerializeField] protected HealthController HealthController;
 
-        void Awake()
+        private void Awake()
         {
             Movement.LookAtPosition(Camera.main.transform.position);
         }

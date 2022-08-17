@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SRC.UI.HUD
 {
-    struct PropertyTracker<T> where T : IComparable<T>
+    internal struct PropertyTracker<T> where T : IComparable<T>
     {
         public T StartValue;
         public Func<T> GetCurrentValue;
@@ -27,32 +27,29 @@ namespace SRC.UI.HUD
     public class CurrenciesDisplay : SRC.Core.GMMonoBehaviour
     {
         [Header("Text Elements")]
-        [SerializeField] TMP_Text LargeGoldText;
-        [SerializeField] TMP_Text SmallGoldText;
+        [SerializeField] private TMP_Text LargeGoldText;
+        [SerializeField] private TMP_Text SmallGoldText;
 
         [Header("Prefabs")]
-        [SerializeField] GameObject GoldTravelPS;
+        [SerializeField] private GameObject GoldTravelPS;
 
         [Header("Transforms")]
-        [SerializeField] Transform GoldIconTransform;
+        [SerializeField] private Transform GoldIconTransform;
 
         [Header("References")]
-        [SerializeField] ObjectPool TextNumbers;
+        [SerializeField] private ObjectPool TextNumbers;
+        private float _lastDisplayUpdate;
+        private int _numGoldTrails = 0;
+        private PropertyTracker<BigDouble> GoldTracker;
 
-        float _lastDisplayUpdate;
-
-        int _numGoldTrails = 0;
-
-        PropertyTracker<BigDouble> GoldTracker;
-
-        void Awake()
+        private void Awake()
         {
             GoldTracker = new(App.Inventory.Gold, () => App.Inventory.Gold);
 
             UpdateDisplayGold();
         }
 
-        void Start()
+        private void Start()
         {
             InvokeRepeating(nameof(UpdateDisplayGoldTask), 0.0f, 0.1f);
         }
@@ -62,12 +59,12 @@ namespace SRC.UI.HUD
             StartCoroutine(DisplayGoldTrailEnumerator(startPos));
         }
 
-        void PulseGoldIcon()
+        private void PulseGoldIcon()
         {
             StartCoroutine(PulseGoldIconEnumerator());
         }
 
-        void UpdateDisplayGoldTask()
+        private void UpdateDisplayGoldTask()
         {
             // Force a UI update at least 4 times a second
             if (GoldTracker.HasChanged && _numGoldTrails == 0 && Mathf.Abs(Time.timeSinceLevelLoad - _lastDisplayUpdate) > 0.25f)
@@ -76,7 +73,7 @@ namespace SRC.UI.HUD
             }
         }
 
-        void UpdateDisplayGold()
+        private void UpdateDisplayGold()
         {
             _lastDisplayUpdate = Time.timeSinceLevelLoad;
 
@@ -91,7 +88,7 @@ namespace SRC.UI.HUD
                 ShowSmallText(SmallGoldText.transform.position, changeSinceUpdate);
         }
 
-        IEnumerator DisplayGoldTrailEnumerator(Vector3 startPos)
+        private IEnumerator DisplayGoldTrailEnumerator(Vector3 startPos)
         {
             _numGoldTrails++;
 
@@ -112,7 +109,7 @@ namespace SRC.UI.HUD
             _numGoldTrails--;
         }
 
-        IEnumerator PulseGoldIconEnumerator()
+        private IEnumerator PulseGoldIconEnumerator()
         {
             // 'Flip' the display gold during the pulse animation
             Invoke(nameof(UpdateDisplayGold), 0.1f);

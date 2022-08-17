@@ -12,14 +12,14 @@ namespace SRC
             return BigDouble.Parse(source.ToString());
         }
 
-        static string ExponentFormat(BigInteger value)
+        private static string ExponentFormat(BigInteger value)
         {
             string sign = value < 0 ? "-" : string.Empty;
 
             return $"{sign}{value.ToString("E2").Replace("+", "").Replace("E", "e")}";
         }
 
-        static string UnitsFormat(BigInteger value)
+        private static string UnitsFormat(BigInteger value)
         {
             BigInteger absVal = BigInteger.Abs(value);
 

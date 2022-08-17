@@ -16,16 +16,15 @@ namespace SRC.UI
         public static readonly List<UIManager> Instances = new();
         public static UIManager Instance => Instances.Last();
 
-        [SerializeField] GameObject DefaultLayerObject;
+        [SerializeField] private GameObject DefaultLayerObject;
+        private readonly Dictionary<UILayer, GameObject> Layers = new();
 
-        readonly Dictionary<UILayer, GameObject> Layers = new();
-
-        void Awake()
+        private void Awake()
         {
             Instances.Add(this);
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             Instances.Remove(this);
         }

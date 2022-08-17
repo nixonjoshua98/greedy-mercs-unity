@@ -1,5 +1,5 @@
-﻿using SRC.Common.Enums;
-using SRC.Bounties.Scriptables;
+﻿using SRC.Bounties.Scriptables;
+using SRC.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

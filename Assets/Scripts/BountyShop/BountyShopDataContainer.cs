@@ -12,8 +12,7 @@ namespace SRC.BountyShop.Data
 
         private Dictionary<string, BountyShopArmouryItem> armouryItems;
         private Dictionary<string, BountyShopCurrencyItem> currencyItems;
-
-        DateTime ShopCreatedAt;
+        private DateTime ShopCreatedAt;
 
         // = Events = //
         public UnityEvent E_ShopUpdated = new();

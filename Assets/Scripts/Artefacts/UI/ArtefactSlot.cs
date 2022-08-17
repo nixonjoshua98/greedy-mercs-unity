@@ -13,16 +13,16 @@ namespace SRC.Artefacts.UI
         public GameObject ArtefactPopupObject;
 
         [Header("Text References")]
-        [SerializeField] TMP_Text QuantityText;
-        [SerializeField] TMP_Text UpgradeCostText;
-        [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text LevelText;
-        [SerializeField] TMP_Text BonusText;
+        [SerializeField] private TMP_Text QuantityText;
+        [SerializeField] private TMP_Text UpgradeCostText;
+        [SerializeField] private TMP_Text NameText;
+        [SerializeField] private TMP_Text LevelText;
+        [SerializeField] private TMP_Text BonusText;
         [Space]
-        [SerializeField] Button UpgradeButton;
+        [SerializeField] private Button UpgradeButton;
 
         [Header("...")]
-        [SerializeField] GenericGradeItem GradeSlot;
+        [SerializeField] private GenericGradeItem GradeSlot;
 
         private Action<int, int> UpgradeCallback;
 

@@ -24,7 +24,7 @@ namespace SRC.Controllers
         [Header("Prefabs")]
         [HideInInspector] public UnityEvent E_OnTap = new();
 
-        void Awake()
+        private void Awake()
         {
             _stopWatch = Stopwatch.StartNew();
         }
@@ -63,7 +63,7 @@ namespace SRC.Controllers
             }
         }
 
-        void SpawnClickEffect(Vector3 pos)
+        private void SpawnClickEffect(Vector3 pos)
         {
             ClickObject inst = ParticlePool.Spawn<ClickObject>();
 

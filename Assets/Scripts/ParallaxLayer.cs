@@ -6,14 +6,12 @@ namespace SRC.Parallax
     public class ParallaxLayer : MonoBehaviour
     {
         [Header("Properties")]
-        [SerializeField] float SpeedMultiplier = 0;
+        [SerializeField] private float SpeedMultiplier = 0;
+        private Camera FollowCamera;
+        private SpriteRenderer[] Renderers;
+        private float prevCamXPos;
 
-        Camera FollowCamera;
-        SpriteRenderer[] Renderers;
-
-        float prevCamXPos;
-
-        void Awake()
+        private void Awake()
         {
             FollowCamera = Camera.main;
 
@@ -22,12 +20,12 @@ namespace SRC.Parallax
             prevCamXPos = FollowCamera.transform.position.x;
         }
 
-        void Start()
+        private void Start()
         {
             AlignRenders();
         }
 
-        void AlignRenders()
+        private void AlignRenders()
         {
             for (int i = 1; i < Renderers.Length; i++)
             {
@@ -38,7 +36,7 @@ namespace SRC.Parallax
             }
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             float camXPos = FollowCamera.transform.position.x;
 

@@ -15,7 +15,7 @@ namespace SRC.UserStats
             click.E_OnTap.AddListener(TapController_OnTap);
         }
 
-        void Start()
+        private void Start()
         {
             InvokeRepeating(nameof(SyncLifetimeStatsWithServer), 30.0f, 15.0f);
         }

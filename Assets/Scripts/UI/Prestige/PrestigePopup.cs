@@ -6,13 +6,12 @@ namespace SRC.UI
 {
     public class PrestigePopup : SRC.UI.PopupBase
     {
-        bool _IsInitialized = false;
+        private bool _IsInitialized = false;
 
         [Header("Text Elements")]
-        [SerializeField] TMP_Text PrestigePointsText;
-        [SerializeField] TMP_Text BountiesDefeatedText;
-
-        Action OnPrestigeAction;
+        [SerializeField] private TMP_Text PrestigePointsText;
+        [SerializeField] private TMP_Text BountiesDefeatedText;
+        private Action OnPrestigeAction;
 
         public void Initialize(Action action)
         {
@@ -25,7 +24,7 @@ namespace SRC.UI
             ShowInnerPanel();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (!_IsInitialized)
                 return;
@@ -34,7 +33,7 @@ namespace SRC.UI
             UpdateBountiesDefeatedText();
         }
 
-        void UpdatePrestigePointsText()
+        private void UpdatePrestigePointsText()
         {
             var basePoints = App.Values.BasePrestigePoints();
             var bonusPoints = App.Values.BonusPrestigePoints();
@@ -45,7 +44,7 @@ namespace SRC.UI
             PrestigePointsText.text = $"<color=orange>{quantity}</color> Runestones";
         }
 
-        void UpdateBountiesDefeatedText()
+        private void UpdateBountiesDefeatedText()
         {
             BountiesDefeatedText.text = $"Defeated <color=green>{App.Bounties.BountiesDefeatedSincePrestige}</color> Bounties";
         }

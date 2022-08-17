@@ -67,7 +67,7 @@ namespace SRC
             action.Invoke(to);
         }
 
-        static IEnumerator InvokeAfter(float delay, Action callback)
+        private static IEnumerator InvokeAfter(float delay, Action callback)
         {
             yield return new WaitForSeconds(delay);
 

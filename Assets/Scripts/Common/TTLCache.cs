@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SRC.Common
 {
-    struct CachedValue
+    internal struct CachedValue
     {
         public DateTime ExpireAt;
         public object Value;

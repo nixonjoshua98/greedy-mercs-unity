@@ -8,10 +8,10 @@ namespace SRC.Mercs.UI
     public class MercPassiveSlot : MonoBehaviour
     {
         [Header("Text Elements")]
-        [SerializeField] TMP_Text LevelText;
-        [SerializeField] TMP_Text BonusText;
+        [SerializeField] private TMP_Text LevelText;
+        [SerializeField] private TMP_Text BonusText;
         [Space]
-        [SerializeField] Image IconImage;
+        [SerializeField] private Image IconImage;
 
         public void Initialize(MercPassive passive)
         {

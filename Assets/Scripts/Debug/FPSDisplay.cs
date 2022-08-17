@@ -6,7 +6,7 @@ namespace SRC
     {
         private float deltaTime = 0.0f;
 
-        void Awake()
+        private void Awake()
         {
             if (!Application.isEditor)
                 Destroy(gameObject);

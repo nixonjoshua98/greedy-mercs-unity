@@ -8,14 +8,14 @@ namespace SRC.UI
     public class GenericGradeItem : SRC.Core.GMMonoBehaviour
     {
         [Header("Defaults")]
-        [SerializeField, Tooltip("Optional")] Sprite DefaultIcon;
-        [SerializeField] Sprite DefaultBackground;
-        [SerializeField] Color DefaultBorderColor;
+        [SerializeField, Tooltip("Optional")] private Sprite DefaultIcon;
+        [SerializeField] private Sprite DefaultBackground;
+        [SerializeField] private Color DefaultBorderColor;
 
         [Header("Elements")]
-        [SerializeField] Image BackgroundImage;
-        [SerializeField] Image IconImage;
-        [SerializeField] Image BorderImage;
+        [SerializeField] private Image BackgroundImage;
+        [SerializeField] private Image IconImage;
+        [SerializeField] private Image BorderImage;
 
         public void Empty()
         {
@@ -52,7 +52,7 @@ namespace SRC.UI
             SetBasicUI(artefact.Grade);
         }
 
-        void SetBasicUI(ItemGradeData grade)
+        private void SetBasicUI(ItemGradeData grade)
         {
             BackgroundImage.sprite = grade.BackgroundSprite;
             BorderImage.color = grade.FrameColour;

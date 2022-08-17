@@ -11,7 +11,7 @@ namespace SRC
             effect.StartCoroutine(PlayReverseEnumerator(effect));
         }
 
-        static IEnumerator PlayReverseEnumerator(this UIDissolve effect)
+        private static IEnumerator PlayReverseEnumerator(this UIDissolve effect)
         {
             float duration = effect.effectPlayer.duration;
 

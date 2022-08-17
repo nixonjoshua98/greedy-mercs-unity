@@ -11,21 +11,20 @@ namespace SRC.BountyShop.UI
     public class BountyShopArmouryItemPopup : AbstractBountyShopItemModal
     {
         [Header("Components")]
-        [SerializeField] TMP_Text NameText;
-        [SerializeField] TMP_Text CostText;
+        [SerializeField] private TMP_Text NameText;
+        [SerializeField] private TMP_Text CostText;
         [Space]
-        [SerializeField] Image Icon;
-        [SerializeField] Image IconBackground;
-        [SerializeField] Image IconFrame;
+        [SerializeField] private Image Icon;
+        [SerializeField] private Image IconBackground;
+        [SerializeField] private Image IconFrame;
 
         [Header("Buttons")]
-        [SerializeField] Button CloseButton;
-        [SerializeField] Button PurchaseButton;
+        [SerializeField] private Button CloseButton;
+        [SerializeField] private Button PurchaseButton;
         [Space]
-        [SerializeField] TypeWriter PurchaseButtonTextTypeWriter;
-
-        BountyShopArmouryItem ShopItem;
-        Action<bool, PurchaseArmouryItemResponse> PurchaseCallback;
+        [SerializeField] private TypeWriter PurchaseButtonTextTypeWriter;
+        private BountyShopArmouryItem ShopItem;
+        private Action<bool, PurchaseArmouryItemResponse> PurchaseCallback;
 
         public void Set(BountyShopArmouryItem item, Action<bool, PurchaseArmouryItemResponse> purchaseCallback)
         {

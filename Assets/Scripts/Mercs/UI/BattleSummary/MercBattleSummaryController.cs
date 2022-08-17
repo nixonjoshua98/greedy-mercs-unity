@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SRC.Mercs.UI
 {
-    class MercDamageValue
+    internal class MercDamageValue
     {
         public MercID MercId;
         public BigDouble Damage;
@@ -21,9 +21,8 @@ namespace SRC.Mercs.UI
     public class MercBattleSummaryController : Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject PopupObject;
-
-        SortedList<DateTime, MercDamageValue> MercDamageValues = new();
+        [SerializeField] private GameObject PopupObject;
+        private readonly SortedList<DateTime, MercDamageValue> MercDamageValues = new();
 
         private void Awake()
         {
@@ -56,7 +55,7 @@ namespace SRC.Mercs.UI
             this.InstantiateUI<MercSummaryPanel>(PopupObject).Initialize(this);
         }
 
-        void OnDamageDealt(MercID mercId, BigDouble dmg)
+        private void OnDamageDealt(MercID mercId, BigDouble dmg)
         {
             MercDamageValues.Add(DateTime.UtcNow, new MercDamageValue(mercId, dmg));
 

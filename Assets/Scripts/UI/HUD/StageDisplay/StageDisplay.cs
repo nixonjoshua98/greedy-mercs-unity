@@ -5,18 +5,18 @@ namespace SRC.UI.HUD.StageDisplay
 {
     public class StageDisplay : SRC.Core.GMMonoBehaviour
     {
-        [SerializeField] GameManager Manager;
+        [SerializeField] private GameManager Manager;
 
-        [SerializeField] List<StageDisplayIcon> DisplayIcons = new();
+        [SerializeField] private List<StageDisplayIcon> DisplayIcons = new();
 
-        void Start()
+        private void Start()
         {
             UpdateDisplayIcons();
 
             Manager.E_OnBossDefeated.AddListener(OnStageCompleted);
         }
 
-        void UpdateDisplayIcons()
+        private void UpdateDisplayIcons()
         {
             int initialStage = App.GameState.Stage - (DisplayIcons.Count / 2);
 
@@ -30,7 +30,7 @@ namespace SRC.UI.HUD.StageDisplay
 
         /* Callbacks */
 
-        void OnStageCompleted()
+        private void OnStageCompleted()
         {
             UpdateDisplayIcons();
         }

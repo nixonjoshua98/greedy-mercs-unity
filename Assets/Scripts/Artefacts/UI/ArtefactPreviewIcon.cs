@@ -6,7 +6,7 @@ namespace SRC.Artefacts.UI
 {
     public class ArtefactPreviewIcon : SRC.Core.GMMonoBehaviour
     {
-        [SerializeField] GenericGradeItem GradeSlot;
+        [SerializeField] private GenericGradeItem GradeSlot;
 
         public void Intialize(AggregatedArtefactData artefact)
         {

@@ -8,16 +8,15 @@ namespace SRC.Artefacts.UI
     public class ArtefactsUIController : SRC.Core.GMMonoBehaviour
     {
         [Header("Prefabs")]
-        [SerializeField] GameObject ArtefactSlotObject;
-        [SerializeField] GameObject UnlockArtefactObject;
-        [SerializeField] GameObject ArtefactsPanelObject;
+        [SerializeField] private GameObject ArtefactSlotObject;
+        [SerializeField] private GameObject UnlockArtefactObject;
+        [SerializeField] private GameObject ArtefactsPanelObject;
 
         [Header("References")]
-        [SerializeField] Transform ArtefactsContent;
-        [SerializeField] IntegerSelector LevelsSelector;
-
-        Dictionary<int, ArtefactSlot> ArtefactSlots = new Dictionary<int, ArtefactSlot>();
-        BulkUpgradeController BulkUpgrades;
+        [SerializeField] private Transform ArtefactsContent;
+        [SerializeField] private IntegerSelector LevelsSelector;
+        private readonly Dictionary<int, ArtefactSlot> ArtefactSlots = new Dictionary<int, ArtefactSlot>();
+        private BulkUpgradeController BulkUpgrades;
 
         private void Awake()
         {

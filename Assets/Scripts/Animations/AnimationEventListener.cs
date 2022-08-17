@@ -6,9 +6,9 @@ namespace SRC.Animations
     public sealed class AnimationEventListener : MonoBehaviour
     {
         [Header("Debug Options")]
-        [SerializeField] bool LogEvents = true;
+        [SerializeField] private bool LogEvents = true;
         [Space]
-        [SerializeField] MonoBehaviour _listener;
+        [SerializeField] private MonoBehaviour _listener;
 
         public void InvokeAnimationEvent(string name)
         {

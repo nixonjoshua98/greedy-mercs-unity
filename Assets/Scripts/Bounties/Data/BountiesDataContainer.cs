@@ -1,6 +1,6 @@
 using SRC.Bounties.Requests;
-using SRC.HTTP;
 using SRC.Bounties.Scriptables;
+using SRC.HTTP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace SRC.Bounties.Models
         private UserBounties UserData;
         private BountiesDataFile GameData;
 
-        public void Set(UserBounties userData, BountiesDataFile gameData)
+        public void UpdateStoredData(UserBounties userData, BountiesDataFile gameData)
         {
             AggregatedBounties.Clear();
 
@@ -93,22 +93,6 @@ namespace SRC.Bounties.Models
             return AggregatedBounties.FirstOrDefault(b => b.Stage == stage);
         }
 
-        public bool TryGetStageBounty(int stage, out AggregatedBounty result)
-        {
-            result = default;
-
-            foreach (Bounty bounty in GameData.Bounties)
-            {
-                if (bounty.UnlockStage == stage)
-                {
-                    result = GetBounty(bounty.BountyID);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// Send the request to claim the current unclaimed points
         /// </summary>
@@ -116,9 +100,9 @@ namespace SRC.Bounties.Models
         {
             App.HTTP.ClaimBounties((resp) =>
             {
-                if (resp.StatusCode == HTTP.HTTPCodes.Success)
+                if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    UserData.LastClaimTime = resp.ClaimTime;
+                    UserData.LastClaimTime = DateTime.UtcNow;
 
                     App.Inventory.UpdateCurrencies(resp.Currencies);
 

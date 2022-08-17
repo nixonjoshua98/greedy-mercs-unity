@@ -10,7 +10,7 @@ namespace SRC.Common
 
     public static class GameFormulas
     {
-        private static TTLCache _cache = new();
+        private static readonly TTLCache _cache = new();
 
         #region Minor Tap Upgrade
         public static BigDouble TapUpgradeDamage(int currentLevel)

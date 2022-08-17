@@ -9,16 +9,16 @@ namespace SRC.Mercs.UI
     public class MercSlotPassiveIcon : SRC.Core.GMMonoBehaviour
     {
         [Header("Sprites")]
-        [SerializeField] Sprite UnlockedSprite;
+        [SerializeField] private Sprite UnlockedSprite;
         [Space]
-        [SerializeField] Image BackgroundImage;
-        [SerializeField] Image BorderImage;
+        [SerializeField] private Image BackgroundImage;
+        [SerializeField] private Image BorderImage;
         [Space]
-        [SerializeField] TMP_Text LevelText;
+        [SerializeField] private TMP_Text LevelText;
+        private AggregatedMercData Merc;
+        private int PassiveID;
 
-        AggregatedMercData Merc;
-        int PassiveID;
-        MercPassive Passive => Merc.Passives.Find(x => x.PassiveID == PassiveID);
+        private MercPassive Passive => Merc.Passives.Find(x => x.PassiveID == PassiveID);
 
         public void Initialize(AggregatedMercData merc, int passiveId)
         {
@@ -30,7 +30,7 @@ namespace SRC.Mercs.UI
             InvokeRepeating(nameof(CheckForUnlock), 0.0f, 0.5f);
         }
 
-        void CheckForUnlock()
+        private void CheckForUnlock()
         {
             if (Merc.IsPassiveUnlocked(PassiveID))
             {

@@ -9,7 +9,7 @@ using UnityEngine.Events;
 
 namespace SRC
 {
-    record MercAttackValues
+    internal record MercAttackValues
     {
         public DamageType Type;
         public BigDouble Value;
@@ -43,7 +43,7 @@ namespace SRC.Mercs.Controllers
         public SRC.Mercs.Data.AggregatedMercData DataValues => App.Mercs.GetMerc(ID);
 
         protected GameObject CurrentTarget;
-        Func<GameObject> TryGetTarget;
+        private Func<GameObject> TryGetTarget;
 
         public void Init(MercSquadController squad, Func<GameObject> getTargetFunc)
         {
@@ -102,14 +102,14 @@ namespace SRC.Mercs.Controllers
             }
         }
 
-        void DisplayDamageNumber(GameObject targetAttack, DamageType damageType, BigDouble damageDealt)
+        private void DisplayDamageNumber(GameObject targetAttack, DamageType damageType, BigDouble damageDealt)
         {
             var avatar = targetAttack.GetComponentInChildren<UnitAvatar>();
 
             DamageNumbers.Spawn(avatar.Bounds.RandomPosition(), damageType, damageDealt);
         }
 
-        MercAttackValues CalculateAttackValue()
+        private MercAttackValues CalculateAttackValue()
         {
             DamageType damageType = DamageType.Normal;
 

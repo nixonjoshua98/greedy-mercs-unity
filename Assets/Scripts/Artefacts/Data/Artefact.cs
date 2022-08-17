@@ -1,5 +1,5 @@
-using SRC.Common.Enums;
 using Newtonsoft.Json;
+using SRC.Common.Enums;
 using UnityEngine;
 
 namespace SRC.Artefacts.Data

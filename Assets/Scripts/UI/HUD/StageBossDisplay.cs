@@ -6,20 +6,20 @@ namespace SRC.UI.HUD
 {
     public class StageBossDisplay : SRC.Core.GMMonoBehaviour
     {
-        [SerializeField] GameManager Manager;
+        [SerializeField] private GameManager Manager;
 
-        [SerializeField] UIDissolve BossIncomingEffect;
+        [SerializeField] private UIDissolve BossIncomingEffect;
 
         [Header("Text Elements")]
-        [SerializeField] TMP_Text BossText;
-        [SerializeField] TMP_Text FooterText;
+        [SerializeField] private TMP_Text BossText;
+        [SerializeField] private TMP_Text FooterText;
 
-        void Awake()
+        private void Awake()
         {
             BossIncomingEffect.effectFactor = 1;    // Hide the effect
         }
 
-        void Start()
+        private void Start()
         {
             Manager.E_OnPreBossReady.AddListener(OnBossSpawned);
             Manager.E_OnBossDefeated.AddListener(OnStageCompleted);
@@ -27,15 +27,15 @@ namespace SRC.UI.HUD
 
         /* Callbacks */
 
-        void OnBossSpawned(SRC.Events.StageBossEventPayload payload)
+        private void OnBossSpawned(SRC.Events.StageBossEventPayload payload)
         {
-            BossText.text   = payload.IsBounty ? App.Bounties.GetBountyForStage(payload.StageSpawned).Name : "Boss Battle";
+            BossText.text = payload.IsBounty ? App.Bounties.GetBountyForStage(payload.StageSpawned).Name : "Boss Battle";
             FooterText.text = $"--- Stage {payload.StageSpawned} Boss ---";
 
             BossIncomingEffect.Play(reset: true);
         }
 
-        void OnStageCompleted()
+        private void OnStageCompleted()
         {
             BossIncomingEffect.PlayReverse();
         }

@@ -1,6 +1,6 @@
-﻿using SRC.Common.Enums;
+﻿using Newtonsoft.Json;
+using SRC.Common.Enums;
 using SRC.ScriptableObjects;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 

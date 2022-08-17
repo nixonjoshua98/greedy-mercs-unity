@@ -9,7 +9,7 @@
             DontDestroyOnLoad(this);
         }
 
-        void Start()
+        private void Start()
         {
             InvokeRepeating(nameof(_PeriodicUpdate), 3.0f, 1.0f);
         }

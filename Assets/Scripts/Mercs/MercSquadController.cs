@@ -10,17 +10,16 @@ namespace SRC.Mercs
 {
     public class MercSquadController : Core.GMMonoBehaviour
     {
-        [SerializeField] SRC.Scriptables.UnitFormation Formation;
-        float FormationOffsetX = 0;
+        [SerializeField] private SRC.Scriptables.UnitFormation Formation;
+        private float FormationOffsetX = 0;
 
         public GameManager GameManager;
 
         [Header("Events")]
         [HideInInspector] public UnityEvent<AbstractMercController> E_UnitSpawned = new();
+        private readonly List<GameObject> UnitGameObjects = new();
 
-        readonly List<GameObject> UnitGameObjects = new();
-
-        void Awake()
+        private void Awake()
         {
             AddMercToQueue(MercID.STONE_GOLEM);
         }

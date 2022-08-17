@@ -12,18 +12,17 @@ namespace SRC.BountyShop.UI
     public class BountyShopCurrencyItemModal : AbstractBountyShopItemModal
     {
         [Header("Components")]
-        [SerializeField] GenericGradeItem GradeSlot;
-        [SerializeField] TMP_Text TitleText;
-        [SerializeField] TMP_Text CostText;
+        [SerializeField] private GenericGradeItem GradeSlot;
+        [SerializeField] private TMP_Text TitleText;
+        [SerializeField] private TMP_Text CostText;
 
         [Header("Buttons")]
-        [SerializeField] Button CloseButton;
-        [SerializeField] Button PurchaseButton;
+        [SerializeField] private Button CloseButton;
+        [SerializeField] private Button PurchaseButton;
         [Space]
-        [SerializeField] TypeWriter PurchaseButtonTextTypeWriter;
-
-        BountyShopCurrencyItem ShopItem;
-        Action<bool, PurchaseCurrencyResponse> PurchaseCallback;
+        [SerializeField] private TypeWriter PurchaseButtonTextTypeWriter;
+        private BountyShopCurrencyItem ShopItem;
+        private Action<bool, PurchaseCurrencyResponse> PurchaseCallback;
 
         public void Set(BountyShopCurrencyItem item, Action<bool, PurchaseCurrencyResponse> purchaseCallback)
         {

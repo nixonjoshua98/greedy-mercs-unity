@@ -130,7 +130,7 @@ namespace SRC.Mercs.Data
             return data;
         }
 
-        AggregatedMercData CreateAggregatedMercInstance(MercID mercId)
+        private AggregatedMercData CreateAggregatedMercInstance(MercID mercId)
         {
             Func<MercGameData> getMercGameData = () => MercGameDataLookup[mercId];
 

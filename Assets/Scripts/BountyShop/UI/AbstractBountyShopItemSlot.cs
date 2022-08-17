@@ -6,8 +6,7 @@ namespace SRC.BountyShop.UI
     {
         [Header("Prefabs")]
         [SerializeField] protected GameObject PurchaseModalObject;
-
-        GameObject _createdModal;
+        private GameObject _createdModal;
 
         private void OnDestroy()
         {

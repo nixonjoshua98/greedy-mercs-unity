@@ -1,4 +1,3 @@
-using SRC.Bounties.Models;
 using SRC.CameraControllers;
 using SRC.Controllers;
 using SRC.Events;
@@ -13,15 +12,15 @@ namespace SRC
 {
     public class GameManager : SRC.Core.GMMonoBehaviour
     {
-        [SerializeField] CameraController CamController;
-        [SerializeField] MercSquadController Mercs;
+        [SerializeField] private CameraController CamController;
+        [SerializeField] private MercSquadController Mercs;
 
         [Header("References")]
         [HideInInspector] public List<GameObject> EnemyUnits;
 
         [Header("Prefabs")]
-        [SerializeField] GameObject EnemyObject;
-        [SerializeField] GameObject BossObject;
+        [SerializeField] private GameObject EnemyObject;
+        [SerializeField] private GameObject BossObject;
 
         [Header("Boss Events")]
         [HideInInspector] public UnityEvent<StageBossEventPayload> E_OnPreBossReady = new();
@@ -33,16 +32,16 @@ namespace SRC
         [HideInInspector] public UnityEvent<GameObject> E_OnEnemySpawn = new();
 
         //
-        Vector3 StageEnemyPosition = new(0, 8.5f);
+        private Vector3 StageEnemyPosition = new(0, 8.5f);
 
-        GameState State { get => App.GameState; }
+        private GameState State { get => App.GameState; }
 
-        void Awake()
+        private void Awake()
         {
             StageEnemyPosition.x = (CamController.Bounds.max.x - 2f);
         }
 
-        void Start()
+        private void Start()
         {
             Continue();
         }
@@ -86,7 +85,9 @@ namespace SRC
 
         private IEnumerator SetupStageBoss()
         {
-            GameObject unitToSpawn = App.Bounties.TryGetStageBounty(App.GameState.Stage, out AggregatedBounty bountyData) ? bountyData.Prefab : BossObject;
+            var stageBounty = App.Bounties.GetBountyForStage(App.GameState.Stage);
+
+            GameObject unitToSpawn = stageBounty == null ? BossObject : stageBounty.Prefab;
 
             StageEnemyPosition += new Vector3(10, 0);
 
@@ -99,7 +100,7 @@ namespace SRC
 
             var eventPayload = new SRC.Events.StageBossEventPayload(go: bossObject,
                                                                     stage: State.Stage,
-                                                                    isBounty: bountyData != null);
+                                                                    isBounty: stageBounty != null);
 
             E_OnPreBossReady.Invoke(eventPayload);
 
@@ -114,7 +115,7 @@ namespace SRC
             Mercs.SetControl(true);
         }
 
-        void OnEnemyZeroHealth(GameObject unitObject)
+        private void OnEnemyZeroHealth(GameObject unitObject)
         {
             EnemyUnits.Remove(unitObject);
 
@@ -125,7 +126,7 @@ namespace SRC
             Continue();
         }
 
-        void OnBossZeroHealth(GameObject unitObject)
+        private void OnBossZeroHealth(GameObject unitObject)
         {
             EnemyUnits.Remove(unitObject);
 

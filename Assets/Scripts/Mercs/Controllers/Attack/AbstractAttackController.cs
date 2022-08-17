@@ -11,7 +11,7 @@ namespace SRC.Mercs.Controllers
         protected AbstractMercController Controller;
 
         /* Properties */
-        readonly float CooldownTimer = 0.5f;
+        private readonly float CooldownTimer = 0.5f;
 
         protected GameObject CurrentTarget;
 

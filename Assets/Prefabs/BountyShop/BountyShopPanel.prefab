@@ -478,6 +478,8 @@ MonoBehaviour:
   InnerPanel: {fileID: 4977888637160556777}
   ArmouryItemObject: {fileID: 7726938090778579924, guid: ca5d26c0b02dc444b985b00cca97e18e,
     type: 3}
+  CurrencyItemObject: {fileID: 5323080336948075074, guid: 7c1b8ef7c8b5e0b4cacc57aa61a283c9,
+    type: 3}
   ShopItemParent: {fileID: 4977888635565438713}
 --- !u!1 &3026558429007021650
 GameObject:

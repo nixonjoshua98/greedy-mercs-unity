@@ -1,6 +1,7 @@
 using SRC.Armoury;
 using SRC.Bounties.Models;
 using SRC.Common.Enums;
+using SRC.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,13 @@ namespace SRC.UI
             Icon.sprite = bounty.Icon;
 
             UpdateUI(bounty.Tier);
+        }
+
+        public void Initialize(CurrencyConfig currency)
+        {
+            Icon.sprite = currency.Icon;
+
+            UpdateUI(Rarity.Zero);
         }
 
         public void Initialize(AggregatedArmouryItem aitem)

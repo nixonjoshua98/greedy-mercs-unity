@@ -8,6 +8,7 @@ namespace SRC.ScriptableObjects
     {
         public CurrencyType Type;
         public Sprite Icon;
+        public Color Colour = Color.white;
         public string DisplayName;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using SRC.BountyShop.Requests;
-using System;
+using SRC.Common.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
@@ -8,40 +8,22 @@ namespace SRC.BountyShop.Data
 {
     public class BountyShopDataContainer : Core.GMClass
     {
-        private Dictionary<string, int> itemPurchases = new Dictionary<string, int>();
+        public int GameDayNumber;
+
+        List<BountyShopPurchaseModel> ItemPurchases = new();
 
         private Dictionary<string, BountyShopArmouryItem> armouryItems;
         private Dictionary<string, BountyShopCurrencyItem> currencyItems;
-        private DateTime ShopCreatedAt;
 
-        // = Events = //
-        public UnityEvent E_ShopUpdated = new();
+        public bool IsValid => SRC.Common.Utility.GetGameDayNumber() == GameDayNumber;
 
-        public bool IsValid => armouryItems is not null && currencyItems is not null && App.DailyRefresh.Current.IsBetween(ShopCreatedAt);
-
-        public int GetItemPurchaseData(string id) => itemPurchases.Get(id, 0);
-
-        private void UpdateItemPurchases(List<BountyShopPurchaseModel> purchaseList)
+        public BountyShopPurchaseModel GetItemPurchase(BountyShopItemType itemType, string itemId)
         {
-            itemPurchases = new();
-
-            foreach (var group in purchaseList.GroupBy(x => x.ItemID))
-            {
-                itemPurchases[group.Key] = group.Count();
-            }
+            return ItemPurchases.FirstOrDefault(p => p.ItemType == itemType && p.ItemID == itemId);
         }
 
         public List<BountyShopArmouryItem> ArmouryItems => armouryItems.Values.ToList();
         public List<BountyShopCurrencyItem> CurrencyItems => currencyItems.Values.ToList();
-
-        /// <summary>
-        /// Update all items
-        /// </summary>
-        private void UpdateShopItems(BountyShopItems items)
-        {
-            armouryItems = items.ArmouryItems.ToDictionary(ele => ele.ID, ele => ele);
-            currencyItems = items.CurrencyItems.ToDictionary(ele => ele.ID, ele => ele);
-        }
 
         public void FetchShop(UnityAction action)
         {
@@ -49,12 +31,11 @@ namespace SRC.BountyShop.Data
             {
                 if (resp.StatusCode == HTTP.HTTPCodes.Success)
                 {
-                    ShopCreatedAt = resp.ShopCreationTime;
+                    ItemPurchases = resp.Purchases;
+                    GameDayNumber = resp.GameDayNumber;
 
-                    UpdateItemPurchases(resp.Purchases);
-                    UpdateShopItems(resp.ShopItems);
-
-                    E_ShopUpdated.Invoke();
+                    armouryItems    = resp.ShopItems.ArmouryItems.ToDictionary(ele => ele.ID, ele => ele);
+                    currencyItems   = resp.ShopItems.CurrencyItems.ToDictionary(ele => ele.ID, ele => ele);
                 }
 
                 action.Invoke();
@@ -64,36 +45,31 @@ namespace SRC.BountyShop.Data
         /// <summary>
         /// Send the server request for purchasing an armoury item
         /// </summary>
-        public void PurchaseArmouryItem(string itemId, UnityAction<bool, PurchaseArmouryItemResponse> action)
+        public void PurchaseArmouryItem(string itemId, UnityAction<PurchaseArmouryItemResponse> action)
         {
-            App.HTTP.PurchaseBountyShopArmouryItem(itemId, (resp) =>
+            App.HTTP.PurchaseBountyShopArmouryItem(itemId, resp =>
             {
-                if (resp.StatusCode == 200)
+                if (resp.IsSuccess)
                 {
-                    itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
-
                     App.Armoury.Update(resp.ArmouryItem);
 
                     App.Inventory.UpdateCurrencies(resp.Currencies);
                 }
 
-                action.Invoke(resp.StatusCode == 200, resp);
+                action.Invoke(resp);
             });
         }
 
-        public void PurchaseCurrencyItem(string itemId, UnityAction<bool, PurchaseCurrencyResponse> action)
+        public void PurchaseCurrencyItem(string itemId, UnityAction<PurchaseCurrencyResponse> action)
         {
             App.HTTP.PurchaseBountyShopCurrency(itemId, (resp) =>
             {
                 if (resp.StatusCode == 200)
                 {
-                    // Update purchase count
-                    itemPurchases[itemId] = itemPurchases.Get(itemId, 0) + 1;
-
                     App.Inventory.UpdateCurrencies(resp.Currencies);
                 }
 
-                action.Invoke(resp.StatusCode == 200, resp);
+                action.Invoke(resp);
             });
         }
     }

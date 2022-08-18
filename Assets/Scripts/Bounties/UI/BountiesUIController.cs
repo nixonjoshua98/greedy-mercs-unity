@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace SRC.Bounties.UI
 {
@@ -11,6 +12,9 @@ namespace SRC.Bounties.UI
 
         [Header("Transforms")]
         [SerializeField] private Transform BountySlotParent;
+
+        [Header("Text Elements")]
+        [SerializeField] private TMP_Text RefreshTimeText;
 
         private readonly Dictionary<int, BountyListSlot> slots = new();
 

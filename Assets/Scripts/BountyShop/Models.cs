@@ -2,18 +2,16 @@
 using SRC.Common.Enums;
 using SRC.ScriptableObjects;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace SRC.BountyShop.Data
 {
     public abstract class BountyShopItem : Core.GMClass
     {
         public string ID;
-        public int PurchaseLimit;
         public int PurchaseCost;
 
         [JsonIgnore]
-        public bool InStock => PurchaseLimit >= App.BountyShop.GetItemPurchaseData(ID);
+        public abstract bool InStock { get; }
     }
 
     public class BountyShopCurrencyItem : BountyShopItem
@@ -22,15 +20,17 @@ namespace SRC.BountyShop.Data
         public int Quantity;
 
         [JsonIgnore]
-        public Sprite Icon => Item.Icon;
+        public CurrencyConfig Item => App.Local.GetCurrency(CurrencyType);
 
         [JsonIgnore]
-        public CurrencyConfig Item => App.Local.GetCurrency(CurrencyType);
+        public override bool InStock => App.BountyShop.GetItemPurchase(BountyShopItemType.CurrencyItem, ID) is null;
     }
 
     public class BountyShopArmouryItem : BountyShopItem
     {
         public int ItemID;
+
+        public override bool InStock => App.BountyShop.GetItemPurchase(BountyShopItemType.ArmouryItem, ID) is null;
 
         [JsonIgnore]
         public Armoury.AggregatedArmouryItem Item => App.Armoury.GetItem(ItemID);
@@ -39,6 +39,7 @@ namespace SRC.BountyShop.Data
     public class BountyShopPurchaseModel
     {
         public string ItemID;
+        public BountyShopItemType ItemType;
     }
 
     public class BountyShopItems

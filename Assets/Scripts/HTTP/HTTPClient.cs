@@ -8,6 +8,7 @@ using SRC.HTTP.Models;
 using SRC.HTTP.Requests;
 using SRC.Quests;
 using SRC.UserStats;
+using SRC.Common.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -274,21 +275,21 @@ namespace SRC.HTTP
 
         public void PurchaseBountyShopArmouryItem(string item, Action<PurchaseArmouryItemResponse> callback)
         {
-            var req = new { ItemID = item };
+            var req = new { ItemID = item, ItemType = BountyShopItemType.ArmouryItem };
 
-            SendRequest("PUT", "BountyShop/Purchase/ArmouryItem", req, false, callback);
+            SendRequest("PUT", "BountyShop/Purchase", req, false, callback);
+        }
+
+        public void PurchaseBountyShopCurrency(string item, Action<PurchaseCurrencyResponse> callback)
+        {
+            var req = new { ItemID = item, ItemType = BountyShopItemType.CurrencyItem };
+
+            SendRequest("PUT", "BountyShop/Purchase", req, false, callback);
         }
 
         public void FetchBountyShop(Action<GetBountyShopResponse> callback)
         {
             SendRequest("GET", "BountyShop", null, false, callback);
-        }
-
-        public void PurchaseBountyShopCurrency(string item, Action<PurchaseCurrencyResponse> callback)
-        {
-            var req = new { ItemID = item };
-
-            SendRequest("PUT", "BountyShop/Purchase/Currency", req, false, callback);
         }
     }
 }

@@ -19,8 +19,8 @@ namespace SRC
             {
                 yield return new WaitForSecondsRealtime(1);
 
-                if (!isUpdatingBountyShop && !App.BountyShop.IsValid)
-                    FetchBountyShop();
+                //if (!isUpdatingBountyShop && !App.BountyShop.IsValid)
+                //    FetchBountyShop();
 
                 if (!isUpdatingQuests && !App.Quests.IsDailyQuestsValid)
                 {
@@ -29,20 +29,20 @@ namespace SRC
             }
         }
 
-        private void FetchBountyShop()
-        {
-            isUpdatingBountyShop = true;
+        //private void FetchBountyShop()
+        //{
+        //    isUpdatingBountyShop = true;
 
-            App.BountyShop.FetchShop(() =>
-            {
-                if (!App.BountyShop.IsValid)
-                {
-                    Invoke("FetchBountyShop", 1.0f);
-                }
+        //    App.BountyShop.FetchShop(() =>
+        //    {
+        //        if (!App.BountyShop.IsValid)
+        //        {
+        //            Invoke("FetchBountyShop", 1.0f);
+        //        }
 
-                isUpdatingBountyShop = !App.BountyShop.IsValid;
-            });
-        }
+        //        isUpdatingBountyShop = !App.BountyShop.IsValid;
+        //    });
+        //}
 
         private void FetchQuests()
         {

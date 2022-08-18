@@ -1,10 +1,23 @@
 using SRC.Common.Enums;
 using System.Numerics;
+using UnityEngine;
 
 namespace SRC
 {
     public static class Format
     {
+        public static string Colour(Color col, object obj) => $"<color={col.ToHex()}>{obj}</color>";
+
+
+
+
+
+
+
+
+
+
+
         /* Big Bigdouble */
 
         public static string Number(BigDouble val, int decimalPlaces = 2)

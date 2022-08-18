@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: 0_ArmouryPoints
   m_EditorClassIdentifier: 
   Type: 200
-  Icon: {fileID: 21300000, guid: acddbdb5c01c4ae4fa8828b4f0ff2ec5, type: 3}
+  Icon: {fileID: 21300000, guid: eb5f9687078446e47aa2344507807fe1, type: 3}
+  Colour: {r: 0.6, g: 0.43921572, b: 0.38431376, a: 1}
   DisplayName: Iron Ingot

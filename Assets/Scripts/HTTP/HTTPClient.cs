@@ -174,7 +174,7 @@ namespace SRC.HTTP
 
     public class HTTPClient : AbstractHTTPClient, IHTTPClient
     {
-        protected override HTTPServerConfig Server => new($"http://86.175.180.154:2122/api");
+        protected override HTTPServerConfig Server => new($"http://86.134.151.213:2122/api");
 
         public void UpdateLifetimeStats(Action<UpdateLifetimeStatsResponse> action)
         {

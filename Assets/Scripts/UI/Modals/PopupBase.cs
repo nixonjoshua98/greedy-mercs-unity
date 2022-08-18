@@ -9,6 +9,11 @@ namespace SRC.UI
 
         [HideInInspector] public readonly UnityEvent E_OnDestroyed = new();
 
+        public void Close()
+        {
+            Destroy(gameObject);
+        }
+
         private void OnDestroy()
         {
             E_OnDestroyed.Invoke();

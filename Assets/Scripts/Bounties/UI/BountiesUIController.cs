@@ -7,6 +7,7 @@ namespace SRC.Bounties.UI
     {
         [Header("Prefabs")]
         [SerializeField] private GameObject BountyListObject;
+        [SerializeField] private GameObject BountyShopPanelObject;
 
         [Header("Transforms")]
         [SerializeField] private Transform BountySlotParent;
@@ -35,6 +36,11 @@ namespace SRC.Bounties.UI
 
                 slot.transform.SetSiblingIndex(i);
             }
+        }
+
+        public void ShowBountyShop()
+        {
+            UI.Instantiate(BountyShopPanelObject, SRC.UI.UILayer.TWO);
         }
 
         public void OnClaimButton()

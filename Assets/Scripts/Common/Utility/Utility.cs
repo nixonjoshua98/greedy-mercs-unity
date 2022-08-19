@@ -6,7 +6,7 @@ namespace SRC.Common
 {
     public static class Utility
     {
-        static readonly DateTime GameDayEpoch = new(2021, 3, 29, 22, 0, 0);
+        static readonly DateTime GameDayEpoch = new(2021, 3, 29, 20, 0, 0);
 
         public static System.Random SeededRandom(object seed)
         {
@@ -15,8 +15,9 @@ namespace SRC.Common
             return new(hash);
         }
 
-        public static int GetGameDayNumber() => GetGameDayNumber(DateTime.UtcNow);
-        public static int GetGameDayNumber(DateTime dt) => (int)(dt - GameDayEpoch).TotalDays;
+        public static int GetGameDayNumber(DateTime? dt = null) => (int)((dt ?? DateTime.UtcNow) - GameDayEpoch).TotalDays;
+        public static DateTime GetGameDayDate(int? gameDay = null) => GameDayEpoch + TimeSpan.FromDays(gameDay ?? GetGameDayNumber());
+
 
 
         public static void Ternary(bool value, Action trueAction, Action falseAction)

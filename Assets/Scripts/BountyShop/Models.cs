@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SRC.Common.Enums;
-using SRC.ScriptableObjects;
+using SRC.Inventory.Scriptables;
 using System.Collections.Generic;
 
 namespace SRC.BountyShop.Data
@@ -20,7 +20,7 @@ namespace SRC.BountyShop.Data
         public int Quantity;
 
         [JsonIgnore]
-        public CurrencyConfig Item => App.Local.GetCurrency(CurrencyType);
+        public Currency Item => App.Local.Currencies.Get(CurrencyType);
 
         [JsonIgnore]
         public override bool InStock => App.BountyShop.GetItemPurchase(BountyShopItemType.CurrencyItem, ID) is null;
@@ -40,6 +40,12 @@ namespace SRC.BountyShop.Data
     {
         public string ItemID;
         public BountyShopItemType ItemType;
+
+        public BountyShopPurchaseModel(string itemID, BountyShopItemType itemType)
+        {
+            ItemID = itemID;
+            ItemType = itemType;
+        }
     }
 
     public class BountyShopItems

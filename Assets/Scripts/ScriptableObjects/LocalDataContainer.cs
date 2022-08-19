@@ -1,4 +1,5 @@
 ﻿using SRC.Common.Enums;
+using SRC.Inventory.Scriptables;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,9 +9,8 @@ namespace SRC.ScriptableObjects
     public class LocalDataContainer
     {
         public List<ItemGradeData> ItemGrades;
-        public List<CurrencyConfig> Currencies;
+        public CurrencyLocalDataFile Currencies;
 
         public ItemGradeData GetItemGrade(Rarity grade) => ItemGrades.FirstOrDefault(x => x.Grade == grade);
-        public CurrencyConfig GetCurrency(CurrencyType type) => Currencies.FirstOrDefault(x => x.Type == type);
     }
 }

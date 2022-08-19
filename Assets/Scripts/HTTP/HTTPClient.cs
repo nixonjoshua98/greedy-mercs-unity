@@ -113,10 +113,7 @@ namespace SRC.HTTP
 
         private T DeserializeResponse<T>(UnityWebRequest www, bool encrpted) where T : IServerResponse, new()
         {
-            string text = www.downloadHandler.text;
-
-            if (encrpted)
-                text = AES.Decrypt(text);
+            string text = encrpted ? AES.Decrypt(www.downloadHandler.text) : www.downloadHandler.text;
 
             if (!Serialization.TryDeserialize(text, out T model))
             {

@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Collections;
+using SRC.UI;
+using System;
+using SRC.Common;
 
 namespace SRC.Bounties.UI
 {
@@ -14,13 +18,35 @@ namespace SRC.Bounties.UI
         [SerializeField] private Transform BountySlotParent;
 
         [Header("Text Elements")]
-        [SerializeField] private TMP_Text RefreshTimeText;
+        [SerializeField] private PillBadge RefreshTimeText;
 
         private readonly Dictionary<int, BountyListSlot> slots = new();
+
+        void Awake()
+        {
+            StartCoroutine(UpdateRefreshTimeText());
+        }
 
         private void FixedUpdate()
         {
             UpdateSlotsUI();
+        }
+
+        private IEnumerator UpdateRefreshTimeText()
+        {
+            while (true)
+            {
+                if (App.BountyShop.IsValid)
+                {
+                    RefreshTimeText.Show(Format.ShortTimeSpan(App.BountyShop.TimeUntilRefresh));
+                }
+                else
+                {
+                    RefreshTimeText.Show("New");
+                }
+
+                yield return new WaitForSecondsRealtime(1);
+            }
         }
 
         private void UpdateSlotsUI()

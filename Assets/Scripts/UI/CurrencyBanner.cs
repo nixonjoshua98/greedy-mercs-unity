@@ -15,6 +15,7 @@ namespace SRC.UI
         [Space]
         public TMP_Text BountyPointsText;
         public TMP_Text ArmouryPointsText;
+        public TMP_Text GemstoneText;
         public TMP_Text PrestigePointsText;
 
         private void FixedUpdate()
@@ -22,6 +23,7 @@ namespace SRC.UI
             BountyPointsText.text = Format.Number(App.Inventory.BountyPoints);
             ArmouryPointsText.text = Format.Number(App.Inventory.ArmouryPoints);
             PrestigePointsText.text = Format.Number(App.Inventory.PrestigePoints);
+            GemstoneText.text = Format.Number(App.Inventory.Gemstones);
         }
 
         private void Start()

@@ -9,7 +9,7 @@ namespace SRC.BountyShop.UI.ItemSlots
         {
             App.BountyShop.PurchaseCurrencyItem(ShopItem.ID, resp =>
             {
-
+                UpdateSlotUI();
             });
         }
 
@@ -17,7 +17,8 @@ namespace SRC.BountyShop.UI.ItemSlots
         {
             Icon.Initialize(ShopItem.Item);
 
-            NameText.text = $"{Format.Colour(ShopItem.Item.Colour, "[Currency]")} {ShopItem.Item.DisplayName}";
+            NameText.text = $"{Format.Colour(ShopItem.Item.Colour, "[Currency]")} {ShopItem.Quantity}x {ShopItem.Item.DisplayName}";
+            DescriptionText.text = ShopItem.Item.ShortDescription;
         }
     }
 }

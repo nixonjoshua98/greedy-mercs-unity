@@ -1,8 +1,10 @@
 ﻿using SRC.BountyShop.Requests;
 using SRC.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
+using SRC.Common;
 
 namespace SRC.BountyShop.Data
 {
@@ -12,18 +14,20 @@ namespace SRC.BountyShop.Data
 
         List<BountyShopPurchaseModel> ItemPurchases = new();
 
-        private Dictionary<string, BountyShopArmouryItem> armouryItems;
-        private Dictionary<string, BountyShopCurrencyItem> currencyItems;
+        private Dictionary<string, BountyShopArmouryItem> ArmouryItemsLookup;
+        private Dictionary<string, BountyShopCurrencyItem> CurrencyItemsLookup;
 
-        public bool IsValid => SRC.Common.Utility.GetGameDayNumber() == GameDayNumber;
+        public bool IsValid => Utility.GetGameDayNumber() == GameDayNumber;
 
         public BountyShopPurchaseModel GetItemPurchase(BountyShopItemType itemType, string itemId)
         {
             return ItemPurchases.FirstOrDefault(p => p.ItemType == itemType && p.ItemID == itemId);
         }
 
-        public List<BountyShopArmouryItem> ArmouryItems => armouryItems.Values.ToList();
-        public List<BountyShopCurrencyItem> CurrencyItems => currencyItems.Values.ToList();
+        public TimeSpan TimeUntilRefresh => Utility.GetGameDayDate(GameDayNumber + 1) - DateTime.UtcNow;
+
+        public List<BountyShopArmouryItem> ArmouryItems => ArmouryItemsLookup.Values.ToList();
+        public List<BountyShopCurrencyItem> CurrencyItems => CurrencyItemsLookup.Values.ToList();
 
         public void FetchShop(UnityAction action)
         {
@@ -34,17 +38,14 @@ namespace SRC.BountyShop.Data
                     ItemPurchases = resp.Purchases;
                     GameDayNumber = resp.GameDayNumber;
 
-                    armouryItems    = resp.ShopItems.ArmouryItems.ToDictionary(ele => ele.ID, ele => ele);
-                    currencyItems   = resp.ShopItems.CurrencyItems.ToDictionary(ele => ele.ID, ele => ele);
+                    ArmouryItemsLookup    = resp.ShopItems.ArmouryItems.ToDictionary(ele => ele.ID, ele => ele);
+                    CurrencyItemsLookup   = resp.ShopItems.CurrencyItems.ToDictionary(ele => ele.ID, ele => ele);
                 }
 
                 action.Invoke();
             });
         }
 
-        /// <summary>
-        /// Send the server request for purchasing an armoury item
-        /// </summary>
         public void PurchaseArmouryItem(string itemId, UnityAction<PurchaseArmouryItemResponse> action)
         {
             App.HTTP.PurchaseBountyShopArmouryItem(itemId, resp =>
@@ -52,8 +53,8 @@ namespace SRC.BountyShop.Data
                 if (resp.IsSuccess)
                 {
                     App.Armoury.Update(resp.ArmouryItem);
-
                     App.Inventory.UpdateCurrencies(resp.Currencies);
+                    ItemPurchases.Add(new(itemId, BountyShopItemType.ArmouryItem));
                 }
 
                 action.Invoke(resp);
@@ -67,6 +68,7 @@ namespace SRC.BountyShop.Data
                 if (resp.StatusCode == 200)
                 {
                     App.Inventory.UpdateCurrencies(resp.Currencies);
+                    ItemPurchases.Add(new(itemId, BountyShopItemType.CurrencyItem));
                 }
 
                 action.Invoke(resp);

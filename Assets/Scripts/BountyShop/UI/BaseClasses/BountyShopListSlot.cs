@@ -26,7 +26,7 @@ namespace SRC.BountyShop.UI.BaseClasses
             UpdateSlotUI();
         }
 
-        private void UpdateSlotUI()
+        protected void UpdateSlotUI()
         {
             BuyButton.interactable = ShopItem.InStock;
             PurchaseCostText.text = ShopItem.PurchaseCost.ToString();

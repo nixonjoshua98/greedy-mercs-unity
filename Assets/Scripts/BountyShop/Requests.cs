@@ -1,9 +1,7 @@
 ﻿using SRC.Armoury.Data;
 using SRC.BountyShop.Data;
-using SRC.Common.Enums;
 using SRC.Inventory;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SRC.BountyShop.Requests
 {
@@ -23,10 +21,5 @@ namespace SRC.BountyShop.Requests
         public int GameDayNumber;
         public List<BountyShopPurchaseModel> Purchases;
         public BountyShopItems ShopItems;
-
-        public BountyShopPurchaseModel GetPurchase(BountyShopItemType itemType, string itemId)
-        {
-            return Purchases.FirstOrDefault(p => p.ItemID == itemId && p.ItemType == itemType);
-        }
     }
 }

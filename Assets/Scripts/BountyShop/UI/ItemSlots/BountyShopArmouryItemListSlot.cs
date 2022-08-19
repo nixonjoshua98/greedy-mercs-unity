@@ -12,7 +12,7 @@ namespace SRC.BountyShop.UI.ItemSlots
         {
             App.BountyShop.PurchaseArmouryItem(ShopItem.ID, resp =>
             {
-
+                UpdateSlotUI();
             });
         }
 

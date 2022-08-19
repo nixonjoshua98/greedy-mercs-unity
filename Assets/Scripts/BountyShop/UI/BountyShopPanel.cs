@@ -46,7 +46,7 @@ namespace SRC.BountyShop.UI
                 slot.Initialize(aItem);
             });
 
-            ShopItemParent.ShuffleChildren();
+            ShopItemParent.ShuffleChildren(App.BountyShop.GameDayNumber);
 
             ShowInnerPanel();
         }

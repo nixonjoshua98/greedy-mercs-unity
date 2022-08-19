@@ -1,4 +1,6 @@
 using SRC.Common.Enums;
+using System;
+using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 
@@ -7,6 +9,22 @@ namespace SRC
     public static class Format
     {
         public static string Colour(Color col, object obj) => $"<color={col.ToHex()}>{obj}</color>";
+
+        public static string ShortTimeSpan(TimeSpan ts)
+        {
+            List<string> parts = new();
+
+            if (ts.Hours > 0)
+                parts.Add($"{ts.Hours}h");
+
+            if (ts.Minutes > 0)
+                parts.Add($"{ts.Minutes}m");
+
+            if (parts.Count == 0 && ts.Seconds > 0)
+                parts.Add($"{ts.Seconds}s");
+
+            return string.Join(" ", parts);
+        }
 
 
 

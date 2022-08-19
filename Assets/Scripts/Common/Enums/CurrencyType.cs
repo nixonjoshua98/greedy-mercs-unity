@@ -2,10 +2,10 @@ namespace SRC.Common.Enums
 {
     public enum CurrencyType
     {
-        DIAMONDS = 100,
-        ARMOURY_POINTS = 200,
-        PRESTIGE_POINTS = 300,
-        BOUNTY_POINTS = 400,
-        GOLD = 500,
+        Gemstones = 100,
+        ArmouryPoints = 200,
+        PrestigePoints = 300,
+        BountyPoints = 400,
+        Gold = 500,
     }
 }

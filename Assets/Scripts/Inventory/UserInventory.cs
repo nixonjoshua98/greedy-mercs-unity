@@ -6,7 +6,7 @@ namespace SRC.Inventory.Data
     {
         public double PrestigePoints;
 
-        public int Diamonds;
+        public int Gemstones;
         public long BountyPoints { get; set; }
         public long ArmouryPoints { get; set; }
         public BigDouble Gold { get => App.LocalStateFile.Gold; set => App.LocalStateFile.Gold = value; }
@@ -27,6 +27,7 @@ namespace SRC.Inventory.Data
             BountyPoints = model.BountyPoints;
             ArmouryPoints = model.ArmouryPoints;
             PrestigePoints = model.PrestigePoints;
+            Gemstones = model.Gemstones;
         }
     }
 }

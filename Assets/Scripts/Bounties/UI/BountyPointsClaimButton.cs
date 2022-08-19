@@ -9,10 +9,26 @@ namespace SRC
         [SerializeField] private TMP_Text PointsPerHourText;
         [SerializeField] private Slider CapacitySlider;
 
-        private void FixedUpdate()
+        short _currentLoop;
+
+        private void Awake()
         {
-            PointsPerHourText.text = $"{App.Bounties.TotalPointsPerHour} / Hour";
+            InvokeRepeating(nameof(UpdateUI), 0.0f, 5.0f);
+        }
+
+        private void UpdateUI()
+        {
             CapacitySlider.value = App.Bounties.ClaimPercentFilled;
+
+            PointsPerHourText.text = _currentLoop switch
+            {
+                0 => $"{App.Bounties.TotalPointsPerHour} / Hour",
+                1 => $"{App.Bounties.TotalUnclaimedPoints} / {App.Bounties.MaxClaimPoints}",
+                _ => ""
+            };
+
+            _currentLoop = (short)((_currentLoop + 1) % 2);
+
         }
     }
 }

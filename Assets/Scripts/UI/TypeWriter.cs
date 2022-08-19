@@ -7,7 +7,7 @@ namespace SRC.UI
 {
     public class TypeWriter : MonoBehaviour
     {
-        public string Template;
+        [SerializeField] string Template;
         [SerializeField] private string TextToDisplay;
         [SerializeField] private float MsPerChar = 250;
         [SerializeField] private bool Loop;
@@ -20,7 +20,9 @@ namespace SRC.UI
         private void Awake()
         {
             if (Template == null || Template == string.Empty)
-                Template = "%TEXT%";
+                Template = "{{TEXT}}";
+
+            Template = Template.Replace("%TEXT%", "{{TEXT}}");
         }
 
         private void OnEnable()
@@ -48,7 +50,7 @@ namespace SRC.UI
                 }
             }
 
-            Text.text = Template.Replace("%TEXT%", TextToDisplay[..numCharactersShown]);
+            Text.text = Template.Replace("{{TEXT}}", TextToDisplay[..numCharactersShown]);
         }
     }
 }

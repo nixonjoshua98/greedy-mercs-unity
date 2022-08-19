@@ -38,8 +38,11 @@ namespace SRC.UI.HUD
 
         [Header("References")]
         [SerializeField] private ObjectPool TextNumbers;
+
+
         private float _lastDisplayUpdate;
         private int _numGoldTrails = 0;
+
         private PropertyTracker<BigDouble> GoldTracker;
 
         private void Awake()

@@ -26,6 +26,10 @@ namespace SRC
             return string.Join(" ", parts);
         }
 
+        public static string Number(BigInteger val) => val.Format();
+
+        public static string Number(long val) => Number(new BigInteger(val));
+
 
 
 
@@ -42,8 +46,6 @@ namespace SRC
         {
             return val.Format(decimalPlaces);
         }
-
-        private static readonly Common.TTLCache FormatCache = new();
 
         public static string Percentage(BigDouble val, int dp = 2)
         {
@@ -93,27 +95,6 @@ namespace SRC
             {
                 _ => Percentage(val.ToDouble())
             };
-        }
-
-        public static string Number(float val, BonusType bonus)
-        {
-            return Number(new BigDouble(val), bonus);
-        }
-
-        public static string Number(long val)
-        {
-            return Number(new BigInteger(val));
-        }
-
-        public static string Number(BigInteger val)
-        {
-            return FormatCache.Get<string>($"BigInteger/{val}", 60, () =>
-            {
-                if (BigInteger.Abs(val) < 1_000)
-                    return val.ToString();
-
-                return val.ToString($"F0");
-            });
         }
     }
 }

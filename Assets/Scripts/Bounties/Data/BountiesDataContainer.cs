@@ -46,6 +46,8 @@ namespace SRC.Bounties.Models
             }
         }
 
+        public long TotalUnclaimedPoints => (long)(ClaimPercentFilled * MaxClaimPoints);
+
         /// <summary>
         /// Percentage
         /// </summary>

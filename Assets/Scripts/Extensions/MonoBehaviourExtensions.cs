@@ -18,11 +18,6 @@ namespace SRC
             mono.StartCoroutine(_InvokeAfter());
         }
 
-        public static void InvokeAfter(this MonoBehaviour mono, float delay, Action callback)
-        {
-            mono.StartCoroutine(InvokeAfter(delay, callback));
-        }
-
         public static void Lerp01(this MonoBehaviour mono, float duration, Action<float> action)
         {
             mono.StartCoroutine(Lerp(mono, 0, 1, duration, action));
@@ -65,13 +60,6 @@ namespace SRC
             }
 
             action.Invoke(to);
-        }
-
-        private static IEnumerator InvokeAfter(float delay, Action callback)
-        {
-            yield return new WaitForSeconds(delay);
-
-            callback.Invoke();
         }
     }
 }

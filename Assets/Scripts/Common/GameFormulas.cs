@@ -10,6 +10,25 @@ namespace SRC.Common
 
     public static class GameFormulas
     {
+        // ----------------
+
+        public static double ArtefactEffect(int currentLevel, double baseEffect, double levelEffect)
+        {
+            return baseEffect + (levelEffect * (currentLevel - 1));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         private static readonly TTLCache _cache = new();
 
         #region Minor Tap Upgrade
@@ -42,7 +61,7 @@ namespace SRC.Common
             return Mathf.Max(1, owned - 2) * Math.Pow(1.35, owned);
         }
 
-        public static BigDouble ArtefactBonusValue(int currentLevel, double baseEffect, double levelEffect)
+        public static double ArtefactBonus(int currentLevel, double baseEffect, double levelEffect)
         {
             return baseEffect + (levelEffect * (currentLevel - 1));
         }
@@ -54,7 +73,7 @@ namespace SRC.Common
         #endregion
 
         #region Armoury
-        public static double ArmouryItemBonusValue(int level, int owned, float baseEffect, float levelEffect)
+        public static double ArmouryItemBonus(int level, int owned, float baseEffect, float levelEffect)
         {
             return (baseEffect + (levelEffect * ((level + owned) - 1)));
         }
@@ -107,9 +126,9 @@ namespace SRC.Common
         /// <summary>
         /// Calculate the base prestige points for a provided stage
         /// </summary>
-        public static double BasePrestigePoints(int stage)
+        public static double PrestigePoints(int stage)
         {
-            string key = $"{nameof(BasePrestigePoints)}:{stage}";
+            string key = $"{nameof(PrestigePoints)}:{stage}";
 
             return _cache.Get<double>(key, () =>
             {

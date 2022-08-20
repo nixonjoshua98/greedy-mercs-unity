@@ -64,7 +64,7 @@ namespace SRC.Artefacts.UI
             UpgradeCostText.text = Artefact.IsMaxLevel ? "" : Format.Number(ugradeCost);
 
             LevelText.text = $"Lv <color=orange>{Artefact.CurrentLevel}</color>";
-            BonusText.text = $" <color=orange>{Format.Number(Artefact.Effect, Artefact.Bonus)}</color> {Format.BonusType(Artefact.Bonus)}";
+            BonusText.text = $" <color=orange>{Format.Number(Artefact.BonusValue, Artefact.BonusType)}</color> {Format.BonusType(Artefact.BonusType)}";
 
             UpgradeButton.interactable = !Artefact.IsMaxLevel && ugradeCost <= App.Inventory.PrestigePoints;
         }

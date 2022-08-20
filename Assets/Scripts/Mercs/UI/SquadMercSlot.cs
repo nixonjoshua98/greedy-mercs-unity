@@ -93,7 +93,7 @@ namespace SRC.Mercs.UI
 
         public void OnUpgradeButton()
         {
-            BigDouble upgradeCost = App.Values.MercUpgradeCost(AssignedMerc, BuyAmount);
+            BigDouble upgradeCost = AssignedMerc.UpgradeCost(BuyAmount);
 
             bool willExceedMaxLevel = AssignedMerc.CurrentLevel + BuyAmount > AssignedMerc.MaxLevel;
             bool canAffordUpgrade = App.Inventory.Gold >= upgradeCost;

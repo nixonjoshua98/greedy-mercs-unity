@@ -21,7 +21,7 @@ namespace SRC.Artefacts.UI
 
         private void UpdateUI()
         {
-            CurrentBonusText.text = $"<color=orange>{Format.Number(Artefact.Effect, Artefact.Bonus)}</color> {Format.BonusType(Artefact.Bonus)}";
+            CurrentBonusText.text = $"<color=orange>{Format.Number(Artefact.BonusValue, Artefact.BonusType)}</color> {Format.BonusType(Artefact.BonusType)}";
             NameText.text = Artefact.Name;
             LevelText.text = $"Lv <color=orange>{Artefact.CurrentLevel}</color>";
         }

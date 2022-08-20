@@ -115,10 +115,10 @@ namespace SRC.Mercs.Controllers
 
             BigDouble damage = DataValues.DamagePerAttack;
 
-            if (MathsUtlity.PercentChance(App.Values.CriticalHitChance))
+            if (MathsUtlity.PercentChance(App.Bonuses.CriticalHitChance))
             {
                 damageType = DamageType.CriticalHit;
-                damage *= App.Values.CriticalHitMultiplier;
+                damage *= App.Bonuses.CriticalHitMultiplier;
             }
 
             return new() { Type = damageType, Value = damage };

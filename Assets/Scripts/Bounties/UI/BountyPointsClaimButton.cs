@@ -16,10 +16,13 @@ namespace SRC
             InvokeRepeating(nameof(UpdateUI), 0.0f, 5.0f);
         }
 
-        private void UpdateUI()
+        private void FixedUpdate()
         {
             CapacitySlider.value = App.Bounties.ClaimPercentFilled;
+        }
 
+        private void UpdateUI()
+        {
             PointsPerHourText.text = _currentLoop switch
             {
                 0 => $"{App.Bounties.TotalPointsPerHour} / Hour",
@@ -28,7 +31,6 @@ namespace SRC
             };
 
             _currentLoop = (short)((_currentLoop + 1) % 2);
-
         }
     }
 }

@@ -51,7 +51,7 @@ namespace SRC.Controllers
 
                 Vector3 worldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
 
-                BigDouble damage = App.Values.TotalTapDamage;
+                BigDouble damage = App.Bonuses.TotalTapDamage;
 
                 HealthController health = target.GetComponent<HealthController>();
 

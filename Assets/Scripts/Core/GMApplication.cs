@@ -25,13 +25,12 @@ namespace SRC.Core
 
         public LocalDataContainer Local;
 
-        [Tooltip("Local Save Manager Singleton")]
         public LocalSaveManager SaveManager;
 
         /* Current state - Forward it from the state file */
         public GameState GameState { get => LocalStateFile.GameState; }
-
-        public GMValues Values = new();
+        
+        public Calculations Bonuses => Calculations.Instance;
 
         /* Local Files */
         public LocalPersistantFile PersistantLocalFile;

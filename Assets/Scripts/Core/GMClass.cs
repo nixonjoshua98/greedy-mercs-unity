@@ -1,7 +1,7 @@
 namespace SRC.Core
 {
-    public abstract class GMClass
+    public class GMClass
     {
-        protected GMApplication App => GMApplication.Instance;
+        public static GMApplication App => GMApplication.Instance;
     }
 }

@@ -19,7 +19,7 @@ namespace SRC.Common
             return Mathf.Min(Mathf.Min(maxValue, RoundUpTo(value, multiple)) - value);
         }
 
-        public static bool PercentChance(float percent)
+        public static bool PercentChance(double percent)
         {
             return percent >= Random.Range(0.0f, 1.0f);
         }

@@ -26,5 +26,24 @@ namespace SRC.Common.Enums
         MULTIPLY_ALL_GOLD = 800,
         MULTIPLY_BOSS_GOLD = 801,
         MULTIPLY_ENEMY_GOLD = 802,
+
+        MULTIPLY_ARTEFACT_BONUS = 900
+    }
+
+    public static class BonusTypeExtensions
+    {
+        public static bool IsFlatValue(this BonusType bonusType)
+        {
+            return bonusType.ToString().StartsWith("FLAT_");
+        }
+
+        public static double DefaultValue(this BonusType bonusType)
+        {
+            return bonusType switch
+            {
+                BonusType.FLAT_CRIT_CHANCE => 0,
+                _ => 1
+            };
+        }
     }
 }

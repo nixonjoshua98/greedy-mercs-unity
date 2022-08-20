@@ -40,7 +40,7 @@ namespace SRC.Artefacts.UI
 
         private void UpdateArtefactSlots()
         {
-            List<AggregatedArtefactData> artefacts = App.Artefacts.UserOwnedArtefacts;
+            List<AggregatedArtefactData> artefacts = App.Artefacts.UnlockedArtefacts;
 
             for (int i = 0; i < artefacts.Count; ++i)
             {

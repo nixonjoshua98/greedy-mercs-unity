@@ -15,7 +15,7 @@
 
         public BigDouble UpgradeCost(int levels)
         {
-            return App.Values.TapUpgradeCost(levels);
+            return App.Bonuses.TapUpgradeCost(levels);
         }
     }
 }

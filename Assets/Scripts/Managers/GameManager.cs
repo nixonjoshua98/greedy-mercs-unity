@@ -60,7 +60,7 @@ namespace SRC
 
         private IEnumerator SetupStageEnemy()
         {
-            BigDouble maxHealth = App.Values.EnemyHealthAtStage(App.GameState.Stage);
+            BigDouble maxHealth = App.Bonuses.StageEnemyHealth(App.GameState.Stage);
 
             var enemySpawnPos = StageEnemyPosition + new Vector3(5, 0);
 
@@ -96,7 +96,7 @@ namespace SRC
             // Setup Health
             HealthController health = bossObject.GetComponent<HealthController>();
             health.E_OnZeroHealth.AddListener(() => OnBossZeroHealth(bossObject));
-            health.Init(App.Values.StageBossHealthAtStage(App.GameState.Stage));
+            health.Init(App.Bonuses.StageBossHealth(App.GameState.Stage));
 
             var eventPayload = new SRC.Events.StageBossEventPayload(go: bossObject,
                                                                     stage: State.Stage,

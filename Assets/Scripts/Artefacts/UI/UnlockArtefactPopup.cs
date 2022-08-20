@@ -64,7 +64,7 @@ namespace SRC.Artefacts.UI
         {
             UnlockButton.interactable = true;
 
-            var unlockCost = App.Values.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
+            var unlockCost = App.Bonuses.ArtefactUnlockCost(App.Artefacts.NumUnlockedArtefacts);
 
             if (unlockCost > App.Inventory.PrestigePoints)
             {

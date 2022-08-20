@@ -25,9 +25,10 @@ namespace SRC.Artefacts.Data
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
         public int NumUnlockedArtefacts => StateModels.Count;
         public int MaxArtefacts => StaticModels.Count;
-        public double NextUnlockCost => App.Values.ArtefactUnlockCost(NumUnlockedArtefacts);
+        public double NextUnlockCost => App.Bonuses.ArtefactUnlockCost(NumUnlockedArtefacts);
         public List<AggregatedArtefactData> Artefacts => StaticModels.Select(x => GetArtefact(x.Value.ID)).ToList();
         public List<AggregatedArtefactData> LockedArtefacts => Artefacts.Where(x => !StateModels.ContainsKey(x.Id)).ToList();
+        public List<AggregatedArtefactData> UnlockedArtefacts => StateModels.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToList();
 
         private void Update(ArtefactUserData art)
         {
@@ -80,7 +81,6 @@ namespace SRC.Artefacts.Data
             return Resources.LoadAll<ArtefactScriptableObject>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
         }
 
-        public List<AggregatedArtefactData> UserOwnedArtefacts => StateModels.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToList();
         public List<Artefact> GameArtefactsList => StaticModels.Values.ToList();
         public AggregatedArtefactData GetArtefact(int artefactId)
         {

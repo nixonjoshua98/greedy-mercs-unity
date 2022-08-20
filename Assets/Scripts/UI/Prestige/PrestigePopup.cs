@@ -35,8 +35,8 @@ namespace SRC.UI
 
         private void UpdatePrestigePointsText()
         {
-            var basePoints = App.Values.BasePrestigePoints();
-            var bonusPoints = App.Values.BonusPrestigePoints();
+            var basePoints  = App.Bonuses.BonusPrestigePointsAtStage(App.GameState.Stage);
+            var bonusPoints = App.Bonuses.PrestigePointsAtStage(App.GameState.Stage);
 
             // BasePoints + BonusPoints
             string quantity = $"{Format.Number(basePoints)}{(bonusPoints > 0 ? $"+ {Format.Number(bonusPoints)}" : "")}";

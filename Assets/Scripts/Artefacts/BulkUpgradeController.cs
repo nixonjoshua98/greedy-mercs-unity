@@ -32,7 +32,7 @@ namespace SRC.Artefacts
 
             UnprocessedChanges.Upgrades[artefact] = UnprocessedChanges.Upgrades.Get(artefact, 0) + levels;
 
-            var upgradeCost = App.Values.ArtefactUpgradeCost(artefact, levels);
+            var upgradeCost = App.Bonuses.ArtefactUpgradeCost(App.Artefacts.GetArtefact(artefact), levels);
 
             // Currency changes
             UnprocessedChanges.UpgradeCost += upgradeCost;

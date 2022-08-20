@@ -39,7 +39,7 @@ namespace SRC.Managers
         {
             var avatar = payload.GameObject.GetComponentInChildren<UnitAvatar>();
 
-            BigDouble gold = App.Values.GoldPerStageBossAtStage(payload.StageSpawned);
+            BigDouble gold = App.Bonuses.GoldPerStageBoss(payload.StageSpawned);
 
             App.Inventory.Gold += gold;
 
@@ -50,7 +50,7 @@ namespace SRC.Managers
         {
             var avatar = enemy.GetComponentInChildren<UnitAvatar>();
 
-            BigDouble gold = App.Values.GoldPerEnemyAtStage(App.GameState.Stage);
+            BigDouble gold = App.Bonuses.GoldPerStageEnemy(App.GameState.Stage);
 
             App.Inventory.Gold += gold;
 

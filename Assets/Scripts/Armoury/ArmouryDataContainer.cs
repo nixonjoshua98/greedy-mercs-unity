@@ -75,9 +75,6 @@ namespace SRC.Armoury.Data
         /// </summary>
         public AggregatedArmouryItem GetItem(int itemId)
         {
-            if (!GameItemsDict.ContainsKey(itemId))
-                throw new System.Exception($"Armoury item '{itemId}' not found");
-
             return new(itemId);
         }
 

@@ -20,7 +20,10 @@ namespace SRC.Mercs.Data
         private MercLocalUserData LocalState => GetLocalUserData();
         private MercLocalDataFileMerc LocalGameData => GetLocalGameData();
 
-        public AggregatedMercData(MercID mercId, Func<MercGameData> getMercGameData, Func<MercLocalUserData> getLocalUserData, Func<MercLocalDataFileMerc> getLocalGameData)
+        public AggregatedMercData(MercID mercId,
+                                  Func<MercGameData> getMercGameData,
+                                  Func<MercLocalUserData> getLocalUserData,
+                                  Func<MercLocalDataFileMerc> getLocalGameData)
         {
             MercID = mercId;
 
@@ -43,9 +46,8 @@ namespace SRC.Mercs.Data
         public List<MercPassive> Passives => GameData.Passives;
         public List<MercPassive> UnlockedPassives => GameData.Passives.Where(x => CurrentLevel >= x.UnlockLevel).ToList();
         public float BaseDamage => GameData.BaseDamage;
-        public BigDouble DamagePerAttack => App.Values.MercDamagePerAttack(this);
-        public BigDouble AttackDamage(int level) => App.Values.MercDamagePerAttack(this, level);
+        public BigDouble DamagePerAttack => App.Bonuses.MercDamagePerAttack(this);
         public bool IsPassiveUnlocked(int passiveId) => UnlockedPassives.FirstOrDefault(x => x.PassiveID == passiveId) is not null;
-        public BigDouble UpgradeCost(int numLevels) => App.Values.MercUpgradeCost(this, numLevels);
+        public BigDouble UpgradeCost(int numLevels) => App.Bonuses.MercUpgradeCost(this, numLevels);
     }
 }

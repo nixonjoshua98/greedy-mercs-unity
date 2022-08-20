@@ -18,18 +18,18 @@ namespace SRC.Armoury
 
         public ItemGradeData GradeConfig;
 
+        private ArmouryItem GameItem => App.Armoury.GetGameItem(ID);
+
         public AggregatedArmouryItem(int itemId)
         {
-            var gameItem = App.Armoury.GetGameItem(itemId);
-
             ID = itemId;
 
-            Icon = gameItem.Icon;
-            Name = gameItem.Name;
-            Grade = gameItem.Grade;
-            BonusType = gameItem.BonusType;
-            BaseEffect = gameItem.BaseEffect;
-            LevelEffect = gameItem.LevelEffect;
+            Icon = GameItem.Icon;
+            Name = GameItem.Name;
+            Grade = GameItem.Grade;
+            BonusType = GameItem.BonusType;
+            BaseEffect = GameItem.BaseEffect;
+            LevelEffect = GameItem.LevelEffect;
 
             GradeConfig = App.Local.GetItemGrade(Grade);
         }
@@ -47,12 +47,7 @@ namespace SRC.Armoury
 
         public int NumOwned => UserModel.NumOwned;
         public int CurrentLevel => UserModel.Level;
-
-        public double BonusValue => App.Values.ArmouryItemBonusValue(this);
-
-        public int UpgradeCost()
-        {
-            return App.Values.ArmouryItemUpgradeCost(this);
-        }
+        public double BonusValue => App.Bonuses.ArmouryItemBonus(this);
+        public int UpgradeCost() => App.Bonuses.ArmouryItemUpgradeCost(this);
     }
 }

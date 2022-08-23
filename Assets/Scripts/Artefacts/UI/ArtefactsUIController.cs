@@ -46,11 +46,11 @@ namespace SRC.Artefacts.UI
             {
                 AggregatedArtefactData art = artefacts[i];
 
-                if (!ArtefactSlots.TryGetValue(art.Id, out ArtefactSlot slot))
+                if (!ArtefactSlots.TryGetValue(art.ArtefactID, out ArtefactSlot slot))
                 {
-                    slot = ArtefactSlots[art.Id] = this.Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
+                    slot = ArtefactSlots[art.ArtefactID] = this.Instantiate<ArtefactSlot>(ArtefactSlotObject, ArtefactsContent);
 
-                    slot.Intialize(art.Id, LevelsSelector, ArtefactSlot_OnUpgradeButton);
+                    slot.Intialize(art.ArtefactID, LevelsSelector, ArtefactSlot_OnUpgradeButton);
                 }
 
                 slot.transform.SetSiblingIndex(i + 1);

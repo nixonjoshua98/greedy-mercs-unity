@@ -1,10 +1,8 @@
+using SRC.BountyShop.UI;
+using SRC.UI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using System.Collections;
-using SRC.UI;
-using System;
-using SRC.Common;
 
 namespace SRC.Bounties.UI
 {
@@ -12,7 +10,7 @@ namespace SRC.Bounties.UI
     {
         [Header("Prefabs")]
         [SerializeField] private GameObject BountyListObject;
-        [SerializeField] private GameObject BountyShopPanelObject;
+        [SerializeField] private GameObject PopupObject;
 
         [Header("Transforms")]
         [SerializeField] private Transform BountySlotParent;
@@ -70,15 +68,21 @@ namespace SRC.Bounties.UI
 
         public void ShowBountyShop()
         {
-            UI.Instantiate(BountyShopPanelObject, SRC.UI.UILayer.TWO);
+            UI.Create<BountiesPopup>(PopupObject, UILayer.TWO)
+                .Initialize("Shop");
+        }
+
+        public void ShowUpgrades()
+        {
+            UI.Create<BountiesPopup>(PopupObject, UILayer.TWO)
+                .Initialize("Upgrades");
         }
 
         public void OnClaimButton()
         {
             App.Bounties.ClaimPoints((success, resp) =>
             {
-                if (!success)
-                    GMLogger.Error(resp.Message);
+
             });
         }
     }

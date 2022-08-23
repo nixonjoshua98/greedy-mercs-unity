@@ -2261,6 +2261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Group: {fileID: 992716364}
+  Identifier: 
   InitiallySelected: 0
   Background: {fileID: 925970507}
   Colours:
@@ -5038,7 +5039,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 43415579}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 949167727}
+        m_TargetAssemblyTypeName: SRC.Bounties.UI.BountiesUIController, Assembly-CSharp
+        m_MethodName: ShowUpgrades
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &877172769
 GameObject:
   m_ObjectHideFlags: 0
@@ -5642,7 +5655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BountyListObject: {fileID: 485602538747141430, guid: 792eb75881fe5754983776948168ea49,
     type: 3}
-  BountyShopPanelObject: {fileID: 2731261084999997482, guid: 548d527f5a98e894e8d1b714947090fe,
+  PopupObject: {fileID: 2731261084999997482, guid: 548d527f5a98e894e8d1b714947090fe,
     type: 3}
   BountySlotParent: {fileID: 18357677}
   RefreshTimeText: {fileID: 8987285443131243807}
@@ -7359,7 +7372,6 @@ GameObject:
   - component: {fileID: 1257232351}
   - component: {fileID: 1257232350}
   - component: {fileID: 1257232349}
-  - component: {fileID: 1257232352}
   m_Layer: 5
   m_Name: Canvas [Overlay]
   m_TagString: MainCanvas
@@ -7454,18 +7466,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
---- !u!114 &1257232352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257232347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 190176962f16ffa449af030c33c33657, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1260989158
 GameObject:
   m_ObjectHideFlags: 0
@@ -7779,6 +7779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Group: {fileID: 992716364}
+  Identifier: 
   InitiallySelected: 0
   Background: {fileID: 1623862372}
   Colours:
@@ -7950,6 +7951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Group: {fileID: 992716364}
+  Identifier: 
   InitiallySelected: 1
   Background: {fileID: 1935395246}
   Colours:
@@ -8525,6 +8527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Group: {fileID: 992716364}
+  Identifier: 
   InitiallySelected: 0
   Background: {fileID: 1188228947}
   Colours:
@@ -11921,6 +11924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Group: {fileID: 992716364}
+  Identifier: 
   InitiallySelected: 0
   Background: {fileID: 1201499073}
   Colours:

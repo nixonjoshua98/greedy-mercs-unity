@@ -77,16 +77,16 @@ namespace SRC.Bounties.Models
         /// <summary>
         /// Fetch data for an unlocked bounty
         /// </summary>
-        public AggregatedBounty GetBounty(int key)
+        public AggregatedBounty GetBounty(int bountyId)
         {
-            return AggregatedBounties.GetOrCreate(b => b.BountyID == key, () =>
+            return AggregatedBounties.GetOrCreate(b => b.BountyID == bountyId, () =>
             {
                 // Dynamic 'GET' functions for data
-                Func<UserBounty> getUserBounty = () => UserData.UnlockedBounties.FirstOrDefault(ele => ele.BountyID == key);
-                Func<Bounty> getBounty = () => GameData.Bounties.FirstOrDefault(ele => ele.BountyID == key);
-                Func<BountiesLocalDataFileBounty> getLocalDataFile = () => LocalDataFile.Bounties.FirstOrDefault(b => b.BountyID == key);
+                Func<UserBounty> getUserBounty                      = () => UserData.UnlockedBounties.FirstOrDefault(ele => ele.BountyID == bountyId);
+                Func<Bounty> getBounty                              = () => GameData.Bounties.FirstOrDefault(ele => ele.BountyID == bountyId);
+                Func<BountiesLocalDataFileBounty> getLocalDataFile  = () => LocalDataFile.Bounties.FirstOrDefault(b => b.BountyID == bountyId);
 
-                return new(key, getBounty, getLocalDataFile, getUserBounty);
+                return new(bountyId, getBounty, getLocalDataFile, getUserBounty);
             });
         }
 

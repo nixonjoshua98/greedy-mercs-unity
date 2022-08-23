@@ -73,14 +73,14 @@ namespace SRC.Artefacts.UI
 
         public void OnUpgradeButton()
         {
-            UpgradeCallback.Invoke(Artefact.Id, BuyAmount);
+            UpgradeCallback.Invoke(Artefact.ArtefactID, BuyAmount);
 
             UpdateUI();
         }
 
         public void OnInfoButton()
         {
-            this.InstantiateUI<ArtefactPanel>(ArtefactPopupObject).Intialize(Artefact.Id);
+            this.InstantiateUI<ArtefactPanel>(ArtefactPopupObject).Intialize(Artefact.ArtefactID);
         }
     }
 }

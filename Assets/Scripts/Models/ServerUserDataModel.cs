@@ -15,7 +15,7 @@ namespace SRC.Models
         UserCurrencies Currencies { get; set; }
         UserBounties Bounties { get; set; }
         List<UserArmouryItem> ArmouryItems { get; set; }
-        List<ArtefactUserData> Artefacts { get; set; }
+        List<UserArtefact> Artefacts { get; set; }
         LifetimeStatsModel LifetimeStats { get; set; }
         QuestsDataResponse Quests { get; }
     }
@@ -26,7 +26,7 @@ namespace SRC.Models
         public UserCurrencies Currencies { get; set; }
         public UserBounties Bounties { get; set; }
         public List<UserArmouryItem> ArmouryItems { get; set; }
-        public List<ArtefactUserData> Artefacts { get; set; }
+        public List<UserArtefact> Artefacts { get; set; }
         public LifetimeStatsModel LifetimeStats { get; set; }
         public QuestsDataResponse Quests { get; set; }
     }

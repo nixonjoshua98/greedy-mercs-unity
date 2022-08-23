@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-namespace SRC.Navigation
+namespace SRC.UI.Navigation
 {
     public class TabGroup : MonoBehaviour
     {
-        private readonly List<TabButton> Buttons = new List<TabButton>();
+        private readonly List<TabButton> Buttons = new();
         private TabButton SelectedButton = null;
 
         public void Subscribe(TabButton button)
@@ -27,17 +28,27 @@ namespace SRC.Navigation
             });
         }
 
+        public void Select(string identifer)
+        {
+            var btn = Buttons.FirstOrDefault(b => b.Identifier == identifer);
+
+            if (btn is not null)
+            {
+                OnTabSelected(btn);
+            }
+        }
+
         public void OnTabSelected(TabButton button)
         {
             if (SelectedButton == button)
                 return;
 
-            InvokeEvents(in button);
+            InvokeEvents(button);
 
             SelectedButton = button;
         }
 
-        private void InvokeEvents(in TabButton newlySelected)
+        private void InvokeEvents(TabButton newlySelected)
         {
             for (int i = 0; i < Buttons.Count; i++)
             {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SRC.BountyShop.UI.ItemSlots
 {
-    public class BountyShopArmouryItemListSlot : BountyShopListSlot<BountyShopArmouryItem>
+    public class BountyShopArmouryItemSlot : BountyShopItemSlot<BountyShopArmouryItem>
     {
         public override void BuyItem()
         {

@@ -10,30 +10,33 @@ namespace SRC.Artefacts.Data
 {
     public class ArtefactsDataContainer : Core.GMClass
     {
-        private Dictionary<int, Artefact> StaticModels;
-        private Dictionary<int, ArtefactUserData> StateModels;
+        private List<Artefact> DataFiles;
+        private List<UserArtefact> StateModels;
 
-        // NB, We keep a persistant aggregated artefact class since we store state data which we do not want to save
-        private readonly Dictionary<int, AggregatedArtefactData> ArtefactsLookup = new Dictionary<int, AggregatedArtefactData>();
+        public readonly List<AggregatedArtefactData> Artefacts = new();
 
-        public void Set(List<ArtefactUserData> userArtefacts, List<Artefact> gameArtefacts)
+        public void Set(List<UserArtefact> userArtefacts, List<Artefact> gameArtefacts)
         {
-            Update(userArtefacts);
+            StateModels = userArtefacts;
             Update(gameArtefacts);
         }
 
         public bool UserUnlockedAll => NumUnlockedArtefacts >= MaxArtefacts;
         public int NumUnlockedArtefacts => StateModels.Count;
-        public int MaxArtefacts => StaticModels.Count;
+        public int MaxArtefacts => DataFiles.Count;
         public double NextUnlockCost => App.Bonuses.ArtefactUnlockCost(NumUnlockedArtefacts);
-        public List<AggregatedArtefactData> Artefacts => StaticModels.Select(x => GetArtefact(x.Value.ID)).ToList();
-        public List<AggregatedArtefactData> LockedArtefacts => Artefacts.Where(x => !StateModels.ContainsKey(x.Id)).ToList();
-        public List<AggregatedArtefactData> UnlockedArtefacts => StateModels.Values.OrderBy(ele => ele.ID).Select(ele => GetArtefact(ele.ID)).ToList();
 
-        private void Update(ArtefactUserData art)
-        {
-            StateModels[art.ID] = art;
-        }
+        public List<AggregatedArtefactData> LockedArtefacts =>
+            DataFiles
+            .Where(x => !StateModels.Exists(art => art.ID == x.ArtefactID))
+            .Select(art => GetArtefact(art.ArtefactID))
+            .ToList();
+
+        public List<AggregatedArtefactData> UnlockedArtefacts =>
+            DataFiles
+            .Where(x => StateModels.Exists(art => art.ID == x.ArtefactID))
+            .Select(art => GetArtefact(art.ArtefactID))
+            .ToList();
 
         public void RevertBulkLevelChanges(Dictionary<int, int> artefacts)
         {
@@ -43,37 +46,18 @@ namespace SRC.Artefacts.Data
             }
         }
 
-        /// <summary>Update all artefacts user states</summary>
-        private void Update(List<ArtefactUserData> arts)
-        {
-            StateModels = arts.ToDictionary(x => x.ID, x => x);
-        }
-
-        /// <summary> Fetch only the static artefact game data </summary>
-        public Artefact GetGameArtefact(int itemId)
-        {
-            return StaticModels[itemId];
-        }
-
-        public ArtefactUserData GetUserArtefact(int itemId)
-        {
-            return StateModels[itemId];
-        }
-
-
-        /// <summary> Update all artefacts static data </summary>
         private void Update(List<Artefact> artefacts)
         {
             Dictionary<int, ArtefactScriptableObject> scriptables = LoadScriptableObjects();
 
             artefacts.ForEach(art =>
             {
-                ArtefactScriptableObject scriptable = scriptables[art.ID];
+                ArtefactScriptableObject scriptable = scriptables[art.ArtefactID];
 
                 art.Icon = scriptable.Icon;
             });
 
-            StaticModels = artefacts.ToDictionary(x => x.ID, x => x);
+            DataFiles = artefacts;
         }
 
         private Dictionary<int, ArtefactScriptableObject> LoadScriptableObjects()
@@ -81,14 +65,16 @@ namespace SRC.Artefacts.Data
             return Resources.LoadAll<ArtefactScriptableObject>("Scriptables/Artefacts").ToDictionary(ele => ele.Id, ele => ele);
         }
 
-        public List<Artefact> GameArtefactsList => StaticModels.Values.ToList();
         public AggregatedArtefactData GetArtefact(int artefactId)
         {
-            if (!ArtefactsLookup.TryGetValue(artefactId, out AggregatedArtefactData result))
-                result = ArtefactsLookup[artefactId] = new AggregatedArtefactData(artefactId);
-            return result;
-        }
+            return Artefacts.GetOrCreate(art => art.ArtefactID == artefactId, () =>
+            {
+                Func<Artefact> getArtefact = () => DataFiles.FirstOrDefault(art => art.ArtefactID == artefactId);
+                Func<UserArtefact> getUserArtefacts = () => StateModels.FirstOrDefault(art => art.ID == artefactId);
 
+                return new(artefactId, getArtefact, getUserArtefacts);
+            });
+        }
 
         public void BulkUpgradeArtefact(Dictionary<int, int> artefacts, Action onRequestReceived, Action<bool> call)
         {
@@ -98,7 +84,7 @@ namespace SRC.Artefacts.Data
 
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    Update(resp.Artefacts);
+                    StateModels = resp.Artefacts;
 
                     App.Inventory.PrestigePoints = resp.RemainingPrestigePoints;
                 }
@@ -113,7 +99,7 @@ namespace SRC.Artefacts.Data
             {
                 if (resp.StatusCode == HTTPCodes.Success)
                 {
-                    Update(resp.Artefact);
+                    StateModels[resp.Artefact.ID] = resp.Artefact;
 
                     App.Inventory.PrestigePoints -= resp.UnlockCost;
 

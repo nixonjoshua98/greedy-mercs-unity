@@ -6,11 +6,9 @@ namespace SRC.Artefacts.Data
 {
     public class Artefact
     {
-        [JsonProperty(PropertyName = "ArtefactID")]
-        public int ID;
+        public int ArtefactID;
 
-        [JsonProperty(PropertyName = "BonusType")]
-        public BonusType Bonus;
+        public BonusType BonusType;
 
         public Rarity GradeID;
 

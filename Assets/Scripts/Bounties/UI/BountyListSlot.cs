@@ -46,7 +46,7 @@ namespace SRC.Bounties.UI
 
         public void ShowPopupPanel()
         {
-            var popup = UI.Instantiate<BountyPopup>(PopupPanelObject, UILayer.ONE);
+            var popup = UI.Create<BountyPopup>(PopupPanelObject, UILayer.ONE);
 
             popup.Initialize(Bounty);
             popup.E_OnBountyUpgraded.AddListener(UpdateUI);

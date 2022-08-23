@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace SRC.Navigation
+namespace SRC.UI.Navigation
 {
     [System.Serializable]
     internal class TabStateSprites
@@ -15,6 +15,10 @@ namespace SRC.Navigation
     public class TabButton : MonoBehaviour, IPointerClickHandler
     {
         public TabGroup Group;
+        [Space]
+        [Tooltip("Optional")] public string Identifier;
+
+        [Space]
         public bool InitiallySelected;
 
         [Space]
@@ -26,6 +30,8 @@ namespace SRC.Navigation
 
         private void Awake()
         {
+            Identifier = string.IsNullOrEmpty(Identifier) ? name : Identifier;
+
             Group.Subscribe(this);
         }
 

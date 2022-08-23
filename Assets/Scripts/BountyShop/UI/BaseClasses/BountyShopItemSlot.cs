@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace SRC.BountyShop.UI.BaseClasses
 {
-    public abstract class BountyShopListSlot<T> : SRC.Core.GMMonoBehaviour where T : BountyShopItem
+    public abstract class BountyShopItemSlot<T> : SRC.Core.GMMonoBehaviour where T : BountyShopItem
     {
         [SerializeField] protected RarityIcon Icon;
         [Space]

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace SRC.Artefacts.Data
 {
-    public class ArtefactUserData
+    public class UserArtefact
     {
         [JsonProperty(PropertyName = "ArtefactID")]
         public int ID;

@@ -29,12 +29,12 @@ namespace SRC.UI
             Instances.Remove(this);
         }
 
-        public T Instantiate<T>(GameObject objectToInst, UILayer layer)
+        public T Create<T>(GameObject objectToInst, UILayer layer = UILayer.ONE)
         {
-            return Instantiate(objectToInst, layer).GetComponent<T>();
+            return Create(objectToInst, layer).GetComponent<T>();
         }
 
-        public GameObject Instantiate(GameObject objectToInst, UILayer layer)
+        public GameObject Create(GameObject objectToInst, UILayer layer = UILayer.ONE)
         {
             var layerParent = GetUILayerParent(layer);
 

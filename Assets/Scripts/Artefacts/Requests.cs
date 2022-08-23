@@ -4,7 +4,7 @@ namespace SRC.Artefacts.Requests
 {
     public class UnlockArtefactResponse : SRC.HTTP.Requests.ServerResponse
     {
-        public Data.ArtefactUserData Artefact;
+        public Data.UserArtefact Artefact;
 
         public double UnlockCost;
     }
@@ -15,6 +15,6 @@ namespace SRC.Artefacts.Requests
 
         public double RemainingPrestigePoints;
 
-        public List<Data.ArtefactUserData> Artefacts;
+        public List<Data.UserArtefact> Artefacts;
     }
 }

@@ -3,7 +3,7 @@ using SRC.BountyShop.UI.BaseClasses;
 
 namespace SRC.BountyShop.UI.ItemSlots
 {
-    public class BountyShopCurrencyItemListSlot : BountyShopListSlot<BountyShopCurrencyItem>
+    public class BountyShopCurrencyItemSlot : BountyShopItemSlot<BountyShopCurrencyItem>
     {
         public override void BuyItem()
         {
